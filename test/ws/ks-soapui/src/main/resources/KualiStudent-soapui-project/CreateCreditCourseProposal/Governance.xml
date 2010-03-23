@@ -25,7 +25,7 @@
    <soapenv:Body>
       <lu:getClu>
         
-      <cluId>d50029f5-d9be-4163-8c56-c85fb2f5e477</cluId></lu:getClu>
+      <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId></lu:getClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;return id="</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToProposal"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
 //ns2:getCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createProposal - createCreditCourseProposal</con:targetStep><con:targetPath>declare namespace prop='http://student.kuali.org/wsdl/proposal';
@@ -36,7 +36,7 @@
          <proposalTypeKey>kuali.proposal.type.course.create</proposalTypeKey><proposalInfo type="kuali.proposal.type.course.create">
             <name>Proposal Title</name>
             <proposalReferenceType>kuali.proposal.referenceType.clu</proposalReferenceType>
-            <proposalReference>d50029f5-d9be-4163-8c56-c85fb2f5e477</proposalReference>
+            <proposalReference>6cfe1696-a4ee-419e-8492-9d047355110c</proposalReference>
          </proposalInfo>
       </prop:createProposal>
    </soapenv:Body>
@@ -52,11 +52,11 @@
    <soapenv:Header/>
    <soapenv:Body>
       <prop:updateProposal>
-         <proposalId>922f82fe-0b65-4603-8dcb-2eb5dcc0f1d0</proposalId>
-         <proposalInfo type="kuali.proposal.type.course.create" id="922f82fe-0b65-4603-8dcb-2eb5dcc0f1d0">
+         <proposalId>45e9753b-e085-4649-862b-2d0a04d59942</proposalId>
+         <proposalInfo type="kuali.proposal.type.course.create" id="45e9753b-e085-4649-862b-2d0a04d59942">
             <name>Updated Proposal Title</name>
             <proposalReferenceType>kuali.proposal.referenceType.clu</proposalReferenceType>
-            <proposalReference>d50029f5-d9be-4163-8c56-c85fb2f5e477</proposalReference>
+            <proposalReference>6cfe1696-a4ee-419e-8492-9d047355110c</proposalReference>
             <metaInfo>
                <versionInd>0</versionInd>
                <createTime>2010-03-18T16:36:49.444-07:00</createTime>
@@ -79,9 +79,9 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:updateClu>
-         <cluId>d50029f5-d9be-4163-8c56-c85fb2f5e477</cluId>
-         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="d50029f5-d9be-4163-8c56-c85fb2f5e477">
-            <officialIdentifier id="920f68b9-70eb-4026-b53c-00decce9fbd2">
+         <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="6cfe1696-a4ee-419e-8492-9d047355110c">
+            <officialIdentifier id="">
             </officialIdentifier>
             <academicSubjectOrgs>
                <orgId>51</orgId>
@@ -89,7 +89,7 @@
             <campusLocations>NorthCountyCampus</campusLocations>
             <campusLocations>SouthCountyCampus</campusLocations>
             <primaryAdminOrg>
-               <id>9ba7d269-5f32-4cd2-9d3d-7dea5c248ac4</id>
+               <id>841035c4-1415-4a41-9bfe-a9572e10cfd7</id>
                <orgId>51</orgId>
             </primaryAdminOrg>
 
@@ -146,61 +146,170 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:createCluCluRelation>
-         <cluId>d50029f5-d9be-4163-8c56-c85fb2f5e477</cluId>
-         <relatedCluId>b436c09f-42d7-4ec9-bdfd-4b03f6e1274a</relatedCluId>
+         <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
+         <relatedCluId>6ba94f0e-c183-46be-84c2-e555d919aa29</relatedCluId>
          <luLuRelationTypeKey>luLuRelationType.contains</luLuRelationTypeKey>
          <cluCluRelationInfo type="luLuRelationType.contains" state="Active" id="">
-            <cluId>d50029f5-d9be-4163-8c56-c85fb2f5e477</cluId>
-            <relatedCluId>b436c09f-42d7-4ec9-bdfd-4b03f6e1274a</relatedCluId>
+            <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
+            <relatedCluId>6ba94f0e-c183-46be-84c2-e555d919aa29</relatedCluId>
          </cluCluRelationInfo>
       </lu:createCluCluRelation>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>type="luLuRelationType.contains"</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyIdsForRelatingFormatShellWithActivityLecture"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCreditCourseCluId1</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createFormatShell</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
-//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateCreditCourseToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateFormatShellToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
 //lu:createCluCluRelation[1]/cluId[1]</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCreditCourseCluId2</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createFormatShell</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
-//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateCreditCourseToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateFormatShellToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
 //lu:createCluCluRelation[1]/cluCluRelationInfo[1]/cluId[1]</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyRelatedCluId1</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createActivityLecture</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
-//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateCreditCourseToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateFormatShellToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
 //lu:createCluCluRelation[1]/relatedCluId[1]</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyRelatedCluId2</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createActivityLecture</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
-//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateCreditCourseToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
-//lu:createCluCluRelation[1]/cluCluRelationInfo[1]/relatedCluId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="createCluCluRelation - relateCreditCourseToActivityLecture"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>createCluCluRelation</con:operation><con:request name="createCluCluRelation - relateCreditCourseToActivityLecture"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createCluCluRelation - relateFormatShellToActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:createCluCluRelation[1]/cluCluRelationInfo[1]/relatedCluId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="createCluCluRelation - relateFormatShellToActivityLecture"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>createCluCluRelation</con:operation><con:request name="createCluCluRelation - relateFormatShellToActivityLecture"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
    <soapenv:Header/>
    <soapenv:Body>
       <lu:createCluCluRelation>
-         <cluId>b436c09f-42d7-4ec9-bdfd-4b03f6e1274a</cluId>
-         <relatedCluId>d8133f97-091f-4dd5-93ef-b09cecb55b55</relatedCluId>
+         <cluId>6ba94f0e-c183-46be-84c2-e555d919aa29</cluId>
+         <relatedCluId>e37b3403-2e97-421d-b4ec-05dc6c788da8</relatedCluId>
          <luLuRelationTypeKey>luLuRelationType.contains</luLuRelationTypeKey>
          <cluCluRelationInfo type="luLuRelationType.contains" state="Active" id="">
-            <cluId>b436c09f-42d7-4ec9-bdfd-4b03f6e1274a</cluId>
-            <relatedCluId>d8133f97-091f-4dd5-93ef-b09cecb55b55</relatedCluId>
+            <cluId>6ba94f0e-c183-46be-84c2-e555d919aa29</cluId>
+            <relatedCluId>e37b3403-2e97-421d-b4ec-05dc6c788da8</relatedCluId>
          </cluCluRelationInfo>
       </lu:createCluCluRelation>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>type="luLuRelationType.contains"</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToDeleteCreditCourse" disabled="true"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
-//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteClu - deleteCreditCourse</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
-//lu:deleteClu[1]/cluId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteClu - deleteCreditCourse" disabled="true"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>deleteClu</con:operation><con:request name="deleteClu - deleteCreditCourse"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lu:deleteClu>
-        <cluId>fab19b6c-2c19-4c61-8c3a-57120c1afd34</cluId>
-      </lu:deleteClu>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyProposalPropertiesForDelete" disabled="true"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyProposalId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createProposal - createCreditCourseProposal</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/proposal';
-//ns2:createProposalResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteProposal - deleteProposal</con:targetStep><con:targetPath>declare namespace prop='http://student.kuali.org/wsdl/proposal';
-//prop:deleteProposal[1]/proposalId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteProposal - deleteProposal" disabled="true"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ProposalServiceSoapBinding</con:interface><con:operation>deleteProposal</con:operation><con:request name="deleteProposal - deleteProposal" outgoingWss="" incomingWss="" timeout="" wssPasswordType=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/ProposalService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prop="http://student.kuali.org/wsdl/proposal">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <prop:deleteProposal>
-         <proposalId>75785b35-ab9d-4995-852c-73c01b855936</proposalId>
-      </prop:deleteProposal>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/proposal/ProposalService/deleteProposal"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToGetCluCluRelationsByClu"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>type="luLuRelationType.contains"</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToGetCluCluRelationsByClu"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
 //ns2:getCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>getCluCluRelationsByClu - getCreditCourseRelations</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
 //lu:getCluCluRelationsByClu[1]/cluId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="getCluCluRelationsByClu - getCreditCourseRelations"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>getCluCluRelationsByClu</con:operation><con:request name="getCluCluRelationsByClu - getCreditCourseRelations" outgoingWss="" incomingWss="" timeout="" wssPasswordType=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
    <soapenv:Header/>
    <soapenv:Body>
       <lu:getCluCluRelationsByClu>
          
-      <cluId>d50029f5-d9be-4163-8c56-c85fb2f5e477</cluId></lu:getCluCluRelationsByClu>
+      <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId></lu:getCluCluRelationsByClu>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getCluCluRelationsByClu"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getCluCluRelationsByClu"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluPropertiesForUpdateCourseInformation"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluIdToCluIdElement</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:getCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>updateClu - updateCreditCourseCourseInformation</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:updateClu[1]/cluId[1]</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" entitize="false" transferToAll="false" ignoreEmpty="false" useXQuery="false" transferChildNodes="false"><con:name>copyCluIdToCluIdAttribute</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:getCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>updateClu - updateCreditCourseCourseInformation</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:updateClu[1]/cluInfo[1]/@id</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" entitize="false" transferToAll="false" ignoreEmpty="false" useXQuery="false" transferChildNodes="false"><con:name>copyPrimaryAdminOrgId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:getCluResponse[1]/return[1]/primaryAdminOrg[1]/id[1]</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>updateClu - updateCreditCourseCourseInformation</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:updateClu[1]/cluInfo[1]/primaryAdminOrg[1]/id[1]</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" transferToAll="false"><con:name>copyVersionInd</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>updateClu - updateCreditCourseWithCourseLogistics</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:updateCluResponse[1]/return[1]/metaInfo[1]/versionInd[1]</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>updateClu - updateCreditCourseCourseInformation</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:updateClu[1]/cluInfo[1]/metaInfo[1]/versionInd[1]</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" disabled="false" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyOfficialIdentifierId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:getCluResponse[1]/return[1]/officialIdentifier[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>updateClu - updateCreditCourseCourseInformation</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:updateClu[1]/cluInfo[1]/officialIdentifier[1]/@id</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="updateClu - updateCreditCourseCourseInformation"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>updateClu</con:operation><con:request name="updateClu - updateCreditCourseCourseInformation" outgoingWss="" incomingWss="" timeout="" wssPasswordType=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:updateClu>
+         <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="6cfe1696-a4ee-419e-8492-9d047355110c">
+            <officialIdentifier id="b577aa5b-fd0c-4d71-b930-2f1b476658a3">
+               <code>nullnull</code>
+               <shortName>Short Course Title</shortName>
+               <longName>Course Title</longName>
+               <division>ABCD</division>
+               <suffixCode>123</suffixCode>
+            </officialIdentifier>
+            <alternateIdentifiers type="kuali.lu.type.CreditCourse.identifier.cross-listed">
+
+               <division>DCBA</division>
+               <suffixCode>321</suffixCode>
+               <orgId>51</orgId>
+            </alternateIdentifiers>
+            <alternateIdentifiers type="kuali.lu.type.CreditCourse.identifier.version">
+
+               <variation>A</variation>
+               <longName>Version Code Title</longName>
+            </alternateIdentifiers>
+            <academicSubjectOrgs>
+               <orgId>51</orgId>
+            </academicSubjectOrgs>
+            <descr>
+               <plain>Course Description</plain>
+            </descr>
+            <campusLocations>NorthCountyCampus</campusLocations>
+            <campusLocations>SouthCountyCampus</campusLocations>
+            <primaryAdminOrg>
+
+               <id>841035c4-1415-4a41-9bfe-a9572e10cfd7</id>
+               <orgId>51</orgId>
+            </primaryAdminOrg>
+            <primaryInstructor>
+               <personId>earl</personId>
+
+            </primaryInstructor>
+            <expectedFirstAtp>kuali.atp.AY2008-2009</expectedFirstAtp>
+            <effectiveDate>2020-03-09T19:43:59.780-07:00</effectiveDate>
+            <expirationDate>2021-03-09T19:43:59.780-07:00</expirationDate>
+            <stdDuration>
+               <atpDurationTypeKey>atpType.duration.week</atpDurationTypeKey>
+               <timeQuantity>1</timeQuantity>
+            </stdDuration>
+
+
+
+
+
+
+
+            <metaInfo>
+               <versionInd>1</versionInd>
+               <createTime>2010-03-19T10:29:02.393-07:00</createTime>
+               <updateTime>2010-03-19T10:44:28.276-07:00</updateTime>
+            </metaInfo>
+         </cluInfo>
+      </lu:updateClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;code>ABCD123&lt;/code></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains"><con:configuration><token>&lt;code>DCBA321&lt;/code></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains"><con:configuration><token>&lt;plain>Course Description&lt;/plain></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains"><con:configuration><token>&lt;effectiveDate>2020</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains"><con:configuration><token>&lt;expirationDate>2021</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/updateClu"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluCluRelationId-ActivityLecture"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createCluCluRelation - relateFormatShellToActivityLecture</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:createCluCluRelationResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteCluCluRelation - deleteActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:deleteCluCluRelation[1]/cluCluRelationId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteCluCluRelation - deleteActivityLecture"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>deleteCluCluRelation</con:operation><con:request name="deleteCluCluRelation - deleteActivityLecture" outgoingWss="" incomingWss="" timeout="" wssPasswordType=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:deleteCluCluRelation>
+         <cluCluRelationId>9182d890-9c7f-4ef8-beda-04caa143cdbf</cluCluRelationId>
+      </lu:deleteCluCluRelation>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/deleteCluCluRelation"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToDeleteActivityLecture"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createActivityLecture</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteClu - deleteActivityLecture</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:deleteClu[1]/cluId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteClu - deleteActivityLecture"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>deleteClu</con:operation><con:request name="deleteClu - deleteActivityLecture"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:deleteClu>
+        <cluId>e37b3403-2e97-421d-b4ec-05dc6c788da8</cluId>
+      </lu:deleteClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluCluRelationId-FormatShell"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createCluCluRelation - relateCreditCourseToCourseFormatShell</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:createCluCluRelationResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteCluCluRelation - deleteFormatShell</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:deleteCluCluRelation[1]/cluCluRelationId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteCluCluRelation - deleteFormatShell"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>deleteCluCluRelation</con:operation><con:request name="deleteCluCluRelation - deleteFormatShell" outgoingWss="" incomingWss="" timeout="" wssPasswordType=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:deleteCluCluRelation>
+         <cluCluRelationId>01aca775-b892-4a90-a10c-543188a0cc2f</cluCluRelationId>
+      </lu:deleteCluCluRelation>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/deleteCluCluRelation"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToDeleteFormatShell"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createFormatShell</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteClu - deleteFormatShell</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:deleteClu[1]/cluId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteClu - deleteFormatShell"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>deleteClu</con:operation><con:request name="deleteClu - deleteFormatShell"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:deleteClu>
+        <cluId>6ba94f0e-c183-46be-84c2-e555d919aa29</cluId>
+      </lu:deleteClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToDeleteCreditCourse"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
+//ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteClu - deleteCreditCourse</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
+//lu:deleteClu[1]/cluId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteClu - deleteCreditCourse"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>deleteClu</con:operation><con:request name="deleteClu - deleteCreditCourse"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:deleteClu>
+        <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
+      </lu:deleteClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyProposalPropertiesForDelete"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyProposalId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createProposal - createCreditCourseProposal</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/proposal';
+//ns2:createProposalResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>deleteProposal - deleteProposal</con:targetStep><con:targetPath>declare namespace prop='http://student.kuali.org/wsdl/proposal';
+//prop:deleteProposal[1]/proposalId[1]</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="request" name="deleteProposal - deleteProposal"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ProposalServiceSoapBinding</con:interface><con:operation>deleteProposal</con:operation><con:request name="deleteProposal - deleteProposal" outgoingWss="" incomingWss="" timeout="" wssPasswordType=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/ProposalService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prop="http://student.kuali.org/wsdl/proposal">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prop:deleteProposal>
+         <proposalId>45e9753b-e085-4649-862b-2d0a04d59942</proposalId>
+      </prop:deleteProposal>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/proposal/ProposalService/deleteProposal"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase>

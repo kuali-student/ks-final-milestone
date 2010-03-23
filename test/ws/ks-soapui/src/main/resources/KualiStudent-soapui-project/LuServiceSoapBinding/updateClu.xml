@@ -61,19 +61,25 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:updateClu>
-         <cluId>7d410577-64a6-44bc-ae08-7bed44ad3aea</cluId>
-         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="7d410577-64a6-44bc-ae08-7bed44ad3aea">
-            <officialIdentifier type="" state="" id="">
+         <cluId>bfc3a298-840c-48d2-9cc8-e11f31715f04</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="bfc3a298-840c-48d2-9cc8-e11f31715f04">
+            <officialIdentifier id="7d410577-64a6-44bc-ae08-7bed44ad3aea">
                <code>nullnull</code>
                <shortName>Short Course Title</shortName>
                <longName>Course Title</longName>
                <division>ABCD</division>
                <suffixCode>123</suffixCode>
             </officialIdentifier>
-            <alternateIdentifiers>
+            <alternateIdentifiers type="kuali.lu.type.CreditCourse.identifier.cross-listed">
+
                <division>DCBA</division>
                <suffixCode>321</suffixCode>
                <orgId>51</orgId>
+            </alternateIdentifiers>
+            <alternateIdentifiers type="kuali.lu.type.CreditCourse.identifier.version">
+
+               <variation>A</variation>
+               <longName>Version Code Title</longName>
             </alternateIdentifiers>
             <academicSubjectOrgs>
                <orgId>51</orgId>
@@ -84,11 +90,13 @@
             <campusLocations>NorthCountyCampus</campusLocations>
             <campusLocations>SouthCountyCampus</campusLocations>
             <primaryAdminOrg>
+
                <id>4580f068-e337-443d-bd6c-f70b8adbe868</id>
                <orgId>51</orgId>
             </primaryAdminOrg>
             <primaryInstructor>
                <personId>earl</personId>
+
             </primaryInstructor>
             <expectedFirstAtp>kuali.atp.AY2008-2009</expectedFirstAtp>
             <effectiveDate>2020-03-09T19:43:59.780-07:00</effectiveDate>
@@ -97,8 +105,15 @@
                <atpDurationTypeKey>atpType.duration.week</atpDurationTypeKey>
                <timeQuantity>1</timeQuantity>
             </stdDuration>
+
+
+
+
+
+
+
             <metaInfo>
-               <versionInd>13</versionInd>
+               <versionInd>1</versionInd>
                <createTime>2010-03-19T10:29:02.393-07:00</createTime>
                <updateTime>2010-03-19T10:44:28.276-07:00</updateTime>
             </metaInfo>

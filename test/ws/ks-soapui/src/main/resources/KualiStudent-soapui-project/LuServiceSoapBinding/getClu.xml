@@ -3,13 +3,13 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:getClu>
-      <cluId>7d410577-64a6-44bc-ae08-7bed44ad3aea</cluId></lu:getClu>
+      <cluId>bfc3a298-840c-48d2-9cc8-e11f31715f04</cluId></lu:getClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="getCreditCourse"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
    <soapenv:Header/>
    <soapenv:Body>
       <lu:getClu>
-      <cluId>43656063-a0c7-48af-949d-2cb881ad8cb9</cluId></lu:getClu>
+      <cluId>296fa070-46fa-42b8-b410-e1f1ee0b3f1f</cluId></lu:getClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="getCreditCourseFormatShell"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
    <soapenv:Header/>
