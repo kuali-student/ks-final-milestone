@@ -1669,110 +1669,146 @@
 			</list>
 		</property>
 		<property name="initialLookup">
+			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
+				<property name="id" value="kuali.lu.lookup.findCourse.suggest" />
 				<property name="searchTypeId" value="lu.search.generic" />
-				<property name="name" value="Basic and Advanced Search" />
-				<property name="desc"
-					value="Query with multiple optional elements to satisfy most advanced pickers" />
+				<property name="name" value="Find Course" />
+				<property name="desc" value="Search for courses" />
+				<property name="widget" value="SUGGEST_BOX"/>
+				<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
 				<property name="params">
 					<list>
-						<bean parent="param">
-							<property name="key" value="lu.queryParam.luOptionalId" />
-							<property name="writeAccess" value="ALWAYS" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Id" />
-							<property name="desc" value="Unique identifier for a lu." />
-							<property name="caseSensitive" value="true" />
-							<property name="usage" value="CUSTOM" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="lu.queryParam.luOptionalLongName" />
-							<property name="writeAccess" value="ALWAYS" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Name" />
-							<property name="desc" value="Long name" />
-							<property name="caseSensitive" value="false" />
-							<property name="usage" value="DEFAULT" />
-							<property name="widget" value="SUGGEST_BOX" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="lu.queryParam.luOptionalType" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
-							<property name="name" value="Type" />
-							<property name="desc" value="Lu type (course, program etc.)" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param">
+						<bean parent="param">   <!-- suggest box entry definition -->
 							<property name="key" value="lu.queryParam.luOptionalCode" />
-							<property name="writeAccess" value="ALWAYS" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
 							<property name="name" value="Code" />
-							<property name="desc" value="Lu code" />
-							<property name="caseSensitive" value="true" />
-							<property name="usage" value="ADVANCED_CUSTOM" />
-							<property name="widget" value="TEXT_BOX" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="lu.queryParam.luOptionalLevel" />
+							<property name="desc" value="Course code." />
 							<property name="writeAccess" value="ALWAYS" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Level" />
-							<property name="desc" value="Lu level grad/undergrad" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param">   <!-- limit search to department organizations for this UI context -->
+							<property name="key" value="lu.queryParam.luOptionalType" />
+							<property name="name" value="Lu Type" />
+							<property name="desc" value="Type of a learning unit" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 							<property name="caseSensitive" value="true" />
-							<property name="usage" value="ADVANCED_CUSTOM" />
-							<property name="widget" value="TEXT_BOX" />
-						</bean>
-					</list>
-				</property>
-				<property name="results">
-					<list>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc" value="Identifier of a Clu" />
-							<property name="hidden" value="true" />
-							<property name="key" value="lu.resultColumn.cluId" />
-							<property name="name" value="Clu Id" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc"
-								value="Long name for the lu, recorded as the default listing." />
-							<property name="hidden" value="false" />
-							<property name="key" value="lu.resultColumn.luOptionalLongName" />
-							<property name="name" value="Name" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc" value="Lu code" />
-							<property name="hidden" value="false" />
-							<property name="key" value="lu.resultColumn.luOptionalCode" />
-							<property name="name" value="Code" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc" value="Level of Lu" />
-							<property name="hidden" value="false" />
-							<property name="key" value="lu.resultColumn.luOptionalLevel" />
-							<property name="name" value="Level" />
 						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="lu.resultColumn.cluId" />
-				<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
-				<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
-				<property name="usage" value="DEFAULT" />
-				<property name="id" value="kuali.lu.lookup.creditCoursesAndProposals" />
+				<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+				<property name="resultSortKey" value="" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="lu.resultColumn.cluId" />
+							<property name="name" value="Course Identifier" />
+							<property name="desc" value="Identifier for the course" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="true" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="lu.resultColumn.luOptionalCode" />
+							<property name="name" value="Code" />
+							<property name="desc" value="Course code." />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
 			</bean>
 		</property>
 		<property name="additionalLookups">
-			<list />
+			<list>
+				<!-- definition of advanced search window -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
+					<property name="searchTypeId" value="lu.search.generic"/>
+					<property name="name" value="Find Course"/>
+					<property name="desc" value="Search for courses"/>
+					<property name="title" value="Find Course"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalLongName"/>
+								<property name="name" value="Long Name"/>
+								<property name="desc" value="Course long name."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalCode"/>
+								<property name="name" value="Code"/>
+								<property name="desc" value="Course code."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalLevel"/>
+								<property name="name" value="Level"/>
+								<property name="desc" value="Course level."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="true"/>
+								<property name="usage" value="CUSTOM"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalType"/>
+								<property name="name" value="Type"/>
+								<property name="desc" value="Type of a course"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="NEVER"/>
+								<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
+								<property name="optional" value="true"/>
+								<property name="caseSensitive" value="true"/>
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
+					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
+					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.cluId"/>
+								<property name="name" value="Identifier"/>
+								<property name="desc" value="Identifier for the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalCode"/>
+								<property name="name" value="Code"/>
+								<property name="desc" value="Course code."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
+								<property name="name" value="Level"/>
+								<property name="desc" value="Course level."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
+								<property name="name" value="Long Name"/>
+								<property name="desc" value="Long name for the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
 	<bean id="joints.relationId" parent="dataFieldDescriptor">
@@ -5278,14 +5314,6 @@
 							<property name="dataType" value="STRING" />
 							<property name="hidden" value="true" />
 						</bean>
-						<!--  <bean parent="result">
-							<property name="key" value="org.resultColumn.orgShortName" />
-							<property name="name" value="Organization Short Name" />
-							<property name="desc" value="Short name for the organization, recorded as the default listing" />
-							<property name="dataType" value="STRING" />
-							<property name="hidden" value="false" />
-						</bean>
--->
 						<bean parent="result">
 							<property name="key" value="lu.resultColumn.luOptionalCode" />
 							<property name="name" value="Code" />
@@ -5305,7 +5333,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Find Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Organization"/>
+					<property name="title" value="Find Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>

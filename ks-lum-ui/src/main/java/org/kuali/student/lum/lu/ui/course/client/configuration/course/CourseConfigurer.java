@@ -45,6 +45,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
@@ -55,7 +56,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
-import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -297,7 +297,7 @@ public class CourseConfigurer
         // Offered jointly
         VerticalSection offeredJointly = new VerticalSection();
         offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
-        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList());
+        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
         //offeredJointly.addStyleName("KS-LUM-Section-Divider");
         return offeredJointly;
 	}
@@ -606,6 +606,33 @@ public class CourseConfigurer
             super.setListItems(list);
         }
     }
+    
+    public class OfferedJointlyList extends UpdatableMultiplicityComposite {
+        {            
+            setAddItemLabel(getLabel(LUConstants.ADD_EXISTING_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));
+            //setMinEmptyItems(1);
+        }
+
+        private final String parentPath;
+        public OfferedJointlyList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+
+/*        @Override
+        public MultiplicityItem getItemDecorator(StyleType style) {
+            return new RemovableItem();
+        }*/
+
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, CreditCourseJointsConstants.COURSE_ID, getLabel(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), null, path);
+            return ns;
+        }
+    }    
 
     public class CrossListedList extends UpdatableMultiplicityComposite {
         {

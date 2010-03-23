@@ -440,6 +440,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Service clients -->
 	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
