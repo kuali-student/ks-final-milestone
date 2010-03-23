@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getCluSetInfo" bindingOperationName="getCluSetInfo" type="Request-Response" outputName="getCluSetInfoResponse" inputName="getCluSetInfo" receivesAttachments="false" sendsAttachments="false" id="83035cc1-4192-4741-9647-e2a3338a8a27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
