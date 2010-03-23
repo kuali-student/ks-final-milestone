@@ -9,6 +9,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 
 public class CreditCourseProposalAssemblerFilter extends PassThroughAssemblerFilter<Data, Void> {
 
@@ -16,7 +17,15 @@ public class CreditCourseProposalAssemblerFilter extends PassThroughAssemblerFil
     @Override
     public void doSaveFilter(FilterParamWrapper<Data> request, FilterParamWrapper<SaveResult<Data>> response, SaveFilterChain<Data, Void> chain) throws AssemblyException {
         Data data = request.getValue();
-        Metadata typeMetadata = chain.getManager().getTarget().getMetadata(null, null, CreditCourseProposalAssembler.CREDIT_COURSE_PROPOSAL_DATA_TYPE, "draft");
+        CreditCourseProposalHelper help = CreditCourseProposalHelper.wrap(data);
+        String idType = "proposalId";
+        String proposalId = help.getProposal().getId();
+        String state = help.getState();
+        Metadata typeMetadata = chain.getManager().getTarget().getMetadata(idType, proposalId, CreditCourseProposalAssembler.CREDIT_COURSE_PROPOSAL_DATA_TYPE, state);
+        if(typeMetadata != null && !typeMetadata.isCanEdit()) {
+            throw new AssemblyException("Document is read only");
+        }
+        
         List<QueryPath> dirtyPaths = AssemblerUtils.findDirtyElements(data);
         
         for(QueryPath path : dirtyPaths) {
@@ -24,11 +33,12 @@ public class CreditCourseProposalAssemblerFilter extends PassThroughAssemblerFil
             Metadata fieldMetadata = AssemblerUtils.get(typeMetadata, path);
             
             if(!fieldMetadata.isCanEdit()) {
-                //throw new AssemblyException("User does not have edit permission for field");
+                throw new AssemblyException("User does not have edit permission for field");
             }
             
         }
         chain.doSaveFilter(request, response);
+        
     }
 
 }
