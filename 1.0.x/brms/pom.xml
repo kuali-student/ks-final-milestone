@@ -35,7 +35,7 @@
         <module>ks-statement-api</module>
         <module>ks-statement-impl</module>
         <!-- <module>brms-ui</module> -->
-        <module>ks-brms-web</module>
+        <!-- <module>ks-brms-web</module> -->
     </modules>
 
     <repositories>

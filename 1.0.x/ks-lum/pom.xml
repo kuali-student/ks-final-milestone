@@ -27,7 +27,7 @@
         <module>ks-lum-api</module>
         <module>ks-lum-impl</module>
         <module>ks-lum-ui</module>
-        <module>ks-lum-web</module>
+        <!--<module>ks-lum-web</module>-->
         <module>ks-lum-rice</module>
     </modules>
 

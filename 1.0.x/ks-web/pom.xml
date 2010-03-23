@@ -20,8 +20,8 @@
     
 	<modules>
         <module>ks-embedded</module>
-		<module>ks-standalone</module>
-		<module>ks-rice</module>
+		<!--<module>ks-standalone</module>-->
+		<!--<module>ks-rice</module>-->
 	</modules>
     
     <properties>
