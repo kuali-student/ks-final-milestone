@@ -1,1 +1,0 @@
-Service	Key	ShortName	LongName	Description	url
