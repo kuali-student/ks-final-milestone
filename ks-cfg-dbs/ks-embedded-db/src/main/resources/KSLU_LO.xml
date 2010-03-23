@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset >
+<dataset>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="7BCD7C0E-3E6B-4527-AC55-254C58CECC22"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse" NAME="Modify Wiki"
+        RT_DESCR_ID="RICHTEXT-17" ST="draft" VERSIONIND="1"/>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="81ABEA67-3BCC-4088-8348-E265F3670145"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Edit Wiki Message Structure" RT_DESCR_ID="RICHTEXT-9"
+        ST="draft" VERSIONIND="1"/>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="91A91860-D796-4A17-976B-A6165B1A0B05"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Destroy Wiki" RT_DESCR_ID="RICHTEXT-20" ST="draft" VERSIONIND="1"/>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="ABD8AE21-34E9-4858-A714-B04134F55D68"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse" NAME="Create Wiki"
+        RT_DESCR_ID="RICHTEXT-15" ST="draft" VERSIONIND="1"/>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Install Wiki Engine" RT_DESCR_ID="RICHTEXT-13" ST="draft" VERSIONIND="1"/>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="E0619A90-66D6-4AF4-B357-E73AE44F7E88"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse" NAME="Update Wiki"
+        RT_DESCR_ID="RICHTEXT-16" ST="draft" VERSIONIND="1"/>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Navigate Wiki" RT_DESCR_ID="RICHTEXT-12" ST="draft" VERSIONIND="1"/>
+    <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="FDE6421E-64B4-41AF-BAC5-269005101C2A"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Annihilate Wiki" RT_DESCR_ID="RICHTEXT-21" ST="draft" VERSIONIND="1"/>
+</dataset>
