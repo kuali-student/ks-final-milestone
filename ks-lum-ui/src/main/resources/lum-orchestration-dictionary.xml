@@ -5261,6 +5261,291 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="CluSetManagement-parent" abstract="true"
+		parent="dataObjectStructure">
+		<property name="name" value="CluSetManagement" />
+		<property name="fields">
+			<list>
+				<ref bean="CluSetManagement.cluset" />
+				<ref bean="CluSetManagement.search" />				
+			</list>
+		</property>
+	</bean>
+	<bean id="CluSetManagement" parent="CluSetManagement-parent" />
+
+	<bean id="CluSetManagement.cluset" parent="dataFieldDescriptor">
+		<property name="name" value="cluset" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="cluset" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CluSetManagement.search" parent="dataFieldDescriptor">
+		<property name="name" value="search" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="search" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cluset-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="cluset" />
+		<property name="fields">
+			<list>
+			    <ref bean="cluset.id"/>
+				<ref bean="cluset.organization" />
+				<ref bean="cluset.title" />
+				<ref bean="cluset.description" />
+				<ref bean="cluset.effectiveDate" />
+				<ref bean="cluset.expirationDate" />
+				<ref bean="cluset.clus"/>
+				<ref bean="cluset.clusets"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="cluset" parent="cluset-parent" />
+	<bean id="cluset.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="cluset.organization" parent="dataFieldDescriptor">
+		<property name="name" value="organization" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="cluset.title" parent="dataFieldDescriptor">
+		<property name="name" value="title" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="cluset.description" parent="dataFieldDescriptor">
+		<property name="name" value="description" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+	<bean id="cluset.effectiveDate" parent="dataFieldDescriptor">
+		<property name="name" value="effectiveDate" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="TRUNCATED_DATE" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.date.time" />
+			</list>
+		</property>
+	</bean>
+	<bean id="cluset.expirationDate" parent="dataFieldDescriptor">
+		<property name="name" value="expirationDate" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="TRUNCATED_DATE" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.date.time" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cluset.clus" parent="dataFieldDescriptor">
+		<property name="name" value="clus" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="clus" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cluset.clusets" parent="dataFieldDescriptor">
+		<property name="name" value="clusets" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="clusets" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cluset.search" parent="dataFieldDescriptor">
+		<property name="name" value="search" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="search" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="clus" parent="clus-parent" />
+	
+	<bean id="clus-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="clus" />
+		<property name="fields">
+			<list>
+				<ref bean="clus.id" />
+				<ref bean="clus.name" />
+				<ref bean="clus._runtimeData"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="clus._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="clus.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.hidden" />
+				<ref bean="constraint.read.only" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="clus.name" parent="dataFieldDescriptor">
+		<property name="name" value="name" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="clusets" parent="clusets-parent" />
+	
+	<bean id="clusets-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="clusets" />
+		<property name="fields">
+			<list>
+				<ref bean="clusets.id" />
+				<ref bean="clusets.name" />
+				<ref bean="clusets._runtimeData"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="clusets._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="clusets.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.hidden" />
+				<ref bean="constraint.read.only" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="clusets.name" parent="dataFieldDescriptor">
+		<property name="name" value="name" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="search.findCourse" parent="dataFieldDescriptor">  <!-- what the bean id should be so it loads for CourseConfigurer? -->
 		<property name="name" value="findCourse" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -5422,15 +5707,17 @@
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
+		<!--
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
 				<ref bean="constraint.required" />
 				<ref bean="constraint.single" />
-				<!-- TODO implement a validator for cluSetId -->
-				<!-- ref bean="constraint.related.cluId" / -->
+				- TODO implement a validator for cluSetId -
+				- ref bean="constraint.related.cluId" / -
 			</list>
 		</property>
+		 -->
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
@@ -5481,6 +5768,13 @@
 							<property name="key" value="cluset.resultColumn.name" />
 							<property name="name" value="Name" />
 							<property name="desc" value="Clu Set Name." />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="cluset.resultColumn.description" />
+							<property name="name" value="Description" />						
+							<property name="desc" value="Clu Set Description." />
 							<property name="dataType" value="STRING" />
 							<property name="hidden" value="false" />
 						</bean>

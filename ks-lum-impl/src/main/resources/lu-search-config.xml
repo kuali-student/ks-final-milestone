@@ -276,6 +276,7 @@
 			<search:resultColumns>
 				<ref bean="cluset.resultColumn.cluSetId" />
 				<ref bean="cluset.resultColumn.name" />
+				<ref bean="cluset.resultColumn.description" />
 			</search:resultColumns>
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
@@ -294,6 +295,13 @@
 	<search:resultColumn id="cluset.resultColumn.name-parent"  abstract="true">
 		<search:name>Name</search:name>
 		<search:desc>Name of the cluset.</search:desc>
+		<search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="cluset.resultColumn.description" parent="cluset.resultColumn.description-parent"/>
+	<search:resultColumn id="cluset.resultColumn.description-parent"  abstract="true">
+		<search:name>Description</search:name>
+		<search:desc>Description of the Clu Set.</search:desc>
 		<search:dataType>string</search:dataType>
     </search:resultColumn>
 
@@ -369,7 +377,7 @@
 		            <value>SELECT clu.id,  clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level FROM Clu clu WHERE clu.state NOT IN ('draft')</value>
 		        </entry>    
 		        <entry key="cluset.search.generic">
-		            <value>SELECT DISTINCT cluset.id, cluset.name
+		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
 		            FROM CluSet cluset
 		            LEFT JOIN cluset.clus clu
 		            LEFT JOIN cluset.cluSets subcluset

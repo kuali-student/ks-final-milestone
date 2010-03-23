@@ -27,7 +27,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 
     public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
-    public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";   
+//    public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
+    public static final String CLUSET_DATA_TYPE = "CluSetManagement";
 
     private LuService luService;
 
@@ -81,7 +82,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
 	@Override
 	protected String getDataType() {
-		return CREDIT_COURSE_PROPOSAL_DATA_TYPE;	//FIXME
+		return CLUSET_DATA_TYPE;
 	}
 
 	@Override

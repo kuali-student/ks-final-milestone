@@ -34,7 +34,10 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
@@ -61,8 +64,8 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     }
     
     private void initialize() {
-        super.setDefaultModelId(CourseConfigurer.CLU_PROPOSAL_MODEL);
-        super.registerModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
+        super.setDefaultModelId(CluSetsConfigurer.CLUSET_MGT_MODEL);
+        super.registerModel(CluSetsConfigurer.CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -74,6 +77,9 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
                         cluSetModel.setRoot(new Data());
+                        // TODO remove when done testing 
+//                        populateTestData();
+                        // end of test code
                         callback.onModelReady(cluSetModel);
                         workCompleteCallback.exec(true);
                         
@@ -110,6 +116,31 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
             }
             
         });
+    }
+    
+    private void populateTestData() {
+        // TODO remove when done testing start of test code
+        QueryPath testQPath = QueryPath.parse(ToolsConstants.CLU_SET_CLUS_FIELD);
+        Data testValueData = new Data();
+        CluSetHelper cluSetHelper = CluSetHelper.wrap(testValueData);
+
+        Data cluData1 = new Data();
+        CluHelper cluHelper1 = CluHelper.wrap(cluData1);
+        cluHelper1.setId("Clu 1");
+        cluHelper1.setName("Name of Clu 1");
+        cluSetHelper.getClus().add(cluHelper1.getData());
+
+        Data cluData2 = new Data();
+        CluHelper cluHelper2 = CluHelper.wrap(cluData2);
+        cluHelper2.setId("Clu 2");
+        cluHelper2.setName("Name of Clu 2");
+        cluSetHelper.getClus().add(cluHelper2.getData());
+        
+        cluSetModel.set(testQPath, cluSetHelper.getData());
+//        cluItemListFieldBinding.setWidgetValue(cluItemList, testModel, ToolsConstants.CLU_SET_CLUS_FIELD);
+//        cluItemListFieldBinding.setModelValue(cluItemList, testModel, ToolsConstants.CLU_SET_CLUS_FIELD);
+        // end of test code
+
     }
         
     private KSButton getQuitButton(){
@@ -178,6 +209,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     @SuppressWarnings("unchecked")
     @Override
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
+        super.requestModel(modelType, callback);
     }
     
     public void doSaveAction(final SaveActionEvent saveActionEvent){       
