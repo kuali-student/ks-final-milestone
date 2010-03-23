@@ -39,6 +39,7 @@
   <properties>
     <ks.ws.compile.phase>process-classes</ks.ws.compile.phase>
   </properties>
+  <!-- 
   <modules>
     <module>ks-security</module>
     <module>ks-core</module>
@@ -47,6 +48,7 @@
     <module>ks-psrg</module>
     <module>ks-web</module>
   </modules>
+   -->
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.x</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.x</developerConnection>
