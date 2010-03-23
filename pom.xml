@@ -24,7 +24,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1-SNAPSHOT</version>
+  <version>1.0.0-m4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <repositories>
@@ -48,8 +48,8 @@
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m4</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m4</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/branches/1.0.0-m4</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.x</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.x</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/branches/1.0.x</url>
   </scm>
 </project>
