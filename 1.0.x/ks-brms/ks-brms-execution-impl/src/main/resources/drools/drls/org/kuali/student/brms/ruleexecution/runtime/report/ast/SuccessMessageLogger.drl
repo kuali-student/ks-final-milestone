@@ -1,0 +1,66 @@
+package org.kuali.student.brms.runtime.ast.success
+ 
+import org.kuali.student.brms.internal.common.runtime.ast.BooleanNode;
+import org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators;
+
+rule "AND"
+	#salience 1
+	#no-loop true
+	when
+		n : BooleanNode( label == "*", leftNode.value == true, rightNode.value == true, leftNode.nodeMessage != "null", rightNode.nodeMessage != "null" )
+	then
+        String id = n.getLanguage() + ".booleanOperators";
+        BooleanOperators bo = (BooleanOperators) drools.getWorkingMemory().getGlobal(id);
+        String logMessage = n.getLeftNode().getNodeMessage() + " " + bo.getAndOperator() + " " + n.getRightNode().getNodeMessage();
+		
+		if(n.getParent() != null && ( (n.getLabel().equals("+") && n.getParent().getLabel().equals("*")) || (n.getLabel().equals("*") && n.getParent().getLabel().equals("+")))) {
+		    logMessage = "(" + logMessage + ")";
+		}
+		n.setNodeMessage(logMessage);
+		
+		BooleanNode parent = n.getParent();
+		if (parent != null){
+			update(parent);
+		}
+end
+
+rule "OR2"
+	#no-loop true
+	when
+		n : BooleanNode( label == "+", leftNode.value == true, rightNode.value == true, leftNode.nodeMessage != "null", rightNode.nodeMessage != "null" )
+	then
+        String id = n.getLanguage() + ".booleanOperators";
+        BooleanOperators bo = (BooleanOperators) drools.getWorkingMemory().getGlobal(id);
+        String logMessage = n.getLeftNode().getNodeMessage() + " " + bo.getOrOperator() + " " + n.getRightNode().getNodeMessage();
+
+		if(n.getParent() != null && ( (n.getLabel().equals("+") && n.getParent().getLabel().equals("*")) || (n.getLabel().equals("*") && n.getParent().getLabel().equals("+")))) {
+		    logMessage = "(" + logMessage + ")";
+		}
+		n.setNodeMessage(logMessage);
+		
+		BooleanNode parent = n.getParent();
+		if (parent != null){
+			update(parent);
+		}
+end
+
+rule "OR1"
+	#no-loop true
+	when
+		n : BooleanNode( label == "+", (leftNode.value == false && rightNode.value == true && rightNode.nodeMessage != "null" ) || 
+		(leftNode.value == true && rightNode.value == false && leftNode.nodeMessage != "null") )
+	then
+		String logMessage = "test";
+		
+		if (n.getLeftNode().getValue() == true)
+			logMessage = n.getLeftNode().getNodeMessage();
+		else if (n.getRightNode().getValue() == true)
+			logMessage = n.getRightNode().getNodeMessage();
+		
+		n.setNodeMessage(logMessage);
+		
+		BooleanNode parent = n.getParent();
+		if (parent != null){
+			update(parent);
+		}
+end

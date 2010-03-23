@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:search="http://student.kuali.org/xsd/search-extension"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+on: Mon Jan 25 14:56:14 PST 2010
+by: org.kuali.student.dictionary.writer.SearchModelWriter
+using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/orchestration-dictionary.xls, Excel Spreadsheet src/test/resources/service methods.xls, Excel Spreadsheet src/test/resources/services.xlsExcel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/orchestration-dictionary.xls, Excel Spreadsheet src/test/resources/service methods.xls, Excel Spreadsheet src/test/resources/services.xls, 
+ -->
+
+<!-- Search Types -->
+
+	<search:searchType id="org.search.advanced">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgAdvancedCriteria" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="org.search.all.active.org.types">
+		<search:name>All Organization Types</search:name>
+		<search:desc>Returns all active organization types</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.org.type.info" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="kuali.criteria.none" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="person.search.personQuickViewByGivenName">
+		<search:name>All org hierarchies</search:name>
+		<search:desc>Returns all org hierarchies, name and id</search:desc>
+		<search:searchResultTypeInfo><ref bean="person.results.GivenName" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="person.criteria.personGivenName" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="org.search.advanced">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgAdvancedCriteria" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="atp.search.atpTypes">
+		<!-- This needs to be enhanced to allow us to restrict the list to just terms that make sense for a credit course -->
+		<search:name>All ATP types</search:name>
+		<search:desc>Returns the list of all ATP Types</search:desc>
+		<search:searchResultTypeInfo><ref bean="atp.result.atpType" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="atp.criteria.atpType" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="atp.search.atpDurationTypes">
+		<search:name>All ATP Duration Types</search:name>
+		<search:desc>Returns the list of all ATP Duration Types</search:desc>
+		<search:searchResultTypeInfo><ref bean="atp.result.atpDurationType" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="kuali.criteria.none" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lu.search.generic">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><ref bean="lu.result.FullView" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lu.criteria.luAdvancedCriteria" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lu.search.all.lu.types">
+		<search:name>All activity tlypes</search:name>
+		<search:desc>All activity types</search:desc>
+		<search:searchResultTypeInfo><ref bean="lu.result.org.type.info" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lu.criteria.luType" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="atp.search.advancedAtpSearch">
+		<search:name>Advanced ATP match</search:name>
+		<search:desc>Search by Name, start date, end date, and type</search:desc>
+		<search:searchResultTypeInfo><ref bean="atp.result.atpInfo" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="atp.criteria.orgAdvancedCriteria" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.loByClu">
+		<search:name>LO Search by Clu</search:name>
+		<search:desc>Returns all Los connected with the selected clu</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.loDesc" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.loByCluId" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.loCluByDesc">
+		<search:name>LO Search for all LOs and related Clus matching supplied word</search:name>
+		<search:desc>Returns all matching LOs ids and related Clu ids and codes</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.loClu" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.loByDesc" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.loByCategory">
+		<search:name>LO Search for all LOs by matching category</search:name>
+		<search:desc>Returns all matching LOs ids</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.loClu" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.byCategoryName" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.categories">
+		<search:name>LO Search for all categories</search:name>
+		<search:desc>Returns all matching category names</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.categoryName" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.byCategoryName" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+<!-- Search Criteria -->
+
+	<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria">
+		<search:name>OrgAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalLongName" />
+			<ref bean="org.queryParam.orgOptionalLocation" />
+			<ref bean="org.queryParam.orgOptionalId" />
+			<ref bean="org.queryParam.orgOptionalShortName" />
+			<ref bean="org.queryParam.orgOptionalType" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="kuali.criteria.none">
+		<search:name>No criteria</search:name>
+		<search:desc>No criteria</search:desc>
+		<search:queryParams>
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="person.criteria.personGivenName">
+		<!-- TODO: Add a criteria to retrict to a particular set of departments? -->
+		<search:name>No criteria</search:name>
+		<search:desc>No criteria needed</search:desc>
+		<search:queryParams>
+			<ref bean="person.queryParam.personGivenName" />
+			<ref bean="person.queryParam.personAffiliation" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpType">
+		<search:name>AtpTypesCriteria</search:name>
+		<search:desc>Criteria for searching of a list of all ATP Type ids</search:desc>
+		<search:queryParams>
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lu.criteria.luAdvancedCriteria">
+		<search:name>LuAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalId" />
+			<ref bean="lu.queryParam.luOptionalLongName" />
+			<ref bean="lu.queryParam.luOptionalType" />
+			<ref bean="lu.queryParam.luOptionalCode" />
+			<ref bean="lu.queryParam.luOptionalLevel" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lu.criteria.luType">
+		<search:name>No criteria</search:name>
+		<search:desc>No criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalType" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="atp.criteria.orgAdvancedCriteria">
+		<search:name>AdvancedAtpSearchCriteria</search:name>
+		<search:desc>AdvancedAtpSearchCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="atp.advancedAtpSearchParam.atpShortName" />
+			<ref bean="atp.advancedAtpSearchParam.atpStartDate" />
+			<ref bean="atp.advancedAtpSearchParam.atpEndDate" />
+			<ref bean="atp.advancedAtpSearchParam.atpType" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="enumeration.criteria.context">
+		<search:name>No criteria</search:name>
+		<search:desc>Enumeration Criterial</search:desc>
+		<search:queryParams>
+			<ref bean="enumeration.queryParam.enumerationType" />
+			<ref bean="enumeration.queryParam.contextType" />
+			<ref bean="enumeration.queryParam.contextValue" />
+			<ref bean="enumeration.queryParam.contextDate" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lo.criteria.loByCluId">
+		<search:name>LoByWordMatchCriteria</search:name>
+		<search:desc>no description supplied</search:desc>
+		<search:queryParams>
+			<ref bean="lo.queryParam.cluId" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lo.criteria.loByDesc">
+		<search:name>LoByWordMatchCriteria</search:name>
+		<search:desc>no description supplied</search:desc>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loDescPlain" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lo.criteria.byCategoryName">
+		<search:name>LoByCategoryCriteria</search:name>
+		<search:desc>no description supplied</search:desc>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loCategoryName" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+<!-- Search Criteria Parameters -->
+
+	<search:queryParam id="org.queryParam.orgOptionalLongName">
+			<dict:fieldDescriptor>
+			<dict:name>Organization Name</dict:name>
+			<dict:desc>Long organization name.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgOptionalLocation">
+			<dict:fieldDescriptor>
+			<dict:name>Location</dict:name>
+			<dict:desc>Organization location.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgOptionalId">
+			<dict:fieldDescriptor>
+			<dict:name>Id</dict:name>
+			<dict:desc>Unique identifier for an organization.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgOptionalShortName">
+			<dict:fieldDescriptor>
+			<dict:name>Organization Name</dict:name>
+			<dict:desc>Short organization name.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgOptionalType">
+			<dict:fieldDescriptor>
+			<dict:name>Org Type</dict:name>
+			<dict:desc>Type of an organization.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="person.queryParam.personGivenName">
+			<dict:fieldDescriptor>
+			<dict:name>Name Lookup Field</dict:name>
+			<dict:desc>Name of person</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="person.queryParam.personAffiliation">
+			<dict:fieldDescriptor>
+			<dict:name>Affiliatilon Type</dict:name>
+			<dict:desc>How the person is affiliated with the school</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalId">
+			<dict:fieldDescriptor>
+			<dict:name>Id</dict:name>
+			<dict:desc>Unique identifier for a lu.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalLongName">
+			<dict:fieldDescriptor>
+			<dict:name>Name</dict:name>
+			<dict:desc>Long name</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalType">
+			<dict:fieldDescriptor>
+			<dict:name>Type</dict:name>
+			<dict:desc>Lu type (course, program etc.)</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalCode">
+			<dict:fieldDescriptor>
+			<dict:name>Code</dict:name>
+			<dict:desc>Lu code</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalLevel">
+			<dict:fieldDescriptor>
+			<dict:name>Level</dict:name>
+			<dict:desc>Lu level grad/undergrad</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpShortName">
+			<dict:fieldDescriptor>
+			<dict:name>ATP Short Name</dict:name>
+			<dict:desc>Short name for the ATP, recorded as the default listing</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate">
+			<dict:fieldDescriptor>
+			<dict:name>Start Date</dict:name>
+			<dict:desc>Start date of the ATP</dict:desc>
+			<dict:dataType>date</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpEndDate">
+			<dict:fieldDescriptor>
+			<dict:name>End Date</dict:name>
+			<dict:desc>End date of the ATP.</dict:desc>
+			<dict:dataType>date</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpType">
+			<dict:fieldDescriptor>
+			<dict:name>Type</dict:name>
+			<dict:desc>Type of the ATP</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="enumeration.queryParam.enumerationType">
+			<dict:fieldDescriptor>
+			<dict:name>Enumeration Type</dict:name>
+			<dict:desc>The type of the enumeration to search</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="enumeration.queryParam.contextType">
+			<dict:fieldDescriptor>
+			<dict:name>Context Type</dict:name>
+			<dict:desc>The type of context being used</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="enumeration.queryParam.contextValue">
+			<dict:fieldDescriptor>
+			<dict:name>Context Value</dict:name>
+			<dict:desc>The value of the supplied context</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="enumeration.queryParam.contextDate">
+			<dict:fieldDescriptor>
+			<dict:name>Context Date</dict:name>
+			<dict:desc>A date supplied as context</dict:desc>
+			<dict:dataType>dateTime</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lo.queryParam.cluId">
+			<dict:fieldDescriptor>
+			<dict:name>Clu Id</dict:name>
+			<dict:desc>Internal ID of a Clu</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lo.queryParam.loDescPlain">
+			<dict:fieldDescriptor>
+			<dict:name>Description</dict:name>
+			<dict:desc>no description supplied</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lo.queryParam.loCategoryName">
+			<dict:fieldDescriptor>
+			<dict:name>Category</dict:name>
+			<dict:desc>no description supplied</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+<!-- Search Results -->
+
+	<search:searchResultTypeInfo id="org.result.NameAndDescription">
+		<search:name>Organization Full View Less Hierarchies</search:name>
+		<search:desc>Full view of the Organization Less Hierarchies</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgShortName" />
+			<ref bean="org.resultColumn.orgOptionalLongName" />
+			<ref bean="org.resultColumn.orgType" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="org.result.org.type.info">
+		<search:name>Organization Type information</search:name>
+		<search:desc>Organization types</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.key" />
+			<ref bean="org.resultColumn.name" />
+			<ref bean="org.resultColumn.desc" />
+			<ref bean="org.resultColumn.effective_date" />
+			<ref bean="org.resultColumn.expiration_date" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="person.results.GivenName">
+		<search:name>ID and Given name of person</search:name>
+		<search:desc>Search that returns all the known campus locations</search:desc>
+		<search:resultColumns>
+			<ref bean="person.resultColumn.PersonId" />
+			<ref bean="person.resultColumn.GivenName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="atp.result.atpType">
+		<search:name>ATP Types</search:name>
+		<search:desc>ATP Types</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpTypeId" />
+			<ref bean="atp.resultColumn.atpTypeName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="atp.result.atpDurationType">
+		<search:name>ATP Duration Types</search:name>
+		<search:desc>ATP Duration Types</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpDurationTypeKey" />
+			<ref bean="atp.resultColumn.atpDurationTypeName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lu.result.FullView">
+		<search:name>Lu Full View</search:name>
+		<search:desc>Full view of clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalLongName" />
+			<ref bean="lu.resultColumn.luOptionalCode" />
+			<ref bean="lu.resultColumn.luOptionalLevel" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lu.result.org.type.info">
+		<search:name>Organization Type information</search:name>
+		<search:desc>Organization types</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.key" />
+			<ref bean="lu.resultColumn.name" />
+			<ref bean="lu.resultColumn.desc" />
+			<ref bean="lu.resultColumn.effective_date" />
+			<ref bean="lu.resultColumn.expiration_date" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="atp.result.atpInfo">
+		<search:name>Information about an ATP</search:name>
+		<search:desc>Lots of info about an ATP</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpId" />
+			<ref bean="atp.resultColumn.atpSeasonalType" />
+			<ref bean="atp.resultColumn.atpDurType" />
+			<ref bean="atp.resultColumn.atpStartDate" />
+			<ref bean="atp.resultColumn.atpTypeName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="enumeration.result.all">
+		<search:name>All enumeration results</search:name>
+		<search:desc>Enumeration Results</search:desc>
+		<search:resultColumns>
+			<ref bean="enumeration.resultColumn.code" />
+			<ref bean="enumeration.resultColumn.abbrevValue" />
+			<ref bean="enumeration.resultColumn.value" />
+			<ref bean="enumeration.resultColumn.effectiveDate" />
+			<ref bean="enumeration.resultColumn.expirationDate" />
+			<ref bean="enumeration.resultColumn.sortKey" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lo.result.loDesc">
+		<search:name>Just the Description of the LO</search:name>
+		<search:desc>Lo and the Description</search:desc>
+		<search:resultColumns>
+			<ref bean="lo.resultColumn.loId" />
+			<ref bean="lo.resultColumn.loDescPlain" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lo.result.loClu">
+		<search:name>Los and Related Clus</search:name>
+		<search:desc>Lo descs ids and Clu ids and Codes</search:desc>
+		<search:resultColumns>
+			<ref bean="lo.resultColumn.loId" />
+			<ref bean="lo.resultColumn.loCluId" />
+			<ref bean="lo.resultColumn.loCluCode" />
+			<ref bean="lo.resultColumn.loDescPlain" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lo.result.categoryName">
+		<search:name>Los and Related Clus</search:name>
+		<search:desc>Lo descs ids and Clu ids and Codes</search:desc>
+		<search:resultColumns>
+			<ref bean="lo.resultColumn.categoryId" />
+			<ref bean="lo.resultColumn.categoryName" />
+			<ref bean="lo.resultColumn.categoryType" />
+			<ref bean="lo.resultColumn.categoryNameAndType" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+<!-- Search Result Columns -->
+
+	<search:resultColumn id="org.resultColumn.orgId">
+		<search:name>Organization Identifier</search:name>
+		<search:desc>Identifier for the organization</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgShortName">
+		<search:name>Organization Short Name</search:name>
+		<search:desc>Short name for the organization, recorded as the default listing</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgOptionalLongName">
+		<search:name>Name</search:name>
+		<search:desc>Long name for the organization, recorded as the default listing.</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgType">
+		<search:name>Organization Type</search:name>
+		<search:desc>Organization Type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.key">
+		<search:name>Key of the type</search:name>
+		<search:desc>The internal key to the org type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.name">
+		<search:name>Name of type</search:name>
+		<search:desc>The name of the type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.desc">
+		<search:name>Description of type</search:name>
+		<search:desc>The description of the type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.effective_date">
+		<search:name>Effective date</search:name>
+		<search:desc>The date the ltype became effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.expiration_date">
+		<search:name>Expiration date</search:name>
+		<search:desc>The date the type became non-effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="person.resultColumn.PersonId">
+		<search:name>Internal person id</search:name>
+		<search:desc>Internal id</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="person.resultColumn.GivenName">
+		<search:name>Given name of person</search:name>
+		<search:desc>Internal id</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpTypeId">
+		<search:name>ATP Type Identifier</search:name>
+		<search:desc>Identifier for an ATP Type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpTypeName">
+		<search:name>Type Name</search:name>
+		<search:desc>Type of the ATP.</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpDurationTypeKey">
+		<search:name>ATP Duration Type Key</search:name>
+		<search:desc>ATP Duration Type Key</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpDurationTypeName">
+		<search:name>Duration Type Name</search:name>
+		<search:desc>Duration Type Name</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.cluId">
+		<search:name>Clu Id</search:name>
+		<search:desc>Identifier of a Clu</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalLongName">
+		<search:name>Name</search:name>
+		<search:desc>Long name for the lu, recorded as the default listing.</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalCode">
+		<search:name>Code</search:name>
+		<search:desc>Lu code</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalLevel">
+		<search:name>Level</search:name>
+		<search:desc>Level of Lu</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.key">
+		<search:name>Key of the type</search:name>
+		<search:desc>The internal key to the org type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.name">
+		<search:name>Name of type</search:name>
+		<search:desc>The name of the type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.desc">
+		<search:name>Description of type</search:name>
+		<search:desc>The description of the type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.effective_date">
+		<search:name>Effective date</search:name>
+		<search:desc>The date the ltype became effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.expiration_date">
+		<search:name>Expiration date</search:name>
+		<search:desc>The date the type became non-effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpId">
+		<search:name>ATP Identifier</search:name>
+		<search:desc>Identifier for the ATP</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpSeasonalType">
+		<search:name>Season Type</search:name>
+		<search:desc>Will return Season Type.</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpDurType">
+		<search:name>Duration Type</search:name>
+		<search:desc>Will return Duration Type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpStartDate">
+		<search:name>Start Date</search:name>
+		<search:desc>Start Date of the ATP</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.code">
+		<search:name>Code</search:name>
+		<search:desc>The internal code of the enumeration value</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.abbrevValue">
+		<search:name>Abbreviation of the code</search:name>
+		<search:desc>An abbreviation of the enumeration value</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.value">
+		<search:name>Description of the code</search:name>
+		<search:desc>The description of the enumeration value</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.effectiveDate">
+		<search:name>Effective date</search:name>
+		<search:desc>The date the enumeration became effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.expirationDate">
+		<search:name>Expiration date</search:name>
+		<search:desc>The date the enumeration became non-effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.sortKey">
+		<search:name>Key used to sort the results</search:name>
+		<search:desc>The description of the type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loId">
+		<search:name>Lo Identifier</search:name>
+		<search:desc>Identifier of an Lo</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loDescPlain">
+		<search:name>Lo Desc</search:name>
+		<search:desc>Desc of an Lo</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loCluId">
+		<search:name>Clu Identifier</search:name>
+		<search:desc>Identifier of a Clu</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loCluCode">
+		<search:name>Clu Code</search:name>
+		<search:desc>Clu Code</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryId">
+		<search:name>Category ID</search:name>
+		<search:desc>Category to be used for an LO</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryName">
+		<search:name>Category</search:name>
+		<search:desc>Category to be used for an LO</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryType">
+		<search:name>Category</search:name>
+		<search:desc>Category type for a category</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryNameAndType">
+		<search:name>Category</search:name>
+		<search:desc>Category name concatenated with category type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<!-- Query Map -->
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<property name="sourceMap">
+	<map>
+		
+		<entry
+ key="org.search.advanced"		>
+			<value>
+SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org
+</value>
+		</entry>
+		
+		<entry
+ key="org.search.all.active.org.types"		>
+			<value>
+select key, name, desc, effective_date, expiration_date
+from OrgType
+where expiration_date is null
+</value>
+		</entry>
+		
+		<entry
+ key="atp.search.atpTypes"		>
+			<value>
+SELECT atptype.id, atptype.name FROM AtpType atptype
+</value>
+		</entry>
+		
+		<entry
+ key="atp.search.atpDurationTypes"		>
+			<value>
+TBD
+</value>
+		</entry>
+		
+		<entry
+ key="lu.search.generic"		>
+			<value>
+TBD already in xml
+</value>
+		</entry>
+		
+		<entry
+ key="lu.search.all.lu.types"		>
+			<value>
+select key, name, desc, effective_date, expiration_date
+from LuType
+where expiration_date is null
+</value>
+		</entry>
+		
+		<entry
+ key="atp.search.advancedAtpSearch"		>
+			<value>
+TBD
+</value>
+		</entry>
+		
+		<entry
+ key="enumeration.management.search"		>
+			<value>
+TBD
+</value>
+		</entry>
+		
+		<entry
+ key="lo.search.loCluByDesc"		>
+			<value>
+NATIVE:SELECT 
+    lo.id lo_id, 
+    clu.id clu_id, 
+    officialIdentifier.cd code, 
+    lodesc.plain plain 
+FROM 
+    KSLU_CLU clu 
+JOIN 
+    KSLU_LO_JN_CLU jn 
+    ON 
+    jn.CLU_ID = clu.ID 
+JOIN 
+    KSLU_LO lo 
+    ON 
+    jn.LO_ID = lo.ID 
+JOIN 
+    KSLU_CLU_IDENT officialIdentifier 
+    ON 
+    clu.OFFIC_CLU_ID = officialIdentifier.ID 
+JOIN 
+    KS_LO_RICH_TEXT_T lodesc 
+    ON 
+    lodesc.ID = lo.RT_DESCR_ID 
+WHERE 
+    lower(lodesc.PLAIN) like :lo_queryParam_loDescPlain
+</value>
+		</entry>
+		
+		<entry
+ key="lo.search.loByCategory"		>
+			<value>
+NATIVE:SELECT 
+    lo.id lo_id, 
+    clu.id clu_id, 
+    officialIdentifier.cd code, 
+    lodesc.plain plain 
+FROM 
+    KSLU_CLU clu 
+JOIN 
+    KSLU_LO_JN_CLU jn 
+    ON 
+    jn.CLU_ID = clu.ID 
+JOIN 
+    KSLU_LO lo 
+    ON 
+    jn.LO_ID = lo.ID 
+JOIN 
+    KSLU_CLU_IDENT officialIdentifier 
+    ON 
+    clu.OFFIC_CLU_ID = officialIdentifier.ID 
+JOIN 
+    KS_LO_RICH_TEXT_T lodesc 
+    ON 
+    lodesc.ID = lo.RT_DESCR_ID 
+JOIN 
+    KSLU_LO_JN_LOCATEGORY jncat
+    ON
+    lo.id = jncat.lo_id
+JOIN
+    KSLU_LO_CATEGORY cat
+    ON
+    cat.id = jncat.locategory_id
+
+WHERE 
+    lower(cat.name) like :lo_queryParam_loCategoryName
+</value>
+		</entry>
+		
+		<entry
+ key="lo.search.categories"		>
+			<value>
+SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||&apos; - &apos;||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId
+</value>
+		</entry>
+	</map>
+	</property>
+	</bean>
+</beans>
