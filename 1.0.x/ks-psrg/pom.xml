@@ -4,11 +4,10 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1.0.0-m5-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.psrg</groupId>
   <artifactId>ks-psrg</artifactId>
-  <version>1.0.0-m4-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>PSRG University</name>
   <description>PSRG University</description>
