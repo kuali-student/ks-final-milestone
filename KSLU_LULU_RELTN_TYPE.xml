@@ -4,6 +4,9 @@
     <KSLU_LULU_RELTN_TYPE DESCR="my desc8" EFF_DT="20080101000000"
         EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.co-located"
         NAME="dan" REV_DESC="rev desc8" REV_NAME="rev name8" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc8" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.copyOfClu"
+        NAME="dan" REV_DESC="rev desc8" REV_NAME="rev name8" VERSIONIND="0"/>
     <KSLU_LULU_RELTN_TYPE DESCR="my desc5" EFF_DT="20080101000000"
         EXPIR_DT="20100101000000" ID="luLuRelationType.alias" NAME="ted"
         REV_DESC="rev desc5" REV_NAME="rev name5" VERSIONIND="0"/>

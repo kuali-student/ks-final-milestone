@@ -29,8 +29,6 @@
         NAME="Lecture"
         TYPE_DESC="Instructor presentation of course materials via the web" TYPE_KEY="kuali.lu.type.activity.WebLecture"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Course" TYPE_DESC="An NL Course" TYPE_KEY="luType.nl.course"/>
-    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Course" TYPE_DESC="A Shell Course" TYPE_KEY="luType.shell.course"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Program" TYPE_DESC="A Shell Program" TYPE_KEY="luType.shell.program"/>
