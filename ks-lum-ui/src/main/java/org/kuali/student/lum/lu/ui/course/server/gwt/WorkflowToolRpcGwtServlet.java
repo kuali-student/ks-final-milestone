@@ -13,7 +13,6 @@ import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.Data;
@@ -36,8 +35,6 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 	final Logger LOG = Logger.getLogger(WorkflowToolRpcGwtServlet.class);
 	protected MetadataServiceImpl metadataService;
 	protected IdentityService identityService;
-	protected PermissionService permissionService;
-	private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
 	
 	public IdentityService getIdentityService() {
 		return identityService;
@@ -47,14 +44,6 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 		this.identityService = identityService;
 	}
 	
-	public PermissionService getPermissionService() {
-		return permissionService;
-	}
-
-	public void setPermissionService(PermissionService permissionService) {
-		this.permissionService = permissionService;
-	}
-
 	@Override
 	public Metadata getMetadata(String idType, String id) {
 		return metadataService.getMetadata(idType, null, null);
@@ -69,7 +58,7 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 	}
 
 	@Override
-    public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) throws OperationFailedException{
+    public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermission, boolean participationRequired, String respondBy) throws OperationFailedException{
         if(getSimpleDocService()==null){
         	throw new OperationFailedException("Workflow Service is unavailable");
         }
@@ -171,13 +160,12 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 	        				person.setLastName(info.getDefaultName().getLastName());
 	        			}
 	        			
-	        			boolean editAuthorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
+	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
 	        	                EDIT_DOCUMENT_PERM, null, qualification));
-	        			boolean openAuthorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
+	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
 	        	                OPEN_DOCUMENT_PERM, null, qualification));
-	        			boolean commentAuthorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
+	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
 	        	                COMMENT_DOCUMENT_PERM, null, qualification));
-	        			
 	        			
 	        			if(editAuthorized){
 	        				person.getPermList().add(EDIT);

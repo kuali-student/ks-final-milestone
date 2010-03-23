@@ -303,13 +303,13 @@ public class CollaboratorTool extends Composite implements ToolView{
         this.controller = controller;
     }
     
-    private void addCollaborator(final String recipientPrincipalId, final String collabType, boolean participationRequired, String respondBy){
+    private void addCollaborator(final String recipientPrincipalId, final String selectedPermission, boolean participationRequired, String respondBy){
     	if(workflowId==null){
             //GWT.log("Collaborators called with "+ricePersonLookupUrl, null);
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
     		//TODO put real title in
-    		workflowRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, collabType, participationRequired, respondBy, new AsyncCallback<Boolean>(){
+    		workflowRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermission, participationRequired, respondBy, new AsyncCallback<Boolean>(){
 				public void onFailure(Throwable caught) {
 					Window.alert("Could not add Collaborator");
 					GWT.log("could not add collaborator", caught);

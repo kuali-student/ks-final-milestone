@@ -126,7 +126,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                         if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
                             if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
                                 getCluProposalFromWorkflowId(callback, workCompleteCallback);
-                            } else if (getViewContext().getIdType() == IdType.PROPOSAL_ID){
+                            } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
                                 getCluProposalFromProposalId(callback, workCompleteCallback);
                             } else if (getViewContext().getIdType() == IdType.OBJECT_ID){
                                 getNewProposalWithCopyOfClu(callback, workCompleteCallback);
@@ -207,16 +207,18 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     		// The switch was added due to the way permissions currently work. 
     		// For a new Create Course Proposal or Modify Course we send nulls so that permissions are not checked.
     		if(getViewContext().getIdType() != null){
-    		    switch (getViewContext().getIdType()) {
-                    case PROPOSAL_ID :
-                        idType = getViewContext().getIdType().toString();
-                        viewContextId = getViewContext().getId();
-                        break;
-                    case DOCUMENT_ID :
-                        idType = getViewContext().getIdType().toString();
-                        viewContextId = getViewContext().getId();
-                        break;
-                }
+                idType = getViewContext().getIdType().toString();
+                viewContextId = getViewContext().getId();
+//    		    switch (getViewContext().getIdType()) {
+//                    case KS_KEW_OBJECT_ID :
+//                        idType = getViewContext().getIdType().toString();
+//                        viewContextId = getViewContext().getId();
+//                        break;
+//                    case DOCUMENT_ID :
+//                        idType = getViewContext().getIdType().toString();
+//                        viewContextId = getViewContext().getId();
+//                        break;
+//                }
     		}
     		
 	        cluProposalRpcServiceAsync.getMetadata(idType, viewContextId,  
@@ -286,14 +288,14 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		ReferenceModel ref = new ReferenceModel();
 
         		//FIXME: test code
-        		if(cluProposalModel.get("proposal/id") != null){
-            		ref.setReferenceId((String)cluProposalModel.get("proposal/id"));
+        		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
+            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
         		} else {
         			ref.setReferenceId(null);
         		}
         		
-        		ref.setReferenceTypeKey(CourseConfigurer.REFERENCE_TYPE_KEY);
-        		ref.setReferenceType(CourseConfigurer.REFERENCE_TYPE);
+        		ref.setReferenceTypeKey(CourseConfigurer.PROPOSAL_REFERENCE_TYPE_KEY);
+        		ref.setReferenceType(CourseConfigurer.PROPOSAL_REFERENCE_OBJECT_TYPE);
         		ref.setReferenceState(getViewContext().getState());
         		
         		callback.onModelReady(ref);

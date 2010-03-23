@@ -171,7 +171,7 @@ public class FindPanel extends ViewComposite{
                 if (selected.size() > 0){
                 	ViewContext viewContext = new ViewContext();
                 	viewContext.setId(selected.get(0));
-                	viewContext.setIdType(IdType.PROPOSAL_ID);
+                	viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
                     FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
                     proposalSearchWindow.hide();
                 }                

@@ -90,12 +90,12 @@ public class CourseConfigurer
 
     private boolean WITH_DIVIDER = true;
     private boolean NO_DIVIDER = false;
-    
-    public static final String CLU_PROPOSAL_MODEL	= "cluProposalModel";
-    public static final String PROPOSAL_ID_PATH		= "proposal/id";
-    public static final String PROPOSAL_TITLE_PATH	= "proposal/title";
-    public static final String REFERENCE_TYPE_KEY	= "referenceType.clu";
-    public static final String REFERENCE_TYPE 		= "kuali.lu.type.CreditCourse";
+
+    public static final String CLU_PROPOSAL_MODEL					= "cluProposalModel";
+    public static final String PROPOSAL_ID_PATH						= "proposal/id";
+    public static final String PROPOSAL_TITLE_PATH					= "proposal/title";
+    public static final String PROPOSAL_REFERENCE_TYPE_KEY			= "referenceType.clu.proposal";
+    public static final String PROPOSAL_REFERENCE_OBJECT_TYPE		= "kuali.lu.type.CreditCourse";
 
     public enum CourseSections{
         CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,

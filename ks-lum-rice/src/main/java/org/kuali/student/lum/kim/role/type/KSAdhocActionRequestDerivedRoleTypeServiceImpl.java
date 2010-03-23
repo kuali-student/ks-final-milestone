@@ -1,4 +1,4 @@
-package org.kuali.student.lum.kim.permission.role;
+package org.kuali.student.lum.kim.role.type;
 
 
 public class KSAdhocActionRequestDerivedRoleTypeServiceImpl extends	KSActionRequestDerivedRoleTypeServiceImpl {

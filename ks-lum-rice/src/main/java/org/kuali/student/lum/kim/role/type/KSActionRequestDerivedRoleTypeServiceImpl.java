@@ -12,12 +12,11 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.lum.kim.permission.role;
+package org.kuali.student.lum.kim.role.type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,8 +34,8 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kim.service.support.impl.KimTypeAttributeValidationException;
-import org.kuali.rice.student.bo.KualiStudentKimAttributes;
+import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.lum.kim.KimQualificationHelper;
 
 /**
  *
@@ -61,8 +60,12 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		newRequiredAttributes.add(listOne);
 		List<String> listTwo = new ArrayList<String>();
 		listTwo.add( KimAttributes.DOCUMENT_TYPE_NAME );
-		listTwo.add( KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID );
+		listTwo.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		newRequiredAttributes.add(listTwo);
+		List<String> listThree = new ArrayList<String>();
+		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
+		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
+		newRequiredAttributes.add(listThree);
 	}
 
 	/** 
@@ -72,67 +75,77 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	 **/
 	@Override
 	protected void validateRequiredAttributesAgainstReceived(AttributeSet receivedAttributes){
-		// abort if type does not want the qualifiers to be checked
-		if ( !isCheckRequiredAttributes() ) {
-			return;
-		}
-		// abort if the list is empty, no attributes need to be checked
-		if ( newRequiredAttributes == null || newRequiredAttributes.isEmpty() ) {
-			return;
-		}
-		// if attributes are null or empty, they're all missing
-		if ( receivedAttributes == null || receivedAttributes.isEmpty() ) {
-			return;		
-		}
-		
-		Set<List<String>> totalMissingAttributes = new HashSet<List<String>>();
-		for (List<String> currentReqAttributes : newRequiredAttributes) {
-			List<String> missingAttributes = new ArrayList<String>();
-			for( String requiredAttribute : currentReqAttributes ) {
-				if( !receivedAttributes.containsKey(requiredAttribute) ) {
-					missingAttributes.add(requiredAttribute);
-				}
-			}
-			if (missingAttributes.isEmpty()) {
-				// if no missing attributes from this list then we have required attributes needed
-				return;
-			}
-			totalMissingAttributes.add(missingAttributes);
-        }
-
-		int i = 1;
-    	StringBuffer errorMessage = new StringBuffer("Missing Required Attributes from lists - ");
-    	for (List<String> missingAttributes : totalMissingAttributes) {
-            if(missingAttributes.size()>0) {
-            	errorMessage.append("List " + i + ": (");
-            	i++;
-            	Iterator<String> attribIter = missingAttributes.iterator();
-            	while ( attribIter.hasNext() ) {
-            		errorMessage.append( attribIter.next() );
-            		if( attribIter.hasNext() ) {
-            			errorMessage.append( COMMA_SEPARATOR );
-            		}
-            	}
-            	errorMessage.append(")");
-            }
-        }
-		LOG.info("Found missing attributes: " + errorMessage.toString());
-        throw new KimTypeAttributeValidationException(errorMessage.toString());
+		KimQualificationHelper.validateRequiredAttributesAgainstReceived(newRequiredAttributes, receivedAttributes, isCheckRequiredAttributes(), COMMA_SEPARATOR);
+		super.validateRequiredAttributesAgainstReceived(receivedAttributes);
+//		// abort if type does not want the qualifiers to be checked
+//		if ( !isCheckRequiredAttributes() ) {
+//			return;
+//		}
+//		// abort if the list is empty, no attributes need to be checked
+//		if ( newRequiredAttributes == null || newRequiredAttributes.isEmpty() ) {
+//			return;
+//		}
+//		// if attributes are null or empty, they're all missing
+//		if ( receivedAttributes == null || receivedAttributes.isEmpty() ) {
+//			return;		
+//		}
+//		
+//		Set<List<String>> totalMissingAttributes = new HashSet<List<String>>();
+//		for (List<String> currentReqAttributes : newRequiredAttributes) {
+//			List<String> missingAttributes = new ArrayList<String>();
+//			for( String requiredAttribute : currentReqAttributes ) {
+//				if( !receivedAttributes.containsKey(requiredAttribute) ) {
+//					missingAttributes.add(requiredAttribute);
+//				}
+//			}
+//			if (missingAttributes.isEmpty()) {
+//				// if no missing attributes from this list then we have required attributes needed
+//				return;
+//			}
+//			totalMissingAttributes.add(missingAttributes);
+//        }
+//
+//		int i = 1;
+//    	StringBuffer errorMessage = new StringBuffer("Missing Required Attributes from lists - ");
+//    	for (List<String> missingAttributes : totalMissingAttributes) {
+//            if(missingAttributes.size()>0) {
+//            	errorMessage.append("List " + i + ": (");
+//            	i++;
+//            	Iterator<String> attribIter = missingAttributes.iterator();
+//            	while ( attribIter.hasNext() ) {
+//            		errorMessage.append( attribIter.next() );
+//            		if( attribIter.hasNext() ) {
+//            			errorMessage.append( COMMA_SEPARATOR );
+//            		}
+//            	}
+//            	errorMessage.append(")");
+//            }
+//        }
+//		LOG.info("Found missing attributes: " + errorMessage.toString());
+//        throw new KimTypeAttributeValidationException(errorMessage.toString());
 	}
 
 	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {
 		// first check for a valid document id passed in
-		String documentId = qualification.get(KimAttributes.DOCUMENT_NUMBER);
+		String documentId = qualification.get( KimAttributes.DOCUMENT_NUMBER );
 		if (StringUtils.isNotEmpty(documentId)) {
 			return Long.valueOf(documentId);
 		}
-		// if no document id passed in get the document via the clu id and document type name
-		String documentTypeName = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
-		String appId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID);
+		// if no document id passed in get the document via the id and document type name
+		String documentTypeName = qualification.get( KimAttributes.DOCUMENT_TYPE_NAME );
+		if (StringUtils.isEmpty(documentTypeName)) {
+			String ksObjectType = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
+			if (StringUtils.equals(ksObjectType, "referenceType.clu.proposal")) {
+	            documentTypeName = "CluCreditCourseProposal";
+			}
+		}
+		String appId = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		LOG.info("Checking for document id using document type '" + documentTypeName + "' and application id '" + appId + "' with qualifications: " + qualification.toString());
 		DocumentDetailDTO docDetail = getWorkflowUtility().getDocumentDetailFromAppId(documentTypeName, appId);
 		if (docDetail == null) {
-			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
+			LOG.info("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
+			return null;
+//			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
 		}
 		return docDetail.getRouteHeaderId();
 	}
@@ -150,7 +163,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	@Override
 	public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(
 			String namespaceCode, String roleName, AttributeSet qualification) {
-		// validate required attributs
+		// validate required attributes
 		validateRequiredAttributesAgainstReceived(qualification);
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		try {
@@ -181,6 +194,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 			}
 			return members;
 		} catch (WorkflowException e) {
+			LOG.error("Workflow Error: " + e.getLocalizedMessage(), e);
 			throw new RuntimeException("Unable to load route header", e);
 		}
 	}
@@ -201,6 +215,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 			}
 			return false;
 		} catch (WorkflowException e) {
+			LOG.error("Workflow Error: " + e.getLocalizedMessage(), e);
 			throw new RuntimeException("Unable to load route header", e);
 		}
 	}
@@ -239,6 +254,16 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 				return getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.BOTH) || getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.NON_ADHOC_ONLY);
 			}
 		}
+		return false;
+	}
+
+	/**
+	 * Returns false, as the Action Requests change often enough that role membership is highly volatile
+	 * 
+	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#shouldCacheRoleMembershipResults(java.lang.String, java.lang.String)
+	 */
+//	@Override
+	public boolean shouldCacheRoleMembershipResults(String namespaceCode, String roleName) {
 		return false;
 	}
 

@@ -35,6 +35,11 @@
 			<scope>provided</scope>
 		</dependency>			
 		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-rice</artifactId>
+			<version>${ks-core.version}</version>
+		</dependency>
+		<dependency>
 			<artifactId>servlet-api</artifactId>
 			<groupId>javax.servlet</groupId>
 		</dependency>

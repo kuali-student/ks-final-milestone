@@ -16,8 +16,6 @@ public class CluSetManagementRpcGwtServlet extends
 	private static final String DEFAULT_METADATA_STATE = "draft";
 	private static final String DEFAULT_METADATA_TYPE = null;
     
-	private PermissionService permissionService;
-
 	@Override
 	protected String getDefaultMetaDataState() {
 		return null; //DEFAULT_METADATA_STATE;
@@ -33,14 +31,6 @@ public class CluSetManagementRpcGwtServlet extends
 		return null; //WF_TYPE_CLU_DOCUMENT;
 	}
 	
-	public PermissionService getPermissionService() {
-        return permissionService;
-    }
-
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
-
 	@Override
 	protected String deriveAppIdFromData(Data data) {
 		// TODO Auto-generated method stub
