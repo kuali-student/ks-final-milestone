@@ -16,6 +16,7 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.view.CourseRequisiteView;
 import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView;
+import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -62,7 +63,7 @@ public class CourseRequisitesSummaryView extends SectionView {
     private void displayRules() {
         for (final String statementType : CourseRequisiteView.applicableLuStatementTypes) {
             final RuleInfo ruleInfo = getRuleInfo(statementType);
-            if (ruleInfo != null) {
+            if (ruleInfo != null && ruleInfo.getStatementVO().getAllReqComponentVOs().size() > 0) {
                 requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(
                         ruleInfo.getCluId(), ruleInfo.getStatementVO(), "KUALI.CATALOG",
                         RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
@@ -103,10 +104,10 @@ public class CourseRequisitesSummaryView extends SectionView {
     }
 
     private String getRuleTypeName(String luStatementTypeKey) {
-        if (luStatementTypeKey.contains("enroll")) return "Enrollment Restrictions";
-        if (luStatementTypeKey.contains("prereq")) return "Prerequisites";
-        if (luStatementTypeKey.contains("coreq")) return "Corequisites";
-        if (luStatementTypeKey.contains("antireq")) return "Antirequisites";
+        if (luStatementTypeKey.contains("enroll")) return RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ_TEXT;
+        if (luStatementTypeKey.contains("prereq")) return RuleConstants.KS_STATEMENT_TYPE_PREREQ_TEXT;
+        if (luStatementTypeKey.contains("coreq")) return RuleConstants.KS_STATEMENT_TYPE_COREQ_TEXT;
+        if (luStatementTypeKey.contains("antireq")) return RuleConstants.KS_STATEMENT_TYPE_ANTIREQ_TEXT;
         return "";
     }
 
@@ -135,7 +136,6 @@ public class CourseRequisitesSummaryView extends SectionView {
             });
         }
     }
-    
     
     public Controller getTheController() {
         return theController;

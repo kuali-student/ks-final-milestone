@@ -435,7 +435,7 @@ public class ManageRulesView extends ViewComposite {
         
         SimplePanel tempPanel = new SimplePanel();
         tempPanel.setStyleName("KS-Rules-FullWidth");
-        KSLabel preReqHeading = new KSLabel("Manage " + getRuleTypeName() + " Rules");
+        KSLabel preReqHeading = new KSLabel(getHeading());
         preReqHeading.setStyleName("KS-ReqMgr-Heading");
         tempPanel.add(preReqHeading);
         complexView.add(tempPanel);
@@ -614,13 +614,17 @@ public class ManageRulesView extends ViewComposite {
             } 
         }); 
     }
+
+    private String getHeading() {
+    	return "Manage " + getRuleTypeName() + " Rules";
+    }
     
     private String getRuleTypeName() {
     	String luStatementTypeKey = model.getValue().getSelectedStatementType();
-        if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
-        if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
-        if (luStatementTypeKey.contains("coreq")) return "Corequisite";
-        if (luStatementTypeKey.contains("antireq")) return "Antirequisite";
+        if (luStatementTypeKey.contains("enroll")) return RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ_TEXT;
+        if (luStatementTypeKey.contains("prereq")) return RuleConstants.KS_STATEMENT_TYPE_PREREQ_TEXT;
+        if (luStatementTypeKey.contains("coreq")) return RuleConstants.KS_STATEMENT_TYPE_COREQ_TEXT;
+        if (luStatementTypeKey.contains("antireq")) return RuleConstants.KS_STATEMENT_TYPE_ANTIREQ_TEXT;
         return "";
     }
 }

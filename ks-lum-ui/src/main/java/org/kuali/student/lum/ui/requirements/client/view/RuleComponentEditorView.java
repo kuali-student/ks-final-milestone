@@ -393,7 +393,7 @@ public class RuleComponentEditorView extends ViewComposite {
                     editedReqComp.setType(origReqCompType); //revert possible changes to type
                 }
                 getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
-                //updateNLAndExit();                    	                    	
+                updateNLAndExit();                    	                    	
             }
         });
 
@@ -762,21 +762,23 @@ public class RuleComponentEditorView extends ViewComposite {
     }
 
     private void updateNLAndExit() {    	            	
-        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", TEMLATE_LANGUAGE, new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                caught.printStackTrace();
-            }
-
-            public void onSuccess(final String reqCompNaturalLanguage) {
-                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
-                editedReqCompVO.setCheckBoxOn(true);                
-                editedStatementVO.clearSelections();
-                model.getValue().setStatementVO(editedStatementVO);
-                ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
-                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
-            }
-        });            	
+    	if (editedReqComp.getType() != null && !editedReqComp.getType().isEmpty()) {
+	    	requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+	            public void onFailure(Throwable caught) {
+	                Window.alert(caught.getMessage());
+	                caught.printStackTrace();
+	            }
+	
+	            public void onSuccess(final String reqCompNaturalLanguage) {
+	                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
+	                editedReqCompVO.setCheckBoxOn(true);                
+	                editedStatementVO.clearSelections();
+	                model.getValue().setStatementVO(editedStatementVO);
+	                ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
+	                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
+	            }
+	        });
+    	}
     }
 
     public void setCluSetsData(Map<String, String> cluSetsData) {
