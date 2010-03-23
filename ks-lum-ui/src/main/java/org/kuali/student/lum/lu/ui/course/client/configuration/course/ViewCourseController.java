@@ -280,7 +280,6 @@ public class ViewCourseController extends TabbedSectionLayout {
         if (cluModel != null){
             this.cluModel.setRoot(new LuData());            
         }
-        this.setModelDTO(null, null);
         this.courseId = null;
     }
     
