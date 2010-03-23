@@ -83,6 +83,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     private final FlowPanel panel = new FlowPanel();
     private final FlowPanel headerPanel = new FlowPanel();
     private final Anchor closeLink = new Anchor();
+    private boolean addCloseLink = true;
     private boolean showing = false;
     
 
@@ -102,6 +103,16 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 		final SimplePanel titlePlaceHolder = new SimplePanel();
 		titlePlaceHolder.setSize("2em", "2em");
 		construct(titlePlaceHolder);
+	}
+	
+	public KSLightBox(boolean addCloseLink) {
+	        // TODO review with UX what the expected look/behavior is when no title is specified, right now the close image can get in the way of the scroll-up button
+	        // this is a hack for now
+	        this.resizer = DEFAULT_RESIZER;
+	        final SimplePanel titlePlaceHolder = new SimplePanel();
+	        titlePlaceHolder.setSize("2em", "2em");
+	        this.addCloseLink=addCloseLink;
+	        construct(titlePlaceHolder);
 	}
 	public KSLightBox(String title) {
 		this(title, DEFAULT_RESIZER);
@@ -126,7 +137,9 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     	panel.add(scroll);
     	
     	headerPanel.add(title);
-    	headerPanel.add(closeLink);
+        if(addCloseLink){
+            headerPanel.add(closeLink);
+        }
     	headerPanel.addStyleName(Styles.CLOSE_PANEL.getStyle());
     	
     	// TODO fetch this from i18n messages
@@ -138,6 +151,8 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 				hide();
 			}
 		});
+    	
+
     }
     
     protected void adjust() {
@@ -188,6 +203,13 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 	public void fireEvent(GwtEvent<?> event) {
 		handlers.fireEvent(event);
 	}
+	
+    /*
+     * Call this method to remove the Close link from the light box
+     */
+    public void removeCloseLink(){
+        headerPanel.remove(closeLink);
+    }
 
 	
     
