@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.assembly;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.core.assembly.PassThroughAssemblerFilter;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -18,7 +19,7 @@ public class CreditCourseProposalAssemblerFilter extends PassThroughAssemblerFil
     public void doSaveFilter(FilterParamWrapper<Data> request, FilterParamWrapper<SaveResult<Data>> response, SaveFilterChain<Data, Void> chain) throws AssemblyException {
         Data data = request.getValue();
         CreditCourseProposalHelper help = CreditCourseProposalHelper.wrap(data);
-        String idType = "proposalId";
+        String idType = IdType.KS_KEW_OBJECT_ID.toString();
         String proposalId = help.getProposal().getId();
         String state = help.getState();
         Metadata typeMetadata = chain.getManager().getTarget().getMetadata(idType, proposalId, CreditCourseProposalAssembler.CREDIT_COURSE_PROPOSAL_DATA_TYPE, state);
