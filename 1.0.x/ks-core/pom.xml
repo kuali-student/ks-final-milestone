@@ -102,6 +102,7 @@
         <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
 
         <!-- build properties -->
+        <ks.java2ws.phase>process-classes</ks.java2ws.phase>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
         <ks-standard-security.version>1.0.0-m5</ks-standard-security.version>
     </properties>

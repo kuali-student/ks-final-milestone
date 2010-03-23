@@ -33,9 +33,6 @@
       </snapshots>
     </repository>
   </repositories>
-  <properties>
-    <ks.ws.compile.phase>process-classes</ks.ws.compile.phase>
-  </properties>
   <modules>
     <module>ks-security</module>
     <module>ks-core</module>

@@ -57,6 +57,7 @@
         <xercesImpl.version>2.9.1</xercesImpl.version>
 
         <!-- plugin versions -->
+        <ks.java2ws.phase>process-classes</ks.java2ws.phase>
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
