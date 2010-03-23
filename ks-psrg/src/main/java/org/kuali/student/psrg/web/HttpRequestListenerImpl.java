@@ -1,4 +1,4 @@
-package org.kuali.student.web;
+package org.kuali.student.psrg.web;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,18 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.core.config.ConfigContext;
-import static org.kuali.student.common.ui.server.gwt.rpc.GwtRpcRequestListener.*;
+import org.apache.commons.logging.LogFactory; //import org.kuali.rice.core.config.ConfigContext;
 
 import com.google.gwt.user.server.rpc.RPCRequest;
+
+import static org.brisant.gwt.user.server.rpc.listener.StoreAsRequestAttributesListenerImpl.*;
 
 public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 	private static final String SESSION_RECORDER_KEY = "recordedSession";
 	private static final Log log = LogFactory.getLog(HttpRequestListenerImpl.class);
 
 	String debugModeProperty = "ks.web.httprequest.debug.mode";
-	boolean debugMode = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(debugModeProperty));
+	boolean debugMode = false;// "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(debugModeProperty));
 	RequestUtils utils = new RequestUtils();
 
 	@Override

@@ -1,7 +1,4 @@
-/*
- * 
- */
-package org.kuali.student.web;
+package org.kuali.student.psrg.web;
 
 import java.io.IOException;
 
