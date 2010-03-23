@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset >
+<dataset>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc8" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.co-located"
+        NAME="dan" REV_DESC="rev desc8" REV_NAME="rev name8" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc5" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.alias" NAME="ted"
+        REV_DESC="rev desc5" REV_NAME="rev name5" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc6" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.colocated"
+        NAME="jim" REV_DESC="rev desc6" REV_NAME="rev name6" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc4" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.contains"
+        NAME="alice" REV_DESC="rev desc4" REV_NAME="rev name4" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc7" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.hasCourseFormat"
+        NAME="sam" REV_DESC="rev desc7" REV_NAME="rev name7" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc1" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuType.type1" NAME="bob"
+        REV_DESC="rev desc1" REV_NAME="rev name1" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc2" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuType.type2" NAME="santiago"
+        REV_DESC="rev desc2" REV_NAME="rev name2" VERSIONIND="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc3" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuType.type3" NAME="manolin"
+        REV_DESC="rev desc3" REV_NAME="rev name3" VERSIONIND="0"/>
+</dataset>

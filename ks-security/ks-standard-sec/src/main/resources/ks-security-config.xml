@@ -1,0 +1,17 @@
+<config>
+
+	<param name="ks.default.security.saml.samlIssuerServiceAddress">${serviceServletUrl}/SamlIssuerService</param>
+	<param name="ks.default.security.cas.webapp.service.context">${application.url}</param>
+	<param name="ks.default.security.cas.serverAddress">https://localhost:8443/cas-server-webapp-3.3.1</param>
+	
+	<!-- when true will use CAS proxy mechanism, i.e. return a Proxy Ticket used to access a another cas service proxy -->
+	<!-- when false only the Serivce Ticket is validated -->
+	<param name="ks.default.security.cas.useCasProxyMechanism">false</param>
+	
+	<param name="ks.default.security.saml.keystoreType">JKS</param>
+	<param name="ks.default.security.saml.keystoreFile">x509.jks</param>
+	<param name="ks.default.security.saml.keystorePass">changeit</param>
+	<param name="ks.default.security.saml.privateKeyAlias">tomcat</param>
+	<param name="ks.default.security.saml.privateKeyPass">changeit</param>
+	<param name="ks.default.security.saml.certificateAlias">tomcat</param>
+</config>

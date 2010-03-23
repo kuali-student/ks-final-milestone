@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset >
+<dataset>
+    <KSLU_CLU_LO_RELTN_TYPE EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        TYPE_DESC="Default Clu-Lo relation type" TYPE_KEY="cluLuType.default"/>
+</dataset>
