@@ -17,7 +17,7 @@
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionServiceUnsecure">
+				p:localServiceName="kimPermissionService">
 				<property name="busSecurity" value="false" />
 				<property name="jaxWsService" value="true" />
 			</bean>

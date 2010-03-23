@@ -514,7 +514,7 @@
 
 	<bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
-		<property name="serviceQName" value="{KIM}kimPermissionServiceUnsecure" />
+		<property name="serviceQName" value="{KIM}kimPermissionService" />
 	</bean>
 	
 	<bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
