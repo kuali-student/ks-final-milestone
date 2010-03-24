@@ -25,6 +25,7 @@ import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SortDirection;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -84,8 +85,8 @@ public class SearchPanel extends Composite{
 		setupSearch();
 		this.initWidget(layout);
 	}
-	
-	public void setupSearch() {		
+
+	public void setupSearch() {
 		Widget searchParamPanel;
 		if (lookups.size() == 1) {
 			searchParamPanel = createSearchParamPanel(lookups.get(0));
@@ -148,7 +149,7 @@ public class SearchPanel extends Composite{
 		        break;
 			}
 		}
-        
+
         return panel;
 	}
 
@@ -160,10 +161,10 @@ public class SearchPanel extends Composite{
 		private VerticalFlowPanel buttonPanel = new VerticalFlowPanel();
 
 		public CustomizedSearch(final LookupMetadata meta, final ParamListItems listItems){
-			
+
 			KSLabel instrLabel = new KSLabel(criteriaInstructions);
 			layout.add(instrLabel);
-			
+
 			layout.add(linePanel);
 			CustomLine line = new CustomLine(meta, listItems);
 			line.addStyleName("ks-form-module-single-line-margin");
@@ -237,14 +238,14 @@ public class SearchPanel extends Composite{
 								params.add(param);
 							}
 						}
-					}				
+					}
 
 					sr.setParams(params);
 					//TODO remove this
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
-					sr.setSearchKey(meta.getSearchTypeId());				
+					sr.setSearchKey(meta.getSearchTypeId());
 
 					currentSearchLookupMetadata = meta;
 					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey()); //temporary hack before we get a new table
@@ -260,7 +261,7 @@ public class SearchPanel extends Composite{
                             @Override
                             public void onClick(ClickEvent event) {
                                 tablePanel.setVisible(false);
-                                
+
                             }});
 						SearchPanel.this.layout.insert(modifySearchPanel, 0);
 					}
@@ -357,17 +358,17 @@ public class SearchPanel extends Composite{
 						panel.add(paramField);
 					}
 				}
-				
+
 				if (param.getWriteAccess() != Metadata.WriteAccess.REQUIRED) {
 					allFieldsRequired = false;
 				}
 			}
-			
+
 			//do not show criteria instructions if we have only one criteria field or in case all fields are required
 			if ((searchFields.size() > 1) || (allFieldsRequired == false)) {
 				instrLabel.setText(criteriaInstructions);
 			}
-			
+
             KSLinkButton searchButton = new KSLinkButton(getMessage("search"), ButtonStyle.PRIMARY);
             //searchButton.addStyleName("KS-Advanced-Search-Button");
             //searchButton.addStyleName("clearboth");
@@ -426,7 +427,9 @@ public class SearchPanel extends Composite{
 						}
 					}
 					sr.setParams(params);
-
+					if (meta.getResultSortKey() != null) {
+					    sr.setSortColumn(meta.getResultSortKey());
+					}
 					//TODO remove this
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
@@ -447,7 +450,7 @@ public class SearchPanel extends Composite{
                             @Override
                             public void onClick(ClickEvent event) {
                                 tablePanel.setVisible(false);
-                                
+
                             }});
 						SearchPanel.this.layout.insert(modifySearchPanel, 0);
 					}
@@ -487,12 +490,12 @@ public class SearchPanel extends Composite{
                     ((HasValue) widget).setValue(param.getDefaultValueString());
                 }
             }
-									
+
 			//FIXME: remove because required field '*' indication will be part of FieldElement class
 			if (param.getWriteAccess() == Metadata.WriteAccess.REQUIRED) {
 				fieldName += " *";
-			}			
-			
+			}
+
             FieldElement fieldElement = new FieldElement(fieldName, widget);
             fieldElement.getTitleWidget().addStyleName("KS-Picker-Criteria-Text");
             panel.add(fieldElement);
