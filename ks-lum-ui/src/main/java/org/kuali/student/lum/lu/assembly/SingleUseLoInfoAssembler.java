@@ -85,6 +85,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
     					topLevelLoHelper.setEffectiveDate(lo.getEffectiveDate());
     					topLevelLoHelper.setState(lo.getState());
     					topLevelLoHelper.setType(lo.getType());
+    					topLevelLoHelper.setName(lo.getName());
     					List<LoCategoryInfo> loCategories = loService.getLoCategoriesForLo(lo.getId());
     					
     					Data categoriesData = new Data();
@@ -161,6 +162,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 				loHelper.setEffectiveDate(relatedLo.getEffectiveDate());
 				loHelper.setState(relatedLo.getState());
 				loHelper.setType(relatedLo.getType());
+				loHelper.setName(relatedLo.getName());
 				
 				Data categoriesData = new Data();
 				List<LoCategoryInfo> loChildCategories = loService.getLoCategoriesForLo(relatedLo.getId());
