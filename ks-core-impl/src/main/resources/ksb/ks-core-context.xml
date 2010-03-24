@@ -88,8 +88,7 @@
     </bean>
 
     <bean id="orgSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
@@ -129,8 +128,7 @@
     </bean>
 
     <bean id="atpSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 
@@ -230,8 +228,7 @@
     </bean>
 
     <bean id="commentSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:comment-search-config.xml" />
     </bean>
 
@@ -356,8 +353,7 @@
 	</bean>
 
     <bean id="proposalSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:proposal-search-config.xml" />
     </bean>
 
