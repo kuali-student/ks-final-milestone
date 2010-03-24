@@ -27,8 +27,8 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 
 	String sessionRecorderKey = "recordedSession";
 	String requestRecorderKey = "recordedRequest";
-	String gwtDebugProperty = "ks.gwt.debug";
-	boolean debug = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(gwtDebugProperty));
+	String httpRequestDebugProperty = "ks.httprequest.debug";
+	boolean debug = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(httpRequestDebugProperty));
 	RequestUtils requestUtils = new RequestUtils();
 
 	@Override
@@ -162,20 +162,28 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 		this.requestRecorderKey = requestRecorderKey;
 	}
 
-	public String getGwtDebugProperty() {
-		return gwtDebugProperty;
-	}
-
-	public void setGwtDebugProperty(String debugModeProperty) {
-		this.gwtDebugProperty = debugModeProperty;
-	}
-
 	public boolean isDebug() {
 		return debug;
 	}
 
 	public void setDebug(boolean debug) {
 		this.debug = debug;
+	}
+
+	public String getHttpRequestDebugProperty() {
+		return httpRequestDebugProperty;
+	}
+
+	public void setHttpRequestDebugProperty(String httpRequestDebugProperty) {
+		this.httpRequestDebugProperty = httpRequestDebugProperty;
+	}
+
+	public RequestUtils getRequestUtils() {
+		return requestUtils;
+	}
+
+	public void setRequestUtils(RequestUtils requestUtils) {
+		this.requestUtils = requestUtils;
 	}
 
 }
