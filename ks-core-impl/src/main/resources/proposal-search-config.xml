@@ -71,8 +71,7 @@
 		<property name="sourceMap">
 			<map>
                 <entry key="proposal.search.generic">
-                    <value>SELECT proposal.id, proposal.name FROM Proposal proposal
-                        ORDER BY proposal.name</value>
+                    <value>SELECT proposal.id, proposal.name FROM Proposal proposal</value>
                 </entry>
                 <entry key="proposal.queryParam.proposalOptionalName">
                     <value>proposal.name</value>
