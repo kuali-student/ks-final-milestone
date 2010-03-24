@@ -40,13 +40,7 @@ public class MethodTrackerAdvice {
 		long elapsed = stop - start;
 
 		// Produce a log message about this method call
-		StringBuffer sb = new StringBuffer();
-		sb.append("Sequence:" + prettyPrint.space(currentSequence, 4) + " ");
-		sb.append(" Elapsed:" + prettyPrint.space(elapsed, 4) + " ");
-
-		// Show return type, method name, and argument types
-		sb.append(prettyPrint.getPrettyPrint(call, result));
-		log.info(sb.toString());
+		log.info(prettyPrint.getLogMessage(currentSequence, elapsed, call, result));
 		if (out != null) {
 			String csv = prettyPrint.getCsv(currentSequence, elapsed, call, result);
 			IOUtils.write(csv, out);
