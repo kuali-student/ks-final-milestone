@@ -9,7 +9,12 @@
   <description>KS Databases</description>
   <properties>
     <ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</ks.jdbc.url>
+    <ks.dba.username>system</ks.dba.username>
+    <ks.dba.password>???set in settings.xml???</ks.dba.password>
+    <ks.db.username>ksembedded</ks.db.username>
+    <ks.db.password>ksembedded</ks.db.password>
     <ks.module>ks-embedded-db</ks.module>
+    <ks.jdbc.driver>oracle.jdbc.OracleDriver</ks.jdbc.driver>
     <!--
       Override this with -Dks.retain.data=false to reset the db with the default
       dataset
@@ -36,7 +41,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <driver>oracle.jdbc.OracleDriver</driver>
+          <driver>${ks.jdbc.driver}</driver>
           <url>${ks.jdbc.url}</url>
           <autocommit>false</autocommit>
           <delimiter>/</delimiter>
@@ -52,14 +57,16 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <settingsKey>${ks.jdbc.url}.dba</settingsKey>
+              <username>${ks.dba.username}</username>
+              <password>${ks.dba.password}</password>
               <sqlCommand>
-                DROP USER kuali CASCADE
+                DROP USER ${ks.db.username} CASCADE
                 /
-                CREATE USER kuali IDENTIFIED
-                BY kuali
+                CREATE USER
+                ${ks.db.username} IDENTIFIED BY ${ks.db.password}
                 /
-                GRANT DBA TO kuali
+                GRANT DBA TO
+                ${ks.db.username}
                 /
               </sqlCommand>
             </configuration>
@@ -71,8 +78,11 @@
               <goal>execute</goal>
             </goals>
             <configuration>
+              <username>${ks.db.username}</username>
+              <password>${ks.db.password}</password>
               <srcFiles>
-                <srcFile>${project.basedir}/${ks.module}/sql/schema.sql</srcFile>
+                <srcFile>${project.basedir}/${ks.module}/sql/schema.sql
+                </srcFile>
               </srcFiles>
             </configuration>
           </execution>
@@ -83,6 +93,8 @@
               <goal>execute</goal>
             </goals>
             <configuration>
+              <username>${ks.db.username}</username>
+              <password>${ks.db.password}</password>
               <fileset>
                 <basedir>${project.basedir}/${ks.module}/datasql</basedir>
                 <includes>
@@ -98,8 +110,11 @@
               <goal>execute</goal>
             </goals>
             <configuration>
+              <username>${ks.db.username}</username>
+              <password>${ks.db.password}</password>
               <srcFiles>
-                <srcFile>${project.basedir}/${ks.module}/sql/schema-constraints.sql</srcFile>
+                <srcFile>${project.basedir}/${ks.module}/sql/schema-constraints.sql
+                </srcFile>
               </srcFiles>
             </configuration>
           </execution>
