@@ -124,6 +124,16 @@ public class Elements {
 	}
 
 	/**
+     * Sets a UIObject's opacity
+     * 
+     * @param u
+     * @param percent
+     */
+    public static void setOpacity(final UIObject u, final int percent) {
+        setOpacity(u.getElement(), percent);
+    }
+    
+	/**
 	 * Sets a DOM element's opacity
 	 * 
 	 * @param e

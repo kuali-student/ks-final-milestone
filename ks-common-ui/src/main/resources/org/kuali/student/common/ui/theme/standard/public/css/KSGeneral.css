@@ -56,21 +56,28 @@ html,body {
 
 .ks-lightbox .popupContent {
 	display: inline;
+	overflow: visible;
 }
 
 .ks-lightbox-title {
 	position: relative;
-	width: 100%;
 	margin: 0.25em 0.25em 0.25em 0.25em;
 	font-size: 2em;
 	color: #940b07;
 }
 
+	
 .ks-lightbox-content {
+	float:left;
 	margin: 0.25em 0.25em 0.25em 0.1em;
 }
 
 .ks-lightbox-close-panel {
+	overflow: visible;
+}
+
+
+.ks-lightbox-flowpanel {
 	overflow: visible;
 }
 
@@ -80,12 +87,13 @@ html,body {
 	background: url('images/common/lightbox_close.png') no-repeat; 
 	width:40px; 
 	height:40px; 
-	display:inline; 
+	display:block; 
 	z-index:9999; 
 	position:absolute; 
-	top:-20px; 
-	right:-20px; 
+	top:2px; 
+	right:0px; 
 	cursor:pointer;
+	clear: both;
 }
 .ks-lightbox-close:hover {
 	background: url('images/common/lightbox_close_hover.png') no-repeat; 

@@ -14,6 +14,9 @@
  */
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.util.Elements;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -29,6 +32,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -78,9 +82,10 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     private final PopupPanel pop = new PopupPanel(false, true);
     private final ScrollPanel scroll = new ScrollPanel();
     private final GlassPanel glass = new GlassPanel(false);
-    private final AbsolutePanel parentPanel = ApplicationPanel.get();
+    // KSLightBox actually needs to bind to the RootPanel, unlike other widgets that should use ApplicationPanel
+    private final AbsolutePanel parentPanel = RootPanel.get();
     private final Resizer resizer;
-    private final FlowPanel panel = new FlowPanel();
+    private final VerticalFlowPanel panel = new VerticalFlowPanel();
     private final FlowPanel headerPanel = new FlowPanel();
     private final Anchor closeLink = new Anchor();
     private boolean addCloseLink = true;
@@ -129,11 +134,14 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     }
     protected void construct(Widget title) {
     	pop.setStyleName(Styles.LIGHTBOX.getStyle());
+    	pop.addStyleName("KS-Drop-Shadow");
     	scroll.addStyleName(Styles.CONTENT.getStyle());
+    	panel.addStyleName("ks-lightbox-flowpanel");
+    	title.addStyleName(Styles.TITLE.getStyle());
+        
     	
     	pop.setWidget(panel);
     	panel.add(headerPanel);
-    	title.addStyleName(Styles.TITLE.getStyle());
     	panel.add(scroll);
     	
     	headerPanel.add(title);
@@ -156,8 +164,8 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     }
     
     protected void adjust() {
-    	resizer.resize(scroll);
-    	pop.center();
+        resizer.resize(scroll);
+        pop.center();
     }
     
 
@@ -168,6 +176,9 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
             parentPanel.add(glass, 0, 0);
             pop.getElement().setAttribute("zIndex", "" + KSZIndexStack.pop());
             resizeTimer.scheduleRepeating(500);
+            Elements.setOpacity(pop, 0);
+            adjust();
+            Elements.setOpacity(pop, 100);
         }
         adjust();
         showing = true;

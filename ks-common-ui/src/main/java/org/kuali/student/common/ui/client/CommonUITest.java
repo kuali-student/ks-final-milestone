@@ -40,7 +40,7 @@ public class CommonUITest implements EntryPoint {
 		});
 		panel.add(button);
 		
-    	ApplicationPanel.get().add(new Button("Test Notifications", new ClickHandler() {
+    	panel.add(new Button("Test Notifications", new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
             		KSNotifier.add(new KSNotification("Thisisalongmessagethatwillneedtowordwrapbutnotallofitisverywordwrapfriendlyasyoucanplainlysee", false, 10000));
@@ -79,7 +79,12 @@ public class CommonUITest implements EntryPoint {
 			panel.add(buttonPanel);
 			panel.add(horizontalContent);
 			panel.add(verticalContent);
-			
+
+            for (int i=0; i<50; i++) {
+                horizontalContent.add(new HTML("<div style='padding-left: 1em'>item&nbsp;" + i + "</div>"));
+                verticalContent.add(new Label("item " + i));
+            }
+            
 			buttonPanel.add(new KSButton("horizontal", new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
