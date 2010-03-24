@@ -6049,6 +6049,7 @@
 		<property name="name" value="All ATP Duration Types" />
 		<property name="desc" value="Returns the list of all ATP Duration Types" />
 		<property name="widget" value="DROP_DOWN" />
+		<property name="searchParamIdKey" value="atp.queryParam.atpDurationType" />	
 		<property name="results">
 			<list>
 				<bean parent="result">
