@@ -81,7 +81,7 @@
 			<ref bean="atp.result.atpDurationType" />
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
-			<ref bean="atp.criteria.atpByDate" />
+			<ref bean="atp.criteria.atpDurationType" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
@@ -156,6 +156,15 @@
 		</dict:fieldDescriptor>
 	</search:queryParam>
 
+	<search:queryParam id="atp.queryParam.atpDurationType"
+		parent="atp.queryParam.atpDurationType-parent" />
+	<search:queryParam id="atp.queryParam.atpDurationType-parent"
+		optional="true" abstract="true">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Duration Type</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName"
 		parent="atp.fieldDescriptor.shortName-parent" />
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName-parent"
@@ -468,6 +477,7 @@
 		<search:name>Atp Duration Type</search:name>
 		<search:desc>Atp Duration Type</search:desc>
 		<search:queryParams>
+			<ref bean="atp.queryParam.atpDurationType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -532,7 +542,11 @@
 					</value>
 				</entry>
 				<entry key="atp.search.atpDurationTypes">
-					<value>SELECT atpdurtype.id, atpdurtype.name, atpdurtype.descr FROM AtpDurationType atpdurtype</value>
+					<value>SELECT atpdurtype.id, atpdurtype.name, atpdurtype.descr 
+					FROM AtpDurationType atpdurtype</value>
+				</entry>
+				<entry  key="atp.queryParam.atpDurationType">
+					<value> atpdurtype.id  =  :atp_queryParam_atpDurationType </value>
 				</entry>				
 			</map>
 		</property>
