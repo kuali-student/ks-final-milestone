@@ -456,7 +456,7 @@ public class CourseConfigurer
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
             // FIXME look up what the label and implement as dropdown
             //FIXME this fields constraints are wrong in its metadata, temporarily commented out
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  null, path);
             addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
             return activity;
@@ -515,19 +515,6 @@ public class CourseConfigurer
 
             super.setListItems(campusLocations);
         }
-    }
-
-    public class ContactHoursAtpTypeList extends KSDropDown{
-        public ContactHoursAtpTypeList(){
-            SimpleListItems activityTypes = new SimpleListItems();
-
-            activityTypes.addItem("atpType.duration.weekly", "per week");
-            activityTypes.addItem("atpType.duration.monthly", "per month");
-            activityTypes.addItem("atpType.semester.daily", "per day");
-
-            super.setListItems(activityTypes);
-        }
-
     }
 
     public class CluActivityType extends KSDropDown{

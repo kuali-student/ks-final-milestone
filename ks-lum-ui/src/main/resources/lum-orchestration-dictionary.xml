@@ -3419,7 +3419,106 @@
 			</list>
 		</property>
 		<property name="initialLookup">
-				<ref bean="kuali.lookup.durations" />
+			<bean parent="lookup">
+				<property name="id" value="kuali.lu.lookup.contactHoursPer" />			
+				<property name="searchTypeId" value="enumeration.management.search" />
+				<property name="name" value="Get enumerations" />
+				<property name="desc" value="Get enumerated lists of values given context" />
+				<property name="widget" value="DROP_DOWN" />				
+				<property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.enumerationType" />
+							<property name="name" value="Enumeration Type" />
+							<property name="desc" value="The type of the enumeration to search" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="defaultValueString" value="kuali.atptype.duration" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<!-- <bean parent="param">
+							<property name="key" value="enumeration.queryParam.contextType" />
+							<property name="name" value="Context Type" />
+							<property name="desc" value="The type of context being used" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.contextValue" />
+							<property name="name" value="Context Value" />
+							<property name="desc" value="The value of the supplied context" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.contextDate" />
+							<property name="name" value="Context Date" />
+							<property name="desc" value="A date supplied as context" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="dataType" value="DATE" />
+							<property name="optional" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean> -->
+					</list>
+				</property>
+				<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+				<property name="resultDisplayKey" value="enumeration.resultColumn.value" />
+				<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />				
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="enumeration.resultColumn.code" />
+							<property name="name" value="Code" />
+							<property name="desc" value="Code of the enumeration value" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="enumeration.resultColumn.abbrevValue" />
+							<property name="name" value="Abbreviation of the code" />
+							<property name="desc" value="An abbreviation of the enumeration value" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+
+						</bean>
+						<bean parent="result">
+							<property name="key" value="enumeration.resultColumn.value" />
+							<property name="name" value="Value" />
+							<property name="desc" value="The value of the enumeration" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+
+						</bean>
+						<bean parent="result">
+							<property name="key" value="enumeration.resultColumn.sortKey" />
+							<property name="name" value="Key used to sort the results" />
+							<property name="desc" value="The description of the type" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+
+						</bean>
+						<!-- <bean parent="result">
+							<property name="key" value="enumeration.resultColumn.effectiveDate" />
+							<property name="name" value="Effective date" />
+							<property name="desc" value="The date the enumeration became effective" />
+							<property name="dataType" value="TRUNCATED_DATE" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="enumeration.resultColumn.expirationDate" />
+							<property name="name" value="Expiration date" />
+							<property name="desc" value="The date the enumeration became non-effective" />
+							<property name="dataType" value="TRUNCATED_DATE" />
+							<property name="hidden" value="false" />
+						</bean> -->						
+					</list>
+				</property>
+			</bean>
 		</property>
 		<property name="additionalLookups">
 			<list />
@@ -5352,8 +5451,7 @@
 				<ref bean="search.findCluSet" />
 			</list>
 		</property>
-	</bean>
-	
+	</bean>	
 	<bean id="CluSetManagement-parent" abstract="true"
 		parent="dataObjectStructure">
 		<property name="name" value="CluSetManagement" />
@@ -5365,7 +5463,6 @@
 		</property>
 	</bean>
 	<bean id="CluSetManagement" parent="CluSetManagement-parent" />
-
 	<bean id="CluSetManagement.cluset" parent="dataFieldDescriptor">
 		<property name="name" value="cluset" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -5378,7 +5475,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="CluSetManagement.search" parent="dataFieldDescriptor">
 		<property name="name" value="search" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -5391,7 +5487,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="cluset-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="cluset" />
 		<property name="fields">
@@ -5487,7 +5582,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="cluset.clus" parent="dataFieldDescriptor">
 		<property name="name" value="clus" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -5500,7 +5594,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="cluset.clusets" parent="dataFieldDescriptor">
 		<property name="name" value="clusets" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -5513,7 +5606,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="cluset.search" parent="dataFieldDescriptor">
 		<property name="name" value="search" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -5527,9 +5619,7 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="clus" parent="clus-parent" />
-	
 	<bean id="clus-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="clus" />
 		<property name="fields">
@@ -5540,7 +5630,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="clus._runtimeData" parent="dataFieldDescriptor">
 		<property name="name" value="_runtimeData" />
 		<property name="writeAccess" value="NEVER" />
@@ -5553,7 +5642,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="clus.id" parent="dataFieldDescriptor">
 		<property name="name" value="id" />
 		<property name="writeAccess" value="NEVER" />
@@ -5569,7 +5657,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="clus.name" parent="dataFieldDescriptor">
 		<property name="name" value="name" />
 		<property name="writeAccess" value="ALWAYS" />
