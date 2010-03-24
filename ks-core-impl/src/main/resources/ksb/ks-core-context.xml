@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
+
+    <bean id="propertyPlaceholder"
+        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+    
+	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+		<property name="localServiceName" value="KSCoreContext"/>
+	</bean>
+
+	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+		<property name="messageFiles">
+			<list>
+				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
+				<value>classpath:org\kuali\student\core\ui\gwt-messages.xml</value>
+			</list>
+		</property>
+	</bean>
+
+    <!-- JTA -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- Default Datasource -->
+	<bean id="coreDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource">
+        <property name="transactionManager" ref="userTransaction" />
+        <property name="driverClassName" value="${ks.core.datasource.driver.name}" />
+        <property name="maxSize" value="${ks.core.datasource.maxSize}" />
+        <property name="minSize" value="${ks.core.datasource.minSize}" />
+        <property name="maxWait" value="${ks.core.datasource.maxWait}" />
+        <property name="validationQuery" value="${ks.core.datasource.validationQuery}" />
+        <property name="url" value="${ks.core.datasource.url}" />
+        <property name="username" value="${ks.core.datasource.username}" />
+        <property name="password" value="${ks.core.datasource.password}" />
+	</bean>
+
+    <!-- Default JPA EntityManagerFactory -->
+    <bean id="coreDefaultEntityManagerFactory" abstract="true"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform"
+                    value="${ks.core.jpa.DatabasePlatform}" />
+                <property name="showSql" value="${ks.core.jpa.showSql}" />
+                <property name="generateDdl" value="${ks.core.jpa.generateDdl}" />
+            </bean>
+        </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.transaction.manager_lookup_class" value="${ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="${ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--  Organization Service Config -->
+    <bean id="orgEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Organization"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/organization-persistence.xml" />
+        <property name="dataSource" ref="coreDataSource" />
+    </bean>
+
+    <bean id="orgEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="orgEntityManagerFactory" />
+    </bean>
+
+    <bean id="orgDao"
+        class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+        <property name="em" ref="orgEntityManager" />
+    </bean>
+
+    <bean id="orgServiceImpl"
+        class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
+        <property name="organizationDao" ref="orgDao" />
+        <property name="searchManager" ref="orgSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
+    </bean>
+
+    <bean id="orgSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="orgServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+	<!-- Atp Service Config -->
+	<bean id="atpEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Atp"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
+        <property name="dataSource" ref="coreDataSource" />
+    </bean>
+
+    <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="atpEntityManagerFactory" />
+    </bean>
+
+    <bean id="atpDao"
+        class="org.kuali.student.core.atp.dao.impl.AtpDaoImpl">
+        <property name="em" ref="atpEntityManager" />
+    </bean>
+
+    <bean id="atpServiceImpl"
+        class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpDao" />
+        <property name="searchManager" ref="atpSearchManager"/>
+    </bean>
+
+    <bean id="atpSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="atpServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.atp.service.AtpService" />
+                <property name="localServiceName" value="AtpService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
+    </bean>
+
+
+    <!-- personsearchService -->
+    <bean id="personServiceImpl"
+        class="org.kuali.student.core.personsearch.service.impl.PersonSearchServiceImpl">
+        <property name="identityService" ref="identityServiceClient"/>
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="personServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.search.service.SearchService" />
+                <property name="localServiceName" value="personsearchService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/personsearch" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+	<!-- Enumeration Service Config -->
+	<bean id="emEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="EnumerationManagement"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/enumeration-persistence.xml" />
+		<property name="dataSource" ref="coreDataSource" />
+	</bean>
+
+    <bean id="emEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="emEntityManagerFactory" />
+    </bean>
+
+	<bean id="emDao"
+		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+        <property name="em" ref="emEntityManager" />
+	</bean>
+
+	<bean id="emServiceImpl"
+		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+		<property name="enumDAO" ref="emDao" />
+	</bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="emServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
+                <property name="localServiceName" value="EnumerationManagementService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/EnumerationManagementService" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Comment Service Config -->
+
+	<bean id="commentEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Comment"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/comment-persistence.xml" />
+		<property name="dataSource" ref="coreDataSource" />
+	</bean>
+
+    <bean id="commentEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="commentEntityManagerFactory" />
+    </bean>
+
+    <bean id="commentDao"
+        class="org.kuali.student.core.comment.dao.impl.CommentDaoImpl">
+        <property name="em" ref="commentEntityManager" />
+    </bean>
+
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
+    </bean>
+
+    <bean id="commentSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:comment-search-config.xml" />
+    </bean>
+
+    <bean id="commentServiceImpl"
+        class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
+        <property name="commentDao" ref="commentDao" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
+        <property name="searchManager" ref="commentSearchManager" />
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="commentServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.comment.service.CommentService" />
+                <property name="localServiceName" value="CommentService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/comment" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Document Service Config -->
+
+	<bean id="documentEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Document"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/document-persistence.xml" />
+		<property name="dataSource" ref="coreDataSource" />
+	</bean>
+
+    <bean id="documentEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="documentEntityManagerFactory" />
+    </bean>
+
+    <bean id="documentDao1"
+        class="org.kuali.student.core.document.dao.impl.DocumentDaoImpl">
+        <property name="em" ref="documentEntityManager" />
+    </bean>
+
+    <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="classpath:document-dictionary-config.xml" />
+    </bean>
+
+    <bean id="documentServiceImpl"
+        class="org.kuali.student.core.document.service.impl.DocumentServiceImpl">
+        <property name="documentDao" ref="documentDao1" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="documentServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.document.service.DocumentService" />
+                <property name="localServiceName" value="DocumentService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/document" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+	<!-- Message service config -->
+	<bean id="messageEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="MessageManagement"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/messages-persistence.xml" />
+		<property name="dataSource" ref="coreDataSource" />
+	</bean>
+
+    <bean id="messageEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="messageEntityManagerFactory" />
+    </bean>
+
+	<bean id="messageDao"
+		class="org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl">
+        <property name="entityManager" ref="messageEntityManager" />
+	</bean>
+
+	<bean id="messageServiceImpl"
+		class="org.kuali.student.core.messages.service.impl.MessageServiceImpl">
+		<property name="messageDAO" ref="messageDao" />
+	</bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="messageServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.messages.service.MessageService" />
+                <property name="localServiceName" value="MessageService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Proposal Service -->
+    <bean id="proposalEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Proposal"/>
+        <property name="persistenceXmlLocation"
+            value="classpath:META-INF/proposal-persistence.xml" />
+        <property name="dataSource" ref="coreDataSource" />
+    </bean>
+
+    <bean id="proposalEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="proposalEntityManagerFactory" />
+    </bean>
+
+    <bean name="proposalDao"
+        class="org.kuali.student.core.proposal.dao.impl.ProposalDaoImpl">
+        <property name="em" ref="proposalEntityManager" />
+    </bean>
+
+    <bean name="proposalServiceImpl"
+        class="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl">
+        <property name="proposalDao" ref="proposalDao"/>
+        <!-- <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/> -->
+        <property name="searchManager" ref="proposalSearchManager"/>
+	</bean>
+
+    <bean id="proposalSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:proposal-search-config.xml" />
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="proposalServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+                <property name="localServiceName" value="ProposalService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/proposal" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+	<!--  Data pre-load -->
+    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+        <property name="jtaTxManager" ref="transactionManager"/>
+        <property name="shouldLoadData" value="${ks.core.doDataLoad}"/>
+       	<property name="preloadMap">
+        	<map>
+            	<entry key="Organization">
+                	<value>classpath:ks-org.sql</value>
+               	</entry>
+               	<entry key="Comment">
+					<value>classpath:ks-comment.sql</value>
+				</entry>
+				<entry key="Document">
+					<value>classpath:ks-document.sql</value>
+				</entry>
+				<entry key="Proposal">
+					<value>classpath:ks-proposal.sql</value>
+				</entry>
+				<entry key="Atp">
+					<value>classpath:ks-atp.sql</value>
+				</entry>
+				<entry key="EnumerationManagement">
+					<value>classpath:ks-em.sql</value>
+				</entry>
+           	</map>
+        </property>
+ 	</bean>
+
+	<bean id="mapExceptionAdvisor"
+		class="org.kuali.student.common.util.ExceptionMappingAdvice">
+		<property name="defaultException"
+			value="org.kuali.student.core.exceptions.OperationFailedException" />
+		<property name="exceptionMapping">
+			<map>
+				<entry key="javax.persistence.EntityExistsException"
+					value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+				<entry
+					key="org.hibernate.exception.ConstraintViolationException"
+					value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+			</map>
+		</property>
+	</bean>
+	<aop:config>
+		<aop:aspect id="dataAccessToBusinessException"
+			ref="mapExceptionAdvisor">
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.core.organization.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.core.personsearch.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.core.atp.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>

@@ -1,0 +1,1825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+<import resource="classpath:constraints-dictionary-config.xml"/>
+<import resource="classpath:proposal-proposalInfo-dictionary-structure-config.xml"/>
+
+<!-- **************************************** -->
+<!-- object structure for object.proposalInfo -->
+<!-- **************************************** -->
+<!-- Detailed information about a proposal. -->
+<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.proposalInfo.CreateCreditCourse"/>
+	<dict:typeRef bean="type.proposalInfo.ModifyCreditCourse"/>
+	<dict:typeRef bean="type.proposalInfo.RetireaCreditCourse"/>
+	<dict:typeRef bean="type.proposalInfo.CreateProgram"/>
+	<dict:typeRef bean="type.proposalInfo.Grouped"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
+
+<!-- This is a grouping of types -->
+<dict:type key="kuali.proposal.type.course.*" id="type.proposalInfo.AllCourseProposalTypes.abstract" abstract="true">
+	<dict:name>All Course Proposal Types</dict:name>
+	<dict:desc>All course proposal types</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.proposalInfo.AllCourseProposalTypes.draftprivate"/>
+		<dict:stateRef bean="state.proposalInfo.AllCourseProposalTypes.draftpublic"/>
+		<dict:stateRef bean="state.proposalInfo.AllCourseProposalTypes.submitted"/>
+		<dict:stateRef bean="state.proposalInfo.AllCourseProposalTypes.approved"/>
+		<dict:stateRef bean="state.proposalInfo.AllCourseProposalTypes.rejected"/>
+		<dict:stateRef bean="state.proposalInfo.AllCourseProposalTypes.withdrawn"/>
+</dict:type>
+
+<!-- This is a grouping of program types -->
+<dict:type key="kuali.proposal.type.program.*" id="type.proposalInfo.AllProgramProposalTypes.abstract" abstract="true">
+	<dict:name>All Program Proposal Types</dict:name>
+	<dict:desc>All program proposal types</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.proposalInfo.AllProgramProposalTypes.draftprivate"/>
+		<dict:stateRef bean="state.proposalInfo.AllProgramProposalTypes.draftpublic"/>
+		<dict:stateRef bean="state.proposalInfo.AllProgramProposalTypes.submitted"/>
+		<dict:stateRef bean="state.proposalInfo.AllProgramProposalTypes.approved"/>
+		<dict:stateRef bean="state.proposalInfo.AllProgramProposalTypes.rejected"/>
+		<dict:stateRef bean="state.proposalInfo.AllProgramProposalTypes.withdrawn"/>
+</dict:type>
+
+<!-- do these really need to be course specific? -->
+<dict:type key="kuali.proposal.type.group" id="type.proposalInfo.Grouped.abstract" abstract="true">
+	<dict:name>Grouped</dict:name>
+	<dict:desc>A  group of proposals</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.proposalInfo.Grouped.draftprivate"/>
+		<dict:stateRef bean="state.proposalInfo.Grouped.draftpublic"/>
+		<dict:stateRef bean="state.proposalInfo.Grouped.submitted"/>
+		<dict:stateRef bean="state.proposalInfo.Grouped.approved"/>
+		<dict:stateRef bean="state.proposalInfo.Grouped.rejected"/>
+		<dict:stateRef bean="state.proposalInfo.Grouped.withdrawn"/>
+</dict:type>
+<dict:type key="kuali.proposal.type.group" id="type.proposalInfo.Grouped" parent="type.proposalInfo.Grouped.abstract"/>
+
+<!-- changed keys - need CHANGE IN SMPLES -->
+<dict:type key="kuali.proposal.type.course.create" id="type.proposalInfo.CreateCreditCourse.abstract" abstract="true" parent="type.proposalInfo.AllCourseProposalTypes.abstract">
+	<dict:name>Create Credit Course</dict:name>
+	<dict:desc>Proposal to create a new Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.proposal.type.course.create" id="type.proposalInfo.CreateCreditCourse" parent="type.proposalInfo.CreateCreditCourse.abstract"/>
+
+<!-- do these really need to be course specific? -->
+<dict:type key="kuali.proposal.type.course.modify" id="type.proposalInfo.ModifyCreditCourse.abstract" abstract="true" parent="type.proposalInfo.AllCourseProposalTypes.abstract">
+	<dict:name>Modify Credit Course</dict:name>
+	<dict:desc>Proposal to modify an existing Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.proposal.type.course.modify" id="type.proposalInfo.ModifyCreditCourse" parent="type.proposalInfo.ModifyCreditCourse.abstract"/>
+
+<!-- do these really need to be course specific? -->
+<dict:type key="kuali.proposal.type.course.retire" id="type.proposalInfo.RetireaCreditCourse.abstract" abstract="true" parent="type.proposalInfo.AllCourseProposalTypes.abstract">
+	<dict:name>Retire a Credit Course</dict:name>
+	<dict:desc>Proposal to retire an existing Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.proposal.type.course.retire" id="type.proposalInfo.RetireaCreditCourse" parent="type.proposalInfo.RetireaCreditCourse.abstract"/>
+
+<dict:type key="kuali.proposal.type.program.create" id="type.proposalInfo.CreateProgram.abstract" abstract="true" parent="type.proposalInfo.AllProgramProposalTypes.abstract">
+	<dict:name>Create Program</dict:name>
+	<dict:desc>Proposal to create a new Program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.proposal.type.program.create" id="type.proposalInfo.CreateProgram" parent="type.proposalInfo.CreateProgram.abstract"/>
+
+<!-- **************************************************************** -->
+<!-- State for state.proposalInfo.All Course Proposal Types.(default) -->
+<!-- **************************************************************** -->
+
+<dict:state key="*" id="state.proposalInfo.AllCourseProposalTypes.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.course.proposals.name"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposerPerson"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposerOrg"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposalReferenceType"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposalReference"/>
+	<dict:fieldRef bean="dict.all.course.proposals.rationale"/>
+	<dict:fieldRef bean="dict.all.course.proposals.detailDesc"/>
+	<dict:fieldRef bean="dict.all.course.proposals.effectiveDate"/>
+	<dict:fieldRef bean="dict.all.course.proposals.expirationDate"/>
+	<dict:fieldRef bean="dict.all.course.proposals.metaInfo"/>
+	<dict:fieldRef bean="dict.all.course.proposals.type"/>
+	<dict:fieldRef bean="dict.all.course.proposals.state"/>
+	<dict:fieldRef bean="dict.all.course.proposals.internal.id"/>
+</dict:state>
+
+<!-- ************************************************************ -->
+<!-- State for state.proposalInfo.All Course Proposal Types.draft -->
+<!-- ************************************************************ -->
+
+<dict:state key="draft.*" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.course.proposals.name"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposerPerson"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposerOrg"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposalReferenceType"/>
+	<dict:fieldRef bean="dict.all.course.proposals.proposalReference"/>
+	<dict:fieldRef bean="dict.all.course.proposals.rationale.draft"/>
+	<dict:fieldRef bean="dict.all.course.proposals.detailDesc"/>
+	<dict:fieldRef bean="dict.all.course.proposals.effectiveDate"/>
+	<dict:fieldRef bean="dict.all.course.proposals.expirationDate"/>
+	<dict:fieldRef bean="dict.all.course.proposals.metaInfo"/>
+	<dict:fieldRef bean="dict.all.course.proposals.type"/>
+	<dict:fieldRef bean="dict.all.course.proposals.state"/>
+	<dict:fieldRef bean="dict.all.course.proposals.internal.id"/>
+</dict:state>
+
+<!-- ******************************************************************** -->
+<!-- State for state.proposalInfo.All Course Proposal Types.draft private -->
+<!-- ******************************************************************** -->
+
+<dict:state key="draft.private" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.draftprivate.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.private" id="state.proposalInfo.AllCourseProposalTypes.draftprivate" parent="state.proposalInfo.AllCourseProposalTypes.draftprivate.abstract"/>
+
+<!-- ******************************************************************* -->
+<!-- State for state.proposalInfo.All Course Proposal Types.draft public -->
+<!-- ******************************************************************* -->
+
+<dict:state key="draft.public" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.draftpublic.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.public" id="state.proposalInfo.AllCourseProposalTypes.draftpublic" parent="state.proposalInfo.AllCourseProposalTypes.draftpublic.abstract"/>
+
+<!-- **************************************************************** -->
+<!-- State for state.proposalInfo.All Course Proposal Types.submitted -->
+<!-- **************************************************************** -->
+
+<!-- NOT IN SIMPLEs -->
+<dict:state key="submitted" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.submitted.abstract" abstract="true">
+</dict:state>
+<dict:state key="submitted" id="state.proposalInfo.AllCourseProposalTypes.submitted" parent="state.proposalInfo.AllCourseProposalTypes.submitted.abstract"/>
+
+<!-- *************************************************************** -->
+<!-- State for state.proposalInfo.All Course Proposal Types.approved -->
+<!-- *************************************************************** -->
+
+<dict:state key="approved" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.approved.abstract" abstract="true">
+</dict:state>
+<dict:state key="approved" id="state.proposalInfo.AllCourseProposalTypes.approved" parent="state.proposalInfo.AllCourseProposalTypes.approved.abstract"/>
+
+<!-- *************************************************************** -->
+<!-- State for state.proposalInfo.All Course Proposal Types.rejected -->
+<!-- *************************************************************** -->
+
+<!-- not sure if we will have to create different declined states for different types of rejections -->
+<dict:state key="rejected" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.rejected.abstract" abstract="true">
+</dict:state>
+<dict:state key="rejected" id="state.proposalInfo.AllCourseProposalTypes.rejected" parent="state.proposalInfo.AllCourseProposalTypes.rejected.abstract"/>
+
+<!-- **************************************************************** -->
+<!-- State for state.proposalInfo.All Course Proposal Types.withdrawn -->
+<!-- **************************************************************** -->
+
+<dict:state key="withdrawn" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.withdrawn.abstract" abstract="true">
+</dict:state>
+<dict:state key="withdrawn" id="state.proposalInfo.AllCourseProposalTypes.withdrawn" parent="state.proposalInfo.AllCourseProposalTypes.withdrawn.abstract"/>
+
+<!-- ***************************************************************** -->
+<!-- State for state.proposalInfo.All Program Proposal Types.(default) -->
+<!-- ***************************************************************** -->
+
+<dict:state key="*" id="state.proposalInfo.AllProgramProposalTypes.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.program.proposals.name"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposerPerson"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposerOrg"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposalReferenceType"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposalReference"/>
+	<dict:fieldRef bean="dict.all.program.proposals.rationale"/>
+	<dict:fieldRef bean="dict.all.program.proposals.detailDesc"/>
+	<dict:fieldRef bean="dict.all.program.proposals.effectiveDate"/>
+	<dict:fieldRef bean="dict.all.program.proposals.expirationDate"/>
+	<dict:fieldRef bean="dict.all.program.proposals.metaInfo"/>
+	<dict:fieldRef bean="dict.all.program.proposals.type"/>
+	<dict:fieldRef bean="dict.all.program.proposals.state"/>
+	<dict:fieldRef bean="dict.all.program.proposals.internal.id"/>
+</dict:state>
+
+<!-- ************************************************************* -->
+<!-- State for state.proposalInfo.All Program Proposal Types.draft -->
+<!-- ************************************************************* -->
+
+<dict:state key="draft.*" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.program.proposals.name"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposerPerson"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposerOrg"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposalReferenceType"/>
+	<dict:fieldRef bean="dict.all.program.proposals.proposalReference"/>
+	<dict:fieldRef bean="dict.all.program.proposals.rationale.draft"/>
+	<dict:fieldRef bean="dict.all.program.proposals.detailDesc"/>
+	<dict:fieldRef bean="dict.all.program.proposals.effectiveDate"/>
+	<dict:fieldRef bean="dict.all.program.proposals.expirationDate"/>
+	<dict:fieldRef bean="dict.all.program.proposals.metaInfo"/>
+	<dict:fieldRef bean="dict.all.program.proposals.type"/>
+	<dict:fieldRef bean="dict.all.program.proposals.state"/>
+	<dict:fieldRef bean="dict.all.program.proposals.internal.id"/>
+</dict:state>
+
+<!-- ********************************************************************* -->
+<!-- State for state.proposalInfo.All Program Proposal Types.draft private -->
+<!-- ********************************************************************* -->
+
+<dict:state key="draft.private" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.draftprivate.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.private" id="state.proposalInfo.AllProgramProposalTypes.draftprivate" parent="state.proposalInfo.AllProgramProposalTypes.draftprivate.abstract"/>
+
+<!-- ******************************************************************** -->
+<!-- State for state.proposalInfo.All Program Proposal Types.draft public -->
+<!-- ******************************************************************** -->
+
+<dict:state key="draft.public" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.draftpublic.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.public" id="state.proposalInfo.AllProgramProposalTypes.draftpublic" parent="state.proposalInfo.AllProgramProposalTypes.draftpublic.abstract"/>
+
+<!-- ***************************************************************** -->
+<!-- State for state.proposalInfo.All Program Proposal Types.submitted -->
+<!-- ***************************************************************** -->
+
+<!-- NOT IN SIMPLEs -->
+<dict:state key="submitted" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.submitted.abstract" abstract="true">
+</dict:state>
+<dict:state key="submitted" id="state.proposalInfo.AllProgramProposalTypes.submitted" parent="state.proposalInfo.AllProgramProposalTypes.submitted.abstract"/>
+
+<!-- **************************************************************** -->
+<!-- State for state.proposalInfo.All Program Proposal Types.approved -->
+<!-- **************************************************************** -->
+
+<dict:state key="approved" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.approved.abstract" abstract="true">
+</dict:state>
+<dict:state key="approved" id="state.proposalInfo.AllProgramProposalTypes.approved" parent="state.proposalInfo.AllProgramProposalTypes.approved.abstract"/>
+
+<!-- **************************************************************** -->
+<!-- State for state.proposalInfo.All Program Proposal Types.rejected -->
+<!-- **************************************************************** -->
+
+<!-- not sure if we will have to create different declined states for different types of rejections -->
+<dict:state key="rejected" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.rejected.abstract" abstract="true">
+</dict:state>
+<dict:state key="rejected" id="state.proposalInfo.AllProgramProposalTypes.rejected" parent="state.proposalInfo.AllProgramProposalTypes.rejected.abstract"/>
+
+<!-- ***************************************************************** -->
+<!-- State for state.proposalInfo.All Program Proposal Types.withdrawn -->
+<!-- ***************************************************************** -->
+
+<dict:state key="withdrawn" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.withdrawn.abstract" abstract="true">
+</dict:state>
+<dict:state key="withdrawn" id="state.proposalInfo.AllProgramProposalTypes.withdrawn" parent="state.proposalInfo.AllProgramProposalTypes.withdrawn.abstract"/>
+
+<!-- ********************************************** -->
+<!-- State for state.proposalInfo.Grouped.(default) -->
+<!-- ********************************************** -->
+
+<dict:state key="*" id="state.proposalInfo.Grouped.abstract" abstract="true">
+	<dict:fieldRef bean="dict.group.proposal.name"/>
+	<dict:fieldRef bean="dict.group.proposal.proposerPerson"/>
+	<dict:fieldRef bean="dict.group.proposal.proposerOrg"/>
+	<dict:fieldRef bean="dict.group.proposal.proposalReferenceType"/>
+	<dict:fieldRef bean="dict.group.proposal.proposalReference"/>
+	<dict:fieldRef bean="dict.group.proposal.rationale"/>
+	<dict:fieldRef bean="dict.group.proposal.detailDesc"/>
+	<dict:fieldRef bean="dict.group.proposal.effectiveDate"/>
+	<dict:fieldRef bean="dict.group.proposal.expirationDate"/>
+	<dict:fieldRef bean="dict.group.proposal.metaInfo"/>
+	<dict:fieldRef bean="dict.group.proposal.type"/>
+	<dict:fieldRef bean="dict.group.proposal.state"/>
+	<dict:fieldRef bean="dict.group.proposal.internal.id"/>
+</dict:state>
+
+<!-- ****************************************** -->
+<!-- State for state.proposalInfo.Grouped.draft -->
+<!-- ****************************************** -->
+
+<dict:state key="draft.*" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.group.proposal.name"/>
+	<dict:fieldRef bean="dict.group.proposal.proposerPerson"/>
+	<dict:fieldRef bean="dict.group.proposal.proposerOrg"/>
+	<dict:fieldRef bean="dict.group.proposal.proposalReferenceType"/>
+	<dict:fieldRef bean="dict.group.proposal.proposalReference"/>
+	<dict:fieldRef bean="dict.group.proposal.rationale.draft"/>
+	<dict:fieldRef bean="dict.group.proposal.detailDesc"/>
+	<dict:fieldRef bean="dict.group.proposal.effectiveDate"/>
+	<dict:fieldRef bean="dict.group.proposal.expirationDate"/>
+	<dict:fieldRef bean="dict.group.proposal.metaInfo"/>
+	<dict:fieldRef bean="dict.group.proposal.type"/>
+	<dict:fieldRef bean="dict.group.proposal.state"/>
+	<dict:fieldRef bean="dict.group.proposal.internal.id"/>
+</dict:state>
+
+<!-- ************************************************** -->
+<!-- State for state.proposalInfo.Grouped.draft private -->
+<!-- ************************************************** -->
+
+<dict:state key="draft.private" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.draftprivate.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.private" id="state.proposalInfo.Grouped.draftprivate" parent="state.proposalInfo.Grouped.draftprivate.abstract"/>
+
+<!-- ************************************************* -->
+<!-- State for state.proposalInfo.Grouped.draft public -->
+<!-- ************************************************* -->
+
+<dict:state key="draft.public" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.draftpublic.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.public" id="state.proposalInfo.Grouped.draftpublic" parent="state.proposalInfo.Grouped.draftpublic.abstract"/>
+
+<!-- ********************************************** -->
+<!-- State for state.proposalInfo.Grouped.submitted -->
+<!-- ********************************************** -->
+
+<!-- NOT IN SIMPLEs -->
+<dict:state key="submitted" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.submitted.abstract" abstract="true">
+</dict:state>
+<dict:state key="submitted" id="state.proposalInfo.Grouped.submitted" parent="state.proposalInfo.Grouped.submitted.abstract"/>
+
+<!-- ********************************************* -->
+<!-- State for state.proposalInfo.Grouped.approved -->
+<!-- ********************************************* -->
+
+<dict:state key="approved" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.approved.abstract" abstract="true">
+</dict:state>
+<dict:state key="approved" id="state.proposalInfo.Grouped.approved" parent="state.proposalInfo.Grouped.approved.abstract"/>
+
+<!-- ********************************************* -->
+<!-- State for state.proposalInfo.Grouped.rejected -->
+<!-- ********************************************* -->
+
+<!-- not sure if we will have to create different declined states for different types of rejections -->
+<dict:state key="rejected" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.rejected.abstract" abstract="true">
+</dict:state>
+<dict:state key="rejected" id="state.proposalInfo.Grouped.rejected" parent="state.proposalInfo.Grouped.rejected.abstract"/>
+
+<!-- ********************************************** -->
+<!-- State for state.proposalInfo.Grouped.withdrawn -->
+<!-- ********************************************** -->
+
+<dict:state key="withdrawn" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.withdrawn.abstract" abstract="true">
+</dict:state>
+<dict:state key="withdrawn" id="state.proposalInfo.Grouped.withdrawn" parent="state.proposalInfo.Grouped.withdrawn.abstract"/>
+
+
+<!-- ******************************************************************************************* -->
+<!-- object structure for object.field.proposalInfo.metaInfo.All Course Proposal Types.(default) -->
+<!-- ******************************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract" abstract="true">
+	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllCourseProposalTypes"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes" parent="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract"/>
+
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllCourseProposalTypes"/>
+</dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes" parent="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract"/>
+
+<!-- *************************************************************************************************** -->
+<!-- State for state.field.proposalInfo.metaInfo.All Course Proposal Types.(default).(default).(default) -->
+<!-- *************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.course.proposals.meta.versionInd"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.createTime"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.createId"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.updateTime"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllCourseProposalTypes" parent="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract"/>
+
+
+<!-- ***************************************** -->
+<!-- dict.all.course.proposals.meta.versionInd -->
+<!-- ***************************************** -->
+<dict:field key="versionInd" id="dict.all.course.proposals.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.all.course.proposals.meta.versionInd" parent="dict.all.course.proposals.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>all course proposals meta versionInd</dict:name>
+	<dict:desc>Version number for this all course proposals</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.versionInd.fd" parent="dict.all.course.proposals.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.all.course.proposals.meta.versionInd.cd" parent="dict.all.course.proposals.meta.versionInd.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.all.course.proposals.meta.createTime -->
+<!-- ***************************************** -->
+<dict:field key="createTime" id="dict.all.course.proposals.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.all.course.proposals.meta.createTime" parent="dict.all.course.proposals.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>all course proposals meta createTime</dict:name>
+	<dict:desc>Date-time this all course proposals was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createTime.fd" parent="dict.all.course.proposals.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.all.course.proposals.meta.createTime.cd" parent="dict.all.course.proposals.meta.createTime.cd.abstract"/>
+
+<!-- *************************************** -->
+<!-- dict.all.course.proposals.meta.createId -->
+<!-- *************************************** -->
+<dict:field key="createId" id="dict.all.course.proposals.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.all.course.proposals.meta.createId" parent="dict.all.course.proposals.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createId.fd.abstract" abstract="true">
+	<dict:name>all course proposals meta createId</dict:name>
+	<dict:desc>Principal of the persion who first created this all course proposals</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createId.fd" parent="dict.all.course.proposals.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.all.course.proposals.meta.createId.cd" parent="dict.all.course.proposals.meta.createId.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.all.course.proposals.meta.updateTime -->
+<!-- ***************************************** -->
+<dict:field key="updateTime" id="dict.all.course.proposals.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.all.course.proposals.meta.updateTime" parent="dict.all.course.proposals.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>all course proposals meta updateTime</dict:name>
+	<dict:desc>Date-time this  all course proposals was last updated</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateTime.fd" parent="dict.all.course.proposals.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.all.course.proposals.meta.updateTime.cd" parent="dict.all.course.proposals.meta.updateTime.cd.abstract"/>
+
+<!-- *************************************** -->
+<!-- dict.all.course.proposals.meta.updateId -->
+<!-- *************************************** -->
+<dict:field key="updateId" id="dict.all.course.proposals.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.all.course.proposals.meta.updateId" parent="dict.all.course.proposals.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>all course proposals meta updateId</dict:name>
+	<dict:desc>Principal of the persion who last updated this  all course proposals</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateId.fd" parent="dict.all.course.proposals.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.all.course.proposals.meta.updateId.cd" parent="dict.all.course.proposals.meta.updateId.cd.abstract"/>
+
+
+<!-- *************************************************************************************** -->
+<!-- object structure for object.field.proposalInfo.metaInfo.All Course Proposal Types.draft -->
+<!-- *************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft" parent="object.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract"/>
+
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft"/>
+</dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft" parent="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract"/>
+
+<!-- *********************************************************************************************** -->
+<!-- State for state.field.proposalInfo.metaInfo.All Course Proposal Types.draft.(default).(default) -->
+<!-- *********************************************************************************************** -->
+
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.course.proposals.meta.versionInd"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.createTime"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.createId"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.updateTime"/>
+	<dict:fieldRef bean="dict.all.course.proposals.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft" parent="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract"/>
+
+
+<!-- ******************************************************************************************** -->
+<!-- object structure for object.field.proposalInfo.metaInfo.All Program Proposal Types.(default) -->
+<!-- ******************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract" abstract="true">
+	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllProgramProposalTypes"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes" parent="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract"/>
+
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllProgramProposalTypes"/>
+</dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes" parent="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract"/>
+
+<!-- **************************************************************************************************** -->
+<!-- State for state.field.proposalInfo.metaInfo.All Program Proposal Types.(default).(default).(default) -->
+<!-- **************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.program.proposals.meta.versionInd"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.createTime"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.createId"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.updateTime"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllProgramProposalTypes" parent="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract"/>
+
+
+<!-- ****************************************** -->
+<!-- dict.all.program.proposals.meta.versionInd -->
+<!-- ****************************************** -->
+<dict:field key="versionInd" id="dict.all.program.proposals.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.all.program.proposals.meta.versionInd" parent="dict.all.program.proposals.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>all program proposals meta versionInd</dict:name>
+	<dict:desc>Version number for this all program proposals</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.versionInd.fd" parent="dict.all.program.proposals.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.all.program.proposals.meta.versionInd.cd" parent="dict.all.program.proposals.meta.versionInd.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.all.program.proposals.meta.createTime -->
+<!-- ****************************************** -->
+<dict:field key="createTime" id="dict.all.program.proposals.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.all.program.proposals.meta.createTime" parent="dict.all.program.proposals.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>all program proposals meta createTime</dict:name>
+	<dict:desc>Date-time this all program proposals was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createTime.fd" parent="dict.all.program.proposals.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.all.program.proposals.meta.createTime.cd" parent="dict.all.program.proposals.meta.createTime.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.all.program.proposals.meta.createId -->
+<!-- **************************************** -->
+<dict:field key="createId" id="dict.all.program.proposals.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.all.program.proposals.meta.createId" parent="dict.all.program.proposals.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createId.fd.abstract" abstract="true">
+	<dict:name>all program proposals meta createId</dict:name>
+	<dict:desc>Principal of the persion who first created this all program proposals</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createId.fd" parent="dict.all.program.proposals.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.all.program.proposals.meta.createId.cd" parent="dict.all.program.proposals.meta.createId.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.all.program.proposals.meta.updateTime -->
+<!-- ****************************************** -->
+<dict:field key="updateTime" id="dict.all.program.proposals.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.all.program.proposals.meta.updateTime" parent="dict.all.program.proposals.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>all program proposals meta updateTime</dict:name>
+	<dict:desc>Date-time this  all program proposals was last updated</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateTime.fd" parent="dict.all.program.proposals.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.all.program.proposals.meta.updateTime.cd" parent="dict.all.program.proposals.meta.updateTime.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.all.program.proposals.meta.updateId -->
+<!-- **************************************** -->
+<dict:field key="updateId" id="dict.all.program.proposals.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.all.program.proposals.meta.updateId" parent="dict.all.program.proposals.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>all program proposals meta updateId</dict:name>
+	<dict:desc>Principal of the persion who last updated this  all program proposals</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateId.fd" parent="dict.all.program.proposals.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.all.program.proposals.meta.updateId.cd" parent="dict.all.program.proposals.meta.updateId.cd.abstract"/>
+
+
+<!-- **************************************************************************************** -->
+<!-- object structure for object.field.proposalInfo.metaInfo.All Program Proposal Types.draft -->
+<!-- **************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft" parent="object.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract"/>
+
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft"/>
+</dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft" parent="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract"/>
+
+<!-- ************************************************************************************************ -->
+<!-- State for state.field.proposalInfo.metaInfo.All Program Proposal Types.draft.(default).(default) -->
+<!-- ************************************************************************************************ -->
+
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.all.program.proposals.meta.versionInd"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.createTime"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.createId"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.updateTime"/>
+	<dict:fieldRef bean="dict.all.program.proposals.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft" parent="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract"/>
+
+
+<!-- ************************************************************************* -->
+<!-- object structure for object.field.proposalInfo.metaInfo.Grouped.(default) -->
+<!-- ************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.abstract" abstract="true">
+	<dict:typeRef bean="type.field.proposalInfo.metaInfo.Grouped"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped" parent="object.field.proposalInfo.metaInfo.Grouped.abstract"/>
+
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.proposalInfo.metaInfo.Grouped"/>
+</dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped" parent="type.field.proposalInfo.metaInfo.Grouped.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- State for state.field.proposalInfo.metaInfo.Grouped.(default).(default).(default) -->
+<!-- ********************************************************************************* -->
+
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.Grouped.abstract" abstract="true">
+	<dict:fieldRef bean="dict.group.proposal.meta.versionInd"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.createTime"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.createId"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.updateTime"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.Grouped" parent="state.field.proposalInfo.metaInfo.Grouped.abstract"/>
+
+
+<!-- *********************************** -->
+<!-- dict.group.proposal.meta.versionInd -->
+<!-- *********************************** -->
+<dict:field key="versionInd" id="dict.group.proposal.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.group.proposal.meta.versionInd" parent="dict.group.proposal.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>create course proposal meta versionInd</dict:name>
+	<dict:desc>Version number for this create course proposal</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.meta.versionInd.fd" parent="dict.group.proposal.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.group.proposal.meta.versionInd.cd" parent="dict.group.proposal.meta.versionInd.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.group.proposal.meta.createTime -->
+<!-- *********************************** -->
+<dict:field key="createTime" id="dict.group.proposal.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.group.proposal.meta.createTime" parent="dict.group.proposal.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>create course proposal meta createTime</dict:name>
+	<dict:desc>Date-time this create course proposal was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.meta.createTime.fd" parent="dict.group.proposal.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.group.proposal.meta.createTime.cd" parent="dict.group.proposal.meta.createTime.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.group.proposal.meta.createId -->
+<!-- ********************************* -->
+<dict:field key="createId" id="dict.group.proposal.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.group.proposal.meta.createId" parent="dict.group.proposal.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.createId.fd.abstract" abstract="true">
+	<dict:name>create course proposal meta createId</dict:name>
+	<dict:desc>Principal of the persion who first created this create course proposal</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.meta.createId.fd" parent="dict.group.proposal.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.group.proposal.meta.createId.cd" parent="dict.group.proposal.meta.createId.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.group.proposal.meta.updateTime -->
+<!-- *********************************** -->
+<dict:field key="updateTime" id="dict.group.proposal.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.group.proposal.meta.updateTime" parent="dict.group.proposal.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>create course proposal meta updateTime</dict:name>
+	<dict:desc>Date-time this  create course proposal was last updated</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateTime.fd" parent="dict.group.proposal.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.group.proposal.meta.updateTime.cd" parent="dict.group.proposal.meta.updateTime.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.group.proposal.meta.updateId -->
+<!-- ********************************* -->
+<dict:field key="updateId" id="dict.group.proposal.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.group.proposal.meta.updateId" parent="dict.group.proposal.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>create course proposal meta updateId</dict:name>
+	<dict:desc>Principal of the persion who last updated this  create course proposal</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateId.fd" parent="dict.group.proposal.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.group.proposal.meta.updateId.cd" parent="dict.group.proposal.meta.updateId.cd.abstract"/>
+
+
+<!-- ********************************************************************* -->
+<!-- object structure for object.field.proposalInfo.metaInfo.Grouped.draft -->
+<!-- ********************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.proposalInfo.metaInfo.Grouped.draft"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.Grouped.draft" parent="object.field.proposalInfo.metaInfo.Grouped.draft.abstract"/>
+
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped.draft.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.proposalInfo.metaInfo.Grouped.draft"/>
+</dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped.draft" parent="type.field.proposalInfo.metaInfo.Grouped.draft.abstract"/>
+
+<!-- ***************************************************************************** -->
+<!-- State for state.field.proposalInfo.metaInfo.Grouped.draft.(default).(default) -->
+<!-- ***************************************************************************** -->
+
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.Grouped.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.group.proposal.meta.versionInd"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.createTime"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.createId"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.updateTime"/>
+	<dict:fieldRef bean="dict.group.proposal.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.Grouped.draft" parent="state.field.proposalInfo.metaInfo.Grouped.draft.abstract"/>
+
+<!-- ****************************** -->
+<!-- dict.all.course.proposals.name -->
+<!-- ****************************** -->
+<dict:field key="name" id="dict.all.course.proposals.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.name.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.name.cd"/>
+</dict:field>
+<dict:field key="name" id="dict.all.course.proposals.name" parent="dict.all.course.proposals.name.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.name.fd.abstract" abstract="true">
+	<dict:name>all course proposals name</dict:name>
+	<dict:desc>all course proposals name</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.name.fd" parent="dict.all.course.proposals.name.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="dict.all.course.proposals.name.cd" parent="dict.all.course.proposals.name.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.all.course.proposals.proposerPerson -->
+<!-- **************************************** -->
+<dict:field key="proposerPerson" id="dict.all.course.proposals.proposerPerson.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.proposerPerson.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposerPerson.cd"/>
+</dict:field>
+<dict:field key="proposerPerson" id="dict.all.course.proposals.proposerPerson" parent="dict.all.course.proposals.proposerPerson.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerPerson.fd.abstract" abstract="true">
+	<dict:name>all course proposals proposerPerson</dict:name>
+	<dict:desc>all course proposals proposerPerson</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerPerson.fd" parent="dict.all.course.proposals.proposerPerson.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.proposerPerson.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.personId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerPerson" id="dict.all.course.proposals.proposerPerson.cd" parent="dict.all.course.proposals.proposerPerson.cd.abstract"/>
+
+<!-- ************************************* -->
+<!-- dict.all.course.proposals.proposerOrg -->
+<!-- ************************************* -->
+<dict:field key="proposerOrg" id="dict.all.course.proposals.proposerOrg.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.proposerOrg.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposerOrg.cd"/>
+</dict:field>
+<dict:field key="proposerOrg" id="dict.all.course.proposals.proposerOrg" parent="dict.all.course.proposals.proposerOrg.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerOrg.fd.abstract" abstract="true">
+	<dict:name>all course proposals proposerOrg</dict:name>
+	<dict:desc>all course proposals proposerOrg</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerOrg.fd" parent="dict.all.course.proposals.proposerOrg.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.proposerOrg.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.orgId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerOrg" id="dict.all.course.proposals.proposerOrg.cd" parent="dict.all.course.proposals.proposerOrg.cd.abstract"/>
+
+<!-- *********************************************** -->
+<!-- dict.all.course.proposals.proposalReferenceType -->
+<!-- *********************************************** -->
+<dict:field key="proposalReferenceType" id="dict.all.course.proposals.proposalReferenceType.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.proposalReferenceType.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposalReferenceType.cd"/>
+</dict:field>
+<dict:field key="proposalReferenceType" id="dict.all.course.proposals.proposalReferenceType" parent="dict.all.course.proposals.proposalReferenceType.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReferenceType.fd.abstract" abstract="true">
+	<dict:name>all course proposals proposalReferenceType</dict:name>
+	<dict:desc>all course proposals proposalReferenceType</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReferenceType.fd" parent="dict.all.course.proposals.proposalReferenceType.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.proposalReferenceType.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.reference.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.referenceType.CLU"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReferenceType" id="dict.all.course.proposals.proposalReferenceType.cd" parent="dict.all.course.proposals.proposalReferenceType.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.all.course.proposals.proposalReference -->
+<!-- ******************************************* -->
+<dict:field key="proposalReference" id="dict.all.course.proposals.proposalReference.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.proposalReference.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposalReference.cd"/>
+</dict:field>
+<dict:field key="proposalReference" id="dict.all.course.proposals.proposalReference" parent="dict.all.course.proposals.proposalReference.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReference.fd.abstract" abstract="true">
+	<dict:name>all course proposals proposalReference</dict:name>
+	<dict:desc>all course proposals proposalReference</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReference.fd" parent="dict.all.course.proposals.proposalReference.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.proposalReference.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReference" id="dict.all.course.proposals.proposalReference.cd" parent="dict.all.course.proposals.proposalReference.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.all.course.proposals.rationale -->
+<!-- *********************************** -->
+<dict:field key="rationale" id="dict.all.course.proposals.rationale.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.rationale.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.rationale.cd"/>
+</dict:field>
+<dict:field key="rationale" id="dict.all.course.proposals.rationale" parent="dict.all.course.proposals.rationale.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.fd.abstract" abstract="true">
+	<dict:name>all course proposals rationale</dict:name>
+	<dict:desc>all course proposals rationale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.fd" parent="dict.all.course.proposals.rationale.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.rationale.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.required"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rationale" id="dict.all.course.proposals.rationale.cd" parent="dict.all.course.proposals.rationale.cd.abstract"/>
+
+<!-- ************************************ -->
+<!-- dict.all.course.proposals.detailDesc -->
+<!-- ************************************ -->
+<dict:field key="detailDesc" id="dict.all.course.proposals.detailDesc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.detailDesc.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.detailDesc.cd"/>
+</dict:field>
+<dict:field key="detailDesc" id="dict.all.course.proposals.detailDesc" parent="dict.all.course.proposals.detailDesc.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.detailDesc.fd.abstract" abstract="true">
+	<dict:name>all course proposals detailDesc</dict:name>
+	<dict:desc>all course proposals detailDesc</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.detailDesc.fd" parent="dict.all.course.proposals.detailDesc.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.detailDesc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="detailDesc" id="dict.all.course.proposals.detailDesc.cd" parent="dict.all.course.proposals.detailDesc.cd.abstract"/>
+
+<!-- *************************************** -->
+<!-- dict.all.course.proposals.effectiveDate -->
+<!-- *************************************** -->
+<dict:field key="effectiveDate" id="dict.all.course.proposals.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.all.course.proposals.effectiveDate" parent="dict.all.course.proposals.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>all course proposals effectiveDate</dict:name>
+	<dict:desc>all course proposals effectiveDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.effectiveDate.fd" parent="dict.all.course.proposals.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.all.course.proposals.effectiveDate.cd" parent="dict.all.course.proposals.effectiveDate.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.all.course.proposals.expirationDate -->
+<!-- **************************************** -->
+<dict:field key="expirationDate" id="dict.all.course.proposals.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.all.course.proposals.expirationDate" parent="dict.all.course.proposals.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.expirationDate.fd.abstract" abstract="true">
+	<dict:name>all course proposals expirationDate</dict:name>
+	<dict:desc>all course proposals expirationDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.expirationDate.fd" parent="dict.all.course.proposals.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.all.course.proposals.expirationDate.cd" parent="dict.all.course.proposals.expirationDate.cd.abstract"/>
+
+<!-- ********************************** -->
+<!-- dict.all.course.proposals.metaInfo -->
+<!-- ********************************** -->
+<dict:field key="metaInfo" id="dict.all.course.proposals.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.all.course.proposals.metaInfo" parent="dict.all.course.proposals.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.metaInfo.fd.abstract" abstract="true">
+	<dict:name>all course proposals metaInfo</dict:name>
+	<dict:desc>all course proposals metaInfo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.AllCourseProposalTypes"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.metaInfo.fd" parent="dict.all.course.proposals.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.all.course.proposals.metaInfo.cd" parent="dict.all.course.proposals.metaInfo.cd.abstract"/>
+
+<!-- ****************************** -->
+<!-- dict.all.course.proposals.type -->
+<!-- ****************************** -->
+<dict:field key="type" id="dict.all.course.proposals.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.all.course.proposals.type" parent="dict.all.course.proposals.type.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.type.fd.abstract" abstract="true">
+	<dict:name>all course proposals type</dict:name>
+	<dict:desc>all course proposals type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.type.fd" parent="dict.all.course.proposals.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.proposal.types"/>
+	<dict:constraintRef bean="constraint.course.proposal.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.all.course.proposals.type.cd" parent="dict.all.course.proposals.type.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.all.course.proposals.state -->
+<!-- ******************************* -->
+<dict:field key="state" id="dict.all.course.proposals.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.all.course.proposals.state" parent="dict.all.course.proposals.state.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.state.fd.abstract" abstract="true">
+	<dict:name>all course proposals state</dict:name>
+	<dict:desc>all course proposals state</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.state.fd" parent="dict.all.course.proposals.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.all.course.proposals.state.cd" parent="dict.all.course.proposals.state.cd.abstract"/>
+
+<!-- ************************************* -->
+<!-- dict.all.course.proposals.internal.id -->
+<!-- ************************************* -->
+<dict:field key="id" id="dict.all.course.proposals.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.internal.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.all.course.proposals.internal.id" parent="dict.all.course.proposals.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.internal.id.fd.abstract" abstract="true">
+	<dict:name>all course proposals internal id</dict:name>
+	<dict:desc>all course proposals internal id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.internal.id.fd" parent="dict.all.course.proposals.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.all.course.proposals.internal.id.cd" parent="dict.all.course.proposals.internal.id.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.all.course.proposals.rationale.draft -->
+<!-- ***************************************** -->
+<dict:field key="rationale" id="dict.all.course.proposals.rationale.draft.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.course.proposals.rationale.draft.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.course.proposals.rationale.draft.cd"/>
+</dict:field>
+<dict:field key="rationale" id="dict.all.course.proposals.rationale.draft" parent="dict.all.course.proposals.rationale.draft.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.draft.fd.abstract" abstract="true">
+	<dict:name>all course proposals rationale</dict:name>
+	<dict:desc>all course proposals rationale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.draft.fd" parent="dict.all.course.proposals.rationale.draft.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.course.proposals.rationale.draft.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.optional"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rationale" id="dict.all.course.proposals.rationale.draft.cd" parent="dict.all.course.proposals.rationale.draft.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.all.program.proposals.name -->
+<!-- ******************************* -->
+<dict:field key="name" id="dict.all.program.proposals.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.name.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.name.cd"/>
+</dict:field>
+<dict:field key="name" id="dict.all.program.proposals.name" parent="dict.all.program.proposals.name.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.name.fd.abstract" abstract="true">
+	<dict:name>all program proposals name</dict:name>
+	<dict:desc>all program proposals name</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.name.fd" parent="dict.all.program.proposals.name.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="dict.all.program.proposals.name.cd" parent="dict.all.program.proposals.name.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.all.program.proposals.proposerPerson -->
+<!-- ***************************************** -->
+<dict:field key="proposerPerson" id="dict.all.program.proposals.proposerPerson.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.proposerPerson.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposerPerson.cd"/>
+</dict:field>
+<dict:field key="proposerPerson" id="dict.all.program.proposals.proposerPerson" parent="dict.all.program.proposals.proposerPerson.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerPerson.fd.abstract" abstract="true">
+	<dict:name>all program proposals proposerPerson</dict:name>
+	<dict:desc>all program proposals proposerPerson</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerPerson.fd" parent="dict.all.program.proposals.proposerPerson.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.proposerPerson.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.personId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerPerson" id="dict.all.program.proposals.proposerPerson.cd" parent="dict.all.program.proposals.proposerPerson.cd.abstract"/>
+
+<!-- ************************************** -->
+<!-- dict.all.program.proposals.proposerOrg -->
+<!-- ************************************** -->
+<dict:field key="proposerOrg" id="dict.all.program.proposals.proposerOrg.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.proposerOrg.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposerOrg.cd"/>
+</dict:field>
+<dict:field key="proposerOrg" id="dict.all.program.proposals.proposerOrg" parent="dict.all.program.proposals.proposerOrg.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerOrg.fd.abstract" abstract="true">
+	<dict:name>all program proposals proposerOrg</dict:name>
+	<dict:desc>all program proposals proposerOrg</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerOrg.fd" parent="dict.all.program.proposals.proposerOrg.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.proposerOrg.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.orgId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerOrg" id="dict.all.program.proposals.proposerOrg.cd" parent="dict.all.program.proposals.proposerOrg.cd.abstract"/>
+
+<!-- ************************************************ -->
+<!-- dict.all.program.proposals.proposalReferenceType -->
+<!-- ************************************************ -->
+<dict:field key="proposalReferenceType" id="dict.all.program.proposals.proposalReferenceType.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.proposalReferenceType.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposalReferenceType.cd"/>
+</dict:field>
+<dict:field key="proposalReferenceType" id="dict.all.program.proposals.proposalReferenceType" parent="dict.all.program.proposals.proposalReferenceType.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReferenceType.fd.abstract" abstract="true">
+	<dict:name>all program proposals proposalReferenceType</dict:name>
+	<dict:desc>all program proposals proposalReferenceType</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReferenceType.fd" parent="dict.all.program.proposals.proposalReferenceType.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.proposalReferenceType.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.reference.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.referenceType.CLU"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReferenceType" id="dict.all.program.proposals.proposalReferenceType.cd" parent="dict.all.program.proposals.proposalReferenceType.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.all.program.proposals.proposalReference -->
+<!-- ******************************************** -->
+<dict:field key="proposalReference" id="dict.all.program.proposals.proposalReference.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.proposalReference.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposalReference.cd"/>
+</dict:field>
+<dict:field key="proposalReference" id="dict.all.program.proposals.proposalReference" parent="dict.all.program.proposals.proposalReference.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReference.fd.abstract" abstract="true">
+	<dict:name>all program proposals proposalReference</dict:name>
+	<dict:desc>all program proposals proposalReference</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReference.fd" parent="dict.all.program.proposals.proposalReference.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.proposalReference.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReference" id="dict.all.program.proposals.proposalReference.cd" parent="dict.all.program.proposals.proposalReference.cd.abstract"/>
+
+<!-- ************************************ -->
+<!-- dict.all.program.proposals.rationale -->
+<!-- ************************************ -->
+<dict:field key="rationale" id="dict.all.program.proposals.rationale.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.rationale.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.rationale.cd"/>
+</dict:field>
+<dict:field key="rationale" id="dict.all.program.proposals.rationale" parent="dict.all.program.proposals.rationale.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.fd.abstract" abstract="true">
+	<dict:name>all program proposals rationale</dict:name>
+	<dict:desc>all program proposals rationale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.fd" parent="dict.all.program.proposals.rationale.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.rationale.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.required"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rationale" id="dict.all.program.proposals.rationale.cd" parent="dict.all.program.proposals.rationale.cd.abstract"/>
+
+<!-- ************************************* -->
+<!-- dict.all.program.proposals.detailDesc -->
+<!-- ************************************* -->
+<dict:field key="detailDesc" id="dict.all.program.proposals.detailDesc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.detailDesc.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.detailDesc.cd"/>
+</dict:field>
+<dict:field key="detailDesc" id="dict.all.program.proposals.detailDesc" parent="dict.all.program.proposals.detailDesc.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.detailDesc.fd.abstract" abstract="true">
+	<dict:name>all program proposals detailDesc</dict:name>
+	<dict:desc>all program proposals detailDesc</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.detailDesc.fd" parent="dict.all.program.proposals.detailDesc.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.detailDesc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="detailDesc" id="dict.all.program.proposals.detailDesc.cd" parent="dict.all.program.proposals.detailDesc.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.all.program.proposals.effectiveDate -->
+<!-- **************************************** -->
+<dict:field key="effectiveDate" id="dict.all.program.proposals.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.all.program.proposals.effectiveDate" parent="dict.all.program.proposals.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>all program proposals effectiveDate</dict:name>
+	<dict:desc>all program proposals effectiveDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.effectiveDate.fd" parent="dict.all.program.proposals.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.all.program.proposals.effectiveDate.cd" parent="dict.all.program.proposals.effectiveDate.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.all.program.proposals.expirationDate -->
+<!-- ***************************************** -->
+<dict:field key="expirationDate" id="dict.all.program.proposals.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.all.program.proposals.expirationDate" parent="dict.all.program.proposals.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.expirationDate.fd.abstract" abstract="true">
+	<dict:name>all program proposals expirationDate</dict:name>
+	<dict:desc>all program proposals expirationDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.expirationDate.fd" parent="dict.all.program.proposals.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.all.program.proposals.expirationDate.cd" parent="dict.all.program.proposals.expirationDate.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.all.program.proposals.metaInfo -->
+<!-- *********************************** -->
+<dict:field key="metaInfo" id="dict.all.program.proposals.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.all.program.proposals.metaInfo" parent="dict.all.program.proposals.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.metaInfo.fd.abstract" abstract="true">
+	<dict:name>all program proposals metaInfo</dict:name>
+	<dict:desc>all program proposals metaInfo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.AllProgramProposalTypes"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.metaInfo.fd" parent="dict.all.program.proposals.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.all.program.proposals.metaInfo.cd" parent="dict.all.program.proposals.metaInfo.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.all.program.proposals.type -->
+<!-- ******************************* -->
+<dict:field key="type" id="dict.all.program.proposals.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.all.program.proposals.type" parent="dict.all.program.proposals.type.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.type.fd.abstract" abstract="true">
+	<dict:name>all program proposals type</dict:name>
+	<dict:desc>all program proposals type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.type.fd" parent="dict.all.program.proposals.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.proposal.types"/>
+	<dict:constraintRef bean="constraint.program.proposal.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.all.program.proposals.type.cd" parent="dict.all.program.proposals.type.cd.abstract"/>
+
+<!-- ******************************** -->
+<!-- dict.all.program.proposals.state -->
+<!-- ******************************** -->
+<dict:field key="state" id="dict.all.program.proposals.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.all.program.proposals.state" parent="dict.all.program.proposals.state.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.state.fd.abstract" abstract="true">
+	<dict:name>all program proposals state</dict:name>
+	<dict:desc>all program proposals state</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.state.fd" parent="dict.all.program.proposals.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.all.program.proposals.state.cd" parent="dict.all.program.proposals.state.cd.abstract"/>
+
+<!-- ************************************** -->
+<!-- dict.all.program.proposals.internal.id -->
+<!-- ************************************** -->
+<dict:field key="id" id="dict.all.program.proposals.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.internal.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.all.program.proposals.internal.id" parent="dict.all.program.proposals.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.internal.id.fd.abstract" abstract="true">
+	<dict:name>all program proposals internal id</dict:name>
+	<dict:desc>all program proposals internal id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.internal.id.fd" parent="dict.all.program.proposals.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.all.program.proposals.internal.id.cd" parent="dict.all.program.proposals.internal.id.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.all.program.proposals.rationale.draft -->
+<!-- ****************************************** -->
+<dict:field key="rationale" id="dict.all.program.proposals.rationale.draft.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.all.program.proposals.rationale.draft.fd"/>
+	<dict:constraintDescriptorRef bean="dict.all.program.proposals.rationale.draft.cd"/>
+</dict:field>
+<dict:field key="rationale" id="dict.all.program.proposals.rationale.draft" parent="dict.all.program.proposals.rationale.draft.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.draft.fd.abstract" abstract="true">
+	<dict:name>all program proposals rationale</dict:name>
+	<dict:desc>all program proposals rationale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.draft.fd" parent="dict.all.program.proposals.rationale.draft.fd.abstract"/>
+<dict:constraintDescriptor id="dict.all.program.proposals.rationale.draft.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.optional"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rationale" id="dict.all.program.proposals.rationale.draft.cd" parent="dict.all.program.proposals.rationale.draft.cd.abstract"/>
+
+<!-- ************************ -->
+<!-- dict.group.proposal.name -->
+<!-- ************************ -->
+<dict:field key="name" id="dict.group.proposal.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.name.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.name.cd"/>
+</dict:field>
+<dict:field key="name" id="dict.group.proposal.name" parent="dict.group.proposal.name.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.name.fd.abstract" abstract="true">
+	<dict:name>group proposal name</dict:name>
+	<dict:desc>group proposal name</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.name.fd" parent="dict.group.proposal.name.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="dict.group.proposal.name.cd" parent="dict.group.proposal.name.cd.abstract"/>
+
+<!-- ********************************** -->
+<!-- dict.group.proposal.proposerPerson -->
+<!-- ********************************** -->
+<dict:field key="proposerPerson" id="dict.group.proposal.proposerPerson.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.proposerPerson.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.proposerPerson.cd"/>
+</dict:field>
+<dict:field key="proposerPerson" id="dict.group.proposal.proposerPerson" parent="dict.group.proposal.proposerPerson.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposerPerson.fd.abstract" abstract="true">
+	<dict:name>group proposal proposerPerson</dict:name>
+	<dict:desc>group proposal proposerPerson</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.proposerPerson.fd" parent="dict.group.proposal.proposerPerson.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.proposerPerson.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.personId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerPerson" id="dict.group.proposal.proposerPerson.cd" parent="dict.group.proposal.proposerPerson.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.group.proposal.proposerOrg -->
+<!-- ******************************* -->
+<dict:field key="proposerOrg" id="dict.group.proposal.proposerOrg.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.proposerOrg.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.proposerOrg.cd"/>
+</dict:field>
+<dict:field key="proposerOrg" id="dict.group.proposal.proposerOrg" parent="dict.group.proposal.proposerOrg.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposerOrg.fd.abstract" abstract="true">
+	<dict:name>group proposal proposerOrg</dict:name>
+	<dict:desc>group proposal proposerOrg</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.proposerOrg.fd" parent="dict.group.proposal.proposerOrg.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.proposerOrg.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.orgId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerOrg" id="dict.group.proposal.proposerOrg.cd" parent="dict.group.proposal.proposerOrg.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.group.proposal.proposalReferenceType -->
+<!-- ***************************************** -->
+<dict:field key="proposalReferenceType" id="dict.group.proposal.proposalReferenceType.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.proposalReferenceType.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.proposalReferenceType.cd"/>
+</dict:field>
+<dict:field key="proposalReferenceType" id="dict.group.proposal.proposalReferenceType" parent="dict.group.proposal.proposalReferenceType.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposalReferenceType.fd.abstract" abstract="true">
+	<dict:name>group proposal proposalReferenceType</dict:name>
+	<dict:desc>group proposal proposalReferenceType</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.proposalReferenceType.fd" parent="dict.group.proposal.proposalReferenceType.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.proposalReferenceType.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.reference.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.referenceType.Proposal"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReferenceType" id="dict.group.proposal.proposalReferenceType.cd" parent="dict.group.proposal.proposalReferenceType.cd.abstract"/>
+
+<!-- ************************************* -->
+<!-- dict.group.proposal.proposalReference -->
+<!-- ************************************* -->
+<dict:field key="proposalReference" id="dict.group.proposal.proposalReference.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.proposalReference.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.proposalReference.cd"/>
+</dict:field>
+<dict:field key="proposalReference" id="dict.group.proposal.proposalReference" parent="dict.group.proposal.proposalReference.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposalReference.fd.abstract" abstract="true">
+	<dict:name>group proposal proposalReference</dict:name>
+	<dict:desc>group proposal proposalReference</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.proposalReference.fd" parent="dict.group.proposal.proposalReference.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.proposalReference.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.proposal"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReference" id="dict.group.proposal.proposalReference.cd" parent="dict.group.proposal.proposalReference.cd.abstract"/>
+
+<!-- ***************************** -->
+<!-- dict.group.proposal.rationale -->
+<!-- ***************************** -->
+<dict:field key="rationale" id="dict.group.proposal.rationale.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.rationale.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.rationale.cd"/>
+</dict:field>
+<dict:field key="rationale" id="dict.group.proposal.rationale" parent="dict.group.proposal.rationale.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.rationale.fd.abstract" abstract="true">
+	<dict:name>group proposal rationale</dict:name>
+	<dict:desc>group proposal rationale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.rationale.fd" parent="dict.group.proposal.rationale.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.rationale.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.required"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rationale" id="dict.group.proposal.rationale.cd" parent="dict.group.proposal.rationale.cd.abstract"/>
+
+<!-- ****************************** -->
+<!-- dict.group.proposal.detailDesc -->
+<!-- ****************************** -->
+<dict:field key="detailDesc" id="dict.group.proposal.detailDesc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.detailDesc.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.detailDesc.cd"/>
+</dict:field>
+<dict:field key="detailDesc" id="dict.group.proposal.detailDesc" parent="dict.group.proposal.detailDesc.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.detailDesc.fd.abstract" abstract="true">
+	<dict:name>group proposal detailDesc</dict:name>
+	<dict:desc>group proposal detailDesc</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.detailDesc.fd" parent="dict.group.proposal.detailDesc.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.detailDesc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="detailDesc" id="dict.group.proposal.detailDesc.cd" parent="dict.group.proposal.detailDesc.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.group.proposal.effectiveDate -->
+<!-- ********************************* -->
+<dict:field key="effectiveDate" id="dict.group.proposal.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.group.proposal.effectiveDate" parent="dict.group.proposal.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>group proposal effectiveDate</dict:name>
+	<dict:desc>group proposal effectiveDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.effectiveDate.fd" parent="dict.group.proposal.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.today"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.group.proposal.effectiveDate.cd" parent="dict.group.proposal.effectiveDate.cd.abstract"/>
+
+<!-- ********************************** -->
+<!-- dict.group.proposal.expirationDate -->
+<!-- ********************************** -->
+<dict:field key="expirationDate" id="dict.group.proposal.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.group.proposal.expirationDate" parent="dict.group.proposal.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.expirationDate.fd.abstract" abstract="true">
+	<dict:name>group proposal expirationDate</dict:name>
+	<dict:desc>group proposal expirationDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.expirationDate.fd" parent="dict.group.proposal.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.group.proposal.expirationDate.cd" parent="dict.group.proposal.expirationDate.cd.abstract"/>
+
+<!-- **************************** -->
+<!-- dict.group.proposal.metaInfo -->
+<!-- **************************** -->
+<dict:field key="metaInfo" id="dict.group.proposal.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.group.proposal.metaInfo" parent="dict.group.proposal.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.metaInfo.fd.abstract" abstract="true">
+	<dict:name>group proposal metaInfo</dict:name>
+	<dict:desc>group proposal metaInfo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.Grouped"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.metaInfo.fd" parent="dict.group.proposal.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.group.proposal.metaInfo.cd" parent="dict.group.proposal.metaInfo.cd.abstract"/>
+
+<!-- ************************ -->
+<!-- dict.group.proposal.type -->
+<!-- ************************ -->
+<dict:field key="type" id="dict.group.proposal.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.group.proposal.type" parent="dict.group.proposal.type.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.type.fd.abstract" abstract="true">
+	<dict:name>group proposal type</dict:name>
+	<dict:desc>group proposal type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.type.fd" parent="dict.group.proposal.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.proposal.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.group.proposal"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.group.proposal.type.cd" parent="dict.group.proposal.type.cd.abstract"/>
+
+<!-- ************************* -->
+<!-- dict.group.proposal.state -->
+<!-- ************************* -->
+<dict:field key="state" id="dict.group.proposal.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.group.proposal.state" parent="dict.group.proposal.state.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.state.fd.abstract" abstract="true">
+	<dict:name>group proposal state</dict:name>
+	<dict:desc>group proposal state</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.state.fd" parent="dict.group.proposal.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.group.proposal.state.cd" parent="dict.group.proposal.state.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.group.proposal.internal.id -->
+<!-- ******************************* -->
+<dict:field key="id" id="dict.group.proposal.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.internal.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.group.proposal.internal.id" parent="dict.group.proposal.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.internal.id.fd.abstract" abstract="true">
+	<dict:name>group proposal internal id</dict:name>
+	<dict:desc>group proposal internal id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.internal.id.fd" parent="dict.group.proposal.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.group.proposal.internal.id.cd" parent="dict.group.proposal.internal.id.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.group.proposal.rationale.draft -->
+<!-- *********************************** -->
+<dict:field key="rationale" id="dict.group.proposal.rationale.draft.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.group.proposal.rationale.draft.fd"/>
+	<dict:constraintDescriptorRef bean="dict.group.proposal.rationale.draft.cd"/>
+</dict:field>
+<dict:field key="rationale" id="dict.group.proposal.rationale.draft" parent="dict.group.proposal.rationale.draft.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.rationale.draft.fd.abstract" abstract="true">
+	<dict:name>group proposal rationale</dict:name>
+	<dict:desc>group proposal rationale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.group.proposal.rationale.draft.fd" parent="dict.group.proposal.rationale.draft.fd.abstract"/>
+<dict:constraintDescriptor id="dict.group.proposal.rationale.draft.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.optional"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rationale" id="dict.group.proposal.rationale.draft.cd" parent="dict.group.proposal.rationale.draft.cd.abstract"/>
+</beans>
