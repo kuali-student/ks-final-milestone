@@ -65,14 +65,17 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 
 	@Override
     public Boolean isAuthorizedAddComment(String referenceId, String referenceTypeKey) {
-		String namespaceCode = "KS-SYS";
-		String permissionTemplateName = "Comment on Document";
-		String user = getCurrentUser();
-		AttributeSet permissionDetails = new AttributeSet();
-		AttributeSet roleQuals = new AttributeSet();
-		roleQuals.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE,referenceTypeKey);
-		roleQuals.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID, referenceId);
-		return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, permissionDetails, roleQuals));
+		if (referenceId != null && (!"".equals(referenceId.trim()))) {
+			String namespaceCode = "KS-SYS";
+			String permissionTemplateName = "Comment on Document";
+			String user = getCurrentUser();
+			AttributeSet permissionDetails = new AttributeSet();
+			AttributeSet roleQuals = new AttributeSet();
+			roleQuals.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE,referenceTypeKey);
+			roleQuals.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID, referenceId);
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, permissionDetails, roleQuals));
+		}
+		return Boolean.TRUE;
     }
 
 }

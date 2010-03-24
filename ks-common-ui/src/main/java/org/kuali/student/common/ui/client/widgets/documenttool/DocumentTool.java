@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -243,6 +242,25 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		super(viewEnum, viewName);
 	}
 
+	private void isAuthorizedUploadDocuments() {
+        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+
+			@Override
+            public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+				GWT.log("Error checking permission for adding comments: ", caught);
+				throw new RuntimeException("Error checking Permissions: ", caught);
+            }
+
+			@Override
+            public void onSuccess(Boolean result) {
+				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
+				buttonPanel.setVisible(result);
+            }
+        	
+		});
+	}
+	
 	@Override
 	protected Widget createWidget() {
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
@@ -263,6 +281,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		
 		buttonPanel.setContent(form);
 		layout.add(documentList);
+		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
 		
 		
