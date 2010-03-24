@@ -8,19 +8,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory; //import org.kuali.rice.core.config.ConfigContext;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.core.config.ConfigContext;
 
 import com.google.gwt.user.server.rpc.RPCRequest;
 
 import static org.brisant.gwt.user.server.rpc.listener.StoreAsRequestAttributesListenerImpl.*;
 
+/**
+ * 
+ * @author Jeff Caddel
+ * 
+ * 
+ * @since Mar 24, 2010 2:38:11 PM
+ */
 public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
-	private static final String SESSION_RECORDER_KEY = "recordedSession";
-	private static final String REQUEST_RECORDER_KEY = "recordedRequest";
-	private static final Log log = LogFactory.getLog(HttpRequestListenerImpl.class);
+	protected final Log log = LogFactory.getLog(HttpRequestListenerImpl.class);
 
-	String debugModeProperty = "ks.web.httprequest.debug.mode";
-	boolean debugMode = false;// "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(debugModeProperty));
+	String sessionRecorderKey = "recordedSession";
+	String requestRecorderKey = "recordedRequest";
+	String debugModeProperty = "ks.gwt.debug";
+	boolean debugMode = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(debugModeProperty));
 	RequestUtils utils = new RequestUtils();
 
 	@Override
@@ -29,11 +37,11 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 			return;
 		}
 		HttpSession session = context.getRequest().getSession(true);
-		RecordedSession rs = (RecordedSession) session.getAttribute(SESSION_RECORDER_KEY);
+		RecordedSession rs = (RecordedSession) session.getAttribute(sessionRecorderKey);
 		if (rs == null) {
 			log.info("Recording a new HTTP session: " + session.getId());
 			rs = new RecordedSession();
-			session.setAttribute(SESSION_RECORDER_KEY, rs);
+			session.setAttribute(sessionRecorderKey, rs);
 		}
 
 		// Get a recorded request object
@@ -53,7 +61,7 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 		}
 
 		// Store our object on the request as an attribute
-		context.getRequest().setAttribute(REQUEST_RECORDER_KEY, rr);
+		context.getRequest().setAttribute(requestRecorderKey, rr);
 	}
 
 	protected RecordedRequest getRecordedRequest(HttpServletRequest request) {
@@ -73,7 +81,7 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 		if (!debugMode) {
 			return;
 		}
-		RecordedRequest rr = (RecordedRequest) context.getRequest().getAttribute(REQUEST_RECORDER_KEY);
+		RecordedRequest rr = (RecordedRequest) context.getRequest().getAttribute(requestRecorderKey);
 		rr.setFinishTime(new Date());
 		handleRPC(context.getRequest(), rr);
 	}
@@ -136,6 +144,38 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 		String s = utils.toString(e);
 		NameValuesBean bean = utils.getNameValuesBean(name, s);
 		rr.getParameters().add(bean);
+	}
+
+	public String getSessionRecorderKey() {
+		return sessionRecorderKey;
+	}
+
+	public void setSessionRecorderKey(String sessionRecorderKey) {
+		this.sessionRecorderKey = sessionRecorderKey;
+	}
+
+	public String getRequestRecorderKey() {
+		return requestRecorderKey;
+	}
+
+	public void setRequestRecorderKey(String requestRecorderKey) {
+		this.requestRecorderKey = requestRecorderKey;
+	}
+
+	public String getDebugModeProperty() {
+		return debugModeProperty;
+	}
+
+	public void setDebugModeProperty(String debugModeProperty) {
+		this.debugModeProperty = debugModeProperty;
+	}
+
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
 	}
 
 }
