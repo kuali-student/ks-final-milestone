@@ -20,7 +20,7 @@ public class MethodTrackerAdvice {
 	protected final Log log = LogFactory.getLog(this.getClass());
 	String filename;
 	OutputStream out;
-	PrettyPrint pp = new PrettyPrint();
+	PrettyPrint prettyPrint = new PrettyPrint();
 
 	public Object trackMethod(ProceedingJoinPoint call) throws Throwable {
 		// Keep track of the sequence
@@ -41,14 +41,14 @@ public class MethodTrackerAdvice {
 
 		// Produce a log message about this method call
 		StringBuffer sb = new StringBuffer();
-		sb.append("Sequence:" + pp.space(currentSequence, 4) + " ");
-		sb.append(" Elapsed:" + pp.space(elapsed, 4) + " ");
+		sb.append("Sequence:" + prettyPrint.space(currentSequence, 4) + " ");
+		sb.append(" Elapsed:" + prettyPrint.space(elapsed, 4) + " ");
 
 		// Show return type, method name, and argument types
-		sb.append(pp.getPrettyPrint(call, result));
+		sb.append(prettyPrint.getPrettyPrint(call, result));
 		log.info(sb.toString());
 		if (out != null) {
-			String csv = pp.getCsv(currentSequence, elapsed, call, result);
+			String csv = prettyPrint.getCsv(currentSequence, elapsed, call, result);
 			IOUtils.write(csv, out);
 			out.flush();
 		}
@@ -61,5 +61,13 @@ public class MethodTrackerAdvice {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+
+	public PrettyPrint getPrettyPrint() {
+		return prettyPrint;
+	}
+
+	public void setPrettyPrint(PrettyPrint prettyPrint) {
+		this.prettyPrint = prettyPrint;
 	}
 }
