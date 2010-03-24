@@ -116,6 +116,7 @@
 	<bean id="CommentRpcGwtServlet"
 		class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
 		<property name="service" ref="commentClient" />
+		<property name="permissionService" ref="permissionServiceClient" />
 	</bean>
 
 	<bean id="ProposalRpcGwtServlet"
@@ -126,6 +127,7 @@
 	<bean id="DocumentRpcGwtServlet"
 		class="org.kuali.student.common.ui.server.gwt.DocumentRpcGwtServlet">
 		<property name="service" ref="documentService" />
+		<property name="permissionService" ref="permissionServiceClient" />
 	</bean>
 
 	<bean id="OrgRpcGwtServlet"

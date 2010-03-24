@@ -389,6 +389,7 @@
 	<bean id="DocumentRpcGwtServlet"
 		class="org.kuali.student.common.ui.server.gwt.DocumentRpcGwtServlet">
 		<property name="service" ref="documentService" />
+		<property name="permissionService" ref="permissionServiceClient" />
 	</bean>
 
 	<bean id="OrgRpcGwtServlet"
