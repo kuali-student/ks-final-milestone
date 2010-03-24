@@ -167,6 +167,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-rice</artifactId>
+			<classifier>sources</classifier>
+			<version>${ks-core.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
 			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
