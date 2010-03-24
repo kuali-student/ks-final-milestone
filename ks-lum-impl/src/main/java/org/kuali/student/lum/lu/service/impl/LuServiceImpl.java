@@ -2019,13 +2019,13 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public CluSetInfo createCluSet(String cluSetName, CluSetInfo cluSetInfo)
+	public CluSetInfo createCluSet(String cluSetType, CluSetInfo cluSetInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			DoesNotExistException {
 
-		checkForMissingParameter(cluSetName, "cluSetName");
+		checkForMissingParameter(cluSetType, "cluSetType");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
 		// Validate CluSet
@@ -2041,11 +2041,11 @@ public class LuServiceImpl implements LuService {
 
 		CluSet cluSet = new CluSet();
 		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id",
-				"descr", "name", "attributes", "metaInfo", "membershipQuery" });
+				"descr", "attributes", "metaInfo", "membershipQuery" });
 		cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet,
 				luDao));
-		cluSet.setName(cluSetName);
+		cluSet.setType(cluSetType);
 		cluSet.setDescr(LuServiceAssembler.toRichText(LuRichText.class, cluSetInfo.getDescr()));
 
 		// TODO: set membership query information based on how the queryparamvalue is to be persisted
@@ -2081,17 +2081,24 @@ public class LuServiceImpl implements LuService {
 
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
+		if (cluSetInfo.getType() == null) {
+			throw new UnsupportedActionException("CluSet type cannot be null. CluSet id="+cluSetId);
+		}
+		else if (!cluSetInfo.getType().equals(cluSet.getType())) {
+			throw new UnsupportedActionException("CluSet type is set at creation time and cannot be updated. CluSet id="+cluSetId);
+		}
+		
 		if (!String.valueOf(cluSet.getVersionInd()).equals(
 				cluSetInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
-					"CluSet to be updated is not the current version");
+					"CluSet to be updated is not the current version. CluSet id="+cluSetId);
 		}
 
 		if (cluSet.isCriteriaSet()) {
 			if (cluSetInfo.getCluIds().size() > 0
 					|| cluSetInfo.getCluSetIds().size() > 0) {
 				throw new UnsupportedActionException(
-						"Criteria CluSets can not contain Clus or CluSets");
+						"Criteria CluSets can not contain Clus or CluSets. CluSet id="+cluSetId);
 			}
 			// TODO update criteria here
 		}
@@ -2173,6 +2180,8 @@ public class LuServiceImpl implements LuService {
 					"Can not add a CluSet to a dynamic CluSet");
 		}
 
+		checkCluSetAlreadyAdded(cluSet, addedCluSetId);
+	
 		CluSet addedCluSet = luDao.fetch(CluSet.class, addedCluSetId);
 
 		checkCluSetCircularReference(addedCluSet, cluSetId);
@@ -2242,15 +2251,8 @@ public class LuServiceImpl implements LuService {
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
 
-		for (Clu childClu : cluSet.getClus()) {
-			if (childClu.getId().equals(cluId)) {
-				StatusInfo statusInfo = new StatusInfo();
-				statusInfo.setSuccess(false);
-				statusInfo.setMessage("CluSet already contains Clu:" + cluId);
-				return statusInfo;
-			}
-		}
-
+		checkCluAlreadyAdded(cluSet, cluId);
+		
 		cluSet.getClus().add(clu);
 
 		luDao.update(cluSet);
@@ -2604,14 +2606,38 @@ public class LuServiceImpl implements LuService {
 		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
-	private void checkCluSetCircularReference(CluSet addedCluSet,
-			String cluSetId) throws CircularRelationshipException {
-		for (CluSet childSet : addedCluSet.getCluSets()) {
-			if (childSet.getId().equals(cluSetId)) {
-				throw new CircularRelationshipException(
-						"Set already contains this Set");
+	private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
+			throws OperationFailedException {
+		for (Clu childClu : cluSet.getClus()) {
+			if (childClu.getId().equals(cluId)) {
+				throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
 			}
-			checkCluSetCircularReference(childSet, cluSetId);
+		}
+	}
+
+	private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd) 
+			throws OperationFailedException {
+		for (CluSet childCluSet : cluSet.getCluSets()) {
+			if (childCluSet.getId().equals(cluSetIdToAdd)) {
+				throw new OperationFailedException("CluSet already contains CluSet (id='" + cluSetIdToAdd + "')");
+			}
+		}
+	}
+	
+	private void checkCluSetCircularReference(CluSet addedCluSet, String hostCluSetId) 
+			throws CircularRelationshipException {
+		if (addedCluSet.getId().equals(hostCluSetId)) {
+			throw new CircularRelationshipException(
+					"Cannot add a CluSet (id=" + hostCluSetId + ") to ifself");
+		}
+		for (CluSet childSet : addedCluSet.getCluSets()) {
+			if (childSet.getId().equals(hostCluSetId)) {
+				throw new CircularRelationshipException(
+						"CluSet (id=" + hostCluSetId +
+						") already contains this CluSet (id=" + 
+						childSet.getId() + ")");
+			}
+			checkCluSetCircularReference(childSet, hostCluSetId);
 		}
 	}
 
@@ -2702,5 +2728,57 @@ public class LuServiceImpl implements LuService {
 			throw new MissingParameterException(paramName
 					+ " can not be an empty list");
 		}
+	}
+
+	@Override
+	public StatusInfo addCluSetsToCluSet(String cluSetId, List<String> cluSetIdList) 
+		throws CircularRelationshipException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, UnsupportedActionException {
+		
+		checkForMissingParameter(cluSetId, "cluSetId");
+		checkForMissingParameter(cluSetIdList, "cluSetIdList");
+
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+
+		if (cluSet.isCriteriaSet()) {
+			throw new UnsupportedActionException(
+					"Can not add a CluSet to a dynamic CluSet");
+		}
+
+		for(String cluSetIdToAdd : cluSetIdList) {
+			StatusInfo status = addCluSetToCluSet(cluSetId, cluSetIdToAdd);
+			if (!status.getSuccess()) {
+				return status;
+			}
+		}
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;
+	}
+
+	@Override
+	public StatusInfo addClusToCluSet(List<String> cluIdList, String cluSetId) 
+		throws DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException, 
+			PermissionDeniedException, UnsupportedActionException {
+
+		checkForMissingParameter(cluIdList, "cluIdList");
+		checkForMissingParameter(cluSetId, "cluSetId");
+
+		for(String cluId : cluIdList) {
+			StatusInfo status = addCluToCluSet(cluId, cluSetId);
+			if (!status.getSuccess()) {
+				return status;
+			}
+		}
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;
 	}
 }
