@@ -138,6 +138,7 @@ public class CourseConfigurer
     public SectionView generateSummarySection(){
         VerticalSectionView section = initSectionView(CourseSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
 
+    	section.enableValidation(false);
         section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
         section.addSection(generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
         return section;

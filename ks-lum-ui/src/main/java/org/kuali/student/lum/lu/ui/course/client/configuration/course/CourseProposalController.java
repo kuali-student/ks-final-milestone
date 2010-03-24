@@ -422,26 +422,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     @Override
                     public void exec(List<ValidationResultContainer> result) {
                     	
-                    	boolean save = true;
-                    	if(CourseProposalController.this.isStartSectionShowing()){
-                    		CourseProposalController.this.getStartSection().setFieldHasHadFocusFlags(true);
-                    		ErrorLevel status = CourseProposalController.this.getStartSection().processValidationResults(result);
-                    		if(status == ErrorLevel.ERROR){
-                    			save = false;
-                    		}
-                    	}
-                    	else{
-                    		View v = getCurrentView();
-                        	if(v instanceof Section){
-                        		((Section) v).setFieldHasHadFocusFlags(true);
-                        		ErrorLevel status = ((Section) v).processValidationResults(result);
-                        		if(status == ErrorLevel.ERROR){
-                        			save = false;
-                        		}
-                        	}
-                    	}
+                    	boolean isSectionValid = isValid(result, true);
                     	
-                    	if(save){
+                    	if(isSectionValid){
                             String proposalName = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
                             if (proposalName == null && !CourseProposalController.this.isStartSectionShowing()){
                                 showStartSection(NO_OP_CALLBACK);
