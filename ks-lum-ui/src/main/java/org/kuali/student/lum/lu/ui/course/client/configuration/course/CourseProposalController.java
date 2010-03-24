@@ -128,7 +128,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                                 getCluProposalFromWorkflowId(callback, workCompleteCallback);
                             } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
                                 getCluProposalFromProposalId(callback, workCompleteCallback);
-                            } else if (getViewContext().getIdType() == IdType.OBJECT_ID){
+                            } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
                                 getNewProposalWithCopyOfClu(callback, workCompleteCallback);
                             } else{
                                 createNewCluProposalModel(callback, workCompleteCallback);
@@ -209,6 +209,10 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     		if(getViewContext().getIdType() != null){
                 idType = getViewContext().getIdType().toString();
                 viewContextId = getViewContext().getId();
+                if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
+                	viewContextId = null;
+                }
+
 //    		    switch (getViewContext().getIdType()) {
 //                    case KS_KEW_OBJECT_ID :
 //                        idType = getViewContext().getIdType().toString();

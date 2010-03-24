@@ -124,7 +124,7 @@ public class ModifyFindPanel extends ViewComposite{
                 if (results.size() > 0){
                 	ViewContext viewContext = new ViewContext();
                 	viewContext.setId(results.get(0).getReturnKey());
-                	viewContext.setIdType(IdType.OBJECT_ID);
+                	viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
                 	ModifyFindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.MODIFY_COURSE, viewContext));
                     courseSearchWindow.hide();
                 }                

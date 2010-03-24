@@ -10,7 +10,6 @@ import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -53,8 +52,7 @@ public class ModifyCreditCourseProposalManager{
 		CreditCourseHelper course = CreditCourseHelper.wrap(data);
 		course.setCopyOfCourseId(cluId);
 		
-		//temp fix until we find out why lo are not saving
-		course.setCourseSpecificLOs(null);
+		course.setState(null);
 		
 		List<ProposalInfo> proposalList = null;
 		try{
@@ -120,7 +118,8 @@ public class ModifyCreditCourseProposalManager{
     		Property prop = i.next();
     		
     		//recurse through any nested maps (don't recurse through runtime data since the setCreated call will create new Data children
-    		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())){
+    		//also don't recurse through lo categories
+    		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())&&!"categories".equals(prop.getKey())){
     			clearIdsRecursively((Data)prop.getValue());
     		}
     		
