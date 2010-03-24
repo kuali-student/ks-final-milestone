@@ -87,8 +87,7 @@
 	</bean>
 
 	<bean id="luSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-		autowire="byType">
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
 
@@ -153,8 +152,7 @@
 	</bean>
 
 	<bean id="statementSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-		autowire="byType">
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
 
@@ -203,8 +201,7 @@
 	</bean>
 
 	<bean id="loSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-		autowire="byType">
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
