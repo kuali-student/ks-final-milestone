@@ -16,6 +16,7 @@ import static org.brisant.gwt.user.server.rpc.listener.StoreAsRequestAttributesL
 
 public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 	private static final String SESSION_RECORDER_KEY = "recordedSession";
+	private static final String REQUEST_RECORDER_KEY = "recordedRequest";
 	private static final Log log = LogFactory.getLog(HttpRequestListenerImpl.class);
 
 	String debugModeProperty = "ks.web.httprequest.debug.mode";
@@ -23,9 +24,9 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 	RequestUtils utils = new RequestUtils();
 
 	@Override
-	public RecordedRequest onBeforeDoFilter(HttpServletFilterContext context) {
+	public void onBeforeDoFilter(HttpServletFilterContext context) {
 		if (!debugMode) {
-			return null;
+			return;
 		}
 		HttpSession session = context.getRequest().getSession(true);
 		RecordedSession rs = (RecordedSession) session.getAttribute(SESSION_RECORDER_KEY);
@@ -51,8 +52,8 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 			rr.setSequence(rs.getRecordedRequests().size());
 		}
 
-		// return the recorded request object
-		return rr;
+		// Store our object on the request as an attribute
+		context.getRequest().setAttribute(REQUEST_RECORDER_KEY, rr);
 	}
 
 	protected RecordedRequest getRecordedRequest(HttpServletRequest request) {
@@ -68,10 +69,11 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 	}
 
 	@Override
-	public void onAfterDoFilter(HttpServletFilterContext context, RecordedRequest rr) {
+	public void onAfterDoFilter(HttpServletFilterContext context) {
 		if (!debugMode) {
 			return;
 		}
+		RecordedRequest rr = (RecordedRequest) context.getRequest().getAttribute(REQUEST_RECORDER_KEY);
 		rr.setFinishTime(new Date());
 		handleRPC(context.getRequest(), rr);
 	}

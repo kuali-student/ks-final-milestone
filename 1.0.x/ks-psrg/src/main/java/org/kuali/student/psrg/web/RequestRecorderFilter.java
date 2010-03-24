@@ -37,9 +37,9 @@ public class RequestRecorderFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		log.info("Request Count: " + (++sequence));
 		HttpServletFilterContext context = new HttpServletFilterContext((HttpServletRequest) request, (HttpServletResponse) response, chain);
-		RecordedRequest rr = listener.onBeforeDoFilter(context);
-		chain.doFilter(context.getRequest(), context.getResponse());
-		listener.onAfterDoFilter(context, rr);
+		listener.onBeforeDoFilter(context);
+		chain.doFilter(request, response);
+		listener.onAfterDoFilter(context);
 	}
 
 	/**
