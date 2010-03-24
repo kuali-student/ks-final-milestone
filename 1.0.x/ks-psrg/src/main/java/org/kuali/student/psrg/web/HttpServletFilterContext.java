@@ -5,8 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 
- *
+ * POJO with ServletFilter context information (request,response, filterChain)
  */
 public class HttpServletFilterContext {
 	HttpServletRequest request;

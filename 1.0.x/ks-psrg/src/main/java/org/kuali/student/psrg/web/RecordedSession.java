@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Tracks information about an HttpSession
+ * POJO that contains information about one HttpSession
  * 
  * @author Jeff Caddel
  */

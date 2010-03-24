@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Tracks information about an HttpServletRequest.
+ * POJO that contains information about one HttpServletRequest.
  */
 @SuppressWarnings("serial")
 public class RecordedRequest implements Serializable {

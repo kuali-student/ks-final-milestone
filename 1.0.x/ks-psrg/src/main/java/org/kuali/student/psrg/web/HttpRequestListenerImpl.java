@@ -16,9 +16,9 @@ import com.google.gwt.user.server.rpc.RPCRequest;
 import static org.brisant.gwt.user.server.rpc.listener.StoreAsRequestAttributesListenerImpl.*;
 
 /**
+ * Provides a mechanism for tracking GWT rpc requests
  * 
  * @author Jeff Caddel
- * 
  * 
  * @since Mar 24, 2010 2:38:11 PM
  */
@@ -27,13 +27,13 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 
 	String sessionRecorderKey = "recordedSession";
 	String requestRecorderKey = "recordedRequest";
-	String debugModeProperty = "ks.gwt.debug";
-	boolean debugMode = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(debugModeProperty));
-	RequestUtils utils = new RequestUtils();
+	String gwtDebugProperty = "ks.gwt.debug";
+	boolean debug = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(gwtDebugProperty));
+	RequestUtils requestUtils = new RequestUtils();
 
 	@Override
 	public void onBeforeDoFilter(HttpServletFilterContext context) {
-		if (!debugMode) {
+		if (!debug) {
 			return;
 		}
 		HttpSession session = context.getRequest().getSession(true);
@@ -66,7 +66,7 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 
 	protected RecordedRequest getRecordedRequest(HttpServletRequest request) {
 		// Copy the parameter list
-		List<NameValuesBean> parameters = utils.getSortedParameters(request.getParameterMap());
+		List<NameValuesBean> parameters = requestUtils.getSortedParameters(request.getParameterMap());
 
 		// Create and populate a RecordedRequest object
 		RecordedRequest rr = new RecordedRequest();
@@ -78,7 +78,7 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 
 	@Override
 	public void onAfterDoFilter(HttpServletFilterContext context) {
-		if (!debugMode) {
+		if (!debug) {
 			return;
 		}
 		RecordedRequest rr = (RecordedRequest) context.getRequest().getAttribute(requestRecorderKey);
@@ -106,11 +106,11 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 		if (rpcRequest == null) {
 			return;
 		}
-		String method = utils.toString(rpcRequest.getMethod());
-		String parameters = utils.toXML(rpcRequest.getParameters());
+		String method = requestUtils.toString(rpcRequest.getMethod());
+		String parameters = requestUtils.toXML(rpcRequest.getParameters());
 
-		NameValuesBean methodBean = utils.getNameValuesBean(RPC_REQUEST_METHOD, method);
-		NameValuesBean parametersBean = utils.getNameValuesBean(RPC_REQUEST_PARAMETERS, parameters);
+		NameValuesBean methodBean = requestUtils.getNameValuesBean(RPC_REQUEST_METHOD, method);
+		NameValuesBean parametersBean = requestUtils.getNameValuesBean(RPC_REQUEST_PARAMETERS, parameters);
 
 		rr.getParameters().add(methodBean);
 		if (!parameters.equals("")) {
@@ -141,8 +141,8 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 		if (e == null) {
 			return;
 		}
-		String s = utils.toString(e);
-		NameValuesBean bean = utils.getNameValuesBean(name, s);
+		String s = requestUtils.toString(e);
+		NameValuesBean bean = requestUtils.getNameValuesBean(name, s);
 		rr.getParameters().add(bean);
 	}
 
@@ -162,20 +162,20 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 		this.requestRecorderKey = requestRecorderKey;
 	}
 
-	public String getDebugModeProperty() {
-		return debugModeProperty;
+	public String getGwtDebugProperty() {
+		return gwtDebugProperty;
 	}
 
-	public void setDebugModeProperty(String debugModeProperty) {
-		this.debugModeProperty = debugModeProperty;
+	public void setGwtDebugProperty(String debugModeProperty) {
+		this.gwtDebugProperty = debugModeProperty;
 	}
 
-	public boolean isDebugMode() {
-		return debugMode;
+	public boolean isDebug() {
+		return debug;
 	}
 
-	public void setDebugMode(boolean debugMode) {
-		this.debugMode = debugMode;
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 
 }
