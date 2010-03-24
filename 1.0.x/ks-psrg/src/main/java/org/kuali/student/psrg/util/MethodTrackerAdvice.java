@@ -1,7 +1,10 @@
 package org.kuali.student.psrg.util;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,11 +20,17 @@ import org.aspectj.lang.Signature;
 public class MethodTrackerAdvice {
 	Long sequence = new Long(0);
 	protected final Log log = LogFactory.getLog(this.getClass());
+	String filename;
+	OutputStream out;
 
 	public Object trackMethod(ProceedingJoinPoint call) throws Throwable {
 		// Keep track of the sequence
 		long currentSequence = 0;
 		synchronized (sequence) {
+			if (sequence == 0 && filename != null) {
+				out = new FileOutputStream(getFilename());
+				IOUtils.write("Sequence,Elapsed,Method\n", out);
+			}
 			currentSequence = ++sequence;
 		}
 		// Time the method call
@@ -37,7 +46,23 @@ public class MethodTrackerAdvice {
 		// Show return type, method name, and argument types
 		sb.append(getPrettyPrint(call, result));
 		log.info(sb.toString());
+		if (out != null) {
+			String csv = getCsv(currentSequence, elapsed, call, result);
+			IOUtils.write(csv, out);
+			out.flush();
+		}
 		return result;
+	}
+
+	protected String getCsv(long currentSequence, long elapsed, ProceedingJoinPoint call, Object result) {
+		// Produce a log message about this method call
+		StringBuffer sb = new StringBuffer();
+		sb.append(currentSequence + ",");
+		sb.append(elapsed + ",");
+		// Show return type, method name, and argument types
+		sb.append('"' + getPrettyPrint(call, result) + '"');
+		sb.append("\n");
+		return sb.toString();
 	}
 
 	/**
@@ -165,9 +190,9 @@ public class MethodTrackerAdvice {
 				sb.append(",");
 			}
 			if (args[i] instanceof String) {
-				sb.append('"');
+				sb.append("'");
 				sb.append(args[i]);
-				sb.append('"');
+				sb.append("'");
 			} else {
 				sb.append(getShortName(args[i].getClass()));
 			}
@@ -206,5 +231,13 @@ public class MethodTrackerAdvice {
 			parameterTypes[i] = args[i].getClass();
 		}
 		return parameterTypes;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 }
