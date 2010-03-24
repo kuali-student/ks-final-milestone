@@ -182,14 +182,19 @@
         <property name="entityManagerFactory" ref="emEntityManagerFactory" />
     </bean>
 
-	<bean id="emDao"
-		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+    <bean id="emDao"
+	class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
         <property name="em" ref="emEntityManager" />
-	</bean>
+    </bean>
+
+    <bean id="searchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:em-search-config.xml" />
+    </bean>
 
 	<bean id="emServiceImpl"
 		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
 		<property name="enumDAO" ref="emDao" />
+		<property name="searchManager" ref="searchManager" />
 	</bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

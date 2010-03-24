@@ -24,6 +24,7 @@
 		<search:name>All enumeration results</search:name>
 		<search:desc>Enumeration Results</search:desc>
 		<search:resultColumns>
+			<ref bean="enumeration.resultColumn.id" />
 			<ref bean="enumeration.resultColumn.code" />
 			<ref bean="enumeration.resultColumn.abbrevValue" />
 			<ref bean="enumeration.resultColumn.value" />
@@ -32,6 +33,13 @@
 			<ref bean="enumeration.resultColumn.sortKey" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
+	
+	<search:resultColumn id="enumeration.resultColumn.id" parent="enumeration.resultColumn.id-parent"/>
+	<search:resultColumn id="enumeration.resultColumn.id-parent" abstract="true">
+		<search:name>Code</search:name>
+		<search:desc>The id of the enumeration value</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
 	
 	<search:resultColumn id="enumeration.resultColumn.code" parent="enumeration.resultColumn.code-parent"/>
 	<search:resultColumn id="enumeration.resultColumn.code-parent" abstract="true">
@@ -142,7 +150,7 @@
 		<property name="sourceMap">
 			<map>
 				<entry key="enumeration.management.search">
-					<value>SELECT enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValueEntity enumValue where enumValue.enumerationKey = :enumeration_queryParam_enumerationType</value>
+					<value>SELECT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValueEntity enumValue where enumValue.enumerationKey = :enumeration_queryParam_enumerationType</value>
 				</entry>
 			</map>
 		</property>
