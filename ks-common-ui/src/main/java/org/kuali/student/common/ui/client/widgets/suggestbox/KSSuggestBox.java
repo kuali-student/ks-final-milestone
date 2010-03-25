@@ -45,6 +45,14 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
     	super(oracle, new KSTextBox());
     	super.getTextBox().setEnabled(enabled);
         this.oracle = oracle;
+        oracle.addSearchCompletedCallback(new Callback<IdableSuggestion>() {
+            @Override
+            public void exec(IdableSuggestion result) {
+                currentSuggestion = result;
+                currentId = KSSuggestBox.this.getSelectedId();
+                SelectionChangeEvent.fire(KSSuggestBox.this);
+            }
+        });
         this.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>(){
 
             @Override

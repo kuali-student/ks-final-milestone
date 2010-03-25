@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -46,7 +47,9 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
     private LookupMetadata lookupMetaData;
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);    
+    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    
+    private List<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>> searchCompletedCallbacks = new ArrayList<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>>();
     
     /**
      * @deprecated
@@ -196,6 +199,12 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                     lastSuggestions = createSuggestions(results, request.getLimit());
                     Response response = new Response(lastSuggestions);
                     callback.onSuggestionsReady(request, response);
+                    if (searchCompletedCallbacks != null &&
+                            lastSuggestions != null && lastSuggestions.size() == 1) {
+                        for (org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback : searchCompletedCallbacks) {
+                            callback.exec(lastSuggestions.get(0));
+                        }
+                    }
                 }
                 
                 private List<IdableSuggestion> createSuggestions(SearchResult results, int limit){
@@ -319,4 +328,10 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
             }
         });
     }
+
+    @Override
+    public void addSearchCompletedCallback(org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
+        searchCompletedCallbacks.add(callback);
+    }
+    
 }

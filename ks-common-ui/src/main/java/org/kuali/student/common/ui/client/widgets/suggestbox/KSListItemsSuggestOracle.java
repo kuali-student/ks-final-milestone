@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.core.search.dto.SearchResult;
 
 public class KSListItemsSuggestOracle extends IdableSuggestOracle{
     
@@ -162,4 +163,9 @@ public class KSListItemsSuggestOracle extends IdableSuggestOracle{
         callback.exec(suggestion);
         
     }
+
+    @Override
+    public void addSearchCompletedCallback(org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
+    }
+    
 }

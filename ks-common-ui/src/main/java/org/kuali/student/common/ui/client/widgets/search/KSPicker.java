@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
@@ -52,7 +53,11 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -61,6 +66,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -72,6 +78,10 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     private AdvancedSearchWindow advSearchWindow = null;
     private SearchPanel searchPanel;
     private WidgetConfigInfo config;
+    private List<Callback<SelectedResults>> basicSelectionCallbacks =
+        new ArrayList<Callback<SelectedResults>>();
+    private List<Callback<String>> basicSelectionTextChangeCallbacks =
+        new ArrayList<Callback<String>>();
     
     private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
     
@@ -107,7 +117,28 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             
             if(config.canEdit) {
                 final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(inLookupMetadata);
-                basicWidget = new BasicWidget(new KSSuggestBox(orgSearchOracle, true));
+                final KSSuggestBox suggestBox = new KSSuggestBox(orgSearchOracle, true);
+                suggestBox.addKeyUpHandler(new KeyUpHandler() {
+                    @Override
+                    public void onKeyUp(KeyUpEvent event) {
+                        for(Callback<String> basicSelectionTextChangeCallback: basicSelectionTextChangeCallbacks){
+                            basicSelectionTextChangeCallback.exec("Text Changed");
+                        }
+                    }
+                });
+                suggestBox.addSelectionChangeHandler(new SelectionChangeHandler(){
+
+                    @Override
+                    public void onSelectionChange(SelectionChangeEvent event) {
+                        IdableSuggestion currentSuggestion = suggestBox.getSelectedSuggestion();
+                        SelectedResults selectedResults = new SelectedResults(
+                                currentSuggestion.getReplacementString(), currentSuggestion.getId());
+                        for(Callback<SelectedResults> basicSelectionCallback: basicSelectionCallbacks){
+                            basicSelectionCallback.exec(selectedResults);
+                        }
+                    }
+                });
+                basicWidget = new BasicWidget(suggestBox);
                 ((KSSuggestBox) basicWidget.get()).setAutoSelectEnabled(false);
                 orgSearchOracle.setTextWidget(((SuggestBox) basicWidget.get()).getTextBox());       
             } else {
@@ -500,6 +531,14 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     
     public AdvancedSearchWindow getSearchWindow(){
         return advSearchWindow;
+    }
+    
+    public void addBasicSelectionCompletedCallback(Callback<SelectedResults> callback) {
+        basicSelectionCallbacks.add(callback);
+    }
+    
+    public void addBasicSelectionTextChangeCallback(Callback<String> callback) {
+        basicSelectionTextChangeCallbacks.add(callback);
     }
 
 	@Override
