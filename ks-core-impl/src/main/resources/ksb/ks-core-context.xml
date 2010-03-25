@@ -432,6 +432,9 @@
 			<aop:after-throwing
 				pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.core.proposal.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
 
