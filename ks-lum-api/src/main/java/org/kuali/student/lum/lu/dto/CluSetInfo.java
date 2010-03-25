@@ -53,11 +53,11 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     @XmlElement
     private Date expirationDate;
 
-//    @XmlElement
-//    private CluCriteriaInfo cluCriteria;
-
     @XmlElement
     private MembershipQueryInfo membershipQuery;
+    
+    @XmlElement
+    private String adminOrg;
 
     @XmlElement
     private List<String> cluSetIds;
@@ -71,6 +71,12 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private MetaInfo metaInfo;
+
+    @XmlAttribute
+    private String type;
+
+    @XmlAttribute
+    private String state;
 
     @XmlAttribute
     private String id;
@@ -200,5 +206,41 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
 	public void setMembershipQuery(MembershipQueryInfo membershipQuery) {
 		this.membershipQuery = membershipQuery;
+	}
+
+	/**
+	 * Gets the clu set type. 
+	 * Once set at create time, this field may not be updated.
+	 * 
+	 * @return Clu set type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * Sets the clu set type. 
+	 * Once set at create time, this field may not be updated.
+	 * 
+	 * @param type Clu set type
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAdminOrg() {
+		return adminOrg;
+	}
+
+	public void setAdminOrg(String adminOrg) {
+		this.adminOrg = adminOrg;
 	}    
 }

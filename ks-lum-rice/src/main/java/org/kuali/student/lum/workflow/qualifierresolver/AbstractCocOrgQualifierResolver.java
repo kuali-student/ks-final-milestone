@@ -26,9 +26,11 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 
 /**
  * @author Kuali Student Team
@@ -106,44 +108,47 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 		return null;
 	}
 	
-	protected List<Result> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-		List<Result> results = null;
+	protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
+		SearchResult result = null;
 		if (null != orgId) {
-			List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
-			QueryParamValue qpRelType = new QueryParamValue();
+			List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
+			SearchParam qpRelType = new SearchParam();
 			qpRelType.setKey("org.queryParam.relationType");
 			qpRelType.setValue(relationType);
 			queryParamValues.add(qpRelType);
 			
-			QueryParamValue qpOrgId = new QueryParamValue();
+			SearchParam qpOrgId = new SearchParam();
 			qpOrgId.setKey("org.queryParam.orgId");
 			qpOrgId.setValue(orgId);
 			queryParamValues.add(qpOrgId);
 			
-			QueryParamValue qpRelOrgType = new QueryParamValue();
+			SearchParam qpRelOrgType = new SearchParam();
 			qpRelOrgType.setKey("org.queryParam.relatedOrgType");
 			qpRelOrgType.setValue(relatedOrgType);
 			queryParamValues.add(qpRelOrgType);
+			
+	        SearchRequest searchRequest = new SearchRequest();
+	        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
+	        searchRequest.setParams(queryParamValues);
 			try {
-				results = getOrganizationService().searchForResults("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId",
-						queryParamValues);
+				result = getOrganizationService().search(searchRequest);
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
 			}
 		}
-		return results;
+		return result.getRows();
 	}
 
-	protected List<AttributeSet> attributeSetFromSearchResult(List<Result> results,
+	protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results,
 			String orgShortNameKey, String orgIdKey) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
 		if(results!=null){
-			for(Result result:results){
+			for(SearchResultRow result:results){
 				AttributeSet attributeSet = new AttributeSet();
 				String resolvedOrgId = "";
 				String resolvedOrgShortName = "";
-				for (ResultCell resultCell : result.getResultCells()) {
+				for (SearchResultCell resultCell : result.getCells()) {
 					if ("org.resultColumn.orgId".equals(resultCell
 							.getKey())) {
 						resolvedOrgId = resultCell.getValue();
@@ -183,7 +188,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 			if(ancestorOrgs!=null){
 				for(OrgInfo ancestorOrg:ancestorOrgs){
 					if(orgType!=null && orgType.equals(ancestorOrg.getType())){
-						List<Result> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
+						List<SearchResultRow> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
 						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
 					}
 				}

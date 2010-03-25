@@ -27,8 +27,6 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
@@ -146,6 +144,13 @@ public class CourseReqManager extends Controller {
     private RuleInfo getRuleInfo(String luStatementTypeKey) {
         if (ruleInfo.getValues() != null && !ruleInfo.getValues().isEmpty()) {
             for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
+            	// if the rule
+            	if (oneRuleInfo.getStatementVO() == null) {
+                    oneRuleInfo.setCluId(cluId);
+                    oneRuleInfo.setId(Integer.toString(id++));
+                    oneRuleInfo.setSelectedStatementType(luStatementTypeKey);
+                    oneRuleInfo.setStatementVO(oneRuleInfo.createNewStatementVO());
+            	}
                 if (oneRuleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {
                     return oneRuleInfo;
                 }                

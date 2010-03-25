@@ -36,7 +36,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_CLU_SET")
@@ -44,10 +43,8 @@ import org.kuali.student.core.entity.RichText;
 	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE c.id IN (:cluSetIdList)"),
 	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(c) FROM CluSet c JOIN c.clus clu WHERE c.id = :cluSetId AND clu.id = :cluId")
 })
+public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute> {
 
-
-public class CluSet extends MetaEntity implements
-		AttributeOwner<CluSetAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
@@ -57,7 +54,7 @@ public class CluSet extends MetaEntity implements
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText descr;
+	private LuRichText descr;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -83,6 +80,15 @@ public class CluSet extends MetaEntity implements
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluSetAttribute> attributes;
 
+	@Column(name="TYPE")
+	private String type;
+
+	@Column(name = "ST")
+    private String state;
+	
+	@Column(name = "ADMIN_ORG_ID")
+	private String adminOrg;
+	
 	@Override
     public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
@@ -115,11 +121,11 @@ public class CluSet extends MetaEntity implements
 		this.name = name;
 	}
 
-	public RichText getDescr() {
+	public LuRichText getDescr() {
 		return descr;
 	}
 
-	public void setDescr(RichText descr) {
+	public void setDescr(LuRichText descr) {
 		this.descr = descr;
 	}
 
@@ -167,6 +173,30 @@ public class CluSet extends MetaEntity implements
 
 	public void setCriteriaSet(boolean criteriaSet) {
 		this.criteriaSet = criteriaSet;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAdminOrg() {
+		return adminOrg;
+	}
+
+	public void setAdminOrg(String adminOrg) {
+		this.adminOrg = adminOrg;
 	}
 
 }

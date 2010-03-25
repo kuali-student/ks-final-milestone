@@ -884,7 +884,7 @@ JOIN
     ON 
     clu.OFFIC_CLU_ID = officialIdentifier.ID 
 JOIN 
-    KS_LO_RICH_TEXT_T lodesc 
+    KSLO_RICH_TEXT_T lodesc 
     ON 
     lodesc.ID = lo.RT_DESCR_ID 
 WHERE 
@@ -915,7 +915,7 @@ JOIN
     ON 
     clu.OFFIC_CLU_ID = officialIdentifier.ID 
 JOIN 
-    KS_LO_RICH_TEXT_T lodesc 
+    KSLO_RICH_TEXT_T lodesc 
     ON 
     lodesc.ID = lo.RT_DESCR_ID 
 JOIN 

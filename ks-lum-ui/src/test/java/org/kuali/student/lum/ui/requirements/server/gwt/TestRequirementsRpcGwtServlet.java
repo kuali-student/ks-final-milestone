@@ -29,7 +29,7 @@ import org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
+//import org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.util.StatementServiceMock;
@@ -49,17 +49,20 @@ public class TestRequirementsRpcGwtServlet {
 		setRpcGwtServices();
 	}
 
-    private static NaturalLanguageMessageBuilder createMessageBuilder() {
-    	SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
-    	final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
-		executor.setEnableStatisticsLogging(false);
-		executor.setRuleBaseCache(ruleBase);
-
-		Map<String, BooleanOperators> booleanLanguageMap = new HashMap<String, BooleanOperators>();
-		booleanLanguageMap.put("en", new BooleanOperators("and", "or"));
-
-		return new NaturalLanguageMessageBuilder(executor, "en", booleanLanguageMap);
-    }
+ // NJW 3/5/2010:  commented out NaturalLanguageMessageBuilder because
+ // the message builder wasn't in the pom dependencies
+ // and wasn't used so I could not compile
+//    private static NaturalLanguageMessageBuilder createMessageBuilder() {
+//    	SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
+//    	final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
+//		executor.setEnableStatisticsLogging(false);
+//		executor.setRuleBaseCache(ruleBase);
+//
+//		Map<String, BooleanOperators> booleanLanguageMap = new HashMap<String, BooleanOperators>();
+//		booleanLanguageMap.put("en", new BooleanOperators("and", "or"));
+//
+//		return new NaturalLanguageMessageBuilder(executor, "en", booleanLanguageMap);
+//    }
 
     @Ignore
     private static void createTranslator() {

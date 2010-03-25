@@ -20,14 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.CurrencyAmountInfo;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.entity.Amount;
 import org.kuali.student.core.entity.CurrencyAmount;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -72,7 +69,6 @@ import org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg;
 import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccreditation;
 import org.kuali.student.lum.lu.entity.CluAdminOrg;
-import org.kuali.student.lum.lu.entity.CluAdminOrgAttribute;
 import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
 import org.kuali.student.lum.lu.entity.CluCampusLocation;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
@@ -92,7 +88,6 @@ import org.kuali.student.lum.lu.entity.CluSetType;
 import org.kuali.student.lum.lu.entity.DeliveryMethodType;
 import org.kuali.student.lum.lu.entity.InstructionalFormatType;
 import org.kuali.student.lum.lu.entity.LuCode;
-import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuCodeType;
 import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
@@ -651,19 +646,6 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 		return dto;
-	}
-
-	public static RichTextInfo toRichTextInfo(RichText entity) {
-		if (entity == null) {
-			return null;
-		}
-
-		RichTextInfo dto = new RichTextInfo();
-
-		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-
-		return dto;
-
 	}
 
 	public static List<CluIdentifierInfo> toCluIdentifierInfos(

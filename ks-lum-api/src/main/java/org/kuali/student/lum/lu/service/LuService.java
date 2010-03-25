@@ -1191,6 +1191,21 @@ public interface LuService extends DictionaryService, SearchService {
     public StatusInfo addCluSetToCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="addedCluSetId")String addedCluSetId) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
+     * 	Adds a list of CLU sets to another CluSet. If any individual one would fail, then an error is returned and none are added.
+     * @param cluSetId identifier of the host CLU set
+     * @param addedCluSetIdList list of identifiers of the CLU sets to be added
+     * @return status of the operation (success or failure)
+     * @throws CircularRelationshipException addedCluSetId cannot be added to the cluSetId
+     * @throws DoesNotExistException cluSet, addedCluSet not found
+     * @throws InvalidParameterException invalid cluSetId, addedCluSetId
+     * @throws MissingParameterException missing cluSetId, addedCluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws UnsupportedActionException CLU set is dynamically determined
+	 */
+    public StatusInfo addCluSetsToCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="addedCluSetIdList")List<String> addedCluSetIdList) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /** 
      * Removes one CLU set from another
      * @param cluSetId identifier of the host CLU set
      * @param removedCluSetId identifier of the CLU set to be removed
@@ -1217,6 +1232,20 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws UnsupportedActionException CLU set is dynamically determined
 	 */
     public StatusInfo addCluToCluSet(@WebParam(name="cluId")String cluId, @WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /** 
+     * Adds a list of CLUs to a CLU set. If any individual one would fail, then an error is returned and none are added.
+     * @param cluSetIds list of identifiers of CLUs to add to the CLU set
+     * @param cluSetId identifier of the CLU set to be added
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException clu, cluSet not found
+     * @throws InvalidParameterException invalid cluId, cluSetId
+     * @throws MissingParameterException missing cluId, cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws UnsupportedActionException CLU set is dynamically determined
+	 */
+    public StatusInfo addClusToCluSet(@WebParam(name="cluIdList")List<String> cluIdList, @WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
      * Remove a CLU from a CLU set

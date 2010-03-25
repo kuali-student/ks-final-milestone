@@ -15,96 +15,116 @@
  */
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
+
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 
-public class RuntimeDataHelper {
-    private static final long serialVersionUID = 1;
 
-    public enum Properties implements PropertyEnum {
-        CREATED("created"),
-        DELETED("deleted"),
-        UPDATED("updated"),
-        VERSIONS("versions"),
-        DIRTY("dirty");
-
-        private final String key;
-
-        private Properties(final String key) {
-            this.key = key;
-        }
-
-        @Override
-        public String getKey() {
-            return this.key;
-        }
-    }
-
-    private Data data;
-
-    private RuntimeDataHelper(Data data) {
-        this.data = data;
-    }
-
-    public static RuntimeDataHelper wrap(Data data) {
-        if (data == null) {
-            return null;
-        }
-        return new RuntimeDataHelper(data);
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setCreated(Boolean value) {
-        data.set(Properties.CREATED.getKey(), value);
-    }
-
-    public Boolean isCreated() {
-        Boolean b = (Boolean) data.get(Properties.CREATED.getKey());
-    	if(b == null){
-    		return false;
-    	}
-    	else{
-    		return b;
-    	}  
-    }
-
-    public void setDeleted(Boolean value) {
-        data.set(Properties.DELETED.getKey(), value);
-    }
-
-    public Boolean isDeleted() {
-    	Boolean b = (Boolean) data.get(Properties.DELETED.getKey());
-    	if(b == null){
-    		return false;
-    	}
-    	else{
-    		return b;
-    	}  
-    }
-
-    public void setUpdated(Boolean value) {
-        data.set(Properties.UPDATED.getKey(), value);
-    }
-
-    public Boolean isUpdated() {
-    	Boolean b = (Boolean) data.get(Properties.UPDATED.getKey());
-    	if(b == null){
-    		return false;
-    	}
-    	else{
-    		return b;
-    	}  
-    }
-
-    public void setVersions(Data value) {
-        data.set(Properties.VERSIONS.getKey(), value);
-    }
-
-    public Data getVersions() {
-        return (Data) data.get(Properties.VERSIONS.getKey());
-    }
-
+public class RuntimeDataHelper
+{
+	private static final long serialVersionUID = 1;
+	
+	public enum Properties implements PropertyEnum
+	{
+		CREATED ("created"),
+		DELETED ("deleted"),
+		UPDATED ("updated"),
+		VERSIONS ("versions"),
+		DIRTY ("dirty");
+		
+		private final String key;
+		
+		private Properties (final String key)
+		{
+			this.key = key;
+		}
+		
+		@Override
+		public String getKey ()
+		{
+			return this.key;
+		}
+	}
+	private Data data;
+	
+	private RuntimeDataHelper (Data data)
+	{
+		this.data = data;
+	}
+	
+	public static RuntimeDataHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new RuntimeDataHelper (data);
+	}
+	
+	public Data getData ()
+	{
+		return data;
+	}
+	
+	
+	public void setCreated (Boolean value)
+	{
+		data.set (Properties.CREATED.getKey (), value);
+	}
+	
+	
+	public Boolean isCreated ()
+	{
+		return (Boolean) data.get (Properties.CREATED.getKey ());
+	}
+	
+	
+	public void setDeleted (Boolean value)
+	{
+		data.set (Properties.DELETED.getKey (), value);
+	}
+	
+	
+	public Boolean isDeleted ()
+	{
+		return (Boolean) data.get (Properties.DELETED.getKey ());
+	}
+	
+	
+	public void setUpdated (Boolean value)
+	{
+		data.set (Properties.UPDATED.getKey (), value);
+	}
+	
+	
+	public Boolean isUpdated ()
+	{
+		return (Boolean) data.get (Properties.UPDATED.getKey ());
+	}
+	
+	
+	public void setVersions (Data value)
+	{
+		data.set (Properties.VERSIONS.getKey (), value);
+	}
+	
+	
+	public Data getVersions ()
+	{
+		return (Data) data.get (Properties.VERSIONS.getKey ());
+	}
+	
+	
+	public void setDirty (Boolean value)
+	{
+		data.set (Properties.DIRTY.getKey (), value);
+	}
+	
+	
+	public Boolean isDirty ()
+	{
+		return (Boolean) data.get (Properties.DIRTY.getKey ());
+	}
+	
 }
+

@@ -19,11 +19,10 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 public interface FeeInfoConstants
 {
-	public static final String FEE_TYPE = "feeType";
-	public static final String FEE_AMOUNT = "feeAmount";
-	public static final String TAXABLE = "taxable";
-	public static final String FEE_DESC = "feeDesc";
-	public static final String INTERNAL_NOTATION = "internalNotation";
-	public static final String _RUNTIME_DATA = "_runtimeData";
+	public static final String JUSTIFICATION = "justification";
+	public static final String FIXED_RATE_FEE = "fixedRateFee";
+	public static final String VARIABLE_RATE_FEE = "variableRateFee";
+	public static final String MULTIPLE_RATE_FEE = "multipleRateFee";
+	public static final String PER_CREDIT_FEE = "perCreditFee";
 }
 

@@ -35,6 +35,10 @@
     
     <param name="ks.lum.doDataLoad">false</param>
     
+    <param name="ks.lum.dictionary.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
+    <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
+    
+    
         <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-embedded-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-embedded-dev/kew/ActionList.do</param> 

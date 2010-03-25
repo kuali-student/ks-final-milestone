@@ -47,7 +47,7 @@ public class TimeAmountInfoAssembler implements Assembler<Data, TimeAmountInfo>{
 	}
 
 	@Override
-	public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
 		return new TimeAmountInfoMetadata().getMetadata(type, state);
 	}
 
@@ -64,6 +64,12 @@ public class TimeAmountInfoAssembler implements Assembler<Data, TimeAmountInfo>{
 	}
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
 	}

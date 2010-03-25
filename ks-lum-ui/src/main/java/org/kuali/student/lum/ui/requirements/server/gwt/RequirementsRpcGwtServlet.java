@@ -18,25 +18,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 
@@ -115,17 +113,19 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     	        try {
     	        	for (String id : codes) {    
     	        		id = id.trim();
-    	           		List<QueryParamValue> cluParam = new ArrayList<QueryParamValue>();
-    	        		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+    	           		List<SearchParam> cluParam = new ArrayList<SearchParam>();
+    	           		SearchParam orgOptionalTypeParam = new SearchParam();
     	        		orgOptionalTypeParam.setKey("lu.criteria.code");
     	        		orgOptionalTypeParam.setValue(id);   
     	        		cluParam.add(orgOptionalTypeParam);         		
-    	        		
-    	        		List<Result> resultId = service.searchForResults("lu.search.cluByCode", cluParam);
-    	        		if ((resultId == null) || (resultId.size() < 1)) {
+    	        		SearchRequest searchRequest = new SearchRequest();
+    	        		searchRequest.setSearchKey("lu.search.cluByCode");
+    	        		searchRequest.setParams(cluParam);
+    	        		SearchResult resultId = service.search(searchRequest);
+    	        		if ((resultId == null) || (resultId.getRows().size() < 1)) {
     	        			throw new Exception("Invalid code: '" + id + "'");
     	        		}
-    	        		List<ResultCell> cells = resultId.get(0).getResultCells();        		        		
+    	        		List<SearchResultCell> cells = resultId.getRows().get(0).getCells();        		        		
         				ids.append(ids.length() > 0 ? ", " : "");
         				ids.append(cells.get(0).getValue());        				
     	        	}

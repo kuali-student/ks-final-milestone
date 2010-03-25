@@ -1,7 +1,5 @@
 package org.kuali.student.lum.lu.assembly;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,13 +14,10 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -90,6 +85,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
     					topLevelLoHelper.setEffectiveDate(lo.getEffectiveDate());
     					topLevelLoHelper.setState(lo.getState());
     					topLevelLoHelper.setType(lo.getType());
+    					topLevelLoHelper.setName(lo.getName());
     					List<LoCategoryInfo> loCategories = loService.getLoCategoriesForLo(lo.getId());
     					
     					Data categoriesData = new Data();
@@ -166,6 +162,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 				loHelper.setEffectiveDate(relatedLo.getEffectiveDate());
 				loHelper.setState(relatedLo.getState());
 				loHelper.setType(relatedLo.getType());
+				loHelper.setName(relatedLo.getName());
 				
 				Data categoriesData = new Data();
 				List<LoCategoryInfo> loChildCategories = loService.getLoCategoriesForLo(relatedLo.getId());
@@ -219,7 +216,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	}
 
 	@Override
-	public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
 		throw new UnsupportedOperationException("Assembler is not type/state specific");
 	}
 
@@ -478,5 +475,11 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	@Override
 	public SaveResult<Data> save(Data input) throws AssemblyException {
 		throw new UnsupportedOperationException("SingleUseLoInfoAssembler#save(Data) waiting for CluInfoHierarchyAssembler refactor");
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

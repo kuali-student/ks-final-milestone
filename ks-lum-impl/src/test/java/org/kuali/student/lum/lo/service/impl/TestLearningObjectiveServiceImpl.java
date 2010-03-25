@@ -33,10 +33,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -44,8 +44,6 @@ import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
 import org.kuali.student.lum.lo.dto.LoTypeInfo;
-import org.kuali.student.lum.lo.entity.LoCategory;
-import org.kuali.student.lum.lo.entity.LoCategoryType;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
@@ -588,17 +586,20 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testSearchForResults() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		String testLoName = "Navigate Wiki";
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		SearchParam qpv1 = new SearchParam();
 		qpv1.setKey("lo.queryParam.loName");
 		qpv1.setValue(testLoName);
 		queryParamValues.add(qpv1);
-		List<Result> results = client.searchForResults("lo.search.loByName", queryParamValues);
-		assertEquals(1,results.size());
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setParams(queryParamValues);
+		searchRequest.setSearchKey("lo.search.loByName");
+		SearchResult result = client.search(searchRequest);
+		assertEquals(1,result.getRows().size());
 		
-        List<ResultCell> resultCells = results.get(0).getResultCells();
+        List<SearchResultCell> resultCells = result.getRows().get(0).getCells();
         assertEquals(2, resultCells.size());
-        ResultCell cell = resultCells.get(0);
+        SearchResultCell cell = resultCells.get(0);
         assertEquals("lo.resultColumn.loId", cell.getKey());
         assertEquals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", cell.getValue());
         cell = resultCells.get(1);

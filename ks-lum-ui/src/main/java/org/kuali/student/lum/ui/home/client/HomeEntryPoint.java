@@ -15,6 +15,7 @@
 package org.kuali.student.lum.ui.home.client;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.lum.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.ui.home.client.view.HomeResources;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
@@ -34,7 +35,7 @@ public class HomeEntryPoint implements EntryPoint{
         final String injectString = this.getCssString();
         StyleInjector.injectStylesheet(injectString);   
 
-        RootPanel.get().add(courseReqManager);
+        ApplicationPanel.get().add(courseReqManager);
         courseReqManager.showDefaultView(Controller.NO_OP_CALLBACK);            
     }
 

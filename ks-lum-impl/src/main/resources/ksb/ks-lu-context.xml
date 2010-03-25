@@ -87,20 +87,19 @@
 	</bean>
 
 	<bean id="luSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-		autowire="byType">
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
 
-	<bean id="luDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />	
+	<bean id="lumDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+		<constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}" />	
 	</bean>
 
 	<bean id="luServiceImpl"
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="luSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="luDictionary" />
+        <property name="dictionaryServiceDelegate" ref="lumDictionary" />
         <property name="validator" ref="serviceValidator"/>
 	</bean>
 	
@@ -153,13 +152,8 @@
 	</bean>
 
 	<bean id="statementSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-		autowire="byType">
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
-	</bean>
-
-	<bean id="statementDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />	
 	</bean>
 
     <bean id="statementAssembler"
@@ -172,7 +166,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="statementDictionary" />
+        <property name="dictionaryServiceDelegate" ref="lumDictionary" />
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
 	</bean>
 	
@@ -207,8 +201,7 @@
 	</bean>
 
 	<bean id="loSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-		autowire="byType">
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
@@ -226,15 +219,11 @@
 		</property>
 	</bean>
 
-	<bean id="loDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-		<constructor-arg index="0" value="classpath:lo-dictionary-config.xml" />	
-	</bean>
-
 	<bean id="loServiceImpl"
 		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
 		<property name="loDao" ref="loDao" />
         <property name="searchManager" ref="loSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="loDictionary" />
+        <property name="dictionaryServiceDelegate" ref="lumDictionary" />
         <property name="validator" ref="serviceValidator"/>
 	</bean>
 
@@ -314,6 +303,9 @@
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
 				pointcut="execution(* org.kuali.student.lum.lrc.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.lum.lo.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>

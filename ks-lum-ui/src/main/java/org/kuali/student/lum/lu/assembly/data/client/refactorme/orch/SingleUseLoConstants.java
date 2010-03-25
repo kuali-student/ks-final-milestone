@@ -20,6 +20,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 public interface SingleUseLoConstants
 {
 	public static final String ID = "id";
+	public static final String NAME = "name";
 	public static final String DESCRIPTION = "description";
 	public static final String CATEGORIES = "categories";
 	public static final String LO_REPOSITORY = "loRepository";

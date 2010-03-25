@@ -10,11 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.assembly.BaseAssembler;
-import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.brms.statement.service.StatementService;
-import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
@@ -84,11 +82,11 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     
     private final String proposalState;
     private Assembler<Data, CluInfoHierarchy> courseAssembler ;
-    private CluInfoHierarchyAssembler cluHierarchyAssembler;
+//    private CluInfoHierarchyAssembler cluHierarchyAssembler;
     private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
-    private final TimeAmountInfoAssembler timeamountAssembler = new TimeAmountInfoAssembler();
-    private final CluIdentifierInfoAssembler cluIdentifierAssembler = new CluIdentifierInfoAssembler();
-    private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
+//    private final TimeAmountInfoAssembler timeamountAssembler = new TimeAmountInfoAssembler();
+//    private final CluIdentifierInfoAssembler cluIdentifierAssembler = new CluIdentifierInfoAssembler();
+//    private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
     private ProposalService proposalService;
     private LuService luService;
     private StatementService statementService;
@@ -108,7 +106,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         LuData luData = new LuData();
         CreditCourseProposalHelper result = CreditCourseProposalHelper.wrap(luData);
         try {
-            CreditCourseProposalInfoHelper proposal = getProposal(id);
+        	CreditCourseProposalInfoHelper proposal = getProposal(id);
             if (proposal == null) {
                 return null;
             }
@@ -129,8 +127,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             luData.setRuleInfos(current.getRuleInfos());
             
         } catch (Exception e) {
-            throw new AssemblyException(
-                    "Could not assemble credit course proposal", e);
+            throw new AssemblyException("Could not assemble credit course proposal", e);
         }
 
         return result.getData();
@@ -145,35 +142,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
-
-        //Get permissions for course
-        Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
-        
         CreditCourseHelper course = CreditCourseHelper.wrap(getCourseAssembler().get(cluId));
-
-        //TODO what to do about auth checks
-//      //Authz Check
-//      if(permissions==null||permissions.get("department")==null||"edit".equals(permissions.get("department"))||"readOnly".equals(permissions.get("department"))){
-//          AdminOrgInfo admin = result.getPrimaryAdminOrg();
-//          if (admin != null) {
-//              result.setDepartment(admin.getOrgId());
-//          }
-//      }
-
-//      if(permissions==null||permissions.get("description")==null||"edit".equals(permissions.get("description"))||"readOnly".equals(permissions.get("description"))){
-//          result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDesc())));
-//      }
-
-//      if(permissions==null||permissions.get("duration")==null||"edit".equals(permissions.get("duration"))||"readOnly".equals(permissions.get("duration"))){
-//          TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
-//          if (time != null) {
-//              CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
-//              duration.setQuantity(time.getTimeQuantity());
-//              duration.setTermType(time.getAtpDurationTypeKey());
-//              result.setDuration(duration);
-//          }
-//      }
-
 
         return course;
 
@@ -423,12 +392,17 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     }
 
     @Override
-    protected AttributeSet getQualification(String id) {
-        String QUALIFICATION_PROPOSAL_ID = "proposalId";
-        String DOCUMENT_TYPE_NAME = "documentTypeName";
+    public boolean checkDocumentLevelPermissions() {
+    	return true;
+    }
+
+    @Override
+    protected AttributeSet getQualification(String idType, String id) {
         AttributeSet qualification = new AttributeSet();
+    	// FIXME: change this value to use constants from rice
+        String DOCUMENT_TYPE_NAME = "documentTypeName";
         qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
-        qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+        qualification.put(idType, id);
         return qualification;
     }
 

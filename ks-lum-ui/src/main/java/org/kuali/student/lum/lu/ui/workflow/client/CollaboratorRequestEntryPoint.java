@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.ui.workflow.client;
 
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
@@ -90,7 +91,7 @@ public class CollaboratorRequestEntryPoint implements EntryPoint{
         if(docId!=null){
                 showView();
         }
-		RootPanel.get().add(rootPanel);		
+		ApplicationPanel.get().add(rootPanel);		
 	}
     
 	private void showView() {

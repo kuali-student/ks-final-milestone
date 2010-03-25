@@ -14,13 +14,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
@@ -33,20 +29,16 @@ import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
@@ -56,7 +48,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
@@ -64,21 +56,11 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObj
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
-import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
-import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
-import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -112,7 +94,17 @@ public class CourseConfigurer
     private boolean WITH_DIVIDER = true;
     private boolean NO_DIVIDER = false;
 
-    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
+    public static final String CLU_PROPOSAL_MODEL					= "cluProposalModel";
+    public static final String PROPOSAL_ID_PATH						= "proposal/id";
+    public static final String PROPOSAL_TITLE_PATH					= "proposal/title";
+    public static final String PROPOSAL_REFERENCE_TYPE_KEY			= "referenceType.clu.proposal";
+    public static final String PROPOSAL_REFERENCE_OBJECT_TYPE		= "kuali.lu.type.CreditCourse";
+
+    public enum CourseSections{
+        CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
+        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS, DOCUMENTS,
+        PROGRAM_INFO, ASSEMBLER_TEST
+    }
 
     private DataModelDefinition modelDefinition;
 
@@ -125,25 +117,28 @@ public class CourseConfigurer
 
         addCluStartSection(layout);
 
-        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
-        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
-        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
-        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
-        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
-        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
-        //layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
+        String editTabLabel = getLabel(LUConstants.EDIT_TAB_LABEL_KEY);
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
 
-        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
+        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(CourseSections.ASSEMBLER_TEST, "Assembler Test"));
 
-        layout.addTool(new CollaboratorTool());
-        layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
-        layout.addTool(new DocumentTool(LuSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
+        layout.addTool(new CollaboratorTool(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+        		getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
+        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
     }
 
     public SectionView generateSummarySection(){
-        VerticalSectionView section = initSectionView(LuSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
 
+    	section.enableValidation(false);
         section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
         section.addSection(generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
         return section;
@@ -179,7 +174,7 @@ public class CourseConfigurer
     }
 
     public void addCluStartSection(ConfigurableLayout layout){
-        VerticalSectionView section = initSectionView(LuSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
         addField(section, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
         //This will need to be a person picker
@@ -195,14 +190,14 @@ public class CourseConfigurer
      * @return
      */
     private SectionView generateCourseRequisitesSection() {
-        CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
+        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
         addField(section, SEARCH + "/" + "findCourse");
         return section;
     }
 
     private SectionView generateActiveDatesSection() {
-        VerticalSectionView section = initSectionView(LuSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY);
 
         section.addSection(generateActiveDateStartSection());
         section.addSection(generateActiveDateEndSection());
@@ -222,65 +217,37 @@ public class CourseConfigurer
         return startDate;
 	}
 
-	private SectionView generateFinancialsSection() {
-        VerticalSectionView section = initSectionView(LuSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
-
-        //TODO ALL KEYS in this section are place holders until we know actual keys
-        section.addSection(generateFeeTypeSection());
-        section.addSection(generateFeeAmountSection());
-
-        return section;
-    }
-
-
 
     private VerticalSection generateFeeTypeSection() {
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeType = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
-        addField(feeType, COURSE + "/" + FEES + "/" + FEE_TYPE, null);
+//        addField(feeType, COURSE + "/" + FEES + "/" + FEE_TYPE, null);
         return feeType;
 	}
 
 	private VerticalSection generateFeeAmountSection() {
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_DESC_LABEL_KEY), WITH_DIVIDER);
-        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_AMOUNT, getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY));
-        addField(feeAmount, COURSE + "/" + FEES + "/" + TAXABLE, getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY));//TODO checkboxes go here instead
-        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_DESC, getLabel(LUConstants.FEE_DESC_LABEL_KEY));
-        addField(feeAmount, COURSE + "/" + FEES + "/" + INTERNAL_NOTATION, getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY));
+        // NJW -- commented out to not break the build as this whole section is being reworked
+//        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_AMOUNT, getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY));
+//        addField(feeAmount, COURSE + "/" + FEES + "/" + TAXABLE, getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY));//TODO checkboxes go here instead
+//        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_DESC, getLabel(LUConstants.FEE_DESC_LABEL_KEY));
+//        addField(feeAmount, COURSE + "/" + FEES + "/" + INTERNAL_NOTATION, getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY));
 		return feeAmount;
 	}
 
 	public SectionView generateGovernanceSection(){
-        VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
-        section.addSection(generateOversightSection());
-        section.addSection(generateCampusSection());
-        section.addSection(generateAdminOrgsSection());
+        addField(section, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
+        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList());
+        addField(section, COURSE + "/" + DEPARTMENT, getLabel(LUConstants.ADMIN_ORG_LABEL_KEY));
 
         return section;
     }
 
-    private VerticalSection generateOversightSection() {
-        VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
-        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
-        return oversight;
-	}
-
-	private VerticalSection generateCampusSection() {
-        VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);
-        addField(campus, COURSE + "/" + CAMPUS_LOCATIONS, null, new CampusLocationList());
-        return campus;
-	}
-
-	private VerticalSection generateAdminOrgsSection() {
-        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);
-        addField(adminOrgs, COURSE + "/" + DEPARTMENT);
-        return adminOrgs;
-	}
-
 	public SectionView generateCourseInfoSection(){
-        VerticalSectionView section = initSectionView(LuSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
 
         //FIXME: Label should be key to messaging, field type should come from dictionary?
 
@@ -325,7 +292,7 @@ public class CourseConfigurer
         // Offered jointly
         VerticalSection offeredJointly = new VerticalSection();
         offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
-        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList());
+        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
         //offeredJointly.addStyleName("KS-LUM-Section-Divider");
         return offeredJointly;
 	}
@@ -367,7 +334,7 @@ public class CourseConfigurer
 	}
 
     public SectionView generateCourseLogisticsSection() {
-        VerticalSectionView section = initSectionView(LuSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
 
 //      instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
 //        //CREDITS
@@ -387,7 +354,6 @@ public class CourseConfigurer
         section.addSection(generateSchedulingSection());
         section.addSection(generateCourseFormatsSection());
 
-
         return section;
     }
 
@@ -402,7 +368,7 @@ public class CourseConfigurer
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
         GroupSection duration = new GroupSection();
         addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, "Duration Type", new DurationAtpTypeList());
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY));
         scheduling.addSection(duration);
         return scheduling;
 	}
@@ -414,42 +380,21 @@ public class CourseConfigurer
         return instructors;
 	}
 
-	private static AdvancedSearchWindow createAtpSearchWindow(){
-
-        Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("firstExpectedOffering").getInitialLookup());
-        final AdvancedSearchWindow atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
-
-//        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
-//            public void exec(List<String> event) {
-//                final String selected = event.get(0);
-//                if (selected.length() > 0){
-////                  List<String> selectedItems = event;
-////                  ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
-////                  FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
-//                    atpSearchWindow.hide();
-//                }
-//            }
-//        });
-        return atpSearchWindow;
-    }
-
     private SectionView generateLearningObjectivesSection() {
-        VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
         section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }
 
     private VerticalSection generateLearningObjectivesNestedSection() {
         VerticalSection los = initSection(null, NO_DIVIDER);
-        
-        // FIXME - make LOBuilder a section? 
-        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_L_OS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
+         
+        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
     	Metadata meta = modelDefinition.getMetadata(path);
         
         // FIXME - where should repo key come from?
         FieldDescriptor fd = addField(los,
-        								CreditCourseConstants.COURSE_SPECIFIC_L_OS,
+        								CreditCourseConstants.COURSE_SPECIFIC_LOS,
         								null,
         								new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
         								CreditCourseProposalConstants.COURSE);
@@ -504,180 +449,20 @@ public class CourseConfigurer
             activity.nextLine();
             */
 
-            // FIXME need to get the term offered added to the activity metadata?
-//            activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
             addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new DurationAtpTypeList(), path);
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
 
             activity.nextLine();
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
             // FIXME look up what the label and implement as dropdown
             //FIXME this fields constraints are wrong in its metadata, temporarily commented out
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  null, path);
             addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
             return activity;
         }
 
     }
-
-/*    //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
-    //will be a multiple org select field, in which case we need a multiple org select picker widget.
-    //Otherwise if it's single org picker, need a way to bind a HasText widget to ModelDTOList
-    public class OrgListPicker extends KSSelectItemWidgetAbstract implements SuggestPicker{
-        private OrgPicker orgPicker;
-
-        public OrgListPicker(){
-            orgPicker = new OrgPicker();
-            initWidget(orgPicker);
-        }
-
-        public void deSelectItem(String id) {
-            throw new UnsupportedOperationException();
-        }
-
-        public List<String> getSelectedItems() {
-            ArrayList<String> selectedItems = new ArrayList<String>();
-            selectedItems.add(orgPicker.getValue());
-            return selectedItems;
-        }
-
-        public boolean isEnabled() {
-            return true;
-        }
-
-        public void onLoad() {
-        }
-
-        public void redraw() {
-            throw new UnsupportedOperationException();
-        }
-
-        public void selectItem(String id) {
-            orgPicker.setValue(id);
-        }
-
-        public void setEnabled(boolean b) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean isMultipleSelect(){
-            return true;
-        }
-
-        public void clear(){
-            orgPicker.clear();
-        }
-
-		@Override
-		public HandlerRegistration addFocusHandler(FocusHandler handler) {
-			return orgPicker.addFocusHandler(handler);
-		}
-
-		@Override
-		public HandlerRegistration addBlurHandler(BlurHandler handler) {
-			return orgPicker.addBlurHandler(handler);
-		}
-
-		@Override
-		public String getValue() {
-			return orgPicker.getValue();
-		}
-
-		@Override
-		public void setValue(String value) {
-			orgPicker.setValue(value);
-
-		}
-
-		@Override
-		public void setValue(String value, boolean fireEvents) {
-			orgPicker.setValue(value, fireEvents);
-
-		}
-
-		@Override
-		public HandlerRegistration addValueChangeHandler(
-				ValueChangeHandler<String> handler) {
-			return orgPicker.addValueChangeHandler(handler);
-		}
-
-
-		@Override
-		public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler){
-			return orgPicker.addSelectionChangeHandler(handler);
-		}
-
-    }*/
-
-    public class TermListPicker extends KSSelectItemWidgetAbstract implements HasText {
-        private AtpPicker atpPicker;
-
-        public TermListPicker(){
-            atpPicker = new AtpPicker();
-            initWidget(atpPicker);
-        }
-
-        public void deSelectItem(String id) {
-            throw new UnsupportedOperationException();
-        }
-
-        public List<String> getSelectedItems() {
-            ArrayList<String> selectedItems = new ArrayList<String>();
-            selectedItems.add(atpPicker.getText());
-            return selectedItems;
-        }
-
-        public boolean isEnabled() {
-            return true;
-        }
-
-        public void onLoad() {
-        }
-
-        public void redraw() {
-            throw new UnsupportedOperationException();
-        }
-
-        public void selectItem(String id) {
-            atpPicker.setText(id);
-        }
-
-        public void setEnabled(boolean b) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean isMultipleSelect(){
-            return true;
-        }
-
-        public void clear(){
-            atpPicker.clear();
-        }
-
-        @Override
-        public HandlerRegistration addFocusHandler(FocusHandler handler) {
-            return atpPicker.addFocusHandler(handler);
-        }
-
-        @Override
-        public HandlerRegistration addBlurHandler(BlurHandler handler) {
-            return atpPicker.addBlurHandler(handler);
-        }
-
-        @Override
-        public String getText() {
-            return atpPicker.getText();
-        }
-
-        @Override
-        public void setText(String value) {
-            atpPicker.setText(value);
-
-        }
-
-    }
-
 
     // FIXME uncomment and fix AlternateAdminOrgList and AlternateInstructorList
 //    public class AlternateAdminOrgList extends MultiplicityCompositeWithLabels {
@@ -732,32 +517,6 @@ public class CourseConfigurer
         }
     }
 
-    public class DurationAtpTypeList extends KSDropDown{
-        public DurationAtpTypeList(){
-            SimpleListItems activityTypes = new SimpleListItems();
-
-            activityTypes.addItem("atpType.duration.week", "Week");
-            activityTypes.addItem("atpType.duration.month", "Month");
-            activityTypes.addItem("atpType.semester.day", "Day");
-
-            super.setListItems(activityTypes);
-        }
-
-    }
-
-    public class ContactHoursAtpTypeList extends KSDropDown{
-        public ContactHoursAtpTypeList(){
-            SimpleListItems activityTypes = new SimpleListItems();
-
-            activityTypes.addItem("atpType.duration.weekly", "per week");
-            activityTypes.addItem("atpType.duration.monthly", "per month");
-            activityTypes.addItem("atpType.semester.daily", "per day");
-
-            super.setListItems(activityTypes);
-        }
-
-    }
-
     public class CluActivityType extends KSDropDown{
         public CluActivityType(){
             SimpleListItems activityTypes = new SimpleListItems();
@@ -775,23 +534,6 @@ public class CourseConfigurer
         }
     }
 
-    public class AtpTypeList extends KSDropDown{
-        public AtpTypeList(){
-            SimpleListItems activityTypes = new SimpleListItems();
-
-            activityTypes.addItem("atpType.semester.fall", "Fall");
-            activityTypes.addItem("atpType.semester.spring", "Spring");
-            activityTypes.addItem("atpType.semester.summer", "Summer");
-            activityTypes.addItem("atpType.semester.winter", "Winter");
-
-            super.setListItems(activityTypes);
-        }
-
-        public boolean isMultipleSelect(){
-            return false;
-        }
-    }
-
     public class PersonList extends KSDropDown {
         final SimpleListItems people = new SimpleListItems();
 
@@ -804,6 +546,7 @@ public class CourseConfigurer
             people.addItem(userId, userId);
             us.setListItems(people);
             us.selectItem(userId);
+            us.setBlankFirstItem(false);
             this.setEnabled(false);
             
             /*   
@@ -845,6 +588,33 @@ public class CourseConfigurer
             super.setListItems(list);
         }
     }
+    
+    public class OfferedJointlyList extends UpdatableMultiplicityComposite {
+        {            
+            setAddItemLabel(getLabel(LUConstants.ADD_EXISTING_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));
+            //setMinEmptyItems(1);
+        }
+
+        private final String parentPath;
+        public OfferedJointlyList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+
+/*        @Override
+        public MultiplicityItem getItemDecorator(StyleType style) {
+            return new RemovableItem();
+        }*/
+
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, CreditCourseJointsConstants.COURSE_ID, getLabel(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), null, path);
+            return ns;
+        }
+    }    
 
     public class CrossListedList extends UpdatableMultiplicityComposite {
         {
@@ -875,8 +645,6 @@ public class CourseConfigurer
             return ns;
         }
     }
-
-
 
     public class VersionCodeList extends UpdatableMultiplicityComposite {
         {
@@ -916,14 +684,15 @@ public class CourseConfigurer
 
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateProgramInfoSection());
 
-        layout.addTool(new CollaboratorTool());
-        layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
-        layout.addTool(new DocumentTool(LuSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
+        layout.addTool(new CollaboratorTool(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+        		getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+        layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
+        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
     }
 
 
     public SectionView generateProgramInfoSection(){
-        VerticalSectionView section = initSectionView(LuSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY);
         section.addSection(generateShortTitleSection());
         return section;
     }
@@ -933,18 +702,6 @@ public class CourseConfigurer
         addField(shortTitle, "cluInfo/officialIdentifier/shortName", null);
         return shortTitle;
 	}
-
-	public class CollaboratorTool extends ToolView{
-        public CollaboratorTool(){
-            super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
-        }
-
-        @Override
-        protected Widget createWidget() {
-            return new Collaborators();
-        }
-
-    }
 
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
@@ -1018,4 +775,169 @@ public class CourseConfigurer
     	section.addField(fd);
     	return fd;
     }
+    private SectionView generateFinancialsSection() {
+        VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
+
+        //TODO ALL KEYS in this section are place holders until we know actual keys
+        VerticalSection justiFee = initSection(getH3Title("Course Fees"), WITH_DIVIDER);
+        addField(justiFee, COURSE + "/" +FEES + "/" + "justification",null,new KSTextArea(), "Justification of Fees");
+        addField(justiFee, COURSE + "/" +FEES + "/"+"feeTypes" , null, new FeeList(COURSE + "/" + FEES+ "/"));
+
+        VerticalSection financialSection = initSection(getH3Title("Financial Information"), WITH_DIVIDER);
+        
+        addField(financialSection, COURSE + "/" + "revenueOrg", "Revenue");
+        addField(financialSection, COURSE + "/" + "revenueOrg/totalPercentage", "Amount");
+        addField(financialSection, COURSE + "/" , null, new FinancialInformationList(COURSE + "/" + "revenueOrg"));
+
+        addField(financialSection, COURSE + "/" + "expenditureOrg", "Expenditure");
+        addField(financialSection, COURSE + "/" + "expenditureOrg/totalPercentage", "Amount");
+
+        addField(financialSection, COURSE + "/" + "expenditureOrg", null, new ExpenditureList(COURSE + "/" + "expenditureOrg"));
+        section.addSection(justiFee);
+        section.addSection(financialSection);
+        return section;
+    }
+    public class RateTypeList extends KSDropDown{
+        public RateTypeList(){
+            SimpleListItems types = new SimpleListItems();
+            types.addItem("kuali.enum.type.rateTypes.variableRateFee", "Variable Rate");
+            types.addItem("kuali.enum.type.rateTypes.fixedRateFee", "Fixed Rate");
+            types.addItem("kuali.enum.type.rateTypes.multipleRateFee", "Multiple Rate");
+            types.addItem("kuali.enum.type.rateTypes.perCreditFee", "Per Credit Rate");
+            super.setListItems(types);
+        }
+    }
+    public class FeeTypeList extends KSDropDown{
+        public FeeTypeList(){
+            SimpleListItems types = new SimpleListItems();
+            types.addItem("kuali.enum.type.feeTypes.labFee", "Lab Fee");
+            types.addItem("kuali.enum.type.feeTypes.materialFee", "Material Fee");
+            types.addItem("kuali.enum.type.feeTypes.studioFee", "Studio Fee");
+            types.addItem("kuali.enum.type.feeTypes.fieldTripFee", "Field Trip Fee");
+            types.addItem("kuali.enum.type.feeTypes.fieldStudyFee", "Field Study Fee");
+            types.addItem("kuali.enum.type.feeTypes.administrativeFee", "Administrative Fee");
+            types.addItem("kuali.enum.type.feeTypes.coopFee", "Coop Fee");
+            types.addItem("kuali.enum.type.feeTypes.greensFee", "Greens Fee");
+            super.setListItems(types);
+        }
+    }    
+    public class FeeList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add a fee");
+            setItemLabel("Fee");
+        }
+        private final String parentPath;
+
+        public FeeList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+            
+            
+        }
+       
+        @Override
+        public Widget createItem() {
+            String innerPath = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+
+            final GroupSection variableSection = new GroupSection();
+            final GroupSection fixedSection= new GroupSection();
+            final GroupSection multipeSection= new GroupSection();
+            final GroupSection perCreditSection= new GroupSection();
+            
+
+            addField(variableSection, "feeType", "Amount", innerPath );
+            addField(variableSection, "feeType", "To", innerPath );
+            addField(fixedSection, "feeType", "Amount", innerPath );
+            addField(multipeSection, "feeType", "Amount",new MultipleFeeList("feeType"), innerPath );
+            addField(perCreditSection, "feeType", "Amount(PerCredit)", innerPath );
+
+            final GroupSection mainSection = new GroupSection();
+            final String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            addField(mainSection, "feeType", "Fee Type", new FeeTypeList(),path );
+            final KSDropDown rateTypeDropDown = new RateTypeList();
+            addField(mainSection, "rateType", "Rate Type", rateTypeDropDown,path);
+            
+            rateTypeDropDown.selectItem("");// fake select
+            rateTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler(){
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                    mainSection.removeSection(variableSection);
+                    mainSection.removeSection(fixedSection);
+                    mainSection.removeSection(multipeSection);
+                    mainSection.removeSection(perCreditSection);
+                    if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.variableRateFee")){
+                        mainSection.addSection(variableSection);
+                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.fixedRateFee")){
+                        mainSection.addSection(fixedSection);
+                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.multipleRateFee")){
+                        mainSection.addSection(multipeSection);
+                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.perCreditFee")){
+                        mainSection.addSection(perCreditSection);
+                    }                    
+                }
+            });
+            return mainSection;
+        }
+
+    }
+    public class MultipleFeeList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add another Fee");
+            setItemLabel("Fee");
+        }
+        private final String parentPath;
+        public MultipleFeeList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "another Fee", "Fee", path );
+            
+            return ns;
+        }
+        
+    }
+    public class FinancialInformationList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add another Organization");
+            setItemLabel("Organization");
+        }
+        private final String parentPath;
+        public FinancialInformationList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "revenueOrg", "Revenue", path );
+            addField(ns, "totalPercentage", "Amount", path);
+            
+            return ns;
+        }
+    }
+    public class ExpenditureList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add another Organization");
+            setItemLabel("Organization");
+        }
+        private final String parentPath;
+        public ExpenditureList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "expenditureOrg", "Expenditure",path );
+            addField(ns, "totalPercentage", "Amount",path);
+
+            return ns;
+        }
+    }      
 }

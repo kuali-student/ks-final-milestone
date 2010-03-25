@@ -28,7 +28,6 @@ public class CluInstructorInfoHelper
 	{
 		ORG_ID ("orgId"),
 		PERSON_ID ("personId"),
-		PERSON_NAME ("personName"),
 		ATTRIBUTES ("attributes");
 		
 		private final String key;
@@ -87,17 +86,6 @@ public class CluInstructorInfoHelper
 	public String getPersonId ()
 	{
 		return (String) data.get (Properties.PERSON_ID.getKey ());
-	}
-	
-	public void setPersonName (String value)
-	{
-		data.set (Properties.PERSON_NAME.getKey (), value);
-	}
-	
-	
-	public String getPersonName ()
-	{
-		return (String) data.get (Properties.PERSON_NAME.getKey ());
 	}
 	
 	

@@ -31,6 +31,9 @@
     <param name="derby.system.home" system="true" override="false">target</param>
     <param name="derby.drda.startNetworkServer" system="true" override="false">true</param>
     
+    <!-- Application dictionary -->
+    <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
+    
 	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-lum-config.xml</param>

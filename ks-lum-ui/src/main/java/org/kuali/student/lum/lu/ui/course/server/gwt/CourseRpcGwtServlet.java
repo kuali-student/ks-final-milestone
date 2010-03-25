@@ -31,7 +31,7 @@ public class CourseRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServ
     private static final long serialVersionUID = 1L;
     
     private static final String DEFAULT_METADATA_STATE = "active";
-    private static final String DEFAULT_METADATA_TYPE = null;
+    private static final String DEFAULT_METADATA_TYPE = "course";
     private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
 
 

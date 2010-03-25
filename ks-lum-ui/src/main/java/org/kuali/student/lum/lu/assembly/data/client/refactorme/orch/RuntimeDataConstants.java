@@ -23,5 +23,6 @@ public interface RuntimeDataConstants
 	public static final String DELETED = "deleted";
 	public static final String UPDATED = "updated";
 	public static final String VERSIONS = "versions";
+	public static final String DIRTY = "dirty";
 }
 

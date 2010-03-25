@@ -15,6 +15,7 @@ import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
+import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 public class LuRuleInfoPersistanceBean {
 	final Logger logger = Logger.getLogger(LuRuleInfoPersistanceBean.class);
@@ -91,14 +92,11 @@ public class LuRuleInfoPersistanceBean {
 		
 		//FIXME remove once we can use "kuali.luStatementType.createCourseAcademicReadiness" to
 		// determine which rules belong to the course proposal screen
-  		List<String> courseAcademicReadinessRules = new ArrayList<String>() {
-    		   {
-    			   add("kuali.luStatementType.prereqAcademicReadiness");
-    			   add("kuali.luStatementType.coreqAcademicReadiness");
-    			   add("kuali.luStatementType.antireqAcademicReadiness");
-    			   add("kuali.luStatementType.enrollAcademicReadiness");    			   
-    		   }
-    		};  		
+  		List<String> courseAcademicReadinessRules = new ArrayList<String>();
+		courseAcademicReadinessRules.add(RuleConstants.KS_STATEMENT_TYPE_PREREQ);
+  		courseAcademicReadinessRules.add(RuleConstants.KS_STATEMENT_TYPE_COREQ);
+  		courseAcademicReadinessRules.add(RuleConstants.KS_STATEMENT_TYPE_ANTIREQ);
+  		courseAcademicReadinessRules.add(RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ);    			   
     		
     	/* TODO
     	List<String> createCourseAcademicReadinessRuleTypes;   		

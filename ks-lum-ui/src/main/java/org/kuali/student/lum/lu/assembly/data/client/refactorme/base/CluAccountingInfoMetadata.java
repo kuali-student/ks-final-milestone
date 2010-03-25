@@ -22,6 +22,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluAccountingInfoHelper.Properties;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoMetadata;
 
 
 public class CluAccountingInfoMetadata

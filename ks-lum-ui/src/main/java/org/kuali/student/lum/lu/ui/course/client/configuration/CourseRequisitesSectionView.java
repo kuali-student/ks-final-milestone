@@ -100,4 +100,9 @@ public class CourseRequisitesSectionView extends SectionView {
 	protected void addWidgetToLayout(Widget w) {
 		// TODO Auto-generated method stub		
 	}
+	
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
+		
+	}
 }

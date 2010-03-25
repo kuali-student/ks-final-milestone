@@ -51,9 +51,11 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
@@ -315,10 +317,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		RichTextInfo desc = new RichTextInfo();
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
+		cluSetInfo.setType("kuali.cluSet.type.creditCourse");
+		cluSetInfo.setAdminOrg("uuid-1234");
 		cluSetInfo.setDescr(desc);
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
 		cluSetInfo.setExpirationDate(DF.parse("20180101"));
-		cluSetInfo.setName("");
+		cluSetInfo.setName("testCluSet1");
 		cluSetInfo.getCluIds().add("CLU-1");
 		cluSetInfo.getCluIds().add("CLU-2");
 		cluSetInfo.getCluSetIds().add("CLUSET-1");
@@ -326,10 +330,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluSetInfo.getAttributes().put("cluSet1ArrtKey1", "cluSet1ArrtValue1");
 		cluSetInfo.getAttributes().put("cluSet1ArrtKey2", "cluSet1ArrtValue2");
 		
-		CluSetInfo createdSet1 = client.createCluSet("testCluSet1", cluSetInfo);
+		CluSetInfo createdSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", cluSetInfo);
 
-		assertEquals("<p>Formatted Desc</p>", createdSet1.getDescr()
-				.getFormatted());
+		assertEquals("kuali.cluSet.type.creditCourse", createdSet1.getType());
+		assertEquals("uuid-1234", createdSet1.getAdminOrg());
+		assertEquals("<p>Formatted Desc</p>", createdSet1.getDescr().getFormatted());
 		assertEquals("plain", createdSet1.getDescr().getPlain());
 		assertEquals(DF.parse("20080101"), createdSet1.getEffectiveDate());
 		assertEquals(DF.parse("20180101"), createdSet1.getExpirationDate());
@@ -338,14 +343,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("CLU-2", createdSet1.getCluIds().get(1));
 		assertEquals("CLUSET-1", createdSet1.getCluSetIds().get(0));
 		assertEquals("CLUSET-2", createdSet1.getCluSetIds().get(1));
-		assertEquals("cluSet1ArrtValue1", createdSet1.getAttributes().get(
-				"cluSet1ArrtKey1"));
-		assertEquals("cluSet1ArrtValue2", createdSet1.getAttributes().get(
-				"cluSet1ArrtKey2"));
+		assertEquals("cluSet1ArrtValue1", createdSet1.getAttributes().get("cluSet1ArrtKey1"));
+		assertEquals("cluSet1ArrtValue2", createdSet1.getAttributes().get("cluSet1ArrtKey2"));
 		assertNotNull(createdSet1.getMetaInfo().getCreateTime());
 		assertNotNull(createdSet1.getMetaInfo().getUpdateTime());
 		assertNotNull(createdSet1.getId());
 
+		createdSet1.setAdminOrg("uuid-1234-5678");
 		createdSet1.getDescr().setFormatted("UP<p>Formatted Desc</p>");
 		createdSet1.getDescr().setPlain("UPplain");
 		createdSet1.setEffectiveDate(DF.parse("20090101"));
@@ -355,16 +359,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdSet1.getCluIds().add("CLU-3");
 		createdSet1.getCluSetIds().remove(1);
 		createdSet1.getCluSetIds().add("CLUSET-3");
-		createdSet1.getAttributes().put("cluSet1ArrtKey1",
-				"UPcluSet1ArrtValue1");
+		createdSet1.getAttributes().put("cluSet1ArrtKey1", "UPcluSet1ArrtValue1");
 		createdSet1.getAttributes().remove("cluSet1ArrtKey2");
 		createdSet1.getAttributes().put("cluSet1ArrtKey3", "cluSet1ArrtValue3");
 
-		CluSetInfo updatedSet1 = client.updateCluSet(createdSet1.getId(),
-				createdSet1);
+		CluSetInfo updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1);
 
-		assertEquals("UP<p>Formatted Desc</p>", updatedSet1.getDescr()
-				.getFormatted());
+		assertEquals("uuid-1234-5678", updatedSet1.getAdminOrg());
+		assertEquals("UP<p>Formatted Desc</p>", updatedSet1.getDescr().getFormatted());
 		assertEquals("UPplain", updatedSet1.getDescr().getPlain());
 		assertEquals(DF.parse("20090101"), updatedSet1.getEffectiveDate());
 		assertEquals(DF.parse("20190101"), updatedSet1.getExpirationDate());
@@ -383,8 +385,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(updatedSet1.getMetaInfo().getUpdateTime());
 
 		// Test Adds and removes
-		StatusInfo status = client.addCluSetToCluSet(createdSet1.getId(),
-				"CLUSET-4");
+		StatusInfo status = client.addCluSetToCluSet(createdSet1.getId(), "CLUSET-4");
 		assertTrue(status.getSuccess());
 		status = client.addCluToCluSet("CLU-4", createdSet1.getId());
 		assertTrue(status.getSuccess());
@@ -460,6 +461,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 	}
 
+	
 	@Test
 	public void testCluCrud() throws ParseException, AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
@@ -467,205 +469,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException, DependentObjectsExistException {
 
-		CluInfo clu = new CluInfo();
-
-		CluAccountingInfo accountingInfo = new CluAccountingInfo();
-		accountingInfo.getAttributes().put("AccountingAttrKey1",
-				"AccountingAttrValue1");
-		accountingInfo.getAttributes().put("AccountingAttrKey2",
-				"AccountingAttrValue2");
-		clu.setAccountingInfo(accountingInfo);
-
-		CluIdentifierInfo officialIdentifier = new CluIdentifierInfo();
-		officialIdentifier.setCode("offId_code");
-		officialIdentifier.setDivision("offId_division");
-		officialIdentifier.setLevel("offId_level");
-		officialIdentifier.setLongName("offId_longName");
-		officialIdentifier.setShortName("offId_shortName");
-		officialIdentifier.setState("offId_state");
-		officialIdentifier.setType("offId_type");
-		officialIdentifier.setVariation("offId_variation");
-		officialIdentifier.setSuffixCode("offId_suffixcode");
-		officialIdentifier.setOrgId("offId_orgid");
-		clu.setOfficialIdentifier(officialIdentifier);
-
-		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
-		cluId1.setCode("cluId1_code");
-		cluId1.setDivision("cluId1_division");
-		cluId1.setLevel("cluId1_level");
-		cluId1.setLongName("cluId1_longName");
-		cluId1.setShortName("cluId1_shortName");
-		cluId1.setState("cluId1_state");
-		cluId1.setType("cluId1_type");
-		cluId1.setVariation("cluId1_variation");
-		cluId1.setSuffixCode("cluId1_suffixcode");
-		cluId1.setOrgId("cluId1_orgid");
-		clu.getAlternateIdentifiers().add(cluId1);
-
-		CluIdentifierInfo cluId2 = new CluIdentifierInfo();
-		cluId2.setCode("cluId2_code");
-		cluId2.setDivision("cluId2_division");
-		cluId2.setLevel("cluId2_level");
-		cluId2.setLongName("cluId2_longName");
-		cluId2.setShortName("cluId2_shortName");
-		cluId2.setState("cluId2_state");
-		cluId2.setType("cluId2_type");
-		cluId2.setVariation("cluId2_variation");
-		cluId2.setSuffixCode("cluId2_suffixcode");
-		cluId2.setOrgId("cluId2_orgid");
-		clu.getAlternateIdentifiers().add(cluId2);
-
-		clu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
-		clu.getAttributes().put("cluAttrKey2", "cluAttrValue2");
-
-		clu.setCanCreateLui(true);
-
-		clu.setDefaultEnrollmentEstimate(545);
-		clu.setDefaultMaximumEnrollment(999);
-
-		RichTextInfo desc = new RichTextInfo();
-		desc.setFormatted("<p>DESC FORMATTED</p>");
-		desc.setPlain("DESC PLAIN");
-		clu.setDescr(desc);
-
-		clu.setEffectiveDate(DF.parse("20100203"));
-		clu.setExpirationDate(DF.parse("21001231"));
-
-		clu.setEnrollable(true);
-
-		AffiliatedOrgInfo aforg = new AffiliatedOrgInfo();
-		aforg.setOrgId("AFF_ORG1");
-		aforg.setPercentage(35l);
-		
-		AffiliatedOrgInfo aforg1 = new AffiliatedOrgInfo();
-		aforg1.setOrgId("AFF_ORG2");
-		aforg1.setPercentage(65l);
-		
-		List<AffiliatedOrgInfo> affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
-		affiliatedOrgs.add(aforg);
-		affiliatedOrgs.add(aforg1);
-		
-		CurrencyAmountInfo ca = new CurrencyAmountInfo();
-		ca.setCurrencyQuantity(100);
-		ca.setCurrencyTypeKey("DLLR");
-		
-		CluFeeRecordInfo feeRec = new CluFeeRecordInfo();
-		feeRec.setAffiliatedOrgInfoList(affiliatedOrgs);
-		feeRec.setFeeAmount(ca);
-		feeRec.setFeeType("FEE_TYPE_X");
-
-		CluFeeRecordInfo feeRec1 = new CluFeeRecordInfo();
-		feeRec1.setAffiliatedOrgInfoList(affiliatedOrgs);
-		feeRec1.setFeeAmount(ca);
-		feeRec1.setFeeType("FEE_TYPE_Y");
-		
-		List<CluFeeRecordInfo> feeRecList = new ArrayList<CluFeeRecordInfo>();
-		feeRecList.add(feeRec);
-		feeRecList.add(feeRec1);
-		
-		CluFeeInfo feeInfo = new CluFeeInfo();
-		feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
-		feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
-		feeInfo.setCluFeeRecords(feeRecList);
-		clu.setFeeInfo(feeInfo);
-
-		clu.setHasEarlyDropDeadline(true);
-
-		clu.setHazardousForDisabledStudents(true);
-
-		CluInstructorInfo primaryInstructor = new CluInstructorInfo();
-		primaryInstructor.setOrgId("EXT_orgId_1");
-		primaryInstructor.setPersonId("EXT_personId_1");
-		primaryInstructor.getAttributes().put("PrimaryInstAttrKey1",
-				"PrimaryInstAttrValue1");
-		primaryInstructor.getAttributes().put("PrimaryInstAttrKey2",
-				"PrimaryInstAttrValue2");
-		clu.setPrimaryInstructor(primaryInstructor);
-
-		CluInstructorInfo instructor1 = new CluInstructorInfo();
-		instructor1.setOrgId("EXT_orgId_2");
-		instructor1.setPersonId("EXT_personId_2");
-		instructor1.getAttributes().put("Inst1AttrKey1", "Inst1AttrValue1");
-		instructor1.getAttributes().put("Inst1AttrKey2", "Inst1AttrValue2");
-		clu.getInstructors().add(instructor1);
-
-		CluInstructorInfo instructor2 = new CluInstructorInfo();
-		instructor2.setOrgId("EXT_orgId_3");
-		instructor2.setPersonId("EXT_personId_3");
-		instructor2.getAttributes().put("Inst2AttrKey1", "Inst2AttrValue1");
-		instructor2.getAttributes().put("Inst2AttrKey2", "Inst2AttrValue2");
-		clu.getInstructors().add(instructor2);
-
-		LuCodeInfo luCode1 = new LuCodeInfo();
-		luCode1.setId("luCode1.key");
-		luCode1.setDescr("luCode1_desc");
-		luCode1.setValue("luCode1_value");
-		luCode1.getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
-		luCode1.getAttributes().put("luCode1AttrKey2", "luCode1AttrValue2");
-		clu.getLuCodes().add(luCode1);
-
-		LuCodeInfo luCode2 = new LuCodeInfo();
-		luCode2.setId("luCode2.key");
-		luCode2.setDescr("luCode2_desc");
-		luCode2.setValue("luCode2_value");
-		luCode2.getAttributes().put("luCode2AttrKey1", "luCode2AttrValue1");
-		luCode2.getAttributes().put("luCode2AttrKey2", "luCode2AttrValue2");
-		clu.getLuCodes().add(luCode2);
-
-		RichTextInfo marketingDesc = new RichTextInfo();
-		marketingDesc.setFormatted("<p>marketingDesc FORMATTED</p>");
-		marketingDesc.setPlain("marketingDesc PLAIN");
-
-		clu.setNextReviewPeriod("nextReviewPeriod");
-
-		clu.getOfferedAtpTypes().add("offeredAtpType1");
-		clu.getOfferedAtpTypes().add("offeredAtpType2");
-
-
-		CluInstructorInfo pubPrimaryInstructor = new CluInstructorInfo();
-		pubPrimaryInstructor.setOrgId("EXT_orgId_234");
-		pubPrimaryInstructor.setPersonId("EXT_personId_2451");
-		pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey1",
-				"PubPrimaryInstAttrValue1");
-		pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey2",
-				"PubPrimaryInstAttrValue2");
-
-		CluInstructorInfo pubInstructor1 = new CluInstructorInfo();
-		pubInstructor1.setOrgId("EXT_orgId_2");
-		pubInstructor1.setPersonId("EXT_personId_2");
-		pubInstructor1.getAttributes().put("PubInst1AttrKey1",
-				"PubInst1AttrValue1");
-		pubInstructor1.getAttributes().put("PubInst1AttrKey2",
-				"PubInst1AttrValue2");
-
-		CluInstructorInfo pubInstructor2 = new CluInstructorInfo();
-		pubInstructor2.setOrgId("EXT_orgId_3");
-		pubInstructor2.setPersonId("EXT_personId_3");
-		pubInstructor2.getAttributes().put("PubInst2AttrKey1",
-				"PubInst2AttrValue1");
-		pubInstructor2.getAttributes().put("PubInst2AttrKey2",
-				"PubInst2AttrValue2");
-
-		clu.setReferenceURL("http://student.kuali.org/clus");
-
-		clu.setState("Clu state");
-
-		TimeAmountInfo stdDuration = new TimeAmountInfo();
-		stdDuration.setAtpDurationTypeKey("EXT_stdDuration_Id1");
-		stdDuration.setTimeQuantity(new Integer(7867));
-		clu.setStdDuration(stdDuration);
-
-		clu.setType("");
-
-		createAcademicSubjectOrgs(clu);
-
-		createCampusLocationList(clu);
-
-		createIntensity(clu);
-
-		createAccreditationList(clu);
-
-		createAdminOrgs(clu);
+		CluInfo clu = createCluInfo();
 
 		// Do the actual create call
 		CluInfo createdClu = client.createClu("luType.shell.course", clu);
@@ -1907,25 +1711,28 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ParseException, VersionMismatchException {
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(
 				0);
-		List<Result> clus = client.searchForResults("lu.search.clus", queryParamValues);
-		Collections.sort(clus, new Comparator<Result>() {
-			public int compare(Result o1, Result o2) {
-				return o1.getResultCells().get(0).getValue().compareTo(
-						o2.getResultCells().get(0).getValue());
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("lu.search.clus");
+		searchRequest.setParams(queryParamValues);
+		SearchResult clus = client.search(searchRequest);
+		Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
+			public int compare(SearchResultRow o1, SearchResultRow o2) {
+				return o1.getCells().get(0).getValue().compareTo(
+						o2.getCells().get(0).getValue());
 			}
 		});
 		assertNotNull(clus);
-		assertEquals(103, clus.size());
-		Result result = clus.get(0);
+		assertEquals(103, clus.getRows().size());
+		SearchResultRow result = clus.getRows().get(0);
 		assertNotNull(result);
 
-		List<ResultCell> resultCells = result.getResultCells();
+		List<SearchResultCell> resultCells = result.getCells();
 		assertNotNull(resultCells);
 		assertEquals(2, resultCells.size());
 
-		ResultCell resultCell = resultCells.get(0);
+		SearchResultCell resultCell = resultCells.get(0);
 		assertEquals("lu.resultColumn.cluId", resultCell.getKey());
 		assertEquals("00000000-a389-4fd0-b349-1e649c20fd08", resultCell
 				.getValue());
@@ -2150,10 +1957,467 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setState("template");
 
 		List<ValidationResultInfo> valerros = client.validateClu("SYSTEM", clu);
-System.out.println("\n\n ***** valerros.size()="+valerros.size());
+
 		assertEquals(valerros.size(), 19);		
 	}	
+
+	@Test
+	public void testAddCluToCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		StatusInfo status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
+		CluSetInfo getCluSetInfo = client.getCluSetInfo(createdCluSet.getId());
 		
+		assertTrue(status.getSuccess());
+		assertEquals(1, getCluSetInfo.getCluIds().size());
+		assertEquals("CLU-1", getCluSetInfo.getCluIds().get(0));
+	}
+	
+	@Test
+	public void testAddCluToCluSet_DuplicateCluId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		StatusInfo status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
+		assertTrue(status.getSuccess());
+
+		try {
+			client.addCluToCluSet("CLU-1", createdCluSet.getId());
+			fail("Adding the same CLU more than once should have failed");
+		} catch(OperationFailedException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testAddClusToCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+		
+		// Somehow cannot add 2 CLUs in sequence (JTA rollback exception) but adding a single CLU works
+		//CluInfo clu1 = createCluInfo();
+		//CluInfo clu2 = createCluInfo();
+		//CluInfo createdClu1 = client.createClu("luType.shell.course", clu1);
+		//CluInfo createdClu2 = client.createClu("luType.shell.course", clu2);
+		//List<String> cluIdList = Arrays.asList(new String[] {createdClu1.getId(), createdClu2.getId()});
+
+		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-3", "CLU-4"});
+		
+		StatusInfo status = client.addClusToCluSet(cluIdList, createdCluSet.getId());
+		CluSetInfo getCluSetInfo = client.getCluSetInfo(createdCluSet.getId());
+		assertTrue(status.getSuccess());
+		assertEquals(4, getCluSetInfo.getCluIds().size());
+		assertTrue(getCluSetInfo.getCluIds().contains("CLU-1"));
+		assertTrue(getCluSetInfo.getCluIds().contains("CLU-2"));
+		assertTrue(getCluSetInfo.getCluIds().contains("CLU-3"));
+		assertTrue(getCluSetInfo.getCluIds().contains("CLU-4"));
+	}
+
+	@Test
+	public void testAddClusToCluSet_InvalidCluId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-INVALID-ID", "CLU-4"});
+		
+		try {
+			client.addClusToCluSet(cluIdList, createdCluSet.getId());
+			fail("Adding a non-existent CLU (id='CLU-INVALID-ID') to CluSet should have failed");
+		} catch(DoesNotExistException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testAddClusToCluSet_DuplicateCluId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-2", "CLU-4"});
+		
+		try {
+			client.addClusToCluSet(cluIdList, createdCluSet.getId());
+			fail("Adding a duplicate CLU (id='CLU-2') to CluSet should have failed");
+		} catch(OperationFailedException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testAddClusToCluSet_InvalidCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
+		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-3", "CLU-4"});
+		
+		try {
+			client.addClusToCluSet(cluIdList, "CLUSET-INVALID-ID");
+			fail("Adding CLUs to a non-existent CluSet (id='CLUSET-INVALID-ID') should have failed");
+		} catch(DoesNotExistException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testAddCluSetToCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		StatusInfo status = client.addCluSetToCluSet(createdCluSet.getId(), "CLUSET-1");
+		CluSetInfo getCluSetInfo = client.getCluSetInfo(createdCluSet.getId());
+
+		assertTrue(status.getSuccess());
+		assertEquals(1, getCluSetInfo.getCluSetIds().size());
+		assertTrue(getCluSetInfo.getCluSetIds().contains("CLUSET-1"));
+	}
+
+	@Test
+	public void testAddCluSetToCluSet_CircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		try {
+			client.addCluSetToCluSet(createdCluSet.getId(), createdCluSet.getId());
+			fail("Adding a CluSet to itself should have failed");
+		} catch(CircularRelationshipException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testAddCluSetToCluSet_NestedCircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+		CluSetInfo createdCluSet2 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+		CluSetInfo createdCluSet3 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		client.addCluSetToCluSet(createdCluSet3.getId(), createdCluSet1.getId());
+		client.addCluSetToCluSet(createdCluSet2.getId(), createdCluSet3.getId());
+		
+		try {
+			client.addCluSetToCluSet(createdCluSet1.getId(), createdCluSet2.getId());
+			fail("Adding CluSet should have thrown a CircularRelationshipException");
+		} catch(CircularRelationshipException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testAddCluSetToCluSet_DuplicateCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		StatusInfo status = client.addCluSetToCluSet(createdCluSet.getId(), "CLUSET-1");
+		assertTrue(status.getSuccess());
+
+		try {
+			client.addCluSetToCluSet(createdCluSet.getId(), "CLUSET-1");
+			fail("Adding a duplicate CluSet (id='CLUSET-1') to CluSet should have failed");
+		} catch(OperationFailedException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testAddCluSetToCluSet_InvalidCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		try {
+			client.addCluSetToCluSet(createdCluSet.getId(), "CLUSET-INVALID-ID");
+			fail("Adding a non-existent CluSet (id='CLUSET-INVALID-ID') to CluSet should have failed");
+		} catch(DoesNotExistException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testAddCluSetsToCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", "CLUSET-3", "CLUSET-4"});
+		
+		StatusInfo status = client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
+		CluSetInfo getCluSetInfo = client.getCluSetInfo(createdCluSet.getId());
+
+		assertTrue(status.getSuccess());
+		assertEquals(4, getCluSetInfo.getCluSetIds().size());
+		assertTrue(getCluSetInfo.getCluSetIds().contains("CLUSET-1"));
+		assertTrue(getCluSetInfo.getCluSetIds().contains("CLUSET-2"));
+		assertTrue(getCluSetInfo.getCluSetIds().contains("CLUSET-3"));
+		assertTrue(getCluSetInfo.getCluSetIds().contains("CLUSET-4"));
+	}
+
+	@Test
+	public void testAddCluSetsToCluSet_InvalidCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-INVALID-ID", "CLUSET-3", "CLUSET-4"});
+		
+		try {
+			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
+			fail("Adding a non-existent CluSet (id='CLUSET-INVALID-ID') to CluSet should have failed");
+		} catch(DoesNotExistException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testAddCluSetsToCluSet_DuplicateCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", "CLUSET-3", "CLUSET-2"});
+		
+		try {
+			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
+			fail("Adding a duplicate CluSet (id='CLUSET-2') to CluSet should have failed");
+		} catch(OperationFailedException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testAddCluSetsToCluSet_CircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+		// Adding createdCluSet to itself
+		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", createdCluSet.getId(), "CLUSET-4"});
+		
+		try {
+			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
+			fail("Adding a CluSet to itself should have failed");
+		} catch(CircularRelationshipException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testAddCluSetsToCluSet_NestedCircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+		CluSetInfo createdCluSet2 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+		CluSetInfo createdCluSet3 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
+
+		List<String> cluIdList1 = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", createdCluSet1.getId()});
+		client.addCluSetsToCluSet(createdCluSet3.getId(), cluIdList1);
+
+		// Adding createdCluSet to itself
+		List<String> cluIdList2 = Arrays.asList(new String[] {"CLUSET-1",createdCluSet3.getId()});
+		client.addCluSetsToCluSet(createdCluSet2.getId(), cluIdList2);
+
+		try {
+			List<String> cluIdList3 = Arrays.asList(new String[] {createdCluSet2.getId(),});
+			client.addCluSetsToCluSet(createdCluSet1.getId(), cluIdList3);
+			fail("Adding CluSet should have thrown a CircularRelationshipException");
+		} catch(CircularRelationshipException e) {
+			assertTrue(true);
+		}
+	}
+
+	private CluSetInfo createCluSetInfo() throws ParseException {
+		CluSetInfo cluSetInfo = new CluSetInfo();
+	
+		RichTextInfo desc = new RichTextInfo();
+		desc.setFormatted("<p>Formatted Desc</p>");
+		desc.setPlain("plain");
+		cluSetInfo.setDescr(desc);
+		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
+		cluSetInfo.setExpirationDate(DF.parse("20180101"));
+		cluSetInfo.setName("Clu set name");
+		
+		return cluSetInfo;
+	}
+	
+	private CluInfo createCluInfo() throws ParseException {
+		CluInfo clu = new CluInfo();
+
+		CluAccountingInfo accountingInfo = new CluAccountingInfo();
+		accountingInfo.getAttributes().put("AccountingAttrKey1",
+				"AccountingAttrValue1");
+		accountingInfo.getAttributes().put("AccountingAttrKey2",
+				"AccountingAttrValue2");
+		clu.setAccountingInfo(accountingInfo);
+
+		CluIdentifierInfo officialIdentifier = new CluIdentifierInfo();
+		officialIdentifier.setCode("offId_code");
+		officialIdentifier.setDivision("offId_division");
+		officialIdentifier.setLevel("offId_level");
+		officialIdentifier.setLongName("offId_longName");
+		officialIdentifier.setShortName("offId_shortName");
+		officialIdentifier.setState("offId_state");
+		officialIdentifier.setType("offId_type");
+		officialIdentifier.setVariation("offId_variation");
+		officialIdentifier.setSuffixCode("offId_suffixcode");
+		officialIdentifier.setOrgId("offId_orgid");
+		clu.setOfficialIdentifier(officialIdentifier);
+
+		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
+		cluId1.setCode("cluId1_code");
+		cluId1.setDivision("cluId1_division");
+		cluId1.setLevel("cluId1_level");
+		cluId1.setLongName("cluId1_longName");
+		cluId1.setShortName("cluId1_shortName");
+		cluId1.setState("cluId1_state");
+		cluId1.setType("cluId1_type");
+		cluId1.setVariation("cluId1_variation");
+		cluId1.setSuffixCode("cluId1_suffixcode");
+		cluId1.setOrgId("cluId1_orgid");
+		clu.getAlternateIdentifiers().add(cluId1);
+
+		CluIdentifierInfo cluId2 = new CluIdentifierInfo();
+		cluId2.setCode("cluId2_code");
+		cluId2.setDivision("cluId2_division");
+		cluId2.setLevel("cluId2_level");
+		cluId2.setLongName("cluId2_longName");
+		cluId2.setShortName("cluId2_shortName");
+		cluId2.setState("cluId2_state");
+		cluId2.setType("cluId2_type");
+		cluId2.setVariation("cluId2_variation");
+		cluId2.setSuffixCode("cluId2_suffixcode");
+		cluId2.setOrgId("cluId2_orgid");
+		clu.getAlternateIdentifiers().add(cluId2);
+
+		clu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
+		clu.getAttributes().put("cluAttrKey2", "cluAttrValue2");
+
+		clu.setCanCreateLui(true);
+
+		clu.setDefaultEnrollmentEstimate(545);
+		clu.setDefaultMaximumEnrollment(999);
+
+		RichTextInfo desc = new RichTextInfo();
+		desc.setFormatted("<p>DESC FORMATTED</p>");
+		desc.setPlain("DESC PLAIN");
+		clu.setDescr(desc);
+
+		clu.setEffectiveDate(DF.parse("20100203"));
+		clu.setExpirationDate(DF.parse("21001231"));
+
+		clu.setEnrollable(true);
+
+		AffiliatedOrgInfo aforg = new AffiliatedOrgInfo();
+		aforg.setOrgId("AFF_ORG1");
+		aforg.setPercentage(35l);
+		
+		AffiliatedOrgInfo aforg1 = new AffiliatedOrgInfo();
+		aforg1.setOrgId("AFF_ORG2");
+		aforg1.setPercentage(65l);
+		
+		List<AffiliatedOrgInfo> affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
+		affiliatedOrgs.add(aforg);
+		affiliatedOrgs.add(aforg1);
+		
+		CurrencyAmountInfo ca = new CurrencyAmountInfo();
+		ca.setCurrencyQuantity(100);
+		ca.setCurrencyTypeKey("DLLR");
+		
+		CluFeeRecordInfo feeRec = new CluFeeRecordInfo();
+		feeRec.setAffiliatedOrgInfoList(affiliatedOrgs);
+		feeRec.setFeeAmount(ca);
+		feeRec.setFeeType("FEE_TYPE_X");
+
+		CluFeeRecordInfo feeRec1 = new CluFeeRecordInfo();
+		feeRec1.setAffiliatedOrgInfoList(affiliatedOrgs);
+		feeRec1.setFeeAmount(ca);
+		feeRec1.setFeeType("FEE_TYPE_Y");
+		
+		List<CluFeeRecordInfo> feeRecList = new ArrayList<CluFeeRecordInfo>();
+		feeRecList.add(feeRec);
+		feeRecList.add(feeRec1);
+		
+		CluFeeInfo feeInfo = new CluFeeInfo();
+		feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
+		feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
+		feeInfo.setCluFeeRecords(feeRecList);
+		clu.setFeeInfo(feeInfo);
+
+		clu.setHasEarlyDropDeadline(true);
+
+		clu.setHazardousForDisabledStudents(true);
+
+		CluInstructorInfo primaryInstructor = new CluInstructorInfo();
+		primaryInstructor.setOrgId("EXT_orgId_1");
+		primaryInstructor.setPersonId("EXT_personId_1");
+		primaryInstructor.getAttributes().put("PrimaryInstAttrKey1",
+				"PrimaryInstAttrValue1");
+		primaryInstructor.getAttributes().put("PrimaryInstAttrKey2",
+				"PrimaryInstAttrValue2");
+		clu.setPrimaryInstructor(primaryInstructor);
+
+		CluInstructorInfo instructor1 = new CluInstructorInfo();
+		instructor1.setOrgId("EXT_orgId_2");
+		instructor1.setPersonId("EXT_personId_2");
+		instructor1.getAttributes().put("Inst1AttrKey1", "Inst1AttrValue1");
+		instructor1.getAttributes().put("Inst1AttrKey2", "Inst1AttrValue2");
+		clu.getInstructors().add(instructor1);
+
+		CluInstructorInfo instructor2 = new CluInstructorInfo();
+		instructor2.setOrgId("EXT_orgId_3");
+		instructor2.setPersonId("EXT_personId_3");
+		instructor2.getAttributes().put("Inst2AttrKey1", "Inst2AttrValue1");
+		instructor2.getAttributes().put("Inst2AttrKey2", "Inst2AttrValue2");
+		clu.getInstructors().add(instructor2);
+
+		LuCodeInfo luCode1 = new LuCodeInfo();
+		luCode1.setId("luCode1.key");
+		luCode1.setDescr("luCode1_desc");
+		luCode1.setValue("luCode1_value");
+		luCode1.getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
+		luCode1.getAttributes().put("luCode1AttrKey2", "luCode1AttrValue2");
+		clu.getLuCodes().add(luCode1);
+
+		LuCodeInfo luCode2 = new LuCodeInfo();
+		luCode2.setId("luCode2.key");
+		luCode2.setDescr("luCode2_desc");
+		luCode2.setValue("luCode2_value");
+		luCode2.getAttributes().put("luCode2AttrKey1", "luCode2AttrValue1");
+		luCode2.getAttributes().put("luCode2AttrKey2", "luCode2AttrValue2");
+		clu.getLuCodes().add(luCode2);
+
+		RichTextInfo marketingDesc = new RichTextInfo();
+		marketingDesc.setFormatted("<p>marketingDesc FORMATTED</p>");
+		marketingDesc.setPlain("marketingDesc PLAIN");
+
+		clu.setNextReviewPeriod("nextReviewPeriod");
+
+		clu.getOfferedAtpTypes().add("offeredAtpType1");
+		clu.getOfferedAtpTypes().add("offeredAtpType2");
+
+
+		CluInstructorInfo pubPrimaryInstructor = new CluInstructorInfo();
+		pubPrimaryInstructor.setOrgId("EXT_orgId_234");
+		pubPrimaryInstructor.setPersonId("EXT_personId_2451");
+		pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey1",
+				"PubPrimaryInstAttrValue1");
+		pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey2",
+				"PubPrimaryInstAttrValue2");
+
+		CluInstructorInfo pubInstructor1 = new CluInstructorInfo();
+		pubInstructor1.setOrgId("EXT_orgId_2");
+		pubInstructor1.setPersonId("EXT_personId_2");
+		pubInstructor1.getAttributes().put("PubInst1AttrKey1",
+				"PubInst1AttrValue1");
+		pubInstructor1.getAttributes().put("PubInst1AttrKey2",
+				"PubInst1AttrValue2");
+
+		CluInstructorInfo pubInstructor2 = new CluInstructorInfo();
+		pubInstructor2.setOrgId("EXT_orgId_3");
+		pubInstructor2.setPersonId("EXT_personId_3");
+		pubInstructor2.getAttributes().put("PubInst2AttrKey1",
+				"PubInst2AttrValue1");
+		pubInstructor2.getAttributes().put("PubInst2AttrKey2",
+				"PubInst2AttrValue2");
+
+		clu.setReferenceURL("http://student.kuali.org/clus");
+
+		clu.setState("Clu state");
+
+		TimeAmountInfo stdDuration = new TimeAmountInfo();
+		stdDuration.setAtpDurationTypeKey("EXT_stdDuration_Id1");
+		stdDuration.setTimeQuantity(new Integer(7867));
+		clu.setStdDuration(stdDuration);
+
+		clu.setType("");
+
+		createAcademicSubjectOrgs(clu);
+
+		createCampusLocationList(clu);
+
+		createIntensity(clu);
+
+		createAccreditationList(clu);
+
+		createAdminOrgs(clu);
+		
+		return clu;
+	}
+
 	private void createAcademicSubjectOrgs(CluInfo clu) {
 		AcademicSubjectOrgInfo sOrg1 = new AcademicSubjectOrgInfo();
 		sOrg1.setOrgId("EXT_Academic_Subject_ORG_ID1");

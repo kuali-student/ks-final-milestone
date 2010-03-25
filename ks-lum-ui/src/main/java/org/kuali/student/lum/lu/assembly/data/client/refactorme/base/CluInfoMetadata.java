@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
 import java.util.Date;
-
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -124,21 +123,9 @@ public class CluInfoMetadata
 		}
 		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
-		// metadata for marketingDesc
+		// metadata for campusLocations
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.MARKETING_DESC.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		
-		// metadata for campusLocationList
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.CAMPUS_LOCATION_LIST.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.CAMPUS_LOCATIONS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -152,9 +139,9 @@ public class CluInfoMetadata
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		
-		// metadata for accreditation
+		// metadata for accreditations
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.ACCREDITATION.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.ACCREDITATIONS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -270,7 +257,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		new TimeAmountInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+		new AmountInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for stdDuration
 		childMeta = new Metadata ();
@@ -298,7 +285,7 @@ public class CluInfoMetadata
 		
 		// metadata for referenceURL
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.REFERENCE_U_R_L.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.REFERENCE_URL.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -323,18 +310,6 @@ public class CluInfoMetadata
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		new LuCodeInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		
-		// metadata for publishingInfo
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.PUBLISHING_INFO.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-		}
-		new CluPublishingInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for nextReviewPeriod
 		childMeta = new Metadata ();

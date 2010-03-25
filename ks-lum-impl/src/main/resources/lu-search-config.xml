@@ -32,6 +32,7 @@
 			<ref bean="lu.queryParam.luOptionalType"/>
 			<ref bean="lu.queryParam.luOptionalCode"/>
 			<ref bean="lu.queryParam.luOptionalLevel"/>
+			<ref bean="lu.queryParam.luOptionalState"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -55,6 +56,10 @@
 	<search:queryParam id="lu.queryParam.luOptionalLevel-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.level.fd"/>
 	</search:queryParam>															
+	<search:queryParam id="lu.queryParam.luOptionalState" parent="lu.queryParam.luOptionalState-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalState-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.state.fd"/>
+	</search:queryParam>
 
 	<search:searchResultTypeInfo id="lu.result.generic" parent="lu.result.generic-parent"/>
 	<search:searchResultTypeInfo id="lu.result.generic-parent"  abstract="true">
@@ -261,6 +266,97 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
+	<search:searchType id="cluset.search.generic" parent="cluset.search.generic-parent"/>
+	<search:searchType id="cluset.search.generic-parent"  abstract="true">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><!--  could be defined as stand alone -->
+			<search:name>Clu Set Full View</search:name>
+			<search:desc>Full view of clusets</search:desc>
+			<search:resultColumns>
+				<ref bean="cluset.resultColumn.cluSetId" />
+				<ref bean="cluset.resultColumn.name" />
+				<ref bean="cluset.resultColumn.description" />
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="clu.criteria.cluAdvancedCriteria"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+    <search:resultColumn id="cluset.resultColumn.cluSetId" parent="cluset.resultColumn.cluSetId-parent"/>
+	<search:resultColumn id="cluset.resultColumn.cluSetId-parent"  abstract="true">
+        <search:name>Clu Set Id</search:name>
+        <search:desc>Identifier of a Clu Set</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="cluset.resultColumn.name" parent="cluset.resultColumn.name-parent"/>
+	<search:resultColumn id="cluset.resultColumn.name-parent"  abstract="true">
+		<search:name>Name</search:name>
+		<search:desc>Name of the cluset.</search:desc>
+		<search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="cluset.resultColumn.description" parent="cluset.resultColumn.description-parent"/>
+	<search:resultColumn id="cluset.resultColumn.description-parent"  abstract="true">
+		<search:name>Description</search:name>
+		<search:desc>Description of the Clu Set.</search:desc>
+		<search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<search:searchCriteriaTypeInfo id="clu.criteria.cluAdvancedCriteria" parent="clu.criteria.cluAdvancedCriteria-parent"/>
+	<search:searchCriteriaTypeInfo id="clu.criteria.cluAdvancedCriteria-parent"  abstract="true">
+		<search:name>CluSetAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="cluset.queryParam.optionalId"/>
+			<ref bean="cluset.queryParam.optionalName"/>
+			<ref bean="cluset.queryParam.optionalDescription"/>
+			<ref bean="lu.queryParam.luOptionalLongName"/>
+			<ref bean="cluset.queryParam.optionalSubCluSetName"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="cluset.queryParam.optionalId" parent="cluset.queryParam.optionalId-parent"/>
+	<search:queryParam id="cluset.queryParam.optionalId-parent"
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Id</dict:name>
+			<dict:desc>Unique identifier for a Clu Set.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	<search:queryParam id="cluset.queryParam.optionalName" parent="cluset.queryParam.optionalName-parent"/>
+	<search:queryParam id="cluset.queryParam.optionalName-parent"
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Name</dict:name>
+			<dict:desc>Name of a Clu Set.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	<search:queryParam id="cluset.queryParam.optionalDescription" parent="cluset.queryParam.optionalDescription-parent"/>
+	<search:queryParam id="cluset.queryParam.optionalDescription-parent"  optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Description</dict:name>
+			<dict:desc>Description of a Clu Set.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>			
+	<search:queryParam id="cluset.queryParam.optionalSubCluSetName" parent="cluset.queryParam.optionalSubCluSetName-parent"/>
+	<search:queryParam id="cluset.queryParam.optionalSubCluSetName-parent"  optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Clu Set Name</dict:name>
+			<dict:desc>Name of a child Clu Set.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>			
+
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
@@ -280,6 +376,13 @@
 		        <entry key="lu.search.generic">
 		            <value>SELECT clu.id,  clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level FROM Clu clu WHERE clu.state NOT IN ('draft')</value>
 		        </entry>    
+		        <entry key="cluset.search.generic">
+		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
+		            FROM CluSet cluset
+		            LEFT JOIN cluset.clus clu
+		            LEFT JOIN cluset.cluSets subcluset
+		            </value>
+		        </entry>    
 				<entry key="lu.queryParam.luOptionalId">
 					<value>clu.id = :lu_queryParam_luOptionalId</value>
 				</entry>
@@ -294,6 +397,21 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalLevel">
 					<value>clu.officialIdentifier.level</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalState">
+					<value>clu.state = :lu_queryParam_luOptionalState</value>
+				</entry>
+				<entry key="cluset.queryParam.optionalId">
+					<value>cluset.id = :cluset_queryParam_optionalId</value>
+				</entry>
+				<entry key="cluset.queryParam.optionalName">
+					<value>cluset.name</value>
+				</entry>
+				<entry key="cluset.queryParam.optionalSubCluSetName">
+					<value>subcluset.name</value>
+				</entry>
+				<entry key="cluset.queryParam.optionalDescription">
+					<value>cluset.descr.plain</value>
 				</entry>
 				<entry key="lu.search.allLoQuickView">
 					<value>SELECT rel.clu.id, rel.clu.officialIdentifier.code, rel.loId FROM CluLoRelation rel</value>

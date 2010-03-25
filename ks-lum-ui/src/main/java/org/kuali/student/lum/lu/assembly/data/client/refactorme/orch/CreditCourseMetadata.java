@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
 import java.util.Date;
-
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -73,6 +72,19 @@ public class CreditCourseMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
+		// metadata for CopyOfCourseId
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.COPY_OF_COURSE_ID.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.cluid"));
+		}
+		
 		// metadata for Formats
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.FORMATS.getKey (), childMeta);
@@ -122,6 +134,7 @@ public class CreditCourseMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("atp.in.future"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("atp.types"));
@@ -308,6 +321,30 @@ public class CreditCourseMetadata
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		new FeeInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
+		// metadata for ExpenditureInfo
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.EXPENDITURE_INFO.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+		}
+		new CreditCourseExpenditureInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+		
+		// metadata for RevenueInfo
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.REVENUE_INFO.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+		}
+		new CreditCourseRevenueInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+		
 		// metadata for State
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.STATE.getKey (), childMeta);
@@ -421,7 +458,7 @@ public class CreditCourseMetadata
 		
 		// metadata for CourseSpecificLOs
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.COURSE_SPECIFIC_L_OS.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.COURSE_SPECIFIC_LOS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))

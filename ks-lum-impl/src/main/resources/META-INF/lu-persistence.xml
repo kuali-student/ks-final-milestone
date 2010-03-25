@@ -73,6 +73,7 @@
 		<class>org.kuali.student.lum.lu.entity.LuLuRelationTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuPublicationType</class>
 		<class>org.kuali.student.lum.lu.entity.LuPublicationTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuRichText</class>
 		<class>org.kuali.student.lum.lu.entity.LuType</class>
 		<class>org.kuali.student.lum.lu.entity.LuTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.Resource</class>

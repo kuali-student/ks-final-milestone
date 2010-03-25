@@ -54,9 +54,9 @@ public class CluFeeInfoMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for cluFeeRecordInfoList
+		// metadata for cluFeeRecords
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.CLU_FEE_RECORD_INFO_LIST.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.CLU_FEE_RECORDS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -78,7 +78,7 @@ public class CluFeeInfoMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
 		
 		recursions.increment (this.getClass ().getName ());

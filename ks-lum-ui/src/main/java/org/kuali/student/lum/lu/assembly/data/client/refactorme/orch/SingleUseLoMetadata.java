@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
 import java.util.Date;
-
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -71,6 +70,19 @@ public class SingleUseLoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+		}
+		
+		// metadata for Name
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.NAME.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
 		// metadata for Description

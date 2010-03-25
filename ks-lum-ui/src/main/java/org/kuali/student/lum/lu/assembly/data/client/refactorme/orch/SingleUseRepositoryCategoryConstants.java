@@ -19,7 +19,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 public interface SingleUseRepositoryCategoryConstants
 {
-	public static final String I_D = "iD";
+	public static final String ID = "iD";
 	public static final String NAME = "name";
 	public static final String LO_REPOSITORY = "loRepository";
 	public static final String TYPE_KEY = "typeKey";

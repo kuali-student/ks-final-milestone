@@ -31,6 +31,7 @@
 			<list>
 				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
 				<value>classpath:org\kuali\student\lum\lu\ui\course\gwt-messages.xml</value>
+				<value>classpath:org\kuali\student\lum\lu\ui\tools\gwt-messages.xml</value>
 			</list>
 		</property>
 	</bean>

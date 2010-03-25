@@ -26,12 +26,11 @@ public class FeeInfoHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		FEE_TYPE ("feeType"),
-		FEE_AMOUNT ("feeAmount"),
-		TAXABLE ("taxable"),
-		FEE_DESC ("feeDesc"),
-		INTERNAL_NOTATION ("internalNotation"),
-		_RUNTIME_DATA ("_runtimeData");
+		JUSTIFICATION ("justification"),
+		FIXED_RATE_FEE ("fixedRateFee"),
+		VARIABLE_RATE_FEE ("variableRateFee"),
+		MULTIPLE_RATE_FEE ("multipleRateFee"),
+		PER_CREDIT_FEE ("perCreditFee");
 		
 		private final String key;
 		
@@ -68,75 +67,63 @@ public class FeeInfoHelper
 	}
 	
 	
-	public void setFeeType (String value)
+	public void setJustification (String value)
 	{
-		data.set (Properties.FEE_TYPE.getKey (), value);
+		data.set (Properties.JUSTIFICATION.getKey (), value);
 	}
 	
 	
-	public String getFeeType ()
+	public String getJustification ()
 	{
-		return (String) data.get (Properties.FEE_TYPE.getKey ());
+		return (String) data.get (Properties.JUSTIFICATION.getKey ());
 	}
 	
 	
-	public void setFeeAmount (String value)
+	public void setFixedRateFee (Data value)
 	{
-		data.set (Properties.FEE_AMOUNT.getKey (), value);
+		data.set (Properties.FIXED_RATE_FEE.getKey (), value);
 	}
 	
 	
-	public String getFeeAmount ()
+	public Data getFixedRateFee ()
 	{
-		return (String) data.get (Properties.FEE_AMOUNT.getKey ());
+		return (Data) data.get (Properties.FIXED_RATE_FEE.getKey ());
 	}
 	
 	
-	public void setTaxable (String value)
+	public void setVariableRateFee (Data value)
 	{
-		data.set (Properties.TAXABLE.getKey (), value);
+		data.set (Properties.VARIABLE_RATE_FEE.getKey (), value);
 	}
 	
 	
-	public String getTaxable ()
+	public Data getVariableRateFee ()
 	{
-		return (String) data.get (Properties.TAXABLE.getKey ());
+		return (Data) data.get (Properties.VARIABLE_RATE_FEE.getKey ());
 	}
 	
 	
-	public void setFeeDesc (String value)
+	public void setMultipleRateFee (Data value)
 	{
-		data.set (Properties.FEE_DESC.getKey (), value);
+		data.set (Properties.MULTIPLE_RATE_FEE.getKey (), value);
 	}
 	
 	
-	public String getFeeDesc ()
+	public Data getMultipleRateFee ()
 	{
-		return (String) data.get (Properties.FEE_DESC.getKey ());
+		return (Data) data.get (Properties.MULTIPLE_RATE_FEE.getKey ());
 	}
 	
 	
-	public void setInternalNotation (String value)
+	public void setPerCreditFee (Data value)
 	{
-		data.set (Properties.INTERNAL_NOTATION.getKey (), value);
+		data.set (Properties.PER_CREDIT_FEE.getKey (), value);
 	}
 	
 	
-	public String getInternalNotation ()
+	public Data getPerCreditFee ()
 	{
-		return (String) data.get (Properties.INTERNAL_NOTATION.getKey ());
-	}
-	
-	
-	public void set_runtimeData (RuntimeDataHelper value)
-	{
-		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
-	}
-	
-	
-	public RuntimeDataHelper get_runtimeData ()
-	{
-		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
+		return (Data) data.get (Properties.PER_CREDIT_FEE.getKey ());
 	}
 	
 }

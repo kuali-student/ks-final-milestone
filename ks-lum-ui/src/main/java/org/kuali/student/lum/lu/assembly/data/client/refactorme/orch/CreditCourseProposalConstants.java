@@ -23,6 +23,6 @@ public interface CreditCourseProposalConstants
 	public static final String COURSE = "course";
 	public static final String STATE = "state";
 	public static final String TYPE = "type";
-	public static final String SEARCH = "search";	
+	public static final String SEARCH = "search";
 }
 

@@ -24,9 +24,8 @@ public interface CluInfoConstants
 	public static final String ACADEMIC_SUBJECT_ORGS = "academicSubjectOrgs";
 	public static final String STUDY_SUBJECT_AREA = "studySubjectArea";
 	public static final String DESC = "desc";
-	public static final String MARKETING_DESC = "marketingDesc";
-	public static final String CAMPUS_LOCATION_LIST = "campusLocationList";
-	public static final String ACCREDITATION = "accreditation";
+	public static final String CAMPUS_LOCATIONS = "campusLocations";
+	public static final String ACCREDITATIONS = "accreditations";
 	public static final String PRIMARY_ADMIN_ORG = "primaryAdminOrg";
 	public static final String ALTERNATE_ADMIN_ORGS = "alternateAdminOrgs";
 	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
@@ -37,9 +36,8 @@ public interface CluInfoConstants
 	public static final String INTENSITY = "intensity";
 	public static final String STD_DURATION = "stdDuration";
 	public static final String CAN_CREATE_LUI = "canCreateLui";
-	public static final String REFERENCE_U_R_L = "referenceURL";
+	public static final String REFERENCE_URL = "referenceURL";
 	public static final String LU_CODES = "luCodes";
-	public static final String PUBLISHING_INFO = "publishingInfo";
 	public static final String NEXT_REVIEW_PERIOD = "nextReviewPeriod";
 	public static final String IS_ENROLLABLE = "isEnrollable";
 	public static final String OFFERED_ATP_TYPES = "offeredAtpTypes";

@@ -116,7 +116,7 @@ public class AssemblerTestSection extends SectionView {
 				}
 			}));
 			
-			service.getMetadata(new AsyncCallback<Metadata>() {
+			service.getMetadata("", "",new AsyncCallback<Metadata>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -557,6 +557,10 @@ public class AssemblerTestSection extends SectionView {
 	public void clear() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
 	}
 	
 }

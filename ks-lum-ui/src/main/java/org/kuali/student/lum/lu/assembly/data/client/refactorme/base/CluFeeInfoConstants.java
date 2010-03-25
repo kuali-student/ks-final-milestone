@@ -19,7 +19,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 public interface CluFeeInfoConstants
 {
-	public static final String CLU_FEE_RECORD_INFO_LIST = "cluFeeRecordInfoList";
+	public static final String CLU_FEE_RECORDS = "cluFeeRecords";
 	public static final String ATTRIBUTES = "attributes";
 }
 

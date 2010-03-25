@@ -22,6 +22,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluFeeRecordInfoHelper.Properties;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoMetadata;
 
 
 public class CluFeeRecordInfoMetadata
@@ -86,7 +87,7 @@ public class CluFeeRecordInfoMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
 		listMeta = new Metadata ();
 		listMeta.setDataType (Data.DataType.DATA);
@@ -102,7 +103,7 @@ public class CluFeeRecordInfoMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
 		
 		// metadata for id

@@ -16,7 +16,9 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -40,7 +42,6 @@ import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -76,6 +77,11 @@ public class ViewCourseController extends TabbedSectionLayout {
             
     public ViewCourseController(){
         super(ViewCourseController.class.getName(), layoutTitle);
+        initialize();
+    }
+    public ViewCourseController(ViewContext context){
+        super(ViewCourseController.class.getName(), layoutTitle);
+    	setViewContext(context);
         initialize();
     }
     public ViewCourseController(String cluType){
@@ -152,7 +158,7 @@ public class ViewCourseController extends TabbedSectionLayout {
             onReadyCallback.exec(true);
         } else {
             progressWindow.show();
-            rpcServiceAsync.getMetadata( 
+            rpcServiceAsync.getMetadata("", "", 
                     new AsyncCallback<Metadata>(){
     
                         @Override
@@ -183,7 +189,7 @@ public class ViewCourseController extends TabbedSectionLayout {
         cfg.generateLayout(this);
              
         if (!initialized) {
-            addButton(ViewCourseConfigurer.COURSE_DETAILS_TAB, getQuitButton());
+            addButton(cfg.getTabKey(), getQuitButton());
         }
         initialized = true;
     }
@@ -220,15 +226,6 @@ public class ViewCourseController extends TabbedSectionLayout {
                 
                 callback.onModelReady(ref);
             }
-//        } else if(modelType == RequirementsDisplayWidget.RequirementsModel.class){
-//            if(null==requirementsModel){
-//                requirementsModel = new RequirementsDisplayWidget.RequirementsModel();
-//            }
-//            if(cluModel!=null && cluModel.get(CLU_ID_KEY)!=null){
-//                courseId=cluModel.get(CLU_ID_KEY);
-//            }
-//            requirementsModel.setCluId(courseId);    
-//            callback.onModelReady(requirementsModel);
         }else if (modelType == LuData.class){
             requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
         } else /*
@@ -251,13 +248,13 @@ public class ViewCourseController extends TabbedSectionLayout {
 
             @Override
             public void onSuccess(Data result) {
-                layoutTitle.setTitle("Updated course");
                 cluModel.setRoot(result);
+                getContainer().setTitle(getSectionTitle());
                 callback.onModelReady(cluModel);
                 workCompleteCallback.exec(true);
                 progressWindow.hide();
             }
-            
+
         });
     }
     
@@ -283,7 +280,6 @@ public class ViewCourseController extends TabbedSectionLayout {
         if (cluModel != null){
             this.cluModel.setRoot(new LuData());            
         }
-        this.setModelDTO(null, null);
         this.courseId = null;
     }
     
@@ -311,9 +307,20 @@ public class ViewCourseController extends TabbedSectionLayout {
         return new KSButton("Quit", new ClickHandler(){
                     public void onClick(ClickEvent event) {
                         Controller parentController = ViewCourseController.this.getParentController(); 
-                        parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+                        parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
                     }
                 });       
     }
     
+    
+    protected  String getSectionTitle() {
+               
+    	StringBuffer sb = new StringBuffer();
+    	sb.append(cluModel.get("courseCode"));
+    	sb.append(" - ");
+    	sb.append(cluModel.get("transcriptTitle"));
+
+    	return sb.toString();
+
+    }
 }

@@ -51,7 +51,7 @@ public class AttributesAssembler implements Assembler<Data, Map<String, String>>
 	}
 
 	@Override
-	public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
 		return new RichTextInfoMetadata().getMetadata(type, state);
 	}
 
@@ -68,6 +68,12 @@ public class AttributesAssembler implements Assembler<Data, Map<String, String>>
 	}
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
 	}

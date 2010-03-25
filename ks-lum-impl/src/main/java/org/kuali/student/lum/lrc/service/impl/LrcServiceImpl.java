@@ -67,7 +67,8 @@ public class LrcServiceImpl implements LrcService {
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+//		return null;
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	/* (non-Javadoc)
@@ -409,7 +410,8 @@ public class LrcServiceImpl implements LrcService {
 			String translateScaleKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+//		return null;
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	/* (non-Javadoc)
@@ -471,7 +473,7 @@ public class LrcServiceImpl implements LrcService {
      */
     private void checkForEmptyList(Object param, String paramName)
             throws MissingParameterException {
-        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+        if (param != null && param instanceof List<?> && ((List<?>)param).size() == 0) {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }

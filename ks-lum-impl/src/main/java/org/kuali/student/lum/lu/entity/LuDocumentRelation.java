@@ -35,7 +35,6 @@ import javax.persistence.UniqueConstraint;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_CLU_DOC_RELTN", uniqueConstraints = { @UniqueConstraint(columnNames = {
@@ -68,7 +67,7 @@ public class LuDocumentRelation extends MetaEntity implements
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "DESCR")
-	private RichText descr;
+	private LuRichText descr;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -122,11 +121,11 @@ public class LuDocumentRelation extends MetaEntity implements
 		this.title = title;
 	}
 
-	public RichText getDescr() {
+	public LuRichText getDescr() {
 		return descr;
 	}
 
-	public void setDescr(RichText descr) {
+	public void setDescr(LuRichText descr) {
 		this.descr = descr;
 	}
 

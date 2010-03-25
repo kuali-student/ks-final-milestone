@@ -54,6 +54,7 @@ import org.kuali.student.lum.lu.service.LuService;
 public class CluPostProcessor implements PostProcessor{
 
 	private static final NetworkIdDTO KS_SYS_PRINCIPAL = new NetworkIdDTO("KS");
+	private static final String CLU_STATE_ACTIVATED = "activated";
 	
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(CluPostProcessor.class);
@@ -148,7 +149,7 @@ public class CluPostProcessor implements PostProcessor{
 		String cluId = matcher.group(1);
     	
 		CluInfo clu = luService.getClu(cluId);
-    	clu.setState("Approved by Workflow");
+    	clu.setState(CLU_STATE_ACTIVATED);
 		luService.updateClu(cluId, clu);
     }
 }

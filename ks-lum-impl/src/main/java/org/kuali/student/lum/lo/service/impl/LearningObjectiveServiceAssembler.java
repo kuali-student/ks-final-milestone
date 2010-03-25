@@ -47,28 +47,6 @@ import org.springframework.beans.BeanUtils;
 
 public class LearningObjectiveServiceAssembler extends BaseAssembler {
 
-	public static LoRichText toLoRichText(RichTextInfo richTextInfo) {
-		if(richTextInfo == null){
-			return null;
-		}
-		LoRichText richText = new LoRichText();
-		BeanUtils.copyProperties(richTextInfo, richText);
-		return richText;
-	}
-
-    public static RichTextInfo toRichTextInfo(LoRichText entity) {
-        if(entity==null){
-            return null;
-        }
-
-        RichTextInfo dto = new RichTextInfo();
-
-        BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-
-        return dto;
-
-    }
-
     public static Lo toLo(boolean isUpdate, LoInfo dto, CrudDao dao) throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
         return toLo(isUpdate, new Lo(), dto, dao);
     }
@@ -94,7 +72,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(dto, lo, new String[] { "desc", "loRepository", "loType", "attributes", "metaInfo" });
 
         lo.setAttributes(toGenericAttributes(LoAttribute.class, dto.getAttributes(), lo, dao));
-        lo.setDescr(toLoRichText(dto.getDesc()));
+        lo.setDescr(toRichText(LoRichText.class, dto.getDesc()));
 
         LoRepository repository = dao.fetch(LoRepository.class, dto.getLoRepositoryKey());
         if(null == repository) {
@@ -133,7 +111,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             entity = new LoCategory();
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "desc", "attributes", "metaInfo", "loRepository", "type", "id"});
-        entity.setDesc(toLoRichText(dto.getDesc()));
+        entity.setDesc(toRichText(LoRichText.class, dto.getDesc()));
         entity.setAttributes(toGenericAttributes(LoCategoryAttribute.class, dto.getAttributes(), entity, dao));
         entity.setLoRepository(dao.fetch(LoRepository.class, dto.getLoRepository()));
         entity.setLoCategoryType(dao.fetch(LoCategoryType.class, dto.getType()));
