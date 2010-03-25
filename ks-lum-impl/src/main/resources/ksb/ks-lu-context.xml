@@ -304,6 +304,9 @@
 			<aop:after-throwing
 				pointcut="execution(* org.kuali.student.lum.lrc.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.lum.lo.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
     
