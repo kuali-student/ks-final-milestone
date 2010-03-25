@@ -47,6 +47,7 @@ public class WorkflowToolbar extends Composite {
 	private KSMenuItemData wfDisApproveItem;
 	private KSMenuItemData wfAcknowledgeItem;
 	private KSMenuItemData wfStartWorkflowItem;
+	private KSMenuItemData wfFYIWorkflowItem;
 	
 	List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 	    
@@ -241,6 +242,30 @@ public class WorkflowToolbar extends Composite {
 	        }        
 	    });
 		
+		wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
+	        public void onClick(ClickEvent event) {
+	        	String proposalId = getProposalIdFromModel(dataModel);
+	        	
+				workflowRpcServiceAsync.fyiDocumentWithId(proposalId, new AsyncCallback<Boolean>(){
+					public void onFailure(
+							Throwable caught) {
+						Window.alert("Error FYIing Proposal");
+					}
+					public void onSuccess(
+							Boolean result) {
+						if(result){
+							Window.alert("Proposal was FYIed");
+							items.remove(wfFYIWorkflowItem);
+							workflowActionsDropDown.setItems(items);
+						}else{
+							Window.alert("Error FYIing Proposal");
+						}
+					}
+					
+				});
+	        }        
+	    });
+		
 	}
 
 	private void updateWorkflow(DataModel model){
@@ -264,6 +289,10 @@ public class WorkflowToolbar extends Composite {
 				}
 				if(result.contains("S")){
 					items.add(wfStartWorkflowItem);
+				}
+				
+				if(result.contains("F")){
+					items.add(wfFYIWorkflowItem);
 				}
 				
 				workflowActionsDropDown.setItems(items);
