@@ -60,7 +60,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 			int height = Math.min(w.getOffsetHeight(), (Window.getClientHeight() * maxPercentY) / 100); 
 			height = Math.max(height, minPixelsY);
 			
-			scroll.setPixelSize(width, height);
+			scroll.setPixelSize(width + 20, height + 20);
 		}
 	};
 	
