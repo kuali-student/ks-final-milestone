@@ -440,7 +440,7 @@
 		      	<ref bean="atpClient"/>
 		        <ref bean="personSearchClient"/>
 		        <ref bean="proposalClient"/>
-		        <ref bean="enumerationClient"/>
+		        <ref bean="enumServiceClient"/>
 			</list>
 		</property>
 	</bean>
@@ -516,11 +516,6 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/search}SearchService" />
 	</bean>
 
-	<bean id="enumerationClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/EnumerationManagementService}EnumerationManagementService" />
-	</bean>
-
 	<bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
 		<property name="serviceQName" value="{KIM}kimPermissionService" />
@@ -531,4 +526,8 @@
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
     </bean>
 
+	<bean id="enumServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService" />
+	</bean>
 </beans>

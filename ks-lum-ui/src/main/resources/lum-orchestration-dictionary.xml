@@ -4448,6 +4448,7 @@
 			<bean parent="lookup">
 				<property name="searchTypeId" value="enumeration.management.search" />
 				<property name="name" value="Get enumerations" />
+				<property name="widget" value="CHECKBOX_LIST"/>
 				<property name="desc"
 					value="Get enumerated lists of values given context" />
 				<property name="params">
@@ -4504,18 +4505,18 @@
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
 							<property name="desc"
-								value="An abbreviation of the enumeration value" />
-							<property name="hidden" value="false" />
-							<property name="key" value="enumeration.resultColumn.abbrevValue" />
-							<property name="name" value="Abbreviation of the code" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc"
 								value="The description of the enumeration value" />
 							<property name="hidden" value="false" />
 							<property name="key" value="enumeration.resultColumn.value" />
 							<property name="name" value="Description of the code" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="An abbreviation of the enumeration value" />
+							<property name="hidden" value="false" />
+							<property name="key" value="enumeration.resultColumn.abbrevValue" />
+							<property name="name" value="Abbreviation of the code" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="TRUNCATED_DATE" />
