@@ -16,18 +16,11 @@ package org.kuali.student.brms.statement.naturallanguage.translators;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 import org.kuali.student.brms.internal.common.runtime.MessageContainer;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
-import org.kuali.student.brms.statement.entity.RefStatementRelation;
 import org.kuali.student.brms.statement.entity.Statement;
-import org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate;
-import org.kuali.student.brms.statement.naturallanguage.Context;
-import org.kuali.student.brms.statement.naturallanguage.ContextRegistry;
-//import org.kuali.student.core.statement.naturallanguage.util.CustomLuStatementInfo;
-import org.kuali.student.brms.statement.naturallanguage.util.StatementAnchor;
 import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentReference;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -36,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class translates a LU (learning unit) statement into a specific 
- * natural language.
+ * natural language.  This class is not thread safe.
  */
 public class StatementTranslator {
     /** SLF4J logging framework */
@@ -114,6 +107,7 @@ public class StatementTranslator {
 	/**
 	 * Translates a statement directly attached to a CLU (anchor) for a 
 	 * specific natural language usuage type (context) into natural language.
+	 * This method is not thread safe.
 	 * 
 	 * @param statement LU Statement
 	 * @param nlUsageTypeKey Usuage type key (context)

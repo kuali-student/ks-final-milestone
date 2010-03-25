@@ -103,7 +103,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws DoesNotExistException Requirement component id does not exists
 	 * @throws OperationFailedException
 	 */
-	public String translateReqComponent(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public synchronized String translateReqComponent(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		return this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey);
 	}
 	
@@ -117,7 +117,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws DoesNotExistException CLU does not exists
 	 * @throws OperationFailedException Translation fails
 	 */
-	public String translateStatement(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public synchronized String translateStatement(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		return this.statementTranslator.translate(statement, nlUsageTypeKey);
 	}
 }

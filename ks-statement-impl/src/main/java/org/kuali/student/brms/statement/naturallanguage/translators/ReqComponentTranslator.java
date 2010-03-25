@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class translates requirement components into a specific 
- * natural language.
+ * natural language. This class is not thread safe.
  */
 public class ReqComponentTranslator {
     /** SLF4J logging framework */
@@ -70,7 +70,8 @@ public class ReqComponentTranslator {
 
     /**
      * Translates an <code>reqComponent</code> for a specific <code>nlUsageTypeKey</code> into natural language.
-     * 
+     * This method is not thread safe.
+     *  
      * @param reqComponent
      *            Requirement component to translate
      * @param nlUsageTypeKey
