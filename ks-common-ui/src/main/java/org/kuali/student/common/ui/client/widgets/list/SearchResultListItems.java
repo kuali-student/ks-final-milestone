@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
-import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
 /**
@@ -34,25 +34,39 @@ public class SearchResultListItems implements ListItems{
     private ArrayList<String> attrKeys;
     private HashMap<String, SearchResultRow> resultDataMap = new HashMap<String, SearchResultRow>();
     private int attrOffset = 0;
-    //FIXME: need to add sortAttrNdx as well?
-    //FIXME: currently have default values for attr indexes - these should go away
+    //default values for attr indexes
+    //these are necessary for use in search dispatcher assumed 2 columns min
+    //we may want to switch these all to 0 to allow for 1 column result lists
+    private int sortAttrNdx = 1;
     private int itemTextAttrNdx = 1;
     private int keyAttrNdx = 0;
         
-    public int getKeyAttrNdx() {
+    public int getSortAttrNdx() {
+		return sortAttrNdx;
+	}
+
+	public void setSortAttrNdx(int sortAttrNdx) {
+		this.sortAttrNdx = sortAttrNdx;
+	}
+
+	public void setSortAttrNdxFromAttrKey(List<SearchResultRow> results, String sortAttrKey) {
+		this.sortAttrNdx = getAttrKeyNdx(results, sortAttrKey);
+	}
+
+	public int getKeyAttrNdx() {
 		return keyAttrNdx;
 	}
 
 	public void setKeyAttrNdx(int keyAttrNdx) {
 		this.keyAttrNdx = keyAttrNdx;
 	}
-
-	public int getItemTextAttrNdx() {
-		return itemTextAttrNdx;
-	}
 	
 	public void setKeyAttrNdxFromAttrKey(List<SearchResultRow> results, String keyAttrKey) {
 		this.keyAttrNdx = getAttrKeyNdx(results, keyAttrKey);
+	}
+
+	public int getItemTextAttrNdx() {
+		return itemTextAttrNdx;
 	}
 
 	public void setItemTextAttrNdx(int itemTextAttrNdx) {
@@ -66,30 +80,31 @@ public class SearchResultListItems implements ListItems{
 	public SearchResultListItems(){ 
     }
     
-    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results){
- 	
-        setResultColumns(resultColumns);
+    private void setAttrNdxs(List<SearchResultRow> results, LookupMetadata lookupMetadata) {
+    	
+    	setItemTextAttrNdxFromAttrKey(results, lookupMetadata.getResultDisplayKey());
+    	setKeyAttrNdxFromAttrKey(results, lookupMetadata.getResultReturnKey());
+    	setSortAttrNdxFromAttrKey(results, lookupMetadata.getResultSortKey());        
+    }
+    
+    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results, LookupMetadata lookupMetadata){
+    	
+    	setAttrNdxs(results, lookupMetadata);
+    	setResultColumns(resultColumns);
         setResults(results);
     }   
+    
+    public SearchResultListItems(List<SearchResultRow> results, LookupMetadata lookupMetadata){
+    
+    	setAttrNdxs(results, lookupMetadata);
+        setResults(results);
+    }
     
     public SearchResultListItems(List<SearchResultRow> results){
-        setResults(results);
+        
+    	setResults(results);
     }
-    
-    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results, String keyAttrKey, String itemTextAttrKey){
     	
-    	setItemTextAttrNdxFromAttrKey(results, itemTextAttrKey);
-    	setKeyAttrNdxFromAttrKey(results, keyAttrKey);
-        setResultColumns(resultColumns);
-        setResults(results);
-    }   
-    
-    public SearchResultListItems(List<SearchResultRow> results, String keyAttrKey, String itemTextAttrKey){
-    	setItemTextAttrNdxFromAttrKey(results, itemTextAttrKey);
-    	setKeyAttrNdxFromAttrKey(results, keyAttrKey);
-        setResults(results);
-    }
-
     public void setResultColumns(List<ResultColumnInfo> resultColumns){
         attrKeys = new ArrayList<String>();
         
