@@ -4224,7 +4224,11 @@
 				<ref bean="constraint.lu.types" />
 			</list>
 		</property>
+		<property name="initialLookup">
+				<ref bean="kuali.lookup.lutypes" />
+		</property>
 	</bean>
+
 	<bean id="course.effectiveDate" parent="dataFieldDescriptor">
 		<property name="name" value="effectiveDate" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -5894,4 +5898,43 @@
 		<property name="resultDisplayKey" value="atp.resultColumn.atpDurTypeName" />
 		<property name="resultSortKey" value="atp.resultColumn.atpDurTypeName" />
 	</bean>
+
+ 	<bean id="kuali.lookup.lutypes" parent="lookup">
+		<property name="id" value="kuali.lookup.lutypes" />
+		<property name="searchTypeId" value="lu.search.luTypes" />
+		<property name="name" value="All Lu Types" />
+		<property name="desc" value="Returns the list of all Lu Types" />
+		<property name="widget" value="DROP_DOWN" />
+		<property name="searchParamIdKey" value="lu.queryParam.luType" />	
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luTypeKey" />
+					<property name="name" value="Lu Type Key" />
+					<property name="desc" value="Lu Type Key" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luTypeName" />
+					<property name="name" value="Lu Type Name" />
+					<property name="desc" value="Lu Type Name" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luTypeDesc" />
+					<property name="name" value="Lu Type Desc" />
+					<property name="desc" value="Lu Type Desc" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.luTypeName" />
+		<property name="resultDisplayKey" value="lu.resultColumn.luTypeName" />
+		<property name="resultSortKey" value="lu.resultColumn.luTypeName" />
+	</bean>
+
 </beans>

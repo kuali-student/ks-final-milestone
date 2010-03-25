@@ -120,7 +120,7 @@ LearningObjectiveConstants
 
         addField(section,  CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
         
-        addField(section, CreditCourseConstants.TYPE, getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
+        addField(section, getTranslationKey(CreditCourseConstants.TYPE), getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
         addField(section, getTranslationKey(DEPARTMENT), getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
 
 //FIXME        addField(section, CREDITS,  getLabel(LUConstants.CREDITS_LABEL_KEY), new KSLabel());

@@ -357,6 +357,68 @@
 		</dict:fieldDescriptor>
 	</search:queryParam>			
 
+    <search:searchType id="lu.search.luTypes" parent="lu.search.luTypes-parent"/>
+	<search:searchType id="lu.search.luTypes-parent"  abstract="true">
+        <search:name>Search for clu type optionally by code</search:name>
+        <search:desc>Returns clu name</search:desc>
+        <search:searchResultTypeInfo>
+        	<ref bean="lu.result.luType"/>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.luType"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+    
+   	<search:searchResultTypeInfo id="lu.result.luType" parent="lu.result.luType-parent"/>
+	<search:searchResultTypeInfo id="lu.result.luType-parent"  abstract="true">
+		<search:name>Lu Type </search:name>
+		<search:desc>Lu Type </search:desc>        
+     	<search:resultColumns>        
+         	<ref bean="lu.resultColumn.luTypeKey" />
+         	<ref bean="lu.resultColumn.luTypeName" />
+         	<ref bean="lu.resultColumn.luTypeDesc" />
+     	</search:resultColumns>            
+	</search:searchResultTypeInfo>
+    
+    <search:resultColumn id="lu.resultColumn.luTypeKey" parent="lu.resultColumn.luTypeKey-parent"/>
+	<search:resultColumn id="lu.resultColumn.luTypeKey-parent"  abstract="true">
+		<search:name>Key of the type</search:name>
+		<search:desc>Key of the type</search:desc>
+		<search:dataType>string</search:dataType>
+    </search:resultColumn>
+    <search:resultColumn id="lu.resultColumn.luTypeName" parent="lu.resultColumn.luTypeName-parent"/>
+	<search:resultColumn id="lu.resultColumn.luTypeName-parent"  abstract="true">
+		<search:name>Lu Type Name</search:name>
+		<search:desc>Lu Type Name</search:desc>
+		<search:dataType>string</search:dataType>
+    </search:resultColumn>
+    <search:resultColumn id="lu.resultColumn.luTypeDesc" parent="lu.resultColumn.luTypeDesc-parent"/>
+	<search:resultColumn id="lu.resultColumn.luTypeDesc-parent"  abstract="true">
+		<search:name>Lu Type Desc</search:name>
+		<search:desc>Lu Type Desc</search:desc>
+		<search:dataType>string</search:dataType>
+    </search:resultColumn>
+        
+	<search:searchCriteriaTypeInfo id="lu.criteria.luType" parent="lu.criteria.luType-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.luType-parent"  abstract="true">
+		<search:name>Lu Type </search:name>
+		<search:desc>Lu Type</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+		<search:queryParam id="lu.queryParam.luType" parent="lu.queryParam.luType-parent"/>
+	<search:queryParam id="lu.queryParam.luType-parent"
+		optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Type</dict:name>
+			<dict:desc>Lu Type</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
@@ -415,6 +477,12 @@
 				</entry>
 				<entry key="lu.search.allLoQuickView">
 					<value>SELECT rel.clu.id, rel.clu.officialIdentifier.code, rel.loId FROM CluLoRelation rel</value>
+				</entry>
+				<entry key="lu.search.luTypes">
+					<value>SELECT lut.id, lut.name, lut.descr FROM LuType lut</value>
+				</entry>
+				<entry key="lu.queryParam.luType">
+					<value>lut.id = :lu_queryParam_luType</value>
 				</entry>
             </map>
 		</property>
