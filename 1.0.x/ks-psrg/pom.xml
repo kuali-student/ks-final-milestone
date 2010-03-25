@@ -25,15 +25,15 @@
       </snapshots>
     </repository>
     <repository>
-      <id>m2repo.googlecode</id>
-      <url>https://m2repo.googlecode.com/svn/repo</url>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
+      <id>m2repo.googlecode</id>
+      <url>https://m2repo.googlecode.com/svn/repo</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
