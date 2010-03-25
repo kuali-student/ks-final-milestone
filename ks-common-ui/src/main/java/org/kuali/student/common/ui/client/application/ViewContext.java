@@ -13,7 +13,7 @@ import org.kuali.student.core.rice.StudentIdentityConstants;
 public class ViewContext {
 	public enum IdType {
 		// FIXME: remove hard coded strings below for KIM constants
-		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID("documentNumber"), OBJECT_ID("objectId");
+		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID("documentNumber"), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId");
         
 		final String stringValue;
 
