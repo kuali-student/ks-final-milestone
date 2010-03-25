@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.tools.client.configuration.itemlist;
+package org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class CluItemListFieldBinding extends ItemListFieldBinding<CluItemValue>{
     @Override
     public List<CluItemValue> getItemList(Data data) {
         if (data == null) return null;
-        CluSetHelper cluSetHelper = CluSetHelper.wrap(data);
+        CluSetHelper cluSetHelper = CluSetHelper.wrap(data.getParent());
         Data clusData = cluSetHelper.getClus();
         List<CluItemValue> cluItemValues = null;
         for (Data.Property p : clusData) {

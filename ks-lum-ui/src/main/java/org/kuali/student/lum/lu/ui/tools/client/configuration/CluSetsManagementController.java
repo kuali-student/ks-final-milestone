@@ -76,10 +76,9 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                 WorkItem workItem = new WorkItem(){
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
-                        cluSetModel.setRoot(new Data());
-                        // TODO remove when done testing 
-//                        populateTestData();
-                        // end of test code
+                        if (cluSetModel.getRoot() == null || cluSetModel.getRoot().size() == 0){
+                            cluSetModel.setRoot(new Data());
+                        }
                         callback.onModelReady(cluSetModel);
                         workCompleteCallback.exec(true);
                         
@@ -118,31 +117,6 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
         });
     }
     
-    private void populateTestData() {
-        // TODO remove when done testing start of test code
-        QueryPath testQPath = QueryPath.parse(ToolsConstants.CLU_SET_CLUS_FIELD);
-        Data testValueData = new Data();
-        CluSetHelper cluSetHelper = CluSetHelper.wrap(testValueData);
-
-        Data cluData1 = new Data();
-        CluHelper cluHelper1 = CluHelper.wrap(cluData1);
-        cluHelper1.setId("Clu 1");
-        cluHelper1.setName("Name of Clu 1");
-        cluSetHelper.getClus().add(cluHelper1.getData());
-
-        Data cluData2 = new Data();
-        CluHelper cluHelper2 = CluHelper.wrap(cluData2);
-        cluHelper2.setId("Clu 2");
-        cluHelper2.setName("Name of Clu 2");
-        cluSetHelper.getClus().add(cluHelper2.getData());
-        
-        cluSetModel.set(testQPath, cluSetHelper.getData());
-//        cluItemListFieldBinding.setWidgetValue(cluItemList, testModel, ToolsConstants.CLU_SET_CLUS_FIELD);
-//        cluItemListFieldBinding.setModelValue(cluItemList, testModel, ToolsConstants.CLU_SET_CLUS_FIELD);
-        // end of test code
-
-    }
-        
     private KSButton getQuitButton(){
         return new KSButton("Quit", new ClickHandler(){
                     public void onClick(ClickEvent event) {

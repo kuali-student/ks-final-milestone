@@ -40,10 +40,10 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CourseSections;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.itemlist.CluItemListFieldBinding;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.itemlist.CluItemValue;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.itemlist.ItemList;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.itemlist.ItemListFieldBinding;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemListFieldBinding;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemValue;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemList;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemListFieldBinding;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -84,6 +84,7 @@ public class CluSetsConfigurer {
         final FieldDescriptor clusFieldDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, "APPROVED COURSES", cluItemList);
         final CluItemListFieldBinding cluItemListFieldBinding = new CluItemListFieldBinding();
         clusFieldDescriptor.setWidgetBinding(cluItemListFieldBinding);
+        // updates model when the list of cluItem is changed
         cluItemList.addValueChangeHandler(new ValueChangeHandler<List<CluItemValue>>() {
             @Override
             public void onValueChange(ValueChangeEvent<List<CluItemValue>> event) {
@@ -105,6 +106,7 @@ public class CluSetsConfigurer {
             }
         });
         
+        // updates the widget "cluItemList" when the user finishes selected clus from the addCourseLightBox
         addCourseLightBox.addSelectionCompleteCallback(
                 new Callback<List<CluItemValue>>() {
                     @Override

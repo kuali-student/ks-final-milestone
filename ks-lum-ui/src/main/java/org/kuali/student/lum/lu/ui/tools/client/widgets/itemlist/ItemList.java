@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.tools.client.configuration.itemlist;
+package org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist;
 
 import java.util.ArrayList;
 import java.util.List;

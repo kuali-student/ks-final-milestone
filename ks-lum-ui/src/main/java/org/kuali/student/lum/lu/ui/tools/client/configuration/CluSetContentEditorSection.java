@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
@@ -19,7 +20,9 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.itemlist.ItemListFieldBinding;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.WarningDialog;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemListFieldBinding;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -76,7 +79,7 @@ public class CluSetContentEditorSection extends BaseSection {
 //                                  f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD) ||
                                     f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD) ||
                                     f.getFieldKey().equals("CourseRanges")) {
-                                String path = f.getFieldKey();
+                                final String path = f.getFieldKey();
                                 final QueryPath qPath = QueryPath.parse(path);
                                 Data valueData = dataModel.get(qPath);
                                 final List<?> items = 
@@ -86,7 +89,29 @@ public class CluSetContentEditorSection extends BaseSection {
                                 // the edit option 
                                 if (!cluSetEditOptions.getSelectedItems().contains(f.getFieldKey()) &&
                                         items != null && !items.isEmpty()) {
-                                    
+                                    if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
+                                        final WarningDialog warningDialog = new WarningDialog(
+                                                "Delete Courses",
+                                                "You are about to delete the courses in this CLU Set.",
+                                                "Do you want to continue", "Delete", "Cancel");
+                                        warningDialog.addConfirmationCallback(new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                ModelWidgetBinding binding = f.getModelWidgetBinding();
+                                                if (result.booleanValue()) {
+                                                    Data valueData = dataModel.get(qPath);
+                                                    CluSetHelper cluSetHelper = CluSetHelper.wrap(valueData.getParent());
+                                                    cluSetHelper.setClus(null);
+                                                }
+                                                warningDialog.hide();
+                                                binding.setWidgetValue(
+                                                        f.getFieldWidget(), dataModel, path);
+                                                cluSetEditOptions.deSelectItem(ToolsConstants.CLU_SET_CLUS_FIELD);
+                                                redraw();
+                                            }
+                                        });
+                                        warningDialog.show();
+                                    }
                                 }
                             }
                         }
@@ -187,6 +212,7 @@ public class CluSetContentEditorSection extends BaseSection {
                                     addCluLink.addClickHandler(new ClickHandler() {
                                         @Override
                                         public void onClick(ClickEvent event) {
+                                            addApprovedCourseLightBox.clearSelections();
                                             addApprovedCourseLightBox.show();
                                         }
                                     });
