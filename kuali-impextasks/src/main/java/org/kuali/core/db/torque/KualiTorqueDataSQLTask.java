@@ -16,17 +16,17 @@ import org.apache.velocity.context.Context;
 public class KualiTorqueDataSQLTask extends TexenTask {
 
 	/** the data dtd file */
-	private String dataDTD;
+	String dataDTD;
 
 	/** Fileset of XML schemas which represent our data models. */
-	protected List<FileSet> filesets = new ArrayList<FileSet>();
+	List<FileSet> filesets = new ArrayList<FileSet>();
 	/**
 	 * The target database(s) we are generating SQL for. Right now we can only
 	 * deal with a single target, but we will support multiple targets soon.
 	 */
-	private String targetDatabase;
+	String targetDatabase;
 
-	private File xmlFile;
+	File xmlFile;
 
 	/**
 	 * Get the current target database.
