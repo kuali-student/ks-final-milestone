@@ -43,7 +43,7 @@ import com.google.gwt.user.client.ui.FlexTable;
  *  If maxCols <=2 checkboxes will be vertical, otherwise horizontal.
  * 
  *  For ListItems with > 1 attribute a table with a header row will be generated 
- *  with each column being a ListItems attribute.
+ *  with each column being a ListItems attribute. This can be turned off using setIgnoreMultipleAttributes
  * 
  * @author Kuali Student Team 
  *
@@ -55,6 +55,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
 
     private int maxCols = 1; //default max columns
     private boolean enabled = true;
+    private boolean ignoreMultipleAttributes = false;
 
     public KSCheckBoxListImpl() {
         initWidget(checkBoxes);
@@ -111,7 +112,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         int col = 0;
 
         // If ListItems has more than one attribute create a table with each attribute in its own column
-        if (super.getListItems().getAttrKeys().size() > 1) {
+        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys().size() > 1) {
             checkBoxes.addStyleName("KS-Checkbox-Table");
             checkBoxes.setWidget(row, col++, new KSLabel("Select"));
             for (String attr:super.getListItems().getAttrKeys()){
@@ -242,6 +243,11 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
     public boolean isMultipleSelect(){
         return true;
     }
+    
+    public void setIgnoreMultipleAttributes(boolean ignoreMultiple){
+    	this.ignoreMultipleAttributes = ignoreMultiple;
+    }
+
 
     @Override
     public void clear(){

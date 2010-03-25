@@ -182,19 +182,19 @@
         <property name="entityManagerFactory" ref="emEntityManagerFactory" />
     </bean>
 
-    <bean id="emDao"
-	class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+	<bean id="emDao"
+		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
         <property name="em" ref="emEntityManager" />
-    </bean>
-
-    <bean id="searchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:em-search-config.xml" />
-    </bean>
+	</bean>
+	
+	<bean id="emSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:em-search-config.xml" />
+	</bean>
 
 	<bean id="emServiceImpl"
 		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
 		<property name="enumDAO" ref="emDao" />
-		<property name="searchManager" ref="searchManager" />
+		<property name="searchManager" ref="emSearchManager"/>
 	</bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -204,7 +204,7 @@
                 <property name="service" ref="emServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
                 <property name="localServiceName" value="EnumerationManagementService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/EnumerationManagementService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/enumerationmanagement" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>

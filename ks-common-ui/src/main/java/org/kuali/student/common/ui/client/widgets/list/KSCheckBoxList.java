@@ -157,6 +157,16 @@ public class KSCheckBoxList extends KSSelectItemWidgetAbstract implements HasBlu
         selectItemWidget.setInitialized(initialized);
     }
     
+    /**
+     * By default if the list items used by the checkbox has multiple attributes, the checkbox
+     * generated will display all attributes as columns. Set this property to true if this
+     * behavior is not desired.
+     * 
+     * @param ignoreMultiple
+     */
+    public void setIgnoreMultipleAttributes(boolean ignoreMultiple){
+    	selectItemWidget.setIgnoreMultipleAttributes(ignoreMultiple);
+    }
 }
 
 

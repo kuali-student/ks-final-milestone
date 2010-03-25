@@ -77,24 +77,13 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
-    public void selectItem(String id) {
-        //FIXME: This is a hack to get over problem in SelectItemWidgetBinding
-        
-        if (getListItems().getItemIds().isEmpty()) {
-            SimpleListItems list = new SimpleListItems();
-            list.addItem(id, id);
-            setListItems(list);
-        }
-        else if (!getListItems().getItemIds().contains(id) &&
-                  getListItems() instanceof SimpleListItems) {
-            SimpleListItems list = (SimpleListItems)getListItems();
-            list.addItem(id, id);
-            setListItems(list);
-        }
-        
+    public void selectItem(String id) {        
         if (!selectedItems.contains(id)){
              this.selectedItems.add(id);
         }
+        
+        //FIXME: Is there a better way to display selected item here without redrawing
+        redraw();
     }
     
     public void redraw(){
@@ -107,23 +96,23 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
         if (maxCols <= 2){
             //Row flow - increment row faster than column
             int maxRows = (itemCount / maxCols) + (itemCount % 2);
-            for (String id:super.getListItems().getItemIds()){
+            for (String id:selectedItems){
                 currCount++;
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
                 
-                labels.setWidget(row, col, createLabel(id));
+                labels.setWidget(row, col, createLabel(super.getListItems().getItemText(id)));
                 
                 col += ((row + 1)/ maxRows) * 1;
             }
         } else {
             //Column flow - increment column faster than row
-            for (String id:super.getListItems().getItemIds()){
+            for (String id:selectedItems){
                 currCount++;
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
                 
-                labels.setWidget(row, col, createLabel(id));
+                labels.setWidget(row, col, createLabel(super.getListItems().getItemText(id)));
                 
                 row += ((col + 1 )/ maxCols) * 1;
             }
@@ -204,7 +193,6 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     @Override
     public void clear(){
         selectedItems.clear();
-        setListItems(new SimpleListItems());
         redraw();
     }
 
