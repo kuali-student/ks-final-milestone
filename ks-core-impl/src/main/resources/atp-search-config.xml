@@ -60,6 +60,19 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
+	<search:searchType id="atp.search.atpSeasonTypes" parent="atp.search.atpSeasonTypes-parent" />
+	<search:searchType id="atp.search.atpSeasonTypes-parent"
+		abstract="true">
+		<search:name>All ATP Seasonal types</search:name>
+		<search:desc>Returns the list of all ATP Seasonal types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.atpSeasonTypes" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.atpSeasonTypes" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
 	<search:searchType id="atp.search.atpByDate" parent="atp.search.atpByDate-parent" />
 	<search:searchType id="atp.search.atpByDate-parent"
 		abstract="true">
@@ -302,6 +315,19 @@
 		bean="atp.resultColumn.atpTypeName" /> </search:resultColumns>
 		</search:searchResultTypeInfo>
 	-->
+	<search:searchResultTypeInfo id="atp.result.atpSeasonTypes"
+		parent="atp.result.atpSeasonTypes-parent" />
+	<search:searchResultTypeInfo id="atp.result.atpSeasonTypes-parent"
+		abstract="true">
+		<search:name>ATP By Date</search:name>
+		<search:desc>ATP By Date</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpSeasonType" />
+			<ref bean="atp.resultColumn.atpSeasonTypeName" />
+			<ref bean="atp.resultColumn.atpSeasonTypeDesc" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
 	<search:searchResultTypeInfo id="atp.result.atpByDate"
 		parent="atp.result.atpByDate-parent" />
 	<search:searchResultTypeInfo id="atp.result.atpByDate-parent"
@@ -365,6 +391,33 @@
 		<search:desc>Will return Season Type.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+	
+	<search:resultColumn id="atp.resultColumn.atpSeasonType"
+		parent="atp.resultColumn.atpSeasonType-parent" />
+	<search:resultColumn id="atp.resultColumn.atpSeasonType-parent"
+		abstract="true">
+		<search:name>Season Type</search:name>
+		<search:desc>Will return Season Type.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeName"
+		parent="atp.resultColumn.atpSeasonTypeName-parent" />
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeName-parent"
+		abstract="true">
+		<search:name>Season Type Name</search:name>
+		<search:desc>Will return Season Type Name.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+	
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeDesc"
+		parent="atp.resultColumn.atpSeasonTypeDesc-parent" />
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeDesc-parent"
+		abstract="true">
+		<search:name>Season Type Desc</search:name>
+		<search:desc>Will return Season Type Desc.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>		
 
 	<search:resultColumn id="atp.resultColumn.atpDurType"
 		parent="atp.resultColumn.atpDurType-parent" />
@@ -480,6 +533,16 @@
 			<ref bean="atp.queryParam.atpDurationType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpSeasonTypes"
+		parent="atp.criteria.atpSeasonTypes-parent" />
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpSeasonTypes-parent"
+		abstract="true">
+		<search:name>Atp Season Type</search:name>
+		<search:desc>Atp Season Type</search:desc>
+		<search:queryParams>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -542,11 +605,13 @@
 					</value>
 				</entry>
 				<entry key="atp.search.atpDurationTypes">
-					<value>SELECT atpdurtype.id, atpdurtype.name, atpdurtype.descr 
-					FROM AtpDurationType atpdurtype</value>
+					<value>SELECT atpdurtype.id, atpdurtype.name, atpdurtype.descr FROM AtpDurationType atpdurtype</value>
 				</entry>
 				<entry  key="atp.queryParam.atpDurationType">
 					<value> atpdurtype.id  =  :atp_queryParam_atpDurationType </value>
+				</entry>
+				<entry key="atp.search.atpSeasonTypes">
+					<value>SELECT atpseasontype.id, atpseasontype.name, atpseasontype.descr FROM AtpSeasonalType atpseasontype</value>
 				</entry>				
 			</map>
 		</property>

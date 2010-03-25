@@ -166,7 +166,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                     @Override
                     public void onSuccess(SearchResult results) {
                         if(results != null){                                                           
-                            ((KSDropDown)basicWidget.get()).setListItems(new SearchResultListItems(results.getRows()));                   
+                            ((KSDropDown)basicWidget.get()).setListItems(new SearchResultListItems(results.getRows(), config.lookupMeta.getResultReturnKey(), config.lookupMeta.getResultDisplayKey()));                   
                         } else {
                             ((KSDropDown)basicWidget.get()).setListItems(new SearchResultListItems(null));
                             //FIXME is this configuration error?
