@@ -80,10 +80,10 @@ public class ModifyCreditCourseProposalManager{
         List<RuleInfo> rules = ruleInfoBean.fetchRules(cluId);
 		
         //Clear out ids from resultInfo object and anything else with external ids
-    	for(RuleInfo rule:rules){
+    	Integer tempId= new Integer(0);
+        for(RuleInfo rule:rules){
     		rule.setCluId(null);
-    		rule.setId(null);
-    		clearStatementIds(rule.getStatementVO());
+    		clearStatementIds(rule.getStatementVO(),tempId);
     	}
 		luData.setRuleInfos(rules);
 	
@@ -93,16 +93,19 @@ public class ModifyCreditCourseProposalManager{
 	
 
 
-	private void clearStatementIds(StatementVO stmt) {
+	private void clearStatementIds(StatementVO stmt,Integer tempId) {
+		//increment the TempId
+		tempId++;
 		//Clear out any ids that are statements
 		for(ReqComponentVO reqComp: stmt.getAllReqComponentVOs()){
-			reqComp.setId(null);
-			reqComp.getReqComponentInfo().setId(null);
+			reqComp.setId(tempId.toString());
+			reqComp.getReqComponentInfo().setId(tempId.toString());
 		}
 		stmt.getStatementInfo().setId(null);
 		stmt.getStatementInfo().setParentId(null);
+		stmt.getStatementInfo().setReqComponentIds(null);
 		for(StatementVO nestedStmt:stmt.getStatementVOs()){
-			clearStatementIds(nestedStmt);
+			clearStatementIds(nestedStmt,tempId);
 		}
 		
 	}
