@@ -1,5 +1,6 @@
 package org.kuali.student.psrg.util;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
@@ -20,14 +21,16 @@ public class MethodTrackerAdvice {
 	protected final Log log = LogFactory.getLog(this.getClass());
 	String filename;
 	OutputStream out;
-	PrettyPrint prettyPrint = new PrettyPrint();
+	PrettyPrint prettyPrint;
 
 	public Object trackMethod(ProceedingJoinPoint call) throws Throwable {
 		// Keep track of the sequence
 		long currentSequence = 0;
 		synchronized (sequence) {
 			if (sequence == 0 && filename != null) {
-				out = new FileOutputStream(getFilename());
+				File file = new File(filename);
+				log.info("Logging method calls to " + file.getAbsolutePath());
+				out = new FileOutputStream(file);
 				IOUtils.write("Sequence,Elapsed,Method\n", out);
 			}
 			currentSequence = ++sequence;

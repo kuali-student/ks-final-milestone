@@ -19,11 +19,15 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+  <bean id="prettyPrint" class="org.kuali.student.psrg.util.PrettyPrint" />
+
   <bean id="methodTrackerAdvice" class="org.kuali.student.psrg.util.MethodTrackerAdvice"
-    p:filename="C:/temp/methods.csv" />
+    p:filename="methods.csv">
+    <property name="prettyPrint" ref="prettyPrint" />
+  </bean>
 
   <aop:config>
-    <aop:aspect id="myAspect" ref="methodTrackerAdvice">
+    <aop:aspect id="serviceLoggingAspect" ref="methodTrackerAdvice">
       <!--
         For some reason this was causing the trackMethod to execute twice each
         time a service method was invoked. In the debugger it looked like there
