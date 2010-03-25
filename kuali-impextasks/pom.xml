@@ -8,7 +8,7 @@
   <groupId>org.kuali.core.ant</groupId>
   <artifactId>kuali-impextasks</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>Kuali Impex Ant Tasks</name>
   <description>Kuali Impex Ant Tasks</description>
   <repositories>
@@ -149,8 +149,8 @@
     </pluginManagement>
   </build>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-impextasks-1.0.1</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-impextasks-1.0.1</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/tags/kuali-impextasks-1.0.1</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-impextasks</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-impextasks</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/kuali-impextasks</url>
   </scm>
 </project>
