@@ -16,6 +16,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
+import org.kuali.student.core.assembly.data.Data.StringValue;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.Value;
 
@@ -93,9 +94,9 @@ public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectI
 
                 ((KSSelectItemWidgetAbstract)widget).clear();
                 if (value != null){
-	                if (value instanceof String) {
-	                    // is a single id
-	                    ((KSSelectItemWidgetAbstract)widget).selectItem((String) value);
+	                if (value instanceof String || value instanceof StringValue) {
+	                	String itemId = (String)(value instanceof String ? value:((StringValue)value).get());
+	                    ((KSSelectItemWidgetAbstract)widget).selectItem(itemId);
 	                } else if (value instanceof Data || value instanceof DataValue) {
 	                	Data data = (Data)(value instanceof Data ? value:((DataValue)value).get());
 	                    for (Iterator itr = data.iterator(); itr.hasNext();) {
