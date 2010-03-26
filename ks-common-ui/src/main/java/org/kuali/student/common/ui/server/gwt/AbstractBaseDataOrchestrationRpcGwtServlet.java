@@ -12,6 +12,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
@@ -280,7 +281,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
     		}
 
             //get a user name
-            String username = getCurrentUser();
+            String principalId = getCurrentUser();
 
             //Lookup the workflowId from the cluId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
@@ -289,10 +290,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             }
             
     		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
-            LOG.debug("Calling action requested with user:"+username+" and docId:"+docDetail.getRouteHeaderId());
+            LOG.debug("Calling action requested with user:"+principalId+" and docId:"+docDetail.getRouteHeaderId());
 
             Map<String,String> results = new HashMap<String,String>();
-            AttributeSet kewActionsRequested = workflowUtilityService.getActionsRequested(username, docDetail.getRouteHeaderId());
+            AttributeSet kewActionsRequested = workflowUtilityService.getActionsRequested(principalId, docDetail.getRouteHeaderId());
             for (String key : kewActionsRequested.keySet()) {
             	if ("true".equalsIgnoreCase(kewActionsRequested.get(key))) {
             		results.put(key,"true");
@@ -323,6 +324,9 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
                 	}
             	}
             }
+
+//            getPermissionService().isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER,docDetail.getRouteHeaderId().toString()));
+
             return actionsRequested;
         } catch (Exception e) {
         	LOG.error("Error getting actions Requested",e);
@@ -462,29 +466,23 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		String user = getCurrentUser();
 		boolean result = false;
 		if (checkDocumentLevelPermissions()) {
-			String namespaceCode = null;
-			String permissionTemplateName = null;
-			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
-			if (PermissionType.INITIATE.equals(type)) {
-				namespaceCode = "KR-SYS";
-				permissionTemplateName = "Initiate Document";
-			}
-			else if (PermissionType.OPEN.equals(type)) {
-				namespaceCode = "KS-SYS";
-				permissionTemplateName = "Open Document";
-			}
-			else if (PermissionType.SEARCH.equals(type)) {
-	        	// FIXME: add real perms for SEARCH
-	        	return Boolean.TRUE;
-			}
-			else {
+			if (type == null) {
 				return null;
 			}
+			String namespaceCode = type.getPermissionNamespace();
+			String permissionTemplateName = type.getPermissionTemplateName();
+			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
 			if (attributes != null) {
 				roleQuals.putAll(attributes);
 			}
-			LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-			result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
+				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
+				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+			}
+			else {
+				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
+				return Boolean.TRUE;
+			}
 		}
 		else {
 			LOG.info("Will not check for document level permissions. Defaulting authorization to true.");

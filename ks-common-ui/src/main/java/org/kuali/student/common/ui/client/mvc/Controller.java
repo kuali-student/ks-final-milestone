@@ -100,7 +100,7 @@ public abstract class Controller extends Composite implements HistorySupport{
         	}
         	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
         	if (permType != null) {
-        		GWT.log("Checking permission type '" + permType.toString() + "' for view '" + view.toString() + "'", null);
+        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
             	//A callback is required if async rpc call is required for authz check
 	        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
 					public void isAuthorized() {
