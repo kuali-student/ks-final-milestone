@@ -14,6 +14,8 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import java.util.Map;
+
 /**
  * Represents a widget that accepts an ID translation
  * 
@@ -21,4 +23,5 @@ package org.kuali.student.common.ui.client.mvc;
  */
 public interface TranslatableValueWidget {
     void setValue(String id, String translation);
+    void setValue(Map<String, String> translations);
 }

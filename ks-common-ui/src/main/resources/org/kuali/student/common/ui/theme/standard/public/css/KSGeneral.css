@@ -162,4 +162,68 @@ a.ks-notification-close:hover {
 
 	
 
+div.ks-selected-list-picker {
+	width: 20em;
+	display: inline;
+}
 
+ul.ks-selected-list {
+	margin: 0;
+	padding: 0;
+}
+
+.ks-selected-list ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.ks-selected-list ul li {
+	padding: 0;
+	margin: 0;
+	border: solid 1px #cdcdcd;
+	width: 20em;
+	display: block;
+}
+
+.ks-selected-list-value {
+	width: 20em;
+	display: block;
+	position: relative;
+	min-height: 25px;
+}
+
+.ks-selected-list-value-remove {
+	background-image: url("images/common/selected_list_value_remove_20px.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	height: 22px;
+	width: 22px;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+}
+
+.ks-selected-list-value-label {
+	white-space: pre-wrap;
+	white-space: \-moz-pre-wrap;
+	white-space: \-pre-wrap;
+	white-space: \-o-pre-wrap;
+	word-wrap: break-word;
+	vertical-align: baseline;
+	width: 18em;
+}
+
+.ks-selected-list-value-remove:hover {
+	background-image: url("images/common/selected_list_value_remove_20px.png");
+}
+
+.ks-selected-list-value-container {
+	background-color: #fafcd7;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+}

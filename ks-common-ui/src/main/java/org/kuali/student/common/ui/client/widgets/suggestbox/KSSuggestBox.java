@@ -14,6 +14,8 @@
  */
 package org.kuali.student.common.ui.client.widgets.suggestbox;
 
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -227,5 +229,16 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	public HandlerRegistration addSelectionChangeHandler(
 			SelectionChangeHandler handler) {
 		return addHandler(handler, SelectionChangeEvent.getType());
-	}        
+	}
+
+    public IdableSuggestion getCurrentSuggestion() {
+        return currentSuggestion;
+    }
+
+    @Override
+    public void setValue(Map<String, String> translations) {
+        // TODO ryan - THIS METHOD NEEDS JAVADOCS
+        
+    }
+
 }

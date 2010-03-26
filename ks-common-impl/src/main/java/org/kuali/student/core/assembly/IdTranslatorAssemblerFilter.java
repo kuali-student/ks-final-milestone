@@ -84,23 +84,28 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
                     
                     Metadata fieldMetadata = e.getValue();
                     if(MetadataInterrogator.isRepeating(fieldMetadata)) {
-                        Iterator<Data.Property> iter = data.iterator();
-                        while(iter.hasNext()) {
-                            Data.Property prop = iter.next();
-                            Object fieldValue = prop.getValue();
-                            if(fieldValue != null && fieldValue instanceof Data) {
-                                _translateIds((Data) fieldValue, fieldMetadata);//, p);
-                            } else if (fieldValue != null && fieldValue instanceof String) {
-                                if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
-                                    IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
-                                    if(trans != null) {
-                                        setTranslation(data, e.getKey(), trans.getDisplay());
+                        Integer index = 0;
+                        Data fieldData = data.get(e.getKey());
+                        if(fieldData != null) {
+                            Iterator<Data.Property> iter = fieldData.iterator();
+                            while(iter.hasNext()) {
+                                Data.Property prop = iter.next();
+                                Object fieldValue = prop.getValue();
+                                if(fieldValue != null && fieldValue instanceof Data) {
+                                    _translateIds((Data) fieldValue, fieldMetadata);//, p);
+                                } else if (fieldValue != null && fieldValue instanceof String) {
+                                    if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
+                                        IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
+                                        Integer key = prop.getKey();
+                                        if(trans != null) {
+                                            setTranslation(data, e.getKey(), key, trans.getDisplay());
+                                        }
                                     }
                                 }
+                                index++;
                             }
                         }
-                    }
-                    else {
+                    } else {
                         Object fieldValue = data.get(e.getKey());
                         if (fieldValue != null && fieldValue instanceof Data) {
                             _translateIds((Data) fieldValue, fieldMetadata);//, p);
@@ -108,7 +113,7 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
                             if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
                                 IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
                                 if(trans != null) {
-                                    setTranslation(data, e.getKey(), trans.getDisplay());
+                                    setTranslation(data, e.getKey(), null, trans.getDisplay());
                                 }
                             }
                         }
@@ -124,7 +129,7 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
         }
     }
 
-    private static void setTranslation(Data data, String field, String translation) {
+    private static void setTranslation(Data data, String field, Integer index, String translation) {
         if (data != null) {
             Data runtime = data.get("_runtimeData");
             if (runtime == null) {
@@ -135,6 +140,11 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
             if (fieldData == null) {
                 fieldData = new Data();
                 runtime.set(field, fieldData);
+            }
+            if(index != null) {
+                Data fieldIndexData = new Data();
+                fieldData.set(new Data.IntegerKey(index), fieldIndexData);
+                fieldData = fieldIndexData;
             }
             fieldData.set("id-translation", translation);
         }

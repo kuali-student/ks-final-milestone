@@ -33,6 +33,10 @@ public class Elements {
 		public void onFadeStart();
 	}
 
+	public static class EmptyFadeCallback implements FadeCallback {
+        public void onFadeComplete() {}
+        public void onFadeStart() {}
+	}
 	/**
 	 * Causes an element to "fade in" via opacity. Make sure that element to
 	 * fade is not visible before calling this method. When the callback is
@@ -51,8 +55,12 @@ public class Elements {
 	 */
 	public static void fadeIn(final UIObject target, final int milliseconds, final int maxOpacity,
 			final FadeCallback callback) {
-		final Element e = target.getElement();
-		final int interval = milliseconds / 50;
+	    fadeIn(target.getElement(), milliseconds, maxOpacity, callback);
+	}
+	public static void fadeIn(final Element e, final int milliseconds, final int maxOpacity,
+            final FadeCallback callback) {
+
+	    final int interval = milliseconds / 50;
 		setOpacity(e, 0);
 		DeferredCommand.addCommand(new Command() {
 
@@ -95,7 +103,11 @@ public class Elements {
 	 */
 	public static void fadeOut(final UIObject target, final int milliseconds, final int minOpacity, 
 			final FadeCallback callback) {
-		final Element e = target.getElement();
+	    fadeOut(target.getElement(), milliseconds, minOpacity, callback);
+	}
+	public static void fadeOut(final Element e, final int milliseconds, final int minOpacity, 
+	       final FadeCallback callback) {
+
 		final int interval = milliseconds / 50;
 		DeferredCommand.addCommand(new Command() {
 

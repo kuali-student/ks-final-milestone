@@ -16,6 +16,7 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding;
@@ -81,11 +82,11 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     private AdvancedSearchWindow advSearchWindow = null;
     private SearchPanel searchPanel;
     private WidgetConfigInfo config;
-    private List<Callback<SelectedResults>> basicSelectionCallbacks =
+    private Callback<List<SelectedResults>> advancedSearchCallback;
+	private List<Callback<SelectedResults>> basicSelectionCallbacks =
         new ArrayList<Callback<SelectedResults>>();
     private List<Callback<String>> basicSelectionTextChangeCallbacks =
         new ArrayList<Callback<String>>();
-    
     private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
     
     public KSPicker(WidgetConfigInfo config) {
@@ -226,10 +227,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             
             advSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
                 public void exec(List<SelectedResults> results) {
-                    if (results.size() > 0){                            
-                        basicWidget.setResults(results);                        
-                        advSearchWindow.hide();
-                    }                
+                    if (advancedSearchCallback != null) {
+                        advancedSearchCallback.exec(results);
+                    } else {
+                        if (results.size() > 0) {
+                            basicWidget.setResults(results);
+                            advSearchWindow.hide();
+                        }
+                    }
+                    
                 }            
             });      
             
@@ -303,7 +309,19 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 				((KSSuggestBox) basicWidget).setValue(theSuggestion);
 			}				
 		}
-		
+		public void clear() {
+		    if(basicWidget instanceof KSTextBox) {
+                ((KSTextBox)basicWidget).setText(null);
+            } else if(basicWidget instanceof KSSuggestBox) {
+                ((KSSuggestBox) basicWidget).setValue((String)null);
+            } else if(basicWidget instanceof KSLabel) {
+                ((KSLabel)basicWidget).setText(null);
+            } else if(basicWidget instanceof KSDropDown) {
+                ((KSDropDown)basicWidget).clear();
+            } else {
+                ((KSSuggestBox) basicWidget).setValue(null, false);
+            }
+		}
 		public void setValue(String id, String translation) {
 			if(basicWidget instanceof KSTextBox) {
 				((KSTextBox)basicWidget).setText(translation);
@@ -347,7 +365,31 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 				SelectItemWidgetBinding.INSTANCE.setWidgetValue((KSSelectItemWidgetAbstract)basicWidget, value);
             }			
 		}		
-		
+		public String getDisplayValue() {
+		    String result = null;
+		    if (basicWidget instanceof KSTextBox) {
+                result = ((KSTextBox)basicWidget).getText();
+            } else if (basicWidget instanceof KSSuggestBox) {
+                //Do check here
+                if(!config.isRepeating){
+                    //what to do here?
+                } else {
+                    IdableSuggestion suggestion = ((KSSuggestBox)basicWidget).getCurrentSuggestion();
+                    if(suggestion != null) {
+                        result = suggestion.getReplacementString();
+                    }
+                }
+            }  else if (basicWidget instanceof KSDropDown) {
+                KSDropDown dropDown = (KSDropDown)basicWidget;
+                StringValue value = new StringValue(((KSDropDown) basicWidget).getSelectedItem());
+                String itemId = dropDown.getSelectedItem();
+                
+                if(itemId != null && !itemId.isEmpty()) {
+                    result = dropDown.getListItems().getItemText(itemId);
+                }               
+            }
+		    return result;
+		}
 		public Value getValue() {
 			if (basicWidget instanceof KSTextBox) {
 				StringValue value = new StringValue(((KSTextBox)basicWidget).getText());
@@ -439,7 +481,14 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		
         public Widget get() {
             return basicWidget;
-        }		
+        }
+
+        @Override
+        public void setValue(Map<String, String> translations) {
+            // TODO ryan - THIS METHOD NEEDS JAVADOCS
+            
+        }
+
     }
     
     private class SelectionContainerWidget extends Widget implements HasValue<List<String>> {
@@ -563,6 +612,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		//suggest.reset();
 		basicWidget.setValue(value, fireEvents);
 	}
+	public void clear() {
+	    basicWidget.clear();
+	}
 
     @Override
     public void setValue(String id, String translation) {
@@ -573,7 +625,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     public Value getValue() {
         return basicWidget.getValue();
     }	
-	
+	public String getDisplayValue() {
+	    return basicWidget.getDisplayValue();
+	}
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 		return basicWidget.addValueChangeHandler(handler);
@@ -587,4 +641,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	public void addFocusLostCallback(Callback<Boolean> callback) {
 		basicWidget.addFocusLostCallback(callback);
 	}
+
+    public void setAdvancedSearchCallback(Callback<List<SelectedResults>> advancedSearchCallback) {
+        this.advancedSearchCallback = advancedSearchCallback;
+    }
+
+    @Override
+    public void setValue(Map<String, String> translations) {
+        // TODO ryan - THIS METHOD NEEDS JAVADOCS
+        
+    }
+
 }

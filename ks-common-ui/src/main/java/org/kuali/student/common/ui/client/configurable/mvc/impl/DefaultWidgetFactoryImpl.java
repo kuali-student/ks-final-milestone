@@ -1,3 +1,17 @@
+/*
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.common.ui.client.configurable.mvc.impl;
 
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
@@ -10,7 +24,9 @@ import org.kuali.student.common.ui.client.widgets.KSPlaceholder;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
@@ -35,13 +51,13 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 			config.isRichText = MetadataInterrogator.hasConstraint(meta, ConstraintIds.RICH_TEXT);
 			config.maxLength = MetadataInterrogator.getSmallestMaxLength(meta);
 			config.type = meta.getDataType();
+			config.metadata = meta;
 			config.lookupMeta = meta.getInitialLookup();
 			config.additionalLookups = meta.getAdditionalLookups();
 			config.canEdit = meta.isCanEdit();
 			config.canUnmask = meta.isCanUnmask();
 			config.canView = meta.isCanView();
 		}
-		
 		return _getWidget(config);
 	}
 
@@ -63,9 +79,13 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		} else if(!config.canEdit && config.lookupMeta == null) {
 		    result = new KSLabel();
 		} else {
-		    if(config.lookupMeta != null) {
-		        result = new KSPicker(config);
-		    } else {
+		    if (config.lookupMeta != null) {
+                if (config.metadata != null && MetadataInterrogator.isRepeating(config.metadata) && LookupMetadata.Widget.SUGGEST_BOX.equals(config.lookupMeta.getWidget())) {
+                    result =  new KSSelectedList(config);
+                } else {
+                    result = new KSPicker(config);
+                }
+            } else {
                 switch (config.type) {
                     case BOOLEAN:
                         result = new KSCheckBox();
