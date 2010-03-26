@@ -162,4 +162,14 @@
         LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMENT5DMIqREVIEWER13400ROLE" ROLE_ID="919"
         ROLE_NM="Permission: KS-SYS Comment on Document" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role is for use with adding adhoc permissions for those who can edit a document."
+        KIM_TYP_ID="130" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
+        OBJ_ID="DEPARUUUNTADMINREVIEWER000001234" ROLE_ID="930"
+        ROLE_NM="Adhoc Permissions: Edit Document" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role is for use with adding adhoc permissions for those who can comment on a document."
+        KIM_TYP_ID="130" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
+        OBJ_ID="DEPARUUUNTADMINREVIEWER000001235" ROLE_ID="931"
+        ROLE_NM="Adhoc Permissions: Comment on Document" VER_NBR="1"/>
 </dataset>
