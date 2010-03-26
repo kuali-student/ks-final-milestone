@@ -85,8 +85,8 @@ public class SearchModelValidator implements ModelValidator
      String comma = "";
      for (String val : differences)
      {
-      buf.append (val);
       buf.append (comma);
+      buf.append (val);
       comma = ", ";
      }
      addError ("Search type [" + st.getKey () +

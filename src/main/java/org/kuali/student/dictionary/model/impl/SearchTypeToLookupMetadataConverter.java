@@ -185,6 +185,10 @@ public class SearchTypeToLookupMetadataConverter
   {
    return LookupMetadata.Usage.ADVANCED;
   }
+    if (value.equalsIgnoreCase ("Advanced/Custom"))
+  {
+   return LookupMetadata.Usage.ADVANCED_CUSTOM;
+  }
   throw new DictionaryValidationException ("search " +
    searchType.getKey () +
    " has a usage with an unknown/unhandled value [" + value +
