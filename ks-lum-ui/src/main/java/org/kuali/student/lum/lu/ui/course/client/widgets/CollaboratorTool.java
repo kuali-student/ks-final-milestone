@@ -13,6 +13,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
@@ -28,6 +29,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpc
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService.ActionRequestType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -54,6 +56,7 @@ public class CollaboratorTool extends Composite implements ToolView{
     private final GroupSection section;
     private FieldDescriptor person;
     private FieldDescriptor permissions;
+    private FieldDescriptor actionRequests;
     private KSLinkButton addButton = new KSLinkButton("Add Person", ButtonStyle.PRIMARY);
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
@@ -67,9 +70,13 @@ public class CollaboratorTool extends Composite implements ToolView{
         public PermissionList(){
         	this.setBlankFirstItem(false);
             SimpleListItems permissionListItems = new SimpleListItems();
-            permissionListItems.addItem("Co-Author", EDIT_COMMENT_VIEW);
-            permissionListItems.addItem("Commentor", COMMENT_VIEW);
-            permissionListItems.addItem("Viewer", VIEW);
+//            permissionListItems.addItem("Co-Author", EDIT_COMMENT_VIEW);
+//            permissionListItems.addItem("Commentor", COMMENT_VIEW);
+//            permissionListItems.addItem("Viewer", VIEW);
+
+            permissionListItems.addItem(PermissionType.EDIT.getCode(),EDIT_COMMENT_VIEW);
+            permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(),COMMENT_VIEW);
+            permissionListItems.addItem(PermissionType.OPEN.getCode(),VIEW);
 
             super.setListItems(permissionListItems);
             
@@ -79,7 +86,23 @@ public class CollaboratorTool extends Composite implements ToolView{
     
     private PermissionList permissionList = new PermissionList();
     
-	public static class CollaboratorModel extends AbstractSimpleModel {
+    public class ActionRequestList extends KSDropDown{
+        public ActionRequestList(){
+        	this.setBlankFirstItem(false);
+            SimpleListItems actionRequestListItems = new SimpleListItems();
+            actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(),ActionRequestType.APPROVE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(),ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
+
+            super.setListItems(actionRequestListItems);
+            
+            this.selectItem(ActionRequestType.FYI.getActionRequestCode());
+        }
+    }
+    
+    private ActionRequestList actionRequestList = new ActionRequestList();
+
+    public static class CollaboratorModel extends AbstractSimpleModel {
 		private String dataId;
 
 		public String getDataId() {
@@ -142,12 +165,16 @@ public class CollaboratorTool extends Composite implements ToolView{
 						personId = (String)(((KSPicker) w).getValue().get());
 					}
 				}
-				String permission = "";
+				String permissionCode = "";
 				if(permissions != null){
-					permission = permissionList.getSelectedItem();
+					permissionCode = permissionList.getSelectedItem();
+				}
+				String actionRequestCode = "";
+				if(actionRequests != null){
+					actionRequestCode = actionRequestList.getSelectedItem();
 				}
 				//TODO last 2 are hardcoded, dont know what to do here
-				CollaboratorTool.this.addCollaborator(personId, permission, true, "");
+				CollaboratorTool.this.addCollaborator(personId, permissionCode, actionRequestCode, true, "");
 				
 			}
 		});
@@ -242,8 +269,11 @@ public class CollaboratorTool extends Composite implements ToolView{
 		Metadata typeMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("collaboratorType");
 		permissions = new FieldDescriptor(null, "Permissions", typeMeta);
 		permissions.setFieldWidget(permissionList);
+		actionRequests = new FieldDescriptor(null, "Action Requests", typeMeta);
+		actionRequests.setFieldWidget(actionRequestList);
 		section.addField(person);
 		section.addField(permissions);
+		section.addField(actionRequests);
 		//if submitted(?) then show workflow action request here
 		
 	}
@@ -303,13 +333,13 @@ public class CollaboratorTool extends Composite implements ToolView{
         this.controller = controller;
     }
     
-    private void addCollaborator(final String recipientPrincipalId, final String selectedPermission, boolean participationRequired, String respondBy){
+    private void addCollaborator(final String recipientPrincipalId, final String selectedPermissionCode, final String selectedActionRequest, boolean participationRequired, String respondBy){
     	if(workflowId==null){
             //GWT.log("Collaborators called with "+ricePersonLookupUrl, null);
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
     		//TODO put real title in
-    		workflowRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermission, participationRequired, respondBy, new AsyncCallback<Boolean>(){
+    		workflowRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermissionCode, selectedActionRequest, participationRequired, respondBy, new AsyncCallback<Boolean>(){
 				public void onFailure(Throwable caught) {
 					Window.alert("Could not add Collaborator");
 					GWT.log("could not add collaborator", caught);

@@ -11,6 +11,7 @@
         p:objectLabel="Kuali Student KIM Attributes">
     <property name="attributes">
       <list>
+        <ref bean="KualiStudentKimAttributes-dataId" />
         <ref bean="KualiStudentKimAttributes-department" />
         <ref bean="KualiStudentKimAttributes-college" />
         <ref bean="KualiStudentKimAttributes-division" />
@@ -18,6 +19,22 @@
         <ref bean="KualiStudentKimAttributes-dtoFieldKey" />
         <ref bean="KualiStudentKimAttributes-fieldAccessLevel" />
       </list>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-dataId" parent="KualiStudentKimAttributes-dataId-parentBean" />
+  <bean id="KualiStudentKimAttributes-dataId-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="dataId"
+        p:forceUppercase="false"
+        p:label="Student Data Id"
+        p:shortLabel="Data Id"
+        p:maxLength="200"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="100"/>
     </property>
   </bean>
 

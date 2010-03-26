@@ -205,6 +205,11 @@
             <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-rice</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 

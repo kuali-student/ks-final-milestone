@@ -14,22 +14,19 @@
  */
 package org.kuali.student.lum.workflow;
 import java.security.InvalidParameterException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kew.actionitem.ActionItem;
+import org.kuali.rice.kew.actionrequest.ActionRequestValue;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.AdHocRevokeDTO;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.postprocessor.AfterProcessEvent;
 import org.kuali.rice.kew.postprocessor.BeforeProcessEvent;
@@ -43,6 +40,11 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.student.StudentWorkflowConstants;
+import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -52,80 +54,109 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 public class CluPostProcessor implements PostProcessor{
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CluPostProcessor.class);
 
-	private static final NetworkIdDTO KS_SYS_PRINCIPAL = new NetworkIdDTO("KS");
+	private static final String KS_SYSTEM_USER_PRINCIPAL_NAME = "KS";
 	private static final String CLU_STATE_ACTIVATED = "activated";
-	
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-	.getLogger(CluPostProcessor.class);
-	
-	public ProcessDocReport afterProcess(AfterProcessEvent arg0)
-			throws Exception {
+
+	public ProcessDocReport afterProcess(AfterProcessEvent arg0) throws Exception {
         return new ProcessDocReport(true, "");
 	}
 
-	public ProcessDocReport beforeProcess(BeforeProcessEvent arg0)
-			throws Exception {
+	public ProcessDocReport beforeProcess(BeforeProcessEvent arg0) throws Exception {
         return new ProcessDocReport(true, "");
 	}
 
-	public ProcessDocReport doActionTaken(ActionTakenEvent arg0)
-			throws Exception {
-        return new ProcessDocReport(true, "");
-	}
-
-	public ProcessDocReport doDeleteRouteHeader(DeleteEvent arg0)
-			throws Exception {
-        return new ProcessDocReport(true, "");
-	}
-
-	public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange)
-			throws Exception {
-
-		Long routeHeaderId = documentRouteLevelChange.getRouteHeaderId();
-		
-		//Clear all the current Collab FYIs on the current document
-		Collection<ActionItem> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(routeHeaderId);
-        Map<Long,Long> fyisToClear = new HashMap<Long,Long>();
-		for (Iterator<ActionItem> iterator = actionItems.iterator(); iterator.hasNext();) {
-            ActionItem item = iterator.next();
-            if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequestCd())&&item.getRequestLabel()!=null
-            		&&(item.getRequestLabel().startsWith("Co-Author")||
-            		   item.getRequestLabel().startsWith("Commentor")||
-            		   item.getRequestLabel().startsWith("Viewer")||
-            		   item.getRequestLabel().startsWith("Delegate"))){
-            	fyisToClear.put(item.getActionRequestId(), item.getRouteHeaderId());
-            }
+	public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
+		WorkflowDocument doc = new WorkflowDocument(getPrincipalIdForSystemUser(), actionTakenEvent.getRouteHeaderId());
+		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
+		for (ActionRequestValue actionRequest : actionTaken.getActionRequests()) {
+	        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
+	        	removeAdhocPermissions(actionRequest.getPrincipalId(), doc);
+	        }
         }
-		for(Map.Entry<Long, Long> fyiToClear:fyisToClear.entrySet()){
-    		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, fyiToClear.getValue());
-    		workflowDocument.superUserActionRequestApprove(fyiToClear.getKey(), "Cleared by KS because CluProposal status has changed");
+        return new ProcessDocReport(true, "");
+	}
+
+	public ProcessDocReport doDeleteRouteHeader(DeleteEvent arg0) throws Exception {
+        return new ProcessDocReport(true, "");
+	}
+
+	public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
+		WorkflowDocument doc = new WorkflowDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getRouteHeaderId());
+
+		// if this is the initial route then clear all adhoc requests
+		if (StringUtils.equals("PreRoute",documentRouteLevelChange.getOldNodeName())) {
+			AdHocRevokeDTO revoke = new AdHocRevokeDTO();
+			revoke.setNodeName(documentRouteLevelChange.getOldNodeName());
+			doc.revokeAdHocRequests(revoke, "");
 		}
-		
-		//Clear all pending Collab request documents for this document
-		Collection<Long> pendingCollabIds = KEWServiceLocator.getRouteHeaderService().findByDocTypeAndAppId("CluCollaboratorDocument", routeHeaderId.toString());
-		if(pendingCollabIds!=null){
-			Set<Long> uniquePendingCollagIds = new HashSet<Long>(pendingCollabIds);
-        	for(Long pendingCollabId:uniquePendingCollagIds){
-        		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, pendingCollabId);
-        		if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || 
-        			workflowDocument.stateIsEnroute() || workflowDocument.stateIsException()) {
-//         		String routeStatus = workflowDocument.getRouteHeader().getDocRouteStatus();
-//        		if(!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) &&
-//        		   !KEWConstants.ROUTE_HEADER_APPROVED_CD.equals(routeStatus) &&
-//        		   !KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) &&
-//        		   !KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeStatus)){
-        			workflowDocument.superUserDisapprove("Collaboration request has been revoked because CluProposal status has changed");
-        		}
-        	}
+
+		// remove perms for all adhoc action requests to a user for the route node we just exited
+		for (ActionRequestDTO actionRequestDTO : doc.getActionRequests()) {
+			if (actionRequestDTO.isAdHocRequest() && actionRequestDTO.isUserRequest() && 
+					StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequestDTO.getNodeName())) {
+		        removeAdhocPermissions(actionRequestDTO.getPrincipalId(), doc);
+			}
         }
+
+//		//Clear all the current Collab FYIs on the current document
+//		Collection<ActionItem> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(routeHeaderId);
+//        Map<Long,Long> fyisToClear = new HashMap<Long,Long>();
+//		for (Iterator<ActionItem> iterator = actionItems.iterator(); iterator.hasNext();) {
+//            ActionItem item = iterator.next();
+//            if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequestCd())&&item.getRequestLabel()!=null
+//            		&&(item.getRequestLabel().startsWith("Co-Author")||
+//            		   item.getRequestLabel().startsWith("Commentor")||
+//            		   item.getRequestLabel().startsWith("Viewer")||
+//            		   item.getRequestLabel().startsWith("Delegate"))){
+//            	fyisToClear.put(item.getActionRequestId(), item.getRouteHeaderId());
+//            }
+//        }
+//		for(Map.Entry<Long, Long> fyiToClear:fyisToClear.entrySet()){
+//    		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, fyiToClear.getValue());
+//    		workflowDocument.superUserActionRequestApprove(fyiToClear.getKey(), "Cleared by KS because CluProposal status has changed");
+//		}
+//		
+//		//Clear all pending Collab request documents for this document
+//		Collection<Long> pendingCollabIds = KEWServiceLocator.getRouteHeaderService().findByDocTypeAndAppId("CluCollaboratorDocument", routeHeaderId.toString());
+//		if(pendingCollabIds!=null){
+//			Set<Long> uniquePendingCollagIds = new HashSet<Long>(pendingCollabIds);
+//        	for(Long pendingCollabId:uniquePendingCollagIds){
+//        		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, pendingCollabId);
+//        		if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || 
+//        			workflowDocument.stateIsEnroute() || workflowDocument.stateIsException()) {
+////         		String routeStatus = workflowDocument.getRouteHeader().getDocRouteStatus();
+////        		if(!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) &&
+////        		   !KEWConstants.ROUTE_HEADER_APPROVED_CD.equals(routeStatus) &&
+////        		   !KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) &&
+////        		   !KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeStatus)){
+//        			workflowDocument.superUserDisapprove("Collaboration request has been revoked because CluProposal status has changed");
+//        		}
+//        	}
+//        }
 
 		return new ProcessDocReport(true, "");
 	}
 
-	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent)
-			throws Exception {
-		if (statusChangeEvent.getNewRouteStatus().equals(KEWConstants.ROUTE_HEADER_APPROVED_CD)) {			
+	private void removeAdhocPermissions(String principalId, WorkflowDocument doc) {
+    	AttributeSet qualifications = new AttributeSet();
+    	qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentType());
+    	qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getAppDocId());
+        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
+        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);		
+	}
+
+	private String getPrincipalIdForSystemUser() {
+		KimPrincipalInfo principal = KIMServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(KS_SYSTEM_USER_PRINCIPAL_NAME);
+		if (principal == null) {
+			throw new RuntimeException("Cannot find Principal for principal name: " + KS_SYSTEM_USER_PRINCIPAL_NAME);
+		}
+		return principal.getPrincipalId();
+	}
+
+	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
+		if (statusChangeEvent.getNewRouteStatus().equals(KEWConstants.ROUTE_HEADER_APPROVED_CD)) {
 			LOG.info("CluApprovalPostProcessor: Status change to APPROVED");
 			WorkflowInfo workflowInfo = new WorkflowInfo();
 			DocumentContentDTO document = workflowInfo.getDocumentContent(statusChangeEvent.getRouteHeaderId());
@@ -134,12 +165,10 @@ public class CluPostProcessor implements PostProcessor{
         return new ProcessDocReport(true, "");
 	}
 
-	public List<Long> getDocumentIdsToLock(DocumentLockingEvent arg0)
-			throws Exception {
-		// TODO Auto-generated method stub
+	public List<Long> getDocumentIdsToLock(DocumentLockingEvent arg0) throws Exception {
 		return null;
 	}
-	
+
     private void updateCluStatus(DocumentContentDTO document) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, org.kuali.student.core.exceptions.InvalidParameterException, VersionMismatchException{
     	LuService luService = (LuService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lu","LuService"));
     	

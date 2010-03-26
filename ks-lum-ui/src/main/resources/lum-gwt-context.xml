@@ -262,6 +262,7 @@
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="identityService" ref="identityServiceClient"/>
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
+		<property name="roleUpdateService" ref="roleUpdateServiceClient" />
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet"
@@ -530,4 +531,10 @@
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService" />
 	</bean>
+
+	<bean id="roleUpdateServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.RoleUpdateService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimRoleUpdateServiceSOAP" />
+    </bean>
+
 </beans>

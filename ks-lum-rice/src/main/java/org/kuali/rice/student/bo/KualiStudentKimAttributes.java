@@ -16,6 +16,7 @@ package org.kuali.rice.student.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**
@@ -26,6 +27,9 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 
 	private static final long serialVersionUID = 6969156403877595025L;
 
+	public static final String DOCUMENT_TYPE_NAME              = KimAttributes.DOCUMENT_TYPE_NAME;
+
+	public static final String QUALIFICATION_DATA_ID           = "dataId";
 	public static final String QUALIFICATION_CLU_ID            = "cluId";
 	public static final String QUALIFICATION_DEPARTMENT_ID     = "departmentId";
 	public static final String QUALIFICATION_DEPARTMENT        = "department";
@@ -36,6 +40,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	public static final String QUALIFICATION_ORG_ID            = "orgId";
 	public static final String QUALIFICATION_ORG               = "org";
 
+	protected String dataId;
 	protected String department;
 	protected String college;
 	protected String division;
@@ -43,6 +48,20 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	protected String dtoName;
 	protected String dtoFieldKey;
 	protected String fieldAccessLevel;
+
+	/**
+     * @return the dataId
+     */
+    public String getDataId() {
+    	return dataId;
+    }
+
+	/**
+     * @param dataId the dataId to set
+     */
+    public void setDataId(String dataId) {
+    	this.dataId = dataId;
+    }
 
 	/**
 	 * @return the department
