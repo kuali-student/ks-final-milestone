@@ -3793,10 +3793,13 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="ADMIN_ORG_ID" size="255" type="VARCHAR"/>
         <column name="CRIT_SET" size="1" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="ST" size="255" type="VARCHAR"/>
+        <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK33138D41ABDD272F">
             <reference foreign="ID" local="RT_DESCR_ID"/>

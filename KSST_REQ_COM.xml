@@ -63,4 +63,9 @@
         REQ_COM_TYPE_ID="kuali.reqCompType.courseList.none"
         RT_DESCR_ID="KSST_REQ_COM.DESC.8" ST="ACTIVE"
         UPDATEID="UPDATEID" UPDATETIME="20010101000000" VERSIONIND="1"/>
+    <KSST_REQ_COM CREATEID="CREATEID" CREATETIME="20000101000000"
+        EFF_DT="20010101000000"
+        ID="aa81b95e-6183-409d-956e-a57399e833a4"
+        REQ_COM_TYPE_ID="kuali.reqCompType.courseList.all"
+        RT_DESCR_ID="aaf0dbc1-a2fc-4f4c-9417-d6047a035dee" ST="ACTIVE" VERSIONIND="1"/>
 </dataset>

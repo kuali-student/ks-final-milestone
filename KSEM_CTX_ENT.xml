@@ -54,9 +54,9 @@
     <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Social Work"
         ENUM_VAL_ENT_ID="32" ID="32"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.lu.campusLocation"
-        CTX_VAL="North Campus" ENUM_VAL_ENT_ID="33" ID="33"/>
+        CTX_VAL="North County Campus" ENUM_VAL_ENT_ID="33" ID="33"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.lu.campusLocation"
-        CTX_VAL="South Campus" ENUM_VAL_ENT_ID="34" ID="34"/>
+        CTX_VAL="South County Campus" ENUM_VAL_ENT_ID="34" ID="34"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Architecture"
         ENUM_VAL_ENT_ID="4" ID="4"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Accounting"

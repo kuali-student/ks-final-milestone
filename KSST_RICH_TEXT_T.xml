@@ -39,4 +39,6 @@
         ID="KSST_STMT.DESC.8" PLAIN="Statement 103"/>
     <KSST_RICH_TEXT_T FORMATTED="&lt;p>Statement 104&lt;/p>"
         ID="KSST_STMT.DESC.9" PLAIN="Statement 104"/>
+    <KSST_RICH_TEXT_T FORMATTED="&lt;p>Formatted rich text test&lt;/p>"
+        ID="aaf0dbc1-a2fc-4f4c-9417-d6047a035dee" PLAIN="Plain rich text test"/>
 </dataset>

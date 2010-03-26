@@ -61,4 +61,7 @@
         RT_DESCR_ID="KSST_STMT.DESC.5" ST="ACTIVE"
         STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"
         UPDATEID="UPDATEID" UPDATETIME="20010101000000" VERSIONIND="1"/>
+    <KSST_STMT CREATEID="CREATEID" CREATETIME="20010101000000"
+        ID="aae41735-366f-494f-a34d-c8506df1da30" OPERATOR="AND"
+        STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness" VERSIONIND="1"/>
 </dataset>
