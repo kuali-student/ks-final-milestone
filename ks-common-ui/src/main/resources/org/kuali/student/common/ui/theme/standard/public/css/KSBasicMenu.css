@@ -377,35 +377,31 @@
 }
 
 .KS-Username-DropDown li{
+	border-bottom: 1px solid #CECECE;
+	line-height: 1.8em;
 	zoom: 1;
 }
 
 .KS-Username-DropDown .KS-CustomDropDown-TitlePanel{
 	cursor: pointer;
-	background-color: #8e181b;
-	padding: 3px;
+	background-color: #8D0000;
+	border: 1px solid #850000;
+	padding: 4px;
 }
 
 .KS-Username-DropDown .KS-CutomDropDown-TitleLabel{
 	color: white;
-	font-size: .8em;
+	font-size: 14px;
 	font-weight: bold;
 	white-space: nowrap;
 }
 
 .KS-Username-DropDown ul{
 	border-style: solid;
-	border-width: 2px;
-	border-color: #760b01;
-	background-color: #820e01;
-}
-
-.KS-Username-DropDown .KS-Basic-Menu-Item-Panel-Selected{
-	background-color: #9d1200;
-}
-
-
-.KS-Username-DropDown .KS-Basic-Menu-Item-Label-Selected{
+	border-width: 1px;
+	border-color: #9C9C9C;
+	border-bottom: medium none;
+	background-color: #F5F5F5;
 }
 
 .KS-Username-DropDown  .KS-Basic-Menu-Toplevel-Item-Label{
@@ -417,18 +413,38 @@
 }
 
 .KS-Username-DropDown .KS-Basic-Menu-Item-Label{
-	color: white;
-	font-size: .8em;
-	font-weight: bold;
-	white-space: nowrap;
-	
+	font-size: 12px;
+	margin-left: 4px;
+	white-space: nowrap;		
 }
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel-Selected{
+}
+
 
 .KS-Username-DropDown .KS-Basic-Menu-Item-Panel{
 	padding: 3px;
+	color: #333333;
 	cursor: pointer;
 }
 
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel a{
+	color: #333333;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel a:hover{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel-Hover{
+	background-color: #AC0000;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel-Selected a:hover{
+	color: #333333;
+	cursor: pointer;
+}
 
 
 
