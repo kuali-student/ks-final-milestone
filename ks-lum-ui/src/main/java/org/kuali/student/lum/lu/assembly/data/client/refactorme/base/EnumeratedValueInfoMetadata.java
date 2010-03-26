@@ -98,7 +98,7 @@ public class EnumeratedValueInfoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date.time"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date"));
 		}
 		
 		// metadata for expirationDate
@@ -110,7 +110,8 @@ public class EnumeratedValueInfoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date.time"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("cross.greaterthan.effective.date"));
 		}
 		
 		// metadata for sortKey

@@ -19,7 +19,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 public interface StateSelectorInfoConstants
 {
-	public static final String FIELD = "field";
+	public static final String FIELDS = "fields";
 	public static final String KEY = "key";
 }
 

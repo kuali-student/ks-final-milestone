@@ -54,9 +54,9 @@ public class StateSelectorInfoMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for field
+		// metadata for fields
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.FIELD.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.FIELDS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))

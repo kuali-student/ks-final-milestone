@@ -8,14 +8,14 @@ http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/searc
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Mon Jan 25 14:56:14 PST 2010
-by: org.kuali.student.dictionary.writer.SearchModelWriter
+on: Thu Mar 25 13:49:29 EDT 2010
+by: org.kuali.student.dictionary.writer.search.SearchModelWriter
 using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/orchestration-dictionary.xls, Excel Spreadsheet src/test/resources/service methods.xls, Excel Spreadsheet src/test/resources/services.xlsExcel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/orchestration-dictionary.xls, Excel Spreadsheet src/test/resources/service methods.xls, Excel Spreadsheet src/test/resources/services.xls, 
  -->
 
 <!-- Search Types -->
 
-	<search:searchType id="org.search.advanced">
+	<search:searchType id="org.search.generic">
 		<search:name>Basic and Advanced Search</search:name>
 		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
@@ -36,7 +36,7 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 		<search:searchCriteriaTypeInfo><ref bean="person.criteria.personGivenName" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 
-	<search:searchType id="org.search.advanced">
+	<search:searchType id="org.search.generic">
 		<search:name>Basic and Advanced Search</search:name>
 		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
@@ -121,6 +121,76 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.byCategoryName" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="org.search.generic">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgAdvancedCriteria" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="proposal.search.generic">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><ref bean="proposal.result.NameAndId" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="proposal.criteria.proposalAdvancedCriteria" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lu.search.browse.by.identifier">
+		<search:name>Search that supports browsing of the catalog by school</search:name>
+		<search:desc>Searches for schools then departments then down into subject areas</search:desc>
+		<search:searchResultTypeInfo><ref bean="lu.result.CatalogView" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lu.criteria.browseCatalog" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="org.search.generic">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgAdvancedCriteria" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="org.search.within.hierarchy">
+		<search:name>Search using a heirarchy</search:name>
+		<search:desc>Finds children of an org</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.org.childOrgs" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lu.search.browse.by.identifier">
+		<search:name>Search that supports browsing of the catalog by school</search:name>
+		<search:desc>Searches for schools then departments then down into subject areas</search:desc>
+		<search:searchResultTypeInfo><ref bean="lu.result.CatalogView" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lu.criteria.browseCatalog" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
 <!-- Search Criteria -->
 
 	<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria">
@@ -168,6 +238,7 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 			<ref bean="lu.queryParam.luOptionalType" />
 			<ref bean="lu.queryParam.luOptionalCode" />
 			<ref bean="lu.queryParam.luOptionalLevel" />
+			<ref bean="lu.queryParam.luOptionalState" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 
@@ -222,6 +293,35 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 		<search:desc>no description supplied</search:desc>
 		<search:queryParams>
 			<ref bean="lo.queryParam.loCategoryName" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria">
+		<search:name>OrgAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="proposal.queryParam.proposalId" />
+			<ref bean="proposal.queryParam.proposalOptionalName" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lu.criteria.browseCatalog">
+		<search:name>LuAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalType" />
+			<ref bean="lu.queryParam.division" />
+			<ref bean="lu.queryParam.SuffixCodeStartsWith" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="org.criteria.org.childOrgs">
+		<search:name>Related Children Org Search Criteria</search:name>
+		<search:desc>Finds related children organizations with a specified type</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgRelationOrgId1" />
+			<ref bean="org.queryParam.orgOrgRelationType" />
+			<ref bean="org.queryParam.orgOptionalType" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 
@@ -323,6 +423,14 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 			</dict:fieldDescriptor>
 		</search:queryParam>
 
+	<search:queryParam id="lu.queryParam.luOptionalState">
+			<dict:fieldDescriptor>
+			<dict:name>State</dict:name>
+			<dict:desc>Lu State</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
 	<search:queryParam id="atp.advancedAtpSearchParam.atpShortName">
 			<dict:fieldDescriptor>
 			<dict:name>ATP Short Name</dict:name>
@@ -407,6 +515,54 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 			<dict:fieldDescriptor>
 			<dict:name>Category</dict:name>
 			<dict:desc>no description supplied</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="proposal.queryParam.proposalId">
+			<dict:fieldDescriptor>
+			<dict:name>Id</dict:name>
+			<dict:desc>Unique identifier for a proposal.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="proposal.queryParam.proposalOptionalName">
+			<dict:fieldDescriptor>
+			<dict:name>Name</dict:name>
+			<dict:desc>Name</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.division">
+			<dict:fieldDescriptor>
+			<dict:name>Subject Area or division of studies</dict:name>
+			<dict:desc>Subject Area (Division)</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.SuffixCodeStartsWith">
+			<dict:fieldDescriptor>
+			<dict:name>Suffix Code starts with</dict:name>
+			<dict:desc>The &quot;Number part&quot; of the course number (suffix) - wildcard matches what was entered</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgRelationOrgId1">
+			<dict:fieldDescriptor>
+			<dict:name>First Id of an org-org relation</dict:name>
+			<dict:desc>Unique identifier for an organization on an org-org relaiton</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgOrgRelationType">
+			<dict:fieldDescriptor>
+			<dict:name>Org-Org Relation Type</dict:name>
+			<dict:desc>The relation type to use when searching the heirarchy</dict:desc>
 			<dict:dataType>string</dict:dataType>
 			</dict:fieldDescriptor>
 		</search:queryParam>
@@ -539,6 +695,28 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 			<ref bean="lo.resultColumn.categoryName" />
 			<ref bean="lo.resultColumn.categoryType" />
 			<ref bean="lo.resultColumn.categoryNameAndType" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="proposal.result.NameAndId">
+		<search:name>Organization Full View Less Hierarchies</search:name>
+		<search:desc>Full view of the Organization Less Hierarchies</search:desc>
+		<search:resultColumns>
+			<ref bean="proposal.resultColumn.proposalId" />
+			<ref bean="proposal.resultColumn.proposalOptionalName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lu.result.CatalogView">
+		<search:name>Lu Full View</search:name>
+		<search:desc>Full view of clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luType" />
+			<ref bean="lu.resultColumn.luOptionalLongName" />
+			<ref bean="lu.resultColumn.luOptionalCode" />
+			<ref bean="lu.resultColumn.luDivision" />
+			<ref bean="lu.resultColumn.luSuffixCode" />
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
 
@@ -796,13 +974,43 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel 
 		<search:dataType>string</search:dataType>
 		</search:resultColumn>
 
+	<search:resultColumn id="proposal.resultColumn.proposalId">
+		<search:name>Id</search:name>
+		<search:desc>Id for the proposal.</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalName">
+		<search:name>Name</search:name>
+		<search:desc>Name for the proposal.</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luType">
+		<search:name>LU Type</search:name>
+		<search:desc>LU Type that is selected</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luDivision">
+		<search:name>Subject Area</search:name>
+		<search:desc>Subjec Area</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luSuffixCode">
+		<search:name>Suffix Code</search:name>
+		<search:desc>Level of Lu</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
 	<!-- Query Map -->
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 	<property name="sourceMap">
 	<map>
 		
 		<entry
- key="org.search.advanced"		>
+ key="org.search.generic"		>
 			<value>
 SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org
 </value>
@@ -857,7 +1065,14 @@ TBD
 		<entry
  key="enumeration.management.search"		>
 			<value>
-TBD
+SELECT enumValue.code,
+ enumValue.abbrevValue, 
+enumValue.value, 
+enumValue.effectiveDate, 
+enumValue.expirationDate, 
+enumValue.sortKey 
+FROM EnumeratedValueEntity enumValue 
+where enumValue.enumerationKey = :enumeration_queryParam_enumerationType
 </value>
 		</entry>
 		
@@ -884,7 +1099,7 @@ JOIN
     ON 
     clu.OFFIC_CLU_ID = officialIdentifier.ID 
 JOIN 
-    KSLO_RICH_TEXT_T lodesc 
+    KS_LO_RICH_TEXT_T lodesc 
     ON 
     lodesc.ID = lo.RT_DESCR_ID 
 WHERE 
@@ -915,7 +1130,7 @@ JOIN
     ON 
     clu.OFFIC_CLU_ID = officialIdentifier.ID 
 JOIN 
-    KSLO_RICH_TEXT_T lodesc 
+    KS_LO_RICH_TEXT_T lodesc 
     ON 
     lodesc.ID = lo.RT_DESCR_ID 
 JOIN 
@@ -936,6 +1151,41 @@ WHERE
  key="lo.search.categories"		>
 			<value>
 SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||&apos; - &apos;||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId
+</value>
+		</entry>
+		
+		<entry
+ key="proposal.search.generic"		>
+			<value>
+TBD already in xml
+</value>
+		</entry>
+		
+		<entry
+ key="lu.search.browse.by.identifier"		>
+			<value>
+select 
+clu.id, 
+clu.type, 
+clu.officialIdentifier.longName, 
+clu.officialIdentifier.code, 
+clu.officialIdentifier.division, 
+clu.officialIdentifier.suffixCode
+from clu
+where clu.type = :lu.resultColumn.luType
+and clu.officialIdentifier.division = :lu.resultColumn.luDivision
+and clu.officialIdentifier.suffixCode like &quot;:lu.resultColumn.luSuffixCode%&quot;
+</value>
+		</entry>
+		
+		<entry
+ key="org.search.within.hierarchy"		>
+			<value>
+SELECT org.id, org.shortName, org.longName, org.type.id 
+FROM Org org, orgOrgRelation rel
+where org.id = rel.relatedOrgId
+and rel.orgId = :org.queryParam.orgOptionalId
+and rel.type = :org.queryParam.orgOrgRelationType
 </value>
 		</entry>
 	</map>

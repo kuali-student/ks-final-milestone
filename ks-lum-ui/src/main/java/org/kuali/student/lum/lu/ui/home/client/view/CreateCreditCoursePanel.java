@@ -47,6 +47,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
     private KSButton copyCourse = new KSButton("Copy Existing Course");
     private KSButton categoryManagement = new KSButton("Category Management");
     private KSButton cluSetManagement = new KSButton("CLU Set Management");
+    private KSButton browseCatalog = new KSButton("Browse Catalog");
     
     private ButtonEventHandler handler = new ButtonEventHandler();
     
@@ -122,7 +123,16 @@ public class CreateCreditCoursePanel extends ViewComposite{
 				
 			}
 		});
-        mainPanel.add(new ButtonRow(cluSetManagement, "Manage CLU Sets."));
+       mainPanel.add(new ButtonRow(cluSetManagement, "Manage CLU Sets."));
+       browseCatalog.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.MANAGE_CLU_SETS));
+
+			}
+		});
+        mainPanel.add(new ButtonRow(browseCatalog, "Browse Catalog"));
 
         mainPanel.add(new ButtonRow(categoryManagement, "Manage the category"));
         categoryManagement.addClickHandler(new ClickHandler(){

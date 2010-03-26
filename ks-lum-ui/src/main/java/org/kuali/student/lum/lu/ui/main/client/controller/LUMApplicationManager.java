@@ -34,6 +34,7 @@ import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementC
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 
 public class LUMApplicationManager extends Controller {
 
@@ -49,6 +50,9 @@ public class LUMApplicationManager extends Controller {
 
 	private Controller manageCluSetsController = null;
 	private DelegatingViewComposite manageCluSetsView;
+
+	private Controller browseCatalogController = null;
+	private DelegatingViewComposite browseCatalogView;
 
 	private boolean loaded = false;
 
@@ -89,7 +93,14 @@ public class LUMApplicationManager extends Controller {
 	}
 
 	public enum LUMViews {
-		HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE, MODIFY_COURSE, CREATE_PROGRAM, MANAGE_CLU_SETS
+		HOME_MENU,
+  CREATE_COURSE,
+  EDIT_COURSE_PROPOSAL,
+  VIEW_COURSE,
+  MODIFY_COURSE,
+  CREATE_PROGRAM,
+  MANAGE_CLU_SETS,
+  BROWSE_COURSE_CATALOG
 	}
 
 	@Override
@@ -114,6 +125,11 @@ public class LUMApplicationManager extends Controller {
 				manageCluSetsView = new DelegatingViewComposite(LUMApplicationManager.this, manageCluSetsController);
 				manageCluSetsController.showDefaultView(NO_OP_CALLBACK);
 				return manageCluSetsView;
+			case BROWSE_COURSE_CATALOG:
+				browseCatalogController = new CatalogBrowserController();
+				browseCatalogView = new DelegatingViewComposite(LUMApplicationManager.this, browseCatalogController);
+				browseCatalogController.showDefaultView(NO_OP_CALLBACK);
+				return browseCatalogView;
 			default:
 				return null;
 		}
