@@ -232,7 +232,7 @@ INSERT INTO KSST_NL_USAGE_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VAL
 INSERT INTO KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('NL-RICHTEXT-101', '<p>Desc</p>', 'Desc')
 
 // NL - Lu Type
-//INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.CreditCourse', 'An Credit Course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course')
+//INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.CreditCourse', 'A Credit Course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course')
 
 // NL - Clu - MATH152
 INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-NL-1', 'MATH152', 'MATH', '152', 'MATH 152 Linear Systems', 'MATH 152', 'State-1', 'Type-1', 'Variation-1')

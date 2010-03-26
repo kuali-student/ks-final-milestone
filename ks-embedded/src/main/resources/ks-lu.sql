@@ -11,6 +11,7 @@ INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, E
 INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('luLuRelationType.colocated', 'jim', 'my desc6', 'rev name6', 'rev desc6', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
 INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('luLuRelationType.hasCourseFormat', 'sam', 'my desc7', 'rev name7', 'rev desc7', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
 INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.relation.type.co-located', 'dan', 'my desc8', 'rev name8', 'rev desc8', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.relation.type.copyOfClu', 'dan', 'my desc8', 'rev name8', 'rev desc8', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
 
 // LU Type
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('luType.shell.course', 'A Shell Course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course')
