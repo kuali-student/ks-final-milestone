@@ -244,7 +244,7 @@
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="FK8CBAE8808E68868F">
             <reference foreign="TYPE_KEY" local="REFERENCE_TYPE"/>
         </foreign-key>
-        <unique name="SYS_C0027694">
+        <unique name="SYS_C0033779">
             <unique-column name="REFERENCE_ID"/>
             <unique-column name="REFERENCE_TYPE"/>
         </unique>
@@ -406,7 +406,7 @@
         <foreign-key foreignTable="KSEM_ENUM_VAL_ENT" name="FKF0BED564A2AE7410">
             <reference foreign="ID" local="ENUM_VAL_ENT_ID"/>
         </foreign-key>
-        <unique name="SYS_C0027672">
+        <unique name="SYS_C0033757">
             <unique-column name="ENUM_VAL_ENT_ID"/>
             <unique-column name="CTX_KEY"/>
             <unique-column name="CTX_VAL"/>
