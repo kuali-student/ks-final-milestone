@@ -240,7 +240,7 @@ public class CourseConfigurer
         VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
         addField(section, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
-        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList());
+        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY));
         addField(section, COURSE + "/" + DEPARTMENT, getLabel(LUConstants.ADMIN_ORG_LABEL_KEY));
 
         return section;
@@ -502,20 +502,6 @@ public class CourseConfigurer
 //            return multi;
 //        }
 //    }
-
-    //FIXME: Create a configurable checkbox list which can obtain values via RPC calls
-    public class CampusLocationList extends KSCheckBoxList{
-        public CampusLocationList(){
-            SimpleListItems campusLocations = new SimpleListItems();
-
-            campusLocations.addItem("NorthCountyCampus", "North County Campus");
-            campusLocations.addItem("SouthCountyCampus", "South County Campus");
-            campusLocations.addItem("ExtendedStudiesCampus", "Extended Studies Campus");
-            campusLocations.addItem("AllCampuses", "All Campuses");
-
-            super.setListItems(campusLocations);
-        }
-    }
 
     public class CluActivityType extends KSDropDown{
         public CluActivityType(){
