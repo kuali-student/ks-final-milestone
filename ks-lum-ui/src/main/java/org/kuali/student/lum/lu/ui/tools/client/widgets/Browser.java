@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -32,6 +33,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
@@ -60,7 +62,6 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 
 public class Browser extends Composite implements HasFocusLostCallbacks,
                                                     HasValueChangeHandlers<String>,
@@ -498,6 +499,12 @@ public class Browser extends Composite implements HasFocusLostCallbacks,
    return basicWidget;
   }
 
+@Override
+public void setValue(Map<String, String> translations) {
+    // TODO ryan - THIS METHOD NEEDS JAVADOCS
+    
+}
+
  }
 
  private class SelectionContainerWidget extends Widget implements
@@ -671,5 +678,11 @@ public class Browser extends Composite implements HasFocusLostCallbacks,
  {
   basicWidget.addFocusLostCallback (callback);
  }
+
+    @Override
+    public void setValue(Map<String, String> translations) {
+        // TODO ryan - THIS METHOD NEEDS JAVADOCS
+        
+    }
 
 }

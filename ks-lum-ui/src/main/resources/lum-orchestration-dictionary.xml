@@ -4263,6 +4263,7 @@
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.optional" />
