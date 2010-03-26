@@ -70,11 +70,17 @@ public class CluPostProcessor implements PostProcessor{
 	public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
 		WorkflowDocument doc = new WorkflowDocument(getPrincipalIdForSystemUser(), actionTakenEvent.getRouteHeaderId());
 		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
-		for (ActionRequestValue actionRequest : actionTaken.getActionRequests()) {
-	        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
-	        	removeAdhocPermissions(actionRequest.getPrincipalId(), doc);
+		if (actionTaken != null) {
+			for (ActionRequestValue actionRequest : actionTaken.getActionRequests()) {
+		        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
+		        	removeAdhocPermissions(actionRequest.getPrincipalId(), doc);
+		        }
 	        }
-        }
+		}
+		else {
+			LOG.warn("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getRouteHeaderId() + "'" + 
+					((actionTakenEvent.getActionTaken() == null) ? "" : " for action: " + actionTakenEvent.getActionTaken().getActionTakenLabel()));
+		}
         return new ProcessDocReport(true, "");
 	}
 
