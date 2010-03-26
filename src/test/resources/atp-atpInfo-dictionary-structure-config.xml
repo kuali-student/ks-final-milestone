@@ -10,7 +10,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="classpath:constraints-dictionary-config.xml"/>
 
 <!-- *********************************** -->
 <!-- object structure for object.atpInfo -->

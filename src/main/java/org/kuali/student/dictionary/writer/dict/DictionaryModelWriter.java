@@ -216,6 +216,7 @@ public class DictionaryModelWriter
  {
   for (XmlType xmlType : calcXMLTypesForServiceThatHaveOwnCreateUpdate (service))
   {
+//   writeImport (writer, CONSTRAINT_BANK_FILE_NAME);
    String fileName2 = service + "-" + xmlType.getName ()
     + "-dictionary-structure-config.xml";
    String fileName3 = service + "-" + xmlType.getName ()
@@ -240,7 +241,7 @@ public class DictionaryModelWriter
    {
     // first write the default structure
     writeHeader (writer2);
-    writeImport (writer2, CONSTRAINT_BANK_FILE_NAME);
+//    writeImport (writer2, CONSTRAINT_BANK_FILE_NAME);
     DictionaryStructureWriter dsw =
      new DictionaryStructureWriter (writer2,
                                     model,
@@ -250,7 +251,7 @@ public class DictionaryModelWriter
 
     // now do the dictinoary overrides
     writeHeader (writer3);
-    writeImport (writer3, CONSTRAINT_BANK_FILE_NAME);
+//    writeImport (writer3, CONSTRAINT_BANK_FILE_NAME);
     writeImport (writer3, fileName2);
     DictionaryOverrideWriter dow =
      new DictionaryOverrideWriter (writer3,

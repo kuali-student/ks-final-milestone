@@ -10,7 +10,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="classpath:constraints-dictionary-config.xml"/>
 <import resource="classpath:proposal-proposalInfo-dictionary-structure-config.xml"/>
 
 <!-- **************************************** -->
@@ -141,17 +140,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- State for state.proposalInfo.All Course Proposal Types.draft private -->
 <!-- ******************************************************************** -->
 
-<dict:state key="draft.private" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.draftprivate.abstract" abstract="true">
+<dict:state key="draft private" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.draftprivate.abstract" abstract="true">
 </dict:state>
-<dict:state key="draft.private" id="state.proposalInfo.AllCourseProposalTypes.draftprivate" parent="state.proposalInfo.AllCourseProposalTypes.draftprivate.abstract"/>
+<dict:state key="draft private" id="state.proposalInfo.AllCourseProposalTypes.draftprivate" parent="state.proposalInfo.AllCourseProposalTypes.draftprivate.abstract"/>
 
 <!-- ******************************************************************* -->
 <!-- State for state.proposalInfo.All Course Proposal Types.draft public -->
 <!-- ******************************************************************* -->
 
-<dict:state key="draft.public" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.draftpublic.abstract" abstract="true">
+<dict:state key="draft public" parent="state.proposalInfo.AllCourseProposalTypes.abstract" id="state.proposalInfo.AllCourseProposalTypes.draftpublic.abstract" abstract="true">
 </dict:state>
-<dict:state key="draft.public" id="state.proposalInfo.AllCourseProposalTypes.draftpublic" parent="state.proposalInfo.AllCourseProposalTypes.draftpublic.abstract"/>
+<dict:state key="draft public" id="state.proposalInfo.AllCourseProposalTypes.draftpublic" parent="state.proposalInfo.AllCourseProposalTypes.draftpublic.abstract"/>
 
 <!-- **************************************************************** -->
 <!-- State for state.proposalInfo.All Course Proposal Types.submitted -->
@@ -231,17 +230,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- State for state.proposalInfo.All Program Proposal Types.draft private -->
 <!-- ********************************************************************* -->
 
-<dict:state key="draft.private" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.draftprivate.abstract" abstract="true">
+<dict:state key="draft private" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.draftprivate.abstract" abstract="true">
 </dict:state>
-<dict:state key="draft.private" id="state.proposalInfo.AllProgramProposalTypes.draftprivate" parent="state.proposalInfo.AllProgramProposalTypes.draftprivate.abstract"/>
+<dict:state key="draft private" id="state.proposalInfo.AllProgramProposalTypes.draftprivate" parent="state.proposalInfo.AllProgramProposalTypes.draftprivate.abstract"/>
 
 <!-- ******************************************************************** -->
 <!-- State for state.proposalInfo.All Program Proposal Types.draft public -->
 <!-- ******************************************************************** -->
 
-<dict:state key="draft.public" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.draftpublic.abstract" abstract="true">
+<dict:state key="draft public" parent="state.proposalInfo.AllProgramProposalTypes.abstract" id="state.proposalInfo.AllProgramProposalTypes.draftpublic.abstract" abstract="true">
 </dict:state>
-<dict:state key="draft.public" id="state.proposalInfo.AllProgramProposalTypes.draftpublic" parent="state.proposalInfo.AllProgramProposalTypes.draftpublic.abstract"/>
+<dict:state key="draft public" id="state.proposalInfo.AllProgramProposalTypes.draftpublic" parent="state.proposalInfo.AllProgramProposalTypes.draftpublic.abstract"/>
 
 <!-- ***************************************************************** -->
 <!-- State for state.proposalInfo.All Program Proposal Types.submitted -->
@@ -321,17 +320,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- State for state.proposalInfo.Grouped.draft private -->
 <!-- ************************************************** -->
 
-<dict:state key="draft.private" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.draftprivate.abstract" abstract="true">
+<dict:state key="draft private" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.draftprivate.abstract" abstract="true">
 </dict:state>
-<dict:state key="draft.private" id="state.proposalInfo.Grouped.draftprivate" parent="state.proposalInfo.Grouped.draftprivate.abstract"/>
+<dict:state key="draft private" id="state.proposalInfo.Grouped.draftprivate" parent="state.proposalInfo.Grouped.draftprivate.abstract"/>
 
 <!-- ************************************************* -->
 <!-- State for state.proposalInfo.Grouped.draft public -->
 <!-- ************************************************* -->
 
-<dict:state key="draft.public" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.draftpublic.abstract" abstract="true">
+<dict:state key="draft public" parent="state.proposalInfo.Grouped.abstract" id="state.proposalInfo.Grouped.draftpublic.abstract" abstract="true">
 </dict:state>
-<dict:state key="draft.public" id="state.proposalInfo.Grouped.draftpublic" parent="state.proposalInfo.Grouped.draftpublic.abstract"/>
+<dict:state key="draft public" id="state.proposalInfo.Grouped.draftpublic" parent="state.proposalInfo.Grouped.draftpublic.abstract"/>
 
 <!-- ********************************************** -->
 <!-- State for state.proposalInfo.Grouped.submitted -->

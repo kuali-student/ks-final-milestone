@@ -10,7 +10,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="classpath:constraints-dictionary-config.xml"/>
 <import resource="classpath:organization-orgOrgRelationInfo-dictionary-structure-config.xml"/>
 
 <!-- ********************************************** -->
@@ -38,8 +37,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.orgOrgRelationInfo.active"/>
-		<dict:stateRef bean="state.orgOrgRelationInfo.inactive"/>
 		<dict:stateRef bean="state.orgOrgRelationInfo.active"/>
 		<dict:stateRef bean="state.orgOrgRelationInfo.inactive"/>
 </dict:type>

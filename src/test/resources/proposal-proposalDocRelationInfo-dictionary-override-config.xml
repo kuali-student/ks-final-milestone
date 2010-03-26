@@ -10,7 +10,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="classpath:constraints-dictionary-config.xml"/>
 <import resource="classpath:proposal-proposalDocRelationInfo-dictionary-structure-config.xml"/>
 
 <!-- *************************************************** -->
@@ -27,8 +26,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>Syllabus</dict:name>
 	<dict:desc>a syllabus for the clu being proposed</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.proposalDocRelationInfo.Syllabus.Active"/>
-		<dict:stateRef bean="state.proposalDocRelationInfo.Syllabus.Inactive"/>
+		<dict:stateRef bean="state.proposalDocRelationInfo.Syllabus.active"/>
+		<dict:stateRef bean="state.proposalDocRelationInfo.Syllabus.inactive"/>
 </dict:type>
 <dict:type key="kuali.proposal.ProposalDocRelationType.syllabus" id="type.proposalDocRelationInfo.Syllabus" parent="type.proposalDocRelationInfo.Syllabus.abstract"/>
 
@@ -36,8 +35,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>Other</dict:name>
 	<dict:desc>supporting documentation does not fit into another category</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.proposalDocRelationInfo.Other.Active"/>
-		<dict:stateRef bean="state.proposalDocRelationInfo.Other.Inactive"/>
+		<dict:stateRef bean="state.proposalDocRelationInfo.Other.active"/>
+		<dict:stateRef bean="state.proposalDocRelationInfo.Other.inactive"/>
 </dict:type>
 <dict:type key="kuali.proposal.ProposalDocRelationType.other" id="type.proposalDocRelationInfo.Other" parent="type.proposalDocRelationInfo.Other.abstract"/>
 
@@ -59,22 +58,22 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:state>
 
 <!-- ******************************************************* -->
-<!-- State for state.proposalDocRelationInfo.Syllabus.Active -->
+<!-- State for state.proposalDocRelationInfo.Syllabus.active -->
 <!-- ******************************************************* -->
 
 <!-- TODO: Add to simple spec -->
-<dict:state key="Active" parent="state.proposalDocRelationInfo.Syllabus.abstract" id="state.proposalDocRelationInfo.Syllabus.Active.abstract" abstract="true">
+<dict:state key="active" parent="state.proposalDocRelationInfo.Syllabus.abstract" id="state.proposalDocRelationInfo.Syllabus.active.abstract" abstract="true">
 </dict:state>
-<dict:state key="Active" id="state.proposalDocRelationInfo.Syllabus.Active" parent="state.proposalDocRelationInfo.Syllabus.Active.abstract"/>
+<dict:state key="active" id="state.proposalDocRelationInfo.Syllabus.active" parent="state.proposalDocRelationInfo.Syllabus.active.abstract"/>
 
 <!-- ********************************************************* -->
-<!-- State for state.proposalDocRelationInfo.Syllabus.Inactive -->
+<!-- State for state.proposalDocRelationInfo.Syllabus.inactive -->
 <!-- ********************************************************* -->
 
 <!-- TODO: Add to simple spec -->
-<dict:state key="Inactive" parent="state.proposalDocRelationInfo.Syllabus.abstract" id="state.proposalDocRelationInfo.Syllabus.Inactive.abstract" abstract="true">
+<dict:state key="inactive" parent="state.proposalDocRelationInfo.Syllabus.abstract" id="state.proposalDocRelationInfo.Syllabus.inactive.abstract" abstract="true">
 </dict:state>
-<dict:state key="Inactive" id="state.proposalDocRelationInfo.Syllabus.Inactive" parent="state.proposalDocRelationInfo.Syllabus.Inactive.abstract"/>
+<dict:state key="inactive" id="state.proposalDocRelationInfo.Syllabus.inactive" parent="state.proposalDocRelationInfo.Syllabus.inactive.abstract"/>
 
 <!-- ******************************************************* -->
 <!-- State for state.proposalDocRelationInfo.Other.(default) -->
@@ -94,22 +93,22 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:state>
 
 <!-- **************************************************** -->
-<!-- State for state.proposalDocRelationInfo.Other.Active -->
+<!-- State for state.proposalDocRelationInfo.Other.active -->
 <!-- **************************************************** -->
 
 <!-- TODO: Add to simple spec -->
-<dict:state key="Active" parent="state.proposalDocRelationInfo.Other.abstract" id="state.proposalDocRelationInfo.Other.Active.abstract" abstract="true">
+<dict:state key="active" parent="state.proposalDocRelationInfo.Other.abstract" id="state.proposalDocRelationInfo.Other.active.abstract" abstract="true">
 </dict:state>
-<dict:state key="Active" id="state.proposalDocRelationInfo.Other.Active" parent="state.proposalDocRelationInfo.Other.Active.abstract"/>
+<dict:state key="active" id="state.proposalDocRelationInfo.Other.active" parent="state.proposalDocRelationInfo.Other.active.abstract"/>
 
 <!-- ****************************************************** -->
-<!-- State for state.proposalDocRelationInfo.Other.Inactive -->
+<!-- State for state.proposalDocRelationInfo.Other.inactive -->
 <!-- ****************************************************** -->
 
 <!-- TODO: Add to simple spec -->
-<dict:state key="Inactive" parent="state.proposalDocRelationInfo.Other.abstract" id="state.proposalDocRelationInfo.Other.Inactive.abstract" abstract="true">
+<dict:state key="inactive" parent="state.proposalDocRelationInfo.Other.abstract" id="state.proposalDocRelationInfo.Other.inactive.abstract" abstract="true">
 </dict:state>
-<dict:state key="Inactive" id="state.proposalDocRelationInfo.Other.Inactive" parent="state.proposalDocRelationInfo.Other.Inactive.abstract"/>
+<dict:state key="inactive" id="state.proposalDocRelationInfo.Other.inactive" parent="state.proposalDocRelationInfo.Other.inactive.abstract"/>
 
 
 <!-- ********************************************************************************* -->

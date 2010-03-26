@@ -10,7 +10,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="classpath:constraints-dictionary-config.xml"/>
 <import resource="classpath:document-documentInfo-dictionary-structure-config.xml"/>
 
 <!-- **************************************** -->
@@ -27,8 +26,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>File</dict:name>
 	<dict:desc>A document that contains an uploaded file</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.documentInfo.File.Active"/>
-		<dict:stateRef bean="state.documentInfo.File.Inactive"/>
+		<dict:stateRef bean="state.documentInfo.File.active"/>
+		<dict:stateRef bean="state.documentInfo.File.inactive"/>
 </dict:type>
 <dict:type key="kuali.document.type.file" id="type.documentInfo.File" parent="type.documentInfo.File.abstract"/>
 
@@ -50,22 +49,22 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:state>
 
 <!-- **************************************** -->
-<!-- State for state.documentInfo.File.Active -->
+<!-- State for state.documentInfo.File.active -->
 <!-- **************************************** -->
 
 <!-- TODO: Add to simple spec -->
-<dict:state key="Active" parent="state.documentInfo.File.abstract" id="state.documentInfo.File.Active.abstract" abstract="true">
+<dict:state key="active" parent="state.documentInfo.File.abstract" id="state.documentInfo.File.active.abstract" abstract="true">
 </dict:state>
-<dict:state key="Active" id="state.documentInfo.File.Active" parent="state.documentInfo.File.Active.abstract"/>
+<dict:state key="active" id="state.documentInfo.File.active" parent="state.documentInfo.File.active.abstract"/>
 
 <!-- ****************************************** -->
-<!-- State for state.documentInfo.File.Inactive -->
+<!-- State for state.documentInfo.File.inactive -->
 <!-- ****************************************** -->
 
 <!-- TODO: Add to simple spec -->
-<dict:state key="Inactive" parent="state.documentInfo.File.abstract" id="state.documentInfo.File.Inactive.abstract" abstract="true">
+<dict:state key="inactive" parent="state.documentInfo.File.abstract" id="state.documentInfo.File.inactive.abstract" abstract="true">
 </dict:state>
-<dict:state key="Inactive" id="state.documentInfo.File.Inactive" parent="state.documentInfo.File.Inactive.abstract"/>
+<dict:state key="inactive" id="state.documentInfo.File.inactive" parent="state.documentInfo.File.inactive.abstract"/>
 
 
 <!-- ****************************************************************** -->
