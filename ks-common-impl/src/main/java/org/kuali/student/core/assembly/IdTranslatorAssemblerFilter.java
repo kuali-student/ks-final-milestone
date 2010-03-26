@@ -85,24 +85,27 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
                     Metadata fieldMetadata = e.getValue();
                     if(MetadataInterrogator.isRepeating(fieldMetadata)) {
                         Integer index = 0;
-                        Data fieldData = data.get(e.getKey());
-                        if(fieldData != null) {
-                            Iterator<Data.Property> iter = fieldData.iterator();
-                            while(iter.hasNext()) {
-                                Data.Property prop = iter.next();
-                                Object fieldValue = prop.getValue();
-                                if(fieldValue != null && fieldValue instanceof Data) {
-                                    _translateIds((Data) fieldValue, fieldMetadata);//, p);
-                                } else if (fieldValue != null && fieldValue instanceof String) {
-                                    if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
-                                        IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
-                                        Integer key = prop.getKey();
-                                        if(trans != null) {
-                                            setTranslation(data, e.getKey(), key, trans.getDisplay());
+                        Object fieldValue = data.get(e.getKey());
+                        if(fieldValue instanceof Data) {
+                            Data fieldData = data.get(e.getKey());
+                            if(fieldData != null) {
+                                Iterator<Data.Property> iter = fieldData.iterator();
+                                while(iter.hasNext()) {
+                                    Data.Property prop = iter.next();
+                                    fieldValue = prop.getValue();
+                                    if(fieldValue != null && fieldValue instanceof Data) {
+                                        _translateIds((Data) fieldValue, fieldMetadata);//, p);
+                                    } else if (fieldValue != null && fieldValue instanceof String) {
+                                        if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
+                                            IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
+                                            Integer key = prop.getKey();
+                                            if(trans != null) {
+                                                setTranslation(data, e.getKey(), key, trans.getDisplay());
+                                            }
                                         }
                                     }
+                                    index++;
                                 }
-                                index++;
                             }
                         }
                     } else {
