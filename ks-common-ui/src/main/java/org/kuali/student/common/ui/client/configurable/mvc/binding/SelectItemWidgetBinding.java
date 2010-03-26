@@ -17,6 +17,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.data.Data.Value;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,8 +31,9 @@ public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectI
     public void setModelValue(KSSelectItemWidgetAbstract object, DataModel model, String path) {
         QueryPath qPath = QueryPath.parse(path);
 
+
         if (object.isMultipleSelect()) {
-        	Data newValue = getWidgetValue(object);
+        	Data newValue = (Data)getWidgetValue(object).get();
             Data oldValue = model.get(qPath);
             if (!nullsafeEquals(oldValue, newValue)) {
                 model.set(qPath, newValue);
@@ -62,15 +64,21 @@ public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectI
      * @param value
      * @return
      */
-    public Data getWidgetValue(KSSelectItemWidgetAbstract object){
-    	Data newValue = new Data();
-
-        List<String> selectedItems = object.getSelectedItems();
-        for (String stringItem : selectedItems) {
-            newValue.add(stringItem);
+    public Value getWidgetValue(KSSelectItemWidgetAbstract object){
+    	Value value;
+    	
+        if (object.isMultipleSelect()) {
+        	Data data = new Data();
+        	List<String> selectedItems = object.getSelectedItems();
+	        for (String stringItem : selectedItems) {
+	           data.add(stringItem);
+	        }
+	        value = new Data.DataValue(data);
+        } else {
+        	value = new Data.StringValue(object.getSelectedItem());
         }
 
-        return newValue;
+        return value;
     }
     
     /**

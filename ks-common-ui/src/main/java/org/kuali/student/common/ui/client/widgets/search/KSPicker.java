@@ -407,9 +407,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 					return value;
 				}
 			}  else if (basicWidget instanceof KSSelectItemWidgetAbstract) {
-				Data data = SelectItemWidgetBinding.INSTANCE.getWidgetValue((KSSelectItemWidgetAbstract)basicWidget);
-				DataValue value = new DataValue(data);
-                return value;			    
+				return SelectItemWidgetBinding.INSTANCE.getWidgetValue((KSSelectItemWidgetAbstract)basicWidget);
 			}
 			
 			return null;			
