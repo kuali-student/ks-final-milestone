@@ -33,5 +33,8 @@
     <KSLO_RICH_TEXT_T
         FORMATTED="&lt;p>Learning objectives mandated by the state&lt;/p>"
         ID="RICHTEXT-22" PLAIN="Learning objectives mandated by the state"/>
-    <KSLO_RICH_TEXT_T FORMATTED="&lt;p>Desc&lt;/p>" ID="RICHTEXT-9" PLAIN="Desc"/>
+    <KSLO_RICH_TEXT_T FORMATTED="&lt;p>Desc&lt;/p>" ID="RICHTEXT-6" PLAIN="Desc"/>
+    <KSLO_RICH_TEXT_T FORMATTED="&lt;p>Desc2&lt;/p>" ID="RICHTEXT-7" PLAIN="Desc2"/>
+    <KSLO_RICH_TEXT_T FORMATTED="&lt;p>Desc3&lt;/p>" ID="RICHTEXT-8" PLAIN="Desc3"/>
+    <KSLO_RICH_TEXT_T FORMATTED="&lt;p>Desc4&lt;/p>" ID="RICHTEXT-9" PLAIN="Desc4"/>
 </dataset>

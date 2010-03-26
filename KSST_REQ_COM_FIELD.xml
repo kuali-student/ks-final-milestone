@@ -29,4 +29,6 @@
         REQ_COM_FIELD_KEY="reqCompFieldType.operator" VALUE="greater_than_or_equal_to"/>
     <KSST_REQ_COM_FIELD ID="FIELD-9"
         REQ_COM_FIELD_KEY="reqCompFieldType.requiredCount" VALUE="2"/>
+    <KSST_REQ_COM_FIELD ID="aa828ce4-67e2-4a49-bebd-1a3642541dd8"
+        REQ_COM_FIELD_KEY="reqCompFieldType.cluSet" VALUE="CLUSET-NL-2"/>
 </dataset>
