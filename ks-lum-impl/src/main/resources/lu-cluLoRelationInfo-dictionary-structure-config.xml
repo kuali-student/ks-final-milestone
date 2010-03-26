@@ -7,7 +7,6 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 08:39:15 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -112,11 +111,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluLoRelationInfo.expirationDate.fd" parent="field.cluLoRelationInfo.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluLoRelationInfo.expirationDate.cd" parent="field.cluLoRelationInfo.expirationDate.cd.abstract"/>
 
@@ -133,10 +133,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluLoRelationInfo.metaInfo.fd" parent="field.cluLoRelationInfo.metaInfo.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating) -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.cluLoRelationInfo.metaInfo.cd" parent="field.cluLoRelationInfo.metaInfo.cd.abstract"/>
 
@@ -326,11 +328,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluLoRelationInfo.id.fd" parent="field.cluLoRelationInfo.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluLoRelationInfo.id.cd" parent="field.cluLoRelationInfo.id.cd.abstract"/>
 </beans>

@@ -7,7 +7,6 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 08:39:06 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->

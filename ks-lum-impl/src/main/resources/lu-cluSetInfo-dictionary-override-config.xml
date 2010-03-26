@@ -7,7 +7,6 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 08:39:15 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -380,6 +379,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.credit.course.set.expirationDate.cd" parent="dict.credit.course.set.expirationDate.cd.abstract"/>
 
@@ -466,8 +466,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.fd" parent="dict.credit.course.set.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.credit.course.set.metaInfo.cd" parent="dict.credit.course.set.metaInfo.cd.abstract"/>
 
@@ -533,9 +535,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.id.fd" parent="dict.credit.course.set.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.credit.course.set.id.cd" parent="dict.credit.course.set.id.cd.abstract"/>
 </beans>

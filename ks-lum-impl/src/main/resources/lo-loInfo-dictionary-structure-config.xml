@@ -7,7 +7,6 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 08:39:15 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -206,11 +205,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.loInfo.expirationDate.fd" parent="field.loInfo.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.loInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.loInfo.expirationDate.cd" parent="field.loInfo.expirationDate.cd.abstract"/>
 
@@ -224,12 +224,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.loInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.loInfo.metaInfo.fd" parent="field.loInfo.metaInfo.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating) -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.loInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.loInfo.metaInfo.cd" parent="field.loInfo.metaInfo.cd.abstract"/>
 
@@ -378,10 +381,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.loInfo.type.fd" parent="field.loInfo.type.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); In list of confured lo types -->
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of confured lo types -->
 <dict:constraintDescriptor id="field.loInfo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.lo.types"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="field.loInfo.type.cd" parent="field.loInfo.type.cd.abstract"/>
@@ -418,11 +422,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.loInfo.id.fd" parent="field.loInfo.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.loInfo.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.loInfo.id.cd" parent="field.loInfo.id.cd.abstract"/>
 </beans>
