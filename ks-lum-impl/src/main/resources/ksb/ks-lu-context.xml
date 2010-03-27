@@ -86,9 +86,9 @@
         <property name="em" ref="luEntityManager" />		
 	</bean>
 
-	<bean id="luSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+	<bean id="luSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
+		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
 	<bean id="lumDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
@@ -215,6 +215,7 @@
 			<list>
 				<ref bean="loServiceImpl"/>
 				<ref bean="luServiceImpl"/>
+				<ref bean="orgClient"/>
 			</list>
 		</property>
 	</bean>
@@ -239,6 +240,11 @@
             </bean>
         </property>
     </bean>
+    
+	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>    
     
        <!-- Document Relation Mock Service Config -->
 		<!--Note: When this service is defined, move this declaration into core context.-->

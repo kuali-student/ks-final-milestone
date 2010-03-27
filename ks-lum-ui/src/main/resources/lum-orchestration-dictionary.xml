@@ -1427,8 +1427,8 @@
 			<bean parent="lookup">
 				<property name="searchTypeId" value="enumeration.management.search" />
 				<property name="name" value="Get enumerations" />
-				<property name="desc"
-					value="Get enumerated lists of values given context" />
+				<property name="desc" value="Get enumerated lists of values given context" />
+				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationType" />
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -1740,17 +1740,17 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
-					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
+					<property name="name" value="Courses Only"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Advanced Search: Course or Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
-								<property name="name" value="Long Name"/>
-								<property name="desc" value="Course long name."/>
+								<property name="name" value="Title"/>
+								<property name="desc" value="Course title."/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
@@ -1759,8 +1759,8 @@
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
-								<property name="name" value="Code"/>
-								<property name="desc" value="Course code."/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course number"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
@@ -1768,14 +1768,23 @@
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.queryParam.luOptionalLevel"/>
-								<property name="name" value="Level"/>
-								<property name="desc" value="Course level."/>
+								<property name="key" value="lu.queryParam.luOptionalDescr"/>
+								<property name="name" value="Description"/>
+								<property name="desc" value="Course description"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="true"/>
-								<property name="usage" value="CUSTOM"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalOrgLongName"/>
+								<property name="name" value="Department"/>
+								<property name="desc" value="Admin department"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="true"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+							</bean>							
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
@@ -1801,23 +1810,30 @@
 								<property name="hidden" value="true"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalCode"/>
-								<property name="name" value="Code"/>
-								<property name="desc" value="Course code."/>
-								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
-							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
-								<property name="name" value="Level"/>
-								<property name="desc" value="Course level."/>
-								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
-							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
-								<property name="name" value="Long Name"/>
-								<property name="desc" value="Long name for the course."/>
+								<property name="name" value="Title"/>
+								<property name="desc" value="Title for the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>							
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalCode"/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course number."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
+								<property name="name" value="Department"/>
+								<property name="desc" value="Department."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalType"/>
+								<property name="name" value="Type"/>
+								<property name="desc" value="Course or proposal."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
@@ -1844,8 +1860,7 @@
             <bean parent="lookup">
                 <property name="searchTypeId" value="proposal.search.generic" />
                 <property name="name" value="Basic and Advanced Search" />
-                <property name="desc"
-                    value="Query with multiple optional elements to satisfy most advanced pickers" />
+                <property name="desc" value="Query with multiple optional elements to satisfy most advanced pickers" />
                 <property name="params">
                     <list>
                         <bean parent="param">
@@ -2380,10 +2395,12 @@
 		</property>
 		<property name="initialLookup">
 			<bean parent="lookup">
+				<property name="id" value="kuali.lu.lookup.finacialOrgs" />
 				<property name="searchTypeId" value="org.search.generic" />
 				<property name="name" value="Basic and Advanced Search" />
-				<property name="desc"
-					value="Query with multiple optional elements to satisfy most advanced pickers" />
+				<property name="desc" value="Query with multiple optional elements to satisfy most advanced pickers" />
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+				<property name="usage" value="DEFAULT" />
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -2477,8 +2494,6 @@
 				<property name="resultReturnKey" value="org.resultColumn.orgId" />
 				<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 				<property name="resultSortKey" value="org.resultColumn.orgShortName" />
-				<property name="usage" value="DEFAULT" />
-				<property name="id" value="kuali.lu.lookup.finacialOrgs" />
 			</bean>
 		</property>
 		<property name="additionalLookups">
@@ -2535,10 +2550,12 @@
 		</property>
 		<property name="initialLookup">
 			<bean parent="lookup">
+				<property name="id" value="kuali.lu.lookup.finacialOrgs" />			
 				<property name="searchTypeId" value="org.search.generic" />
 				<property name="name" value="Basic and Advanced Search" />
-				<property name="desc"
-					value="Query with multiple optional elements to satisfy most advanced pickers" />
+				<property name="desc" value="Query with multiple optional elements to satisfy most advanced pickers" />
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />				
+				<property name="usage" value="DEFAULT" />
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -2632,8 +2649,6 @@
 				<property name="resultReturnKey" value="org.resultColumn.orgId" />
 				<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 				<property name="resultSortKey" value="org.resultColumn.orgShortName" />
-				<property name="usage" value="DEFAULT" />
-				<property name="id" value="kuali.lu.lookup.finacialOrgs" />
 			</bean>
 		</property>
 		<property name="additionalLookups">
@@ -3422,6 +3437,7 @@
 			<bean parent="lookup">
 				<property name="id" value="kuali.lu.lookup.contactHoursPer" />			
 				<property name="searchTypeId" value="enumeration.management.search" />
+				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationType" />				
 				<property name="name" value="Get enumerations" />
 				<property name="desc" value="Get enumerated lists of values given context" />
 				<property name="widget" value="DROP_DOWN" />				
@@ -3643,9 +3659,11 @@
 		</property>
 		<property name="initialLookup">
 			<bean parent="lookup">
+				<property name="id" value="kuali.lookup.termsOfferred" />			
 				<property name="searchTypeId" value="atp.search.atpTypes" />
 				<property name="name" value="All ATP types" />
 				<property name="desc" value="Returns the list of all ATP Types" />
+				<property name="usage" value="DEFAULT" />
 				<property name="results">
 					<list>
 						<bean parent="result">
@@ -3667,8 +3685,6 @@
 				<property name="resultReturnKey" value="atp.resultColumn.atpTypeId" />
 				<property name="resultDisplayKey" value="atp.resultColumn.atpTypeName" />
 				<property name="resultSortKey" value="atp.resultColumn.atpTypeName" />
-				<property name="usage" value="DEFAULT" />
-				<property name="id" value="kuali.lookup.termsOfferred" />
 			</bean>
 		</property>
 		<property name="additionalLookups">
@@ -3694,8 +3710,7 @@
 				<property name="id" value="kuali.lu.lookup.firstexpectedoffering.suggest" />
 				<property name="searchTypeId" value="atp.search.atpSeasonTypes" />
 				<property name="name" value="Advanced ATP match" />
-				<property name="desc"
-					value="Search by Name, start date, end date, and type" />
+				<property name="desc" value="Search by Name, start date, end date, and type" />
 				<property name="widget" value="DROP_DOWN" />
 				<property name="results">
 					<list>
@@ -3983,8 +3998,8 @@
 			<bean parent="lookup">
 				<property name="searchTypeId" value="enumeration.management.search" />
 				<property name="name" value="Get enumerations" />
-				<property name="desc"
-					value="Get enumerated lists of values given context" />
+				<property name="desc" value="Get enumerated lists of values given context" />
+				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationType" />				
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -4452,9 +4467,9 @@
 			<bean parent="lookup">
 				<property name="searchTypeId" value="enumeration.management.search" />
 				<property name="name" value="Get enumerations" />
+				<property name="desc" value="Get enumerated lists of values given context" />
+				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationType" />				
 				<property name="widget" value="CHECKBOX_LIST"/>
-				<property name="desc"
-					value="Get enumerated lists of values given context" />
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -5629,8 +5644,8 @@
 						<list>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
-								<property name="name" value="Long Name"/>
-								<property name="desc" value="Course long name."/>
+								<property name="name" value="Title"/>
+								<property name="desc" value="Course title."/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
@@ -5639,14 +5654,23 @@
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
-								<property name="name" value="Code"/>
-								<property name="desc" value="Course code."/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course number."/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalDescr"/>
+								<property name="name" value="Description"/>
+								<property name="desc" value="Course description"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="true"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+							</bean>							
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLevel"/>
 								<property name="name" value="Level"/>
