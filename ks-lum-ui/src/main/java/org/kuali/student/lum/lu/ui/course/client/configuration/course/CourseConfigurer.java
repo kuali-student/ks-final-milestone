@@ -59,6 +59,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LRBuilder;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -353,6 +354,7 @@ public class CourseConfigurer
 //        section.addSection(learningResults);
         section.addSection(generateSchedulingSection());
         section.addSection(generateCourseFormatsSection());
+        section.addSection(generateLearningResultsSection());
 
         return section;
     }
@@ -407,6 +409,13 @@ public class CourseConfigurer
         return los;
     }
 
+    private VerticalSection generateLearningResultsSection() {
+    	VerticalSection lrSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
+    	LRBuilder lrBuilder = new LRBuilder(type, state, groupName, modelDefinition);
+    	addField(lrSection, CreditCourseConstants.COURSE_SPECIFIC_LOS, null, lrBuilder, CreditCourseProposalConstants.COURSE);
+    	return lrSection;
+    }
+    
 	public class CourseFormatList extends UpdatableMultiplicityComposite {
     	private final String parentPath;
         public CourseFormatList(String parentPath){

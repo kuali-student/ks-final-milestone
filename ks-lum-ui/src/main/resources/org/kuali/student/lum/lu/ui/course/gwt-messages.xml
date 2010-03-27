@@ -260,4 +260,16 @@
 	<bean parent="enProgram" p:id="cluInformation" p:value="Program Information" />
 	<bean parent="enProgram" p:id="cluShortTitle" p:value="Short Program Title" />
 
+    <!-- Learning Results labels -->
+    
+	<bean parent="enCourse" p:id="cluLearningResults"                   p:value="Learning Results"/>
+	<bean parent="enCourse" p:id="cluAddLearningResultAssessmentScale"  p:value="Add Grading Scale Option"/>
+	<bean parent="enCourse" p:id="cluLearningResultAssessmentScale"     p:value="Assessment Scale"/>
+	<bean parent="enCourse" p:id="cluLearningResultsStudentRegiOptions" p:value="Student Registration Options"/>
+	<bean parent="enCourse" p:id="cluAddLearningResultOutcome"          p:value="Add Outcome"/>
+	<bean parent="enCourse" p:id="cluLearningResultOutcome"             p:value="Outcome"/>
+	<bean parent="enCourse" p:id="cluLearningResultOutcomeType"         p:value="Type"/>
+	<bean parent="enCourse" p:id="cluLearningResultsOutcomeCreditValue" p:value="Credit Value"/>
+	<bean parent="enCourse" p:id="cluLearningResultsOutcomeMaxCredits"  p:value="Maximum Credits"/>
+
 </beans>

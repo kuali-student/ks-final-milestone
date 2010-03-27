@@ -129,7 +129,17 @@ public class LUConstants {
     public static final String CREDIT_VALUE_LABEL_KEY = "cluCreditValue";
     public static final String MAX_CREDITS_LABEL_KEY = "cluMaxCredits";
     
+    // Learning Results Labels
     public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
+    public static final String LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluLearningResultAssessmentScale";
+    public static final String ADD_LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluAddLearningResultAssessmentScale";
+    public static final String ADD_LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluAddLearningResultOutcome";
+    public static final String LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluLearningResultOutcome";
+    public static final String LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY = "cluLearningResultOutcomeType";
+    public static final String LEARNING_RESULT_STUDENT_REGI_OPTIONS_LABEL_KEY = "cluLearningResultsStudentRegiOptions";
+    public static final String LEARNING_RESULT_OUTCOME_CREDIT_VALUE_LABEL_KEY = "cluLearningResultsOutcomeCreditValue";
+    public static final String LEARNING_RESULT_OUTCOME_MAX_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeMaxCredits";
+
     public static final String SCHEDULING_LABEL_KEY = "cluScheduling";  
     public static final String FORMATS_LABEL_KEY = "cluFormats";
     public static final String FORMAT_LABEL_KEY = "cluFormat";
