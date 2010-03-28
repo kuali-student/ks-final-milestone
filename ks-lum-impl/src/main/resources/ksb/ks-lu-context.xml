@@ -94,6 +94,11 @@
 	<bean id="lumDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}" />	
 	</bean>
+	
+	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
+	</bean>  
 
 	<bean id="luServiceImpl"
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
@@ -214,7 +219,7 @@
 		<property name="services">
 			<list>
 				<ref bean="loServiceImpl"/>
-				<ref bean="luServiceImpl"/>
+				<ref bean="luClient"/>
 				<ref bean="orgClient"/>
 			</list>
 		</property>
