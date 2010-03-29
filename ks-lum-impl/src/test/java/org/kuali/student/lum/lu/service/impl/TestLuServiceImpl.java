@@ -1958,7 +1958,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		List<ValidationResultInfo> valerros = client.validateClu("SYSTEM", clu);
 
-		assertEquals(valerros.size(), 19);		
+		assertEquals(valerros.size(), 17);		
 	}	
 
 	@Test
