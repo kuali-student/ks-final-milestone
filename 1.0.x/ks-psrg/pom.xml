@@ -95,5 +95,11 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+    	<groupId>aspectj</groupId>
+    	<artifactId>aspectjrt</artifactId>
+    	<version>1.5.4</version>
+    	<scope>compile</scope>
+    </dependency>
   </dependencies>
 </project>
