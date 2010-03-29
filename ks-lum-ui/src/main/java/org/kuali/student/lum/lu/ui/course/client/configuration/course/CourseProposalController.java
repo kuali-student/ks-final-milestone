@@ -280,11 +280,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
 			@Override
 			public void onClose(CloseEvent<KSLightBox> event) {
-            	ViewContext viewContext = new ViewContext();
-            	String proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
-            	viewContext.setId(proposalId);
-            	viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                CourseProposalController.this.getParentController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
+				//Reload the lum main entrypoint
+				Window.Location.reload();
 			}
     	};
 		return handler;
