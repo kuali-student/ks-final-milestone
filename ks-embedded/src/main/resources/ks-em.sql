@@ -33,9 +33,9 @@ insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, S
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('32', 'SOWK', 'SOWK', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 32, 'Social Work');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('33', 'North', 'NORTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 33, 'North County Campus');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('34', 'South', 'SOUTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 34, 'South County Campus');
-insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('35', 'per day', 'atpType.duration.daily', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 35, 'per day');
-insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('36', 'per day', 'atpType.duration.weekly', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 36, 'per week');
-insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('37', 'per day', 'atpType.duration.monthly', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 37, 'per month');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('35', 'per day', 'kuali.atp.duration.day', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 35, 'per day');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('36', 'per week', 'kuali.atp.duration.week', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 36, 'per week');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('37', 'per month', 'kuali.atp.duration.month', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 37, 'per month');
 
 --Contexts
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('1', 'kuali.org.deptAbbrev', 'Robotics', '1');
