@@ -1,15 +1,24 @@
 package org.kuali.student.lum.lu.assembly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
+import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,11 +64,84 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
         try {
             SaveResult<Data> result = new SaveResult<Data>();
+            List<ValidationResultInfo> validationResults = validate(input);
+            if (hasValidationErrors(validationResults)) {
+                result.setValidationResults(validationResults);
+                result.setValue(input);
+                return result;
+            }
             
+            SaveResult<Data> clusetResult = saveCluSet(input);
+            result.setValidationResults(clusetResult.getValidationResults());
             return result;
         } catch (Exception e) {
             throw new AssemblyException("Unable to save ....", e);
         }
+    }
+    
+    private SaveResult<Data> saveCluSet(Data input) throws AssemblyException {
+        SaveResult<Data> result = new SaveResult<Data>();
+        CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
+        CluSetInfo cluSetInfo = getCluSetInfo(cluSetHelper); 
+        if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
+            try {
+                luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
+            } catch (Exception e) {
+                System.out.println("Failed to update cluset");
+                e.printStackTrace();
+                throw new AssemblyException(e);
+            }
+        } else {
+            try {
+                //FIXME should user be specifying the type
+                //TODO remove when done testing
+                cluSetInfo.setType("Test type");
+                // end of test code
+                luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
+            } catch (Exception e) {
+                System.out.println("Failed to create cluset");
+                e.printStackTrace();
+                throw new AssemblyException(e);
+            }
+        }
+        return result;
+    }
+    
+    private CluSetInfo getCluSetInfo(CluSetHelper cluSetHelper) {
+        CluSetInfo cluSetInfo = new CluSetInfo();
+        Data clusData = cluSetHelper.getClus();
+        List<String> cluIds = null;
+        
+        cluSetInfo.setId(cluSetHelper.getId());
+        for (Data.Property p : clusData) {
+            CluHelper cluHelper = CluHelper.wrap((Data)p.getValue());
+            cluIds = (cluIds == null)? new ArrayList<String>(3) :
+                cluIds;
+            cluIds.add(cluHelper.getId());
+        }
+        if (cluIds != null) {
+            cluSetInfo.setCluIds(cluIds);
+        }
+        cluSetInfo.setAdminOrg(cluSetHelper.getOrganization());
+        // TODO cluSetInfo.setCluSetIds
+        cluSetInfo.setDescr(toRichTextInfo(cluSetHelper.getDescription()));
+        cluSetInfo.setEffectiveDate(cluSetHelper.getEffectiveDate());
+        cluSetInfo.setExpirationDate(cluSetHelper.getExpirationDate());
+        
+        // TODO cluSetInfo.setMembershipQuery(membershipQuery)
+//        TODO should metainfo be set here? cluSetInfo.setMetaInfo(cluSetHelper.getMetaInfo());
+        cluSetInfo.setName(cluSetHelper.getName());
+        cluSetInfo.setState(cluSetHelper.getState());
+        cluSetInfo.setType(cluSetHelper.getType());
+        return cluSetInfo;
+    }
+    
+    private RichTextInfo toRichTextInfo(String text) {
+        RichTextInfo result = new RichTextInfo();
+        if (text == null) return null;
+        result.setPlain(text);
+        result.setFormatted(text);
+        return result;
     }
 
     @Override

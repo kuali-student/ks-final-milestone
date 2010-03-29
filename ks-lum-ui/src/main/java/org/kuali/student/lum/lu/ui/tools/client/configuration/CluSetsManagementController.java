@@ -17,7 +17,10 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -27,24 +30,29 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class CluSetsManagementController extends TabbedSectionLayout { //PagedSectionLayout {  FIXME should be paged layout? 
@@ -166,7 +174,13 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
         cfg.configureCluSetManager(this);           
         
         if (!initialized){
-	               
+            addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
+                @Override
+                public void doSave(SaveActionEvent saveAction) {
+                    GWT.log("CluSetManagementController received save action request.", null);
+                    doSaveAction(saveAction);
+                }
+            });
         }
         
         initialized = true;
@@ -186,8 +200,142 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
         super.requestModel(modelType, callback);
     }
     
-    public void doSaveAction(final SaveActionEvent saveActionEvent){       
-    }    
+    public void doSaveAction(final SaveActionEvent saveActionEvent){
+        getCurrentView().updateModel();
+        requestModel(new ModelRequestCallback<DataModel>() {
+            @Override
+            public void onModelReady(DataModel model) {
+                model.validate(new Callback<List<ValidationResultContainer>>() {
+                    @Override
+                    public void exec(List<ValidationResultContainer> result) {
+                        
+                        boolean save = true;
+                        View v = getCurrentView();
+                        if(v instanceof Section){
+                            ((Section) v).setFieldHasHadFocusFlags(true);
+                            ErrorLevel status = ((Section) v).processValidationResults(result);
+                            if(status == ErrorLevel.ERROR){
+                                save = false;
+                            }
+                        }
+                        
+                        if(save){
+                            getCurrentView().updateModel();
+                            CluSetsManagementController.this.updateModel();
+                            saveCluSet(saveActionEvent);
+                        }
+                        else{
+                            Window.alert("Save failed.  Please check fields for errors.");
+                        }
+                        
+                    }
+                });
+            }
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                GWT.log("Unable to retrieve model for validation and save", cause);
+            }
+            
+        });
+    }
+    
+    private void saveCluSet(final SaveActionEvent saveActionEvent) {
+        final KSLightBox saveWindow = new KSLightBox();
+        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
+        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
+                
+                @Override
+                public void exec(OkEnum result) {
+                    saveWindow.hide();
+                    saveActionEvent.doActionComplete();                
+                }
+            });
+
+        buttonGroup.setWidth("250px");
+        buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
+        buttonGroup.setContent(saveMessage);
+
+        
+        if (saveActionEvent.isAcknowledgeRequired()){
+            saveWindow.setWidget(buttonGroup);
+        } else {
+            saveWindow.setWidget(saveMessage);
+        }
+        saveWindow.show();
+        
+        final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
+
+            @Override
+            public void exec(Throwable caught) {
+                 GWT.log("Save Failed.", caught);
+                 saveWindow.setWidget(buttonGroup);
+                 saveMessage.setText("Save Failed!  Please Try Again.");
+                 buttonGroup.getButton(OkEnum.Ok).setEnabled(true);   
+            }
+            
+        };
+        try {
+            // TODO make an asynchronous call to save data
+            cluSetManagementRpcServiceAsync.saveData(cluSetModel.getRoot(), new AsyncCallback<DataSaveResult>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    saveFailedCallback.exec(caught); 
+                }
+
+                @Override
+                public void onSuccess(DataSaveResult result) {
+                  // FIXME needs to check validation results and display messages if validation failed
+                  cluSetModel.setRoot(result.getValue());
+                  View currentView = getCurrentView(); 
+                  if (currentView instanceof VerticalSectionView){
+                      ((VerticalSectionView) currentView).redraw();
+                  }
+                  if (saveActionEvent.isAcknowledgeRequired()){
+                      saveMessage.setText("Save Successful");
+                      buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                  } else {
+                      saveWindow.hide();
+                      saveActionEvent.doActionComplete();                        
+                  } 
+                }
+            });
+            
+            // test code remove when done testing
+            if (saveActionEvent.isAcknowledgeRequired()){
+                saveMessage.setText("Save Successful");
+                buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+            } else {
+                saveWindow.hide();
+                saveActionEvent.doActionComplete();                        
+            } 
+//            cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>(){
+//                public void onFailure(Throwable caught) {
+//                   saveFailedCallback.exec(caught);                 
+//                }
+//
+//                public void onSuccess(DataSaveResult result) {
+//                    // FIXME needs to check validation results and display messages if validation failed
+//                    cluProposalModel.setRoot(result.getValue());
+//                    View currentView = getCurrentView(); 
+//                    if (currentView instanceof VerticalSectionView){
+//                        ((VerticalSectionView) currentView).redraw();
+//                    }
+//                    if (saveActionEvent.isAcknowledgeRequired()){
+//                        saveMessage.setText("Save Successful");
+//                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+//                    } else {
+//                        saveWindow.hide();
+//                        saveActionEvent.doActionComplete();                        
+//                    } 
+//                    workflowToolbar.refresh();
+//                }
+//            });
+        } catch (Exception e) {
+            saveFailedCallback.exec(e);
+        }
+
+    }
 
 	@Override
 	public void showDefaultView(final Callback<Boolean> onReadyCallback) {

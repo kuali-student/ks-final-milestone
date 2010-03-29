@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -40,6 +41,8 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.AddCluLightBox;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.AddCluRangeLightBox;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemListFieldBinding;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemValue;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemList;
@@ -68,6 +71,7 @@ public class CluSetsConfigurer {
     }
 
     public void configureCluSetManager(ConfigurableLayout layout) {
+//        addStartSection(layout);
         layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, createCluSetSection());
         layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, editCluSetSection());        
     }
@@ -222,6 +226,13 @@ public class CluSetsConfigurer {
         return picker;    
     }
     
+    private SearchPanel configureSearchPanel(String fieldKey) {
+        QueryPath path = QueryPath.concat(null, fieldKey);
+        Metadata metaData = modelDefinition.getMetadata(path);
+        SearchPanel searchPanel = new SearchPanel(metaData.getAdditionalLookups());
+        return searchPanel;
+    }
+    
 //    public class CourseList extends UpdatableMultiplicityComposite {
 //        private final String parentPath;
 //        public CourseList(String parentPath){
@@ -240,7 +251,6 @@ public class CluSetsConfigurer {
 //        }
 //    }
 
-    // picker Classes
     public static class Picker extends KSPicker {
 
         private String name;
@@ -257,7 +267,6 @@ public class CluSetsConfigurer {
             this.name = name;
         }       
     }
-    
     
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
