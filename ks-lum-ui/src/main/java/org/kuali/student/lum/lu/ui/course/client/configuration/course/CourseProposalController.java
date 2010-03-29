@@ -248,8 +248,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     
     private void init(DataModelDefinition modelDefinition){
         
-    	//FIXME: This needs to be able to use a different configurer
-        CourseConfigurer cfg = new CourseConfigurer();
+        CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
         cfg.setModelDefinition(modelDefinition);
         cfg.configureCourseProposal(this);
         
