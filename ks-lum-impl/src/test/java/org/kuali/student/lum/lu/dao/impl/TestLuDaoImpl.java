@@ -67,7 +67,6 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		SearchParameter sp = new SearchParameter();
 		sp.setKey("key-1");
 		sp.setValues(list1);
-		sp = dao.create(sp);
 
 		List<SearchParameter> list2 = Arrays.asList(new SearchParameter[] {sp});
 		
@@ -80,6 +79,9 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 
 		assertEquals("searchKey1", mq.getSearchTypeKey());
 		assertEquals(1, mq.getSearchParameters().size());
+		assertEquals("key-1", mq.getSearchParameters().get(0).getKey());
 		assertEquals(2, mq.getSearchParameters().get(0).getValues().size());
+		assertEquals("value-1", mq.getSearchParameters().get(0).getValues().get(0).getValue());
+		assertEquals("value-2", mq.getSearchParameters().get(0).getValues().get(1).getValue());
 	}
 }
