@@ -21,7 +21,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
@@ -54,18 +53,20 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowToolbar;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
+import org.kuali.student.lum.lu.ui.home.client.view.FindPanel;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -253,7 +254,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         cfg.configureCourseProposal(this);
         
         //FIXME: This needs to be moved to the configurer
-        workflowToolbar = new WorkflowToolbar();
+        workflowToolbar = new WorkflowToolbar(createOnWorkflowSubmitSuccessHandler());
         workflowToolbar.setIdPath("proposal/id");
         workflowToolbar.setRequiredFieldPaths(new String[]{"course/department"});
         workflowToolbar.setWorkflowRpcService((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class));
@@ -275,7 +276,21 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         initialized = true;
     }
         
-    /**
+    private CloseHandler<KSLightBox> createOnWorkflowSubmitSuccessHandler() {
+    	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
+			@Override
+			public void onClose(CloseEvent<KSLightBox> event) {
+            	ViewContext viewContext = new ViewContext();
+            	String proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+            	viewContext.setId(proposalId);
+            	viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+                CourseProposalController.this.getParentController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
+			}
+    	};
+		return handler;
+	}
+
+	/**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
      */
     @Override
