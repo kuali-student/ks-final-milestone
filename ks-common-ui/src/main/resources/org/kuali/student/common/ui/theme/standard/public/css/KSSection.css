@@ -299,14 +299,29 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 /*** Forms: Modules (Rows) ***/
 
+@if user.agent ie6 ie7 ie8 ie{ 
+	.ks-form-module {
+		color: #444;
+		height: 1%;
+		margin-bottom: 1em;
+	}
+}
+
 .ks-form-module {
-	color: #444;
-	height: 1%;
-	margin-bottom: 1em;
+		color: #444;
+		margin-bottom: 1em;
+}
+
+@if user.agent ie6 ie7 ie8 ie{  
+	.ks-form-module-group, .ks-form-module-solo{
+		height: 1%;
+		margin-bottom: 1em;
+		padding-left: 5px; 
+		padding-bottom: 5px;
+	}
 }
 
 .ks-form-module-group, .ks-form-module-solo {
-	height: 1%;
 	margin-bottom: 1em;
 	padding-left: 5px; 
 	padding-bottom: 5px;
