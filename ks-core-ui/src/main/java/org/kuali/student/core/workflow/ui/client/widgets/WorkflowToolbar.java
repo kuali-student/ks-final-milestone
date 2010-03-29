@@ -25,8 +25,11 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.WorkflowRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -34,9 +37,11 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class WorkflowToolbar extends Composite {
 	DataModel dataModel=null;
@@ -64,13 +69,16 @@ public class WorkflowToolbar extends Composite {
     
 	private HorizontalBlockFlowPanel rootPanel = new HorizontalBlockFlowPanel();
 	private StylishDropDown workflowActionsDropDown = new StylishDropDown("Workflow Actions");
-    
+    private CloseHandler<KSLightBox> onSubmitSuccessHandler;
+	
     Controller myController;
     
-	public WorkflowToolbar() {
+	public WorkflowToolbar(CloseHandler<KSLightBox> onSubmitSuccessHandler) {
 		super();
 		super.initWidget(rootPanel);
-			
+		
+		this.onSubmitSuccessHandler = onSubmitSuccessHandler;
+		
 		//Make the wf buttons
 		setupWFButtons();
 
@@ -127,13 +135,6 @@ public class WorkflowToolbar extends Composite {
 		return proposalId;
 	}
 	
-	private void removeButton(KSButton button) {
-		button.setVisible(false);
-	}
-	private void addButton(KSButton button) {
-		button.setVisible(true);
-	}
-	
 	private void setupWFButtons() {
 
     	wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
@@ -157,9 +158,12 @@ public class WorkflowToolbar extends Composite {
             								DataSaveResult result) {
             							//Update the model with the saved data
             							dataModel.setRoot(result.getValue());
-            							Window.alert("Proposal has been routed to workflow");
+            							
             							items.remove(wfStartWorkflowItem);
             							workflowActionsDropDown.setItems(items);
+            							
+            							//Notify the user that the document was submitted
+            							showSuccessDialog();            							
             						}
             					});
                         	}
@@ -301,6 +305,29 @@ public class WorkflowToolbar extends Composite {
 		});
 	}
 
+	private void showSuccessDialog() {
+		
+		final KSLightBox submitSuccessDialog = new KSLightBox();
+		VerticalPanel dialogPanel = new VerticalPanel();
+		KSLabel dialogLabel = new KSLabel("Proposal has been routed to workflow");
+		dialogPanel.add(dialogLabel);
+
+		//Add an OK button that closes (hides) the dialog which will in turn call the onSubmitSuccessHandler
+		OkGroup okButton = new OkGroup(new Callback<OkEnum>(){
+			@Override
+			public void exec(OkEnum result) {
+				submitSuccessDialog.hide();
+			}
+		});
+		dialogPanel.add(okButton);
+		
+		submitSuccessDialog.setWidget(dialogPanel);
+		//Add in the onSubmitSuccessHandler so when the dialog is closed, the handler code is executed. This allows
+		// a hook into performing UI actions after a successful submit 
+		submitSuccessDialog.addCloseHandler(onSubmitSuccessHandler);
+		submitSuccessDialog.show();
+	}
+	
 	/**
 	 * Use to set the modelName to use when this widget requests the data model.
 	 * 
