@@ -13,6 +13,7 @@ public interface WorkflowRpcServiceAsync {
 
 	public void getDataFromWorkflowId(String workflowId, AsyncCallback<Data> callback);
 	public void getWorkflowIdFromDataId(String dataId, AsyncCallback<String> callback);
+	public void getDocumentStatus(String workflowId, AsyncCallback<String> callback);
 
 	public void getActionsRequested(String dataId, AsyncCallback<String> callback);
 	

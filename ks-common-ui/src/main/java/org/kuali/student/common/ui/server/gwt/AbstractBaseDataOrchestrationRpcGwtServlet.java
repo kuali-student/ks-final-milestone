@@ -348,6 +348,23 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         return getData(docResponse.getAppDocId());
 	}
 
+	
+	
+	@Override
+	public String getDocumentStatus(String workflowId)
+			throws OperationFailedException {
+		if (workflowId != null && !workflowId.isEmpty()){
+			try {
+				Long documentId = Long.valueOf(workflowId); 
+				return workflowUtilityService.getDocumentStatus(documentId);
+			} catch (Exception e) {
+				throw new OperationFailedException("Error getting document status. " + e.getMessage());
+			}	
+		}
+		
+		return null;
+	}
+
 	@Override
 	public String getWorkflowIdFromDataId(String dataId) throws OperationFailedException {
 		if(null==simpleDocService){

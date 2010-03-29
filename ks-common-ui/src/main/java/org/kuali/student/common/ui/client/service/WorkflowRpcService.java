@@ -10,7 +10,8 @@ public interface WorkflowRpcService {
 	//Workflow Operations
 	public Data getDataFromWorkflowId(String workflowId) throws OperationFailedException;
 	public String getWorkflowIdFromDataId(String dataId) throws OperationFailedException;
-
+	public String getDocumentStatus(String workflowId) throws OperationFailedException;
+	
 	public String getActionsRequested(String dataId) throws OperationFailedException;
 	
 	//These methods should call saveData first and update the doc content with the data content
