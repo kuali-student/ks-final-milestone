@@ -72,6 +72,7 @@ public class GroupFieldLayout extends FieldLayout{
 			fieldContainer.add(fieldsPanel);
 			layout.add(fieldContainer);
 			fieldContainer.setStyleName("ks-form-module-group");
+			fieldContainer.addStyleName("clearfix");
 			fieldsPanel.setStyleName("ks-form-module-fields");
 			fieldsPanel.addStyleName("clearfix");
 			validationPanel.setStyleName("ks-form-module-validation");
@@ -101,7 +102,7 @@ public class GroupFieldLayout extends FieldLayout{
 	}
 	
 	@Override
-	protected void addFieldToLayout(FieldElement field) {
+	public void addFieldToLayout(FieldElement field) {
 		currentLine.add(field);
 		
 		if(field.getFieldName() != null && !field.getFieldName().equals("")){
@@ -131,19 +132,19 @@ public class GroupFieldLayout extends FieldLayout{
 	}
 
 	@Override
-	protected void addLayoutToLayout(FieldLayout fieldLayout) {
+	public void addLayoutToLayout(FieldLayout fieldLayout) {
 		layout.add(fieldLayout);
 		
 	}
 
 	@Override
-	protected void addWidgetToLayout(Widget widget) {
+	public void addWidgetToLayout(Widget widget) {
 		layout.add(widget);
 		
 	}
 
 	@Override
-	protected void removeFieldLayoutComponentFromLayout(
+	public void removeFieldLayoutComponentFromLayout(
 			FieldLayoutComponent component) {
 		if(component instanceof FieldElement){
 			fieldsPanel.remove((FieldElement)component);
@@ -155,7 +156,7 @@ public class GroupFieldLayout extends FieldLayout{
 	}
 
 	@Override
-	protected void removeWidgetFromLayout(Widget widget) {
+	public void removeWidgetFromLayout(Widget widget) {
 		layout.remove(widget);
 		
 	}

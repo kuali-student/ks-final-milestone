@@ -33,31 +33,31 @@ public class BorderedVerticalFieldLayout extends FieldLayout{
 	}
 
 	@Override
-	protected void addFieldToLayout(FieldElement field) {
+	public void addFieldToLayout(FieldElement field) {
 		verticalLayout.addField(field);
 		
 	}
 
 	@Override
-	protected void addLayoutToLayout(FieldLayout layout) {
+	public void addLayoutToLayout(FieldLayout layout) {
 		verticalLayout.addLayoutToLayout(layout);
 		
 	}
 
 	@Override
-	protected void addWidgetToLayout(Widget widget) {
+	public void addWidgetToLayout(Widget widget) {
 		verticalLayout.addWidgetToLayout(widget);
 	}
 
 	@Override
-	protected void removeFieldLayoutComponentFromLayout(
+	public void removeFieldLayoutComponentFromLayout(
 			FieldLayoutComponent component) {
 		verticalLayout.removeFieldLayoutComponentFromLayout(component);
 		
 	}
 
 	@Override
-	protected void removeWidgetFromLayout(Widget widget) {
+	public void removeWidgetFromLayout(Widget widget) {
 		verticalLayout.removeWidgetFromLayout(widget);
 	}
 

@@ -47,7 +47,7 @@ public class VerticalFieldLayout extends FieldLayout{
 	
 	
 	@Override
-	protected void addFieldToLayout(FieldElement field) {
+	public void addFieldToLayout(FieldElement field) {
         FlowPanel fieldContainer = new FlowPanel();
         FlowPanel fieldLayout = new FlowPanel();
         fieldContainer.add(field);
@@ -68,24 +68,24 @@ public class VerticalFieldLayout extends FieldLayout{
 	}
 
 	@Override
-	protected void addLayoutToLayout(FieldLayout layout) {
+	public void addLayoutToLayout(FieldLayout layout) {
 		verticalLayout.add(layout);
 		layout.setParentLayout(this);
 	}
 
 	@Override
-	protected void addWidgetToLayout(Widget widget) {
+	public void addWidgetToLayout(Widget widget) {
 		widget.addStyleName("ks-section-widget");
 		verticalLayout.add(widget);
 	}
 
 	@Override
-	protected void removeWidgetFromLayout(Widget widget) {
+	public void removeWidgetFromLayout(Widget widget) {
 		verticalLayout.remove(widget);
 	}
 	
 	@Override
-	protected void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component){
+	public void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component){
 		if(component instanceof FieldElement){
 			FlowPanel panel = fieldContainers.get(component.getKey());
 			verticalLayout.remove(panel);

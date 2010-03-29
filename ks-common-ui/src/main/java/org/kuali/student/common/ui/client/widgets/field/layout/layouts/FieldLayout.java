@@ -182,11 +182,11 @@ public abstract class FieldLayout extends Composite implements FieldLayoutCompon
 		return drawOrder.get(key);
 	}
 	
-	protected abstract void addFieldToLayout(FieldElement field);
-	protected abstract void addLayoutToLayout(FieldLayout layout);
-	protected abstract void addWidgetToLayout(Widget widget);
-	protected abstract void removeWidgetFromLayout(Widget widget);
-	protected abstract void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component);
+	public abstract void addFieldToLayout(FieldElement field);
+	public abstract void addLayoutToLayout(FieldLayout layout);
+	public abstract void addWidgetToLayout(Widget widget);
+	public abstract void removeWidgetFromLayout(Widget widget);
+	public abstract void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component);
 	
 	public void processValidationResults(String fieldElementKey, List<ValidationResultInfo> validationResults){
 		FieldElement field = fieldMap.get(fieldElementKey);
