@@ -330,7 +330,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 			} else if(basicWidget instanceof KSLabel) {
 			    ((KSLabel)basicWidget).setText(translation);
 			} else if(basicWidget instanceof KSSelectItemWidgetAbstract) {
-                SelectItemWidgetBinding.INSTANCE.setWidgetValue((KSSelectItemWidgetAbstract)basicWidget, id);
+				((KSSelectItemWidgetAbstract)basicWidget).selectItem(id);
             } else {
 				((KSSuggestBox) basicWidget).setValue("", true);
 			}
@@ -482,9 +482,24 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         }
 
         @Override
-        public void setValue(Map<String, String> translations) {
-            // TODO ryan - THIS METHOD NEEDS JAVADOCS
-            
+        public void setValue(final Map<String, String> translations) {
+        	//TODO: Update to also work with a KSLabelList that doesn't require pre-population of all list items
+        	if (basicWidget instanceof KSSelectItemWidgetAbstract){
+        		Callback<Widget> widgetReadyCallback = new Callback<Widget>(){
+					public void exec(Widget widget) {
+		        		for (String id:translations.keySet()){
+		        			((KSSelectItemWidgetAbstract)widget).selectItem(id);
+		        		}
+					}
+        		};
+        		if (!((KSSelectItemWidgetAbstract)basicWidget).isInitialized()){
+        			((KSSelectItemWidgetAbstract)basicWidget).addWidgetReadyCallback(widgetReadyCallback);
+        		} else{
+        			widgetReadyCallback.exec(basicWidget);
+        		}
+        	} else {
+        		GWT.log("Basic picker widget not coded to handle multiple translations", null);
+        	}
         }
 
     }
@@ -646,8 +661,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     @Override
     public void setValue(Map<String, String> translations) {
-        // TODO ryan - THIS METHOD NEEDS JAVADOCS
-        
+        basicWidget.setValue(translations);
     }
 
 }
