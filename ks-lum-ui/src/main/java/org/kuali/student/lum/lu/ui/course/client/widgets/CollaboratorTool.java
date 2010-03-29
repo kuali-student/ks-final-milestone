@@ -15,11 +15,12 @@ import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
@@ -51,13 +52,14 @@ public class CollaboratorTool extends Composite implements ToolView{
     private Controller controller;
     private String dataId = null;
     private String workflowId = null;
+    private String documentStatus = null;
     
     private FlowPanel layout = new FlowPanel();
     private final GroupSection section;
     private FieldDescriptor person;
     private FieldDescriptor permissions;
     private FieldDescriptor actionRequests;
-    private KSLinkButton addButton = new KSLinkButton("Add Person", ButtonStyle.PRIMARY);
+    private KSButton addButton = new KSButton("Add Person");
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
     
@@ -65,44 +67,16 @@ public class CollaboratorTool extends Composite implements ToolView{
     private final String VIEW = "View";
     private final String COMMENT_VIEW = "Comment, View";
     private final String EDIT_COMMENT_VIEW = "Edit, Comment, View";
+        
+    private SimpleListItems permissionListItems = new SimpleListItems();
+    private SimpleListItems actionRequestListItems = new SimpleListItems();
     
-    public class PermissionList extends KSDropDown{
-        public PermissionList(){
-        	this.setBlankFirstItem(false);
-            SimpleListItems permissionListItems = new SimpleListItems();
-//            permissionListItems.addItem("Co-Author", EDIT_COMMENT_VIEW);
-//            permissionListItems.addItem("Commentor", COMMENT_VIEW);
-//            permissionListItems.addItem("Viewer", VIEW);
+    private KSDropDown permissionList = new KSDropDown();
+    private KSDropDown actionRequestList = new KSDropDown();
 
-            permissionListItems.addItem(PermissionType.EDIT.getCode(),EDIT_COMMENT_VIEW);
-            permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(),COMMENT_VIEW);
-            permissionListItems.addItem(PermissionType.OPEN.getCode(),VIEW);
-
-            super.setListItems(permissionListItems);
-            
-            this.selectItem("Viewer");
-        }
-    }
-    
-    private PermissionList permissionList = new PermissionList();
-    
-    public class ActionRequestList extends KSDropDown{
-        public ActionRequestList(){
-        	this.setBlankFirstItem(false);
-            SimpleListItems actionRequestListItems = new SimpleListItems();
-            actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(),ActionRequestType.APPROVE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(),ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
-
-            super.setListItems(actionRequestListItems);
-            
-            this.selectItem(ActionRequestType.FYI.getActionRequestCode());
-        }
-    }
-    
-    private ActionRequestList actionRequestList = new ActionRequestList();
-
-    public static class CollaboratorModel extends AbstractSimpleModel {
+	private boolean loaded = false;
+	
+	public static class CollaboratorModel extends AbstractSimpleModel {
 		private String dataId;
 
 		public String getDataId() {
@@ -124,6 +98,24 @@ public class CollaboratorTool extends Composite implements ToolView{
     	}
         this.viewEnum = viewEnum;
         this.viewName = viewName;
+    	this.initWidget(layout);
+    }
+
+    
+    
+	@Override
+	protected void onLoad() {
+		if (!loaded){
+			init();
+			loaded = true;
+		} else {
+			//FIXME: This should already be handled in beforeShow, but not always getting called.
+			refreshDocumentStatus(Controller.NO_OP_CALLBACK);
+		}
+	}
+
+
+	public void init(){
         List<String> columns = new ArrayList<String>();
         columns.add("Name");
         columns.add("Permissions");
@@ -179,11 +171,18 @@ public class CollaboratorTool extends Composite implements ToolView{
 			}
 		});
 
-		layout.add(createTableSection());
-		this.initWidget(layout);
-    }
+		actionRequestList.addSelectionChangeHandler(new SelectionChangeHandler(){
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				String selectedAction = actionRequestList.getSelectedItem(); 
+				refreshPermissionList(selectedAction);
+			}
+			
+		});
+		
+		layout.add(createTableSection());		
+	}
 
-    
 	@Override
 	public boolean beforeHide() {
 		return true;
@@ -204,8 +203,9 @@ public class CollaboratorTool extends Composite implements ToolView{
 							public void onFailure(Throwable caught) {
 								//Window.alert("Getting workflowId failed");
 								workflowId = null;
+								documentStatus = null;
 								refreshCollaboratorTable();
-								onReadyCallback.exec(true);
+								refreshDocumentStatus(onReadyCallback);
 							}
 	
 							@Override
@@ -213,9 +213,8 @@ public class CollaboratorTool extends Composite implements ToolView{
 								//Window.alert("Getting workflowId succeeded");
 								workflowId=result;
 								refreshCollaboratorTable();
-								onReadyCallback.exec(true);
+								refreshDocumentStatus(onReadyCallback);
 							}
-
 
 						});
 					}
@@ -263,6 +262,23 @@ public class CollaboratorTool extends Composite implements ToolView{
 		
 	}
 	
+	private void refreshDocumentStatus(final Callback onReadyCallback){
+		cluProposalRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
+			@Override
+			public void onFailure(Throwable caught) {
+				documentStatus = null;
+				onReadyCallback.exec(true);										
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				documentStatus = result;
+				refreshActionRequestListItems();
+				onReadyCallback.exec(true);										
+			}									
+		});		
+	}
+		
 	private void createAddCollabSection(){
 		Metadata personIdMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("personId");
 		person = new FieldDescriptor(null, "Person", personIdMeta);
@@ -276,6 +292,36 @@ public class CollaboratorTool extends Composite implements ToolView{
 		section.addField(actionRequests);
 		//if submitted(?) then show workflow action request here
 		
+		permissionList.setBlankFirstItem(false);
+		actionRequestList.setBlankFirstItem(false);
+	}
+	
+	
+	private void refreshActionRequestListItems(){
+		actionRequestListItems.clear();
+		if ("S".equals(documentStatus)){
+            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
+		} else {
+            actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(),ActionRequestType.APPROVE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(),ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
+			
+		}
+		actionRequestList.selectItem(ActionRequestType.FYI.getActionRequestCode());
+		actionRequestList.setListItems(actionRequestListItems);		
+		refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
+	}
+	
+	private void refreshPermissionList(String selectedAction){
+		permissionListItems.clear();
+		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode())){
+            permissionListItems.addItem(PermissionType.EDIT.getCode(),EDIT_COMMENT_VIEW);					
+		}
+
+        permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(),COMMENT_VIEW);
+        permissionListItems.addItem(PermissionType.OPEN.getCode(),VIEW);
+
+		permissionList.setListItems(permissionListItems);		
 	}
 	
 	private Widget createTableSection(){
