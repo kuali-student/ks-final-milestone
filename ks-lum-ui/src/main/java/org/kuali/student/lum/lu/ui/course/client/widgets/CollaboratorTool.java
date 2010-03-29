@@ -314,7 +314,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 	
 	private void refreshPermissionList(String selectedAction){
 		permissionListItems.clear();
-		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode())){
+		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || "S".equals(documentStatus)){
             permissionListItems.addItem(PermissionType.EDIT.getCode(),EDIT_COMMENT_VIEW);					
 		}
 
