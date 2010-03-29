@@ -15,6 +15,7 @@
 package org.kuali.student.lum.lu.dao.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,9 +54,22 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	@Test
 	public void testCreateCluLoRelation() throws Exception {
 	}
+
+	@Test
+	public void testCreateMembershipQuery_Simple() throws Exception {
+		MembershipQuery mq = new MembershipQuery();
+		mq.setSearchTypeKey("searchKey1");
+		mq = dao.create(mq);
+		
+		mq = dao.fetch(MembershipQuery.class, mq.getId());
+
+		assertEquals("searchKey1", mq.getSearchTypeKey());
+		assertNotNull(mq.getSearchParameters());
+		assertEquals(0, mq.getSearchParameters().size());
+	}
 	
 	@Test
-	public void testCreateMembership() throws Exception {
+	public void testCreateMembershipQuery_Complex() throws Exception {
 		List<SearchParameterValue> list1  = new ArrayList<SearchParameterValue>();
 		SearchParameterValue v1 = new SearchParameterValue();
 		v1.setValue("value-1");
