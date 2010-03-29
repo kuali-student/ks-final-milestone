@@ -14,7 +14,6 @@
  */
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
@@ -34,19 +33,15 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.AddCluLightBox;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.AddCluRangeLightBox;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemListFieldBinding;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemValue;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemList;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemListFieldBinding;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
