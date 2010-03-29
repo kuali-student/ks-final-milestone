@@ -29,6 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -88,6 +89,10 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	
 	@Column(name = "ADMIN_ORG_ID")
 	private String adminOrg;
+	
+    @OneToOne
+	@JoinColumn(name="MEM_QUERY_ID")
+	private MembershipQuery membershipQuery;
 	
 	@Override
     public void onPrePersist() {
@@ -197,6 +202,14 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 
 	public void setAdminOrg(String adminOrg) {
 		this.adminOrg = adminOrg;
+	}
+
+	public MembershipQuery getMembershipQuery() {
+		return membershipQuery;
+	}
+
+	public void setMembershipQuery(MembershipQuery membershipQuery) {
+		this.membershipQuery = membershipQuery;
 	}
 
 }

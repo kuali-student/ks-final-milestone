@@ -80,6 +80,9 @@
 		<class>org.kuali.student.lum.lu.entity.ResultOption</class>
 		<class>org.kuali.student.lum.lu.entity.ResultUsageType</class>
 		<class>org.kuali.student.lum.lu.entity.ResultUsageTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.MembershipQuery</class>
+        <class>org.kuali.student.lum.lu.entity.SearchParameter</class>
+        <class>org.kuali.student.lum.lu.entity.SearchParameterValue</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 	</persistence-unit>

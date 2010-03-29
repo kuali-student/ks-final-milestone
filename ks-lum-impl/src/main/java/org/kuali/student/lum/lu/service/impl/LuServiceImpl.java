@@ -46,6 +46,8 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
@@ -74,6 +76,7 @@ import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
@@ -646,7 +649,9 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-		return LuServiceAssembler.toCluSetInfo(cluSet);
+		CluSetInfo cluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);
+		setMembershipQuerySearchResult(cluSetInfo);
+		return cluSetInfo;
 	}
 
 	@Override
@@ -2040,6 +2045,9 @@ public class LuServiceImpl implements LuService {
 		// }
 
 		CluSet cluSet = new CluSet();
+
+		setMembershipQuerySearchResult(cluSetInfo);
+
 		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id",
 				"descr", "attributes", "metaInfo", "membershipQuery" });
 		cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
@@ -2059,9 +2067,36 @@ public class LuServiceImpl implements LuService {
 		cluSet.setCriteriaSet(false);
 		luDao.create(cluSet);
 
-		return LuServiceAssembler.toCluSetInfo(cluSet);
+		CluSetInfo newCluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);
+
+		return newCluSetInfo;
 	}
 
+	private void setMembershipQuerySearchResult(CluSetInfo cluSetInfo) throws MissingParameterException {
+		if(cluSetInfo.getMembershipQuery() == null) {
+			return;
+		}
+		
+		MembershipQueryInfo query = cluSetInfo.getMembershipQuery();
+		SearchRequest sr = new SearchRequest();
+		sr.setSearchKey(query.getSearchTypeKey());
+		sr.setParams(query.getQueryParamValueList());
+
+		SearchResult result = search(sr);
+		
+		List<String> cluIds = new ArrayList<String>();
+		List<SearchResultRow> rows = result.getRows();
+		for(SearchResultRow row : rows) {
+			List<SearchResultCell> cells = row.getCells();
+			for(SearchResultCell cell : cells) {
+				if(cell.getKey().equals("lu.resultColumn.cluId")) {
+					cluIds.add(cell.getValue());
+				}
+			}
+		}
+		cluSetInfo.getCluIds().addAll(cluIds);
+	}
+	
 	@Override
 	public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -2087,7 +2122,7 @@ public class LuServiceImpl implements LuService {
 		else if (!cluSetInfo.getType().equals(cluSet.getType())) {
 			throw new UnsupportedActionException("CluSet type is set at creation time and cannot be updated. CluSet id="+cluSetId);
 		}
-		
+
 		if (!String.valueOf(cluSet.getVersionInd()).equals(
 				cluSetInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
@@ -2145,7 +2180,9 @@ public class LuServiceImpl implements LuService {
 
 		CluSet updated = luDao.update(cluSet);
 
-		return LuServiceAssembler.toCluSetInfo(updated);
+		CluSetInfo updatedCluSetInfo = LuServiceAssembler.toCluSetInfo(updated);
+		setMembershipQuerySearchResult(updatedCluSetInfo);
+		return cluSetInfo;
 	}
 
 	@Override

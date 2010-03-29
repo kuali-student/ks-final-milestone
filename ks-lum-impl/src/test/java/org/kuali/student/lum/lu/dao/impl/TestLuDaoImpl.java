@@ -16,6 +16,8 @@ package org.kuali.student.lum.lu.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -26,6 +28,9 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.CluLoRelationType;
 import org.kuali.student.lum.lu.entity.Lui;
+import org.kuali.student.lum.lu.entity.MembershipQuery;
+import org.kuali.student.lum.lu.entity.SearchParameter;
+import org.kuali.student.lum.lu.entity.SearchParameterValue;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
@@ -44,8 +49,37 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "cluLuType.default");
 		assertEquals("Default Clu-Lo relation type", relType.getDescr());
 	}
+
+	@Test
+	public void testCreateCluLoRelation() throws Exception {
+	}
 	
 	@Test
-	public void testCreateCluLoRelation() {
+	public void testCreateMembership() throws Exception {
+		List<SearchParameterValue> list1  = new ArrayList<SearchParameterValue>();
+		SearchParameterValue v1 = new SearchParameterValue();
+		v1.setValue("value-1");
+		list1.add(v1);
+		SearchParameterValue v2 = new SearchParameterValue();
+		v2.setValue("value-2");
+		list1.add(v2);
+
+		SearchParameter sp = new SearchParameter();
+		sp.setKey("key-1");
+		sp.setValues(list1);
+		sp = dao.create(sp);
+
+		List<SearchParameter> list2 = Arrays.asList(new SearchParameter[] {sp});
+		
+		MembershipQuery mq = new MembershipQuery();
+		mq.setSearchTypeKey("searchKey1");
+		mq.setSearchParameters(list2);
+		mq = dao.create(mq);
+		
+		mq = dao.fetch(MembershipQuery.class, mq.getId());
+
+		assertEquals("searchKey1", mq.getSearchTypeKey());
+		assertEquals(1, mq.getSearchParameters().size());
+		assertEquals(2, mq.getSearchParameters().get(0).getValues().size());
 	}
 }
