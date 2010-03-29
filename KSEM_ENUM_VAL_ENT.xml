@@ -85,14 +85,14 @@
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="South" CD="SOUTH"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
         EXPIR_DT="20000101000000" ID="34" SORT_KEY="34" VAL="South County Campus"/>
-    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per day" CD="atpType.duration.daily"
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per day" CD="kuali.atp.duration.day"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.duration"
         EXPIR_DT="20000101000000" ID="35" SORT_KEY="35" VAL="per day"/>
-    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per day" CD="atpType.duration.weekly"
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per week" CD="kuali.atp.duration.week"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.duration"
         EXPIR_DT="20000101000000" ID="36" SORT_KEY="36" VAL="per week"/>
-    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per day"
-        CD="atpType.duration.monthly" EFF_DT="20000101000000"
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per month"
+        CD="kuali.atp.duration.month" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.duration" EXPIR_DT="20000101000000"
         ID="37" SORT_KEY="37" VAL="per month"/>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="AACH" CD="AACH"
