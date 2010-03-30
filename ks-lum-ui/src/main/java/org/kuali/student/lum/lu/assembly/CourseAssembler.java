@@ -982,7 +982,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 		for (Data.Property p : course.getCrossListings()) {
 			CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
-			if(!(xListings.get_runtimeData().isDeleted())){
+			if(!(xListings.get_runtimeData()!=null && xListings.get_runtimeData().isDeleted())){
 				CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 				cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
 				cluIdentifier.setOrgId(xListings.getDepartment());
