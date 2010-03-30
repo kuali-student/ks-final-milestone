@@ -15,29 +15,25 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Metadata.Permission;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
+    protected final Logger LOG = Logger.getLogger(getClass());
 
-    public static final String DEFAULT_NAMESPACE = "KS-SYS";
-    public static final String DEFAULT_PERM_TEMPLATE_NAME = "Field Access";
-    public static final String EDIT_DOCUMENT_PERM = "Edit Document";
-    public static final String OPEN_DOCUMENT_PERM = "Open Document";
     protected PermissionService permissionService;
     protected MetadataServiceImpl metadataService;
-    protected final Logger LOG = Logger.getLogger(getClass());
-    protected String namespace;
-    
+
+    // TODO: Below must be changed to use constants from KualiStudentKimAttributes class (class is currently in LUM)
     protected Map<String, String> getFieldAccessPermissions(String dtoName) {
         try {
             //get permissions and turn into a map of fieldName=>access
             String principalId = SecurityUtils.getCurrentUserId();
-            String permissionTemplateName = DEFAULT_PERM_TEMPLATE_NAME;
             AttributeSet qualification = null;
             AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
             List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
-                    namespace, permissionTemplateName, permissionDetails, qualification);
+            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
             if (permissions != null) {
                 for (KimPermissionInfo permission : permissions) {
@@ -70,9 +66,10 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             AttributeSet qualification = getQualification(idType, id);
         	String currentUser = SecurityUtils.getCurrentUserId();
-	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, namespace,
-	                EDIT_DOCUMENT_PERM, null, qualification));
-			LOG.info("Permission '" + namespace + "/" + EDIT_DOCUMENT_PERM + "' for user '" + currentUser + "': " + authorized);
+	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
+			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
+					+ "' for user '" + currentUser + "': " + authorized);
 	        metadata.setCanEdit(authorized.booleanValue());
         }
 
@@ -138,10 +135,6 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     	return false;
     }
 
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
-    
     /**
      * 
      * This method should return the data type of the implementing assembler

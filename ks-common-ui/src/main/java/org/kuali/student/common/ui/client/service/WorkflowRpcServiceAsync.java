@@ -25,6 +25,7 @@ public interface WorkflowRpcServiceAsync {
 	public void disapproveDocumentWithId(String dataId, AsyncCallback<Boolean> callback);
 	public void acknowledgeDocumentWithId(String dataId, AsyncCallback<Boolean> callback);
 	public void fyiDocumentWithId(String dataId, AsyncCallback<Boolean> callback);
+	public void withdrawDocumentWithId(String dataId, AsyncCallback<Boolean> callback);
 	
 	public void adhocRequest(String docId, String recipientPrincipalId, RequestType requestType, String annotation, AsyncCallback<Boolean> callback);
 }

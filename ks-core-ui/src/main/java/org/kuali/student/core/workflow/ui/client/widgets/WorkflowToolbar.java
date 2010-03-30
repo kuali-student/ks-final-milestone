@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -53,6 +54,7 @@ public class WorkflowToolbar extends Composite {
 	private KSMenuItemData wfAcknowledgeItem;
 	private KSMenuItemData wfStartWorkflowItem;
 	private KSMenuItemData wfFYIWorkflowItem;
+	private KSMenuItemData wfWithdrawItem;
 	
 	List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 	    
@@ -175,7 +177,6 @@ public class WorkflowToolbar extends Composite {
     			}
     		}
     	});
-    	
 
 		wfApproveItem= new KSMenuItemData("Approve Proposal", new ClickHandler(){
 			public void onClick(ClickEvent event) {
@@ -245,7 +246,7 @@ public class WorkflowToolbar extends Composite {
 				});
 	        }        
 	    });
-		
+
 		wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
 	        	String proposalId = getProposalIdFromModel(dataModel);
@@ -269,7 +270,28 @@ public class WorkflowToolbar extends Composite {
 				});
 	        }        
 	    });
-		
+
+    	wfWithdrawItem = new KSMenuItemData("Withdraw Proposal", new ClickHandler(){
+	        public void onClick(ClickEvent event) {
+	        	String proposalId = getProposalIdFromModel(dataModel);
+	        	
+				workflowRpcServiceAsync.withdrawDocumentWithId(proposalId, new AsyncCallback<Boolean>(){
+					public void onFailure(Throwable caught) {
+						GWT.log("Error Withdrawing Proposal", caught);
+						Window.alert("Error Withdrawing Proposal");
+					}
+					public void onSuccess(Boolean result) {
+						if(result){
+							Window.alert("Proposal will be Withdrawn");
+							items.clear();
+							workflowActionsDropDown.setItems(items);
+						}else{
+							Window.alert("Error Withdrawing Proposal");
+						}
+					}
+				});
+	        }        
+    	});
 	}
 
 	private void updateWorkflow(DataModel model){
@@ -282,6 +304,12 @@ public class WorkflowToolbar extends Composite {
 
 			public void onSuccess(String result) {
 				items.clear();
+				if(result.contains("S")){
+					items.add(wfStartWorkflowItem);
+				}
+				if(result.contains("W")){
+					items.add(wfWithdrawItem);
+				}
 				if(result.contains("A")){
 
 					items.add(wfApproveItem);
@@ -290,9 +318,6 @@ public class WorkflowToolbar extends Composite {
 				}
 				if(result.contains("K")){
 					items.add(wfAcknowledgeItem);
-				}
-				if(result.contains("S")){
-					items.add(wfStartWorkflowItem);
 				}
 				
 				if(result.contains("F")){

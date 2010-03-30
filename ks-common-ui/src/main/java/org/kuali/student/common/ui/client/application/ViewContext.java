@@ -1,7 +1,7 @@
 package org.kuali.student.common.ui.client.application;
 
-import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.core.rice.authorization.PermissionType;
 
 /**
  * ViewContext can be used to pass along context information when switching or initializing a view.

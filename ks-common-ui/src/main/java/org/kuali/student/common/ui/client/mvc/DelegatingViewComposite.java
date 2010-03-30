@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.mvc;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
-import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
+import org.kuali.student.core.rice.authorization.PermissionType;
 
 
 /**

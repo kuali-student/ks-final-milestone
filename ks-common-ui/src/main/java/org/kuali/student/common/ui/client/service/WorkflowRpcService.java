@@ -24,6 +24,7 @@ public interface WorkflowRpcService {
 	public Boolean disapproveDocumentWithId(String dataId) throws OperationFailedException;
 	public Boolean acknowledgeDocumentWithId(String dataId) throws OperationFailedException;
 	public Boolean fyiDocumentWithId(String dataId) throws OperationFailedException;
+	public Boolean withdrawDocumentWithId(String dataId) throws OperationFailedException;
 	
 	public Boolean adhocRequest(String docId, String recipientPrincipalId, RequestType requestType, String annotation) throws OperationFailedException;
 }

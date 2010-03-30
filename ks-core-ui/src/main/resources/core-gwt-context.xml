@@ -195,7 +195,6 @@
 	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
-		<property name="namespace" value="KS-SYS" />
 	</bean>
 
 	<!-- Metadata lookup service -->
