@@ -19,11 +19,11 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-  <bean id="prettyPrint" class="org.kuali.student.psrg.util.PrettyPrint" />
+  <bean id="prettyPrintListener" class="org.kuali.student.psrg.util.PrettyPrintListener"
+    init-method="init" destroy-method="destroy" p:filename="methods.csv" />
 
-  <bean id="methodTrackerAdvice" class="org.kuali.student.psrg.util.MethodTrackerAdvice"
-    p:filename="methods.csv">
-    <property name="prettyPrint" ref="prettyPrint" />
+  <bean id="methodTrackerAdvice" class="org.kuali.student.psrg.util.MethodTrackerAdvice">
+    <property name="listener" ref="prettyPrintListener" />
   </bean>
 
   <aop:config>

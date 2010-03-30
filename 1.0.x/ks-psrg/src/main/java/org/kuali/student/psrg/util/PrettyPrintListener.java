@@ -1,11 +1,62 @@
 package org.kuali.student.psrg.util;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 
-public class PrettyPrint {
+/**
+ * 
+ * 
+ * 
+ * @since Mar 30, 2010 3:06:29 PM
+ */
+public class PrettyPrintListener implements MethodListener {
+	protected final Log log = LogFactory.getLog(this.getClass());
+	OutputStream out;
+	String filename;
+	Boolean flushAlways = new Boolean(false);
+
+	protected void handleCSV(MethodEvent event) throws IOException {
+		if (out == null) {
+			return;
+		}
+		String csv = getCsv(event);
+		synchronized (out) {
+			IOUtils.write(csv, out);
+			if (flushAlways) {
+				out.flush();
+			}
+		}
+	}
+
+	public void init() throws IOException {
+		log.info("Initializing");
+		initOutputStream();
+	}
+
+	protected void initOutputStream() throws IOException {
+		if (filename == null) {
+			return;
+		}
+		File file = new File(filename);
+		log.info("Logging method calls to " + file.getAbsolutePath());
+		out = new BufferedOutputStream(new FileOutputStream(file));
+		IOUtils.write("Thread,Timestamp,Sequence,Elapsed,Method\n", out);
+	}
+
+	public void destroy() {
+		log.info("Shutting down");
+		IOUtils.closeQuietly(out);
+	}
 
 	/**
 	 * Produce a log message about this method call
@@ -16,23 +67,26 @@ public class PrettyPrint {
 	 * @param result
 	 * @return
 	 */
-	public String getLogMessage(long currentSequence, long elapsed, ProceedingJoinPoint call, Object result) {
+	protected String getLogMessage(MethodEvent event) {
 		// Produce a log message about this method call
 		StringBuffer sb = new StringBuffer();
-		sb.append("Sequence:" + space(currentSequence, 4) + " ");
-		sb.append(" Elapsed:" + space(elapsed, 4) + " ");
+		sb.append("Timestamp:" + space(event.getTimestamp(), 4) + " ");
+		sb.append(" Sequence:" + space(event.getSequence(), 4) + " ");
+		sb.append("  Elapsed:" + space(event.getElapsed(), 4) + " ");
 		// Show return type, method name, and argument types
-		sb.append(getPrettyPrint(call, result));
+		sb.append(getPrettyPrint(event.getCall()));
 		return sb.toString();
 	}
 
-	public String getCsv(long currentSequence, long elapsed, ProceedingJoinPoint call, Object result) {
+	protected String getCsv(MethodEvent event) {
 		// Produce a log message about this method call
 		StringBuffer sb = new StringBuffer();
-		sb.append(currentSequence + ",");
-		sb.append(elapsed + ",");
+		sb.append(Thread.currentThread().getName() + ",");
+		sb.append(event.getTimestamp() + ",");
+		sb.append(event.getSequence() + ",");
+		sb.append(event.getElapsed() + ",");
 		// Show return type, method name, and argument types
-		sb.append('"' + getPrettyPrint(call, result) + '"');
+		sb.append('"' + getPrettyPrint(event.getCall()) + '"');
 		sb.append("\n");
 		return sb.toString();
 	}
@@ -44,7 +98,7 @@ public class PrettyPrint {
 	 * @param padding
 	 * @return
 	 */
-	public String space(long number, int padding) {
+	protected String space(long number, int padding) {
 		String s = number + "";
 		int length = padding - s.length();
 		if (length < 1) {
@@ -106,10 +160,10 @@ public class PrettyPrint {
 	 * @param result
 	 * @return
 	 */
-	protected String getPrettyPrint(ProceedingJoinPoint call, Object result) {
+	protected String getPrettyPrint(ProceedingJoinPoint call) {
 		StringBuffer sb = new StringBuffer();
 		// The return type of the method
-		sb.append(getReturnType(call, result));
+		sb.append(getReturnType(call));
 		sb.append(" ");
 
 		// The class we are calling a method on
@@ -127,8 +181,8 @@ public class PrettyPrint {
 	}
 
 	/**
-	 * Convert the parameter list to String form. If any of the parameters are a
-	 * String return the value of the string
+	 * Convert the parameter list to String form. If any of the parameters are a String return the
+	 * value of the string
 	 * 
 	 * @param args
 	 * @return
@@ -184,5 +238,32 @@ public class PrettyPrint {
 			parameterTypes[i] = args[i].getClass();
 		}
 		return parameterTypes;
+	}
+
+	@Override
+	public void methodInvoked(MethodEvent event) {
+		// Produce a log message about this method call
+		log.info(getLogMessage(event));
+		try {
+			handleCSV(event);
+		} catch (IOException e) {
+			throw new RuntimeException("Error recording CSV information", e);
+		}
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public Boolean getFlushAlways() {
+		return flushAlways;
+	}
+
+	public void setFlushAlways(Boolean flushAlways) {
+		this.flushAlways = flushAlways;
 	}
 }
