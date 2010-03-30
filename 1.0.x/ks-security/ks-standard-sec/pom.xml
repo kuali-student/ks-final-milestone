@@ -15,6 +15,9 @@
 		<version>1.0.0-m5</version>
 	</parent>
 
+    <properties>
+      <ks.java2ws.phase>process-classes</ks.java2ws.phase>
+    </properties>
 	<dependencies>
 
 		<dependency>
@@ -81,7 +84,7 @@
 				<executions>
 					<execution>
 						<id>SamlIssuerService-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.java2ws.phase}</phase>
 						<configuration>
 							<className>org.kuali.student.security.saml.service.SamlIssuerService</className>
 							<serviceName>SamlIssuerService</serviceName>
