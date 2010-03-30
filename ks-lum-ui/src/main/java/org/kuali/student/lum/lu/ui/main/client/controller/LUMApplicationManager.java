@@ -24,17 +24,17 @@ import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 
 public class LUMApplicationManager extends Controller {
 

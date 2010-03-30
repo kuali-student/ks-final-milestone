@@ -14,6 +14,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.RoleUpdateService;
@@ -24,6 +25,7 @@ import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGw
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
 
@@ -201,8 +203,18 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
             throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
-	
-	
+
+	@Override
+    public Boolean isAuthorizedAddReviewer(String docId) {
+		if (docId != null && (!"".equals(docId.trim()))) {
+			AttributeSet permissionDetails = new AttributeSet();
+			AttributeSet roleQuals = new AttributeSet();
+			roleQuals.put(KimAttributes.DOCUMENT_NUMBER,docId);
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(getCurrentUser(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
+		}
+		return Boolean.FALSE;
+    }
 
 	@Override
 	protected String deriveAppIdFromData(Data data) {

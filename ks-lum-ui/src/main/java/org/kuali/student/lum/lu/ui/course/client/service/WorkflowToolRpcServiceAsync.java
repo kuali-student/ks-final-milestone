@@ -12,4 +12,5 @@ public interface WorkflowToolRpcServiceAsync extends BaseDataOrchestrationRpcSer
 	public void addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermission, String actionRequestTypeCode, boolean participationRequired, String respondBy, AsyncCallback<Boolean> callback);
     public void getCollaborators(String docId, AsyncCallback<List<WorkflowPersonInfo>> callback);
     public void getMetadata(String idType, String id, AsyncCallback<Metadata> callback);
+    public void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
 }

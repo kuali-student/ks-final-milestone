@@ -42,7 +42,6 @@ import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.WorkflowRpcServiceAsync;
-import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -52,6 +51,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowToolbar;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
@@ -59,7 +59,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryH
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
-import org.kuali.student.lum.lu.ui.home.client.view.FindPanel;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.core.client.GWT;

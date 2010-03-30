@@ -271,6 +271,7 @@
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<property name="permissionService" ref="permissionServiceClient" />
+		<property name="identityService" ref="identityServiceClient" />
 		<property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>
 	</bean>
 
@@ -284,7 +285,6 @@
 	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
-		<property name="namespace" value="KS-SYS" />
 	</bean>
 
 	<bean id="creditCourseProposalAssembler" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler" parent="baseAssembler">

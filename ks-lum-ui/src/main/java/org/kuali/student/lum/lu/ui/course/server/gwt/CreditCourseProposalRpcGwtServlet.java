@@ -22,7 +22,6 @@ public class CreditCourseProposalRpcGwtServlet extends
 	private static final long serialVersionUID = 1L;
 	final Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
     private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
-    private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
 	private static final String DEFAULT_METADATA_STATE = "draft";
 	private static final String DEFAULT_METADATA_TYPE = null;
 

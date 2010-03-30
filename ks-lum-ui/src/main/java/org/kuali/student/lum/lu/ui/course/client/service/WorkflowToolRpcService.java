@@ -55,4 +55,5 @@ public interface WorkflowToolRpcService extends BaseDataOrchestrationRpcService{
 	public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermission, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException;
     public List<WorkflowPersonInfo> getCollaborators(String docId) throws OperationFailedException;
     public Metadata getMetadata(String idType, String id) throws OperationFailedException;
+    public Boolean isAuthorizedAddReviewer(String docId);
 }

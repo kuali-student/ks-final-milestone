@@ -13,7 +13,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
-import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -25,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
@@ -141,7 +141,6 @@ public class CollaboratorTool extends Composite implements ToolView{
 			}
 		});
 		
-		
 		layout.add(section);
 		layout.add(addButton);
 		addButton.addStyleName("ks-section-widget");
@@ -204,7 +203,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 								//Window.alert("Getting workflowId failed");
 								workflowId = null;
 								documentStatus = null;
-								refreshCollaboratorTable();
+								refreshCollaboratorData();
 								refreshDocumentStatus(onReadyCallback);
 							}
 	
@@ -212,14 +211,14 @@ public class CollaboratorTool extends Composite implements ToolView{
 							public void onSuccess(String result) {
 								//Window.alert("Getting workflowId succeeded");
 								workflowId=result;
-								refreshCollaboratorTable();
-								refreshDocumentStatus(onReadyCallback);
+								refreshCollaboratorData();
+								onReadyCallback.exec(true);
 							}
 
 						});
 					}
 					else{
-						refreshCollaboratorTable();
+						refreshCollaboratorData();
 						onReadyCallback.exec(true);
 					}
 					//get collaborators here
@@ -296,10 +295,13 @@ public class CollaboratorTool extends Composite implements ToolView{
 		actionRequestList.setBlankFirstItem(false);
 	}
 	
+	private boolean isDocumentPreRoute() {
+		return "I".equals(documentStatus) || "S".equals(documentStatus);
+	}
 	
 	private void refreshActionRequestListItems(){
 		actionRequestListItems.clear();
-		if ("S".equals(documentStatus)){
+		if (isDocumentPreRoute()){
             actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
 		} else {
             actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(),ActionRequestType.APPROVE.getActionRequestLabel());
@@ -314,7 +316,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 	
 	private void refreshPermissionList(String selectedAction){
 		permissionListItems.clear();
-		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || "S".equals(documentStatus)){
+		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
             permissionListItems.addItem(PermissionType.EDIT.getCode(),EDIT_COMMENT_VIEW);					
 		}
 
@@ -412,14 +414,14 @@ public class CollaboratorTool extends Composite implements ToolView{
 						delegatesUserIds.add(new KSLabel(recipientPrincipalId+" was added"));
 						delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
 					}*/
-					refreshCollaboratorTable();
+					refreshCollaboratorData();
 				}
 
 	    	});
     	}
     }
     
-	public void refreshCollaboratorTable() {
+	public void refreshCollaboratorData() {
 		if(workflowId!=null){
 			workflowRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
 				public void onFailure(Throwable caught) {
@@ -495,21 +497,31 @@ public class CollaboratorTool extends Composite implements ToolView{
 						table.addRow(rowWidgets);
 						
 						numberCollabs++;
-						
-						
 					}
-					
 				}
 	        });
-    	}
-		
-	}
+		}
+		workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new AsyncCallback<Boolean>(){
 
+			@Override
+            public void onFailure(Throwable caught) {
+				GWT.log("Caught error trying to verify authorization for adding adhoc reviewers", caught);
+				Window.alert("Error checking authorization for adding collaborators/reviewers");
+            }
+
+			@Override
+            public void onSuccess(Boolean result) {
+				GWT.log("Authorization check for adding adhoc reviewers: " + result, null);
+				section.setVisible(result);
+				addButton.setVisible(result);
+            }
+
+		});
+	}
 
 	@Override
 	public KSImage getImage() {
 		return Theme.INSTANCE.getCommonImages().getPersonIcon();
 	}
-	
 
 }

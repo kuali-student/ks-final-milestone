@@ -51,12 +51,12 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 public class CluPostProcessor implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CluPostProcessor.class);
 
-	private static final String KS_SYSTEM_USER_PRINCIPAL_NAME = "KS";
 	private static final String CLU_STATE_ACTIVATED = "activated";
 
 	public ProcessDocReport afterProcess(AfterProcessEvent arg0) throws Exception {
@@ -154,9 +154,9 @@ public class CluPostProcessor implements PostProcessor{
 	}
 
 	private String getPrincipalIdForSystemUser() {
-		KimPrincipalInfo principal = KIMServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(KS_SYSTEM_USER_PRINCIPAL_NAME);
+		KimPrincipalInfo principal = KIMServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 		if (principal == null) {
-			throw new RuntimeException("Cannot find Principal for principal name: " + KS_SYSTEM_USER_PRINCIPAL_NAME);
+			throw new RuntimeException("Cannot find Principal for principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 		}
 		return principal.getPrincipalId();
 	}

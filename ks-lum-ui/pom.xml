@@ -171,6 +171,12 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-rice-lessdep</artifactId>
+			<version>${ks-core.version}</version>
+			<type>pom</type>
+		</dependency>
 
 		<!-- LUM Dependencies -->
 		<dependency>
