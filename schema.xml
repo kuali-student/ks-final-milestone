@@ -589,6 +589,10 @@
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="MEM_QUERY_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_MEMBERSHIP" name="FK33138D4153280327">
+            <reference foreign="ID" local="MEM_QUERY_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK33138D41ABDD272F">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -1057,6 +1061,10 @@
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
+    <table name="KSLU_MEMBERSHIP">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="SEARCH_TYPE" size="255" type="VARCHAR"/>
+    </table>
     <table name="KSLU_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
@@ -1142,6 +1150,14 @@
             <unique-column name="RSRC_TYPE_ID"/>
             <unique-column name="CLU_ID"/>
         </unique>
+    </table>
+    <table name="KSLU_SEARCH_PARAMS">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="KEY" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSLU_SEARCH_PARAM_VALUE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="VALUE" size="255" type="VARCHAR"/>
     </table>
     <table name="KSST_NL_USAGE_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
