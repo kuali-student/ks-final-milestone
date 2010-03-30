@@ -24,16 +24,8 @@
 		<property name="urlMap">
 			<map>
 				<entry
-					key="/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/RequirementsRpcService">
-					<ref bean="requirementsServiceGwtController" />
-				</entry>
-				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/RequirementsRpcService">
 					<ref bean="requirementsServiceGwtController" />
-				</entry>
-				<entry
-					key="/org.kuali.student.lum.lu.ui.course.Course/rpcservices/LuRpcService">
-					<ref bean="LuRpcGwtServletController" />
 				</entry>
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService">
@@ -122,6 +114,10 @@
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluSetManagementRpcService">
 					<ref bean="CluSetManagementRpcGwtServletController" />
+				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LogRpcService">
+					<ref bean="LogRpcGwtServletController" />
 				</entry>
 			</map>
 		</property>
@@ -241,6 +237,12 @@
 	<bean id="CluSetManagementRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="CluSetManagementRpcGwtServlet" />
 		<property name="servletInstance" ref="CluSetManagementRpcGwtServlet" />
+	</bean>
+
+	<bean id="LogRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="LogRpcGwtServlet" />
+		<property name="servletInstance" ref="LogRpcGwtServlet" />
 	</bean>
 
 	<!-- GWT Servlets -->
@@ -446,6 +448,8 @@
 		</property>
 	</bean>
 
+	<bean id="LogRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet"/>
+	
 	<!-- Service clients -->
 	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
