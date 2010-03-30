@@ -102,7 +102,7 @@
         <foreign-key foreignTable="KSLU_RSLT_OPT" name="FKDB407471240CE2BF">
             <reference foreign="ID" local="RES_OPT_ID"/>
         </foreign-key>
-        <unique name="SYS_C0033889">
+        <unique name="SYS_C0039970">
             <unique-column name="RES_OPT_ID"/>
         </unique>
     </table>
@@ -236,7 +236,7 @@
         <foreign-key foreignTable="KSLU_CLU" name="FK182A988B4AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-        <unique name="SYS_C0033917">
+        <unique name="SYS_C0039998">
             <unique-column name="CLU_ID"/>
             <unique-column name="DOC_ID"/>
         </unique>
@@ -359,7 +359,7 @@
         <foreign-key foreignTable="KSLU_CLU_ACCRED" name="FKBF0CE98ADD27220C">
             <reference foreign="ID" local="CLU_ACCRED_ID"/>
         </foreign-key>
-        <unique name="SYS_C0033946">
+        <unique name="SYS_C0040027">
             <unique-column name="CLU_ACCRED_ID"/>
         </unique>
     </table>
@@ -372,7 +372,7 @@
         <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK160DFC24F49AE406">
             <reference foreign="ID" local="ALT_ORG_ID"/>
         </foreign-key>
-        <unique name="SYS_C0033949">
+        <unique name="SYS_C0040030">
             <unique-column name="ALT_ORG_ID"/>
         </unique>
     </table>
@@ -393,7 +393,7 @@
         <foreign-key foreignTable="KSLU_CLU" name="FK5DA939834AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-        <unique name="SYS_C0033954">
+        <unique name="SYS_C0040035">
             <unique-column name="ALT_CLU_ID"/>
         </unique>
     </table>
@@ -406,7 +406,7 @@
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="FK5DADFA7F3AECA7A3">
             <reference foreign="ID" local="CLU_INSTR_ID"/>
         </foreign-key>
-        <unique name="SYS_C0033957">
+        <unique name="SYS_C0040038">
             <unique-column name="CLU_INSTR_ID"/>
         </unique>
     </table>
@@ -516,7 +516,7 @@
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="FKFFFBF08D3AECA7A3">
             <reference foreign="ID" local="CLU_INSTR_ID"/>
         </foreign-key>
-        <unique name="SYS_C0033980">
+        <unique name="SYS_C0040061">
             <unique-column name="CLU_INSTR_ID"/>
         </unique>
     </table>
@@ -590,7 +590,7 @@
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="MEM_QUERY_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_MEMBERSHIP" name="FK33138D4153280327">
+        <foreign-key foreignTable="KSLU_MEMSHIP" name="FK33138D4153280327">
             <reference foreign="ID" local="MEM_QUERY_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK33138D41ABDD272F">
@@ -1061,9 +1061,22 @@
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_MEMBERSHIP">
+    <table name="KSLU_MEMSHIP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="SEARCH_TYPE" size="255" type="VARCHAR"/>
+        <column name="SEARCH_TYPE_KEY" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSLU_MEMSHIP_KSLU_SPARAM">
+        <column name="KSLU_MEMSHIP_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="SEARCHPARAMETERS_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_MEMSHIP" name="FKCD5918EC2CDBC6A2">
+            <reference foreign="ID" local="KSLU_MEMSHIP_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_SPARAM" name="FKCD5918EC45EA2342">
+            <reference foreign="ID" local="SEARCHPARAMETERS_ID"/>
+        </foreign-key>
+        <unique name="SYS_C0040134">
+            <unique-column name="SEARCHPARAMETERS_ID"/>
+        </unique>
     </table>
     <table name="KSLU_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -1146,16 +1159,29 @@
         <foreign-key foreignTable="KSLU_CLU" name="FK68D4D6C04AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-        <unique name="SYS_C0034066">
+        <unique name="SYS_C0040152">
             <unique-column name="RSRC_TYPE_ID"/>
             <unique-column name="CLU_ID"/>
         </unique>
     </table>
-    <table name="KSLU_SEARCH_PARAMS">
+    <table name="KSLU_SPARAM">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="KEY" size="255" type="VARCHAR"/>
+        <column name="SEARCH_PARAM_KEY" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSLU_SEARCH_PARAM_VALUE">
+    <table name="KSLU_SPARAM_KSLU_SPVALUE">
+        <column name="KSLU_SPARAM_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="VALUES_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_SPARAM" name="FK9919D79D45F39A0C">
+            <reference foreign="ID" local="KSLU_SPARAM_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_SPVALUE" name="FK9919D79DD1D54A8F">
+            <reference foreign="ID" local="VALUES_ID"/>
+        </foreign-key>
+        <unique name="SYS_C0040157">
+            <unique-column name="VALUES_ID"/>
+        </unique>
+    </table>
+    <table name="KSLU_SPVALUE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
     </table>
@@ -1207,7 +1233,7 @@
         <foreign-key foreignTable="KSST_OBJECT_TYPE" name="FKC5BC31DBD4B946BC">
             <reference foreign="TYPE_KEY" local="OBJ_TYPE_ID"/>
         </foreign-key>
-        <unique name="SYS_C0034170">
+        <unique name="SYS_C0040268">
             <unique-column name="OBJ_SUB_TYPE_ID"/>
         </unique>
     </table>
@@ -1230,7 +1256,7 @@
         <foreign-key foreignTable="KSST_REQ_COM" name="FK6231120FA2C14D44">
             <reference foreign="ID" local="REQ_COM_ID"/>
         </foreign-key>
-        <unique name="SYS_C0034175">
+        <unique name="SYS_C0040273">
             <unique-column name="REQ_COM_FIELD_ID"/>
         </unique>
     </table>
@@ -1439,7 +1465,7 @@
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKEE1C67E32D8571A5">
             <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
         </foreign-key>
-        <unique name="SYS_C0034221">
+        <unique name="SYS_C0040319">
             <unique-column name="REQ_COM_TYPE_ID"/>
         </unique>
     </table>
@@ -1452,7 +1478,7 @@
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07A861B91E9">
             <reference foreign="TYPE_KEY" local="CHLD_STMT_TYPE_ID"/>
         </foreign-key>
-        <unique name="SYS_C0034224">
+        <unique name="SYS_C0040322">
             <unique-column name="CHLD_STMT_TYPE_ID"/>
         </unique>
     </table>
