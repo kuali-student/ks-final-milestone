@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "KSLU_SEARCH_PARAM_VALUE")
+@Table(name = "KSLU_SPVALUE")
 public class SearchParameterValue {
 	@Id
 	@Column(name = "ID")

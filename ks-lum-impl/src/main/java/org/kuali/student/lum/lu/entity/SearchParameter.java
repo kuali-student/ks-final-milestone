@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "KSLU_SRC_PARAM")
+@Table(name = "KSLU_SPARAM")
 public class SearchParameter {
 
 	@Id
