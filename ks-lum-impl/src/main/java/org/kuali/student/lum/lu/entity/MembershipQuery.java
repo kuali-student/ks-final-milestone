@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "KSLU_MEMBERSHIP")
+@Table(name = "KSLU_MEMSHIP")
 public class MembershipQuery {
 
 	@Id

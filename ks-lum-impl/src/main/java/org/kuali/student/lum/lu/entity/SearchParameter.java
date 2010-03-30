@@ -15,14 +15,14 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "KSLU_SEARCH_PARAMS")
+@Table(name = "KSLU_SRC_PARAM")
 public class SearchParameter {
 
 	@Id
 	@Column(name = "ID")
     private String id;
 
-	@Column(name = "KEY")
+	@Column(name = "SEARCH_PARAM_KEY")
 	private String key;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
