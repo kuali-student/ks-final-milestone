@@ -21,7 +21,7 @@ public class MembershipQuery {
 	@Column(name = "ID")
     private String id;
 
-	@Column(name = "SEARCH_TYPE")
+	@Column(name = "SEARCH_TYPE_KEY")
 	private String searchTypeKey;
 
 	@OneToMany(cascade = CascadeType.ALL)
