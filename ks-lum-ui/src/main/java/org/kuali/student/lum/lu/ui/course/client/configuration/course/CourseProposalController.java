@@ -422,17 +422,17 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
 
     
-    public void doSaveAction(final SaveActionEvent saveActionEvent){       
-    	if (CourseProposalController.this.isStartSectionShowing()){
-    		getStartSection().updateModel();
-    	} else{
-    		getCurrentView().updateModel();
-    	}
-    	
+    public void doSaveAction(final SaveActionEvent saveActionEvent){           	
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-                model.validate(new Callback<List<ValidationResultContainer>>() {
+        		/* These two lines are to update model for current section only */
+            	//getStartSection().updateModel();
+                //getCurrentView().updateModel();
+
+                CourseProposalController.this.updateModel();
+
+            	model.validate(new Callback<List<ValidationResultContainer>>() {
                     @Override
                     public void exec(List<ValidationResultContainer> result) {
                     	
@@ -444,9 +444,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                                 showStartSection(NO_OP_CALLBACK);
                             }
                             else{
-	                    		getStartSection().updateModel();
-	                            getCurrentView().updateModel();
-	                            CourseProposalController.this.updateModel();
 	                            saveProposalClu(saveActionEvent);
                             }
                     	}
