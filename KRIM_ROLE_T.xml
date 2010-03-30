@@ -60,6 +60,10 @@
         KIM_TYP_ID="1" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
         OBJ_ID="61815E6C62D0B647E0404F8189D873B3" ROLE_ID="90"
         ROLE_NM="System User" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="114"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="1234RTMENTAD8INREVIEWER00000ROLE" ROLE_ID="925"
+        ROLE_NM="Organization Role" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="102"
         LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
         OBJ_ID="DEPARTMENTADMINREVIEWER00000ROLE" ROLE_ID="900"
@@ -112,18 +116,6 @@
         LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMENTHDMINREVIEWER00060ROLE" ROLE_ID="914"
         ROLE_NM="FYI Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="113"
-        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMEN294DMI342VIEWER050000RO" ROLE_ID="922"
-        ROLE_NM="Adhoc Approve Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="113"
-        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEP295ENTGDMINREVIEWER00040ROLE" ROLE_ID="923"
-        ROLE_NM="Adhoc Acknowledge Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="113"
-        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMEN832MINREVIEWER00300ROE" ROLE_ID="924"
-        ROLE_NM="Adhoc FYI Request Recipient" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="110"
         LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMENTRDMINREVIEWER00800ROLE" ROLE_ID="915"
@@ -136,24 +128,6 @@
         LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
         OBJ_ID="DEPARTMENTCOMITREVIEWER00000ROLE" ROLE_ID="917"
         ROLE_NM="Department Committee Reviewer" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
-        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMENTWDMINREVIEWER20000ROLE" ROLE_ID="920"
-        ROLE_NM="Global Field Editor" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
-        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMANTWDMINREVIEWER20000ROLE" ROLE_ID="921"
-        ROLE_NM="Title/Description Field Editor" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y"
-        DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
-        KIM_TYP_ID="66" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
-        OBJ_ID="67F145466E8B9160E0404F8189D86771" ROLE_ID="95"
-        ROLE_NM="Document Initiator" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y"
-        DESC_TXT="This role derives its members from users with an Approval action request (that was not generated via the ad-hoc recipients tab) in the route log of a given document."
-        KIM_TYP_ID="42" LAST_UPDT_DT="20090821035258"
-        NMSPC_CD="KR-WKFLW" OBJ_ID="67F145466EB09160E0404F8189D86771"
-        ROLE_ID="97" ROLE_NM="Non-Ad Hoc Approve Request Recipient" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="111"
         LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
         OBJ_ID="DEqARTMENT5DMINREVIEWER10330ROLE" ROLE_ID="918"
@@ -162,6 +136,26 @@
         LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMENT5DMIqREVIEWER13400ROLE" ROLE_ID="919"
         ROLE_NM="Permission: KS-SYS Comment on Document" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTWDMINREVIEWER20000ROLE" ROLE_ID="920"
+        ROLE_NM="Global Field Editor" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMANTWDMINREVIEWER20000ROLE" ROLE_ID="921"
+        ROLE_NM="Title/Description Field Editor" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="113"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMEN294DMI342VIEWER050000RO" ROLE_ID="922"
+        ROLE_NM="Adhoc Approve Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="113"
+        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEP295ENTGDMINREVIEWER00040ROLE" ROLE_ID="923"
+        ROLE_NM="Adhoc Acknowledge Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="113"
+        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMEN832MINREVIEWER00300ROE" ROLE_ID="924"
+        ROLE_NM="Adhoc FYI Request Recipient" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role is for use with adding adhoc permissions for those who can edit a document."
         KIM_TYP_ID="130" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
@@ -172,4 +166,14 @@
         KIM_TYP_ID="130" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
         OBJ_ID="DEPARUUUNTADMINREVIEWER000001235" ROLE_ID="931"
         ROLE_NM="Adhoc Permissions: Comment on Document" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
+        KIM_TYP_ID="66" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
+        OBJ_ID="67F145466E8B9160E0404F8189D86771" ROLE_ID="95"
+        ROLE_NM="Document Initiator" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with an Approval action request (that was not generated via the ad-hoc recipients tab) in the route log of a given document."
+        KIM_TYP_ID="42" LAST_UPDT_DT="20090821035258"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="67F145466EB09160E0404F8189D86771"
+        ROLE_ID="97" ROLE_NM="Non-Ad Hoc Approve Request Recipient" VER_NBR="1"/>
 </dataset>

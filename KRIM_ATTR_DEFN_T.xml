@@ -15,6 +15,18 @@
         NMSPC_CD="KS-LUM" OBJ_ID="COLLEGETYPE00000000000000ATTRDEF" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="114" LBL="Organization" NM="organization"
+        NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE08000005430000ATTRDEF" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="115" LBL="Screen Component" NM="screenComponent"
+        NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE080WF005430000ATTRDEF" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="116" LBL="Section ID" NM="sectionId"
+        NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE080OFU05430000ATTRDEF" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
         KIM_ATTR_DEFN_ID="102" LBL="Department" NM="department"
         NMSPC_CD="KS-LUM" OBJ_ID="DEPARTMTYPE00000000000000ATTRDEF" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
@@ -41,6 +53,10 @@
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="12" NM="campusCode" NMSPC_CD="KR-NS"
         OBJ_ID="5ADF18B6D4937954E0404F8189D85002" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="120" LBL="Student Data Id" NM="dataId"
+        NMSPC_CD="KS-SYS" OBJ_ID="DEPARUUUNTADMINREVIEWER000001236" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="13" NM="documentTypeName" NMSPC_CD="KR-WKFLW"
@@ -125,8 +141,4 @@
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="9" NM="attachmentTypeCode" NMSPC_CD="KR-NS"
         OBJ_ID="5ADF18B6D4907954E0404F8189D85002" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="120" NM="dataId" NMSPC_CD="KS-SYS" LBL="Student Data Id"
-        OBJ_ID="DEPARUUUNTADMINREVIEWER000001236" VER_NBR="1"/>
 </dataset>
