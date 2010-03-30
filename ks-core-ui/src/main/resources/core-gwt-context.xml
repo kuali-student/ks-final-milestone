@@ -92,6 +92,10 @@
 					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/ServerPropertiesRpcService">
 					<ref bean="ServerPropertiesServletController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/LogRpcService">
+					<ref bean="ServerPropertiesServletController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -127,6 +131,12 @@
 		<property name="servletInstance" ref="uploadStatusRpcGwtServlet" />
 	</bean>
 
+	<bean id="LogRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="LogRpcGwtServlet" />
+		<property name="servletInstance" ref="LogRpcGwtServlet" />
+	</bean>
+
 	<bean id="SecurityRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="SecurityGwtServlet" />
 		<property name="servletInstance" ref="SecurityGwtServlet" />
@@ -137,6 +147,7 @@
 		<property name="servletName" value="ServerPropertiesServlet" />
 		<property name="servletInstance" ref="ServerPropertiesServlet" />
 	</bean>
+
 
 	<!-- GWT Servlets -->
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
@@ -156,6 +167,8 @@
 	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
 		<property name="documentService" ref="documentService"/>
 	</bean>
+
+	<bean id="LogRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet"/>
 
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
 		<property name="searchDispatcher" ref="searchDispatcher" />
