@@ -212,7 +212,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 								//Window.alert("Getting workflowId succeeded");
 								workflowId=result;
 								refreshCollaboratorData();
-								onReadyCallback.exec(true);
+								refreshDocumentStatus(onReadyCallback);
 							}
 
 						});
