@@ -49,7 +49,8 @@ public class KSErrorDialog {
     public static void bindUncaughtExceptionHandler() {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
             public void onUncaughtException(Throwable e) {
-                new KSErrorDialog().show(e);
+                GWT.log(e.getMessage(), e);
+            	new KSErrorDialog().show(e);
             }
         });
     }
