@@ -227,6 +227,10 @@
     <KRIM_PERM_T ACTV_IND="Y" NM="Comment on Document" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04RX189D8AA24" PERM_ID="3000"
         PERM_TMPL_ID="61" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Add Adhoc Reviewer" NMSPC_CD="KS-LUM"
+        DESC_TXT="Authorizes users to add adhoc reviewers to documents."
+        OBJ_ID="5B4F0974884BEF33E8884RX189D8AA24" PERM_ID="2911"
+        PERM_TMPL_ID="64" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to view the entire Tax Identification Number on the Person document and inquiry."
         NM="Full Unmask Field" NMSPC_CD="KR-SYS"
@@ -240,16 +244,16 @@
     <KRIM_PERM_T ACTV_IND="Y" NM="Edit Document" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04EX189D8AA24" PERM_ID="3100"
         PERM_TMPL_ID="62" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission Type"
+    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
         NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT24"
         PERM_ID="3105" PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission Type"
+    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
         NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT26"
         PERM_ID="3106" PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission Type"
+    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
         NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT27"
         PERM_ID="3107" PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission Type"
+    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission"
         NMSPC_CD="KS-LUM" OBJ_ID="5B4F0974494BEF3AE0R04EX189D8AT27"
         PERM_ID="3108" PERM_TMPL_ID="120" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
