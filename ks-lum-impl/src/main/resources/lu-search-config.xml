@@ -533,7 +533,7 @@
 		            ORDER BY clu.officialIdentifier.code ASC</value>
 		        </entry>
 		        <entry key="lu.search.generic">
-		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId FROM Clu clu WHERE clu.state NOT IN ('draft')</value>
+		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, org.orgId FROM Clu clu LEFT OUTER JOIN clu.primaryAdminOrg org WHERE clu.state NOT IN ('draft')</value>
 		        </entry>    
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
