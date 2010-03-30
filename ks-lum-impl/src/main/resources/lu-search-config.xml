@@ -386,26 +386,28 @@
 		</dict:fieldDescriptor>
 	</search:queryParam>			
 
-    <search:searchType id="lu.search.luTypes" parent="lu.search.luTypes-parent"/>
-	<search:searchType id="lu.search.luTypes-parent"  abstract="true">
+    <search:searchType id="lu.search.all.lu.Types" parent="lu.search.all.lu.Types-parent"/>
+	<search:searchType id="lu.search.all.lu.Types-parent"  abstract="true">
         <search:name>Search for clu type optionally by code</search:name>
         <search:desc>Returns clu name</search:desc>
         <search:searchResultTypeInfo>
-        	<ref bean="lu.result.luType"/>
+        	<ref bean="lu.result.luTypes"/>
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
 			<ref bean="lu.criteria.luType"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
     
-   	<search:searchResultTypeInfo id="lu.result.luType" parent="lu.result.luType-parent"/>
-	<search:searchResultTypeInfo id="lu.result.luType-parent"  abstract="true">
+   	<search:searchResultTypeInfo id="lu.result.luTypes" parent="lu.result.luTypes-parent"/>
+	<search:searchResultTypeInfo id="lu.result.luTypes-parent"  abstract="true">
 		<search:name>Lu Type </search:name>
 		<search:desc>Lu Type </search:desc>        
      	<search:resultColumns>        
          	<ref bean="lu.resultColumn.luTypeKey" />
          	<ref bean="lu.resultColumn.luTypeName" />
          	<ref bean="lu.resultColumn.luTypeDesc" />
+         	<ref bean="lu.resultColumn.luTypeEffDt" />
+         	<ref bean="lu.resultColumn.luTypeExpDt" />
      	</search:resultColumns>            
 	</search:searchResultTypeInfo>
     
@@ -427,27 +429,39 @@
 		<search:desc>Lu Type Desc</search:desc>
 		<search:dataType>string</search:dataType>
     </search:resultColumn>
+    <search:resultColumn id="lu.resultColumn.luTypeEffDt" parent="lu.resultColumn.luTypeEffDt-parent"/>
+	<search:resultColumn id="lu.resultColumn.luTypeEffDt-parent"  abstract="true">
+		<search:name>Lu Type Effective Date</search:name>
+		<search:desc>Lu Type Effective Date</search:desc>
+		<search:dataType>date</search:dataType>
+    </search:resultColumn>
+    <search:resultColumn id="lu.resultColumn.luTypeExpDt" parent="lu.resultColumn.luTypeExpDt-parent"/>
+	<search:resultColumn id="lu.resultColumn.luTypeExpDt-parent"  abstract="true">
+		<search:name>Lu Type Expiration Date</search:name>
+		<search:desc>Lu Type Expiration Date</search:desc>
+		<search:dataType>date</search:dataType>
+    </search:resultColumn>
         
 	<search:searchCriteriaTypeInfo id="lu.criteria.luType" parent="lu.criteria.luType-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.luType-parent"  abstract="true">
 		<search:name>Lu Type </search:name>
 		<search:desc>Lu Type</search:desc>
 		<search:queryParams>
-			<ref bean="lu.queryParam.luType" />
+			<ref bean="lu.queryParam.luOptionalLuType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-		<search:queryParam id="lu.queryParam.luType" parent="lu.queryParam.luType-parent"/>
-	<search:queryParam id="lu.queryParam.luType-parent"
+	<search:queryParam id="lu.queryParam.luOptionalLuType" parent="lu.queryParam.luOptionalLuType-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalLuType-parent"
 		optional="true" abstract="true">
 		<dict:fieldDescriptor>
-			<dict:name>Type</dict:name>
-			<dict:desc>Lu Type</dict:desc>
+			<dict:name>Lu Type Key</dict:name>
+			<dict:desc>Lu Type Key</dict:desc>
 			<dict:dataType>string</dict:dataType>
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
 	</search:queryParam>
-
+	
 	<search:crossSearchType id="lu.search.cluGenericCrossSearch">
         <search:name>Course or Proposal Search</search:name>
         <search:desc>Search for course or proposal using department</search:desc>
@@ -564,11 +578,11 @@
 				<entry key="lu.search.allLoQuickView">
 					<value>SELECT rel.clu.id, rel.clu.officialIdentifier.code, rel.loId FROM CluLoRelation rel</value>
 				</entry>
-				<entry key="lu.search.luTypes">
-					<value>SELECT lut.id, lut.name, lut.descr FROM LuType lut</value>
+				<entry key="lu.search.all.lu.Types">
+					<value>SELECT lut.id, lut.name, lut.descr, lut.effectiveDate, lut.expirationDate FROM LuType lut</value>
 				</entry>
-				<entry key="lu.queryParam.luType">
-					<value>lut.id = :lu_queryParam_luType</value>
+				<entry key="lu.queryParam.luOptionalLuType">
+					<value>lut.id = :lu_queryParam_luOptionalLuType</value>
 				</entry>
             </map>
 		</property>

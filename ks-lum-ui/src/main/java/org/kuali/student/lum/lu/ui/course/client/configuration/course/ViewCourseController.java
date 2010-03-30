@@ -182,7 +182,7 @@ public class ViewCourseController extends TabbedSectionLayout {
         }
     }
     private void init(DataModelDefinition modelDefinition){
-        ViewCourseConfigurer cfg = new ViewCourseConfigurer();
+        ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
         super.setUpdateableSection(false);
 
         cfg.setModelDefinition(modelDefinition);

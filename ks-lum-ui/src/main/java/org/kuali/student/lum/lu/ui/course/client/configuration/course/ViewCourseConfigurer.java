@@ -154,7 +154,7 @@ LearningObjectiveConstants
         addField(section, EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
         addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
 
-        addField(section, getTranslationKey(ACADEMIC_SUBJECT_ORGS), getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList());
+        addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList(CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + ACADEMIC_SUBJECT_ORGS + PATH_SEPARATOR));
 
         addField(section, COURSE_SPECIFIC_LOS,  getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY),  new LearningObjectiveList(COURSE_SPECIFIC_LOS));
         
@@ -273,16 +273,21 @@ LearningObjectiveConstants
         }
     }
 
-    private class AcademicSubjectOrgList extends KSLabelList{
-
-        public AcademicSubjectOrgList(){
-            SimpleListItems list = new SimpleListItems();
-
-            super.setListItems(list);
+    private class AcademicSubjectOrgList extends DisplayMultiplicityComposite {
+		private final String parentPath;
+        public AcademicSubjectOrgList(String parentPath){
+            this.parentPath = parentPath;
         }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, ID_TRANSLATION, null, new KSLabel(), path);
 
+            return ns;
+        }
     }
-
+    
     private class StatementList extends KSLabelList {
         
     	public StatementList(){

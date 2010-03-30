@@ -1042,69 +1042,7 @@
 			</list>
 		</property>
 		<property name="initialLookup">
-			<bean parent="lookup">
-				<property name="searchTypeId" value="lu.search.all.lu.types" />
-				<property name="name" value="All activity tlypes" />
-				<property name="desc" value="All activity types" />
-				<property name="params">
-					<list>
-						<bean parent="param">
-							<property name="key" value="lu.queryParam.luOptionalType" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
-							<property name="name" value="Type" />
-							<property name="desc" value="Lu type (course, program etc.)" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-					</list>
-				</property>
-				<property name="results">
-					<list>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc" value="The internal key to the org type" />
-							<property name="hidden" value="true" />
-							<property name="key" value="lu.resultColumn.key" />
-							<property name="name" value="Key of the type" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc" value="The name of the type" />
-							<property name="hidden" value="false" />
-							<property name="key" value="lu.resultColumn.name" />
-							<property name="name" value="Name of type" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="STRING" />
-							<property name="desc" value="The description of the type" />
-							<property name="hidden" value="false" />
-							<property name="key" value="lu.resultColumn.desc" />
-							<property name="name" value="Description of type" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="TRUNCATED_DATE" />
-							<property name="desc" value="The date the ltype became effective" />
-							<property name="hidden" value="false" />
-							<property name="key" value="lu.resultColumn.effective_date" />
-							<property name="name" value="Effective date" />
-						</bean>
-						<bean parent="result">
-							<property name="dataType" value="TRUNCATED_DATE" />
-							<property name="desc" value="The date the type became non-effective" />
-							<property name="hidden" value="false" />
-							<property name="key" value="lu.resultColumn.expiration_date" />
-							<property name="name" value="Expiration date" />
-						</bean>
-					</list>
-				</property>
-				<property name="resultReturnKey" value="lu.resultColumn.key" />
-				<property name="resultDisplayKey" value="lu.resultColumn.name" />
-				<property name="resultSortKey" value="lu.resultColumn.name" />
-				<property name="usage" value="DEFAULT" />
-				<property name="id" value="kuali.lu.lookup.activity.types" />
-			</bean>
+				<ref bean="kuali.lookup.lutypes" />
 		</property>
 		<property name="additionalLookups">
 			<list />
@@ -5925,11 +5863,14 @@
 
  	<bean id="kuali.lookup.lutypes" parent="lookup">
 		<property name="id" value="kuali.lookup.lutypes" />
-		<property name="searchTypeId" value="lu.search.luTypes" />
+		<property name="searchTypeId" value="lu.search.all.lu.Types" />
 		<property name="name" value="All Lu Types" />
 		<property name="desc" value="Returns the list of all Lu Types" />
 		<property name="widget" value="DROP_DOWN" />
-		<property name="searchParamIdKey" value="lu.queryParam.luType" />	
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalLuType" />
+        <property name="resultReturnKey" value="lu.resultColumn.luTypeKey" />
+        <property name="resultDisplayKey" value="lu.resultColumn.luTypeName" />
+        <property name="resultSortKey" value="lu.resultColumn.luTypeName" />
 		<property name="results">
 			<list>
 				<bean parent="result">
@@ -5953,12 +5894,23 @@
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
 				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luTypeEffDt" />
+					<property name="name" value="Lu Type Effective Date" />
+					<property name="desc" value="Lu Type Effective Date" />
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luTypeExpDt" />
+					<property name="name" value="Lu Type Expiry Date" />
+					<property name="desc" value="Lu Type Expiry Date" />
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="hidden" value="false" />
+				</bean>
 
 			</list>
 		</property>
-		<property name="resultReturnKey" value="lu.resultColumn.luTypeName" />
-		<property name="resultDisplayKey" value="lu.resultColumn.luTypeName" />
-		<property name="resultSortKey" value="lu.resultColumn.luTypeName" />
 	</bean>
 
 </beans>
