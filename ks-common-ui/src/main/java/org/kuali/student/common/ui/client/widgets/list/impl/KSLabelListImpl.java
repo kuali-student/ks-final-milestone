@@ -49,12 +49,14 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
 
     
 	private FlexTable labels = new FlexTable();
-    private List<String> selectedItems = new ArrayList<String>();
 
     private int maxCols = 1; //default max columns
     private boolean enabled = true;
 
     public KSLabelListImpl() {
+    	
+    	super.setListItems(new SimpleListItems());
+    	
         initWidget(labels);
     }
 
@@ -62,14 +64,14 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
     public void deSelectItem(String id) {
-       this.selectedItems.remove(id);
+       super.getListItems().getItemIds().remove(id);
     }
 
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
      */
     public List<String> getSelectedItems() {
-        return selectedItems;
+        return super.getListItems().getItemIds();
     }
 
 
@@ -78,8 +80,9 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
     public void selectItem(String id) {        
-        if (!selectedItems.contains(id)){
-             this.selectedItems.add(id);
+        if (!super.getListItems().getItemIds().contains(id)){
+        	SimpleListItems list = (SimpleListItems)super.getListItems();
+        	list.addItem(id, id);
         }
         
         //FIXME: Is there a better way to display selected item here without redrawing
@@ -88,15 +91,15 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     
     public void redraw(){
         labels.clear();
-        int itemCount = super.getListItems().getItemCount();
+        int itemCount = getListItems().getItemIds().size();
         int currCount = 0;
         int row = 0;
         int col = 0;
-
+       
         if (maxCols <= 2){
             //Row flow - increment row faster than column
             int maxRows = (itemCount / maxCols) + (itemCount % 2);
-            for (String id:selectedItems){
+            for (String id:getListItems().getItemIds()){
                 currCount++;
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
@@ -107,7 +110,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
             }
         } else {
             //Column flow - increment column faster than row
-            for (String id:selectedItems){
+            for (String id:getListItems().getItemIds()){
                 currCount++;
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
@@ -192,7 +195,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     }
     @Override
     public void clear(){
-        selectedItems.clear();
+    	getListItems().getItemIds().clear();
         redraw();
     }
 
