@@ -173,13 +173,12 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public boolean isCriteriaSet() {
-//		return criteriaSet;
-		return (membershipQuery != null);
+		return criteriaSet;
 	}
 
-//	public void setCriteriaSet(boolean criteriaSet) {
-//		this.criteriaSet = criteriaSet;
-//	}
+	public void setCriteriaSet(boolean criteriaSet) {
+		this.criteriaSet = criteriaSet;
+	}
 
 	public String getType() {
 		return type;
