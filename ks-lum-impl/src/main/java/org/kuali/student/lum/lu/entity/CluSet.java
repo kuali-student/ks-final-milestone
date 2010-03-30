@@ -90,7 +90,7 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@Column(name = "ADMIN_ORG_ID")
 	private String adminOrg;
 	
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="MEM_QUERY_ID")
 	private MembershipQuery membershipQuery;
 	
@@ -173,12 +173,13 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public boolean isCriteriaSet() {
-		return criteriaSet;
+//		return criteriaSet;
+		return (membershipQuery != null);
 	}
 
-	public void setCriteriaSet(boolean criteriaSet) {
-		this.criteriaSet = criteriaSet;
-	}
+//	public void setCriteriaSet(boolean criteriaSet) {
+//		this.criteriaSet = criteriaSet;
+//	}
 
 	public String getType() {
 		return type;
