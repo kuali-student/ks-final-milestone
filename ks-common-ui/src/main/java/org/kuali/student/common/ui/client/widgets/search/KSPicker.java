@@ -322,7 +322,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 ((KSSuggestBox) basicWidget).setValue(null, false);
             }
 		}
-		public void setValue(String id, String translation) {
+		public void setValue(final String id, String translation) {
 			if(basicWidget instanceof KSTextBox) {
 				((KSTextBox)basicWidget).setText(translation);
 			} else if(basicWidget instanceof KSSuggestBox) {
@@ -330,7 +330,30 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 			} else if(basicWidget instanceof KSLabel) {
 			    ((KSLabel)basicWidget).setText(translation);
 			} else if(basicWidget instanceof KSSelectItemWidgetAbstract) {
-				((KSSelectItemWidgetAbstract)basicWidget).selectItem(id);
+			    ListItems searchResults = ((KSSelectItemWidgetAbstract)basicWidget).getListItems();
+			    if (searchResults != null) {
+			        ((KSSelectItemWidgetAbstract)basicWidget).selectItem(id);
+			    }
+			    else {             
+                    ((KSSelectItemWidgetAbstract)basicWidget).addWidgetReadyCallback(new Callback<Widget>() {
+                        @Override
+                        public void exec(Widget widget) {
+                            final ListItems searchResults = ((KSSelectItemWidgetAbstract)widget).getListItems();
+                
+                            if(id != null){
+                                for (String itemId : searchResults.getItemIds()) { 
+                                    if (itemId.equals(id.trim())) {
+                                        ((KSSelectItemWidgetAbstract)basicWidget).selectItem(itemId);
+                                        break;
+                                    }
+                                }
+                            } else {
+                                ((KSSelectItemWidgetAbstract)basicWidget).clear();
+                            }                                
+                        }
+                    });
+                } 
+				
             } else {
 				((KSSuggestBox) basicWidget).setValue("", true);
 			}
