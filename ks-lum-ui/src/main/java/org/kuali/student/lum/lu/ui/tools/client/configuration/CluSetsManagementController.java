@@ -57,8 +57,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class CluSetsManagementController extends TabbedSectionLayout { //PagedSectionLayout {  FIXME should be paged layout? 
 	
-    private final DataModel cluSetModel = new DataModel();    
-    private WorkQueue modelRequestQueue;
+    private final DataModel createCluSetModel = new DataModel();    
+    private final DataModel editCluSetModel = new DataModel();
+    private WorkQueue createCluSetModelRequestQueue;
+    private WorkQueue editCluSetModelRequestQueue;
+    private WorkQueue searchCluSetModelRequestQueue;
+    private CluSetsConfigurer cfg = new CluSetsConfigurer();
 
     private boolean initialized = false;
 	CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
@@ -72,29 +76,84 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     }
     
     private void initialize() {
-        super.setDefaultModelId(CluSetsConfigurer.CLUSET_MGT_MODEL);
-        super.registerModel(CluSetsConfigurer.CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
+        super.setDefaultModelId(CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL);
+        super.registerModel(CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-                if (modelRequestQueue == null){
-                    modelRequestQueue = new WorkQueue();
+                if (createCluSetModelRequestQueue == null){
+                    createCluSetModelRequestQueue = new WorkQueue();
                 }
 
                 WorkItem workItem = new WorkItem(){
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
-                        if (cluSetModel.getRoot() == null || cluSetModel.getRoot().size() == 0){
-                            cluSetModel.setRoot(new Data());
+                        if (createCluSetModel.getRoot() == null || createCluSetModel.getRoot().size() == 0){
+                            createCluSetModel.setRoot(new Data());
                         }
-                        callback.onModelReady(cluSetModel);
+                        callback.onModelReady(createCluSetModel);
                         workCompleteCallback.exec(true);
                         
                     }               
                 };
-                modelRequestQueue.submit(workItem);                
+                createCluSetModelRequestQueue.submit(workItem);                
             }
             
+        });
+        
+        super.registerModel(CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
+            
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+                if (editCluSetModelRequestQueue == null){
+                    editCluSetModelRequestQueue = new WorkQueue();
+                }
+
+                WorkItem workItem = new WorkItem(){
+                    @Override
+                    public void exec(Callback<Boolean> workCompleteCallback) {
+                        if (editCluSetModel.getRoot() == null || editCluSetModel.getRoot().size() == 0){
+                            editCluSetModel.setRoot(new Data());
+                        }
+                        callback.onModelReady(editCluSetModel);
+                        workCompleteCallback.exec(true);
+                        
+                    }               
+                };
+                editCluSetModelRequestQueue.submit(workItem);                
+            }
+
+        });
+        
+        super.registerModel(CluSetsConfigurer.SEARCH_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+                if (searchCluSetModelRequestQueue == null){
+                    searchCluSetModelRequestQueue = new WorkQueue();
+                }
+
+                WorkItem workItem = new WorkItem(){
+                    @Override
+                    public void exec(final Callback<Boolean> workCompleteCallback) {
+                        if (cfg.getSearchCluSetId() != null) {
+                            cluSetManagementRpcServiceAsync.getData(cfg.getSearchCluSetId(), new AsyncCallback<Data>() {
+                                @Override
+                                public void onFailure(Throwable caught) {
+                                    Window.alert("Failed to retrieve cluset with id" + cfg.getSearchCluSetId());
+                                    workCompleteCallback.exec(false);
+                                }
+                                @Override
+                                public void onSuccess(Data result) {
+                                    editCluSetModel.setRoot(result);
+                                    callback.onModelReady(editCluSetModel);
+                                    workCompleteCallback.exec(true);
+                                }
+                            });
+                        }
+                    }               
+                };
+                searchCluSetModelRequestQueue.submit(workItem);                
+            }
         });
         
         super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
@@ -157,7 +216,8 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 	                    @Override
 	                    public void onSuccess(Metadata result) {
 	                    	DataModelDefinition def = new DataModelDefinition(result);
-	                        cluSetModel.setDefinition(def);
+	                        createCluSetModel.setDefinition(def);
+	                        editCluSetModel.setDefinition(def);
 	                        init(def);
 	                        initialized = true;
 	                        onReadyCallback.exec(true);
@@ -169,7 +229,6 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     
     private void init(DataModelDefinition modelDefinition){
         
-    	CluSetsConfigurer cfg = new CluSetsConfigurer();
         cfg.setModelDefinition(modelDefinition);
         cfg.configureCluSetManager(this);           
         
@@ -201,46 +260,54 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     }
     
     public void doSaveAction(final SaveActionEvent saveActionEvent){
-        getCurrentView().updateModel();
-        requestModel(new ModelRequestCallback<DataModel>() {
-            @Override
-            public void onModelReady(DataModel model) {
-                model.validate(new Callback<List<ValidationResultContainer>>() {
-                    @Override
-                    public void exec(List<ValidationResultContainer> result) {
-                        
-                        boolean save = true;
-                        View v = getCurrentView();
-                        if(v instanceof Section){
-                            ((Section) v).setFieldHasHadFocusFlags(true);
-                            ErrorLevel status = ((Section) v).processValidationResults(result);
-                            if(status == ErrorLevel.ERROR){
-                                save = false;
-                            }
-                        }
-                        
-                        if(save){
-                            getCurrentView().updateModel();
-                            CluSetsManagementController.this.updateModel();
-                            saveCluSet(saveActionEvent);
-                        }
-                        else{
-                            Window.alert("Save failed.  Please check fields for errors.");
-                        }
-                        
-                    }
-                });
-            }
+        Enum clusetSectionEnum = getCurrentViewEnum();
+        final DataModel modelToBeSaved;
+        final boolean clearData;
 
+        getCurrentView().updateModel();
+        
+        if (clusetSectionEnum == CluSetsConfigurer.CluSetSections.CREATE_CLU_SET) {
+            modelToBeSaved = createCluSetModel;
+            // save the model and starts with an empty data once model is saved
+            clearData = true;
+        } else if (clusetSectionEnum == CluSetsConfigurer.CluSetSections.EDIT_CLU_SET) {
+            modelToBeSaved = editCluSetModel;
+            // save the model and populates the model with data saved
+            clearData = false;
+        } else {
+            modelToBeSaved = null;
+            clearData = false;
+        }
+
+        modelToBeSaved.validate(new Callback<List<ValidationResultContainer>>() {
             @Override
-            public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve model for validation and save", cause);
+            public void exec(List<ValidationResultContainer> result) {
+
+                boolean save = true;
+                View v = getCurrentView();
+                if(v instanceof Section){
+                    ((Section) v).setFieldHasHadFocusFlags(true);
+                    ErrorLevel status = ((Section) v).processValidationResults(result);
+                    if(status == ErrorLevel.ERROR){
+                        save = false;
+                    }
+                }
+
+                if(save){
+                    getCurrentView().updateModel();
+                    CluSetsManagementController.this.updateModel();
+                    saveModel(modelToBeSaved, saveActionEvent, clearData);
+                }
+                else{
+                    Window.alert("Save failed.  Please check fields for errors.");
+                }
+
             }
-            
         });
     }
     
-    private void saveCluSet(final SaveActionEvent saveActionEvent) {
+    private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent,
+            final boolean clearData) {
         final KSLightBox saveWindow = new KSLightBox();
         final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
         final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
@@ -276,8 +343,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
             
         };
         try {
-            // TODO make an asynchronous call to save data
-            cluSetManagementRpcServiceAsync.saveData(cluSetModel.getRoot(), new AsyncCallback<DataSaveResult>() {
+            cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new AsyncCallback<DataSaveResult>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     saveFailedCallback.exec(caught); 
@@ -285,22 +351,28 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 
                 @Override
                 public void onSuccess(DataSaveResult result) {
-                  // FIXME needs to check validation results and display messages if validation failed
-                  cluSetModel.setRoot(result.getValue());
-                  View currentView = getCurrentView(); 
-                  if (currentView instanceof VerticalSectionView){
-                      ((VerticalSectionView) currentView).redraw();
-                  }
-                  if (saveActionEvent.isAcknowledgeRequired()){
-                      saveMessage.setText("Save Successful");
-                      buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-                  } else {
-                      saveWindow.hide();
-                      saveActionEvent.doActionComplete();                        
-                  } 
+                    // FIXME needs to check validation results and display messages if validation failed
+                    if (clearData) {
+                        dataModel.setRoot(new Data());
+                    } else {
+                        dataModel.setRoot(result.getValue());
+                    }
+                    View currentView = getCurrentView(); 
+                    if (currentView instanceof VerticalSectionView){
+                        ((VerticalSectionView) currentView).redraw();
+                    }
+                    if (saveActionEvent.isAcknowledgeRequired()){
+                        saveMessage.setText("Save Successful");
+                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                    } else {
+                        saveWindow.hide();
+                        if (dataModel == createCluSetModel) {
+                            saveActionEvent.doActionComplete();  
+                        }
+                    } 
                 }
             });
-            
+
             // test code remove when done testing
             if (saveActionEvent.isAcknowledgeRequired()){
                 saveMessage.setText("Save Successful");
@@ -308,33 +380,10 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
             } else {
                 saveWindow.hide();
                 saveActionEvent.doActionComplete();                        
-            } 
-//            cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>(){
-//                public void onFailure(Throwable caught) {
-//                   saveFailedCallback.exec(caught);                 
-//                }
-//
-//                public void onSuccess(DataSaveResult result) {
-//                    // FIXME needs to check validation results and display messages if validation failed
-//                    cluProposalModel.setRoot(result.getValue());
-//                    View currentView = getCurrentView(); 
-//                    if (currentView instanceof VerticalSectionView){
-//                        ((VerticalSectionView) currentView).redraw();
-//                    }
-//                    if (saveActionEvent.isAcknowledgeRequired()){
-//                        saveMessage.setText("Save Successful");
-//                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-//                    } else {
-//                        saveWindow.hide();
-//                        saveActionEvent.doActionComplete();                        
-//                    } 
-//                    workflowToolbar.refresh();
-//                }
-//            });
+            }
         } catch (Exception e) {
             saveFailedCallback.exec(e);
         }
-
     }
 
 	@Override

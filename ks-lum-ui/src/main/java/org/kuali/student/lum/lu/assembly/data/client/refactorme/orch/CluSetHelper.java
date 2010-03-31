@@ -16,7 +16,6 @@ public class CluSetHelper {
     {
         ID ("id"),
         ORGANIZATION ("organization"),
-        TITLE ("title"),
         DESCRIPTION ("description"),
         EFFECTIVE_DATE ("effectiveDate"),
         EXPIRATION_DATE ("expirationDate"),
@@ -67,13 +66,6 @@ public class CluSetHelper {
     }
     public String getOrganization() {
         return (String) data.get(Properties.ORGANIZATION.getKey());
-    }
-
-    public void setTitle(String value) {
-        data.set(Properties.TITLE.getKey(), value);
-    }
-    public String getTitle() {
-        return (String) data.get(Properties.TITLE.getKey());
     }
 
     public void setDescription(String value) {

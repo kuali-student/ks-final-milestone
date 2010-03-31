@@ -5273,7 +5273,7 @@
 			<list>
 			    <ref bean="cluset.id"/>
 				<ref bean="cluset.organization" />
-				<ref bean="cluset.title" />
+				<ref bean="cluset.name" />
 				<ref bean="cluset.description" />
 				<ref bean="cluset.effectiveDate" />
 				<ref bean="cluset.expirationDate" />
@@ -5309,8 +5309,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="cluset.title" parent="dataFieldDescriptor">
-		<property name="name" value="title" />
+	<bean id="cluset.name" parent="dataFieldDescriptor">
+		<property name="name" value="name" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
@@ -5713,13 +5713,13 @@
 						</bean>
 					</list>
 				</property>
-				<property name="resultReturnKey" value="cluset.resultColumn.clusetId" />
+				<property name="resultReturnKey" value="cluset.resultColumn.cluSetId" />
 				<property name="resultDisplayKey" value="cluset.resultColumn.name" />
 				<property name="resultSortKey" value="" />
 				<property name="results">
 					<list>
 						<bean parent="result">
-							<property name="key" value="cluset.resultColumn.clusetId" />
+							<property name="key" value="cluset.resultColumn.cluSetId" />
 							<property name="name" value="CLU Set Identifier" />
 							<property name="desc" value="Identifier for the Clu Set" />
 							<property name="dataType" value="STRING" />

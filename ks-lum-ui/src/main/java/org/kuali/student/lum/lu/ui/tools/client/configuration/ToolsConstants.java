@@ -49,7 +49,7 @@ public class ToolsConstants {
     public static final String SEARCH_COURSE = "search/findCourse";
     public static final String CLU_SET_ID = "cluset/id";
     public static final String CLU_SET_ORGANIZATION_FIELD = "cluset/organization";
-    public static final String CLU_SET_TITLE_FIELD = "cluset/title";
+    public static final String CLU_SET_NAME_FIELD = "cluset/name";
     public static final String CLU_SET_DESCRIPTION_FIELD = "cluset/description";
     public static final String CLU_SET_EFF_DATE_FIELD = "cluset/effectiveDate";
     public static final String CLU_SET_EXP_DATE_FIELD = "cluset/expirationDate";

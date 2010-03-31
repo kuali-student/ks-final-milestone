@@ -38,30 +38,31 @@ public class CluSetContentEditorSection extends BaseSection {
     private VerticalPanel layout = new VerticalPanel();
     private CluSetEditOptionList cluSetEditOptions;
     private AddCluLightBox addApprovedCourseLightBox;
+    private String modelId;
     
     
-    
-    public CluSetContentEditorSection() {
-        init();
+    public CluSetContentEditorSection(String modelId) {
+        init(modelId);
     }
     
-    public CluSetContentEditorSection(SectionTitle title) {
+    public CluSetContentEditorSection(SectionTitle title, String modelId) {
         this.sectionTitle = title;
         this.instructions.setVisible(false);
         layout.add(this.instructions);
         layout.add(this.message);
-        init();
+        init(modelId);
     }
     
-    public CluSetContentEditorSection(SectionTitle title, String instructions){
+    public CluSetContentEditorSection(SectionTitle title, String instructions, String modelId){
         this.sectionTitle = title;
         this.setInstructions(instructions);
         layout.add(this.instructions);
         layout.add(this.message);
-        init();
+        init(modelId);
     }
     
-    private void init() {
+    private void init(String modelId) {
+        this.modelId = modelId;
         layout.add(this.sectionTitle);
         this.initWidget(layout);
         layout.setStyleName("ks-form-module");
@@ -153,7 +154,7 @@ public class CluSetContentEditorSection extends BaseSection {
     private void getModel(final Callback<DataModel> callback) {
         LayoutController controller = LayoutController.findParentLayout(this);
         if (controller != null) {
-            controller.requestModel(new ModelRequestCallback<DataModel>() {
+            controller.requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
                 @Override
                 public void onModelReady(DataModel model) {
@@ -174,6 +175,8 @@ public class CluSetContentEditorSection extends BaseSection {
         getModel(new Callback<DataModel>() {
             @Override
             public void exec(final DataModel dataModel) {
+                updateView(dataModel);
+//                cluSetEditOptions.clear();
                 layout.clear();
                 layout.add(sectionTitle);
                 layout.add(instructions);
