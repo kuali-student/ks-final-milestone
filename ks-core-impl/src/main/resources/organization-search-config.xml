@@ -70,6 +70,11 @@
 		optional="true" abstract="true">
 		<ref bean="field.orgInfo.id.fd" />
 	</search:queryParam>
+	<search:queryParam id="org.queryParam.orgPositionId" parent="org.queryParam.orgPositionId-parent"/>
+	<search:queryParam id="org.queryParam.orgPositionId-parent" 
+		optional="true" abstract="true">
+		<ref bean="field.orgInfo.id.fd" />
+	</search:queryParam>
 	<search:queryParam id="org.queryParam.orgOptionalShortName" parent="org.queryParam.orgOptionalShortName-parent"/>
 	<search:queryParam id="org.queryParam.orgOptionalShortName-parent" 
 		optional="true" abstract="true">
@@ -136,6 +141,42 @@
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
 			<ref bean="org.criteria.orgHierarchyIds" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="org.search.orgTypes" parent="org.search.orgTypes-parent"/>
+	<search:searchType id="org.search.orgTypes-parent"  abstract="true">
+		<search:name>All org Types</search:name>
+		<search:desc>Returns all org types.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgType" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="org.search.orgPeronRelationTypes" parent="org.search.orgPeronRelationTypes-parent"/>
+	<search:searchType id="org.search.orgPeronRelationTypes-parent"  abstract="true">
+		<search:name>All org Types</search:name>
+		<search:desc>Returns all org types.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgPersonRelationType" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgPersonRelationType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="org.search.findOrgPositionRestrictions" parent="org.search.findOrgPositionRestrictions-parent"/>
+	<search:searchType id="org.search.findOrgPositionRestrictions-parent"  abstract="true">
+		<search:name>All org Hierarchies</search:name>
+		<search:desc>Returns all org hierarchy ids.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.findOrgPositionRestrictions" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.findOrgPositionRestrictions" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
@@ -268,6 +309,26 @@
 			<ref bean="org.resultColumn.orgHierarchyName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.orgType" parent="org.result.orgType-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgType-parent"  abstract="true">
+		<search:name>Organization Type</search:name>
+		<search:desc>Organization Type</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgType" />
+			<ref bean="org.resultColumn.orgTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.orgPersonRelationType" parent="org.result.orgPersonRelationType-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgPersonRelationType-parent"  abstract="true">
+		<search:name>Organization Person RelationType</search:name>
+		<search:desc>Organization Person RelationType</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgPersonRelationType" />
+			<ref bean="org.resultColumn.orgPersonRelationTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
 
 	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsIn" parent="org.result.hierarchiesOrgIsIn-parent"/>
 	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsIn-parent"  abstract="true">
@@ -275,6 +336,16 @@
 		<search:desc>IDs of hierarchies that a specified org is a member of</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgHierarchyId" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.findOrgPositionRestrictions" parent="org.result.findOrgPositionRestrictions-parent"/>
+	<search:searchResultTypeInfo id="org.result.findOrgPositionRestrictions-parent"  abstract="true">
+		<search:name>Organization Position Restriction</search:name>
+		<search:desc>Organization Position Restriction</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgPositionRestrictionType" />
+			<ref bean="org.resultColumn.orgPositionRestrictionTypeName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -354,7 +425,20 @@
 		<search:desc>Organization Type</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
-
+	
+	<search:resultColumn id="org.resultColumn.orgTypeName" parent="org.resultColumn.orgTypeName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgTypeName-parent"  abstract="true">
+		<search:name>Organization Type Name</search:name>
+		<search:desc>Organization Type Name</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	
+	<search:resultColumn id="org.resultColumn.orgPersonRelationType" parent="org.resultColumn.orgType-parent"/>
+	<search:resultColumn id="org.resultColumn.orgPersonRelationTypeName" parent="org.resultColumn.orgTypeName-parent"/>
+	
+	<search:resultColumn id="org.resultColumn.orgPositionRestrictionType" parent="org.resultColumn.orgType-parent"/>
+	<search:resultColumn id="org.resultColumn.orgPositionRestrictionTypeName" parent="org.resultColumn.orgTypeName-parent"/>
 	
 	<dict:fieldDescriptor id="parentFieldDescriptor" parent="parentFieldDescriptor-parent"/>
 	<dict:fieldDescriptor id="parentFieldDescriptor-parent"  abstract="true">
@@ -413,10 +497,38 @@
 		<ref bean="field.orgInfo.id.fd"/>
 	</search:queryParam>
 
+	<search:searchCriteriaTypeInfo id="org.criteria.findOrgPositionRestrictions" parent="org.criteria.findOrgPositionRestrictions-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.findOrgPositionRestrictions-parent"  abstract="true">
+		<search:name>findOrgPositionRestrictionsCriteria</search:name>
+		<search:desc>Org ID on which to search for Positions</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	
 	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds" parent="org.criteria.orgHierarchyIds-parent"/>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds-parent"  abstract="true">
 		<search:name>OrgHierarchyIdsCriteria</search:name>
 		<search:desc>OrgHierarchyIdsCriteria Description</search:desc>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgType" parent="org.criteria.orgType-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgType-parent"  abstract="true">
+		<search:name>OrgTypeCriteria</search:name>
+		<search:desc>OrgTypeCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgPersonRelationType" parent="org.criteria.orgPersonRelationType-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgPersonRelationType-parent"  abstract="true">
+		<search:name>OrgPersonRelationTypeCriteria</search:name>
+		<search:desc>OrgPersonRelationTypeCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalId" />
+		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
 	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsIn" parent="org.criteria.hierarchiesOrgIsIn-parent"/>
@@ -524,6 +636,15 @@
 				<entry key="org.search.orgHierarchyIds">
 					<value>SELECT oh.id, oh.name FROM OrgHierarchy oh</value>
 				</entry>
+				<entry key="org.search.orgTypes">
+					<value>SELECT org.id, org.name FROM OrgType org</value>
+				</entry>
+				<entry key="org.search.orgPeronRelationTypes">
+					<value>SELECT org.id, org.name FROM OrgPersonRelationType org</value>
+				</entry>
+				<entry key="org.search.findOrgPositionRestrictions">
+					<value>SELECT opr.personRelationType.id , opr.title FROM OrgPositionRestriction opr WHERE opr.org.id = :org_queryParam_orgId</value>
+				</entry>
 				<entry key="org.search.hierarchiesOrgIsIn">
 					<value>SELECT hierarchy.id FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
 				</entry>
@@ -569,7 +690,10 @@
 				</entry>
 				<entry key="org.queryParam.orgOptionalId">
 					<value>org.id = :org_queryParam_orgOptionalId</value>
-				</entry>					
+				</entry>	
+				<entry key="org.queryParam.orgPositionId">
+					<value>org.org.id = :org_queryParam_orgPositionId</value>
+				</entry>				
 				<entry key="org.queryParam.orgOptionalType">
 					<value>org.type.id IN (:org_queryParam_orgOptionalType)</value>
 				</entry>	
@@ -584,7 +708,7 @@
 				</entry>	
 				<entry key="org.queryParam.orgOptionalLocation">
 					<value>org.longName</value>  <!--  we don't have yet location defined in database -->
-				</entry>													
+				</entry>		
 			</map>
 		</property>
 	</bean>
