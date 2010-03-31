@@ -178,6 +178,15 @@
 		</dict:fieldDescriptor>
 	</search:queryParam>
 	
+	<search:queryParam id="atp.queryParam.atpSeasonType"
+		parent="atp.queryParam.atpSeasonType-parent" />
+	<search:queryParam id="atp.queryParam.atpSeasonType-parent"
+		optional="true" abstract="true">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Season Type</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName"
 		parent="atp.fieldDescriptor.shortName-parent" />
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName-parent"
@@ -541,6 +550,7 @@
 		<search:name>Atp Season Type</search:name>
 		<search:desc>Atp Season Type</search:desc>
 		<search:queryParams>
+			<ref bean="atp.queryParam.atpSeasonType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -613,6 +623,9 @@
 				<entry key="atp.search.atpSeasonTypes">
 					<value>SELECT atpseasontype.id, atpseasontype.name, atpseasontype.descr FROM AtpSeasonalType atpseasontype</value>
 				</entry>				
+				<entry  key="atp.queryParam.atpSeasonType">
+					<value> atpseasontype.id  =  :atp_queryParam_atpSeasonType </value>
+				</entry>
 			</map>
 		</property>
 	</bean>
