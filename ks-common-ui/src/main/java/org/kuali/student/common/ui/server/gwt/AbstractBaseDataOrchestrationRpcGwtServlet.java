@@ -1,12 +1,15 @@
 package org.kuali.student.common.ui.server.gwt;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
@@ -103,6 +106,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
             //Lookup the workflowId from the dataId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
+
             if(docDetail==null){
             	throw new OperationFailedException("Error found gettting document. " );
             }
@@ -417,6 +421,27 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			LOG.error("Call Failed getting workflowId for id: "+dataId, e);
 		}
 		return null;
+	}
+	
+	@Override
+	public List<String> getWorkflowNodes(String workflowId)
+			throws OperationFailedException {
+		List<String> routeNodeNames = new ArrayList<String>();
+		
+		Long documentId = Long.valueOf(workflowId);
+		try{
+			RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getActiveNodeInstances(documentId);
+			if (routeNodes != null){
+				for (RouteNodeInstanceDTO routeNodeInstanceDTO : routeNodes) {
+					routeNodeNames.add(routeNodeInstanceDTO.getName());										
+				}
+			}
+			
+		} catch (Exception e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		
+		return routeNodeNames;
 	}
 
 	@Override

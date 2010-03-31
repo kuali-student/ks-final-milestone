@@ -17,7 +17,6 @@ package org.kuali.student.core.workflow.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -33,6 +32,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -67,6 +67,7 @@ public class WorkflowToolbar extends Composite {
     
     private String modelName;
     private String idPath;
+    private String workflowId;
     
     //FIXME: This should be determined from metadata/dictionary
     private String[] requiredFieldPaths;
@@ -74,7 +75,10 @@ public class WorkflowToolbar extends Composite {
 	private HorizontalBlockFlowPanel rootPanel = new HorizontalBlockFlowPanel();
 	private StylishDropDown workflowActionsDropDown = new StylishDropDown("Workflow Actions");
     private CloseHandler<KSLightBox> onSubmitSuccessHandler;
-	
+	private VerticalFlowPanel wfStatusContainer = new VerticalFlowPanel();
+	private KSLabel wfStatusLabel = new KSLabel();
+	private KSLabel wfNodeLabel = new KSLabel();
+    
     Controller myController;
     
 	public WorkflowToolbar(CloseHandler<KSLightBox> onSubmitSuccessHandler) {
@@ -87,6 +91,15 @@ public class WorkflowToolbar extends Composite {
 		setupWFButtons();
 
 		rootPanel.add(workflowActionsDropDown);
+		wfStatusContainer.addStyleName("KS-Workflow-Status");
+		wfNodeLabel.addStyleName("KS-Workflow-Status-Node");
+		wfStatusContainer.add(wfStatusLabel);
+		wfStatusContainer.add(wfNodeLabel);
+		
+		wfStatusLabel.setText("Workflow");
+		wfNodeLabel.setText("Not in workflow");
+		
+		rootPanel.add(wfStatusContainer);
 		
 		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
 	}
@@ -157,9 +170,7 @@ public class WorkflowToolbar extends Composite {
 							DataSaveResult result) {
 						//Update the model with the saved data
 						dataModel.setRoot(result.getValue());
-						
-						items.remove(wfStartWorkflowItem);
-						workflowActionsDropDown.setItems(items);
+						updateWorkflow(dataModel);						
 						dialog.hide();
 						dialog.getConfirmButton().setEnabled(true);
 						//Notify the user that the document was submitted
@@ -179,7 +190,7 @@ public class WorkflowToolbar extends Composite {
                         @Override
                         public void exec(List<ValidationResultContainer> result) {
                         	
-                        	boolean isValid = ((LayoutController)myController).isValid(result, false);
+                        	boolean isValid = true; //((LayoutController)myController).isValid(result, false);
                         	if(isValid){
                 				dialog.show();
                         	}
@@ -204,9 +215,7 @@ public class WorkflowToolbar extends Composite {
 						//Update the model with the saved data
 						dataModel.setRoot(result.getValue());
 						Window.alert("Proposal was approved");
-						items.remove(wfApproveItem);
-						items.remove(wfDisApproveItem);
-						workflowActionsDropDown.setItems(items);
+						updateWorkflow(dataModel);
 					}
 				});
 			}        
@@ -225,9 +234,7 @@ public class WorkflowToolbar extends Composite {
 							Boolean result) {
 						if(result){
 							Window.alert("Proposal was disapproved");
-							items.remove(wfApproveItem);
-							items.remove(wfDisApproveItem);
-							workflowActionsDropDown.setItems(items);
+							updateWorkflow(dataModel);
 						}else{
 							Window.alert("Error disapproving Proposal");
 						}
@@ -250,8 +257,7 @@ public class WorkflowToolbar extends Composite {
 							Boolean result) {
 						if(result){
 							Window.alert("Proposal was acknowledged");
-							items.remove(wfAcknowledgeItem);
-							workflowActionsDropDown.setItems(items);
+							updateWorkflow(dataModel);
 						}else{
 							Window.alert("Error acknowledging Proposal");
 						}
@@ -274,8 +280,7 @@ public class WorkflowToolbar extends Composite {
 							Boolean result) {
 						if(result){
 							Window.alert("Proposal was FYIed");
-							items.remove(wfFYIWorkflowItem);
-							workflowActionsDropDown.setItems(items);
+							updateWorkflow(dataModel);
 						}else{
 							Window.alert("Error FYIing Proposal");
 						}
@@ -297,6 +302,7 @@ public class WorkflowToolbar extends Composite {
 					public void onSuccess(Boolean result) {
 						if(result){
 							Window.alert("Proposal will be Withdrawn");
+							updateWorkflow(dataModel);
 							items.clear();
 							workflowActionsDropDown.setItems(items);
 						}else{
@@ -310,6 +316,8 @@ public class WorkflowToolbar extends Composite {
 
 	private void updateWorkflow(DataModel model){
 		String proposalId = getProposalIdFromModel(model);
+		
+		//Determine which workflow actions are displayed in the drop down
 		workflowRpcServiceAsync.getActionsRequested(proposalId, new AsyncCallback<String>(){
 
 			public void onFailure(Throwable caught) {
@@ -342,8 +350,92 @@ public class WorkflowToolbar extends Composite {
 			}
 			
 		});
+		
+		//Get and display workflow status and workflow nodes
+		if (proposalId != null){
+			workflowRpcServiceAsync.getWorkflowIdFromDataId(proposalId, new AsyncCallback<String>(){
+	
+				@Override
+				public void onFailure(Throwable caught) {
+					workflowId = null;
+					wfStatusLabel.setText("Workflow: Status Unknown");
+					wfNodeLabel.setText(" ");
+				}
+	
+				@Override
+				public void onSuccess(String result) {
+					workflowId = result;
+					if (workflowId != null && !workflowId.isEmpty()){			
+						workflowRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
+							@Override
+							public void onFailure(Throwable caught) {
+								wfStatusLabel.setText("Workflow: Status Unknown");
+								wfNodeLabel.setText(" ");
+							}
+		
+							@Override
+							public void onSuccess(String result) {
+								displayWorkflowStatus(result);
+								workflowRpcServiceAsync.getWorkflowNodes(workflowId, new AsyncCallback<List<String>>(){
+	
+									@Override
+									public void onFailure(Throwable caught) {
+										Window.alert(caught.toString());
+										wfNodeLabel.setText("Not in workflow");									
+									}
+	
+									@Override
+									public void onSuccess(List<String> result) {
+										String workflowNodes = "";
+										for (String nodeName:result){
+											workflowNodes += nodeName + " ";
+										}
+										if (workflowNodes.isEmpty()){
+											workflowNodes = "Not in workflow";
+										}
+										wfNodeLabel.setText(workflowNodes);
+									}
+								});		
+							}						
+						});
+					}				
+				}			
+			});
+		} else {
+			wfStatusLabel.setText("Workflow");
+			wfNodeLabel.setText("Not in workflow");
+		}
+		
 	}
 
+	private void displayWorkflowStatus(String statusCd){
+		//TODO: Remove hardcoded translations
+		String statusTranslation = "";
+		if ("S".equals(statusCd)){
+			statusTranslation = "Saved";
+		} else  if ("I".equals(statusCd)){
+			statusTranslation = "Initiated";
+		} else if ("R".equals(statusCd)){
+			statusTranslation = "Enroute";
+		} else if ("A".equals(statusCd)){
+			statusTranslation = "Approved";
+		} else if ("X".equals(statusCd)){
+			statusTranslation = "Cancelled";
+		} else if ("E".equals(statusCd)){
+			statusTranslation = "Exception";
+		} else if ("D".equals(statusCd)){
+			statusTranslation = "Dissaproved";
+		} else if ("F".equals(statusCd)){
+			statusTranslation = "Final";
+		} else if ("C".equals(statusCd)){
+			statusTranslation = "Dissaproved-Cancel";
+		} else {
+			statusTranslation = statusCd;
+		}
+		
+		wfStatusLabel.setText("Workflow: " + statusTranslation);		
+	}
+	
 	private void showSuccessDialog() {
 		
 		final KSLightBox submitSuccessDialog = new KSLightBox();
@@ -395,4 +487,5 @@ public class WorkflowToolbar extends Composite {
 	public void refresh(){
 		updateWorkflow(dataModel);
 	}
+	
 }

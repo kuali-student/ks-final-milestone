@@ -66,3 +66,18 @@
 	position:absolute;
 	top:4px;
 }
+
+.KS-Workflow-Status {
+	background-color: #E0E0E0;
+	background-image:url(images/common/node.png);
+	background-repeat:no-repeat;
+	margin-left:10px;
+	padding:5px 5px 5px 25px;
+	background-position:5px 5px;
+	width: 70%;
+}
+
+.KS-Workflow-Status-Node {
+	font-weight: bold;
+	color: #424242;
+}

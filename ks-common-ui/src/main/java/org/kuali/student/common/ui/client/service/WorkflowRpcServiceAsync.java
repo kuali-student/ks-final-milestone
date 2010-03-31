@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.service;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.service.WorkflowRpcService.RequestType;
 import org.kuali.student.core.assembly.data.Data;
 
@@ -14,6 +16,7 @@ public interface WorkflowRpcServiceAsync {
 	public void getDataFromWorkflowId(String workflowId, AsyncCallback<Data> callback);
 	public void getWorkflowIdFromDataId(String dataId, AsyncCallback<String> callback);
 	public void getDocumentStatus(String workflowId, AsyncCallback<String> callback);
+	public void getWorkflowNodes(String workflowId, AsyncCallback<List<String>> callback);
 
 	public void getActionsRequested(String dataId, AsyncCallback<String> callback);
 	
