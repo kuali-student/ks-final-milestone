@@ -24,7 +24,8 @@ public class ReviewProposal extends FlowPanel {
 
 
     ReviewProposal() {
-        
+
+        // Header Text Breaks the rest of it?
         addHeaderText();
         this.add(createReviewTable());
 
@@ -80,104 +81,110 @@ public class ReviewProposal extends FlowPanel {
     private Widget createReviewTable() {
 
         // Version Table
-        FlexTable versionTable = new FlexTable();
+        KSTable versionTable = new KSTable();
 
         // Setup the Headers
-        versionTable.getColumnFormatter().setWidth(0, "200px");
-        versionTable.getColumnFormatter().setWidth(1, "100px");
-        versionTable.getColumnFormatter().setWidth(2, "100px");
-        versionTable.getColumnFormatter().setWidth(3, "100px");
+//        versionTable.getColumnFormatter().setWidth(0, "200px");
+//        versionTable.getColumnFormatter().setWidth(1, "100px");
+//        versionTable.getColumnFormatter().setWidth(2, "100px");
+//        versionTable.getColumnFormatter().setWidth(3, "100px");
 
-        Label titleHeaderLabel = new Label("");
-        titleHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
+        versionTable.addColumn("");
+        versionTable.addColumn("Value");
+        versionTable.addColumn("LastUpdated");
+        versionTable.addColumn("Change Log");
 
-        // titleHeaderLabel.setStyleName("ks-table th");
-        versionTable.getRowFormatter().addStyleName(0, "ks-table-th");
-
-        versionTable.setWidget(0, 0,titleHeaderLabel);
-        Label nameHeaderLabel = new Label("Last Updated");
-        nameHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
-        versionTable.setWidget(0, 1,nameHeaderLabel);
-        Label dateHeaderLabel = new Label("Owner");
-        dateHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
-        versionTable.setWidget(0, 2,dateHeaderLabel);
-        Label changeHeaderLabel = new Label("Change Log");
-        changeHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
-        versionTable.setWidget(0, 3,changeHeaderLabel);
-
-
-
-        versionTable.addStyleName("ks-table-container");
-        versionTable.addStyleName("ks-table");
-
-        // Populate the Table
-
-        // Governance Sub Section
-        versionTable.setText(1, 0, "Governance");
-        versionTable.setText(1, 1, "");
-        versionTable.setText(1, 2, "");
-        versionTable.setText(1, 3, "");
-        versionTable.getRowFormatter().addStyleName(1, "td-subhead");
+//        Label titleHeaderLabel = new Label("");
+//        titleHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
+//
+//        // titleHeaderLabel.setStyleName("ks-table th");
+//        // versionTable.getRowFormatter().addStyleName(0, "ks-table-th");
+//
+//        versionTable.setWidget(0, 0,titleHeaderLabel);
+//        Label nameHeaderLabel = new Label("Value");
+//        nameHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
+//        versionTable.setWidget(0, 1,nameHeaderLabel);
+//        Label dateHeaderLabel = new Label("Last Updated");
+//        dateHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
+//        versionTable.setWidget(0, 2,dateHeaderLabel);
+//        Label changeHeaderLabel = new Label("Change Log");
+//        changeHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
+//        versionTable.setWidget(0, 3,changeHeaderLabel);
 
 
-        // How do we add widgets to the cells?
 
-        versionTable.setText(2, 0, "Curriculum Oversight");
-        versionTable.setText(2, 1, "March 18, 2010");
-        versionTable.setText(2, 2, "Stuart Sim");
-        versionTable.setWidget(2, 3, new ChangeLogButton());
+        // We want to create a new Section in the Table
+        versionTable.addSection("Governance");
+        
+        // TODO: Add the values to the table
 
-        versionTable.setText(3, 0, "Campus Locations");
-        versionTable.setText(3, 1, "March 17, 2010");
-        versionTable.setText(3, 2, "Stuart Sim");
-        versionTable.setWidget(3, 3, new ChangeLogButton());
+        // Object[] rowData = {"Curriculum Oversight", "March 18, 2010",  "Stuart Sim" ,new ChangeLogButton()};
 
-        versionTable.setText(4, 0, "Administering Organization");
-        versionTable.setText(4, 1, "March 14, 2010");
-        versionTable.setText(4, 2, "Stuart Sim");
-        versionTable.setWidget(4, 3, new ChangeLogButton());
+        Object[] row1Data = {"Curriculum Oversight", "March 18, 2010",  "Stuart Sim" , "Test"};
 
+        versionTable.addRow(row1Data);
+
+        versionTable.addSection("Course Logistics");
+
+        Object[] row2Data = {"Curriculum Oversight", "March 18, 2010",  "Stuart Sim" , new ChangeLogButton()};
+        versionTable.addRow(row2Data);
+
+//        versionTable.setText(2, 0, "Curriculum Oversight");
+//        versionTable.setText(2, 1, "March 18, 2010");
+//        versionTable.setText(2, 2, "Stuart Sim");
+//        versionTable.setWidget(2, 3, new ChangeLogButton());
+//
+//        versionTable.setText(3, 0, "Campus Locations");
+//        versionTable.setText(3, 1, "March 17, 2010");
+//        versionTable.setText(3, 2, "Stuart Sim");
+//        versionTable.setWidget(3, 3, new ChangeLogButton());
+//
+//        versionTable.setText(4, 0, "Administering Organization");
+//        versionTable.setText(4, 1, "March 14, 2010");
+//        versionTable.setText(4, 2, "Stuart Sim");
+//        versionTable.setWidget(4, 3, new ChangeLogButton());
+//
 
         // Course Logistics Section
 
-        // Governance Sub Section
-        versionTable.setText(5, 0, "Course Logistics");
-        versionTable.setText(5, 1, "");
-        versionTable.setText(5, 2, "");
-        versionTable.setText(5, 3, "");
-        versionTable.getRowFormatter().addStyleName(1, "td-subhead"); // BROKEN - css not being picked up?
+//        // Governance Sub Section
+//        versionTable.setText(5, 0, "Course Logistics");
+//        versionTable.setText(5, 1, "");
+//        versionTable.setText(5, 2, "");
+//        versionTable.setText(5, 3, "");
+//        versionTable.getRowFormatter().addStyleName(1, "td-subhead"); // BROKEN - css not being picked up?
 
 
-        versionTable.setText(6, 0, "First Expected Offering");
-        versionTable.setText(6, 1, "March 4, 2010");
-        versionTable.setText(6, 2, "Tim Duck");
-        versionTable.setWidget(6, 3, new ChangeLogButton());
-
-        versionTable.setText(7, 0, "Instructor");
-        versionTable.setText(7, 1, "March 4, 2010");
-        versionTable.setText(7, 2, "Stuart Sim");
-        versionTable.setWidget(7, 3, new ChangeLogButton());
-
-        versionTable.setText(8, 0, "Scheduling Duration");
-        versionTable.setText(8, 1, "March 3, 2010");
-        versionTable.setText(8, 2, "Claire Barnes");
-        versionTable.setWidget(8, 3, new ChangeLogButton());
-
-        versionTable.setText(9, 0, "Scheduling Duration Type");
-        versionTable.setText(9, 1, "March 3, 2010");
-        versionTable.setText(9, 2, "Claire Barnes");
-        versionTable.setWidget(9, 3, new ChangeLogButton());
-
-        versionTable.setText(10, 0, "Course Format 1");
-        versionTable.setText(10, 1, "March 5, 2010");
-        versionTable.setText(10, 2, "Bob Smith");
-        versionTable.setWidget(10, 3, new ChangeLogButton());
-
-        versionTable.setText(11, 0, "Course Activity 1");
-        versionTable.setText(11, 1, "March 2, 2010");
-        versionTable.setText(11, 2, "Bob Smith");
-        versionTable.setWidget(11, 3, new ChangeLogButton());
-
+//        versionTable.setText(6, 0, "First Expected Offering");
+//        versionTable.setText(6, 1, "March 4, 2010");
+//        versionTable.setText(6, 2, "Tim Duck");
+//        versionTable.setWidget(6, 3, new ChangeLogButton());
+//
+//        versionTable.setText(7, 0, "Instructor");
+//        versionTable.setText(7, 1, "March 4, 2010");
+//        versionTable.setText(7, 2, "Stuart Sim");
+//        versionTable.setWidget(7, 3, new ChangeLogButton());
+//
+//        versionTable.setText(8, 0, "Scheduling Duration");
+//        versionTable.setText(8, 1, "March 3, 2010");
+//        versionTable.setText(8, 2, "Claire Barnes");
+//        versionTable.setWidget(8, 3, new ChangeLogButton());
+//
+//        versionTable.setText(9, 0, "Scheduling Duration Type");
+//        versionTable.setText(9, 1, "March 3, 2010");
+//        versionTable.setText(9, 2, "Claire Barnes");
+//        versionTable.setWidget(9, 3, new ChangeLogButton());
+//
+//        versionTable.setText(10, 0, "Course Format 1");
+//        versionTable.setText(10, 1, "March 5, 2010");
+//        versionTable.setText(10, 2, "Bob Smith");
+//        versionTable.setWidget(10, 3, new ChangeLogButton());
+//
+//        versionTable.setText(11, 0, "Course Activity 1");
+//        versionTable.setText(11, 1, "March 2, 2010");
+//        versionTable.setText(11, 2, "Bob Smith");
+//        versionTable.setWidget(11, 3, new ChangeLogButton());
+//
 
 
 
