@@ -926,7 +926,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 					formatHierarchy.getChildren().add(activityHierarchy);
 
 					activityHierarchy.setModificationState(ModificationState.CREATED);
-					//activityClu.setState("draft");
 				} else if (isDeleted(activity.getData())) {
 					activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
 					if(activityHierarchy != null){
@@ -1024,7 +1023,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 		for (Data.Property p : course.getCrossListings()) {
 			CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
-			if(!(xListings.get_runtimeData()!=null && xListings.get_runtimeData().isDeleted())){
+			if(!isDeleted(xListings.getData())){ 
 				CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 				cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
 				cluIdentifier.setState(state);
@@ -1063,7 +1062,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		for (Data.Property p : course.getVersions()) {
 			CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
 			//Don't add to AlternateIdentifiers if it is deleted
-			if(!(versions.get_runtimeData().isDeleted())){
+			if(!isDeleted(versions.getData())){ 
 				CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 				cluIdentifier.setId(versions.getId());
 				cluIdentifier.setDivision(versions.getSubjectArea());
