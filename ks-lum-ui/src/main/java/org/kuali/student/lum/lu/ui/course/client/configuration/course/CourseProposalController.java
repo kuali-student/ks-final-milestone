@@ -25,6 +25,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
+import org.kuali.student.common.ui.client.event.SubmitProposalHandler;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -270,6 +272,13 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	                doSaveAction(saveAction);
 	            }            
 	        });
+	        
+	        addApplicationEventHandler(SubmitProposalEvent.TYPE, new SubmitProposalHandler(){
+                public void onSubmitProposal() {
+                    GWT.log("CluProposalController received submit proposal request.", null);
+                    CourseProposalController.this.updateModel();
+                }            
+            });
         }
         
         initialized = true;
