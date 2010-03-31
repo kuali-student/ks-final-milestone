@@ -369,7 +369,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
          final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(
                  "lo.search.loCategories",
-                 "lo.queryParam.startsWith.loCategoryName",
+                 "lo.queryParam.loOptionalCategoryName",
                  "lo.queryParam.loCategoryId",
                  "lo.resultColumn.categoryId", 
          "lo.resultColumn.categoryNameAndType");
