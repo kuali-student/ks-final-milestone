@@ -79,7 +79,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		} else if(!config.canEdit && config.lookupMeta == null) {
 		    result = new KSLabel();
 		} else {
-		    if (config.lookupMeta != null) {
+		    if (config.lookupMeta != null && config.lookupMeta.getWidget() != null) {
                 if (config.metadata != null && MetadataInterrogator.isRepeating(config.metadata) && LookupMetadata.Widget.SUGGEST_BOX.equals(config.lookupMeta.getWidget())) {
                     result =  new KSSelectedList(config);
                 } else {
@@ -106,11 +106,59 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
                     default:
                         if (config.isMultiLine) {
                             result = new KSTextArea();
+                            result.addStyleName("ks-textarea-width");
+                            if(config.maxLength != null){
+                            	if(config.maxLength < 250){
+                            		result.addStyleName("ks-textarea-small-height");
+                            	}
+                            	else if(config.maxLength < 500){
+                            		result.addStyleName("ks-textarea-medium-height");
+                            	}
+                            	else{
+                            		result.addStyleName("ks-textarea-large-height");
+                            	}
+                            }
+                            else{
+                            	result.addStyleName("ks-textarea-medium-height");
+                            }
                         } else {
                             KSTextBox text = new KSTextBox();
+                            //text.removeStyleName("KS-Textbox");
                             if (config.maxLength != null) {
                                 text.setMaxLength(config.maxLength);
+                                if(config.maxLength < 5 ){
+	                                switch(config.maxLength){
+	                                	case 1:
+	                                		text.addStyleName("ks-one-width");
+	                                		break;
+	                                	case 2:
+	                                		text.addStyleName("ks-two-width");
+	                                		break;
+	                                	case 3:
+	                                		text.addStyleName("ks-three-width");
+	                                		break;
+	                                	case 4:
+	                                		text.addStyleName("ks-four-width");
+	                                		break;
+	                                }
+                                }
+                                else if(config.maxLength < 23){
+                                	text.addStyleName("ks-small-width");
+                                }
+                                else if(config.maxLength < 35){
+                                	text.addStyleName("ks-medium-width");
+                                }
+                                else if(config.maxLength < 60){
+                                	text.addStyleName("ks-large-width");
+                                }
+                                else{
+                                	text.addStyleName("ks-extra-large-width");
+                                }
                             }
+                            else{
+                            	text.addStyleName("ks-medium-width");
+                            }
+                            
                             result = text;
                         }
                     }

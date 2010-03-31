@@ -498,7 +498,7 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 
 /*** Basic Form Styling ***/
 
-.ks-form-module-elements input[type="text"] { width: 120px; border: solid 1px #888;  }
+.ks-form-module-elements input[type="text"] { /* width: 120px; */border: solid 1px #888;  }
 .ks-form-module-elements input[type="checkbox"] + label { display: inline; white-space: nowrap; } /* for label fields that follow a checkbox */
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */
 .ks-form-module-elements textarea { border: solid 1px #888; }

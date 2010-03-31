@@ -76,7 +76,7 @@ public abstract class BaseSection extends Composite implements Section{
 		}
 		
 		public void setErrorState(boolean error){
-			//fieldDiv.setValidationError(error);
+			fieldDiv.setValidationError(error);
 			if(error){
 				encapsulatingPanel.addStyleName("error");
 			}

@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -138,7 +139,34 @@ public class WorkflowToolbar extends Composite {
 	}
 	
 	private void setupWFButtons() {
+		final ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
+		dialog.getConfirmButton().addClickHandler(new ClickHandler(){
 
+			@Override
+			public void onClick(ClickEvent event) {
+				dialog.getConfirmButton().setEnabled(false);
+				workflowRpcServiceAsync.submitDocumentWithData(dataModel.getRoot(), new AsyncCallback<DataSaveResult>(){
+					public void onFailure(
+							Throwable caught) {
+						Window.alert("Error starting Proposal workflow");
+						dialog.getConfirmButton().setEnabled(true);
+					}
+					public void onSuccess(
+							DataSaveResult result) {
+						//Update the model with the saved data
+						dataModel.setRoot(result.getValue());
+						
+						items.remove(wfStartWorkflowItem);
+						workflowActionsDropDown.setItems(items);
+						dialog.hide();
+						dialog.getConfirmButton().setEnabled(true);
+						//Notify the user that the document was submitted
+						showSuccessDialog();
+					}
+				});
+				
+			}
+		});
     	wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
     		public void onClick(ClickEvent event) {
     			if(dataModel==null || (requiredFieldPaths != null && dataModel.get(QueryPath.parse(requiredFieldPaths[0])) == null)){
@@ -151,23 +179,7 @@ public class WorkflowToolbar extends Composite {
                         	
                         	boolean isValid = ((LayoutController)myController).isValid(result, false);
                         	if(isValid){
-                				workflowRpcServiceAsync.submitDocumentWithData(dataModel.getRoot(), new AsyncCallback<DataSaveResult>(){
-            						public void onFailure(
-            								Throwable caught) {
-            							Window.alert("Error starting Proposal workflow");
-            						}
-            						public void onSuccess(
-            								DataSaveResult result) {
-            							//Update the model with the saved data
-            							dataModel.setRoot(result.getValue());
-            							
-            							items.remove(wfStartWorkflowItem);
-            							workflowActionsDropDown.setItems(items);
-            							
-            							//Notify the user that the document was submitted
-            							showSuccessDialog();            							
-            						}
-            					});
+                				dialog.show();
                         	}
                         	else{
                         		Window.alert("Unable to submit to workflow.  Please check sections for errors.");

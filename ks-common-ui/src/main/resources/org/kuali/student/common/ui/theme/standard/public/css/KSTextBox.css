@@ -8,3 +8,55 @@
 	/*margin: 2px;*/
 	border: 1px solid #4583D5;
 }
+
+.ks-textbox-height{
+	height: 1.5em;
+}
+
+.ks-one-width{
+	width: 1.625em;
+}
+
+.ks-two-width{
+	width: 2.125em;
+}
+
+.ks-three-width{
+	width: 2.875em;
+}
+
+.ks-four-width{
+	width: 3.438em;
+}
+
+.ks-small-width{
+	width: 9.375em;
+}
+
+.ks-medium-width{
+	width: 15.625em;
+}
+
+.ks-large-width{
+	width: 27.5em;
+}
+
+.ks-extra-large-width{
+	width: 37.5em;
+}
+
+.ks-textarea-width{
+	width: 37.5em;
+}
+
+.ks-textarea-small-height{
+	height: 4.688em;
+}
+
+.ks-textarea-medium-height{
+	height: 8.25em;
+}
+
+.ks-textarea-large-height{
+	height: 12.563em;
+}
