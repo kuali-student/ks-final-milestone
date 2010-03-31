@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public abstract class SimpleMultiplicityComposite extends Composite implements HasModelDTOValue {
 
     protected FlowPanel mainPanel = new FlowPanel();

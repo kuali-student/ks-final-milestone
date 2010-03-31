@@ -8,15 +8,12 @@
 package org.kuali.student.core.assembly.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 
@@ -31,26 +28,15 @@ public class LookupParamMetadata implements Serializable {
     private Data.DataType dataType;    
     private boolean optional;
     
-    @XmlAnyElement
-    @XmlElementRefs({
-        @XmlElementRef(type=Data.BooleanValue.class),
-        @XmlElementRef(type=Data.StringValue.class),
-        @XmlElementRef(type=Data.IntegerValue.class),
-        @XmlElementRef(type=Data.DoubleValue.class),
-        @XmlElementRef(type=Data.FloatValue.class),
-        @XmlElementRef(type=Data.LongValue.class),
-        @XmlElementRef(type=Data.ShortValue.class),
-        @XmlElementRef(type=Data.DataValue.class),
-        @XmlElementRef(type=Data.TimestampValue.class),
-        @XmlElementRef(type=Data.TimeValue.class)
-    })
-    private Value defaultValue;
+    private ArrayList<String> defaultValueList;
+    private String defaultValueString;
     
     private String name;      
     private String desc;    
     private boolean caseSensitive;
     private Usage usage;
 
+    @XmlType(name="ParamWidget")
     public enum Widget {
         SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, CALENDAR, PICKER
     }
@@ -138,21 +124,29 @@ public class LookupParamMetadata implements Serializable {
         this.caseSensitive = caseSensitive;
     }
 
-    public Value getDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(Value defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
 	@Override
 	public String toString() {
 		return "LookupParamMetadata[key=" + key + ", name=" + name
 				+ ", caseSensitive=" + caseSensitive + ", childLookup="
 				+ childLookup + ", dataType=" + dataType + ", defaultValue="
-				+ defaultValue + ", optional=" + optional + ", usage=" + usage
+				+ defaultValueList==null?defaultValueString:defaultValueList.toString() + ", optional=" + optional + ", usage=" + usage
 				+ ", widget=" + widget + ", writeAccess=" + writeAccess + "]";
+	}
+
+	public ArrayList<String> getDefaultValueList() {
+		return defaultValueList;
+	}
+
+	public void setDefaultValueList(ArrayList<String> defaultValueList) {
+		this.defaultValueList = defaultValueList;
+	}
+
+	public String getDefaultValueString() {
+		return defaultValueString;
+	}
+
+	public void setDefaultValueString(String defaultValueString) {
+		this.defaultValueString = defaultValueString;
 	}
 
 }

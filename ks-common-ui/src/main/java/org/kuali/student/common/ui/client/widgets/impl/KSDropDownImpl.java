@@ -45,6 +45,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
 
 	private ListBox listBox;
 	private boolean blankFirstItem = true;
+	private final String EMPTY_ITEM = "";
 	
 	public KSDropDownImpl() {
 	    init();
@@ -56,7 +57,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
         listBox.clear();
         
         if(blankFirstItem){
-            listBox.addItem("");
+            listBox.addItem(EMPTY_ITEM);
         }
         for (String id: super.getListItems().getItemIds()){
             listBox.addItem(super.getListItems().getItemText(id),id);            
@@ -83,50 +84,39 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
 		
 		listBox.addBlurHandler(new BlurHandler(){
 			public void onBlur(BlurEvent event) {
-			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);
-				
+			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);				
 			}	
 		});	
 
 		listBox.addFocusHandler(new FocusHandler(){
 			public void onFocus(FocusEvent event) {
 			    listBox.addStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);
-
 			}		
 		});
 		
 		listBox.addMouseOverHandler(new MouseOverHandler(){
 			public void onMouseOver(MouseOverEvent event) {
-			    listBox.addStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);
-				
+			    listBox.addStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);				
 			}		
 		});
 		
 		listBox.addMouseOutHandler(new MouseOutHandler(){
-
 			public void onMouseOut(MouseOutEvent event) {
-			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);
-				
-			}
-			
+			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);				
+			}			
 		});
 		
 		listBox.addClickHandler(new ClickHandler(){
-
 			public void onClick(ClickEvent event) {
 				if(listBox.getSelectedIndex() != -1){
 				    listBox.addStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
 				}
 				else{
 				    listBox.removeStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
-				}
-				
-			}
-			
-		});
-		
-	}
-	
+				}				
+			}			
+		});		
+	}	
 	
 	public void selectItem(String id){
 	    if (id != null){
@@ -222,4 +212,19 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return listBox.addBlurHandler(handler);
 	}
+
+    @Override
+    public void clear() {
+        //need to select the default item
+        if (super.getListItems() != null) {
+            listBox.clear();
+            
+            if(blankFirstItem){
+                listBox.addItem(EMPTY_ITEM);
+            }
+            for (String id: super.getListItems().getItemIds()){
+                listBox.addItem(super.getListItems().getItemText(id),id);            
+            }
+        }
+    }
 }

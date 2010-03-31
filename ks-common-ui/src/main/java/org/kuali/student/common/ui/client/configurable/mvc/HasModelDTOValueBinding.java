@@ -36,6 +36,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.MapType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 
+
+@Deprecated
 public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue>{
 
 	public static HasModelDTOValueBinding INSTANCE = new HasModelDTOValueBinding();

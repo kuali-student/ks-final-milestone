@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.HasValue;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public interface HasModelDTOValue extends HasValue<ModelDTOValue>{
        
     public void updateModelDTOValue();

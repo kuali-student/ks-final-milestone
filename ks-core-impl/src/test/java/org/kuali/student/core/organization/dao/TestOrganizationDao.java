@@ -47,8 +47,6 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -104,20 +102,25 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
 
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		SearchParam qpv1 = new SearchParam();
 		qpv1.setKey("org.queryParam.orgType");
 		qpv1.setValue("kuali.org.College");
 		queryParamValues.add(qpv1);
-		List<Result> results = sm.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues, dao);
-		assertEquals(6,results.size());
-		assertEquals(2,results.get(0).getResultCells().size());
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
+		searchRequest.setParams(queryParamValues);
+		SearchResult result = sm.search(searchRequest, dao);
+		assertEquals(6,result.getRows().size());
+		assertEquals(2,result.getRows().get(0).getCells().size());
 
 		qpv1.setKey("org.queryParam.orgId");
 		qpv1.setValue("31");
-		results = sm.searchForResults("org.search.hierarchiesOrgIsIn", queryParamValues, dao);
-		assertEquals(1, results.size());
-		assertEquals("kuali.org.hierarchy.Main", results.get(0).getResultCells().get(0).getValue());
+		searchRequest.setSearchKey("org.search.hierarchiesOrgIsIn");
+		result = sm.search(searchRequest, dao);
+		
+		assertEquals(1, result.getRows().size());
+		assertEquals("kuali.org.hierarchy.Main", result.getRows().get(0).getCells().get(0).getValue());
 	}
 
 	@Test

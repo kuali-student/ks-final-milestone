@@ -1,6 +1,6 @@
 .KS-Wrapper-Header-Content{
 	height: 130px;
-	background-color: #8e181b;
+	background-color: #A20000;
 	width: 99%;
 	min-width: 960px;
 	padding-left: 25px;
@@ -10,14 +10,15 @@
 
 .KS-Wrapper-Header{
 	height: 130px;
-	background-color: #8e181b;
+	background-color: #A20000;
 	width: 100%;
 	
 }
 
 .KS-Wrapper-Footer{
+	padding-left: 20px; 
 	height: 60px;
-	background-color: #8e181b;
+	background-color: #A20000;
 	width: 100%;
 }
 .KS-Wrapper-Content{

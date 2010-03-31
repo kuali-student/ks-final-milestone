@@ -15,6 +15,7 @@
 package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -30,6 +31,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -44,8 +46,10 @@ public interface OrgRpcServiceAsync extends BaseRpcServiceAsync {
     public void getOrganization(String orgId, AsyncCallback<OrgInfo> callback);
     public void getOrganizationsByIdList(List<String> orgIdList, AsyncCallback<List<OrgInfo> > callback);
     public void getOrgOrgRelationsByOrg(String orgId, AsyncCallback<List<OrgOrgRelationInfo>> callback);
+    public void getOrgOrgRelationsByRelatedOrg(String orgId,AsyncCallback<List<OrgOrgRelationInfo>> callback);
     public void getAllDescendants(String orgId, String orgHierarchy, AsyncCallback<List<String>> callback);
     public void getOrgOrgRelationTypes(AsyncCallback<List<OrgOrgRelationTypeInfo>> callback);
+    public void getOrgOrgRelationType(String orgOrgRelationTypeKey,AsyncCallback<OrgOrgRelationTypeInfo> callback);
     public void getOrgPersonRelationTypes(AsyncCallback<List<OrgPersonRelationTypeInfo>> callback);
     public void getOrgTypes(AsyncCallback<List<OrgTypeInfo>> callback);
     public void getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels, AsyncCallback<List<OrgTreeInfo>> callback);
@@ -71,4 +75,5 @@ public interface OrgRpcServiceAsync extends BaseRpcServiceAsync {
 	public void getSectionConfig(AsyncCallback<SectionConfigInfo> callback);
 	public void fetchOrg(String orgId,AsyncCallback<Data> callback);
 	public void getOrgPositionPersonRelation(String orgId, AsyncCallback<List<OrgPositionPersonRelationInfo>> callback);
+	public void getNamesForPersonIds(List<String> personIds, AsyncCallback<Map<String, MembershipInfo>> callback);
 }

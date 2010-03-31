@@ -47,9 +47,8 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 	}
 
 	public <T extends Idable> void setListItems(ListItems listItems) {
-		this.listItems = listItems;		
-	}
-	
+		this.listItems = listItems;
+	}	
 	
 	public abstract void redraw();
 
@@ -149,9 +148,7 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
      * This method clears the current selection
      *
      */
-    public void clear(){
-        //FIXME: This method needs to be abstract;
-    }
+    public abstract void clear();
 
     @Override
     public void addWidgetReadyCallback(Callback<Widget> callback) {
@@ -177,7 +174,4 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
     public boolean isInitialized() {
         return initialized;
     }
-    
-    
-	
 }

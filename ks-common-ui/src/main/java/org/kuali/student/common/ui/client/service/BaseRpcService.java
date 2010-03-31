@@ -17,8 +17,6 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -48,9 +46,6 @@ public interface BaseRpcService extends RemoteService{
     
     
     /* Search Operations */
-    
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues);
-
     public List<SearchTypeInfo> getSearchTypes();
 
     public SearchTypeInfo getSearchType(String searchTypeKey);

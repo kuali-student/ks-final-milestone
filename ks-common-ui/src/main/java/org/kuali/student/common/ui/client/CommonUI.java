@@ -15,6 +15,7 @@
 package org.kuali.student.common.ui.client;
 
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.StyleElement;
@@ -26,6 +27,7 @@ public class CommonUI implements EntryPoint {
     public StyleElement initStyle;
 
 	public void onModuleLoad() {
+		KSErrorDialog.bindUncaughtExceptionHandler();
         resetStyle = StyleInjector.injectStylesheet(Theme.INSTANCE.getCommonCss().getResetCssString());
         initStyle = StyleInjector.injectStylesheet(Theme.INSTANCE.getCommonCss().getInitializeCssString());
         commonStyle = StyleInjector.injectStylesheet(Theme.INSTANCE.getCommonCss().getCssString());

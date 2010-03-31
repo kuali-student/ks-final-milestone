@@ -15,6 +15,8 @@
 package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
+import java.util.Map;
+
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -31,6 +33,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -52,8 +55,10 @@ public interface OrgRpcService extends RemoteService, BaseRpcService {
     public OrgInfo getOrganization(String orgId);
     public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList);
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId);
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(String orgId);
     public List<String> getAllDescendants(String orgId, String orgHierarchy);
     public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes();
+    public OrgOrgRelationTypeInfo getOrgOrgRelationType(String orgOrgRelationTypeKey);
     public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes();
     public List<OrgTypeInfo> getOrgTypes();
     public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId);
@@ -78,5 +83,6 @@ public interface OrgRpcService extends RemoteService, BaseRpcService {
     public SectionConfigInfo getSectionConfig();
     public Data fetchOrg(String orgId);
     public List<OrgPositionPersonRelationInfo> getOrgPositionPersonRelation(String orgId);
+    public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds);
 
 }

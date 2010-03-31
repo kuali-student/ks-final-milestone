@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection.FieldInfo;
+import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -157,6 +158,11 @@ public class GroupSection extends BaseSection{
         	fieldsPanel.add(new ClearBreak());
         	curLine++;
         }
+	}
+
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
+		layout.remove(section);
 	}
 	
 }

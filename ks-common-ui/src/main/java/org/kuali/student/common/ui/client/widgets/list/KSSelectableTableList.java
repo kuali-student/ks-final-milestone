@@ -168,5 +168,9 @@ public class KSSelectableTableList extends KSSelectItemWidgetAbstract {
     public void setInitialized(boolean initialized) {
         selectItemWidget.setInitialized(initialized);
     }
-    
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }    
 }

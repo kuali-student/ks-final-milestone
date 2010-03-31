@@ -11,15 +11,11 @@ import org.kuali.student.common.ui.client.widgets.menus.MenuSelectEvent;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSListMenuImpl;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -31,6 +27,7 @@ public class StylishDropDown extends Composite{
 	
 	private ClickablePanel namePanel = new ClickablePanel();
 	private boolean showSelectedItem = false;
+	private boolean showTitleIcon = false;
 	private SimplePanel container = new SimplePanel();
 	private PopupPanel menuPanel = new PopupPanel();
 	private KSListMenuImpl menu = new KSListMenuImpl();
@@ -126,7 +123,7 @@ public class StylishDropDown extends Composite{
 					StylishDropDown.this.hideMenu();
 					if(showSelectedItem){
 						titleLabel.setText(item.getLabel());
-						if(item.getShownIcon() != null){
+						if(item.getShownIcon() != null && showTitleIcon){
 							titleLayout.remove(titleImage);
 							Image image = item.getShownIcon().getImage();
 							titleImage = new KSImage(image.getUrl(), image.getOriginLeft(), 
@@ -202,6 +199,14 @@ public class StylishDropDown extends Composite{
 
 	public void setShowSelectedItem(boolean showSelectedItem) {
 		this.showSelectedItem = showSelectedItem;
+	}
+	
+	public void setShowTitleIcon(boolean showTitleIcon){
+		this.showTitleIcon = showTitleIcon;
+	}
+	
+	public boolean isShowingTitleIcon(){
+		return showTitleIcon;
 	}
 	
 	

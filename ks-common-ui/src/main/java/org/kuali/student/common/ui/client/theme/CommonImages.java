@@ -4,10 +4,12 @@ import org.kuali.student.common.ui.client.widgets.KSImage;
 
 public interface CommonImages {
 
-    public KSImage getHelpIcon();
+    public KSImage getFooterImage();
+	public KSImage getHelpIcon();
     public KSImage getOkIcon();
     public KSImage getErrorIcon();
     public KSImage getWarningIcon();
+    public KSImage getWarningDiamondIcon();
     public KSImage getAsterisk();
     public KSImage getEditCommentIcon();
     public KSImage getDeleteCommentIcon();
@@ -19,4 +21,15 @@ public interface CommonImages {
 	public KSImage getDropDownIconCustom();
 	public KSImage getLightBulbIcon();
     public KSImage getProgressSpinner();
+    public KSImage getCommentIcon();
+    public KSImage getPersonIcon();
+    public KSImage getDocumentIcon();
+    public KSImage getAnalysisIcon();
+	public KSImage getSpacerIcon();
+	public KSImage getApplicationIcon();
+	public KSImage getPeopleIcon();
+	public KSImage getBookIcon();
+	public KSImage getNodeIcon();
+	public KSImage getDisclosureOpenedIcon();
+	public KSImage getDisclosureClosedIcon();
 }

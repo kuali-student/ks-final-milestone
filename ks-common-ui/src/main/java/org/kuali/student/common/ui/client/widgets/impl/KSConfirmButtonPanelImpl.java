@@ -56,14 +56,6 @@ public class KSConfirmButtonPanelImpl extends KSConfirmButtonPanelAbstract{
 		cancel.addClickHandler(handler);
 	}
 	
-	public void setConfirmFocus(){
-		confirm.setFocus(true);
-	}
-	
-	public void setCancelFocus(){
-		cancel.setFocus(true);
-	}
-	
 	private void setupDefaultStyle(){
 		cancel.addStyleName(KSStyles.KS_CBP_CANCEL_BUTTON);
 		confirm.addStyleName(KSStyles.KS_CBP_CONFIRM_BUTTON);

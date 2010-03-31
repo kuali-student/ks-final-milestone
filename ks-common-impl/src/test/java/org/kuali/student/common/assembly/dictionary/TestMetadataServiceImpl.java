@@ -33,7 +33,7 @@ import org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImp
 public class TestMetadataServiceImpl {
 
     public static final String DICTIONARY_CONFIG_LOCATION = "classpath:messages-test-dictionary-config.xml"; 
-    public static final String ORCH_DICTIONARY_CONFIG_LOCATION = "classpath:lum-orchestration-dictionary.xml";
+    public static final String ORCH_DICTIONARY_CONFIG_LOCATION = "classpath:test-orchestration-dictionary.xml";
 
     
     @Test

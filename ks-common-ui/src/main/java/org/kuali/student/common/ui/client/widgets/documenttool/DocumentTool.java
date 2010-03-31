@@ -16,8 +16,8 @@ package org.kuali.student.common.ui.client.widgets.documenttool;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -60,7 +60,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
 
-public class DocumentTool extends ToolView implements HasReferenceId{
+public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 	private String referenceId;
 	private String referenceTypeKey;
@@ -242,6 +242,25 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 		super(viewEnum, viewName);
 	}
 
+	private void isAuthorizedUploadDocuments() {
+        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+
+			@Override
+            public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+				GWT.log("Error checking permission for adding comments: ", caught);
+				throw new RuntimeException("Error checking Permissions: ", caught);
+            }
+
+			@Override
+            public void onSuccess(Boolean result) {
+				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
+				buttonPanel.setVisible(result);
+            }
+        	
+		});
+	}
+	
 	@Override
 	protected Widget createWidget() {
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
@@ -262,6 +281,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 		
 		buttonPanel.setContent(form);
 		layout.add(documentList);
+		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
 		
 		
@@ -547,4 +567,9 @@ public class DocumentTool extends ToolView implements HasReferenceId{
     public void onHistoryEvent(HistoryStackFrame frame) {
         // do nothing
     }
+
+	@Override
+	public KSImage getImage() {
+		return Theme.INSTANCE.getCommonImages().getDocumentIcon();
+	}
 }

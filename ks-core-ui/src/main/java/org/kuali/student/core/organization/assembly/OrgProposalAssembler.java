@@ -45,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     
     private OrganizationService orgService;
-    private MetadataServiceImpl metadataService;
     public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
 
@@ -111,19 +110,6 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         return result;
     }
 
-    @Override
-    public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
-
-        Metadata metadata = null;
-        try{
-        metadata = metadataService.getMetadata(ORG_PROPOSAL_DATA_TYPE,PROPOSAL_TYPE_CREATE_ORG,state);
-
-        }
-        catch(Exception e ){
-            e.printStackTrace();
-        }
-        return metadata;
-    }
 
     @Override
     public SaveResult<Data> save(Data input) throws AssemblyException {
@@ -174,9 +160,6 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         orgService = service;
     }
     
-    public void setMetadataService(MetadataServiceImpl metadataService) {
-        this.metadataService = metadataService;
-    }
     
     private OrgInfoData buildOrgInfo(OrgHelper org){
         OrgInfo orgInfo = new OrgInfo();
@@ -288,12 +271,11 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     }
 
     @Override
-    protected AttributeSet getQualification(String id) {
-        String QUALIFICATION_PROPOSAL_ID = "proposalId";
+    protected AttributeSet getQualification(String idType, String id) {
         String DOCUMENT_TYPE_NAME = "documentTypeName";
         AttributeSet qualification = new AttributeSet();
         qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
-        qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+        qualification.put(idType, id);
         return qualification;
     }
    

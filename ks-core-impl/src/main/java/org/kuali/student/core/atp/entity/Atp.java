@@ -32,7 +32,6 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSAP_ATP")
@@ -51,7 +50,7 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText descr;
+	private AtpRichText descr;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -93,11 +92,11 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 		this.name = name;
 	}
 
-	public RichText getDescr() {
+	public AtpRichText getDescr() {
 		return descr;
 	}
 
-	public void setDescr(RichText descr) {
+	public void setDescr(AtpRichText descr) {
 		this.descr = descr;
 	}
 

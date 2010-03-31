@@ -33,10 +33,10 @@ import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory.OrgSections;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.organization.ui.client.view.OrgLocateTree;
 import org.kuali.student.core.organization.ui.client.view.OrgUpdatePanel;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CommonConfigurer {
@@ -125,10 +125,11 @@ public class CommonConfigurer {
                                 widget = getOrgAdvanceSearch();
                             }
                             if (field.getWidget().equals("OrgLocateTree")) {
-                                widget = new OrgLocateTree(section);
+                                widget = new OrgTree(section);
                             }
                             if (field.getWidget().equals("PositionTable")) {
                                 positionTable = new PositionTable();
+                                DOM.setElementAttribute(positionTable.getElement(), "id", "orgPositionsTable");
                                 widget = positionTable; 
                             }
 
@@ -239,9 +240,6 @@ public class CommonConfigurer {
                     }
                     if (field.getWidget().equals("OrgPositionTypePicker")) {
                         widget = new OrgPositionTypePicker();
-                    }
-                    if (field.getWidget().equals("OrgButtonPicker")) {
-                        widget = new OrgButtonPicker();
                     }
                     if (field.getWidget().equals("OrgPersonRelationTypePicker")) {
                         personRelationPicker = new OrgPersonRelationTypePicker();

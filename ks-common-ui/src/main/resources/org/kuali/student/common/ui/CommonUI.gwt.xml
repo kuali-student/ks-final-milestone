@@ -21,7 +21,8 @@
 	<inherits name="org.kuali.student.core.validation.Validation" />
 	<inherits name="org.kuali.student.core.messages.Message"/>
 	<inherits name='org.kuali.student.core.assembly.Assembly'/>
- 
+	<inherits name="org.kuali.student.core.CoreRice" />
+
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
   	<inherits name="com.google.gwt.libideas.StyleInjector" /> 

@@ -15,10 +15,14 @@
 package org.kuali.student.core.organization.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+import org.kuali.student.core.person.dto.PersonRelationInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgTreeInfo implements Serializable {
@@ -31,6 +35,17 @@ public class OrgTreeInfo implements Serializable {
 	private String parentId;
 	@XmlAttribute
 	private String displayName;
+
+	private String positionId;
+	
+	private String personId;
+	
+	private String relationType;
+	
+	private String orgHierarchyId;
+	
+	private long positions=0;
+	
 	
 	public OrgTreeInfo() {
 		super();
@@ -60,7 +75,47 @@ public class OrgTreeInfo implements Serializable {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	/* (non-Javadoc)
+	
+	public String getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(String positionId) {
+        this.positionId = positionId;
+    }
+    
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.positionId = personId;
+    }
+    
+    public String getRelationType() {
+        return relationType;
+    }
+
+    public void setRelationType(String relationType) {
+        this.relationType = relationType;
+    }
+    
+    public long getPositions(){
+        return positions;
+    }
+    
+    public void setPositions(long positions){
+        this.positions=positions;
+    }
+    
+    
+	public String getOrgHierarchyId() {
+        return orgHierarchyId;
+    }
+    public void setOrgHierarchyId(String orgHierarchyId) {
+        this.orgHierarchyId = orgHierarchyId;
+    }
+    /* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override

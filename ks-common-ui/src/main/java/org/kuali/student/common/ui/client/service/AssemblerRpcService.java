@@ -7,7 +7,8 @@ import org.kuali.student.core.assembly.data.Metadata;
 public interface AssemblerRpcService {
 	//Data operations
 	public Data getData(String dataId) throws OperationFailedException;
-	public Metadata getMetadata() throws OperationFailedException;
+	
+	public Metadata getMetadata(String idType, String id) throws OperationFailedException;
 
 	public DataSaveResult saveData(Data data) throws OperationFailedException;
 

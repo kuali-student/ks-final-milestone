@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,7 +20,7 @@ public class CollapsablePanel extends Composite{
 	//TODO add rotating triangle images
 	
 	public CollapsablePanel(String name, Widget content, boolean isOpen){
-		label = new KSLinkButton(name);
+		label = new KSLinkButton(name, ButtonStyle.DEFAULT_ANCHOR);
 		this.content.setWidget(content);
 		this.isOpen = isOpen;
 		if(!isOpen){
@@ -44,7 +45,11 @@ public class CollapsablePanel extends Composite{
 		this.initWidget(layout);
 	}
 	
-	public boolean isOpen(){
+	public KSLinkButton getLabel() {
+        return label;
+    }
+
+    public boolean isOpen(){
 		return isOpen;
 	}
 	

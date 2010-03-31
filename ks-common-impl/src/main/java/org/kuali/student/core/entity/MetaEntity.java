@@ -22,6 +22,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 
+import org.kuali.student.common.util.security.SecurityUtils;
+
 @MappedSuperclass
 public abstract class MetaEntity {
 	
@@ -38,7 +40,10 @@ public abstract class MetaEntity {
 		}
 		meta.setCreateTime(new Date());
 		meta.setUpdateTime(new Date());
-		//TODO Also set the create and update user id from context
+
+		String user = SecurityUtils.getCurrentUserId();
+		meta.setCreateId(user);
+		meta.setUpdateId(user);
 		
 		onPrePersist();
 	}
@@ -52,7 +57,9 @@ public abstract class MetaEntity {
 		}
 
 		meta.setUpdateTime(new Date());
-		//TODO Also set the update user id from context
+
+		String user = SecurityUtils.getCurrentUserId();
+		meta.setUpdateId(user);
 		
 		onPreUpdate();
 	}

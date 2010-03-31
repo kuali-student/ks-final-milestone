@@ -33,6 +33,7 @@ import com.google.gwt.core.client.GWT;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ModelDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

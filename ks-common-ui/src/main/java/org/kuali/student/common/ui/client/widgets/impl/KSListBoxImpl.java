@@ -190,4 +190,8 @@ public class KSListBoxImpl extends KSSelectItemWidgetAbstract{
 		return listBox.addBlurHandler(handler);
 	}
 
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }
 }

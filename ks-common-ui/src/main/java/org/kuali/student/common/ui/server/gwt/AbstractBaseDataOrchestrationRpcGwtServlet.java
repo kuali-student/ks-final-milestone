@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
@@ -13,6 +12,11 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
@@ -22,6 +26,8 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -46,6 +52,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
     private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
+	private PermissionService permissionService;
+	private IdentityService identityService;
 	
 	@Override
 	public Data getData(String dataId) {
@@ -58,11 +66,11 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
-	public Metadata getMetadata() {
+	public Metadata getMetadata(String idType, String id) {
 
 		try {
 		    //FIXME: should not pass empty id. What to do here?
-			return assembler.getMetadata("", getDefaultMetaDataType(), getDefaultMetaDataState());
+			return assembler.getMetadata(idType, id, getDefaultMetaDataType(), getDefaultMetaDataState());
 		} catch (AssemblyException e) {
 			LOG.error("Error getting Metadata.",e);
 		}
@@ -266,6 +274,31 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
+	public Boolean withdrawDocumentWithId(String dataId) {
+        if(simpleDocService==null){
+        	LOG.error("Workflow Service is unavailable");
+        	return Boolean.FALSE;
+        }
+
+		try{
+			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
+			KimPrincipalInfo principal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			if (principal == null) {
+				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			}
+//	        StandardResponse stdResp = simpleDocService.superUserDisapprove(docDetail.getRouteHeaderId().toString(), principal.getPrincipalId(), "");
+//	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+//        		LOG.error("Error withdrawing document: " + stdResp.getErrorMessage());
+//        		return Boolean.FALSE;
+//        	}
+		}catch(Exception e){
+            LOG.error("Error withdrawing document",e);
+            return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	@Override
 	public String getActionsRequested(String dataId) throws OperationFailedException {
         try{
     		if(workflowUtilityService==null){
@@ -278,7 +311,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
     		}
 
             //get a user name
-            String username = getCurrentUser();
+            String principalId = getCurrentUser();
 
             //Lookup the workflowId from the cluId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
@@ -287,15 +320,16 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             }
             
     		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
-            LOG.debug("Calling action requested with user:"+username+" and docId:"+docDetail.getRouteHeaderId());
+            LOG.debug("Calling action requested with user:"+principalId+" and docId:"+docDetail.getRouteHeaderId());
 
             Map<String,String> results = new HashMap<String,String>();
-            for(ActionRequestDTO request:docDetail.getActionRequests()){
-        		if(request.getPrincipalId()!=null&&request.getPrincipalId().equals(username)){
-        			results.put(request.getActionRequested(), "true");
-        		}
+            AttributeSet kewActionsRequested = workflowUtilityService.getActionsRequested(principalId, docDetail.getRouteHeaderId());
+            for (String key : kewActionsRequested.keySet()) {
+            	if ("true".equalsIgnoreCase(kewActionsRequested.get(key))) {
+            		results.put(key,"true");
+            	}
             }
-            
+
             String actionsRequested = "";
 
             String documentStatus = workflowUtilityService.getDocumentStatus(docDetail.getRouteHeaderId());
@@ -320,6 +354,13 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
                 	}
             	}
             }
+
+            // if user can withdraw document then add withdraw button
+            if (getPermissionService().isAuthorizedByTemplateName(principalId, PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER,docDetail.getRouteHeaderId().toString()))) {
+            	LOG.info("User '" + principalId + "' is allowed to Withdraw the Proposal");
+//            	actionsRequested+="W";
+            }
+
             return actionsRequested;
         } catch (Exception e) {
         	LOG.error("Error getting actions Requested",e);
@@ -340,6 +381,21 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         }
 
         return getData(docResponse.getAppDocId());
+	}
+
+	@Override
+	public String getDocumentStatus(String workflowId)
+			throws OperationFailedException {
+		if (workflowId != null && !workflowId.isEmpty()){
+			try {
+				Long documentId = Long.valueOf(workflowId); 
+				return workflowUtilityService.getDocumentStatus(documentId);
+			} catch (Exception e) {
+				throw new OperationFailedException("Error getting document status. " + e.getMessage());
+			}	
+		}
+		
+		return null;
 	}
 
 	@Override
@@ -450,7 +506,41 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		}
 		return true;
 	}
-	
+
+	protected boolean checkDocumentLevelPermissions() {
+		return false;
+	}
+
+	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
+		String user = getCurrentUser();
+		boolean result = false;
+		if (checkDocumentLevelPermissions()) {
+			if (type == null) {
+				return null;
+			}
+			String namespaceCode = type.getPermissionNamespace();
+			String permissionTemplateName = type.getPermissionTemplateName();
+			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
+			if (attributes != null) {
+				roleQuals.putAll(attributes);
+			}
+			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
+				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
+				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+			}
+			else {
+				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
+				return Boolean.TRUE;
+			}
+		}
+		else {
+			LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
+			result = true;
+		}
+		LOG.info("Result of authorization check for user '" + user + "': " + result);
+		return Boolean.valueOf(result);
+	}
+
 	protected abstract String deriveAppIdFromData(Data data);
 	protected abstract String deriveDocContentFromData(Data data);
 	protected abstract String getDefaultWorkflowDocumentType();
@@ -461,6 +551,22 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	public void setAssembler(Assembler<Data, Void> assembler) {
 		this.assembler = assembler;
 	}
+
+	public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+
+	public IdentityService getIdentityService() {
+    	return identityService;
+    }
+
+	public void setIdentityService(IdentityService identityService) {
+    	this.identityService = identityService;
+    }
 
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;

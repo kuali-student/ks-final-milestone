@@ -74,4 +74,11 @@ public interface CommentRpcService extends BaseRpcService {
      * @param referenceTypeKey reference type
      */
     public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception; 
+
+    /**
+     * Check for authorization to add a comment
+     * @param referenceId identifier of reference
+     * @param referenceTypeKey reference type
+     */
+    public Boolean isAuthorizedAddComment(String referenceId, String referenceTypeKey);
 }

@@ -22,9 +22,11 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
+import org.kuali.student.core.organization.ui.client.theme.OrgTheme;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -49,12 +51,14 @@ public class OrgEntryPoint implements EntryPoint{
     ApplicationComposite app;
     private OrgApplicationManager manager = null;
     SimplePanel content = new SimplePanel();
-    private OrgMenu orgMenu = new OrgMenu(content);;
+//    private OrgMenu orgMenu = new OrgMenu(content);;
     
     public void onModuleLoad() {
         final ApplicationContext context = new ApplicationContext();
         Application.setApplicationContext(context);
-
+        final String injectString = OrgTheme.INSTANCE.getOrgCss().getCssString();
+        StyleInjector.injectStylesheet(injectString);
+        
         loadApp(context);
 
         try {
@@ -67,11 +71,11 @@ public class OrgEntryPoint implements EntryPoint{
         
 //        StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());
         
-        History.addValueChangeHandler(orgMenu);
+//        History.addValueChangeHandler(orgMenu);
         History.fireCurrentHistoryState();
 
         if(DOM.getElementById("loadingSpinner") != null)
-            DOM.removeChild(RootPanel.getBodyElement(), DOM.getElementById("loadingSpinner"));        
+            DOM.removeChild(ApplicationPanel.get().getElement(), DOM.getElementById("loadingSpinner"));        
     }
     
     public Widget getContent(){
@@ -82,8 +86,8 @@ public class OrgEntryPoint implements EntryPoint{
         mainPanel.setStyleName("ks-main");
         mainPanel.add(pageTitle, DockPanel.NORTH);
 
-        mainPanel.add(orgMenu, DockPanel.WEST);
-        mainPanel.setCellWidth(orgMenu, "200px");
+//        mainPanel.add(orgMenu, DockPanel.WEST);
+//        mainPanel.setCellWidth(orgMenu, "200px");
         mainPanel.add(content, DockPanel.CENTER);
         
 //        mainPanel.add(new KSButton("Logout", new ClickHandler() {
@@ -130,7 +134,7 @@ public class OrgEntryPoint implements EntryPoint{
         manager = new OrgApplicationManager();
         app.setContent(manager);
 //        app.setContent(getContent());
-        RootPanel.get().add(app);
+        ApplicationPanel.get().add(app);
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);
     }

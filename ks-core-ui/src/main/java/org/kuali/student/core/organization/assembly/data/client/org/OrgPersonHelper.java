@@ -9,7 +9,7 @@ public class OrgPersonHelper {
     private static final long serialVersionUID = 1L;
 
     public enum Properties implements PropertyEnum {
-        ID("id"),PERSON_ID("personId"),PERSON_RELATION_TYPE("type"),ORG_ID("orgId"),
+        ID("id"),PERSON_ID("personId"),PERSON_RELATION_TYPE("type"),ORG_ID("orgId"),PERSON_NAME("personName"),
                 EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate");
 
         private final String key;
@@ -89,6 +89,14 @@ public class OrgPersonHelper {
     
     public String getOrgId() {
         return data.get(Properties.ORG_ID.getKey());
+    }
+    
+    public String getPersonName(){
+        return data.get(Properties.PERSON_NAME.getKey());
+    }
+    
+    public void setPersonName(String personName){
+        data.set(Properties.PERSON_NAME.getKey(), personName);
     }
     
 }

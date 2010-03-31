@@ -19,28 +19,6 @@ public class ValidationMessagePanel extends Composite{
 	
 	public ValidationMessagePanel(){
 		this.initWidget(listPanel);
-		this.addStyleName("ks-form-module-validation");
-	}
-	
-	@Deprecated
-	public void addMessages(List<ValidationResultInfo> list){
-		for(ValidationResultInfo vr: list){
-    		//HorizontalBlockFlowPanel validationLine = new HorizontalBlockFlowPanel();
-    		//VerticalFlowPanel imagePanel = new VerticalFlowPanel();
-    		KSLabel message = new KSLabel(vr.getMessage());
-    		listPanel.add(message);
-    		message.setWordWrap(true);
-    		if(vr.getLevel() == ErrorLevel.ERROR){
-    			message.addStyleName("ks-form-validation-label");
-    		}
-    		else if(vr.getLevel() == ErrorLevel.WARN){
-    			//message.addStyleName("KS-Validation-Warning-Message");
-    		}
-    		else{
-    			//message.addStyleName("KS-Validation-Ok-Message");
-    		}
-    		//message.addStyleName("KS-Validation-Message");
-        }
 		
 	}
 	

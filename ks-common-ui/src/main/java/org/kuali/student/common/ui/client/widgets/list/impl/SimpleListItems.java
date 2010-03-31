@@ -68,4 +68,8 @@ public class SimpleListItems implements ListItems {
 		return items.get(id);
 	}
 
+	public void clear(){
+		items.clear();
+		attributes.clear();
+	}
 }

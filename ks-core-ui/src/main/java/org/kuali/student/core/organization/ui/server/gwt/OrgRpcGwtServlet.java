@@ -18,13 +18,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.kuali.rice.kim.bo.entity.dto.KimEntityNamePrincipalNameInfo;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.assembly.Assembler;
@@ -62,6 +66,7 @@ import org.kuali.student.core.organization.dynamic.SectionView;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfoImpl;
+import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfoImpl;
 import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
@@ -73,7 +78,13 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
 
 	private static final long serialVersionUID = 1L;
 	public static final String CONFIGURE_XML_PATH = "C:/org_configure.xml";
+	private IdentityService identityService;
 
+	public void setIdentityService(IdentityService identityService){
+	    this.identityService=identityService;
+	}
+	
+	
     @Override
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey){
         try {
@@ -136,6 +147,30 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         // TODO Auto-generated method stub
         try {
             return service.getOrgOrgRelationsByOrg(orgId);
+        } catch (DoesNotExistException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @Override
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(String orgId) {
+        
+        try {
+            return service.getOrgOrgRelationsByRelatedOrg(orgId);
         } catch (DoesNotExistException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -292,6 +327,22 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         try {
             return service.getOrgOrgRelationTypes();
         } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @Override
+    public OrgOrgRelationTypeInfo getOrgOrgRelationType(String orgOrgRelationTypeKey) {
+        try {
+            return service.getOrgOrgRelationType(orgOrgRelationTypeKey);
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
             e.printStackTrace();
         }
         return null;
@@ -528,10 +579,6 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         if (orgProposalAssembler == null) {
             orgProposalAssembler = new OrgProposalAssembler();
         }            
-//            orgProposalAssembler.setOrgService(service);
-            MetadataServiceImpl metadataServiceImpl = new MetadataServiceImpl("/org-orchestration-dictionary.xml");
-//            orgProposalAssembler.setMetadataService(metadataServiceImpl);
-
     }
     
 // TODO rewrite this method to use the metadata structures from the assembler
@@ -583,7 +630,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         try {
             initAssemblers();
             //FIXME: where to get the ID?
-            return orgProposalAssembler.getMetadata(null, null,"draft");
+            return orgProposalAssembler.getMetadata(null, null, null,"draft");
         }
         catch(Exception e){
             e.printStackTrace();
@@ -714,5 +761,22 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         }
         return relations;
     }
+
+
+    @Override
+    public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds) {
+        Map<String, KimEntityNamePrincipalNameInfo> kimIdentities = identityService.getDefaultNamesForPrincipalIds(personIds);
+        Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
+        for(String pId:personIds ){
+            KimEntityNamePrincipalNameInfo kimEntity = kimIdentities.get(pId);
+            MembershipInfo memeberEntity = new MembershipInfo();
+            memeberEntity.setFirstName(kimEntity.getDefaultEntityName().getFirstName());
+            memeberEntity.setLastName(kimEntity.getDefaultEntityName().getLastName());
+            identities.put(pId, memeberEntity);
+        }
+        
+        return identities;
+    }
+
     
 }

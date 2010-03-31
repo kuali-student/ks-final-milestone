@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
@@ -15,7 +17,6 @@ import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
@@ -25,6 +26,7 @@ import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -50,11 +52,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	private boolean loaded = false;
 	private final Map<String, Enum<?>> viewEnums = new HashMap<String, Enum<?>>();
 	
-	
 	Enum<?> defaultView = null;
-	
-	private Class<? extends ModelDTO> modelDTOType;
-	
+		
 	private KSTabPanel tabPanel = new KSTabPanel();
 	private KSTitleContainerImpl container = new KSTitleContainerImpl();
 	
@@ -84,10 +83,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		public void setTabDefaultView(Enum<?> tabDefaultView) {
 			this.tabDefaultView = tabDefaultView;
 		}
-		
-		
-		
-
+					
 		private KSButton nextButton = new KSButton("Save & Continue", new ClickHandler(){
 	        public void onClick(final ClickEvent event) {
                 
@@ -255,10 +251,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	
 	public TabbedSectionLayout(String controllerId){
 	    super(controllerId);
-		container.setContent(tabPanel);
+	    container.setContent(tabPanel);
 		container.setTitle("New Course Proposal");
-		container.setStatus("Unsubmitted Proposal");
-		container.setLinkText("Workflow Overview");
 		super.initWidget(container);
 	}
 	
@@ -382,7 +376,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		if(!(tabPanel.hasTabKey(tabKey))){
 			layout = new TabLayout();
 			tabLayoutMap.put(tabKey, layout);
-			tabPanel.addTab(tabKey, tabKey, layout, TabPosition.RIGHT);
+			tabPanel.addTab(tabKey, tabKey, tool.getImage(), layout, TabPosition.RIGHT);
 		}
 		else{
 			layout = tabLayoutMap.get(tabKey);
@@ -403,6 +397,10 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		sectionViewMap.put(tool.getViewEnum().name(), tool);
         tool.setController(this);
 		
+	}
+	
+	public void addToolbar(Widget toolbar){
+		this.container.setToolbar(toolbar);
 	}
 	
     public void showStartSection(final Callback<Boolean> onReadyCallback){
@@ -457,15 +455,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
         section.setController(this);
 	    startSectionWindow.setWidget(panel);
 	}
-    
-    public Class<? extends ModelDTO> getModelDTOType() {
-        return modelDTOType;
-    }
-
-    public void setModelDTOType(Class<? extends ModelDTO> modelDTOType) {
-        this.modelDTOType = modelDTOType;
-    }
-    
+        
 	public void addButton(String tabKey, KSButton button){
 		TabLayout layout = tabLayoutMap.get(tabKey);
 		
@@ -476,7 +466,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	}
 	    
     public void clear(){
-    	
+    	super.clear();
     	for(TabLayout layout: tabLayoutMap.values()){
 			layout.clear();
 		}
@@ -496,19 +486,53 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		return null;
 	}
 
-	@Override
-	public void addSection(
-			String[] hierarchy,
-			org.kuali.student.common.ui.client.configurable.mvc.SectionView section) {
-		// TODO Auto-generated method stub
+	
+	/**
+ 	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)
+ 	 * 
+	 * @param validationResults List of validation results for the layouts model.
+	 * @param checkCurrentSectionOnly true if errors should be checked on current section only, false if all sections should be checked 
+	 * @return true if the specified sections (all or current) has any validation errors
+	 */
+	public boolean isValid(List<ValidationResultContainer> validationResults, boolean checkCurrentSectionOnly){
+		boolean isValid = true;
 		
-	}
-
-	@Override
-	public void addStartSection(
-			org.kuali.student.common.ui.client.configurable.mvc.SectionView section) {
-		// TODO Auto-generated method stub
+		if (checkCurrentSectionOnly){
+			//Check for validation errors on the currently displayed section only
+	    	if(this.isStartSectionShowing()){
+	    		isValid = isValid(validationResults, getStartSection());
+	    	} else {
+	    		View v = getCurrentView();
+	        	if(v instanceof Section){
+	        		isValid = isValid(validationResults, (Section)v); 
+	        	}
+	    	}
+		} else {
+			//Check for validation errors on all sections
+			container.clearMessages();
+			String errorSections = "";
+			for (Entry<String, View> entry:sectionViewMap.entrySet()) {
+				View v = entry.getValue();
+				if (v instanceof Section){
+					if (!isValid(validationResults, (Section)v)){
+						isValid = false;
+						errorSections += ((SectionView)v).getName() + ", ";
+					}
+				}
+			}
+			if (!errorSections.isEmpty()){
+				errorSections = errorSections.substring(0, errorSections.length()-2);
+				container.addMessage("Following section(s) has errors & must be corrected: " + errorSections);
+			}
+		}
 		
+		return isValid;
 	}
-
+		
+	private boolean isValid(List<ValidationResultContainer> validationResults, Section section){
+		section.setFieldHasHadFocusFlags(true);
+		ErrorLevel status = section.processValidationResults(validationResults);
+		
+		return (status != ErrorLevel.ERROR);
+	}		
 }

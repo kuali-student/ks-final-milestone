@@ -28,9 +28,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -93,24 +90,6 @@ public class PersonSearchServiceImpl implements SearchService {
         return new SearchResult();
     }
 
-
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-     */
-    @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (searchTypeKey == null) {
-            new MissingParameterException("searchTypeKey can not be null");
-        }
-        final SearchOperation search = searchOperations.get(searchTypeKey);
-        if (search != null) {
-            return search.searchForResults(identityService, searchTypeKey, queryParamValues);
-        }
-        throw new DoesNotExistException("searchTypeKey is not recognized");
-
-    }
 
     /**
      * This overridden method ...

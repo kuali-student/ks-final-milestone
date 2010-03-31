@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 import org.kuali.student.core.dto.RichTextInfo;
 
+@Deprecated
 public class RichTextBinding implements PropertyBinding<RichTextEditor>{
     public static RichTextBinding INSTANCE = new RichTextBinding();
     

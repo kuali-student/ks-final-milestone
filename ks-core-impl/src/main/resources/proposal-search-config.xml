@@ -7,26 +7,49 @@
     http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+    <import resource="proposal-dictionary-config.xml" />
 
-    <search:searchType id="proposal.search.courses" parent="proposal.search.courses-parent"/>
-	<search:searchType id="proposal.search.courses-parent"  abstract="true">
+    <search:searchType id="proposal.search.generic" parent="proposal.search.generic-parent"/>
+    <search:searchType id="proposal.search.generic-parent"  abstract="true">
         <search:name>Proposal search for clu proposals</search:name>
         <search:desc>Returns all proposals</search:desc>
         <search:searchResultTypeInfo>
-            <ref bean="proposal.result.courseProposals" />
+            <ref bean="proposal.result.generic" />
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
-           	<ref bean="proposal.criteria.allCourseProposals"/>
+            <ref bean="proposal.criteria.proposalAdvancedCriteria"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchResultTypeInfo id="proposal.result.courseProposals" parent="proposal.result.courseProposals-parent"/>
-	<search:searchResultTypeInfo id="proposal.result.courseProposals-parent"  abstract="true">
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria" parent="proposal.criteria.proposalAdvancedCriteria-parent"/>
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria-parent"  abstract="true">
+        <search:name>ProposalAdvancedCriteria</search:name>
+        <search:desc>Advanced criteria</search:desc>
+        <search:queryParams>
+            <ref bean="proposal.queryParam.proposalOptionalName"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+
+    <search:queryParam id="proposal.queryParam.proposalId" parent="proposal.queryParam.proposalId-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalId-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.id.fd" />
+    </search:queryParam>
+
+    <search:queryParam id="proposal.queryParam.proposalOptionalName" parent="proposal.queryParam.proposalOptionalName-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalOptionalName-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.name.fd" />
+    </search:queryParam>
+
+    <search:searchResultTypeInfo id="proposal.result.generic" parent="proposal.result.generic-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.generic-parent"  abstract="true">
         <search:name>CourseProposalResult</search:name>
         <search:desc>List of course proposals</search:desc>
         <search:resultColumns>
             <ref bean="proposal.resultColumn.proposalId" />
-            <ref bean="proposal.resultColumn.proposalName" />
+            <ref bean="proposal.resultColumn.proposalOptionalName" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -37,25 +60,21 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-    <search:resultColumn id="proposal.resultColumn.proposalName" parent="proposal.resultColumn.proposalName-parent"/>
-	<search:resultColumn id="proposal.resultColumn.proposalName-parent"  abstract="true">
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalName" parent="proposal.resultColumn.proposalOptionalName-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalName-parent"  abstract="true">
         <search:name>Proposal Name</search:name>
         <search:desc>Name of the proposal</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-    <search:searchCriteriaTypeInfo id="proposal.criteria.allCourseProposals" parent="proposal.criteria.allCourseProposals-parent"/>
-	<search:searchCriteriaTypeInfo id="proposal.criteria.allCourseProposals-parent"  abstract="true">
-        <search:name>CourseProposal</search:name>
-        <search:desc>Placeholder Criteria</search:desc>
-     </search:searchCriteriaTypeInfo>
-
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
-                <entry key="proposal.search.courses">
-                    <value>SELECT proposal.id, proposal.name FROM Proposal proposal
-                        ORDER BY proposal.name</value>
+                <entry key="proposal.search.generic">
+                    <value>SELECT proposal.id, proposal.name FROM Proposal proposal</value>
+                </entry>
+                <entry key="proposal.queryParam.proposalOptionalName">
+                    <value>proposal.name</value>
                 </entry>
             </map>
 		</property>

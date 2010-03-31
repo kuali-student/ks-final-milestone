@@ -2,27 +2,47 @@
 
 .ks-header h3 { margin: 0; }
 
-h1.ks-heading-course-title { color: #666; display:block; font-weight: normal; margin-bottom: 0; padding: 15px 0 10px 0;}
+.ks-heading-course-title h1{
+	color: #666;
+	display:block;
+	font-size: 2.333em;
+	font-weight: normal;
+	margin-bottom: 0;
+	padding: 15px 0 10px 0;
+}
 
-h2.ks-heading-page-title { color: #940b07; }
-.ks-heading-page-section h3{ color: #000; font-weight: normal; padding-bottom: 4px; border-bottom: solid 2px #ccc; margin-bottom: .5em;}
-/*h3.ks-heading-page-section span { color: #aaa; }*/
-h3.ks-heading-page-section{ color: #000; font-weight: normal; padding-bottom: 4px; border-bottom: solid 2px #ccc; margin-bottom: .5em;}
+.ks-heading-page-title h2{
+	font-size: 2em;
+	color: #940b07;
+}
+.ks-heading-page-section h3{
+    font-size: 1.5em;
+    color: #000;
+    font-weight: normal;
+    padding-bottom: 4px;
+    border-bottom: solid 2px #ccc;
+    margin-bottom: .5em;
+}
+
+.ks-section-widget{
+	padding-bottom: 3px;
+}
+
 
 /*** Page ***/
 .ks-page-container {
 	background-color: #fff;
-	min-height: 100%;  
+	min-height: 100%;
 	position: relative;
 	margin: 20px 3%;
-	
+
 	\-moz-box-shadow: 0px 0px 10px #666;
 	\-webkit-box-shadow: 0px 0px 10px #666;
 }
 
 /*** Page: Banner ***/
-.ks-page-banner { 
-	background-color: #eaeaea; 
+.ks-page-banner {
+	background-color: #eaeaea;
 	padding-right: 20px;
 }
 
@@ -38,7 +58,7 @@ h3.ks-heading-page-section{ color: #000; font-weight: normal; padding-bottom: 4p
 }
 
 .ks-page-banner-workflow, .ks-page-banner-project {
-	width: 48%; 
+	width: 48%;
 	float: left;
 	margin-right: 2%;
 }
@@ -48,7 +68,7 @@ h3.ks-heading-page-section{ color: #000; font-weight: normal; padding-bottom: 4p
 	color: #424242;
 	border: solid 1px #b2b2b2;
 	padding: 6px;
-	background-color: #f3f3f3; 
+	background-color: #f3f3f3;
 }
 
 .ks-page-banner-workflow-menu p, .ks-page-banner-project-menu p {
@@ -78,14 +98,14 @@ h3.ks-heading-page-section{ color: #000; font-weight: normal; padding-bottom: 4p
 
 
 .ks-page-banner-message {
-	padding: 0 20px; 
+	padding: 0 20px;
 	background-color: #eaeaea;
 }
 
 /*** Page ***/
 
-.ks-page-content { 
-	padding: 20px; 
+.ks-page-content {
+	padding: 20px;
 }
 
 
@@ -119,28 +139,30 @@ h3.ks-heading-page-section{ color: #000; font-weight: normal; padding-bottom: 4p
 #basic-modal-content {display:none;}
 #simplemodal-overlay {background-color:#000;}
 #simplemodal-container {
-	width:850px; 
-	color:#333; 
-	background-color:#fff; 
-	border:6px solid #aaa; 
+	width:850px;
+	color:#333;
+	background-color:#fff;
+	border:6px solid #aaa;
 	}
 #simplemodal-container a {color:#ddd;}
 
 #simplemodal-container a.modalCloseImg {
-	background: url('../images/x.png') no-repeat; 
-	width:25px; 
-	height:29px; 
-	display:inline; 
-	z-index:9999; 
-	position:absolute; 
-	top:-12px; 
-	right:-12px; 
+	background: url('../images/x.png') no-repeat;
+	width:25px;
+	height:29px;
+	display:inline;
+	z-index:9999;
+	position:absolute;
+	top:-12px;
+	right:-12px;
 	cursor:pointer;
 	}
-	
+
+/*
+Commented out by Wil Johnson, was breaking new lightbox, if this breaks you, please let me know so we can work it out.
 .ks-lightbox-status { background-color: #aaa; padding: 12px 6px; color: #fff; font-weight: bold;}
 .ks-lightbox-content { padding: 36px 20px 20px 20px; overflow: auto; height: 500px; }
-
+*/
 
 /*** Helper Classes ***/
 
@@ -152,24 +174,39 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 /*** Clear/Clear Fix ***/
 
 .clearfix:after {
-  content: "\0020"; 
-  display: block; 
-  height: 0; 
-  clear: both; 
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
   visibility: hidden;
-  overflow:hidden; 
+  overflow:hidden;
 }
 .clearfix {display: block;}
 
 .clear { clear:both; height: 0;  }
 
+.clearboth { clear:both }
+
 /*** Forms: Bordered Container ***/
 
 .ks-form-bordered { background-color: #fff; border: solid 1px #ccc; margin-bottom: 1em;}
-.ks-form-bordered-header { background-color: #eee; padding: 4px 8px; margin: 0;  }
+.ks-form-bordered-header { background-color: #eee; padding: 4px 8px; margin: 0;}
 
-.ks-form-bordered-header-title { display:table; float:left; height: 1%; }
-.ks-form-bordered-header-title h4 { margin-bottom: 0; color: #424242; }
+.ks-form-bordered-header-title {
+	font-size: 1.167em;
+	font-weight: bold;
+	color: #424242;
+	display:table;
+	float:left;
+	height: 1%;
+	background-color:  #F0F0F0;
+}
+.ks-form-bordered-header-title h4 {
+	margin: 0;
+	padding: 0;
+	
+
+}
 
 /*** Form (Bordered): Delete, and Help ***/
 
@@ -181,9 +218,6 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
     background: transparent url('../images/icons/delete_gray_12px.png') no-repeat right center;
     height: 0px !important;
     height :14px;
-}
-.ks-form-bordered-header-delete a:hover {
-	 background-image: url('../images/icons/delete_blue_12px.png');
 }
 
 
@@ -197,9 +231,6 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
     height :14px;
 }
 
-.ks-form-bordered-header-help a:hover {
-	 background-image: url('../images/icons/help_blue_14px.png');
-}
 
 .ks-form-bordered-body {
 	padding: 10px 10px 0 10px;
@@ -220,15 +251,23 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 .ks-form-course-format-activity { padding: 10px; margin-bottom: 10px; }
 
-.ks-form-course-format-activity-header { 
-	position:relative; 
-	border-bottom: solid 1px #ccc; 
+.ks-form-course-format-activity-header {
+	position:relative;
+	border-bottom: solid 1px #ccc;
 	height: 1%;
 	padding:4px 0;
 	margin-bottom: .75em;
 }
 
-.ks-form-course-format-activity-header-title { display:table; float:left; height: 1%; }
+.ks-form-course-format-activity-header-title {
+	font-size: 1.083em; /* 13px */
+    font-weight: bold;
+    color: #424242;
+	display:table;
+	float:left;
+	height: 1%;
+	border-bottom: solid 1px #ccc;
+}
 .ks-form-course-format-activity-header-title h5 { margin-bottom: 0; color: #424242; }
 
 .ks-form-course-format-activity-header-delete { float:right; margin-left: 3px; width: 12px; height: 14px;}
@@ -260,15 +299,32 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 /*** Forms: Modules (Rows) ***/
 
-.ks-form-module { 
-	color: #444; 
-	height: 1%;
-	margin-bottom: 1em;
+@if user.agent ie6 ie7 ie8 ie{ 
+	.ks-form-module {
+		color: #444;
+		height: 1%;
+		margin-bottom: 1em;
+	}
+}
+
+.ks-form-module {
+		color: #444;
+		margin-bottom: 1em;
+}
+
+@if user.agent ie6 ie7 ie8 ie{  
+	.ks-form-module-group, .ks-form-module-solo{
+		height: 1%;
+		margin-bottom: 1em;
+		padding-left: 5px; 
+		padding-bottom: 5px;
+	}
 }
 
 .ks-form-module-group, .ks-form-module-solo {
-	height: 1%;
 	margin-bottom: 1em;
+	padding-left: 5px; 
+	padding-bottom: 5px;
 }
 
 .ks-form-module-fields {
@@ -277,9 +333,13 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-elements {
-	float:left; 
+	float:left;
 	margin-right: 20px;
 	margin-bottom: 1px;
+}
+
+.ks-form-module-elements-required {
+	color:red;
 }
 
 .ks-form-module-elements-inputs {
@@ -288,68 +348,76 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	display: inline-block;
 }
 
-.ks-form-module-elements-instruction { margin-bottom: .15em; display: block; color: #000; }
+.ks-form-module-elements-instruction {
+	font-size: 1em; /* 12px */
+	color:#000000;
+	display:block;
+	line-height: 1.2em;
+	/*margin-top:0.15em;*/
+	/*margin-bottom: 0.15em;*/
+}
 
-.ks-form-header-title-actions { display:inline-block; float:right; margin-top: 2px; }
+.ks-form-header-title-actions { display:inline-block; float:right; margin-top: 2px; line-height: 1.2em;}
 
 .ks-form-module-elements-help{
-	text-decoration: none;
-	font-size: 11px; 
+	/*text-decoration: none;
+	font-size: 11px;
 	font-weight: bold;
-	color: #aaa;
+	color: #aaa;*/
 }
 
 .ks-form-module-elements-delete{
-	text-decoration: none;
-	font-size: 11px; 
+	/*text-decoration: none;
+	font-size: 11px;
 	font-weight: bold;
-	color: #aaa;
+	color: #aaa;*/
 }
 
-a.ks-form-module-elements-help{
-	padding: 1px 3px 0 3px; 
-	background-color: transparent; 
-	\-moz-border-radius:7px; 
+.ks-form-module-elements-help a{
+	padding: 1px 3px 0 3px;
+	background-color: transparent;
+	\-moz-border-radius:7px;
 	\-webkit-border-radius: 7px;
 	border: solid 1px #ccc;
-	font-size: 11px; 
+	font-size: 11px;
 	font-weight: bold;
 	text-decoration: none;
 	color: #aaa;
+	
 }
 
-a.ks-form-module-elements-delete{
-	padding: 0px 3px; 
-	background-color: transparent; 
+.ks-form-module-elements-delete a{
+	padding: 0px 3px;
+	background-color: transparent;
 	border: solid 1px #ccc;
-	font-size: 12px; 
+	font-size: 12px;
 	font-weight: bold;
 	text-decoration: none;
 	color: #aaa;
 }
 
-a.ks-form-module-elements-help:hover, a.ks-form-module-elements-delete:hover {
+.ks-form-module-elements-help a:hover, .ks-form-module-elements-delete a:hover {
 	color: #2C61E6;
 	border-color: #2C61E6;
 }
 
 /*.ks-form-module-elements-help a {
-	padding: 1px 3px 0 3px; 
-	background-color: transparent; 
-	\-moz-border-radius:7px; 
+	padding: 1px 3px 0 3px;
+	background-color: transparent;
+	\-moz-border-radius:7px;
 	\-webkit-border-radius: 7px;
 	border: solid 1px #ccc;
-	font-size: 11px; 
+	font-size: 11px;
 	font-weight: bold;
 	text-decoration: none;
 	color: #aaa;
 }
 
 .ks-form-module-elements-delete a {
-	padding: 0px 3px; 
-	background-color: transparent; 
+	padding: 0px 3px;
+	background-color: transparent;
 	border: solid 1px #ccc;
-	font-size: 12px; 
+	font-size: 12px;
 	font-weight: bold;
 	text-decoration: none;
 	color: #aaa;
@@ -359,19 +427,25 @@ a.ks-form-module-elements-help:hover, a.ks-form-module-elements-delete:hover {
 	color: #2C61E6;
 	border-color: #2C61E6;
 }*/
-.ks-form-module-elements-help-text { margin: 2px 0 0 0; font-size: 0.916em; color: #424242; }
+.ks-form-module-elements-help-text {
+	margin: 2px 0 0 0;
+	font-size: 0.916em;
+	color: #424242;
+	display: block;
+}
 
 .ks-form-module-validation {
-	float: left;
+	/*float: left;*/
 	font-size: 1em;
 	font-weight: bold;
 	color: red;
-	margin-top: 1em; 
+	margin-top: 1.2em;
 	margin-right: 10px;
+	margin-left: 0px;
 	/*width: 40%;*/
 }
 
-.ks-form-module-validation ul { margin: 0; }
+.ks-form-module-validation ul { margin: 0; padding: 0; }
 .ks-form-module-validation li {
 	margin-left: 0;
 	padding: 3px 0;
@@ -379,8 +453,24 @@ a.ks-form-module-elements-help:hover, a.ks-form-module-elements-delete:hover {
 	list-style: none;
 }
 
+.ks-form-module-validation-inline {
+	font-size: 1em;
+	font-weight: bold;
+	color: red;
+	margin-left: 0px;
+	/*margin-top: 1.2em;*/
+	margin-right: 10px;
+}
 
-.ks-form-module-validation-inline { 
+.ks-form-module-validation-inline ul { margin: 0; padding: 0;}
+.ks-form-module-validation-inline li {
+	margin-left: 0;
+	padding: 3px 0;
+	height: 1%;
+	list-style: none;
+}
+
+/*.ks-form-module-validation-inline {
 	font-size: 1em;
 	font-weight: bold;
 	color: red;
@@ -390,20 +480,25 @@ a.ks-form-module-elements-help:hover, a.ks-form-module-elements-delete:hover {
 	display: inline-block;
 	line-height: 1.1em;
 	padding: 1px;
-}
+}*/
 
-.ks-form-module label, .ks-form-module h6, .ks-form-module .KS-Common-Title { display: block; font-weight: bold; color: #000; /*line-height: 1.2em;*/ }
+.ks-form-module label, .ks-form-module h6, .ks-form-module .KS-Common-Title { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
 .ks-form-module label span a { font-weight: normal; margin-left: .3em; }
 
+.ks-form-module-triple-line-margin{margin-top: 3.6em;}
 .ks-form-module-double-line-margin{margin-top: 2.4em;}
 .ks-form-module-single-line-margin{margin-top: 1.2em;}
 .ks-form-module-no-line-margin{margin-top: 0em;}
 
-label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin  { margin-top: 0; } /* Clears the top margin we just put for elements that need it removed */
+label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin  {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 0;
+} /* Clears the top margin we just put for elements that need it removed */
 
 /*** Basic Form Styling ***/
 
-.ks-form-module-elements input[type="text"] { width: 120px; border: solid 1px #888;  }
+.ks-form-module-elements input[type="text"] { /* width: 120px; */border: solid 1px #888;  }
 .ks-form-module-elements input[type="checkbox"] + label { display: inline; white-space: nowrap; } /* for label fields that follow a checkbox */
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */
 .ks-form-module-elements textarea { border: solid 1px #888; }
@@ -424,19 +519,19 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 
 .ks-form-show-advanced {
 	background: transparent url('../images/right_arrow.png') no-repeat left center;
-	padding-left: 16px; 
+	padding-left: 16px;
 }
 
 .ks-form-hide-advanced {
 	background: transparent url('../images/down_arrow.png') no-repeat left center;
-	padding-left: 16px; 
+	padding-left: 16px;
 }
 
 
 /*** Forms: Button Styling ***/
 
-.ks-form-button-container { 
-	
+.ks-form-button-container {
+
 	margin-bottom: 10px;
 }
 
@@ -468,7 +563,7 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 /*** Forms: Error, Validation, and Highlighting ***/
 
 
-.error { background-color: #ffe0e9; padding: 5px; }
+.error { background-color: #ffe0e9;  }
 .error .ks-form-bordered-header { background-color: #f5d6df; }
 
 .invalid label, .invalid h6, .invalid legend, .invalid .KS-Common-Title { color: red; }
@@ -486,13 +581,13 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 }
 
 .ks-page-sub-navigation {
-	border-bottom: solid 1px #ccc; 
+	border-bottom: solid 1px #ccc;
 	padding: 15px 0;
 }
 
 .ks-page-sub-navigation-menu {
-	float:left; 
-	margin-right: 35px; 
+	float:left;
+	margin-right: 35px;
 	color: #666;
 }
 
@@ -504,7 +599,7 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 	white-space: nowrap;
 	overflow: hidden;
 	color: #797979;
-	
+
 }
 
 .ks-page-sub-navigation-menu ul {
@@ -516,9 +611,9 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 	line-height: 1.3em;
 }
 
-/* Buttons -------------------------------------------------------------- */ 
+/* Buttons -------------------------------------------------------------- */
 
-/* ---- Primary ------------------------- */ 
+/* ---- Primary ------------------------- */
 a.ks-button-primary {
 	line-height: 2.25em;
 	text-decoration:none;
@@ -557,7 +652,7 @@ a.ks-button-primary:hover {
 	font-weight: bold;
 }
 
-/* ---- Secondary ------------------------- */ 
+/* ---- Secondary ------------------------- */
 a.ks-button-secondary {
 	line-height:2.25em;
 	text-decoration:none;
@@ -595,7 +690,7 @@ a.ks-button-secondary:hover {
 	font-size: 1.167em;
 }
 
-/* ---- Primary Small ------------------- */ 
+/* ---- Primary Small ------------------- */
 a.ks-button-primary-small {
 	line-height:1.93em;
 	text-decoration:none;
@@ -635,7 +730,7 @@ a.ks-button-primary-small:hover {
 	font-weight: bold;
 }
 
-/* ---- Secondary Small ----------------- */ 
+/* ---- Secondary Small ----------------- */
 a.ks-button-secondary-small {
 	line-height:1.93em;
 	text-decoration:none;
@@ -673,5 +768,17 @@ a.ks-button-secondary-small:hover {
 	font-size: 1em;
 }
 
+.ks-link-disabled{
+	color: #999999;
+}
+
+.ks-link{
+}
+
+.ks-help-popup{
+	background-color: #FFE87C;
+	padding: 3px 3px 3px 3px;
+	border: 1px solid black;
+}
 
 

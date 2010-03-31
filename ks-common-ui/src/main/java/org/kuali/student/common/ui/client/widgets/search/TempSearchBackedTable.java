@@ -3,9 +3,9 @@
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -52,55 +52,55 @@ public class TempSearchBackedTable extends Composite{
     protected PagingScrollTable<ResultRow> pagingScrollTable;
     private VerticalPanel layout = new VerticalPanel();
     private PagingOptions pagingOptions;
-    
+
     private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
-    
+
     private PagingOptions createPagingOptions(PagingScrollTable<ResultRow> pagingScrollTable) {
-        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable); 
+        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable);
         pagingOptions.setPixelSize(pagingScrollTable.getOffsetWidth(), pagingOptions.getOffsetHeight());
         return pagingOptions;
     }
-    
+
     public TempSearchBackedTable(){
-        super();                
-        redraw();               
+        super();
+        redraw();
         layout.setWidth("100%");
         initWidget(layout);
     }
-    
+
     public void clearTable(){
         resultRows.clear();
-        this.redraw();        
+        this.redraw();
     }
-    
+
     public void removeSelected(){
         for(ResultRow r: getSelectedRows()){
             resultRows.remove(r);
         }
         this.redraw();
     }
-    
+
     public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
-    	
+
     	initializeTable(listResultMetadata, resultIdKey);
-    	
+
     	searchRequest.setNeededTotalResults(false);
-    	
+
         if(pagingScrollTable != null){
             pagingScrollTable.setEmptyTableWidget(new Label("Processing Search..."));
-        }       
-                
+        }
+
 		searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
 
 		    @Override
 		    public void onFailure(Throwable cause) {
 		    	GWT.log("Failed to perform search", cause); //FIXME more detail info here
-		    	Window.alert("Failed to perform search");            	
+		    	Window.alert("Failed to perform search");
 		    }
 
 		    @Override
 		    public void onSuccess(SearchResult results) {
-		        
+
 		    	resultRows.clear();
 		        if(results != null){
 		            for (SearchResultRow r: results.getRows()){
@@ -112,26 +112,26 @@ public class TempSearchBackedTable extends Composite{
 		                    theRow.setValue(c.getKey(), c.getValue());
 		                }
 		                resultRows.add(theRow);
-		            }                    
+		            }
 		        }
 		        redraw();
 		    }
 		});
     }
-    
+
     public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey) {
     	clearTable();
-    	
+
         this.resultIdColumnKey = resultIdKey;
         builder = new PagingScrollTableBuilder<ResultRow>();
         builder.tablePixelSize(400, 300);
 
-        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();        
+        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
         for (LookupResultMetadata r: listResultMetadata){
-            //TODO: use this as a token to get a message from message service instead 
+            //TODO: use this as a token to get a message from message service instead
             String header = r.getName();
             String key = r.getKey();
-            if(!(r.getKey().equals(TempSearchBackedTable.this.resultIdColumnKey))){
+            if(!r.isHidden()){
                 columnDefs.add(new SearchColumnDefinition(header, key));
             }
         }
@@ -140,13 +140,14 @@ public class TempSearchBackedTable extends Composite{
             columnDefs.get(0).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);
-        
-        redraw(); 
+        tableModel.setColumnDefs(columnDefs);
+
+        redraw();
     }
-    
+
     public void redraw(){
         tableModel.setRows(resultRows);
-        pagingScrollTable = builder.build(tableModel);
+        pagingScrollTable = builder.build(tableModel); // FIXME do we really need to recreate the table for every refresh?
         pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
         pagingOptions = createPagingOptions(pagingScrollTable);
         layout.clear();
@@ -154,11 +155,11 @@ public class TempSearchBackedTable extends Composite{
         layout.add(pagingScrollTable);
         pagingScrollTable.fillWidth();
     }
-    
+
     public void addSelectionHandler(RowSelectionHandler selectionHandler){
         pagingScrollTable.getDataTable().addRowSelectionHandler(selectionHandler);
     }
-    
+
     public List<ResultRow> getSelectedRows(){
         List<ResultRow> rows = new ArrayList<ResultRow>();
         Set<Integer> selectedRows = pagingScrollTable.getDataTable().getSelectedRows();
@@ -167,7 +168,7 @@ public class TempSearchBackedTable extends Composite{
         }
         return rows;
     }
-    
+
     public List<String> getSelectedIds(){
         List<String> ids = new ArrayList<String>();
         Set<Integer> selectedRows = pagingScrollTable.getDataTable().getSelectedRows();
@@ -176,7 +177,7 @@ public class TempSearchBackedTable extends Composite{
         }
         return ids;
     }
-    
+
     public List<String> getAllIds(){
         List<String> ids = new ArrayList<String>();
         for(ResultRow r: resultRows){
@@ -184,7 +185,7 @@ public class TempSearchBackedTable extends Composite{
         }
         return ids;
     }
-    
+
     public List<ResultRow> getAllRows(){
         List<ResultRow> rows = new ArrayList<ResultRow>();
         for(ResultRow r: resultRows){
@@ -192,5 +193,5 @@ public class TempSearchBackedTable extends Composite{
         }
         return rows;
     }
-    
+
 }

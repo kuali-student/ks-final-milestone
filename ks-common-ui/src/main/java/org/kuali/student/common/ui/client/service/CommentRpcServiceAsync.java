@@ -74,4 +74,10 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      */
     public void getCommentTypesForReferenceType(String referenceTypeKey, AsyncCallback<List<CommentTypeInfo>> callback) throws Exception;
 
+    /**
+     * Check for authorization to add a comment
+     * @param referenceId identifier of reference
+     * @param referenceTypeKey reference type
+     */
+    public void isAuthorizedAddComment(String referenceId, String referenceTypeKey, AsyncCallback<Boolean> callback);
 }

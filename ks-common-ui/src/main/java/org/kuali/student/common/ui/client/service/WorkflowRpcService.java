@@ -10,7 +10,8 @@ public interface WorkflowRpcService {
 	//Workflow Operations
 	public Data getDataFromWorkflowId(String workflowId) throws OperationFailedException;
 	public String getWorkflowIdFromDataId(String dataId) throws OperationFailedException;
-
+	public String getDocumentStatus(String workflowId) throws OperationFailedException;
+	
 	public String getActionsRequested(String dataId) throws OperationFailedException;
 	
 	//These methods should call saveData first and update the doc content with the data content
@@ -23,6 +24,7 @@ public interface WorkflowRpcService {
 	public Boolean disapproveDocumentWithId(String dataId) throws OperationFailedException;
 	public Boolean acknowledgeDocumentWithId(String dataId) throws OperationFailedException;
 	public Boolean fyiDocumentWithId(String dataId) throws OperationFailedException;
+	public Boolean withdrawDocumentWithId(String dataId) throws OperationFailedException;
 	
 	public Boolean adhocRequest(String docId, String recipientPrincipalId, RequestType requestType, String annotation) throws OperationFailedException;
 }

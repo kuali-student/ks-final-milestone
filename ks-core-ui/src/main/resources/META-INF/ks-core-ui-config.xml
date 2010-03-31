@@ -21,6 +21,9 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
     
+    <!-- Application dictionary -->
+    <param name="ks.core.orchestration.dictionaryContextLocations">classpath:org-orchestration-dictionary.xml</param>
+    
     <!-- Config overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-core-ui-config.xml</param> 

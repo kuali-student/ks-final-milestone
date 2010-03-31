@@ -24,6 +24,10 @@
 	width: 100%;
 }
 
+.KS-TitleContainer-Toolbar{
+	width: 100%;
+}
+
 .KS-TitleContainer-Right-Panel{
 	float: right;
 	margin-top: 20px;
@@ -41,3 +45,17 @@
 	margin-left: 8px;
 	margin-bottom: 10px;
 }
+
+.KS-TitleContainer-Messages{
+	background-color:#F4E271;
+	color:#000000;
+	margin-bottom:10px;
+	padding:6px 6px 6px 15px;
+}
+
+.KS-Message-Static img {
+	left:-6px;
+	position:absolute;
+	top:4px;
+}
+

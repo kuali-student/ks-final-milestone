@@ -17,23 +17,14 @@ package org.kuali.student.core.dao.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.LookupResultMetadata;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.search.dto.QueryParamInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
@@ -48,162 +39,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 	final Logger LOG = Logger.getLogger(AbstractSearchableCrudDaoImpl.class);
     private static SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 
-    private String getParameterDataType(SearchTypeInfo searchTypeInfo,
-            QueryParamValue paramValue) {
-        String dataType = null;
-        List<QueryParamInfo> queryParameterInfos = 
-            (searchTypeInfo == null || searchTypeInfo.getSearchCriteriaTypeInfo() == null)? null :
-            searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
-        String parameterKey = paramValue.getKey();
-        // go through the list of search type parameters and look for the parameter with a key
-        // that matches that of "paramValue".  Onces a match is found gets the data type.
-        if (queryParameterInfos != null) {
-            for (QueryParamInfo queryParameterInfo : queryParameterInfos) {
-                if (parameterKey.equals(queryParameterInfo.getKey())) {
-                    dataType =
-                        (queryParameterInfo == null ||
-                                queryParameterInfo.getFieldDescriptor() == null)?
-                                        null : queryParameterInfo.getFieldDescriptor().getDataType();
-                    break;
-                }
-            }
-        }
-        return dataType;
-    }
-
-	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo,
-			List<QueryParamValue> queryParamValues) {
-		
-		if(queryParamValues == null){
-			queryParamValues = new ArrayList<QueryParamValue>();
-		}
-		
-		boolean isNative = false;
-		
-		//retrieve the SELECT statement from search type definition
-		String queryString = queryMap.get(searchTypeKey);
-		String optionalQueryString = "";
-		
-		if(queryString.toUpperCase().startsWith("NATIVE:")){
-			queryString = queryString.substring("NATIVE:".length());
-			isNative = true;
-		}
-		
-		//add in optional
-		List<QueryParamValue> queryParamValuesTemp = new ArrayList<QueryParamValue>(queryParamValues);
-		for(QueryParamValue queryParamValue : queryParamValuesTemp){
-			for(QueryParamInfo queryParamInfo:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
-				if(queryParamInfo.isOptional()&&queryParamInfo.getKey().equals(queryParamValue.getKey())){
-					if(!optionalQueryString.isEmpty()){
-						optionalQueryString += " AND ";
-					}
-					
-					//if optional query parameter has only a column name then create proper search expression
-					String condition = queryMap.get(queryParamValue.getKey());
-					if (condition.trim().contains(":")) {
-					    optionalQueryString += queryMap.get(queryParamValue.getKey());
-					} else {
-						//comparison should be case insensitive and include wild card
-						optionalQueryString += 
-							"LOWER(" + queryMap.get(queryParamValue.getKey()) + ") LIKE '%' || LOWER('" + queryParamValue.getValue() + "') || '%'"; 
-						queryParamValues.remove(queryParamValue);
-					}
-				}
-			}
-		}
-		
-		if(!optionalQueryString.isEmpty()){
-
-			//TODO temporary solution; we should have e.g. sort sequence indicator in ResultColumnInfo instead.
-			// for now sorting is done within SELECT statement so we need to insert WHERE conditions before ORDER BY
-			String orderByClause = "";
-			int orderByIx = queryString.toUpperCase().indexOf(" ORDER BY ");
-			if (orderByIx != -1){
-				orderByClause = queryString.substring(orderByIx);
-				queryString = queryString.substring(0, orderByIx);
-			}
-			
-			if(!queryString.toUpperCase().contains(" WHERE ")){
-				queryString += " WHERE ";
-			}
-			else {
-				queryString += " AND ";
-			}
-			queryString += optionalQueryString + orderByClause;
-		}
-		
-		//remove special characters and extra spaces
-		queryString = queryString.replaceAll("[\n\r\t]", " ");
-		queryString = queryString.replaceAll("\\s+", " ");
-		
-		Query query;
-		if(isNative){
-			query = em.createNativeQuery(queryString);
-		}else{
-			query = em.createQuery(queryString);
-		}
-		
-		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
-		if(queryParamValues!=null){
-			for (QueryParamValue queryParamValue : queryParamValues) {
-			    String parameterDataType = getParameterDataType(searchTypeInfo, queryParamValue);
-			    String parameterKey = queryParamValue.getKey().replace(".", "_");
-			    Object parameterValue = null;
-			    if (parameterDataType != null && parameterDataType.equals("date")) {
-                    Calendar cal = null;
-                    String dateString = (String) queryParamValue.getValue();
-                    if (dateString != null) {
-                        int mo = Integer.parseInt(dateString.substring(0, 2)) -1;
-                        int dt = Integer.parseInt(dateString.substring(3, 5));
-                        int yr = Integer.parseInt(dateString.substring(6, 10));
-                        cal = new GregorianCalendar(yr, mo, dt);
-                        parameterValue = new java.sql.Date(cal.getTime().getTime());
-                    } else {
-                        parameterValue = null;
-                    }
-			    } else {
-			        parameterValue = queryParamValue.getValue();
-			    }
-                query.setParameter(parameterKey, parameterValue);
-			}
-		}
-
-		// Turn into results
-		List<Result> results = new ArrayList<Result>();
-		
-		List<?> queryResults = query.getResultList();
-		
-		if(queryResults!=null){
-			//Copy the query results to a Result object
-			for(Object queryResult:queryResults){
-				Result result = new Result();
-				int i=0;
-				for (ResultColumnInfo resultColumn : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()) {
-			
-					ResultCell resultCell = new ResultCell();
-					resultCell.setKey(resultColumn.getKey());
-					
-					if(queryResult.getClass().isArray()){
-						resultCell.setValue(((Object[])queryResult)[i].toString());
-					}else{
-						resultCell.setValue(queryResult.toString());
-					}
-					
-					result.getResultCells().add(resultCell);
-					i++;
-				}
-				results.add(result);
-			}
-		
-		}
-		return results;
-	}
-
 	@Override
 	public SearchResult search(SearchRequest searchRequest,
-			Map<String, String> queryMap, LookupMetadata lookupMetadata) {
+			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo) {
 		String searchKey = searchRequest.getSearchKey();
 		
 		boolean isNative = false;
@@ -222,8 +60,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//add in optional
 		List<SearchParam> searchParamsTemp = new ArrayList<SearchParam>(searchRequest.getParams());
 		for(SearchParam searchParam : searchParamsTemp){
-			for(LookupParamMetadata paramMetadata:lookupMetadata.getParams()){
-				if(paramMetadata.isOptional()&&paramMetadata.getKey().equals(searchParam.getKey())){
+			for(QueryParamInfo queryParam:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
+				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())){
 					if(!optionalQueryString.isEmpty()){
 						optionalQueryString += " AND ";
 					}
@@ -266,7 +104,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			int fromIndex = queryString.toLowerCase().indexOf("from");
 			String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
 			
-			for(LookupResultMetadata results : lookupMetadata.getResults()){
+			for(ResultColumnInfo results : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()){
 				if(results.getKey().equals(searchRequest.getSortColumn())){
 					orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
 					if(searchRequest.getSortDirection()!=null && searchRequest.getSortDirection()==SortDirection.DESC){
@@ -283,13 +121,15 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		String finalQueryString = queryString + optionalQueryString + orderByClause;
 		
 		//remove special characters and extra spaces
-		//finalQueryString = queryString.replaceAll("[\n\r\t]", " ");
-		//finalQueryString = queryString.replaceAll("\\s+", " ");
+		//finalQueryString = finalQueryString.replaceAll("[\n\r\t]", " ");
+		//finalQueryString = finalQueryString.replaceAll("\\s+", " ");
 		
 		Query query;
 		if(isNative){
+			LOG.info("Native Query:"+finalQueryString);
 			query = em.createNativeQuery(finalQueryString);
 		}else{
+			LOG.info("JPQL Query:"+finalQueryString);
 			query = em.createQuery(finalQueryString);
 		}
 		
@@ -304,18 +144,18 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(searchRequest.getParams()!=null){
 			for (SearchParam searchParam : searchRequest.getParams()) {
-			    List<LookupParamMetadata> metaParams = lookupMetadata.getParams();
-			    Data.DataType paramDataType;
+			    List<QueryParamInfo> queryParams = searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
+			    String paramDataType;
 			    Object queryParamValue = null;
 			    paramDataType = null;
-			    if (metaParams != null) {
-			        for (LookupParamMetadata metaParam : metaParams) {
-			            if (metaParam.getKey() != null && metaParam.getKey().equals(searchParam.getKey())) {
-			                paramDataType = metaParam.getDataType();
+			    if (queryParams != null) {
+			        for (QueryParamInfo queryParam : queryParams) {
+			            if (queryParam.getKey() != null && queryParam.getKey().equals(searchParam.getKey())) {
+			                paramDataType = queryParam.getFieldDescriptor().getDataType();
 			            }
 			        }
 			    }
-			    if (paramDataType == Data.DataType.DATE) {
+			    if ("date".equals(paramDataType) && searchParam.getValue() instanceof String) {
 			        try {
                         queryParamValue = df.parse((String)searchParam.getValue());
                     } catch (ParseException e) {
@@ -329,7 +169,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 
 		// Turn into results
-		List<SearchResultRow> results = convertToResults(query.getResultList(),lookupMetadata);
+		List<SearchResultRow> results = convertToResults(query.getResultList(),searchTypeInfo);
 
 		SearchResult searchResult = new SearchResult();
 		searchResult.setRows(results);
@@ -362,7 +202,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 	}
 
 	private List<SearchResultRow> convertToResults(List<?> queryResults,
-			LookupMetadata lookupMetadata) {
+			SearchTypeInfo searchTypeInfo) {
 		List<SearchResultRow> results = new ArrayList<SearchResultRow>();
 
 		if(queryResults!=null){
@@ -370,7 +210,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			for(Object queryResult:queryResults){
 				SearchResultRow result = new SearchResultRow();
 				int i=0;
-				for (LookupResultMetadata resultColumn : lookupMetadata.getResults()) {
+				for (ResultColumnInfo resultColumn : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()) {
 			
 					SearchResultCell resultCell = new SearchResultCell();
 					resultCell.setKey(resultColumn.getKey());

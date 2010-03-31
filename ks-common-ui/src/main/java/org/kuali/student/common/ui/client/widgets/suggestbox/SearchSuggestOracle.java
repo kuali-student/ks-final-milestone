@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -46,7 +47,9 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
     private LookupMetadata lookupMetaData;
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);    
+    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    
+    private List<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>> searchCompletedCallbacks = new ArrayList<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>>();
     
     /**
      * @deprecated
@@ -67,19 +70,21 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
      */
     public SearchSuggestOracle(LookupMetadata lookupMetadata) {
     	this.lookupMetaData = lookupMetadata;
-        this.searchTypeKey = lookupMetaData.getKey();
+        this.searchTypeKey = lookupMetaData.getSearchTypeId();
         
         for (LookupParamMetadata param : lookupMetadata.getParams()) {
         	if ((param.getUsage() != null) && param.getUsage().name().equals("DEFAULT")) {
         		this.searchTextKey = param.getKey();
         	}
         	//Add in any writeaccess never default values to the additional params
-        	if(param.getWriteAccess().equals("NEVER")||param.getDefaultValue()!=null){
+        	if(param.getWriteAccess().equals("NEVER")||param.getDefaultValueString()!=null||param.getDefaultValueList()!=null){
         		SearchParam searchParam = new SearchParam();
         		searchParam.setKey(param.getKey());
-        		if(param.getDefaultValue().get()!=null){
-        			searchParam.setValue(param.getDefaultValue().get().toString());
-        		}
+				if(param.getDefaultValueList()==null){
+					searchParam.setValue(param.getDefaultValueString());
+				}else{
+					searchParam.setValue(param.getDefaultValueList());
+				}
         		additionalParams.add(searchParam);
         	}
         }
@@ -194,6 +199,12 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                     lastSuggestions = createSuggestions(results, request.getLimit());
                     Response response = new Response(lastSuggestions);
                     callback.onSuggestionsReady(request, response);
+                    if (searchCompletedCallbacks != null &&
+                            lastSuggestions != null && lastSuggestions.size() == 1) {
+                        for (org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback : searchCompletedCallbacks) {
+                            callback.exec(lastSuggestions.get(0));
+                        }
+                    }
                 }
                 
                 private List<IdableSuggestion> createSuggestions(SearchResult results, int limit){
@@ -317,4 +328,10 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
             }
         });
     }
+
+    @Override
+    public void addSearchCompletedCallback(org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
+        searchCompletedCallbacks.add(callback);
+    }
+    
 }

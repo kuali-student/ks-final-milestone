@@ -54,8 +54,6 @@ import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -613,17 +611,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		
-		return searchManager.searchForResults(searchTypeKey, queryParamValues, organizationDao);
-	}
-
-	@Override
 	public OrgOrgRelationInfo updateOrgOrgRelation(String orgOrgRelationId,
 			OrgOrgRelationInfo orgOrgRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -906,8 +893,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		Set<OrgTreeInfo> results = new HashSet<OrgTreeInfo>();
 		Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
-		results.add(new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName()));
-		results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
+		OrgTreeInfo root = new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName());
+		root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
+		root.setOrgHierarchyId(orgHierarchyId);
+		results.add(root);
+		if(maxLevels>=0){
+		    results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
+		}
 		return new ArrayList<OrgTreeInfo>(results);
 	}
 
@@ -917,6 +909,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		if(maxLevels==0||currentLevel<maxLevels){
 			List<OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId,orgHierarchyId);
 			for(OrgTreeInfo orgTreeInfo:orgTreeInfos){
+			    orgTreeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
 				results.addAll(parseOrgTree(orgTreeInfo.getOrgId(),orgHierarchyId, maxLevels, currentLevel+1));
 			}
 			results.addAll(orgTreeInfos);

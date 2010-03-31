@@ -331,7 +331,7 @@ public class CrossSearchManager {
 				Integer v2Integer = Integer.parseInt(v2);
 				compareResult = v1Integer.compareTo(v2Integer);
 			}catch(Exception e1){
-				if(("true".equals(v1.toLowerCase())||"false".equals(v1.toLowerCase()))&&
+				if(v1!=null&&v2!=null&&("true".equals(v1.toLowerCase())||"false".equals(v1.toLowerCase()))&&
 				   ("true".equals(v2.toLowerCase())||"false".equals(v2.toLowerCase()))){
 					Boolean v1Boolean = Boolean.parseBoolean(v1);
 					Boolean v2Boolean = Boolean.parseBoolean(v2);
@@ -343,7 +343,13 @@ public class CrossSearchManager {
 						Date v2Date = df.parse(v2);
 						compareResult = v1Date.compareTo(v2Date);
 					}catch(Exception e){
-						compareResult = v1.compareTo(v2);
+						if(v1!=null){
+							compareResult = v1.compareTo(v2);
+						}else if(v2==null){
+							compareResult = 0;
+						}else{
+							compareResult = -1; 
+						}
 					}
 				}
 			}

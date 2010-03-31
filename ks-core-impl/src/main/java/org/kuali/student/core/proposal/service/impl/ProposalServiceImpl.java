@@ -42,8 +42,6 @@ import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -446,7 +444,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return validateObject(objectTypeKey, stateKey, info);
+        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
     }
 
     /**
@@ -454,7 +452,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return validateStructureData(objectTypeKey, stateKey, info);
+        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
     }
 
     /**
@@ -524,20 +522,8 @@ public class ProposalServiceImpl implements ProposalService {
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-     */
-    @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        checkForMissingParameter(queryParamValues, "queryParamValues");
-
-        return searchManager.searchForResults(searchTypeKey, queryParamValues, proposalDao);
-    }
-
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+		return searchManager.search(searchRequest, proposalDao);
 	}
 }

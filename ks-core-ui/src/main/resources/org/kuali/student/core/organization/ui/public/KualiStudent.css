@@ -243,6 +243,12 @@ background: FormBackgroundColor;
 border: outset FormBackgroundColor thin;
 }
 
+.KS-Org-Tree-Member-Section{
+	
+	background-color: #eeeeee;
+	width: 600;
+}
+
 .KS-Disclosure-Section{
 	  margin: 6px;
       border: 1px solid #c0c0c0; 
@@ -322,4 +328,8 @@ border-color: SelectionChoosingColor #aabbbb;
 
 .KS-CORE-Section-Divider {
 	border-top: 1px solid orange;
+}
+
+.PageScrollTable{
+	
 }

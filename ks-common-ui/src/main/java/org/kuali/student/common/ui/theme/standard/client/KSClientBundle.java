@@ -6,7 +6,6 @@ import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.DataResource;
 import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
-import com.google.gwt.libideas.resources.client.ImmutableResourceBundle.Resource;
 
 public interface KSClientBundle extends ImmutableResourceBundle{
 	public static final KSClientBundle INSTANCE =  GWT.create(KSClientBundle.class);
@@ -85,8 +84,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public CssResource selectableTableListCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSAdvancedSearchWindow.css")
     public CssResource advancedSearchWindowCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSuggestBoxPicker.css")
-    public CssResource suggestBoxPickerCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSButtonLayout.css")
     public CssResource buttonLayoutCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSCustomFlowPanel.css")
@@ -134,8 +131,11 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	
 	//Common Images***************************************************
 	
-	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_logo2.gif")
+	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_logo.png")
 	public ImageResource headerImage();
+	
+	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/powered_by_ks.png")
+	public ImageResource footerImage();
 	
 	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/gradcap-1.png")
 	public ImageResource curriculumManagementImage();
@@ -159,6 +159,9 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/messagebox_warning.png")
     public ImageResource warningIcon();
     
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/exclamation-diamond-frame.png")
+    public ImageResource warningDiamondIcon();
+
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/asterisk_orange.png")
     public ImageResource asterisk();
     
@@ -257,5 +260,37 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/richTextEditor/popout.png")
     public ImageResource popout();
     
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/user-white.png")
+    public ImageResource personIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/documents-stack.png")
+    public ImageResource documentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/balloon.png")
+    public ImageResource commentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/flask.png")
+    public ImageResource analysisIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/application-list.png")
+    public ImageResource applicationIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/book-open.png")
+    public ImageResource bookIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/spacer_icon.png")
+    public ImageResource spacerIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/node.png")
+    public ImageResource nodeIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/users.png")
+    public ImageResource peopleIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/disclosure_triangle_opened.png")
+    public ImageResource disclosureOpenedIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/disclosure_triangle_closed.png")
+    public ImageResource disclosureClosedIcon();    
 
 }

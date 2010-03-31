@@ -49,7 +49,7 @@ public class BaseSearchAssembler implements Assembler<String,String> {
 	}
 
 	@Override
-	public Metadata getMetadata(String id, String type, String state)
+	public Metadata getMetadata(String idType, String id, String type, String state)
 			throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
@@ -64,6 +64,12 @@ public class BaseSearchAssembler implements Assembler<String,String> {
 	@Override
 	public List<ValidationResultInfo> validate(String input)
 			throws AssemblyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
 	}

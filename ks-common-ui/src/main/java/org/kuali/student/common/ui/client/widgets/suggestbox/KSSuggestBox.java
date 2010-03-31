@@ -14,7 +14,10 @@
  */
 package org.kuali.student.common.ui.client.widgets.suggestbox;
 
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
@@ -30,16 +33,28 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 // TODO implement some form of focus handling for SuggestBox
-public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandlers{
+public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandlers, TranslatableValueWidget {
     
     private IdableSuggestion currentSuggestion = null;
     private IdableSuggestOracle oracle;
     private String currentId = "";
     
-    public KSSuggestBox(IdableSuggestOracle oracle){
-
-        super(oracle, new KSTextBox());
+    public KSSuggestBox(IdableSuggestOracle oracle) {
+    	this(oracle, true);
+    }
+    
+    public KSSuggestBox(IdableSuggestOracle oracle, boolean enabled){
+    	super(oracle, new KSTextBox());
+    	super.getTextBox().setEnabled(enabled);
         this.oracle = oracle;
+        oracle.addSearchCompletedCallback(new Callback<IdableSuggestion>() {
+            @Override
+            public void exec(IdableSuggestion result) {
+                currentSuggestion = result;
+                currentId = KSSuggestBox.this.getSelectedId();
+                SelectionChangeEvent.fire(KSSuggestBox.this);
+            }
+        });
         this.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>(){
 
             @Override
@@ -72,8 +87,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
                 	currentSuggestion = new IdableSuggestion();
                 	currentSuggestion.setId("");
                 	currentSuggestion.setDisplayString("");
-                	currentSuggestion.setReplacementString("");
-                	
+                	currentSuggestion.setReplacementString("");                	
                 }
                 
                 if(!KSSuggestBox.this.getSelectedId().equals(currentId)){
@@ -157,8 +171,15 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	            }
 	        });
     	}
+    }
     
-    	
+    public void setValue(String id, String translation) {
+    	currentSuggestion = new IdableSuggestion();
+    	currentSuggestion.setId(id);
+    	currentSuggestion.setDisplayString(translation);
+    	currentSuggestion.setReplacementString(translation);
+    	KSSuggestBox.this.setText(translation);
+    	currentId = KSSuggestBox.this.getSelectedId();
     }
     
     @Override
@@ -208,5 +229,16 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	public HandlerRegistration addSelectionChangeHandler(
 			SelectionChangeHandler handler) {
 		return addHandler(handler, SelectionChangeEvent.getType());
-	}        
+	}
+
+    public IdableSuggestion getCurrentSuggestion() {
+        return currentSuggestion;
+    }
+
+    @Override
+    public void setValue(Map<String, String> translations) {
+        // TODO ryan - THIS METHOD NEEDS JAVADOCS
+        
+    }
+
 }

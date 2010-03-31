@@ -67,7 +67,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     }
 
     @Override
-    public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
+    public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -223,5 +223,11 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         
         return orgOrgRelations;
     }
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

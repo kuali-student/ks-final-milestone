@@ -46,8 +46,6 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -549,17 +547,6 @@ public class AtpServiceImpl implements AtpService {
 		this.searchManager = searchManager;
 	}
 
-	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		
-		return searchManager.searchForResults(searchTypeKey, queryParamValues, atpDao);
-	}
-	
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,

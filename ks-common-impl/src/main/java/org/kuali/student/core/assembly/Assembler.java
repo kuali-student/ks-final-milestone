@@ -25,8 +25,10 @@ public interface Assembler<TargetType, SourceType> {
 	
 	TargetType get(String id) throws AssemblyException;
 
-	Metadata getMetadata(String id, String type, String state) throws AssemblyException;
-
+	Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException;
+	
+	Metadata getDefaultMetadata() throws AssemblyException;
+	
 	SaveResult<TargetType> save(TargetType input) throws AssemblyException;
 
 	TargetType assemble(SourceType input) throws AssemblyException;

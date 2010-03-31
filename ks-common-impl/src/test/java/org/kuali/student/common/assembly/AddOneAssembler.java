@@ -30,7 +30,7 @@ public class AddOneAssembler implements Assembler<Integer,Integer>{
 	}
 
 	@Override
-	public Metadata getMetadata(String id, String type, String state)
+	public Metadata getMetadata(String idType, String id, String type, String state)
 			throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
@@ -53,6 +53,12 @@ public class AddOneAssembler implements Assembler<Integer,Integer>{
 	@Override
 	public List<ValidationResultInfo> validate(Integer input)
 			throws AssemblyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
 	}

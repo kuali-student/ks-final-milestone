@@ -39,8 +39,14 @@ public class CommonImagesImpl implements CommonImages{
 	public KSImage getWarningIcon() {
 		return new KSImage(KSClientBundle.INSTANCE.warningIcon());
 	}
-
+	
+	
     @Override
+	public KSImage getWarningDiamondIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.warningDiamondIcon());
+	}
+
+	@Override
 	public KSImage getProgressSpinner() {
 		return new KSImage(KSClientBundle.INSTANCE.spinner());
 	}
@@ -80,4 +86,66 @@ public class CommonImagesImpl implements CommonImages{
 	public KSImage getSearchIcon() {
 		return new KSImage(KSClientBundle.INSTANCE.rightMagnifierIcon());
 	}
+
+	@Override
+	public KSImage getAnalysisIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.analysisIcon());
+	}
+
+	@Override
+	public KSImage getCommentIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.commentIcon());
+	}
+
+	@Override
+	public KSImage getDocumentIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.documentIcon());
+	}
+
+	@Override
+	public KSImage getPersonIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.personIcon());
+	}
+	
+	@Override
+	public KSImage getSpacerIcon(){
+		return new KSImage(KSClientBundle.INSTANCE.spacerIcon());
+	}
+	
+	@Override
+	public KSImage getApplicationIcon(){
+		return new KSImage(KSClientBundle.INSTANCE.applicationIcon());		
+	}
+
+	@Override
+	public KSImage getBookIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.bookIcon());
+	}
+
+	@Override
+	public KSImage getNodeIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.nodeIcon());	
+	}
+
+	@Override
+	public KSImage getPeopleIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.peopleIcon());
+	}
+
+	@Override
+	public KSImage getDisclosureClosedIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.disclosureClosedIcon());
+	}
+
+	@Override
+	public KSImage getDisclosureOpenedIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.disclosureOpenedIcon());
+	}
+
+	@Override
+	public KSImage getFooterImage() {
+		return new KSImage(KSClientBundle.INSTANCE.footerImage());
+	}
+	
+	
 }

@@ -45,13 +45,20 @@ public class KSMenuItemData {
 		super();
 		this.label = label;
 	}
-	
+		
 	public KSMenuItemData(String label, ClickHandler clickHandler) {
 		super();
 		this.label = label;
 		this.clickHandler = clickHandler;
 	}
 	
+	public KSMenuItemData(String label, KSImage icon, ClickHandler clickHandler) {
+		super();
+		this.label = label;
+		this.shownIcon = icon;
+		this.clickHandler = clickHandler;
+	}
+
 	/**
 	 * Get the text used for this menu item
 	 * 

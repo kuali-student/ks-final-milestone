@@ -32,3 +32,198 @@
 		filter: progid:DXImageTransform.Microsoft.Glow(color=#666666,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#000000,direction=135,strength=6);*/
 	}
 }
+
+
+/* TODO move these styles to the appropriate locations */
+
+html,body {
+   height:100%;
+   width:100%;
+   overflow:hidden;
+}
+
+
+.ks-lightbox {
+	overflow: visible;
+	color:#333; 
+	background-color:#fff; 
+	border:6px solid #aaa;
+	padding: 3px;
+	border-radius: 15px 15px;
+	\-moz-border-radius: 15px 15px;
+	\-webkit-border-radius: 15px 15px;
+}
+
+.ks-lightbox .popupContent {
+	display: inline;
+	overflow: visible;
+}
+
+.ks-lightbox-title {
+	position: relative;
+	margin: 0.25em 0.25em 0.25em 0.25em;
+	font-size: 2em;
+	color: #940b07;
+}
+
+	
+.ks-lightbox-content {
+	float:left;
+	margin: 0.25em 0.25em 0.25em 0.1em;
+}
+
+.ks-lightbox-close-panel {
+	overflow: visible;
+}
+
+
+.ks-lightbox-flowpanel {
+	overflow: visible;
+}
+
+
+
+.ks-lightbox-close {
+	background: url('images/common/lightbox_close.png') no-repeat; 
+	width:40px; 
+	height:40px; 
+	display:block; 
+	z-index:9999; 
+	position:absolute; 
+	top:2px; 
+	right:0px; 
+	cursor:pointer;
+	clear: both;
+}
+.ks-lightbox-close:hover {
+	background: url('images/common/lightbox_close_hover.png') no-repeat; 
+}
+
+.ks-notification-container {
+	position: absolute;
+	right: 25px;
+	bottom: 10px;
+	overflow: visible;
+}
+
+.ks-notification-message {
+	width: 300px;
+	min-height: 20px;
+	background-color: black;
+	background-image: url(images/common/tick-circle.png);
+	background-position: 8px 8px;
+	background-repeat: no-repeat;
+	line-height: 1.35em;
+	margin-top: 10px;
+	overflow: visible;
+	padding: 9px 15px 10px 28px;
+	position: relative;
+	white-space: pre-wrap;
+	white-space: \-moz-pre-wrap;
+	white-space: \-pre-wrap;
+	white-space: \-o-pre-wrap;
+	word-wrap: break-word;
+	color: white;
+	border-radius: 6px 6px;
+	\-moz-border-radius: 6px 6px;
+	\-webkit-border-radius: 6px 6px;
+}
+
+
+.ks-notification-message p * {
+	white-space: pre-wrap;
+	white-space: \-moz-pre-wrap;
+	white-space: \-pre-wrap;
+	white-space: \-o-pre-wrap;
+	word-wrap: break-word;
+	color: white;
+	vertical-align: baseline;
+}
+
+.ks-notification-message a {
+	color: #2C61E6;
+}
+
+a.ks-notification-close {
+	background-image:url("images/common/lightbox_close_20px.png");
+	background-repeat:no-repeat;
+	cursor:pointer;
+	display:inline;
+	height:25px;
+	position:absolute;
+	right:0px;
+	top:6px;
+	width:25px;
+	z-index:9999;
+}
+a.ks-notification-close:hover {
+	background-image:url("images/common/lightbox_close_hover_20px.png");
+}
+
+	
+
+div.ks-selected-list-picker {
+	width: 20em;
+	display: inline;
+}
+
+ul.ks-selected-list {
+	margin: 0;
+	padding: 0;
+}
+
+.ks-selected-list ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.ks-selected-list ul li {
+	padding: 0;
+	margin: 0;
+	border: solid 1px #cdcdcd;
+	width: 20em;
+	display: block;
+}
+
+.ks-selected-list-value {
+	width: 20em;
+	display: block;
+	position: relative;
+	min-height: 25px;
+}
+
+.ks-selected-list-value-remove {
+	background-image: url("images/common/selected_list_value_remove_20px.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	height: 22px;
+	width: 22px;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+}
+
+.ks-selected-list-value-label {
+	white-space: pre-wrap;
+	white-space: \-moz-pre-wrap;
+	white-space: \-pre-wrap;
+	white-space: \-o-pre-wrap;
+	word-wrap: break-word;
+	vertical-align: baseline;
+	width: 18em;
+}
+
+.ks-selected-list-value-remove:hover {
+	background-image: url("images/common/selected_list_value_remove_20px.png");
+}
+
+.ks-selected-list-value-container {
+	background-color: #fafcd7;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+}

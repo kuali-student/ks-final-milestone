@@ -26,4 +26,9 @@ public class SearchResultCell implements Serializable {
 	public void setKey(String key) {
 		this.key = key;
 	}
+
+	@Override
+	public String toString() {
+		return "SearchResultCell[key=" + key + ", value=" + value + "]";
+	}
 }

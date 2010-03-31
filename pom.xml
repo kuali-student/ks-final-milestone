@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.0.0-m4-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>KS Core</name>
@@ -37,6 +37,7 @@
         <module>ks-hibernate</module>
         <module>ks-jta</module>
         <module>ks-rice-lessdep</module>
+        <module>ks-core-rice</module>
         <module>ks-common-util</module>
         <module>ks-common-ui</module>
         <module>ks-common-test</module>
@@ -48,8 +49,8 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-1.0.0-m4</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-1.0.0-m4</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</developerConnection>
     </scm>
 
     <repositories>
@@ -103,7 +104,7 @@
 
         <!-- build properties -->
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-        <ks-standard-security.version>1.0.0-m4</ks-standard-security.version>
+        <ks-standard-security.version>1.0.0-SNAPSHOT</ks-standard-security.version>
     </properties>
 
     <profiles>
@@ -1009,31 +1010,31 @@
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-jta</artifactId>
-                <version>1.0.0-m4-SNAPSHOT</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-cxf</artifactId>
-                <version>1.0.0-m4-SNAPSHOT</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-metro</artifactId>
-                <version>1.0.0-m4-SNAPSHOT</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-eclipselink</artifactId>
-                <version>1.0.0-m4-SNAPSHOT</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-hibernate</artifactId>
-                <version>1.0.0-m4-SNAPSHOT</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
 

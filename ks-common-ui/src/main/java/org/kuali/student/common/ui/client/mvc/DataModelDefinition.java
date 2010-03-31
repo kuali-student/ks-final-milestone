@@ -25,7 +25,11 @@ public class DataModelDefinition implements ModelDefinition {
 	
 	@Override
 	public void ensurePath(Data root, QueryPath path, boolean includeLeafNode) {
-		_ensurePath(root, metadata, path.iterator(), includeLeafNode);
+		try {
+			_ensurePath(root, metadata, path.iterator(), includeLeafNode);
+		} catch (RuntimeException e){
+			throw new RuntimeException("Invalid property path: " + path.toString(), e);
+		}
 	}
 	
 	private void _ensurePath(Data data, Metadata meta, Iterator<Data.Key> itr, boolean includeLeafNode) {

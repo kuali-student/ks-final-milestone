@@ -30,7 +30,6 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -148,6 +147,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     private KSButton getModifyButton(){
         return new KSButton("Modify", new ClickHandler(){
                     public void onClick(ClickEvent event) {
+                        getCurrentView().updateModel();
                         fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
                     }
                 });
@@ -159,6 +159,7 @@ public class OrgProposalController extends TabbedSectionLayout{
         KSProgressIndicator progressInd = new KSProgressIndicator();
         progressInd.setText("Loading");
         progressInd.show();
+        progressWindow.removeCloseLink();
         progressWindow.setWidget(progressInd);
 
         if (initialized) {
@@ -220,6 +221,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     }
     
     private void init(){
+        
         if(!flag){
             commonConfigurer.configureOrgProposal(this);
             flag= true;
@@ -411,6 +413,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	       }
 	    public void saveProposalOrg(final SaveActionEvent saveActionEvent){
 	        final KSLightBox saveWindow = new KSLightBox();
+	        saveWindow.removeCloseLink();
 	        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
 	        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
 	                

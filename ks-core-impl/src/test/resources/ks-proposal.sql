@@ -1,11 +1,11 @@
-DELETE FROM KS_RICH_TEXT_T;
+DELETE FROM KSPR_RICH_TEXT_T;
 DELETE FROM KSPR_PROPOSAL_DOCREL;
 DELETE FROM KSPR_PROPOSAL_JN_REFERENCE;
 DELETE FROM KSPR_PROPOSAL_JN_PERSON;
 DELETE FROM KSPR_PROPOSAL;
 
-INSERT INTO KS_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-1', 'Document 1', '<p>Document 1</p>');
-INSERT INTO KS_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-2', 'Document type 1', '<p>Document type 1</p>');
+INSERT INTO KSPR_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-1', 'Document 1', '<p>Document 1</p>');
+INSERT INTO KSPR_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-2', 'Document type 1', '<p>Document type 1</p>');
 
 INSERT INTO KSPR_PROPOSAL_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('proposalType.courseCorrection', 'Course Correction', 'A proposed minor change to a course which would not result in the creation of a new cluId.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});
 INSERT INTO KSPR_PROPOSAL_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('proposalType.newCourse', 'New Course', 'A new Course proposal.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});

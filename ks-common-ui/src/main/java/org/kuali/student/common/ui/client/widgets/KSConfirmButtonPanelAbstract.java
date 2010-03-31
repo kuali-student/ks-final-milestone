@@ -25,7 +25,4 @@ public abstract class KSConfirmButtonPanelAbstract extends Composite{
 	
 	public abstract void addCancelHandler(ClickHandler handler);
 	
-	public abstract void setConfirmFocus();
-	
-	public abstract void setCancelFocus();
 }

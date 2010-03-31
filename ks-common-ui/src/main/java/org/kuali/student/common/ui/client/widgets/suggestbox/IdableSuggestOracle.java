@@ -17,6 +17,8 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.core.search.dto.SearchResult;
+
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 public abstract class IdableSuggestOracle extends SuggestOracle{
@@ -82,4 +84,5 @@ public abstract class IdableSuggestOracle extends SuggestOracle{
     //public abstract IdableSuggestion getSuggestionById(String id);
     public abstract IdableSuggestion getSuggestionByText(String text);
     public abstract void getSuggestionByIdSearch(String id, org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback);
+    public abstract void addSearchCompletedCallback(org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback);
 }

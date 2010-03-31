@@ -16,12 +16,18 @@
 	margin-bottom: 25px;
 	font-size: 30px;
 	font-weight: bold;
-	color: white;
+	color: #666666;
 	margin-left: 20px;
 }
 
 .KS-TitleContainer-Top-Row{
 	width: 100%;
+}
+
+.KS-TitleContainer-Toolbar{
+	width: 100%;
+	margin-bottom: 20px;
+	margin-left: 20px;
 }
 
 .KS-TitleContainer-Right-Panel{
@@ -32,7 +38,7 @@
 
 .KS-TitleContainer-Layout{
 	width: 100%;
-	background-color: #898b8b;
+	background-color: #EAEAEA;
 }
 
 .KS-TitleContainer{
@@ -40,4 +46,23 @@
 	margin-top: 10px;
 	margin-left: 8px;
 	margin-bottom: 10px;
+}
+
+.KS-TitleContainer-Messages{
+	background-color:#EAEAEA;
+	padding:0 20px;
+}
+
+.KS-Message-Static{
+	background-color:#F4E271;
+	color:#000000;
+	margin-bottom:10px;
+	padding:6px 6px 6px 15px;
+	position:relative;
+}
+
+.KS-Message-Static img {
+	left:-6px;
+	position:absolute;
+	top:4px;
 }

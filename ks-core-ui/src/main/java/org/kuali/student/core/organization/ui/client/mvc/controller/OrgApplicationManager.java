@@ -5,7 +5,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 
-
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 

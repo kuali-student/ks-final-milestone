@@ -39,7 +39,7 @@ public class Metadata implements Serializable {
 
     public enum WriteAccess {
         ON_CREATE, /* must also be required */
-        ALWAYS, NEVER, WHEN_NULL
+        ALWAYS, NEVER, WHEN_NULL, REQUIRED
     }
 
     public enum Permission {
@@ -95,6 +95,7 @@ public class Metadata implements Serializable {
     @XmlElementWrapper
     private List<ConstraintMetadata> constraints;
     
+    @XmlElement(name="lookupMetadata")
     private LookupMetadata initialLookup;
 
     private String lookupContextPath;

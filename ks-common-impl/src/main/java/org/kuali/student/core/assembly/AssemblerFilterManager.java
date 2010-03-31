@@ -124,7 +124,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 	}
 
 	@Override
-	public Metadata getMetadata(final String id, String type, String state)
+	public Metadata getMetadata(final String idType, final String id, String type, String state)
 			throws AssemblyException {
 		final Iterator<AssemblerFilter<TargetType, SourceType>> iterator = filters.iterator();
 		
@@ -141,7 +141,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 				if(iterator.hasNext()){
 					iterator.next().doGetMetadataFilter(request, response, this);
 				}else{
-					response.setValue(target.getMetadata(id, request.getType(),request.getState()));
+					response.setValue(target.getMetadata(idType, id, request.getType(),request.getState()));
 				}
 			}
 			@Override
@@ -250,6 +250,11 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 
 	public void setTarget(Assembler<TargetType, SourceType> target) {
 		this.target = target;
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
+		return target.getDefaultMetadata();
 	}
 	
 

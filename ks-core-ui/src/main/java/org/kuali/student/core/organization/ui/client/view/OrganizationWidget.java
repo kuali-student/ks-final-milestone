@@ -38,6 +38,7 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -83,7 +84,7 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
     private Panel w = new VerticalPanel();
     private List<OrgAbstractWidget> widgets;
     private HorizontalPanel buttonBar;
-    private KSButton closeButton;
+    private Button closeButton;
     ProgressMeter meter = new ProgressMeter();
     
     public OrganizationWidget(Scope... scopes) {
@@ -302,11 +303,11 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
     
     public void addCloseButton(String html, ClickHandler handler) {
         if(closeButton == null) {
-            closeButton = new KSButton(html, handler);
+            closeButton = new Button(html, handler);
             buttonBar.add(closeButton);
         } else {
             buttonBar.remove(closeButton);
-            closeButton = new KSButton(html, handler);
+            closeButton = new Button(html, handler);
             buttonBar.add(closeButton);
         }
     }

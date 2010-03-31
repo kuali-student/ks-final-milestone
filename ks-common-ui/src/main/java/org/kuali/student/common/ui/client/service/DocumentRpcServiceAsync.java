@@ -33,4 +33,11 @@ public interface DocumentRpcServiceAsync extends BaseRpcServiceAsync{
 	public void addDocumentCategoryToDocument(String documentId, String documentCategoryKey, AsyncCallback<StatusInfo> callback) throws Exception;
 	
     public void removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey, AsyncCallback<StatusInfo> callback) throws Exception;
+
+    /**
+     * Check for authorization to upload documents
+     * @param referenceId identifier of reference
+     * @param referenceTypeKey reference type
+     */
+    public void isAuthorizedUploadDocuments(String referenceId, String referenceTypeKey, AsyncCallback<Boolean> callback);
 }

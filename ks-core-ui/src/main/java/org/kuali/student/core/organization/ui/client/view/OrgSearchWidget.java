@@ -32,8 +32,10 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,6 +46,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -108,8 +111,12 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
 
             @Override
             public void onKeyPress(KeyPressEvent event) {
-                if(event.getCharCode() == KeyCodes.KEY_ENTER)
-                    submit.click();
+                if(event.getCharCode() == KeyCodes.KEY_ENTER){
+                	if(!orgHierarchyDropDown.getSelectedItems().isEmpty())
+                        getSearchResults();
+                    else
+                        Window.alert("No Hierarchy Selected");
+                }
             }
         
         });
@@ -207,28 +214,31 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         resultPanel.setWidget(image);
         resultPanel.setVisible(true);
         
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-        QueryParamValue qpv1 = new QueryParamValue();
+        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam qpv1 = new SearchParam();
         qpv1.setKey("org.queryParam.orgHierarchyId");
         qpv1.setValue(orgHierarchyDropDown.getSelectedItems().get(0));
         queryParamValues.add(qpv1);
-        qpv1 = new QueryParamValue();
+        qpv1 = new SearchParam();
         qpv1.setKey("org.queryParam.orgShortName");
         qpv1.setValue(orgName.getText().replace('*', '%'));
         queryParamValues.add(qpv1);
         
-        orgRpcServiceAsync.searchForResults("org.search.orgQuickViewByHierarchyShortName", 
-                queryParamValues, new AsyncCallback<List<Result>>(){
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setParams(queryParamValues);
+        searchRequest.setSearchKey("org.search.orgQuickViewByHierarchyShortName");
+        
+        orgRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
 
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());                        
                     }
 
-                    public void onSuccess(List<Result> result) {
-                        if (result == null || result.size() <=0 ){
+                    public void onSuccess(SearchResult result) {
+                        if (result == null || result.getRows().size() <=0 ){
                             resultPanel.setWidget(noResults);
                         } else {
-                            orgInfoList = new OrgInfoList(result);
+                            orgInfoList = new OrgInfoList(result.getRows());
                             resultTable = new KSSelectableTableList();
                             resultTable.setMultipleSelect(false);
                             resultTable.setListItems(orgInfoList);
@@ -249,11 +259,11 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
     }       
         
     public static class OrgInfoList implements ListItems{
-        Map<String, Result> orgInfoMap = new HashMap<String, Result>();
+        Map<String, SearchResultRow> orgInfoMap = new HashMap<String, SearchResultRow>();
                 
-        public OrgInfoList(List<Result> results){
-            for (Result r: results){
-                orgInfoMap.put(r.getResultCells().get(0).getValue(), r);
+        public OrgInfoList(List<SearchResultRow> results){
+            for (SearchResultRow r: results){
+                orgInfoMap.put(r.getCells().get(0).getValue(), r);
             }
         }
         
@@ -262,10 +272,10 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         }
 
         public String getItemAttribute(String id, String attrkey) {
-            Result r = orgInfoMap.get(id);
+        	SearchResultRow r = orgInfoMap.get(id);
             
             if (attrkey.equals("Organization Name")){
-                return r.getResultCells().get(1).getValue(); 
+                return r.getCells().get(1).getValue(); 
             }
             
             return null;
@@ -286,7 +296,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         }
 
         public String getItemText(String id) {
-            return ((Result)orgInfoMap.get(id)).getResultCells().get(1).getValue();
+            return orgInfoMap.get(id).getCells().get(1).getValue();
         }
                 
     }

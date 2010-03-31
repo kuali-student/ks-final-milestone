@@ -38,7 +38,9 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.StringUtils;
 
 /**
  * This class provides metadata lookup services for orchestration objects.
@@ -106,7 +108,8 @@ public class MetadataServiceImpl {
     @SuppressWarnings("unchecked")
     private void init(String metadataContext, DictionaryService...dictionaryServices){
         if (metadataContext != null){
-            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(metadataContext);
+        	String[] locations = StringUtils.tokenizeToStringArray(metadataContext, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+    		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(locations);
                     
             Map<String, DataObjectStructure> beansOfType = (Map<String, DataObjectStructure>) context.getBeansOfType(DataObjectStructure.class);
             metadataRepository = new HashMap<String, Object>();
@@ -441,7 +444,9 @@ public class MetadataServiceImpl {
                     }
                     break;
                 case LONG:
-                    value = new Data.LongValue(Long.valueOf(s));
+                	if (!s.isEmpty()){
+                		value = new Data.LongValue(Long.valueOf(s));
+                	}
                     break;
                 case DOUBLE:
                     value = new Data.DoubleValue(Double.valueOf(s));

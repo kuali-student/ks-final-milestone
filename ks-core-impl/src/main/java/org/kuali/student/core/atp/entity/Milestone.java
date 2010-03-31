@@ -32,7 +32,6 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSAP_MLSTN")
@@ -52,7 +51,7 @@ public class Milestone extends MetaEntity implements
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText descr;
+	private AtpRichText descr;
 
 	@ManyToOne
 	@JoinColumn(name = "ATP_ID")
@@ -128,11 +127,11 @@ public class Milestone extends MetaEntity implements
 		this.id = id;
 	}
 
-	public void setDescr(RichText descr) {
+	public void setDescr(AtpRichText descr) {
 		this.descr = descr;
 	}
 
-	public RichText getDescr() {
+	public AtpRichText getDescr() {
 		return descr;
 	}
 

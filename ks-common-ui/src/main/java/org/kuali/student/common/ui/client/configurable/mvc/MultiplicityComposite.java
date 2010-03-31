@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class MultiplicityComposite extends SimpleMultiplicityComposite {
 
     private String itemLabel = "Item ";

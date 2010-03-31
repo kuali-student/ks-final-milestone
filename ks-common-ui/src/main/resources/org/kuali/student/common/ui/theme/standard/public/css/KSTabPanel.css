@@ -9,9 +9,9 @@
 }
 
 .KS-TabPanel-Tab{
-	font-weight: bold;
 	padding-bottom: 3px;
-	color: white;
+	background-color: #E0E0E0; 
+	color: #111111;
 	\-moz-border-radius-topright: 5px;
 	\-moz-border-radius-topleft: 5px;
 	\-webkit-border-top-right-radius: 5px; 
@@ -24,12 +24,12 @@
 }
 
 .KS-TabPanel-Tab .KS-Label{
-	color: white;
+	color: #111111;
 	
 }
 
 .KS-TabPanel-Tab-Selected .KS-Label{
-	color: black;
+	color: #111111;
 }
 
 .KS-TabPanel-Tab-Selected{
@@ -54,7 +54,7 @@
 
 .KS-TabPanel-Tab-Hover{
 	cursor: pointer;
-	background-color: #727272;
+	background-color: white;
 }
 
 .KS-TabPanel-Left-Panel{
@@ -79,14 +79,14 @@
 	margin:0;
    	padding:0;
 
-   	line-height:1.3em;
+   	line-height:1.8em;
    	
 }
 
 .KS-TabPanel-Tab-Left{
-	font-size: 1em;
-	padding-left: 20px;
-	padding-right: 20px;
+	font-size: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
 	padding-top: 8px;
 	margin-right: 2px;
 }
@@ -118,22 +118,15 @@
 	margin:0;
    	padding:0;
    	position:relative;
+	line-height:1.8em;
 }
 
 .KS-TabPanel-Tab-Right{
-	/*font-size: 14px;
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-top: 5px;
-	margin-left: 2px;
-	line-height:1.3em;*/
-	
-	font-size: .8em;
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-top: 5px;
-	margin-left: 2px;
-
+	font-size: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 8px;
+	margin-right: 2px;
 }
 
 

@@ -17,14 +17,11 @@ package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 
 
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
 import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -52,7 +49,7 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
     @Override
     public MultiplicityItem getItemDecorator(StyleType style) {
         org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader item = new org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader(style);
-        item.setItemLabel(itemLabel + " " + visualItemCount);            
+        item.setItemLabel(itemLabel + " " + itemCount);            
 
         return item;
     }

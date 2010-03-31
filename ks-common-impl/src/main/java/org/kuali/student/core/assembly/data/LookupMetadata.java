@@ -21,10 +21,11 @@ public class LookupMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private String key;    
-    private String name;	//name of this search
+    private String id;				//unique ID of this lookup
+    private String searchTypeId;    //id of search type defined in search xml
+    private String name;			//name of this search
     private String desc;
-    private String title;   //advanced search window title
+    private String title;   		//advanced search window title
 
 	@XmlElement(name="param")
     @XmlElementWrapper
@@ -46,14 +47,16 @@ public class LookupMetadata implements Serializable {
     
     private LookupImplMetadata impl;  //FIXME remove after LookupMetadataBank is gone
 
+    // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
+	// and custom screens of the advanced search lightbox
     public enum Usage {
-        DEFAULT, ADVANCED, CUSTOM
+        DEFAULT, ADVANCED, CUSTOM, ADVANCED_CUSTOM
     }
 
     private Usage usage;
     
     public enum Widget {
-        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX
+        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON, CHECKBOX_LIST
     }
     private Widget widget;    
 
@@ -103,12 +106,12 @@ public class LookupMetadata implements Serializable {
         this.results = results;
     }
 
-    public String getKey() {
-        return key;
+    public String getSearchTypeId() {
+        return searchTypeId;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setSearchTypeId(String searchTypeId) {
+        this.searchTypeId = searchTypeId;
     }
 
     public String getResultReturnKey() {
@@ -143,6 +146,14 @@ public class LookupMetadata implements Serializable {
         this.qosMetadata = qosMetadata;
     }
 
+	public String getSearchParamIdKey() {
+		return searchParamIdKey;
+	}
+
+	public void setSearchParamIdKey(String searchParamIdKey) {
+		this.searchParamIdKey = searchParamIdKey;
+	}
+    
     public LookupImplMetadata getImpl() {
         return impl;
     }
@@ -151,14 +162,12 @@ public class LookupMetadata implements Serializable {
         this.impl = impl;
     }
 
-    private String lookupKey;
-
-    public String getLookupKey() {
-        return lookupKey;
+    public String getId() {
+        return id;
     }
 
-    public void setLookupKey(String lookupKey) {
-        this.lookupKey = lookupKey;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Usage getUsage() {
@@ -179,20 +188,13 @@ public class LookupMetadata implements Serializable {
 
     public String toString(){
         StringBuffer sb = new StringBuffer();
-        sb.append(key);
+        sb.append(id);
+        sb.append(",");        
+        sb.append(searchTypeId);
         sb.append(",");
         sb.append(name);
         sb.append(",");
         sb.append(desc);
         return sb.toString();
     }
-
-	public String getSearchParamIdKey() {
-		return searchParamIdKey;
-	}
-
-	public void setSearchParamIdKey(String searchParamIdKey) {
-		this.searchParamIdKey = searchParamIdKey;
-	}
-
 }

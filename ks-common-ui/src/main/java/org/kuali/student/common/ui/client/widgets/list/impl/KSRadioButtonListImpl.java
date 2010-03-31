@@ -229,5 +229,10 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
 	@Override
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return focus.addBlurHandler(handler);
-	}    
+	}
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }    
 }

@@ -36,8 +36,6 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -264,17 +262,6 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
 		return searchManager.getSearchTypesByResult(searchResultTypeKey);
-	}
-
-	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		
-		return searchManager.searchForResults(searchTypeKey, queryParamValues, enumDAO);
 	}
 
 	@Override

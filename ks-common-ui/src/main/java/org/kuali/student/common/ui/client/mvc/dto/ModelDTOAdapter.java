@@ -25,6 +25,7 @@ import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 
+@Deprecated
 public class ModelDTOAdapter implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String objectKey;
