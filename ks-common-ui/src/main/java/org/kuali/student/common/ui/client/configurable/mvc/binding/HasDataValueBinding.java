@@ -65,8 +65,12 @@ public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>
 
 	@Override
 	public void setWidgetValue(HasDataValue widget, DataModel model, String path) {
+			
 		QueryPath qPath = QueryPath.parse(path);
-        Object value = model.get(qPath);
+		Object value = null;
+		if(model!=null){
+        	value = model.get(qPath);
+        }
         
         
         if (value != null && widget != null) {

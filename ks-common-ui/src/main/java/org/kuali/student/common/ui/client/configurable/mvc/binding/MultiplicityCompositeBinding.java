@@ -53,7 +53,10 @@ public class MultiplicityCompositeBinding extends ModelWidgetBindingSupport<Mult
         mcWidget.clear();
 
         QueryPath qPath = QueryPath.parse(path);
-        Data data = model.get(qPath);
+        Data data = null;
+        if(model!=null){
+        	data = model.get(qPath);
+        }
 
         if (data != null) {
             Iterator<Property> itr = data.iterator();

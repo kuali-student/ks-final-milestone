@@ -114,7 +114,11 @@ public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
     public void setWidgetValue(HasText object, DataModel model, String path) {
         try {
             QueryPath qPath = QueryPath.parse(path);
-            Object value = model.get(qPath);
+            
+            Object value = null;
+            if(model!=null){
+            	value = model.get(qPath);
+            }
 
             if (value != null && object != null) {
                 if (value instanceof Date) {
