@@ -109,7 +109,7 @@ public class OrgConfigurerFactory {
         VerticalSection orgInfo = new VerticalSection();
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-        orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgName",  getLabel(OrgConstants.REL_ORGNAME_LABEL_KEY), Type.STRING, new OrgButtonPicker()));
+        orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgName",  getLabel(OrgConstants.REL_ORGNAME_LABEL_KEY), Type.STRING,new OrgRelationTypePicker()));
         orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgId",  getLabel(OrgConstants.REL_ORGID_LABEL_KEY), Type.STRING));
         orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgRelType",  getLabel(OrgConstants.REL_TYPE_LABEL_KEY), Type.STRING, new OrgRelationTypePicker()));
         orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgEffDate",  getLabel(OrgConstants.REL_EFF_DATE_LABEL_KEY), Type.STRING));

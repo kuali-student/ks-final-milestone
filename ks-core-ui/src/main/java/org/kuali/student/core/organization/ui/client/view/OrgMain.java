@@ -44,7 +44,6 @@ public class OrgMain extends Composite {
         Label pageTitle = new Label("Organization Management");
         pageTitle.setStyleName("page-title");
         vPanel.add(pageTitle);
-        vPanel.add(new OrgMenu(workPanel));
         vPanel.add(workPanel);
         
     }

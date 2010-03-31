@@ -36,6 +36,7 @@ public class OrgRelationTypePicker extends KSDropDown{
 			    final Map<String,String> map = new LinkedHashMap<String, String>();
                 for(OrgOrgRelationTypeInfo info : orgRelTypes) {
                     map.put(info.getId(), info.getName());
+                    //Add the reverse relation types in the dropdown and add the prefix REV to differentiate from the original key
                     map.put("REV_" + info.getId(), info.getRevName());
                 }
                 orgRelTypeList = new ListItems() {
@@ -65,9 +66,10 @@ public class OrgRelationTypePicker extends KSDropDown{
                         return map.get(id);
                     }
                 };
-	                
+                    setListItems(orgRelTypeList);
 	                setEnabled(true);
-	                setListItems(orgRelTypeList);
+	                setInitialized(true);
+	                
 /*	                ListItems items = orgTypeDropDown.getListItems();
 	                
 	                if (items != null) {

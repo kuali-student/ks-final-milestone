@@ -20,6 +20,9 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -189,8 +192,11 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     
     
     private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations,List<OrgOrgRelationInfo> parentRelations){
+       
         Data orgOrgRelations = new Data();
+        String relationTypeTranslation;
         int count = 0;
+        try{
         for(OrgOrgRelationInfo relation:relations){
             Data relationMap = new Data();
             OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(relationMap);
@@ -198,6 +204,11 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             orgOrgRelation.setOrgId(relation.getOrgId());
             orgOrgRelation.setRelatedOrgId(relation.getRelatedOrgId());
             orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
+            
+            //Set this for readonly permission
+//          relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getName();
+//          orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
+            
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
@@ -213,6 +224,11 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             orgOrgRelation.setRelatedOrgId(relation.getOrgId());
             orgOrgRelation.setOrgId(relation.getRelatedOrgId());
             orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getType());
+            
+            //Set this for readonly permission
+//            relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getRevName();
+//            orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
+            
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
@@ -221,6 +237,11 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             count= count+1;
         }
         
+        
+        }
+        catch(Exception e){
+            
+        }
         return orgOrgRelations;
     }
 

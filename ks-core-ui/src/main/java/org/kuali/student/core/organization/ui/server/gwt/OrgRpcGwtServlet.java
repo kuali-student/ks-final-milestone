@@ -30,6 +30,7 @@ import javax.xml.bind.Unmarshaller;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityNamePrincipalNameInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
@@ -37,6 +38,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -72,18 +74,27 @@ import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPerson
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationService> implements OrgRpcService{
+public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements OrgRpcService{
 
 	private static final long serialVersionUID = 1L;
 	public static final String CONFIGURE_XML_PATH = "C:/org_configure.xml";
 	private IdentityService identityService;
+	private OrganizationService service;
 
 	public void setIdentityService(IdentityService identityService){
 	    this.identityService=identityService;
 	}
 	
+	public void setService(OrganizationService service){
+	    this.service=service;
+	}
 	
     @Override
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey){
@@ -569,16 +580,17 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         }
         return null;
     }	
-    private Assembler orgProposalAssembler;
+//    private Assembler assembler;
     
-    public void setOrgProposalAssembler(Assembler orgProposalAssembler){
-        this.orgProposalAssembler=orgProposalAssembler;
-    }
+//    public void setOrgProposalAssembler(Assembler assembler){
+//            assembler=assembler;
+//    }
     
     private synchronized void initAssemblers() {
-        if (orgProposalAssembler == null) {
-            orgProposalAssembler = new OrgProposalAssembler();
-        }            
+//        if (assembler == null) {
+//            assembler = new OrgProposalAssembler();
+//        }       
+        
     }
     
 // TODO rewrite this method to use the metadata structures from the assembler
@@ -603,22 +615,18 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
 
         try {
             initAssemblers();
-            SaveResult<Data> s = orgProposalAssembler.save(proposal);
+            DataSaveResult s = this.saveData(proposal);
             if (s == null) {
                 return null;
             } else {
 //                DataSaveResult dsr = new DataSaveResult(s.getValidationResults(), s.getValue());
-                SaveResult<Data> samp = new SaveResult<Data>();
                 Data sampdata = new Data();
                 sampdata = s.getValue();
                 List<ValidationResultInfo> vsr =  new ArrayList<ValidationResultInfo>();
                 DataSaveResult dsr = new DataSaveResult(vsr,sampdata);
                 return dsr;
             }
-        } catch (AssemblyException e) {
-            throw e;
-        }
-        catch(Exception e){
+        } catch(Exception e){
             e.printStackTrace();
         }
         return null;
@@ -630,7 +638,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         try {
             initAssemblers();
             //FIXME: where to get the ID?
-            return orgProposalAssembler.getMetadata(null, null, null,"draft");
+//            return this.getMetadata("orgProposal", null);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -719,7 +727,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
             initAssemblers();
             //OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
             //String orgId = orgSearchHelper.getOrgId();
-            return (Data)orgProposalAssembler.get(orgId);
+            return (Data)this.getData(orgId);
 //            return orgProposalAssembler.getMetadata(null,"draft");
         }
         catch(Exception e){
@@ -777,6 +785,39 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         
         return identities;
     }
+
+    @Override
+    protected String deriveAppIdFromData(Data data) {
+        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    protected String deriveDocContentFromData(Data data) {
+        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    protected String getDefaultMetaDataState() {
+        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    protected String getDefaultMetaDataType() {
+        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    protected String getDefaultWorkflowDocumentType() {
+        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+
+
 
     
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.assembly.data.AssemblyException;
@@ -46,7 +47,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 * most of these will be verbatim from the web service  
 */
 @RemoteServiceRelativePath("rpcservices/OrgRpcService")
-public interface OrgRpcService extends RemoteService, BaseRpcService {
+public interface OrgRpcService extends RemoteService, BaseDataOrchestrationRpcService {
 	
 	public OrgInfo createOrganization(OrgInfo orgInfo);
     public OrgOrgRelationInfo createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);

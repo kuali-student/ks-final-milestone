@@ -850,6 +850,41 @@
 				<ref bean="constraint.required" />
 			</list>
 		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="id" value="kuali.org.personRelationType.dropdown" />
+				<property name="searchTypeId" value="org.search.orgPeronRelationTypes" />
+				<property name="name" value="Organization Person Relation Type" />
+				<property name="desc"
+					value="Search Types of Organization  Person Relation Type" />
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+				<property name="widget" value="DROP_DOWN" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgPersonRelationType" />
+							<property name="name" value="Org PersonRelation Type Id" />						
+							<property name="desc" value="Org PersonRelation Type Id" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgPersonRelationTypeName" />
+							<property name="name" value="Org PersonRelation Type Name" />
+							<property name="desc" value="Org PersonRelation Type Name" />													
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="org.resultColumn.orgPersonRelationType" />
+				<property name="resultDisplayKey" value="org.resultColumn.orgPersonRelationTypeName" />
+				<property name="resultSortKey" value="org.resultColumn.orgPersonRelationTypeName" />
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list />
+		</property>		
 	</bean>
 	<bean id="OrgPositionRestrictionInfo.desc" parent="dataFieldDescriptor">
 		<property name="name" value="desc" />
@@ -977,6 +1012,41 @@
 				<ref bean="constraint.required" />
 			</list>
 		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="id" value="kuali.org.type.dropdown" />
+				<property name="searchTypeId" value="org.search.orgTypes" />
+				<property name="name" value="Organization Type" />
+				<property name="desc"
+					value="Search Types of Organization" />
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+				<property name="widget" value="DROP_DOWN" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgType" />
+							<property name="name" value="Org Type Id" />						
+							<property name="desc" value="Org Type Id" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgTypeName" />
+							<property name="name" value="OrgType Name" />
+							<property name="desc" value="OrgType Name" />													
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="org.resultColumn.orgType" />
+				<property name="resultDisplayKey" value="org.resultColumn.orgTypeName" />
+				<property name="resultSortKey" value="org.resultColumn.orgTypeName" />
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list />
+		</property>		
 	</bean>
 	<bean id="orgInfo.shortDesc" parent="dataFieldDescriptor">
 		<property name="name" value="shortDesc" />
@@ -1060,7 +1130,7 @@
 							<property name="name" value="Organization Identifier" />
 							<property name="desc" value="Identifier for the organization" />
 							<property name="dataType" value="STRING" />
-							<property name="hidden" value="true" />
+							<property name="hidden" value="false" />
 						</bean>
 						<!--
 						<bean parent="result">

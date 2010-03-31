@@ -12,7 +12,7 @@ import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.theme.OrgTreeImages;
-import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
+
 
 
 import com.google.gwt.core.client.GWT;
@@ -204,7 +204,7 @@ public class OrgTree  extends Composite{
             final KSLabel members = new KSLabel("Members " + "["+ positions + "]");
             members.addStyleName("action");
             members.addClickHandler(memberHandler);
-            members.getElement().setAttribute("value", ""+Scope.build(Scope.ORG_PERSON_RELATIONS, Scope.MODIFY).value());
+            members.getElement().setAttribute("value", "");
             w.add(label);
             w.add(members);
             w.addStyleName("KS-Org-Tree-Section");
@@ -278,7 +278,7 @@ public class OrgTree  extends Composite{
             final KSLabel members = new KSLabel("Members " + "["+ positions + "]");
             members.addStyleName("action");
             members.addClickHandler(memberHandler);
-            members.getElement().setAttribute("value", ""+Scope.build(Scope.ORG_PERSON_RELATIONS, Scope.MODIFY).value());
+            members.getElement().setAttribute("value", "");
             
             w.add(label);
             w.add(members);

@@ -109,27 +109,7 @@ public class OrgChartWidget extends Composite {
 		        						Window.alert("Logic error. No Organization selected");
 		        						return;
 		        					}
-    		                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(data.getValueString(selections.get(0).getRow(), 0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
-    		                        orgCreatePanel.addCloseButton("Close", new ClickHandler() {
-    		                            @Override
-    		                            public void onClick(ClickEvent event) {
-    		                            	//Called after user clicks close on the chart widget
-    		                            	o.setSelections(null);
-    		                                w.remove(w.getWidgetCount() - 1);
-    		                                w.showWidget(w.getWidgetCount() - 1);
-    		                            }
-    		                        });
-    		                        orgCreatePanel.addSelectionHandler(new SelectionHandler<OrgInfo>(){
-                                        @Override
-                                        public void onSelection(SelectionEvent<OrgInfo> event) {
-    		                            	//Called after user clicks save on the chart widget
-                                        	data.setFormattedValue(o.getSelections().get(0).getRow(), 0, event.getSelectedItem().getLongName());
-                                        	o.setSelections(null);
-                                            o.draw(data, orgChartOpts);
-                                        }
-                                    });
-    		                        w.add(orgCreatePanel);
-    		                        w.showWidget(w.getWidgetCount() - 1);
+    		                       
     							}
 
     	                    });

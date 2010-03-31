@@ -3,6 +3,7 @@ package org.kuali.student.core.organization.ui.client.mvc.controller;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -162,12 +163,34 @@ public class OrgProposalController extends TabbedSectionLayout{
         progressWindow.removeCloseLink();
         progressWindow.setWidget(progressInd);
 
+
         if (initialized) {
             onReadyCallback.exec(true);
         } 
         else {
+            String idType = null;
+            String viewContextId = null;
             progressWindow.show();
-            orgProposalRpcServiceAsync.getOrgMetaData( 
+            
+            if(getViewContext().getIdType() != null){
+                idType = getViewContext().getIdType().toString();
+                viewContextId = getViewContext().getId();
+                if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
+                    viewContextId = null;
+                }
+
+//              switch (getViewContext().getIdType()) {
+//                    case KS_KEW_OBJECT_ID :
+//                        idType = getViewContext().getIdType().toString();
+//                        viewContextId = getViewContext().getId();
+//                        break;
+//                    case DOCUMENT_ID :
+//                        idType = getViewContext().getIdType().toString();
+//                        viewContextId = getViewContext().getId();
+//                        break;
+//                }
+            }
+            orgProposalRpcServiceAsync.getMetadata( "orgProposal", viewContextId,
                     new AsyncCallback<Metadata>(){
 
                         @Override

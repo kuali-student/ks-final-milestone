@@ -18,11 +18,16 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.search.SuggestBoxWAdvSearch;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.organization.ui.client.configuration.OrgConstants;
@@ -33,7 +38,7 @@ import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory.OrgSections;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.organization.ui.client.view.OrgUpdatePanel;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
@@ -117,13 +122,6 @@ public class CommonConfigurer {
                         // Initialize the Widget picker with specific widgets like pickers, drop-downs, etc
                         Widget widget = null;
                         if (field.getWidget() != null) {
-                            if (field.getWidget().equals("OrgTypePicker")) {
-                                widget = new OrgTypePicker();
-                            }
-                            if (field.getWidget().equals("OrgUpdatePanel")) {
-//                                widget = new OrgUpdatePanel();
-                                widget = getOrgAdvanceSearch();
-                            }
                             if (field.getWidget().equals("OrgLocateTree")) {
                                 widget = new OrgTree(section);
                             }
@@ -232,20 +230,64 @@ public class CommonConfigurer {
             GroupSection ns = new GroupSection();
             //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             for (FieldInfo field : fieldList) {
+                
+//                if(path.equals("orgPersonRelationInfo" + "/" + String.valueOf(itemCount-1).toString())){
+//                    if(field.getKey().equals("type")){
+//                        QueryPath metaPath = QueryPath.concat(null, "orgPersonRelationInfo" + "/" + "*" + "/" + "type");
+//                        Metadata meta = modelDefinition.getMetadata(metaPath);
+//                        LookupMetadata lookup = meta.getInitialLookup();
+//                        LookupParamMetadata parammeta = lookup.getParams().get(0);
+//                        parammeta.setDefaultValueString(orgId);
+//                    }
+//                }
                 Widget widget = null;
                 //Define specific widgets as they are defined in the xml config.
                 if (field.getWidget() != null) {
+                    QueryPath qPath = QueryPath.concat(path, field.getKey());
+                    Metadata meta = modelDefinition.getMetadata(qPath);
                     if (field.getWidget().equals("OrgRelationTypePicker")) {
-                        widget = new OrgRelationTypePicker();
+
+                        if(meta.isCanEdit()){
+                            widget = new OrgRelationTypePicker();
+
+                        }
+                        else{
+//                            final OrgRelationTypePicker picker = new OrgRelationTypePicker();
+//                            picker.onLoad();
+//                            ListItems list = picker.getListItems();
+//                            if(list==null){
+//                                picker.addWidgetReadyCallback(new Callback<Widget>() {
+//                                    @Override
+//                                    public void exec(Widget widget) {
+//                                        final ListItems searchResults = picker.getListItems();
+//                                        String value =searchResults.getItemText("REV_kuali.org.CurriculumChild");
+//                                        
+//                                    }      
+//                                });
+//                                
+//                            }
+                            widget = new KSLabel();
+                        }
+                        
                     }
+                    
                     if (field.getWidget().equals("OrgPositionTypePicker")) {
+                        
                         widget = new OrgPositionTypePicker();
                     }
                     if (field.getWidget().equals("OrgPersonRelationTypePicker")) {
+                        if(meta.isCanEdit()){
                         personRelationPicker = new OrgPersonRelationTypePicker();
                         personRelationPicker.setOrgId(orgId);
                         widget = personRelationPicker;
+                        }
+                        else{
+                            widget = new KSLabel();
+                        }
+                        
                     }
+                       
+                        
                 }
                 addField(ns, field.getKey(), getLabel(field.getLabel()),widget,path);    
             }
@@ -253,26 +295,5 @@ public class CommonConfigurer {
         }
     }
     
-    /**
-     * Temporary method to return Org Advance Search 
-     */
-    private Widget getOrgAdvanceSearch(){
-        Metadata searchMetadata = modelDefinition.getMetadata(QueryPath.parse("orgSearchInfo"));  //no type or state at this point
-        SearchPanel organization = new SearchPanel(searchMetadata.getProperties().get(ORG_SEARCH).getInitialLookup());                
-        final AdvancedSearchWindow orgSearchWindow = new AdvancedSearchWindow("Organization", organization);
-        KSTextBox orgTextBox = new KSTextBox();   //FIXME this will be suggest box
-        final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(orgTextBox, orgSearchWindow);  
-        
-        orgSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
-            public void exec(List<SelectedResults> results) {
-                if (results.size() > 0){
-                    adminDepPicker.getSuggestBox().setText(results.get(0).getDisplayKey());
-                    adminDepPicker.getSuggestBox().setValue(results.get(0).getReturnKey());
-                    orgSearchWindow.hide();
-                }
-            }
-        });               
-        return adminDepPicker;
-    }
     
 }
