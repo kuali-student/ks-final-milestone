@@ -15,7 +15,7 @@
         NMSPC_CD="KS-LUM" OBJ_ID="COLLEGETYPE00000000000000ATTRDEF" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="114" LBL="Organization" NM="organization"
+        KIM_ATTR_DEFN_ID="114" LBL="Organization" NM="org"
         NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE08000005430000ATTRDEF" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
