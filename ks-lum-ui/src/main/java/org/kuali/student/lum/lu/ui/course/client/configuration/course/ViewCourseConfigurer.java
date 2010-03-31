@@ -142,6 +142,7 @@ LearningObjectiveConstants
 //FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
     //    addField(section, TERMS_OFFERED_PATH, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new KSLabel());
+        addField(section, getTranslationKey(FIRST_EXPECTED_OFFERING), getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + getTranslationKey(TERM_TYPE), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + QUANTITY, getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
         addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());

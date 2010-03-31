@@ -247,6 +247,7 @@ public class LUConstants {
     public static final String TERMS_OFFERED_LABEL_KEY = "cluTermsOffered";
     public static final String DURATION_TYPE_LABEL_KEY = "cluDurationType";
     public static final String DURATION_QUANTITY_LABEL_KEY = "cluDurationQuantity";
+    public static final String FIRST_OFFERING_KEY = "cluFirstOffering";
 
 
 }

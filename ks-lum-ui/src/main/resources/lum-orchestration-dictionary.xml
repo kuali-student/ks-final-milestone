@@ -3650,6 +3650,7 @@
 				<property name="name" value="Advanced ATP match" />
 				<property name="desc" value="Search by Name, start date, end date, and type" />
 				<property name="widget" value="DROP_DOWN" />
+				<property name="searchParamIdKey" value="atp.queryParam.atpSeasonType" />
 				<property name="results">
 					<list>
 						<bean parent="result">
