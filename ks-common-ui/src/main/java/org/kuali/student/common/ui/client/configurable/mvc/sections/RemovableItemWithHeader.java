@@ -17,7 +17,13 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 	private FlowPanel body = new FlowPanel();
 	private StyleType style;
 	private String itemLabel;
+    private boolean readOnly=false;
 	private boolean loaded = false;
+	
+	
+    public void isReadOnly(boolean readOnly){
+        this.readOnly=readOnly;
+    }
 	
 	public RemovableItemWithHeader(StyleType style){
 		this.style = style;
@@ -57,11 +63,16 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 	    		header.setStyleName("ks-form-course-format-activity-header");
 	    		layout.setStyleName("ks-form-course-format-activity");
 	    	}
-	    	header.addDeleteHandler(new ClickHandler() {
-	            public void onClick(ClickEvent event) {
-	                getRemoveCallback().exec(RemovableItemWithHeader.this);
-	            }
-	        });
+	    	
+	    	//This check is to disable delete of items in case of readonly mode.
+	    	if(!readOnly){
+	    	    header.addDeleteHandler(new ClickHandler() {
+	                public void onClick(ClickEvent event) {
+	                    getRemoveCallback().exec(RemovableItemWithHeader.this);
+	                }
+	            });
+	    	}
+	    	
 	    	layout.add(header);
 	    	body.add(this.getItemWidget());
 	    	layout.add(body);
