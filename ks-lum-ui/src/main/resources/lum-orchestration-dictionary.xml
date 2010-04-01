@@ -1042,7 +1042,21 @@
 			</list>
 		</property>
 		<property name="initialLookup">
-				<ref bean="kuali.lookup.lutypes" />
+			<bean parent="kuali.lookup.lutypes">
+				<property name="params">
+				<list>	
+					<!-- Constrain activity types to types that start with "kuali.lu.type.activity." -->
+					<bean parent="param">
+						<property name="key" value="lu.queryParam.luOptionalLuTypeStartsWith" />
+						<property name="name" value="Activity Type" />
+						<property name="desc" value="Activity Type" />
+						<property name="writeAccess" value="NEVER" />
+						<property name="usage" value="DEFAULT" />
+						<property name="defaultValueString" value="kuali.lu.type.activity."/>
+					</bean>
+				</list>
+				</property>
+			</bean>
 		</property>
 		<property name="additionalLookups">
 			<list />

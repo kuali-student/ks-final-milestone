@@ -448,10 +448,13 @@
 		<search:desc>Lu Type</search:desc>
 		<search:queryParams>
 			<ref bean="lu.queryParam.luOptionalLuType" />
+			<ref bean="lu.queryParam.luOptionalLuTypeStartsWith" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
 	<search:queryParam id="lu.queryParam.luOptionalLuType" parent="lu.queryParam.luOptionalLuType-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalLuTypeStartsWith" parent="lu.queryParam.luOptionalLuType-parent"/>
+	
 	<search:queryParam id="lu.queryParam.luOptionalLuType-parent"
 		optional="true" abstract="true">
 		<dict:fieldDescriptor>
@@ -461,7 +464,7 @@
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
 	</search:queryParam>
-	
+
 	<search:crossSearchType id="lu.search.cluGenericCrossSearch">
         <search:name>Course or Proposal Search</search:name>
         <search:desc>Search for course or proposal using department</search:desc>
@@ -584,6 +587,10 @@
 				<entry key="lu.queryParam.luOptionalLuType">
 					<value>lut.id = :lu_queryParam_luOptionalLuType</value>
 				</entry>
+				<entry key="lu.queryParam.luOptionalLuTypeStartsWith">
+					<value>lut.id</value>
+				</entry>
+				
             </map>
 		</property>
 	</bean>
