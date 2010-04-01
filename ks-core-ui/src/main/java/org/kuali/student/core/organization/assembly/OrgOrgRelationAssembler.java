@@ -11,10 +11,13 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
@@ -33,8 +36,14 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHelper>{
-
+    public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
     private OrganizationService orgService;
+    private Metadata metadata;
+    
+    public void setMetaData(Metadata metadata){
+        this.metadata=metadata;
+        
+    }
     @Override
     public Data assemble(OrgorgRelationHelper input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
@@ -195,6 +204,9 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
        
         Data orgOrgRelations = new Data();
         String relationTypeTranslation;
+        DataModel orgProposalModel = new DataModel();
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgProposalModel.setDefinition(def);
         int count = 0;
         try{
         for(OrgOrgRelationInfo relation:relations){
@@ -203,12 +215,18 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             orgOrgRelation.setId(relation.getId());
             orgOrgRelation.setOrgId(relation.getOrgId());
             orgOrgRelation.setRelatedOrgId(relation.getRelatedOrgId());
-            orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
+            
             
             //Set this for readonly permission
-//          relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getName();
-//          orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
-            
+            QueryPath metaPath = QueryPath.concat(null, ORGORG_PATH);
+            Metadata orgOrgMeta =orgProposalModel.getMetadata(metaPath);
+            if(!orgOrgMeta.isCanEdit()){
+                relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getName();
+                orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
+            }
+            else{
+                orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
+            }
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
@@ -223,12 +241,18 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             orgOrgRelation.setId(relation.getId());
             orgOrgRelation.setRelatedOrgId(relation.getOrgId());
             orgOrgRelation.setOrgId(relation.getRelatedOrgId());
-            orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getType());
+            
             
             //Set this for readonly permission
-//            relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getRevName();
-//            orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
-            
+            QueryPath metaPath = QueryPath.concat(null, ORGORG_PATH);
+            Metadata orgOrgMeta =orgProposalModel.getMetadata(metaPath);
+            if(!orgOrgMeta.isCanEdit()){
+                relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getRevName();
+                orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
+            }
+            else{
+                orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getType());
+            }
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
