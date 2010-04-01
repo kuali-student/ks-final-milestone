@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableL
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -446,7 +445,7 @@ public class CourseConfigurer
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection activity = new GroupSection();
-            addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), new CluActivityType(), path);
+            addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
             activity.nextLine();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
@@ -511,23 +510,6 @@ public class CourseConfigurer
 //            return multi;
 //        }
 //    }
-
-    public class CluActivityType extends KSDropDown{
-        public CluActivityType(){
-            SimpleListItems activityTypes = new SimpleListItems();
-
-            activityTypes.addItem("kuali.lu.type.activity.Tutorial", "Tutorial");
-            activityTypes.addItem("kuali.lu.type.activity.Lecture", "Lecture");
-            activityTypes.addItem("kuali.lu.type.activity.WebLecture", "WebLecture");
-            activityTypes.addItem("kuali.lu.type.activity.Discussion", "Discussion");
-            activityTypes.addItem("kuali.lu.type.activity.Lab", "Lab");
-            activityTypes.addItem("kuali.lu.type.activity.Directed", "Directed");
-            activityTypes.addItem("kuali.lu.type.activity.WebDiscuss", "WebDiscuss");
-
-            super.setListItems(activityTypes);
-            this.selectItem("kuali.lu.type.activity.Lecture");
-        }
-    }
 
     public class PersonList extends KSDropDown {
         final SimpleListItems people = new SimpleListItems();
