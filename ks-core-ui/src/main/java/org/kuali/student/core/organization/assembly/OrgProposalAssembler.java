@@ -146,8 +146,9 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
                 orgPersonRelationAssembler.setOrgService(orgService);
                 Data relationData = orgPersonRelationAssembler.save(input).getValue();
             }
-           
-            result.setValue(input);
+            
+            result.setValue((orgId == null) ? null : get(orgId));
+            
         } catch (Exception e) {
             e.printStackTrace();
             throw(new AssemblyException());
