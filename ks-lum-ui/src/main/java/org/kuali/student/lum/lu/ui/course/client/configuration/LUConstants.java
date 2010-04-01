@@ -251,6 +251,32 @@ public class LUConstants {
     public static final String DURATION_QUANTITY_LABEL_KEY = "cluDurationQuantity";
     public static final String FIRST_OFFERING_KEY = "cluFirstOffering";
 
+    // Financial labels
+    public static final String COURSE_FEE_TITLE = "cluCourseFeesTitle";
+    public static final String JUSTIFICATION_FEE ="cluJustificationOfFees";
+    public static final String FINANCIAL_INFORMATION ="cluFinancialInformation";
+    public static final String REVENUE = "cluRevenue";
+    public static final String AMOUNT = "cluAmount";
+    public static final String EXPENDITURE = "cluExpenditure";
+    public static final String VARIABLE_RATE ="cluVariableRate";
+    public static final String FIXED_RATE = "cluFixedRate";
+    public static final String MULTIPLE_RATE = "cluMultipleRate";
+    public static final String PER_CREDIT_RATE = "cluPerCreditRate";
+    public static final String LAB_FEE = "cluLabFee";
+    public static final String MATERIAL_FEE = "cluMaterialFee";
+    public static final String STUDIO_FEE = "cluStudioFee";
+    public static final String FIELD_TRIP_FEE = "cluFieldTripFee";
+    public static final String FIELD_STUDY_FEE= "cluFieldStudyFee";
+    public static final String ADMINISTRATIVE_FEE = "cluAdministrativeFee";
+    public static final String COOP_FEE = "cluCoopFee";
+    public static final String GREENS_FEE = "cluGreensFee";
+    public static final String ADD_A_FEE = "cluAddAfee";
+    public static final String TO = "cluTo";
+    public static final String RATE_TYPE = "cluRateType";
+    public static final String ADD_ANOTHER_FEE = "cluAddAnotherFee";     
+    public static final String FEE = "cluFee";
+    public static final String ORGANIZATION = "cluOrganization";
+    public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
 
 }
 
