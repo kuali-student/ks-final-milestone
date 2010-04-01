@@ -3622,14 +3622,6 @@
             <unique-column name="CLU_INSTR_ID"/>
         </unique>
     </table>
-    <table name="KSLU_CLU_JN_ORG">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ORG_ID" size="255" type="VARCHAR"/>
-        <column name="CLU_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU" name="FKC16C47EA4AF8DD33">
-            <reference foreign="ID" local="CLU_ID"/>
-        </foreign-key>
-    </table>
     <table name="KSLU_CLU_JN_SUBJ_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
