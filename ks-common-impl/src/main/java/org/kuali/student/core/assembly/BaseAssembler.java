@@ -49,6 +49,10 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         return null;
     }
 
+   /* protected Map<String, String> getScreenComponentAccessPermissions(List<SectionViewInfo> sectionViewInfo) {
+        return null;
+    }*/
+    
 	private void setReadOnly(Metadata metadata, boolean readOnly) {
 		metadata.setCanEdit(!readOnly);
 		Map<String, Metadata> childProperties = metadata.getProperties();
@@ -95,7 +99,8 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
 	                if (fieldMetadata != null) {
 	                    Permission perm = Metadata.Permission.kimValueOf(fieldAccessLevel);
 	                    if (Permission.EDIT.equals(perm)) {
-	                        fieldMetadata.setCanEdit(true);
+	                        setReadOnly(fieldMetadata, false);
+	                        //fieldMetadata.setCanEdit(true);
 	                    }
 	                }
 	            }
@@ -128,7 +133,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     }
 
     private static String[] getPathTokens(String fieldPath) {
-        return fieldPath.split("/");
+        return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split(".") : new String[]{fieldPath});
     }
 
     public boolean checkDocumentLevelPermissions() {

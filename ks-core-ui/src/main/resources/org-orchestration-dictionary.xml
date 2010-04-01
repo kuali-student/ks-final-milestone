@@ -93,6 +93,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="orgInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
@@ -105,6 +106,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="orgOrgRelationInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
@@ -117,6 +119,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="OrgPositionRestrictionInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
@@ -129,6 +132,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="orgPersonRelationInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />

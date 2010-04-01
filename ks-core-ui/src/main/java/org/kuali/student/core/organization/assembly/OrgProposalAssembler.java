@@ -2,9 +2,7 @@ package org.kuali.student.core.organization.assembly;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
@@ -17,7 +15,6 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -28,7 +25,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgSearchHelper;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -38,7 +34,6 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -276,15 +271,15 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
     @Override
     protected String getDtoName() {
-        //FIXME: this is not the correct value
-        return "kuali.lu.type.CreditCourse";
+        return "Organization";
     }
 
     @Override
     protected AttributeSet getQualification(String idType, String id) {
-        String DOCUMENT_TYPE_NAME = "documentTypeName";
         AttributeSet qualification = new AttributeSet();
-        qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
+        /*String DOCUMENT_TYPE_NAME = "documentTypeName";
+        //FIXME: should this be something like org.proposal?
+        qualification.put(DOCUMENT_TYPE_NAME, "Organization");*/
         qualification.put(idType, id);
         return qualification;
     }
