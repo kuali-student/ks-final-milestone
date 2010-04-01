@@ -222,9 +222,6 @@ public class ViewCluConfigurer {
     private static VerticalSection generateRationale(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         String fieldLabel = null;
-        if (title == null) {
-            fieldLabel = getLabel(LUConstants.RATIONALE_LABEL_KEY);           
-        }
         section.addField(new FieldDescriptor("cluInfo/marketingDesc/plain", fieldLabel, Type.STRING, new KSLabel()));
         return section;
     }

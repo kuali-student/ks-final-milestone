@@ -31,6 +31,7 @@
 	<bean parent="enCourse" p:id="cluProposalInformation" p:value="Proposal Information" />
 	<bean parent="enCourse" p:id="cluCourseInformation" p:value="Course Information" />
 	<bean parent="enCourse" p:id="cluProposalTitle" p:value="Proposal Title" />
+	<bean parent="enCourse" p:id="cluProposalRationale" p:value="Proposal Rationale" />
 	<bean parent="enCourse" p:id="cluTitleLiteral" p:value="Title" />
 	<bean parent="enCourse" p:id="cluCredit" p:value="Credit" />
 	<bean parent="enCourse" p:id="cluCreditValue" p:value="Credit Value" />
@@ -75,11 +76,12 @@
 	<bean parent="enCourse" p:id="cluContactHours" p:value="Contact Hours" />
 	<bean parent="enCourse" p:id="cluClassSize" p:value="Class Size" />
 
-	<bean parent="enCourse" p:id="cluAcademicContent" p:value="Academic Content" />
+	<bean parent="enCourse" p:id="cluAcademicContent" p:value="Course Content" />
 	<bean parent="enCourse" p:id="cluInformation" p:value="Course Information" />
 	<bean parent="enCourse" p:id="cluIdentifier" p:value="Course Identifier" />
 	<bean parent="enCourse" p:id="cluIdentifiers" p:value="Course Identifiers" />
 	<bean parent="enCourse" p:id="cluAltIdentifier" p:value="Alternate Course Identifier" />
+	<bean parent="enCourse" p:id="cluAuthorsRationale" p:value="Authors &amp; Rationale"/>
 
 	<!-- Courses Cross Listed -->
 	<bean parent="enCourse" p:id="cluCrosslisted" p:value="Crosslisted Courses" />
@@ -125,7 +127,6 @@
 	<bean parent="enCourse" p:id="cluDescriptionLabel" p:value="Description:    " />
 	<bean parent="enCourse" p:id="cluStatus" p:value="Status:    " />
 
-	<bean parent="enCourse" p:id="cluRationale" p:value="Course Rationale" />
 	<bean parent="enCourse" p:id="cluDivision" p:value="Division:    " />
 	<bean parent="enCourse" p:id="cluSuffixCode" p:value="Suffix Code:    " />
 	<bean parent="enCourse" p:id="cluLevel" p:value="Level:    " />

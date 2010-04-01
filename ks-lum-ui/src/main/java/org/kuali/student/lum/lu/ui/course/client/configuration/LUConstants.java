@@ -100,6 +100,10 @@ public class LUConstants {
     public static final String PROPOSAL_TITLE_LABEL_KEY = "cluProposalTitle";
     public static final String PROPOSAL_DIRECTIONS_LABEL_KEY = "cluProposalDirections";
     public static final String PROPOSAL_PERSON_LABEL_KEY = "cluProposalPerson";
+    public static final String PROPOSAL_RATIONALE_LABEL_KEY = "cluProposalRationale";
+
+    //Authors & Rationale Labels
+    public static final String AUTHORS_RATIONAL = "cluAuthorsRationale";
     
     public static final String EDIT_TAB_LABEL_KEY = "cluEditTab";
     
@@ -169,8 +173,6 @@ public class LUConstants {
     public static final String DESCRIPTION_LABEL_LABEL_KEY = "cluDescriptionLabel";
     public static final String STATUS_LABEL_KEY = "cluStatus";
     
-    public static final String RATIONALE_LABEL_KEY = "cluRationale";
-
     public static final String CROSS_LISTED_LABEL_KEY = "cluCrosslisted";
     public static final String CROSS_LISTED_ITEM_LABEL_KEY = "cluCrosslistedItem";
     public static final String CROSS_LISTED_ALT_LABEL_KEY = "cluCrosslistedAlt";

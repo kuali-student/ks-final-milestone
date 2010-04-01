@@ -53,6 +53,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowToolbar;
@@ -435,11 +436,15 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-        		/* These two lines are to update model for current section only */
-            	//getStartSection().updateModel();
+        		/* This is to update model with data from current section only */
                 //getCurrentView().updateModel();
-
-                CourseProposalController.this.updateModel();
+                CourseProposalController.this.updateModel();                
+                
+                if (isStartSectionShowing()){
+                	//This call required so fields in start section, which also appear in
+                	//other sections don't get overridden from updateModel call above.
+                	getStartSection().updateModel();
+                }
 
             	model.validate(new Callback<List<ValidationResultContainer>>() {
                     @Override
@@ -448,8 +453,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     	boolean isSectionValid = isValid(result, true);
                     	
                     	if(isSectionValid){
-                            String proposalName = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
-                            if (proposalName == null && !CourseProposalController.this.isStartSectionShowing()){
+                            if (startSectionRequired()){
                                 showStartSection(NO_OP_CALLBACK);
                             }
                             else{
@@ -471,6 +475,20 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
             
         });
            
+    }
+    
+    public boolean startSectionRequired(){
+        String proposalId = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        
+        //Defaulting the courseTitle to proposalTitle, this way course data gets set and assembler doesn't
+        //complain. This may not be the correct approach.
+        String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
+        if (courseTitle == null){
+            String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
+        	cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
+        }
+        	
+    	return proposalId==null && !CourseProposalController.this.isStartSectionShowing();    	
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){

@@ -4,7 +4,6 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -61,9 +60,10 @@ public class LRBuilder extends Composite {
         
     	VerticalSection regiOptionsSection = initSection(SectionTitle.generateH3Title("Student Registration")/*getH3Title(LUConstants.LEARNING_RESULT_STUDENT_REGI_OPTIONS_LABEL_KEY)*/, WITH_DIVIDER);
         LearningResultStudentRegiOptions regiOptions = new LearningResultStudentRegiOptions();
-        addField(learningResultsSection, COURSE + "/" + LEARNING_RESULTS, "Audit", regiOptions.GetAuditCheckBox(), path.toString());
-        addField(learningResultsSection, COURSE + "/" + LEARNING_RESULTS, "Pass Fail Transcript Grade", regiOptions.GetPassFailCheckBox(), path.toString());
-
+        addField(regiOptionsSection,  COURSE + "/" + LEARNING_RESULTS, "Audit", regiOptions.GetAuditCheckBox(), path.toString());
+        addField(regiOptionsSection, COURSE + "/" + LEARNING_RESULTS, "Pass Fail Transcript Grade", regiOptions.GetPassFailCheckBox(), path.toString());
+        learningResultsSection.addSection(regiOptionsSection);
+        
         return learningResultsSection;
     }
 

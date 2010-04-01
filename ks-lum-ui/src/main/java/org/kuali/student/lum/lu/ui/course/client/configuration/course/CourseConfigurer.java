@@ -25,14 +25,11 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
-import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
-import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -61,7 +58,6 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LRBuilder;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -98,11 +94,12 @@ public class CourseConfigurer
     public static final String CLU_PROPOSAL_MODEL					= "cluProposalModel";
     public static final String PROPOSAL_ID_PATH						= "proposal/id";
     public static final String PROPOSAL_TITLE_PATH					= "proposal/title";
+    public static final String COURSE_TITLE_PATH					= COURSE + "/" + COURSE_TITLE;
     public static final String PROPOSAL_REFERENCE_TYPE_KEY			= "referenceType.clu.proposal";
     public static final String PROPOSAL_REFERENCE_OBJECT_TYPE		= "kuali.lu.type.CreditCourse";
 
     public enum CourseSections{
-        CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
+        CLU_BEGIN, PEOPLE_PERMISSOMS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
         COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS, DOCUMENTS,
         PROGRAM_INFO, ASSEMBLER_TEST
     }
@@ -119,18 +116,30 @@ public class CourseConfigurer
         addCluStartSection(layout);
 
         String editTabLabel = getLabel(LUConstants.EDIT_TAB_LABEL_KEY);
-        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
-        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
+        
+        //ProposalInformation
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
+        
+        //Course Content
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseLogisticsSection());
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+        
+        //Student Eligibility
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+
+        //Administrative
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateGovernanceSection());
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
+        
+        //Review Proposal Tab
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
 
         //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(CourseSections.ASSEMBLER_TEST, "Assembler Test"));
 
-        layout.addTool(new CollaboratorTool(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+        //Tool Tabs
+        layout.addTool(new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
         		getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
         layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
         layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
@@ -173,8 +182,8 @@ public class CourseConfigurer
         addField(section, CreditCourseProposalConstants.STATE, getLabel(LUConstants.STATUS_LABEL_KEY), new KSLabel());
         return section;
     }
-
-    public void addCluStartSection(ConfigurableLayout layout){
+	
+	public void addCluStartSection(ConfigurableLayout layout){
         VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
         addField(section, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
@@ -184,7 +193,17 @@ public class CourseConfigurer
         layout.addStartSection(section);
     }
 
-    /**
+
+	private SectionView generateAuthorsRationaleSection(){
+		VerticalSectionView section = initSectionView(CourseSections.AUTHORS_RATIONALE, LUConstants.AUTHORS_RATIONAL);
+		
+		addField(section, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+		addField(section, PROPOSAL + "/" + RATIONALE, getLabel(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+		
+		return section;
+	}
+	
+	/**
      * Adds a section for adding or modifying rules associated with a given course (program).
      *
      * @param layout - a content pane to which this section is added to
@@ -203,6 +222,10 @@ public class CourseConfigurer
         section.addSection(generateActiveDateStartSection());
         section.addSection(generateActiveDateEndSection());
 
+        VerticalSection firstExpectedOfferingSection = initSection(getH3Title("First Expected Offering"), NO_DIVIDER);
+        addField(firstExpectedOfferingSection, COURSE + "/" + FIRST_EXPECTED_OFFERING);
+        section.addSection(firstExpectedOfferingSection);
+
         return section;
     }
 
@@ -216,25 +239,6 @@ public class CourseConfigurer
         VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
         addField(startDate, COURSE + "/" + EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY));
         return startDate;
-	}
-
-
-    private VerticalSection generateFeeTypeSection() {
-        //TODO ALL KEYS in this section are place holders until we know actual keys
-        VerticalSection feeType = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
-//        addField(feeType, COURSE + "/" + FEES + "/" + FEE_TYPE, null);
-        return feeType;
-	}
-
-	private VerticalSection generateFeeAmountSection() {
-        //TODO ALL KEYS in this section are place holders until we know actual keys
-        VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_DESC_LABEL_KEY), WITH_DIVIDER);
-        // NJW -- commented out to not break the build as this whole section is being reworked
-//        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_AMOUNT, getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY));
-//        addField(feeAmount, COURSE + "/" + FEES + "/" + TAXABLE, getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY));//TODO checkboxes go here instead
-//        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_DESC, getLabel(LUConstants.FEE_DESC_LABEL_KEY));
-//        addField(feeAmount, COURSE + "/" + FEES + "/" + INTERNAL_NOTATION, getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY));
-		return feeAmount;
 	}
 
 	public SectionView generateGovernanceSection(){
@@ -256,8 +260,7 @@ public class CourseConfigurer
         section.addSection(generateCourseInfoShortTitleSection());
         section.addSection(generateLongTitleSection());
         section.addSection(generateDescriptionSection());
-        section.addSection(generateRationaleSection());
-
+        
         return section;
     }
 
@@ -328,23 +331,15 @@ public class CourseConfigurer
         return description;
 	}
 
-	private VerticalSection generateRationaleSection() {
-        VerticalSection rationale = initSection(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER);
-        addField(rationale, PROPOSAL + "/" + RATIONALE, null);
-        return rationale;
-	}
-
     public SectionView generateCourseLogisticsSection() {
         VerticalSectionView section = initSectionView(CourseSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
 
-//      instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
-        VerticalSection firstExpectedOfferingSection = initSection(getH3Title("First Expected Offering"), WITH_DIVIDER);
-        addField(firstExpectedOfferingSection, COURSE + "/" + FIRST_EXPECTED_OFFERING);
-        section.addSection(firstExpectedOfferingSection);
         section.addSection(generateInstructorsSection());
+        
         section.addSection(generateSchedulingSection());
-        section.addSection(generateCourseFormatsSection());
         section.addSection(generateLearningResultsSection());
+        section.addSection(generateCourseFormatsSection());
+
 
         return section;
     }
@@ -523,7 +518,6 @@ public class CourseConfigurer
         final SimpleListItems people = new SimpleListItems();
 
         public PersonList() {
-            SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
             final PersonList us = this;
             final String userId = Application.getApplicationContext().getUserId();
             
@@ -535,6 +529,7 @@ public class CourseConfigurer
             this.setEnabled(false);
             
             /*   
+            SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
             searchRequest.setSortColumn("person.resultColumn.GivenName");
@@ -669,7 +664,7 @@ public class CourseConfigurer
 
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateProgramInfoSection());
 
-        layout.addTool(new CollaboratorTool(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+        layout.addTool(new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
         		getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
         layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
         layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
@@ -782,6 +777,7 @@ public class CourseConfigurer
         section.addSection(financialSection);
         return section;
     }
+    
     public class RateTypeList extends KSDropDown{
         public RateTypeList(){
             SimpleListItems types = new SimpleListItems();
