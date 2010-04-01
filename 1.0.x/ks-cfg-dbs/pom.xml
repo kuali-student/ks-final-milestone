@@ -1,7 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.kuali.student.dbs</groupId>
+  <parent>
+    <groupId>org.kuali.student</groupId>
+    <artifactId>student</artifactId>
+    <version>1.0.0-m5-SNAPSHOT</version>
+  </parent>
+  <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-cfg-dbs</artifactId>
   <version>1.0.0-m5</version>
   <packaging>pom</packaging>
