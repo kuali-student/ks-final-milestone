@@ -43,7 +43,6 @@
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.CluOrg</class>
 		<class>org.kuali.student.lum.lu.entity.CluPublishing</class>
 		<class>org.kuali.student.lum.lu.entity.CluPublishingAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluResult</class>
