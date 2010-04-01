@@ -47,7 +47,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     private OrganizationService orgService;
     public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
-
+    private Metadata metadata;
     public OrgProposalAssembler(){
 
     }
@@ -56,6 +56,13 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 //        this.metadataService=metadataService;
 //    }
     
+    private void setMetadata(){
+        try {
+            this.metadata=getMetadata("", "", null, null);
+        } catch (AssemblyException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public Data assemble(OrgHelper input) throws AssemblyException {
         if (input == null) {
@@ -78,6 +85,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
     @Override
     public Data get(String id) throws AssemblyException {
+        setMetadata();
         OrgInfo orgInfo = new OrgInfo();
         List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
         List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
@@ -89,6 +97,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             orgInfoData.setOrgInfo(orgInfo);
             OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
             OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
+            orgOrgRelationAssembler.setMetaData(metadata);
             orgOrgRelationAssembler.setOrgService(orgService);
             OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
             orgPositionRestrictionAssembler.setOrgService(orgService);
