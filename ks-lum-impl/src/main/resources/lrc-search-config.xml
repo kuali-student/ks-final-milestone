@@ -28,8 +28,7 @@
 		<search:desc>Full view of clus</search:desc>
 		<search:resultColumns>
 			<ref bean="lrc.resultColumn.gradeType.id" /> 
-			<ref bean="lrc.resultColumn.gradeType.name"/>
-			<ref bean="lrc.resultColumn.gradeType.desc"/>			
+			<ref bean="lrc.resultColumn.gradeType.name"/>		
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	
@@ -68,19 +67,12 @@
         <search:desc>Grade Type Name</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
-	
-	<search:resultColumn id="lrc.resultColumn.gradeType.desc" parent="lrc.resultColumn.gradeType.desc-parent"/>
-	<search:resultColumn id="lrc.resultColumn.gradeType.desc-parent"  abstract="true">
-        <search:name>GradeType Description</search:name>
-        <search:desc>Grade Type Description</search:desc>
-        <search:dataType>string</search:dataType>
-    </search:resultColumn>
-    
+	    
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 		        <entry key="lrc.search.gradeTypes">
-		            <value>SELECT gt.id, gt.name, gt.desc FROM GradeType gt </value>
+		            <value>SELECT gt.id, gt.name FROM GradeType gt </value>
 		        </entry>
 		        
 				<entry key="lrc.queryParam.gradeType.id">

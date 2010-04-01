@@ -225,7 +225,7 @@
 
 	<bean id="lrcDao"
 		class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
-        <property name="em" ref="loEntityManager" />		
+        <property name="em" ref="lrcEntityManager" />		
 	</bean>
 
 	<bean id="lrcSearchManager"
