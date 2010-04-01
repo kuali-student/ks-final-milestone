@@ -57,7 +57,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public KSLabelListImpl() {
         initWidget(labels);
     }
-
+    
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
@@ -88,11 +88,17 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     
     public void redraw(){
         labels.clear();
-        int itemCount = super.getListItems().getItemCount();
         int currCount = 0;
         int row = 0;
         int col = 0;
-
+        
+        int itemCount = 0;
+        if (super.getListItems() != null){
+        	super.getListItems().getItemCount();        	
+        } else {
+        	itemCount = selectedItems.size();
+        }
+        
         if (maxCols <= 2){
             //Row flow - increment row faster than column
             int maxRows = (itemCount / maxCols) + (itemCount % 2);
@@ -101,7 +107,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
                 
-                labels.setWidget(row, col, createLabel(super.getListItems().getItemText(id)));
+                labels.setWidget(row, col, createLabel(id));
                 
                 col += ((row + 1)/ maxRows) * 1;
             }
@@ -112,7 +118,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
                 
-                labels.setWidget(row, col, createLabel(super.getListItems().getItemText(id)));
+                labels.setWidget(row, col, createLabel(id));
                 
                 row += ((col + 1 )/ maxCols) * 1;
             }
@@ -143,7 +149,11 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     }
 
     private KSLabel createLabel(String id){
-        return new KSLabel(id);
+    	if (super.getListItems() == null || super.getListItems().getItemCount() == 0){
+    		return new KSLabel(id);
+    	} else {
+    		return new KSLabel(super.getListItems().getItemText(id));
+    	}
     }
 
 

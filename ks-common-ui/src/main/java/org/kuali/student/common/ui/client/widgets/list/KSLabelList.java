@@ -45,6 +45,11 @@ public class KSLabelList extends KSSelectItemWidgetAbstract {
         initWidget(selectItemWidget);
     }
 
+    public KSLabelList(boolean initialzed) {
+        initWidget(selectItemWidget);
+        selectItemWidget.setInitialized(initialzed);
+    }
+    
 	/**
 	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
 	 */
