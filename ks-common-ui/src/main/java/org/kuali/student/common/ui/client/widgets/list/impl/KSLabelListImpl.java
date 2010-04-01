@@ -94,7 +94,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
         
         int itemCount = 0;
         if (super.getListItems() != null){
-        	super.getListItems().getItemCount();        	
+        	itemCount = super.getListItems().getItemCount();        	
         } else {
         	itemCount = selectedItems.size();
         }
