@@ -41,11 +41,14 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.widgets.ViewCourseActionList;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -64,8 +67,8 @@ public class ViewCourseController extends TabbedSectionLayout {
     private String cluType = "kuali.lu.type.CreditCourse";
     private String courseId = null;
     
-    private final String CLU_STATE = "active";
-    private final String CLU_ID_KEY   = "course/id";
+    private static final String CLU_STATE = "active";
+    private static final String CLU_ID_PATH   = "id";
     
     private final String REFERENCE_TYPE = "referenceType.clu";
     private boolean initialized = false;
@@ -74,6 +77,9 @@ public class ViewCourseController extends TabbedSectionLayout {
     final KSLightBox progressWindow = new KSLightBox();
 
     private static KSTitleContainerImpl layoutTitle = new KSTitleContainerImpl("View Course");
+    
+    private ViewCourseActionList actionToolbar;
+    
             
     public ViewCourseController(){
         super(ViewCourseController.class.getName(), layoutTitle);
@@ -146,6 +152,12 @@ public class ViewCourseController extends TabbedSectionLayout {
             }
             
         });
+        actionToolbar = new ViewCourseActionList(createActionSubmitSuccessHandler());
+        actionToolbar.setIdPath(CLU_ID_PATH);
+//        actionToolbar.setRequiredFieldPaths(new String[]{"course/department"});
+        actionToolbar.setRpcService(rpcServiceAsync);
+        this.addToolbar(actionToolbar);
+
     }
    
     private void init(final Callback<Boolean> onReadyCallback) {
@@ -323,4 +335,15 @@ public class ViewCourseController extends TabbedSectionLayout {
     	return sb.toString();
 
     }
+    
+    private CloseHandler<KSLightBox> createActionSubmitSuccessHandler() {
+    	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
+			@Override
+			public void onClose(CloseEvent<KSLightBox> event) {
+				//Reload the lum main entrypoint
+				Window.Location.reload();
+			}
+    	};
+		return handler;
+	}
 }
