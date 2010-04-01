@@ -15,17 +15,15 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-
-
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * This extends multiplicity composite to allow adding and removing of items. 
  * 
  * @author Kuali Student Team
  *
@@ -58,14 +56,12 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
      * @see org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite#generateAddWidget()
      */
     public Widget generateAddWidget() {
-        //Label addWidget =  new Label(addItemLabel);
-        //addWidget.addStyleName("KS-Multiplicity-Link-Label");
-    	KSLinkButton addWidget;
+    	KSButton addWidget;
     	if(style == StyleType.TOP_LEVEL){
-    		addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_LARGE);
+    		addWidget = new KSButton(addItemLabel, ButtonStyle.FORM_LARGE);
     	}
     	else{
-    		addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_SMALL);
+    		addWidget = new KSButton(addItemLabel, ButtonStyle.FORM_SMALL);
     	}
         addWidget.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
