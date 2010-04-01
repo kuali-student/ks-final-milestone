@@ -44,7 +44,6 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
@@ -2030,7 +2029,7 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			DoesNotExistException, UnsupportedActionException {
+			UnsupportedActionException {
 
 		checkForMissingParameter(cluSetType, "cluSetType");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
@@ -2040,12 +2039,22 @@ public class LuServiceImpl implements LuService {
 		validateCluSet(cluSetInfo);
 		
 		// Validate CluSet
-		List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo);
+		List<ValidationResultInfo> val;
+		try {
+			val = validateCluSet("SYSTEM", cluSetInfo);
+		} catch (DoesNotExistException e) {
+			throw new DataValidationErrorException("Validation error! " + e.getMessage());
+		}
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!");
 		}
 
-		CluSet cluSet = LuServiceAssembler.toCluSetEntity(cluSetInfo, this.luDao);
+		CluSet cluSet = null;
+		try {
+			cluSet = LuServiceAssembler.toCluSetEntity(cluSetInfo, this.luDao);
+		} catch (DoesNotExistException e) {
+			throw new DataValidationErrorException("Creating CluSet entity failed. Clu or CluSet does not exist: " + e.getMessage());
+		}
 		cluSet = luDao.create(cluSet);
 
 		CluSetInfo newCluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);

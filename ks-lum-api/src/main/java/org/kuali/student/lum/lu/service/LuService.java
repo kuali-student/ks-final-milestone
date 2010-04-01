@@ -1142,10 +1142,9 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing cluSetName, cluSetInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws DoesNotExistException One or more of the cluIds does not exist
-     * @throws UnsupportedActionException CLU set is dynamically determined
+     * @throws UnsupportedActionException CLU set need to be static or dynamic but not both
 	 */
-    public CluSetInfo createCluSet(@WebParam(name="cluSetType")String cluSetType, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException;
+    public CluSetInfo createCluSet(@WebParam(name="cluSetType")String cluSetType, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
      * Update the information for a CLU set
@@ -1159,7 +1158,7 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException The action was attempted on an out of date version.
-     * @throws UnsupportedActionException CLU set is dynamically determined
+     * @throws UnsupportedActionException CLU set need to be static or dynamic but not both
      * @throws CircularRelationshipException addedCluSetId cannot be added to the cluSetId
 	 */
     public CluSetInfo updateCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, UnsupportedActionException, CircularRelationshipException;
