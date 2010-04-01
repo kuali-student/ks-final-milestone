@@ -33,6 +33,18 @@ insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, S
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('32', 'SOWK', 'SOWK', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 32, 'Social Work');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('33', 'North', 'NORTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 31, 'North Campus');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('34', 'South', 'SOUTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 32, 'South Campus');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('35', 'per day', 'kuali.atp.duration.day', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 35, 'per day');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('36', 'per week', 'kuali.atp.duration.week', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 36, 'per week');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('37', 'per month', 'kuali.atp.duration.month', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 37, 'per month');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('38', 'template', 'template',{ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 38, 'A template holds configuration for defaults for creating a new course');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('39', 'draft.private', 'draft.private', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 39, 'Exploratory/Private scratch pad');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('40', 'draft.public', 'draft.public', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 40, 'Entered as draft but not yet submitted');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('41', 'submitted', 'submitted', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 41, 'Submitted but not yet approved');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('42', 'withdrawn', 'withdrawn', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 42, 'Withdrawn (anytime before activated)');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('43', 'approved', 'approved', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 43, 'Approved');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('44', 'rejected', 'rejected', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 44, 'Not approved (rejected)');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('45', 'activated', 'activated', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 45, 'Activated and ready to be published');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('46', 'retired', 'retired', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 46, 'Retired/No longer active');
 
 
 --Contexts
@@ -70,3 +82,13 @@ insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('31', '
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('32', 'kuali.org.deptAbbrev', 'Social Work', '32');
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('33', 'kuali.lu.campusLocation', 'North Campus', '33');
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('34', 'kuali.lu.campusLocation', 'South Campus', '34');
+
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('38', 'kuali.object', 'cluInfo', '38');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('39', 'kuali.object', 'cluInfo', '39');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('40', 'kuali.object', 'cluInfo', '40');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('41', 'kuali.object', 'cluInfo', '41');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('42', 'kuali.object', 'cluInfo', '42');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('43', 'kuali.object', 'cluInfo', '43');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('44', 'kuali.object', 'cluInfo', '44');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('45', 'kuali.object', 'cluInfo', '45');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('46', 'kuali.object', 'cluInfo', '46');

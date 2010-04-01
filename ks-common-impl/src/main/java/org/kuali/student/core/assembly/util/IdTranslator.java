@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
+import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -48,8 +50,23 @@ public class IdTranslator {
     	sr.setSearchKey(lookupMetadata.getSearchTypeId());
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam param2 = createParam(lookupMetadata.getSearchParamIdKey(), searchId);
-		searchParams.add(param2);
+		//FIXME: workaround until orch dict can handle multi part keys on initiallookup defs
+		if (lookupMetadata.getSearchParamIdKey().contains(new StringBuilder("enumeration"))) {
+			for (LookupParamMetadata p : lookupMetadata.getParams()) {
+				if (p.getWriteAccess() != null && p.getWriteAccess().equals(WriteAccess.NEVER) && p.getDefaultValueString() != null) {
+					SearchParam param = createParam(p.getKey(), p.getDefaultValueString());
+					searchParams.add(param);   							    
+				}
+				else if (p.getWriteAccess() == null || !p.getWriteAccess().equals(WriteAccess.NEVER)){
+					SearchParam param = createParam(p.getKey(), searchId);
+					searchParams.add(param);   								
+				}
+			}
+		}
+		else {
+			SearchParam param = createParam(lookupMetadata.getSearchParamIdKey(), searchId);
+	    	searchParams.add(param);	
+		}
 		
     	sr.setParams(searchParams);
     	

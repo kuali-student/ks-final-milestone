@@ -92,6 +92,7 @@
 			<ref bean="enumeration.queryParam.contextType" />
 			<ref bean="enumeration.queryParam.contextValue" />
 			<ref bean="enumeration.queryParam.contextDate" />
+			<ref bean="enumeration.queryParam.enumerationCode" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
@@ -116,6 +117,12 @@
 	<search:queryParam id="enumeration.queryParam.contextDate-parent" 
 		optional="true" abstract="true">
 		<ref bean="enumeration.fieldDescriptor.contextDate" />
+	</search:queryParam>
+	
+	<search:queryParam id="enumeration.queryParam.enumerationCode" parent="enumeration.queryParam.enumerationCode-parent"/>
+	<search:queryParam id="enumeration.queryParam.enumerationCode-parent" 
+		optional="true" abstract="true">
+		<ref bean="enumeration.fieldDescriptor.enumerationCode" />
 	</search:queryParam>
 	
 	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumType" parent="enumeration.fieldDescriptor.enumType-parent"/>
@@ -146,11 +153,21 @@
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
 	
+	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumerationCode" parent="enumeration.fieldDescriptor.enumerationCode-parent"/>
+	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumerationCode-parent" abstract="true">
+		<dict:name>Context Value</dict:name>
+		<dict:desc>The value of the supplied context</dict:desc>
+		<dict:dataType>string</dict:dataType>
+	</dict:fieldDescriptor>
+	
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="enumeration.management.search">
-					<value>SELECT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValueEntity enumValue where enumValue.enumerationKey = :enumeration_queryParam_enumerationType</value>
+					<value>SELECT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValueEntity enumValue WHERE enumValue.enumerationKey = :enumeration_queryParam_enumerationType</value>
+				</entry>
+				<entry key="enumeration.queryParam.enumerationCode">
+					<value>enumValue.code = :enumeration_queryParam_enumerationCode</value>
 				</entry>
 			</map>
 		</property>
