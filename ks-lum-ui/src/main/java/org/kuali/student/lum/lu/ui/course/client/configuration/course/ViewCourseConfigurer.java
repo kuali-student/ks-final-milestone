@@ -124,10 +124,10 @@ LearningObjectiveConstants
         addField(section, getTranslationKey(DEPARTMENT), getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
 
 //FIXME        addField(section, CREDITS,  getLabel(LUConstants.CREDITS_LABEL_KEY), new KSLabel());
-        addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new StatementList());
+        addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new KSLabelList());
         addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
 //FIXME        addField(section, FEES + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
-        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList());
+        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new KSLabelList());
 
         addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
         addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
@@ -190,30 +190,6 @@ LearningObjectiveConstants
             VerticalSection item = new VerticalSection();
             addField(item, "personId", null, new KSLabel(), path);
             return item;
-        }
-    }
-
-    private class CampusLocationList extends KSLabelList {
-        public CampusLocationList(){
-            SimpleListItems list = new SimpleListItems();
-
-            super.setListItems(list);
-        }
-    }
-
-    private class CluActivityTypeList extends KSLabelList{
-        public CluActivityTypeList(){
-            SimpleListItems list = new SimpleListItems();
-
-            super.setListItems(list);
-        }
-    }
-
-    private class ContactHoursAtpTypeList extends KSLabelList{
-        public ContactHoursAtpTypeList(){
-            SimpleListItems list = new SimpleListItems();
-
-            super.setListItems(list);
         }
     }
 
