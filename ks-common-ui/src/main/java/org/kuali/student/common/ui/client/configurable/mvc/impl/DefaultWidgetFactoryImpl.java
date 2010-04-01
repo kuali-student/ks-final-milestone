@@ -76,7 +76,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		Widget result = null;
 		if(!config.canView) {
 		    result =  new KSPlaceholder();
-		} else if(!config.canEdit && config.lookupMeta == null) {
+		} else if(!config.canEdit && (config.lookupMeta == null || config.lookupMeta.getWidget() == null)) {
 		    result = new KSLabel();
 		} else {
 		    if (config.lookupMeta != null && config.lookupMeta.getWidget() != null) {
