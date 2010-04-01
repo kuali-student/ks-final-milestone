@@ -83,7 +83,10 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		public void setTabDefaultView(Enum<?> tabDefaultView) {
 			this.tabDefaultView = tabDefaultView;
 		}
-					
+		
+		public HorizontalPanel getButtonPanel(){
+		    return this.sectionButtonPanel;
+		}
 		private KSButton nextButton = new KSButton("Save & Continue", new ClickHandler(){
 	        public void onClick(final ClickEvent event) {
                 
@@ -464,6 +467,15 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		}
 	        
 	}
+	
+    public HorizontalPanel getButtonPanel(String tabKey){
+        TabLayout layout = tabLayoutMap.get(tabKey);
+        
+        if(layout != null){
+            return layout.getButtonPanel();
+        }
+        return null;  
+    }
 	    
     public void clear(){
     	super.clear();
