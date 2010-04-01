@@ -755,8 +755,9 @@ public class CourseConfigurer
     private SectionView generateFinancialsSection() {
         VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 
-        VerticalSection justiFee = initSection(getH3Title("Course Fees"), WITH_DIVIDER);
-        addField(justiFee, COURSE + "/" + FEES + "/" + JUSTIFICATION, "Justification of Fees", new KSTextArea()); 
+        VerticalSection justiFee = initSection(getH3Title(LUConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
+//        addField(justiFee, COURSE + "/" + FEES + "/" + JUSTIFICATION, "Justification of Fees", new KSTextArea()); 
+        addField(justiFee, COURSE + "/" +FEES + "/" + "justification",null,new KSTextArea(), getLabel(LUConstants.JUSTIFICATION_FEE));
         
 		/*        
         addField(justiFee, COURSE + "/" + FEES + "/0/"+ FeeList.PLACEHOLDER_FEE, null, new FeeList(COURSE + "/" + FEES+ "/0/" + FeeList.PLACEHOLDER_FEE));
@@ -764,11 +765,11 @@ public class CourseConfigurer
 
         section.addSection(justiFee);
         
-        VerticalSection financialSection = initSection(getH3Title("Financial Information"), WITH_DIVIDER);
+        VerticalSection financialSection = initSection(getH3Title(LUConstants.FINANCIAL_INFORMATION), WITH_DIVIDER);
         
         FinancialInformationList finInfoList = new FinancialInformationList(COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG);
         finInfoList.setMinEmptyItems(1);
-        addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, "Revenue" , finInfoList);
+        addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG,getLabel(LUConstants.REVENUE) , finInfoList);
         
 //        /*
 //        ExpenditureList expInfoList = new ExpenditureList(COURSE + "/" + EXPENDITURE_INFO);
@@ -783,24 +784,24 @@ public class CourseConfigurer
     public class RateTypeList extends KSDropDown {
         public RateTypeList(){
             SimpleListItems types = new SimpleListItems();
-            types.addItem("kuali.enum.type.rateTypes.variableRateFee", "Variable Rate");
-            types.addItem("kuali.enum.type.rateTypes.fixedRateFee", "Fixed Rate");
-            types.addItem("kuali.enum.type.rateTypes.multipleRateFee", "Multiple Rate");
-            types.addItem("kuali.enum.type.rateTypes.perCreditFee", "Per Credit Rate");
+            types.addItem("kuali.enum.type.rateTypes.variableRateFee",getLabel(LUConstants.VARIABLE_RATE));
+            types.addItem("kuali.enum.type.rateTypes.fixedRateFee", getLabel(LUConstants.FIXED_RATE));
+            types.addItem("kuali.enum.type.rateTypes.multipleRateFee",  getLabel(LUConstants.MULTIPLE_RATE));
+            types.addItem("kuali.enum.type.rateTypes.perCreditFee",getLabel(LUConstants.PER_CREDIT_RATE));
             super.setListItems(types);
         }
     }
     public class FeeTypeList extends KSDropDown {
         public FeeTypeList(){
             SimpleListItems types = new SimpleListItems();
-            types.addItem("kuali.enum.type.feeTypes.labFee", "Lab Fee");
-            types.addItem("kuali.enum.type.feeTypes.materialFee", "Material Fee");
-            types.addItem("kuali.enum.type.feeTypes.studioFee", "Studio Fee");
-            types.addItem("kuali.enum.type.feeTypes.fieldTripFee", "Field Trip Fee");
-            types.addItem("kuali.enum.type.feeTypes.fieldStudyFee", "Field Study Fee");
-            types.addItem("kuali.enum.type.feeTypes.administrativeFee", "Administrative Fee");
-            types.addItem("kuali.enum.type.feeTypes.coopFee", "Coop Fee");
-            types.addItem("kuali.enum.type.feeTypes.greensFee", "Greens Fee");
+            types.addItem("kuali.enum.type.feeTypes.labFee", getLabel(LUConstants.LAB_FEE));
+            types.addItem("kuali.enum.type.feeTypes.materialFee",  getLabel(LUConstants.MATERIAL_FEE));
+            types.addItem("kuali.enum.type.feeTypes.studioFee", getLabel(LUConstants.STUDIO_FEE));
+            types.addItem("kuali.enum.type.feeTypes.fieldTripFee", getLabel(LUConstants.FIELD_TRIP_FEE));
+            types.addItem("kuali.enum.type.feeTypes.fieldStudyFee", getLabel(LUConstants.FIELD_STUDY_FEE));
+            types.addItem("kuali.enum.type.feeTypes.administrativeFee", getLabel(LUConstants.ADMINISTRATIVE_FEE));
+            types.addItem("kuali.enum.type.feeTypes.coopFee", getLabel(LUConstants.COOP_FEE));
+            types.addItem("kuali.enum.type.feeTypes.greensFee",  getLabel(LUConstants.GREENS_FEE));
             super.setListItems(types);
         }
     }    
@@ -809,8 +810,8 @@ public class CourseConfigurer
     	public static final String PLACEHOLDER_FEE = "placeholderFee";
     	
         {
-            setAddItemLabel("Add a fee");
-            setItemLabel("Fee");
+            setAddItemLabel(getLabel(LUConstants.ADD_A_FEE));
+            setItemLabel(getLabel(LUConstants.FEE));
         }
         private final String parentPath;
 
@@ -830,17 +831,17 @@ public class CourseConfigurer
             final GroupSection perCreditSection= new GroupSection();
             
 
-            addField(variableSection, "feeType", "Amount", innerPath );
-            addField(variableSection, "feeType", "To", innerPath );
-            addField(fixedSection, "feeType", "Amount", innerPath );
-            addField(multipeSection, "feeType", "Amount", new MultipleFeeList("feeType"), innerPath );
-            addField(perCreditSection, "feeType", "Amount(PerCredit)", innerPath );
+            addField(variableSection, "feeType", getLabel(LUConstants.AMOUNT), innerPath );
+            addField(variableSection, "feeType", getLabel(LUConstants.TO), innerPath );
+            addField(fixedSection, "feeType", getLabel(LUConstants.AMOUNT), innerPath );
+            addField(multipeSection, "feeType", getLabel(LUConstants.AMOUNT), new MultipleFeeList("feeType"), innerPath );
+            addField(perCreditSection, "feeType", getLabel(LUConstants.AMOUNT), innerPath );
 
             final GroupSection mainSection = new GroupSection();
             final String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            addField(mainSection, "feeType", "Fee Type", new FeeTypeList(),path );
+            addField(mainSection, "feeType", getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new FeeTypeList(),path );
             final KSDropDown rateTypeDropDown = new RateTypeList();
-            addField(mainSection, "rateType", "Rate Type", rateTypeDropDown,path);
+            addField(mainSection, "rateType",  getLabel(LUConstants.RATE_TYPE), rateTypeDropDown,path);
             
             rateTypeDropDown.selectItem("");// fake select
             rateTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler(){
@@ -867,8 +868,8 @@ public class CourseConfigurer
     }
     public class MultipleFeeList extends UpdatableMultiplicityComposite {
         {
-            setAddItemLabel("Add another Fee");
-            setItemLabel("Fee");
+            setAddItemLabel(getLabel(LUConstants.ADD_ANOTHER_FEE));
+            setItemLabel(getLabel(LUConstants.FEE));
         }
         private final String parentPath;
         public MultipleFeeList(String parentPath){
@@ -879,7 +880,7 @@ public class CourseConfigurer
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, "another Fee", "Fee", path );
+            addField(ns, "another Fee", getLabel(LUConstants.FEE), path );
             
             return ns;
         }
@@ -911,8 +912,8 @@ public class CourseConfigurer
     	};
     	
         {
-            setAddItemLabel("Add another organization");
-            setItemLabel("Organization");
+            setAddItemLabel(getLabel(LUConstants.ADD_ANOTHER_ORGANIZATION));
+            setItemLabel(getLabel(LUConstants.ORGANIZATION));
         }
         private final String parentPath;
         public FinancialInformationList(String parentPath){
@@ -923,8 +924,8 @@ public class CourseConfigurer
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, AffiliatedOrgInfoConstants.ORG_ID, "Revenue", path );
-            FieldDescriptor fd = addField(ns, PERCENTAGE, "Amount", path);
+            addField(ns, AffiliatedOrgInfoConstants.ORG_ID, getLabel(LUConstants.REVENUE), path );
+            FieldDescriptor fd = addField(ns, PERCENTAGE, getLabel(LUConstants.AMOUNT), path);
             fd.getFieldWidget();
             
             // Do our own validationCallback to make sure they add up to 100%?
@@ -969,8 +970,8 @@ public class CourseConfigurer
             }
     	};
         {
-            setAddItemLabel("Add another Organization");
-            setItemLabel("Organization");
+            setAddItemLabel(getLabel(LUConstants.ADD_ANOTHER_ORGANIZATION));
+            setItemLabel(getLabel(LUConstants.ORGANIZATION));
         }
         private final String parentPath;
         public ExpenditureList(String parentPath){
@@ -981,8 +982,8 @@ public class CourseConfigurer
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, "expenditureOrg", "Expenditure",path );
-            addField(ns, "totalPercentage", "Amount",path);
+            addField(ns, "expenditureOrg",  getLabel(LUConstants.EXPENDITURE),path );
+            addField(ns, "totalPercentage", getLabel(LUConstants.AMOUNT),path);
 
             return ns;
         }
