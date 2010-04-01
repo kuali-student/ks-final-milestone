@@ -28,7 +28,7 @@ public class RemovableItemWithHeader extends MultiplicityItem {
     private boolean useDeleteLabel = false;
     private boolean loaded = false;
     private KSLabel headerLabel;
-
+    private boolean readOnly=false;
     protected VerticalFlowPanel itemPanel = new VerticalFlowPanel();
     
     public RemovableItemWithHeader(){        
@@ -38,6 +38,9 @@ public class RemovableItemWithHeader extends MultiplicityItem {
     public void onLoad(){
     }
     
+    public void isReadOnly(boolean readOnly){
+        this.readOnly=readOnly;
+    }
     private Widget generateRemoveWidget() {
         ClickHandler ch = new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -46,6 +49,7 @@ public class RemovableItemWithHeader extends MultiplicityItem {
         };
 
         Widget returnWidget;
+       
         if (useDeleteLabel) {
             Label deleteLabel = new Label("Delete");
             deleteLabel.addStyleName("KS-Multiplicity-Link-Label");
@@ -57,6 +61,13 @@ public class RemovableItemWithHeader extends MultiplicityItem {
         
         itemPanel.addStyleName("KS-Multiplicity-Item");
         
+        if(readOnly){
+            returnWidget.setVisible(false);
+        }
+        else{
+            returnWidget.setVisible(true);
+        }
+
         return returnWidget;
     }
 
