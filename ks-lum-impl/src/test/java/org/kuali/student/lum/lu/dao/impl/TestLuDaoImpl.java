@@ -28,6 +28,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.CluLoRelationType;
+import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.MembershipQuery;
 import org.kuali.student.lum.lu.entity.SearchParameter;
@@ -70,6 +71,34 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void testCreateMembershipQuery_Complex() throws Exception {
+		MembershipQuery mq = createMembershipQuery();
+		mq = dao.fetch(MembershipQuery.class, mq.getId());
+
+		assertEquals("searchKey1", mq.getSearchTypeKey());
+		assertEquals(1, mq.getSearchParameters().size());
+		assertEquals("key-1", mq.getSearchParameters().get(0).getKey());
+		assertEquals(2, mq.getSearchParameters().get(0).getValues().size());
+		assertEquals("value-1", mq.getSearchParameters().get(0).getValues().get(0).getValue());
+		assertEquals("value-2", mq.getSearchParameters().get(0).getValues().get(1).getValue());
+	}
+
+	@Test
+	public void testCreateClu() throws Exception {
+		CluSet cluSet = new CluSet();
+		MembershipQuery mq = createMembershipQuery();
+		cluSet.setMembershipQuery(mq);
+		cluSet = dao.create(cluSet);
+
+		assertEquals("searchKey1", cluSet.getMembershipQuery().getSearchTypeKey());
+		assertNotNull(cluSet.getMembershipQuery().getSearchParameters());
+		assertEquals(1, cluSet.getMembershipQuery().getSearchParameters().size());
+		assertEquals("key-1", cluSet.getMembershipQuery().getSearchParameters().get(0).getKey());
+		assertEquals(2, cluSet.getMembershipQuery().getSearchParameters().get(0).getValues().size());
+		assertEquals("value-1", cluSet.getMembershipQuery().getSearchParameters().get(0).getValues().get(0).getValue());
+		assertEquals("value-2", cluSet.getMembershipQuery().getSearchParameters().get(0).getValues().get(1).getValue());
+	}
+	
+	private MembershipQuery createMembershipQuery() {
 		List<SearchParameterValue> list1  = new ArrayList<SearchParameterValue>();
 		SearchParameterValue v1 = new SearchParameterValue();
 		v1.setValue("value-1");
@@ -89,13 +118,6 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		mq.setSearchParameters(list2);
 		mq = dao.create(mq);
 		
-		mq = dao.fetch(MembershipQuery.class, mq.getId());
-
-		assertEquals("searchKey1", mq.getSearchTypeKey());
-		assertEquals(1, mq.getSearchParameters().size());
-		assertEquals("key-1", mq.getSearchParameters().get(0).getKey());
-		assertEquals(2, mq.getSearchParameters().get(0).getValues().size());
-		assertEquals("value-1", mq.getSearchParameters().get(0).getValues().get(0).getValue());
-		assertEquals("value-2", mq.getSearchParameters().get(0).getValues().get(1).getValue());
+		return mq;
 	}
 }

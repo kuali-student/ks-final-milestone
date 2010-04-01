@@ -86,6 +86,7 @@ import org.kuali.student.lum.lu.entity.CluLoRelationType;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
+import org.kuali.student.lum.lu.entity.CluSetAttribute;
 import org.kuali.student.lum.lu.entity.CluSetType;
 import org.kuali.student.lum.lu.entity.DeliveryMethodType;
 import org.kuali.student.lum.lu.entity.InstructionalFormatType;
@@ -95,6 +96,7 @@ import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.entity.LuPublicationType;
+import org.kuali.student.lum.lu.entity.LuRichText;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiAttribute;
@@ -281,6 +283,28 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	}
 
+	public static CluSet toCluSetEntity(CluSetInfo cluSetInfo, LuDao luDao) throws InvalidParameterException, DoesNotExistException {
+		CluSet cluSet = new CluSet();
+
+		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id",
+				"descr", "attributes", "metaInfo", "membershipQuery" });
+		cluSet.setAttributes(toGenericAttributes(
+				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
+		cluSet.setType(cluSetInfo.getType());
+		cluSet.setDescr(toRichText(LuRichText.class, cluSetInfo.getDescr()));
+
+		for (String cluId : cluSetInfo.getCluIds()) {
+			cluSet.getClus().add(luDao.fetch(Clu.class, cluId));
+		}
+		for (String cluSetId : cluSetInfo.getCluSetIds()) {
+			CluSet c = luDao.fetch(CluSet.class, cluSetId);
+			cluSet.getCluSets().add(c);
+		}
+		cluSet.setMembershipQuery(toMembershipQueryEntity(cluSetInfo.getMembershipQuery()));
+		
+		return cluSet;
+	}
+	
 	public static CluSetInfo toCluSetInfo(CluSet entity) {
 		if (entity == null) {
 			return null;
@@ -342,7 +366,6 @@ public class LuServiceAssembler extends BaseAssembler {
 		if(entity.getValues().size() == 1) {
 			dto.setValue(entity.getValues().get(0).getValue());
 		}
-		
 		return dto;
 	}
 
@@ -363,25 +386,25 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static SearchParameter toSearchParameterEntity(SearchParam dto) {
+		if(dto == null) {
+			return null;
+		}
 		SearchParameter entity = new SearchParameter();
 		entity.setKey(dto.getKey());
+		List<SearchParameterValue> values = new ArrayList<SearchParameterValue>();
 		if(dto.getValue() instanceof String) {
 			SearchParameterValue value = new SearchParameterValue();
 			value.setValue((String) dto.getValue());
-			List<SearchParameterValue> values = new ArrayList<SearchParameterValue>();
 			values.add(value);
-			entity.setValues(values);
 		} else if(dto.getValue() instanceof List<?>) {
 			List<String> stringList = (List<String>)dto.getValue();
-			List<SearchParameterValue> values = new ArrayList<SearchParameterValue>();
 			for(String s : stringList) {
 				SearchParameterValue value = new SearchParameterValue();
 				value.setValue(s);
 				values.add(value);
 			}
-			entity.setValues(values);
 		}
-		
+		entity.setValues(values);
 		return entity;
 	}
 

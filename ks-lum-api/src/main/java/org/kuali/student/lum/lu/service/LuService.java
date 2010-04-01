@@ -1143,8 +1143,9 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws DoesNotExistException One or more of the cluIds does not exist
+     * @throws UnsupportedActionException CLU set is dynamically determined
 	 */
-    public CluSetInfo createCluSet(@WebParam(name="cluSetType")String cluSetType, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    public CluSetInfo createCluSet(@WebParam(name="cluSetType")String cluSetType, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException;
 
     /** 
      * Update the information for a CLU set

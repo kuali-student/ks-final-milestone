@@ -68,8 +68,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@Column(name = "CRIT_SET")
 	private boolean criteriaSet;
 	
-	// private CluCriteria cluCriteria;//TODO Criteria
-
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
 	private List<CluSet> cluSets;
@@ -172,13 +170,14 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 		this.attributes = attributes;
 	}
 
-	public boolean isCriteriaSet() {
-		return criteriaSet;
-	}
+//	public boolean isCriteriaSet() {
+//		return criteriaSet;
+//		return (membershipQuery != null);
+//	}
 
-	public void setCriteriaSet(boolean criteriaSet) {
-		this.criteriaSet = criteriaSet;
-	}
+//	public void setCriteriaSet(boolean criteriaSet) {
+//		this.criteriaSet = criteriaSet;
+//	}
 
 	public String getType() {
 		return type;
