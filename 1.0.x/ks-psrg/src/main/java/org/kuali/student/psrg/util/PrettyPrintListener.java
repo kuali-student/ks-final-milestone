@@ -15,9 +15,6 @@ import org.aspectj.lang.Signature;
 
 /**
  * 
- * 
- * 
- * @since Mar 30, 2010 3:06:29 PM
  */
 public class PrettyPrintListener implements MethodListener {
 	protected final Log log = LogFactory.getLog(this.getClass());
