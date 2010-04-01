@@ -274,4 +274,32 @@
 	<bean parent="enCourse" p:id="cluLearningResultsOutcomeCreditValue" p:value="Credit Value"/>
 	<bean parent="enCourse" p:id="cluLearningResultsOutcomeMaxCredits"  p:value="Maximum Credits"/>
 
+    <!-- Financial Section labels -->
+    
+	<bean parent="enCourse" p:id="cluCourseFeesTitle"                   p:value="Course Fees"/>
+	<bean parent="enCourse" p:id="cluJustificationOfFees"               p:value="Justification of Fees"/>
+	<bean parent="enCourse" p:id="cluFinancialInformation"              p:value="Financial Information"/>
+	<bean parent="enCourse" p:id="cluRevenue"                           p:value="Revenue"/>
+	<bean parent="enCourse" p:id="cluAmount"                            p:value="Amount"/>
+	<bean parent="enCourse" p:id="cluExpenditure"                       p:value="Expenditure"/>
+	<bean parent="enCourse" p:id="cluVariableRate"                      p:value="Variable Rate"/>
+	<bean parent="enCourse" p:id="cluFixedRate"                         p:value="Fixed Rate"/>
+	<bean parent="enCourse" p:id="cluMultipleRate"                      p:value="Multiple Rate"/>
+	<bean parent="enCourse" p:id="cluPerCreditRate"                     p:value="Per Credit Rate"/>
+	<bean parent="enCourse" p:id="cluLabFee"                            p:value="Lab Fee"/>
+	<bean parent="enCourse" p:id="cluMaterialFee"                       p:value="Material Fee"/>
+	<bean parent="enCourse" p:id="cluStudioFee"                         p:value="Studio Fee"/>
+	<bean parent="enCourse" p:id="cluFieldTripFee"                      p:value="Field Trip Fee"/>
+	<bean parent="enCourse" p:id="cluFieldStudyFee"                     p:value="Field Study Fee"/>
+	<bean parent="enCourse" p:id="cluAdministrativeFee"                 p:value="Administrative Fee"/>
+	<bean parent="enCourse" p:id="cluCoopFee"                           p:value="Coop Fee"/>
+	<bean parent="enCourse" p:id="cluGreensFee"                         p:value="Greens Fee"/>
+	<bean parent="enCourse" p:id="cluAddAfee"                           p:value="Add a fee"/>
+	<bean parent="enCourse" p:id="cluTo"                                p:value="To"/>
+	<bean parent="enCourse" p:id="cluRateType"                          p:value="Rate Type"/>
+	<bean parent="enCourse" p:id="cluAddAnotherFee"                     p:value="Add another Fee"/>		
+	<bean parent="enCourse" p:id="cluFee"                               p:value="Fee"/>
+	<bean parent="enCourse" p:id="cluOrganization"                      p:value="Organization"/>
+	<bean parent="enCourse" p:id="cluAddAnotherOrganization"                      p:value="Add another Organization"/>
+
 </beans>
