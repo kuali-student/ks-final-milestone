@@ -16,7 +16,6 @@ public class MethodTrackerAdvice {
 		synchronized (sequence) {
 			currentSequence = ++sequence;
 		}
-		long timestamp = System.currentTimeMillis();
 
 		// Time the method call
 		long start = System.currentTimeMillis();
@@ -25,7 +24,7 @@ public class MethodTrackerAdvice {
 		long elapsed = stop - start;
 
 		// Invoke our listener
-		MethodEvent event = new MethodEvent(currentSequence, timestamp, elapsed, result, call);
+		MethodEvent event = new MethodEvent(currentSequence, start, elapsed, result, call);
 		listener.methodInvoked(event);
 
 		// Return the result
