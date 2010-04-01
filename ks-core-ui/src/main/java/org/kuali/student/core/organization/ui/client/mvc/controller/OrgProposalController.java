@@ -34,6 +34,7 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory;
@@ -55,6 +56,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class OrgProposalController extends TabbedSectionLayout{
 
@@ -67,6 +69,15 @@ public class OrgProposalController extends TabbedSectionLayout{
     private CommonConfigurer commonConfigurer = new CommonConfigurer();
     final KSLightBox progressWindow = new KSLightBox();
     boolean flag = false;
+    
+    public static final String ORG_INFO_PATH                  = "orgInfo";
+    public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
+    public static final String PERSON_PATH                  = "orgPersonRelationInfo";
+    public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
+    public static final String ORG_TAB_NAME                 = "Organization";
+    public static final String POSITION_TAB_NAME                 = "Positions/Members";
+    public static final String SEARCH_TAB_NAME                 = "Search/Modify";
+    
     
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
     public OrgProposalController(){
@@ -251,9 +262,9 @@ public class OrgProposalController extends TabbedSectionLayout{
         }
         
         if(!initialized){
-        addButton("Organization", getSaveButton());
-        addButton("Positions/Members", getSaveButton());
-        addButton("Search/Modify", getModifyButton());
+        addButton(ORG_TAB_NAME, getSaveButton());
+        addButton(POSITION_TAB_NAME, getSaveButton());
+        addButton(SEARCH_TAB_NAME, getModifyButton());
         
         addApplicationEventHandler(ModifyActionEvent.TYPE, new ModifyActionHandler(){
             @Override
@@ -394,6 +405,26 @@ public class OrgProposalController extends TabbedSectionLayout{
 //	        }       
 	    }
 	    
+	    private void setButtonPermission(){
+	        HorizontalPanel buttonPanel = getButtonPanel(ORG_TAB_NAME);
+	        QueryPath metaPath = QueryPath.concat(null, ORG_INFO_PATH);
+	        Metadata meta = orgProposalModel.getMetadata(metaPath); 
+	        if(!meta.isCanEdit()){
+	            buttonPanel.setVisible(false);
+	        }
+	        else{
+	            buttonPanel.setVisible(true);
+	        }
+	        buttonPanel = getButtonPanel(POSITION_TAB_NAME);
+	        metaPath = QueryPath.concat(null, ORG_INFO_PATH);
+	        if(!meta.isCanEdit()){
+                buttonPanel.setVisible(false);
+            }
+	        else{
+	            buttonPanel.setVisible(true);
+	        }
+	    }
+	    
 	       public void doModifyAction(ModifyActionEvent modifyActionEvent){     
 	            System.out.println("Reached modify action");
 	            
@@ -426,6 +457,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	                   getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
 	                   View currentView = getCurrentView();
 	                   View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+	                   setButtonPermission();
 	                   renderView(orgView);
 	                   if (orgView instanceof VerticalSectionView) {
 	                       ((VerticalSectionView) orgView).redraw();
