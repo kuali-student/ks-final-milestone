@@ -17,13 +17,14 @@ package org.kuali.student.lum.lrc.dao;
 import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
+import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lrc.entity.Credential;
 import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.Grade;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 
-public interface LrcDao extends CrudDao  {
+public interface LrcDao extends CrudDao, SearchableDao  {
     public List<Credential> getCredentialsByIdList(List<String> creditIdList);
     public List<String> getCredentialIdsByCredentialType(String creditTypeId);
     public List<Credit> getCreditsByIdList(List<String> creditIdList);

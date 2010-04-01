@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	 
+	<import resource="lu-dictionary-config.xml" />
+	
+	<search:searchType id="lrc.search.gradeTypes" parent="lrc.search.gradeTypes-parent"/>
+	<search:searchType id="lrc.search.gradeTypes-parent"  abstract="true">
+		<search:name>Basic Search for GradeTypes</search:name>
+		<search:desc>Return full list of GradeTypes</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lrc.result.gradeTypes"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lrc.criteria.gradeTypes"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lrc.result.gradeTypes" parent="lrc.result.gradeTypes-parent"/>
+	<search:searchResultTypeInfo id="lrc.result.gradeTypes-parent"  abstract="true">
+		<search:name>Lu Full View</search:name>
+		<search:desc>Full view of clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lrc.resultColumn.gradeType.id" /> 
+			<ref bean="lrc.resultColumn.gradeType.name"/>
+			<ref bean="lrc.resultColumn.gradeType.desc"/>			
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lrc.criteria.gradeTypes" parent="lrc.criteria.gradeTypes-parent"/>
+	<search:searchCriteriaTypeInfo id="lrc.criteria.gradeTypes-parent"  abstract="true">
+		<search:name>LuAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lrc.queryParam.gradeType.id" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lrc.queryParam.gradeType.id" parent="lrc.queryParam.gradeType.id-parent"/>
+	<search:queryParam id="lrc.queryParam.gradeType.id-parent"  optional="false" abstract="true">
+		<ref bean="lrc.queryParam.gradeType.id.fd"/>	
+	</search:queryParam>			
+	
+	<dict:fieldDescriptor id="lrc.queryParam.gradeType.id.fd" parent="lrc.queryParam.gradeType.id.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.gradeType.id.fd-abstract" abstract="true">
+		<dict:name>GradeType Key</dict:name>
+		<dict:desc>Grade Type Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+	<search:resultColumn id="lrc.resultColumn.gradeType.id" parent="lrc.resultColumn.gradeType.id-parent"/>
+	<search:resultColumn id="lrc.resultColumn.gradeType.id-parent"  abstract="true">
+        <search:name>GradeType Key</search:name>
+        <search:desc>Grade Type Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	
+	<search:resultColumn id="lrc.resultColumn.gradeType.name" parent="lrc.resultColumn.gradeType.name-parent"/>
+	<search:resultColumn id="lrc.resultColumn.gradeType.name-parent"  abstract="true">
+        <search:name>GradeType Name</search:name>
+        <search:desc>Grade Type Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	
+	<search:resultColumn id="lrc.resultColumn.gradeType.desc" parent="lrc.resultColumn.gradeType.desc-parent"/>
+	<search:resultColumn id="lrc.resultColumn.gradeType.desc-parent"  abstract="true">
+        <search:name>GradeType Description</search:name>
+        <search:desc>Grade Type Description</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+		        <entry key="lrc.search.gradeTypes">
+		            <value>SELECT gt.id, gt.name, gt.desc FROM GradeType gt </value>
+		        </entry>
+		        
+				<entry key="lrc.queryParam.gradeType.id">
+					<value>gt.id = :lrc_queryParam_gradeType_id</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+</beans>

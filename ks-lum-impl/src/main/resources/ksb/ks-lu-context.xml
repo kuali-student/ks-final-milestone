@@ -210,6 +210,29 @@
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
+	
+	<!-- Learning Result service config -->
+	<bean id="lrcEntityManagerFactory" parent="lumDefaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Lrc"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/lrc-persistence.xml" />
+		<property name="dataSource" ref="lumDataSource" />
+	</bean>
+
+    <bean id="lrcEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="lrcEntityManagerFactory" />
+    </bean>
+
+	<bean id="lrcDao"
+		class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+        <property name="em" ref="loEntityManager" />		
+	</bean>
+
+	<bean id="lrcSearchManager"
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:lrc-search-config.xml" />
+		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+	</bean>
 
 	<bean id="lumCrossServiceSearchManager" class="org.kuali.student.core.search.service.impl.CrossSearchManager">
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
@@ -218,13 +241,43 @@
 	<bean id="lumSearchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
 			<list>
-				<ref bean="loServiceImpl"/>
+				<ref bean="loClient"/>
 				<ref bean="luClient"/>
+				<ref bean="lrcClient"/>
 				<ref bean="orgClient"/>
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="lrcClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lrc.service.LrcService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lrc}LrcService" />
+	</bean>    
+	
+	<bean id="lrcServiceImpl"
+		class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+		<property name="lrcDao" ref="lrcDao" />
+        <property name="searchManager" ref="lrcSearchManager" />
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">     
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="lrcServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.lum.lrc.service.LrcService" />
+                <property name="localServiceName" value="LearningResultService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
 
+	<bean id="loClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lo.service.LearningObjectiveService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
+	</bean>    
+	
 	<bean id="loServiceImpl"
 		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
 		<property name="loDao" ref="loDao" />
