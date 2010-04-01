@@ -17,6 +17,7 @@ package org.kuali.student.core.workflow.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -190,7 +191,7 @@ public class WorkflowToolbar extends Composite {
                         @Override
                         public void exec(List<ValidationResultContainer> result) {
                         	
-                        	boolean isValid = true; //((LayoutController)myController).isValid(result, false);
+                        	boolean isValid = ((LayoutController)myController).isValid(result, false);
                         	if(isValid){
                 				dialog.show();
                         	}
