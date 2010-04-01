@@ -8,6 +8,8 @@ INSERT INTO KSCO_REFERENCE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) va
 /
 INSERT INTO KSCO_REFERENCE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('referenceType.type1', 'A Basic Reference 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Reference 1')
 /
+INSERT INTO KSCO_REFERENCE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('referenceType.clu.proposal', 'Clu reference type', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Clu Proposal')
+/
 
 
 //Reference
