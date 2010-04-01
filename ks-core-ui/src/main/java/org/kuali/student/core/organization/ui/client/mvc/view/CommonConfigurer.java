@@ -8,6 +8,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -20,6 +21,8 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
@@ -41,7 +44,10 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CommonConfigurer {
@@ -58,6 +64,10 @@ public class CommonConfigurer {
     public PositionTable positionTable;
     public OrgPersonRelationTypePicker personRelationPicker;
     private String orgId;
+    public static final String ORG_INFO_PATH                  = "orgInfo";
+    public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
+    public static final String PERSON_PATH                  = "orgPersonRelationInfo";
+    public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
     
     public enum SectionsEnum {
         ORG_INFO, ORG_RELATIONS, POSITIONS, PERSON_RELATIONS,BROWSE_TREE,BROWSE_LIST,BROWSE_CHART,BROWSE_NAME,SEARCH
@@ -219,11 +229,96 @@ public class CommonConfigurer {
 
         @Override
         public MultiplicityItem getItemDecorator(StyleType style) {
-            org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader item = new org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader(style);
+            RemovableItemWithHeader item = new RemovableItemWithHeader();
             item.setItemLabel(itemLabel);            
+            
+            if(parentPath.equals(POSITION_PATH)){
+                QueryPath qPath = QueryPath.concat(null, POSITION_PATH);
+                Metadata meta = modelDefinition.getMetadata(qPath);
+                if(!meta.isCanEdit()){
+                    item.isReadOnly(true);
+                }
+                else{
+                    item.isReadOnly(false);
+                }
+            }
+            if(parentPath.equals(ORGORG_PATH)){
+                QueryPath qPath = QueryPath.concat(null, ORGORG_PATH);
+                Metadata meta = modelDefinition.getMetadata(qPath);
+                if(!meta.isCanEdit()){
+                    item.isReadOnly(true);
+                }
+                else{
+                    item.isReadOnly(false);
+                }
+            }
+            if(parentPath.equals(PERSON_PATH)){
+                QueryPath qPath = QueryPath.concat(null, PERSON_PATH);
+                Metadata meta = modelDefinition.getMetadata(qPath);
+                if(!meta.isCanEdit()){
+                    item.isReadOnly(true);
+                }
+                else{
+                    item.isReadOnly(false);
+                }
+            }
             return item;
         }
+        
+        public Widget generateAddWidget() {
+            //Label addWidget =  new Label(addItemLabel);
+            //addWidget.addStyleName("KS-Multiplicity-Link-Label");
+            KSLinkButton addWidget;
+            if(style == StyleType.TOP_LEVEL){
+                addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_LARGE);
+            }
+            else{
+                addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_SMALL);
+            }
+            addWidget.addClickHandler(new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    addItem();
+                }            
+            });
+            
+            if(parentPath.equals(POSITION_PATH)){
+                QueryPath qPath = QueryPath.concat(null, POSITION_PATH);
+                Metadata meta = modelDefinition.getMetadata(qPath);
+                if(!meta.isCanEdit()){
+                    addWidget.setEnabled(false);
+                }
+                else{
+                    addWidget.setEnabled(true);
+                }
+            }
+            if(parentPath.equals(ORGORG_PATH)){
+                QueryPath qPath = QueryPath.concat(null, ORGORG_PATH);
+                Metadata meta = modelDefinition.getMetadata(qPath);
+                if(!meta.isCanEdit()){
+                    addWidget.setEnabled(false);
+                }
+                else{
+                    addWidget.setEnabled(true);
+                }
+            }
+            if(parentPath.equals(PERSON_PATH)){
+                QueryPath qPath = QueryPath.concat(null, PERSON_PATH);
+                Metadata meta = modelDefinition.getMetadata(qPath);
+                if(!meta.isCanEdit()){
+                    addWidget.setEnabled(false);
+                }
+                else{
+                    addWidget.setEnabled(true);
+                }
+            }
+            return addWidget;
+        }
 
+        private boolean readPermission(String path){
+            QueryPath qPath = QueryPath.concat(null, path);
+            Metadata meta = modelDefinition.getMetadata(qPath);
+            return meta.isCanEdit();
+        }
         @Override
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
