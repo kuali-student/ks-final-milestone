@@ -1420,6 +1420,14 @@
 							<property name="desc" value="A date supplied as context" />
 							<property name="caseSensitive" value="true" />
 						</bean>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.enumerationCode" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Context Value" />
+							<property name="desc" value="The enumeration code to lookup" />
+							<property name="caseSensitive" value="true" />
+						</bean>
 					</list>
 				</property>
 				<property name="results">
@@ -3244,6 +3252,14 @@
 							<property name="defaultValueString" value="kuali.atptype.duration" />
 							<property name="caseSensitive" value="true" />
 						</bean>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.enumerationCode" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Context Value" />
+							<property name="desc" value="The enumeration code to lookup" />
+							<property name="caseSensitive" value="true" />
+						</bean>						
 						<!-- <bean parent="param">
 							<property name="key" value="enumeration.queryParam.contextType" />
 							<property name="name" value="Context Type" />
@@ -3879,6 +3895,14 @@
 							<property name="desc" value="A date supplied as context" />
 							<property name="caseSensitive" value="true" />
 						</bean>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.enumerationCode" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Context Value" />
+							<property name="desc" value="The enumeration code to lookup" />
+							<property name="caseSensitive" value="true" />
+						</bean>						
 					</list>
 				</property>
 				<property name="results">
@@ -4057,6 +4081,93 @@
 				<ref bean="constraint.kuali.state" />
 				<ref bean="constraint.lu.states" />
 			</list>
+		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="searchTypeId" value="enumeration.management.search" />
+				<property name="name" value="Get enumerations" />
+				<property name="desc" value="Get enumerated lists of values given context" />
+				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationType" />				
+				<property name="widget" value="CHECKBOX_LIST"/>
+				<property name="id" value="kuali.lu.lookup.clustate" />
+				<property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.enumerationType" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="defaultValueString" value="kuali.state" />
+							<property name="name" value="Enumeration Type" />
+							<property name="desc" value="The type of the enumeration to search" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.enumerationCode" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Context Value" />
+							<property name="desc" value="The enumeration code to lookup" />
+							<property name="caseSensitive" value="true" />
+						</bean>					
+					</list>
+				</property>
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="The internal code of the enumeration value" />
+							<property name="hidden" value="true" />
+							<property name="key" value="enumeration.resultColumn.code" />
+							<property name="name" value="Code" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="The description of the enumeration value" />
+							<property name="hidden" value="false" />
+							<property name="key" value="enumeration.resultColumn.value" />
+							<property name="name" value="Description of the code" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="An abbreviation of the enumeration value" />
+							<property name="hidden" value="false" />
+							<property name="key" value="enumeration.resultColumn.abbrevValue" />
+							<property name="name" value="Abbreviation of the code" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="TRUNCATED_DATE" />
+							<property name="desc"
+								value="The date the enumeration became effective" />
+							<property name="hidden" value="false" />
+							<property name="key" value="enumeration.resultColumn.effectiveDate" />
+							<property name="name" value="Effective date" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="TRUNCATED_DATE" />
+							<property name="desc"
+								value="The date the enumeration became non-effective" />
+							<property name="hidden" value="false" />
+							<property name="key" value="enumeration.resultColumn.expirationDate" />
+							<property name="name" value="Expiration date" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="The description of the type" />
+							<property name="hidden" value="false" />
+							<property name="key" value="enumeration.resultColumn.sortKey" />
+							<property name="name" value="Key used to sort the results" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+				<property name="resultDisplayKey" value="enumeration.resultColumn.value" />
+				<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+				<property name="usage" value="DEFAULT" />
+			</bean>
 		</property>
 	</bean>
 	<bean id="course.type" parent="dataFieldDescriptor">
@@ -4344,6 +4455,14 @@
 							<property name="desc" value="A date supplied as context" />
 							<property name="caseSensitive" value="true" />
 						</bean>
+						<bean parent="param">
+							<property name="key" value="enumeration.queryParam.enumerationCode" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Context Value" />
+							<property name="desc" value="The enumeration code to lookup" />
+							<property name="caseSensitive" value="true" />
+						</bean>					
 					</list>
 				</property>
 				<property name="results">

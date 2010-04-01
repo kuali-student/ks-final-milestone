@@ -457,8 +457,8 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, V
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','a47e2d88-cb6d-4c52-901c-cc7b630a0d24');
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','37ecfd9e-b65d-4909-bdc5-6b1300447889');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'Campus 1','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'Campus 2','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NORTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SOUTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into kslu_clu_admin_org (id, org_id) values ('ADMIN-ORG-1','42');
 insert into kslu_clu_admin_org (id, org_id) values ('ADMIN-ORG-2','44');
 insert into KSLU_CLU_JN_ALT_ADMIN_ORG (clu_ID, ALT_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-1');
@@ -480,4 +480,4 @@ insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_r
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('6d548f95-bbab-4041-8f3c-0fc507dd8d6e', 'ID1', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'Active', '0c81b192-82aa-4342-a7ed-2f63739a7d04', 'luLuRelationType.contains', '3142b5bb-899a-4f59-8022-cf9b411040c0' );
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('521887e2-9ea3-49be-b7c0-cfcedb350b47', 'ID1', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'Active', '0c81b192-82aa-4342-a7ed-2f63739a7d04', 'luLuRelationType.contains', 'd4ebc2e0-6707-40f7-aa8e-182139da07bb' );
 
-update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', FEE_ID = 'FEE-1', ATPDURATIONTYPEKEY = 'kuali.atp.duration.Week', TIMEQUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
+update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', FEE_ID = 'FEE-1', EXP_FIRST_ATP = 'kuali.atp.season.Summer', ATPDURATIONTYPEKEY = 'kuali.atp.duration.Week', TIMEQUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';

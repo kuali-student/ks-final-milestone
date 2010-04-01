@@ -118,7 +118,7 @@ LearningObjectiveConstants
 		addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
         addField(section, DESCRIPTION+ PATH_SEPARATOR + "plain", getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
 
-        addField(section,  CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
+        addField(section,  getTranslationKey(CreditCourseConstants.STATE), getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
         
         addField(section, getTranslationKey(CreditCourseConstants.TYPE), getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
         addField(section, getTranslationKey(DEPARTMENT), getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
@@ -127,7 +127,7 @@ LearningObjectiveConstants
         addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new KSLabelList(true));
         addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
 //FIXME        addField(section, FEES + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
-        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new KSLabelList(true));
+        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList(CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + CAMPUS_LOCATIONS + PATH_SEPARATOR));
 
         addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
         addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
@@ -137,7 +137,7 @@ LearningObjectiveConstants
 
     private CollapsableSection generateComprehensiveSection() {
     	
-  	    CollapsableSection section = new CollapsableSection("More Details");
+  	    CollapsableSection section = new CollapsableSection("Details");
 
 //FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
@@ -146,6 +146,8 @@ LearningObjectiveConstants
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + getTranslationKey(TERM_TYPE), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + QUANTITY, getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
         addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
+
+//FIXME        addField(section, REVENUE + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
 
 //FIXME  In M4 Only one primary admin org can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.ALT_ADMIN_ORGS, null, new AlternateAdminOrgList(ALT_ADMIN_ORGS));
@@ -190,6 +192,21 @@ LearningObjectiveConstants
             VerticalSection item = new VerticalSection();
             addField(item, "personId", null, new KSLabel(), path);
             return item;
+        }
+    }
+
+    private class CampusLocationList extends DisplayMultiplicityComposite {
+		private final String parentPath;
+        public CampusLocationList(String parentPath){
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, ID_TRANSLATION, null, new KSLabel(), path);
+
+            return ns;
         }
     }
 
@@ -264,7 +281,7 @@ LearningObjectiveConstants
             return ns;
         }
     }
-        
+    
     private class LearningObjectiveList extends DisplayMultiplicityComposite {
 		private final String parentPath;
         public LearningObjectiveList(String parentPath){
