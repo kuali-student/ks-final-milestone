@@ -77,6 +77,8 @@ public class OrgProposalController extends TabbedSectionLayout{
     public static final String ORG_TAB_NAME                 = "Organization";
     public static final String POSITION_TAB_NAME                 = "Positions/Members";
     public static final String SEARCH_TAB_NAME                 = "Search/Modify";
+    public static final String QUALIFICATION_ORG_ID                 = "orgId";
+    
     
     
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
@@ -201,7 +203,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 //                        break;
 //                }
             }
-            orgProposalRpcServiceAsync.getMetadata( "orgProposal", viewContextId,
+            orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, viewContextId,
                     new AsyncCallback<Metadata>(){
 
                         @Override
@@ -425,21 +427,41 @@ public class OrgProposalController extends TabbedSectionLayout{
 	        }
 	    }
 	    
-	       public void doModifyAction(ModifyActionEvent modifyActionEvent){     
+	       public void doModifyAction(final ModifyActionEvent modifyActionEvent){     
 	            System.out.println("Reached modify action");
 	            
 
 	            View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	            
 	            //getCurrentView().updateModel();
-	            
-	            System.out.println(" model updated ");
-	            fetchProposalOrg(modifyActionEvent);
-	            System.out.println("Reached summit 1 ");
+	            orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, modifyActionEvent.getId(),
+	                    new AsyncCallback<Metadata>(){
+
+	                        @Override
+	                        public void onFailure(Throwable caught) {
+	                            System.out.println("Failure");
+	                            progressWindow.hide();
+	                            throw new RuntimeException("Failed to get model definition.", caught);                        
+	                        }
+
+	                        @Override
+	                        public void onSuccess(Metadata result) {
+	                            
+	                            DataModelDefinition def = new DataModelDefinition(result);
+	                            System.out.println("Loaded OrgMetaData");
+	                            orgProposalModel.setDefinition(def);
+	                            commonConfigurer.setModelDefinition(def);
+	                            System.out.println(" model updated ");
+	                            fetchProposalOrg(modifyActionEvent);
+	                            System.out.println("Reached summit 1 ");
+	                            
+	                        }
+	                });
+
       
 	        }
 	       public void fetchProposalOrg(final ModifyActionEvent modifyActionEvent) {
-
+	           
 	           orgProposalRpcServiceAsync.fetchOrg(modifyActionEvent.getId(), new AsyncCallback<Data>() {
 	               public void onFailure(Throwable caught) {
 	                   GWT.log("Fetch Failed.", caught);
