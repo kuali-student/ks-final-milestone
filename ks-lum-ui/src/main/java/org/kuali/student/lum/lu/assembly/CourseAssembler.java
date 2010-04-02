@@ -943,14 +943,13 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 					CluIdentifierInfo cluId = formatClu.getOfficialIdentifier();
 		            if (cluId == null) {
 		                cluId = new CluIdentifierInfo();
-		                formatClu.setOfficialIdentifier(cluId);
+		                formatClu.setOfficialIdentifier(cluId);		                
 		            }
 		            cluId.setSuffixCode(course.getCourseNumberSuffix());
-		            cluId.setLongName(course.getCourseTitle());
-		            cluId.setDivision(course.getSubjectArea());
-		            cluId.setShortName(course.getTranscriptTitle());
-		            cluId.setType(FORMAT_LU_TYPE);
-		            formatClu.setOfficialIdentifier(cluId);
+                    cluId.setLongName(course.getCourseTitle());
+                    cluId.setDivision(course.getSubjectArea());
+                    cluId.setShortName(course.getTranscriptTitle());
+                    cluId.setType(FORMAT_LU_TYPE);
 		            
 	                
 					if (formatClu.getMetaInfo() != null) {
@@ -1019,8 +1018,15 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                     
                     CluIdentifierInfo cluId = activityClu.getOfficialIdentifier();
                     if (cluId == null) {
-                        activityClu.setOfficialIdentifier(formatClu.getOfficialIdentifier());
+                        cluId = new CluIdentifierInfo();
+                        activityClu.setOfficialIdentifier(cluId);
                     }
+                    CluIdentifierInfo formatCluId = formatClu.getOfficialIdentifier();
+                    cluId.setSuffixCode(formatCluId.getSuffixCode());
+                    cluId.setLongName(formatCluId.getLongName());
+                    cluId.setDivision(formatCluId.getDivision());
+                    cluId.setShortName(formatCluId.getShortName());
+                    cluId.setType(activity.getActivityType());
 					
 
 					AmountInfo time = activityClu.getIntensity();
