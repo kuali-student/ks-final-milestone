@@ -289,7 +289,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				result.setDepartment(admin.getOrgId());
 			}
 
-			result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
+			if (course.getDescr() != null){
+				result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
+			}
 
 			TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getStdDuration()));
 			if (time != null) {
