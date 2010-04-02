@@ -103,23 +103,25 @@ public class RevenueDataAssembler implements Assembler<Data, List<CluFeeRecordIn
 			// Note: revenueHelper.getTotalPercentage() is not persisted
 			
 			// get the AffiliatedOrg's
-			Iterator<Property> revenueOrgIter = revenueHelper.getRevenueOrg().iterator();
-			// orgInfos.clear(); // only needed if there's more than one course/revenue elements; dictionary's been changed
-			while (revenueOrgIter.hasNext()) {
-				AffiliatedOrgInfoHelper orgHelper = AffiliatedOrgInfoHelper.wrap((Data) revenueOrgIter.next().getValue());
-				AffiliatedOrgInfo orgInfo = new AffiliatedOrgInfo();
-				
-				orgInfo.setOrgId(orgHelper.getOrgId());
-				orgInfo.setPercentage(orgHelper.getPercentage());
-				if (null != orgHelper.getEffectiveDate()) {
-					// TODO - when/how should this be set?
-					try {
-						orgInfo.setEffectiveDate(DateFormat.getInstance().parse(orgHelper.getEffectiveDate()));
-					} catch (ParseException pe) {
-						throw new AssemblyException(pe);
+			if (revenueHelper.getRevenueOrg() != null){
+				Iterator<Property> revenueOrgIter = revenueHelper.getRevenueOrg().iterator();
+				// orgInfos.clear(); // only needed if there's more than one course/revenue elements; dictionary's been changed
+				while (revenueOrgIter.hasNext()) {
+					AffiliatedOrgInfoHelper orgHelper = AffiliatedOrgInfoHelper.wrap((Data) revenueOrgIter.next().getValue());
+					AffiliatedOrgInfo orgInfo = new AffiliatedOrgInfo();
+					
+					orgInfo.setOrgId(orgHelper.getOrgId());
+					orgInfo.setPercentage(orgHelper.getPercentage());
+					if (null != orgHelper.getEffectiveDate()) {
+						// TODO - when/how should this be set?
+						try {
+							orgInfo.setEffectiveDate(DateFormat.getInstance().parse(orgHelper.getEffectiveDate()));
+						} catch (ParseException pe) {
+							throw new AssemblyException(pe);
+						}
 					}
+					orgInfos.add(orgInfo);
 				}
-				orgInfos.add(orgInfo);
 			}
 			if (orgInfos.size() > 0) {
 				if (null == feeRecordInfo.getAffiliatedOrgInfoList()) {
