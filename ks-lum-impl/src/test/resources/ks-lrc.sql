@@ -245,3 +245,11 @@ INSERT INTO KSLU_LRC_RESULT_VALUE (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIM
 INSERT INTO KSLU_LRC_RESULT_VALUE (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, NAME, VALUE, RT_DESCR_ID) VALUES ('kuali.resultValue.passFail.P'    , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Grade of P', 'P', 'RICHTEXT-LRC-RV-6');
 INSERT INTO KSLU_LRC_RESULT_VALUE (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, NAME, VALUE, RT_DESCR_ID) VALUES ('kuali.resultValue.passFail.F'    , NULL, NULL, NULL, NULL, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Grade of F', 'F', 'RICHTEXT-LRC-RV-7');
 
+INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('kuali.resultComponent.grade.passFail', 'kuali.resultValue.passFail.P')
+INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('kuali.resultComponent.grade.passFail', 'kuali.resultValue.passFail.F')
+INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('kuali.resultComponent.grade.letter', 'kuali.resultValue.grade.letter.A')
+INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('kuali.resultComponent.grade.letter', 'kuali.resultValue.grade.letter.B')
+INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('kuali.resultComponent.grade.letter', 'kuali.resultValue.grade.letter.C')
+INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('kuali.resultComponent.grade.letter', 'kuali.resultValue.grade.letter.D')
+INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('kuali.resultComponent.grade.letter', 'kuali.resultValue.grade.letter.F')
+
