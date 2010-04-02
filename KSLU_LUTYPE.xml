@@ -11,7 +11,7 @@
         NAME="Non-Credit Course"
         TYPE_DESC="A course that is not offered for regular academic credit" TYPE_KEY="kuali.lu.type.NonCreditCourse"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Discussion"
+        NAME="Directed"
         TYPE_DESC="The exchange of opinions or questions on course material, directed by the instructor." TYPE_KEY="kuali.lu.type.activity.Directed"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Discussion"
