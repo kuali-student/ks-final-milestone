@@ -17,26 +17,18 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
-public class OrgCocValuesFinder extends KeyValuesBase{
-    public static List<KeyLabelPair> findCocOrgs() {
-        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
+public class OrgCocValuesFinder extends StudentKeyValuesBase {
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
 
-        OrganizationService orgService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName(
-                        "http://student.kuali.org/wsdl/organization",
-                        "OrganizationService"));
+	public static List<KeyLabelPair> findCocOrgs() {
+        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
 
         List<String> types = new ArrayList<String>();
         types.add("kuali.org.College");
@@ -64,7 +56,7 @@ public class OrgCocValuesFinder extends KeyValuesBase{
         searchRequest.setParams(queryParamValues);
         
         try {
-            SearchResult results = orgService.search(searchRequest);
+            SearchResult results = getOrganizationService().search(searchRequest);
 
             for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
@@ -78,12 +70,12 @@ public class OrgCocValuesFinder extends KeyValuesBase{
                         orgShortName = resultCell.getValue();
                     }
                 }
-                // departments.add(new KeyLabelPair(orgId, orgShortName));
-                departments.add(new KeyLabelPair(orgShortName, orgShortName));
+                departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
             }
 
             return departments;
         } catch (Exception e) {
+        	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
         }
     }

@@ -45,6 +45,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	public static final String QUALIFICATION_FIELD_ACCESS_LEVEL     = "fieldAccessLevel";
 	public static final String QUALIFICATION_SCREEN_COMPONENT       = "screenComponent";
 	public static final String QUALIFICATION_SECTION_ID             = "sectionId";
+    public static final String DESCEND_HIERARCHY                    = "descendHierarchy";
 
 	protected String dataId;
 	protected String org;
@@ -57,6 +58,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	protected String fieldAccessLevel;
 	protected String screenComponent;
 	protected String sectionId;
+    protected Boolean descendHierarchy;
 
 	/**
      * @return the dataId
@@ -196,6 +198,24 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
      */
     public void setSectionId(String sectionId) {
     	this.sectionId = sectionId;
+    }
+
+    /**
+     * Gets the descendHierarchy attribute.
+     * 
+     * @return Returns the descendHierarchy.
+     */
+    public Boolean isDescendHierarchy() {
+        return descendHierarchy;
+    }
+
+    /**
+     * Sets the descendHierarchy attribute value.
+     * 
+     * @param descendHierarchy The descendHierarchy to set.
+     */
+    public void setDescendHierarchy(Boolean descendHierarchy) {
+        this.descendHierarchy = descendHierarchy;
     }
 
 	@Override

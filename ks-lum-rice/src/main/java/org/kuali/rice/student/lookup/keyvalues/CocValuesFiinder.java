@@ -17,12 +17,7 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -33,7 +28,8 @@ import org.kuali.student.core.search.dto.SearchResultRow;
  * @author lindholm
  *
  */
-public abstract class CocValuesFiinder extends KeyValuesBase {
+public abstract class CocValuesFiinder extends StudentKeyValuesBase {
+
 	/**
 	 * Find the curriculum committee Orgs of this orgType
 	 *
@@ -42,11 +38,6 @@ public abstract class CocValuesFiinder extends KeyValuesBase {
 	 */
 	public static List<KeyLabelPair> findCocOrgs(String orgType) {
 		List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
-
-		OrganizationService orgService = (OrganizationService) GlobalResourceLoader
-				.getService(new QName(
-						"http://student.kuali.org/wsdl/organization",
-						"OrganizationService"));
 
 		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 		SearchParam qpOrgType = new SearchParam();
@@ -69,7 +60,7 @@ public abstract class CocValuesFiinder extends KeyValuesBase {
 		searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
 		
 		try {
-			SearchResult results = orgService.search(searchRequest);
+			SearchResult results = getOrganizationService().search(searchRequest);
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
@@ -83,8 +74,7 @@ public abstract class CocValuesFiinder extends KeyValuesBase {
 						orgShortName = resultCell.getValue();
 					}
 				}
-				// departments.add(new KeyLabelPair(orgId, orgShortName));
-				departments.add(new KeyLabelPair(orgShortName, orgShortName));
+				departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
 			}
 
 			return departments;
