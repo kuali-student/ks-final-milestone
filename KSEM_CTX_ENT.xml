@@ -57,8 +57,26 @@
         CTX_VAL="North County Campus" ENUM_VAL_ENT_ID="33" ID="33"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.lu.campusLocation"
         CTX_VAL="South County Campus" ENUM_VAL_ENT_ID="34" ID="34"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="38" ID="38"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="39" ID="39"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Architecture"
         ENUM_VAL_ENT_ID="4" ID="4"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="40" ID="40"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="41" ID="41"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="42" ID="42"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="43" ID="43"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="44" ID="44"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="45" ID="45"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.object" CTX_VAL="cluInfo"
+        ENUM_VAL_ENT_ID="46" ID="46"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Accounting"
         ENUM_VAL_ENT_ID="5" ID="5"/>
     <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="FineArts"

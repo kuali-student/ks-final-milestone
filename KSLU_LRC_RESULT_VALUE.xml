@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LRC_RESULT_VALUE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" ID="kuali.resultValue.grade.letter.A"
+        NAME="Grade of A" RT_DESCR_ID="RICHTEXT-LRC-RV-1" VALUE="A" VERSIONIND="1"/>
+    <KSLU_LRC_RESULT_VALUE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" ID="kuali.resultValue.grade.letter.B"
+        NAME="Grade of B" RT_DESCR_ID="RICHTEXT-LRC-RV-2" VALUE="B" VERSIONIND="1"/>
+    <KSLU_LRC_RESULT_VALUE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" ID="kuali.resultValue.grade.letter.C"
+        NAME="Grade of C" RT_DESCR_ID="RICHTEXT-LRC-RV-3" VALUE="C" VERSIONIND="1"/>
+    <KSLU_LRC_RESULT_VALUE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" ID="kuali.resultValue.grade.letter.D"
+        NAME="Grade of D" RT_DESCR_ID="RICHTEXT-LRC-RV-4" VALUE="D" VERSIONIND="1"/>
+    <KSLU_LRC_RESULT_VALUE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" ID="kuali.resultValue.grade.letter.F"
+        NAME="Grade of F" RT_DESCR_ID="RICHTEXT-LRC-RV-5" VALUE="F" VERSIONIND="1"/>
+    <KSLU_LRC_RESULT_VALUE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" ID="kuali.resultValue.passFail.F"
+        NAME="Grade of F" RT_DESCR_ID="RICHTEXT-LRC-RV-7" VALUE="F" VERSIONIND="1"/>
+    <KSLU_LRC_RESULT_VALUE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" ID="kuali.resultValue.passFail.P"
+        NAME="Grade of P" RT_DESCR_ID="RICHTEXT-LRC-RV-6" VALUE="P" VERSIONIND="1"/>
+</dataset>

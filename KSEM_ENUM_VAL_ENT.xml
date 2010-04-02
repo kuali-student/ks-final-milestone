@@ -88,16 +88,44 @@
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="per day" CD="kuali.atp.duration.day"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.duration"
         EXPIR_DT="20000101000000" ID="35" SORT_KEY="35" VAL="per day"/>
-    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per week" CD="kuali.atp.duration.week"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.duration"
-        EXPIR_DT="20000101000000" ID="36" SORT_KEY="36" VAL="per week"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="per week"
+        CD="kuali.atp.duration.week" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.atptype.duration" EXPIR_DT="20000101000000"
+        ID="36" SORT_KEY="36" VAL="per week"/>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="per month"
         CD="kuali.atp.duration.month" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.duration" EXPIR_DT="20000101000000"
         ID="37" SORT_KEY="37" VAL="per month"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="template" CD="template"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="38" SORT_KEY="38" VAL="A template holds configuration for defaults for creating a new course"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="draft.private" CD="draft.private"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="39" SORT_KEY="39" VAL="Exploratory/Private scratch pad"/>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="AACH" CD="AACH"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
         EXPIR_DT="20000101000000" ID="4" SORT_KEY="4" VAL="Architecture"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="draft.public" CD="draft.public"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="40" SORT_KEY="40" VAL="Entered as draft but not yet submitted"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="submitted" CD="submitted"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="41" SORT_KEY="41" VAL="Submitted but not yet approved"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="withdrawn" CD="withdrawn"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="42" SORT_KEY="42" VAL="Withdrawn (anytime before activated)"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="approved" CD="approved"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="43" SORT_KEY="43" VAL="Approved"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="rejected" CD="rejected"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="44" SORT_KEY="44" VAL="Not approved (rejected)"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="activated" CD="activated"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="45" SORT_KEY="45" VAL="Activated and ready to be published"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="retired" CD="retired"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
+        EXPIR_DT="20000101000000" ID="46" SORT_KEY="46" VAL="Retired/No longer active"/>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="ACCT" CD="ACCT"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
         EXPIR_DT="20000101000000" ID="5" SORT_KEY="5" VAL="Accounting"/>
