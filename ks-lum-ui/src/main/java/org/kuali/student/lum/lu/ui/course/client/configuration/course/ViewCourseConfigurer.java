@@ -129,7 +129,7 @@ AffiliatedOrgInfoConstants
         addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new KSLabelList(true));
         addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
         //FIXME: Need to translate the FEE ID
-        addField(section, FEES + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
+        addField(section, FEES , getLabel(LUConstants.FINANCIALS_LABEL_KEY), new FeeList(FEES));
         addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList(CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + CAMPUS_LOCATIONS + PATH_SEPARATOR));
 
         addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
@@ -339,6 +339,25 @@ AffiliatedOrgInfoConstants
         }
     } 
 
+    public class FeeList extends DisplayMultiplicityComposite {
+    	
+		private final String parentPath;
+        public FeeList(String parentPath){
+            this.parentPath = parentPath;
+        }
+
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection groupSection = new GroupSection();
+
+            addField(groupSection, "id", getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
+            addField(groupSection, "feeType", getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
+            addField(groupSection, "rateType",  getLabel(LUConstants.RATE_TYPE), new KSLabel(),path);
+            return groupSection;
+        }
+    }
+    
     public class RevenueInformationList extends DisplayMultiplicityComposite {
     	
 		private final String parentPath;
