@@ -84,15 +84,16 @@ public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>
                         Iterator<Property> iter = ((Data) value).iterator();
                         while (iter.hasNext()) {
                             Property p = iter.next();
-                            Integer key = p.getKey();
-                            QueryPath translationPath = qPath.subPath(0, qPath.size() - 1);
-                            translationPath.add(new Data.StringKey("_runtimeData"));
-                            translationPath.add(new Data.StringKey((String) qPath.get(qPath.size() - 1).get()));
-                            translationPath.add(new Data.IntegerKey(key));
-                            translationPath.add(new Data.StringKey("id-translation"));
-                            String translation = model.get(translationPath);
-                            String id = p.getValue();
-                            translations.put(id, translation);
+                            if(!"_runtimeData".equals(p.getKey())){
+	                            QueryPath translationPath = new QueryPath();
+	                            translationPath.add(new Data.StringKey(qPath.toString()));
+	                            translationPath.add(new Data.StringKey("_runtimeData"));
+	                            translationPath.add(new Data.IntegerKey((Integer)p.getKey()));
+	                            translationPath.add(new Data.StringKey("id-translation"));
+	                            String translation = model.get(translationPath.toString());
+	                            String id = p.getValue().toString();
+	                            translations.put(id, translation);
+                            }
                         }
                         ((TranslatableValueWidget)widget).setValue(translations);
                     }
@@ -101,12 +102,12 @@ public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>
                 }
             } else if (value instanceof String) {
             	if(widget instanceof TranslatableValueWidget) {
-            		QueryPath translationPath = qPath.subPath(0, qPath.size() - 1);
+            		QueryPath translationPath = qPath.subPath(0, qPath.size()-1);
         	        translationPath.add(new Data.StringKey("_runtimeData"));
         	        translationPath.add(new Data.StringKey((String)qPath.get(qPath.size() - 1).get()));
         	        translationPath.add(new Data.StringKey("id-translation"));
         	        
-        	        String translation = model.get(translationPath);
+        	        String translation = model.get(translationPath.toString());
         	        if(translation != null && !translation.isEmpty()) {
         	            ((TranslatableValueWidget)widget).setValue((String)value, translation);
         	        } else {
