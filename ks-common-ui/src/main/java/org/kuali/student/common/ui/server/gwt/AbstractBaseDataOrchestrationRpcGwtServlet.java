@@ -88,8 +88,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 				return new DataSaveResult(saveResult.getValidationResults(), saveResult.getValue());
 			}
 		} catch (Exception e) {
-			LOG.error("Unable to save credit course proposal", e);
-			throw new OperationFailedException("Unable to save credit course proposal");
+			LOG.error("Unable to save", e);
+			throw new OperationFailedException("Unable to save");
 		}
 		return null;
 	}
@@ -181,9 +181,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	            	throw new OperationFailedException("Error found getting document. " );
 	            }
 	            
-		        String approveComment = "Approved by CluProposalService";
-		        
-		        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), deriveDocContentFromData(data), approveComment);
+		        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), deriveDocContentFromData(data), "");
 	            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
 	        		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
 	        	}
@@ -361,7 +359,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
             // if user can withdraw document then add withdraw button
             if (getPermissionService().isAuthorizedByTemplateName(principalId, PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER,docDetail.getRouteHeaderId().toString()))) {
-            	LOG.info("User '" + principalId + "' is allowed to Withdraw the Proposal");
+            	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
 //            	actionsRequested+="W";
             }
 
