@@ -44,6 +44,15 @@
             </dependency>
           </dependencies>
         </configuration>
+        <executions>
+          <execution>
+            <id>convert-schema</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>convert-schema</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
