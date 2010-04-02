@@ -26,11 +26,11 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     protected MetadataServiceImpl metadataService;
 
     // TODO: Below must be changed to use constants from KualiStudentKimAttributes class (class is currently in LUM)
-    protected Map<String, String> getFieldAccessPermissions(String dtoName) {
+    protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id) {
         try {
             //get permissions and turn into a map of fieldName=>access
             String principalId = SecurityUtils.getCurrentUserId();
-            AttributeSet qualification = null;
+            AttributeSet qualification = getQualification(idType, id);
             AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
             List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
             		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
@@ -89,7 +89,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         }
         // if not checking doc level perms or user does have "Edit Document" perm check field level authZ
         else {
-	        Map<String, String> permissions = getFieldAccessPermissions(getDtoName());
+	        Map<String, String> permissions = getFieldAccessPermissions(getDtoName(),idType,id);
 	        if (permissions != null) {
 	            for (Map.Entry<String, String> permission : permissions.entrySet()) {
 	                String dtoFieldPath = permission.getKey();
