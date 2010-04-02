@@ -110,6 +110,9 @@
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>
 
+    <!-- Organization Hierarchy Role Type -->
+    <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
+
 	<!-- Hierarchy Derived role -->
 <!--
 	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.role.type.HierarchyNodeTestRoleTypeServiceBase" />
