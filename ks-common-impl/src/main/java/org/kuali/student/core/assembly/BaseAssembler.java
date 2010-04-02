@@ -75,8 +75,14 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
 			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
 					+ "' for user '" + currentUser + "': " + authorized);
 	        metadata.setCanEdit(authorized.booleanValue());
+        }  
+        if(metadata != null && metadata.getProperties() != null) {
+            for(Metadata child : metadata.getProperties().values()) {
+                if(!child.isCanEdit()) {
+                    setReadOnly(child, true);
+                }
+            }
         }
-
         // if we're checking doc level perms and user does not have "Edit Document" perm set metadata as readonly
         if (checkDocumentLevelPermissions() && Boolean.FALSE.equals(authorized)) {
         	setReadOnly(metadata, true);
