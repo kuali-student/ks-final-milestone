@@ -66,7 +66,12 @@ public abstract class MultiplicityComposite extends Composite {
         }
     };
         
-
+    
+    /**
+     * This adds an item to the multiplicity composite by calling createItem.
+     * 
+     * @return
+     */
 	public MultiplicityItem addItem(){
 		itemCount++;
 		visualItemCount++;
@@ -87,6 +92,19 @@ public abstract class MultiplicityComposite extends Composite {
 	    itemsPanel.add(item);
 	    
 	    return item;
+	}
+	
+	/**
+	 * This returns the index key for the model for the item currently being added by addItem
+	 * This is useful, if you need to refer to the index in the createItem method
+	 * @return
+	 */
+	public int getAddItemKey(){
+		return itemCount-1;
+	}
+	
+	public void incrementItemKey(){
+		itemCount++;
 	}
        
     public void onLoad() {
@@ -124,7 +142,7 @@ public abstract class MultiplicityComposite extends Composite {
         removed.clear();
         itemCount = 0;
     }
-   
+   	
     public void redraw(){
         for (MultiplicityItem item:items){
             item.redraw();

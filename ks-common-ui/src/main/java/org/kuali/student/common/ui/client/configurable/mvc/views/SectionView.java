@@ -65,7 +65,8 @@ public abstract class SectionView extends BaseSection implements View{
      */
     @Override
     public boolean beforeHide() {
-    	//if()
+    	//This update model call was added due to KSCOR-162
+    	this.updateModel();
         return true;
     }
 

@@ -63,16 +63,37 @@ public class MultiplicityCompositeBinding extends ModelWidgetBindingSupport<Mult
             while (itr.hasNext()) {
                 Property p = (Property) itr.next();
 
-                // FIXME: Not sure if this is a good way to get multiplicity item key
-                if (p.getKey() instanceof Integer) {
+                if (p.getKey() instanceof Integer && !isItemDeleted(model, path, (Integer)p.getKey())) {                
                     MultiplicityItem item = mcWidget.addItem();
-                    // FIXME: Is assumption correct that data passed to setValue() has already been persisted
                     item.setCreated(false);
                     item.setItemKey((Integer) p.getKey());
                     MultiplicityItemBinding.INSTANCE.setWidgetValue(item, model, path);
+                } else {
+                	mcWidget.incrementItemKey();
                 }
             }
         }
     }
+    
+    /**
+     * Checks to see if an item at the given index in the multiplicity has been deleted
+     * 
+     * @param model
+     * @param path
+     * @param index
+     */
+    public boolean isItemDeleted(DataModel model, String path, Integer index){
+    	boolean isDeleted = false;
+
+    	QueryPath runtimeDeletedPath = QueryPath.concat(path, String.valueOf(index), MultiplicityItemBinding.RT_DELETED);
+    	
+    	Boolean runtimeDeleted = model.get(runtimeDeletedPath);
+    	if (runtimeDeleted != null){
+    		isDeleted = runtimeDeleted;
+    	}
+    	
+    	return isDeleted;
+    }
+
 
 }

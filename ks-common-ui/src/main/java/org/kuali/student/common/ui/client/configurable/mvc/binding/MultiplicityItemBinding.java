@@ -24,9 +24,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class MultiplicityItemBinding extends ModelWidgetBindingSupport<MultiplicityItem> {
     public static MultiplicityItemBinding INSTANCE = new MultiplicityItemBinding();
 
-    private final String RT_CREATED = "_runtimeData" + QueryPath.getPathSeparator() + "created";
-    private final String RT_UPDATED = "_runtimeData" + QueryPath.getPathSeparator() + "updated";
-    private final String RT_DELETED = "_runtimeData" + QueryPath.getPathSeparator() + "deleted";
+    protected static final String RT_CREATED = "_runtimeData" + QueryPath.getPathSeparator() + "created";
+    protected static final String RT_UPDATED = "_runtimeData" + QueryPath.getPathSeparator() + "updated";
+    protected static final String RT_DELETED = "_runtimeData" + QueryPath.getPathSeparator() + "deleted";
 
     private MultiplicityItemBinding() {};
 
@@ -88,5 +88,6 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
         multiplicityItem.setCreated(false);
         multiplicityItem.setCreated(false);
     }
-
+    
+    
 }
