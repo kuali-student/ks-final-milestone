@@ -18,7 +18,7 @@ class AutoConfig
 
   attr_accessor :config_dir, :suite_dir, :test_dir, :log_dir, :output, :clients, :servers, :phases, :agents,
     :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context, :verbose,
-    :tsung_log_level
+    :tsung_log_level, :directory
 
   
   def initialize
@@ -29,6 +29,7 @@ class AutoConfig
     @log_dir    = Common.dir_simplify(File.expand_path(File.dirname(__FILE__)) + '/../log')
     @debug      = false
     @execute    = false
+    @directory  = YAML.load_file(File.expand_path(File.dirname(__FILE__)) + '/../config/directory.yaml')
     
   end
 

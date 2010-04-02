@@ -8,6 +8,8 @@
 # Author:: Kyle Campos (mailto:kcampos@rsmart.com)
 #
 
+require File.dirname(__FILE__) + '/../organization/organization.rb'
+
 class Authentication
   
   attr_accessor :request
@@ -32,8 +34,15 @@ class Authentication
     @request.add_thinktime(opts[:thinktime])
     @request.add('/j_spring_security_check', {"contents" => "j_username=#{opts[:user]}&amp;j_password=#{opts[:password]}&amp;submit=Submit",
       "content_type" => "application/x-www-form-urlencoded", "method" => "POST"})
-    @request.add('/index.html')
-    @request.add('kru_banner2.jpg')
+    
+    # Only admin goes to the index.html page
+    if(opts[:user] == 'admin')
+      @request.add('/index.html')
+      @request.add('kru_banner2.jpg')
+    else
+      # Load Org page
+      Organization.new(@request).homepage
+    end
     
   end
   

@@ -154,11 +154,19 @@ class Requests < Transaction
     
     # This is used to tell Tsung if we want a dynamic substitution
     req_defaults = {
-      "subst" => 'false'
+      "subst" => 'false',
+      :dyn_variables => {
+        # "name"
+        # "regexp"
+      }
     }
   
     opts = defaults.merge(opts)
     req_opts = req_defaults.merge(req_opts)
+    
+    # Split the hashes to take our dyn_variable
+    dyn_variables = req_opts.reject{|k,v| k == "subst"}[:dyn_variables]
+    req_opts.delete_if{|k,v| k == :dyn_variables}
     
     # Make sure requests begins with app context
     if(url !~ /^\/self.config.context/) 
@@ -175,6 +183,9 @@ class Requests < Transaction
     req_str << ">"
 
     req = @xml_element.add_element('request', req_opts)
+    dyn_variables.each do |dyn_var|
+      req.add_element('dyn_variable', dyn_var)
+    end
     req.add_element('http', opts)
     
     @list << req_str

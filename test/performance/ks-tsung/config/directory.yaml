@@ -40,3 +40,7 @@ senate:
     chair:
         username: "senatechair"
         password: "senatechair"
+atp:
+    name: "Class of 2012 Year 1"
+lo:
+    name: "Performance LO"
