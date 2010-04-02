@@ -60,17 +60,15 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -360,12 +358,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		}		
 		
 		public void setValue(final Value value, boolean fireEvents) {
-			if (basicWidget instanceof KSTextBox) {
+			if (basicWidget instanceof KSTextBox || basicWidget instanceof KSLabel) {
 				if(value != null){
-					((KSTextBox)basicWidget).setText((String) value.get());
+					((HasText)basicWidget).setText((String) value.get());
 				}
 				else{
-					((KSTextBox)basicWidget).setText("");
+					((HasText)basicWidget).setText("");
 				}
 			} else if (basicWidget instanceof KSSuggestBox) {
 				//Do check here
