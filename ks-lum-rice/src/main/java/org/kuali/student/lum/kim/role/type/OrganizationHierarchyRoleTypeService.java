@@ -58,8 +58,10 @@ public class OrganizationHierarchyRoleTypeService extends KimRoleTypeServiceBase
 	        	inputSets.addAll(getHierarchyOrgShortNames(inputOrgId));
 	        }
 	        // add in the original org short name
-        	OrgInfo org = getOrganizationService().getOrganization(inputOrgId);
-        	inputSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG,org.getShortName()));
+	        if(inputOrgId!=null){
+	            OrgInfo org = getOrganizationService().getOrganization(inputOrgId);
+	            inputSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG,org.getShortName()));
+	        }
     		// check for a match where roleMemberOrganizationShortName exists in one of the attribute sets in the list inputSets
     		return hasMatch(inputSets, roleMemberOrganizationShortName);
         } catch (Exception e) {
