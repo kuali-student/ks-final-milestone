@@ -9,12 +9,6 @@
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="101" NM="College Type"
         NMSPC_CD="KS-LUM" OBJ_ID="COLLEGETYPE000000000000000000TYP"
         SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="114" NM="Organization Role Type"
-        NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE000930000000012300TYP"
-        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="121" NM="Section Maintenance Permission Type"
-        NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE00093A106540012300TYP"
-        SRVC_NM="kimPermissionTypeService" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="102" NM="Department Type"
         NMSPC_CD="KS-LUM" OBJ_ID="DEPARTMTYPE000000000000000000TYP"
         SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
@@ -52,11 +46,19 @@
         NM="Derived Role: KS Adhoc Action Request Role Type"
         NMSPC_CD="KS-SYS" OBJ_ID="ORGCOMMITTEEDERIVED3689129T00TYP"
         SRVC_NM="ksAdhocActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="114"
+        NM="Organization Role Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMTYPE000930000000012300TYP"
+        SRVC_NM="ksOrganizationHierarchyRoleTypeService" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="12" NM="Namespace or Action"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4E37954E0404F8189D85002"
         SRVC_NM="namespaceOrActionPermissionTypeService" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="120" NM="Field Permission Type"
         NMSPC_CD="KS-SYS" OBJ_ID="FIELDPERMISSION0000000000000TYP" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="121"
+        NM="Section Maintenance Permission Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMTYPE00093A106540012300TYP"
+        SRVC_NM="kimPermissionTypeService" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="13" NM="Button"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4E77954E0404F8189D85002"
         SRVC_NM="buttonPermissionTypeService" VER_NBR="1"/>
