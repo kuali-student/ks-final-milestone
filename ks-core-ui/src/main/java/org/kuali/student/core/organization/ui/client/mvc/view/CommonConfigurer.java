@@ -8,7 +8,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItemWithHeader;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -229,7 +229,7 @@ public class CommonConfigurer {
 
         @Override
         public MultiplicityItem getItemDecorator(StyleType style) {
-            RemovableItemWithHeader item = new RemovableItemWithHeader();
+            RemovableItemWithHeader item = new RemovableItemWithHeader(style);
             item.setItemLabel(itemLabel);            
             
             if(parentPath.equals(POSITION_PATH)){
