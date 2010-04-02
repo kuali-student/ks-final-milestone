@@ -49,8 +49,8 @@ public class ViewCourseActionList extends Composite {
 	boolean loaded=false;
     
 	private KSMenuItemData retireCourseAction;
-	private KSMenuItemData copyCourseItem;
-	private KSMenuItemData modifyCourseItem;
+	private KSMenuItemData copyCourseAction;
+	private KSMenuItemData modifyCourseAction;
 	
 	
 	List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
@@ -61,7 +61,7 @@ public class ViewCourseActionList extends Composite {
     CourseRpcServiceAsync rpcService;
     
     private String modelName;
-    private String idPath;
+    private String courseCodePath;
        
 	private HorizontalBlockFlowPanel rootPanel = new HorizontalBlockFlowPanel();
 	private StylishDropDown courseActionsDropDown = new StylishDropDown("Course Actions");
@@ -122,12 +122,12 @@ public class ViewCourseActionList extends Composite {
 		}
 	}
 	
-	private String getCourseIdFromModel(DataModel model){
-		String courseId = "";
+	private String getCourseCodeFromModel(DataModel model){
+		String courseCode = "";
 		if(model!=null){
-			courseId = model.get(QueryPath.parse(idPath));
+			courseCode = model.get(QueryPath.parse(courseCodePath));
 		}
-		return courseId;
+		return courseCode;
 	}
 	
 	private void setupButtons() {
@@ -160,9 +160,8 @@ public class ViewCourseActionList extends Composite {
 //			}
 //		});
  
-		copyCourseItem = new KSMenuItemData("Copy Course", new ClickHandler(){
+		copyCourseAction = new KSMenuItemData("Copy Course", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
-	        	String cluId = getCourseIdFromModel(dataModel);
 				Window.alert("Function not yet implemented");
 	        	
 //				rpcService.acknowledgeDocumentWithId(proposalId, new AsyncCallback<Boolean>(){
@@ -187,23 +186,26 @@ public class ViewCourseActionList extends Composite {
 
 		retireCourseAction = new KSMenuItemData("Retire Course", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
-	        	String cluId = getCourseIdFromModel(dataModel);
 				Window.alert("Function not yet implemented");
 			}        
 	    });
-		modifyCourseItem = new KSMenuItemData("Modify Course", new ClickHandler(){
+		modifyCourseAction = new KSMenuItemData("Modify Course", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
-	        	String cluId = getCourseIdFromModel(dataModel);
 				Window.alert("Function not yet implemented");
 			}        
 	    });
 	}
 
 	private void updateActions(DataModel model){
-		String courseId = getCourseIdFromModel(model);
+		String courseCode = getCourseCodeFromModel(model);
 		items.clear();
-		items.add(copyCourseItem);
-		items.add(modifyCourseItem);
+		
+		copyCourseAction.setLabel("Copy " + courseCode );
+		modifyCourseAction.setLabel("Modify " + courseCode );
+		retireCourseAction.setLabel("Retire " + courseCode );
+		
+		items.add(copyCourseAction);
+		items.add(modifyCourseAction);
 		items.add(retireCourseAction);
 		courseActionsDropDown.setItems(items);
 
@@ -277,10 +279,10 @@ public class ViewCourseActionList extends Composite {
 	
 	/**
 	 * Use to set the data model path to retrieve the id to use for this workflow. 
-	 * @param idPath
+	 * @param courseCodePath
 	 */
-	public void setIdPath(String idPath) {
-		this.idPath = idPath;
+	public void setCourseCodePath(String courseCodePath) {
+		this.courseCodePath = courseCodePath;
 	}
 	
 	public void setRpcService(CourseRpcServiceAsync rpcServiceAsync){

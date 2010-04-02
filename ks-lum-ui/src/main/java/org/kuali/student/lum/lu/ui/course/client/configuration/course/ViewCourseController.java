@@ -68,7 +68,7 @@ public class ViewCourseController extends TabbedSectionLayout {
     private String courseId = null;
     
     private static final String CLU_STATE = "active";
-    private static final String CLU_ID_PATH   = "id";
+    private static final String COURSE_CODE_PATH   = "courseCode";
     
     private final String REFERENCE_TYPE = "referenceType.clu";
     private boolean initialized = false;
@@ -153,7 +153,7 @@ public class ViewCourseController extends TabbedSectionLayout {
             
         });
         actionToolbar = new ViewCourseActionList(createActionSubmitSuccessHandler());
-        actionToolbar.setIdPath(CLU_ID_PATH);
+        actionToolbar.setCourseCodePath(COURSE_CODE_PATH);
 //        actionToolbar.setRequiredFieldPaths(new String[]{"course/department"});
         actionToolbar.setRpcService(rpcServiceAsync);
         this.addToolbar(actionToolbar);

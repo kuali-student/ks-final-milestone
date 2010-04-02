@@ -29,15 +29,15 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
-import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -63,7 +63,9 @@ CreditCourseActivityConstants,
 MetaInfoConstants,
 CreditCourseDurationConstants,
 FeeInfoConstants,
-LearningObjectiveConstants
+LearningObjectiveConstants,
+CreditCourseRevenueInfoConstants,
+AffiliatedOrgInfoConstants
 {
 
     public static final String COURSE_MODEL	= "courseModel";
@@ -126,7 +128,8 @@ LearningObjectiveConstants
 //FIXME        addField(section, CREDITS,  getLabel(LUConstants.CREDITS_LABEL_KEY), new KSLabel());
         addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new KSLabelList(true));
         addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
-//FIXME        addField(section, FEES + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
+        //FIXME: Need to translate the FEE ID
+        addField(section, FEES + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
         addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList(CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + CAMPUS_LOCATIONS + PATH_SEPARATOR));
 
         addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
@@ -137,7 +140,7 @@ LearningObjectiveConstants
 
     private CollapsableSection generateComprehensiveSection() {
     	
-  	    CollapsableSection section = new CollapsableSection("Details");
+  	    CollapsableSection section = new CollapsableSection("Click for Details");
 
 //FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
@@ -147,17 +150,17 @@ LearningObjectiveConstants
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + QUANTITY, getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
         addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
 
-//FIXME        addField(section, REVENUE + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
-
-//FIXME  In M4 Only one primary admin org can be set so don't need a list here. Fix for M5
+        //FIXME  In M4 Only one primary admin org can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.ALT_ADMIN_ORGS, null, new AlternateAdminOrgList(ALT_ADMIN_ORGS));
         addField(section,  VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
         addField(section,  JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
 
-        addField(section, EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
+        addField(section, CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
         addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
 
         addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList(CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + ACADEMIC_SUBJECT_ORGS + PATH_SEPARATOR));
+        addField(section,  REVENUE_INFO , getLabel(LUConstants.REVENUE), new RevenueInformationList(REVENUE_INFO));
+        addField(section,  EXPENDITURE_INFO , "Expenditure Info", new ExpenditureInformationList(EXPENDITURE_INFO));
 
         addField(section, COURSE_SPECIFIC_LOS,  getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY),  new LearningObjectiveList(COURSE_SPECIFIC_LOS));
         
@@ -335,6 +338,43 @@ LearningObjectiveConstants
             return groupSection;
         }
     } 
+
+    public class RevenueInformationList extends DisplayMultiplicityComposite {
+    	
+		private final String parentPath;
+        public RevenueInformationList(String parentPath){
+            this.parentPath = parentPath;
+        }
+
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection groupSection = new GroupSection();
+
+            addField(groupSection, REVENUE_ORG, getLabel(LUConstants.REVENUE), new KSLabel(),  path );
+            addField(groupSection, PERCENTAGE, getLabel(LUConstants.AMOUNT), new KSLabel(),  path );
+            return groupSection;
+        }
+    }
+
+    public class ExpenditureInformationList extends DisplayMultiplicityComposite {
+    	
+		private final String parentPath;
+        public ExpenditureInformationList(String parentPath){
+            this.parentPath = parentPath;
+        }
+
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection groupSection = new GroupSection();
+
+            addField(groupSection, "expenditureOrg",  getLabel(LUConstants.EXPENDITURE),new KSLabel(), path );
+            addField(groupSection, "totalPercentage", getLabel(LUConstants.AMOUNT), new KSLabel(), path);
+
+            return groupSection;
+        }
+    }
 
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CourseConfigurer.CLU_PROPOSAL_MODEL);
