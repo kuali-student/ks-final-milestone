@@ -97,6 +97,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
             orgPositionRestrictionAssembler.setOrgService(orgService);
             OrgPersonRelationAssembler orgPersonRelationAssembler = new OrgPersonRelationAssembler();
+            orgPersonRelationAssembler.setMetaData(metadata);
             orgPersonRelationAssembler.setOrgService(orgService);
             Data orgOrgRelationMap = orgOrgRelationAssembler.get(id);
             Data orgPositionMap = orgPositionRestrictionAssembler.get(id);

@@ -10,15 +10,21 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgPersonHelper;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
@@ -29,7 +35,13 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelper>{
     private OrganizationService orgService;
+    private Metadata metadata;
+    public static final String PERSON_PATH                  = "orgPersonRelationInfo";
     
+    public void setMetaData(Metadata metadata){
+        this.metadata=metadata;
+        
+    }
 
     public void setOrgService(OrganizationService service){
         orgService = service;
@@ -156,19 +168,38 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
     
     private Data buildOrgPersonRelationMap( List<OrgPersonRelationInfo> relations){
         Data orgRelations = new Data();
+        try {
         int count =0;
+        DataModel orgPersonModel = new DataModel();
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgPersonModel.setDefinition(def);
+        //Set this for readonly permission
+        QueryPath metaPath = QueryPath.concat(null, PERSON_PATH);
+        Metadata orgPersonMeta =orgPersonModel.getMetadata(metaPath);
         for(OrgPersonRelationInfo relation:relations){
             Data relationMap = new Data();
             OrgPersonHelper orgPersonHelper = OrgPersonHelper.wrap(relationMap);
             orgPersonHelper.setId(relation.getId());
             orgPersonHelper.setOrgId(relation.getOrgId());
-            orgPersonHelper.setTypeKey(relation.getType());
+            if(!orgPersonMeta.isCanEdit()){
+                
+                    orgPersonHelper.setTypeKey(orgService.getOrgPersonRelationType(relation.getType()).getName());
+               
+            }
+            else{
+                orgPersonHelper.setTypeKey(relation.getType());
+            }
+            
             orgPersonHelper.setPersonId(relation.getPersonId());
             orgPersonHelper.setEffectiveDate(relation.getEffectiveDate());
             orgPersonHelper.setExpirationDate(relation.getExpirationDate());
             addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),relation.getId(),relation.getMetaInfo().getVersionInd());
             orgRelations.set(count,orgPersonHelper.getData());
             count = count +1;
+        }
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
         return orgRelations;
     }
