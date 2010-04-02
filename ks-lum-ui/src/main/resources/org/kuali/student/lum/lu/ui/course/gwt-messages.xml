@@ -32,6 +32,7 @@
 	<bean parent="enCourse" p:id="cluCourseInformation" p:value="Course Information" />
 	<bean parent="enCourse" p:id="cluProposalTitle" p:value="Proposal Title" />
 	<bean parent="enCourse" p:id="cluProposalRationale" p:value="Proposal Rationale" />
+	<bean parent="enCourse" p:id="cluProposalTitleSection" p:value="Proposal Title and Rationale" />
 	<bean parent="enCourse" p:id="cluTitleLiteral" p:value="Title" />
 	<bean parent="enCourse" p:id="cluCredit" p:value="Credit" />
 	<bean parent="enCourse" p:id="cluCreditValue" p:value="Credit Value" />
@@ -94,7 +95,7 @@
 	<bean parent="enCourse" p:id="cluCrosslistedItem" p:value="Cross Listed Course" />
 	<bean parent="enCourse" p:id="cluAddCrosslisted">
 		<property name="value">
-			<value>Add Department and/or Subject Code/Course Number</value>
+			<value>Add Department</value>
 		</property>
 	</bean>
 
@@ -109,7 +110,7 @@
 	<bean parent="enCourse" p:id="cluJointOfferItem" p:value="Jointly-Offered Course" />
 	<bean parent="enCourse" p:id="cluAddExisting">
 		<property name="value">
-			<value>Add an Existing Course or Proposal.</value>
+			<value>Add Course</value>
 		</property>
 	</bean>
 

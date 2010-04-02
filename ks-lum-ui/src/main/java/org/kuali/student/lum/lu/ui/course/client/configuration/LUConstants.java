@@ -101,10 +101,11 @@ public class LUConstants {
     public static final String PROPOSAL_DIRECTIONS_LABEL_KEY = "cluProposalDirections";
     public static final String PROPOSAL_PERSON_LABEL_KEY = "cluProposalPerson";
     public static final String PROPOSAL_RATIONALE_LABEL_KEY = "cluProposalRationale";
-
+    public static final String PROPOSAL_TITLE_SECTION_LABEL_KEY = "cluProposalTitleSection";
+    
     //Authors & Rationale Labels
     public static final String AUTHORS_RATIONAL = "cluAuthorsRationale";
-    
+       
     public static final String EDIT_TAB_LABEL_KEY = "cluEditTab";
     
     //Summary labels

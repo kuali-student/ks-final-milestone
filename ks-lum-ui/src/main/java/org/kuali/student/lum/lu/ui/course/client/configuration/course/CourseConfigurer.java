@@ -211,8 +211,11 @@ public class CourseConfigurer
 	private SectionView generateAuthorsRationaleSection(){
 		VerticalSectionView section = initSectionView(CourseSections.AUTHORS_RATIONALE, LUConstants.AUTHORS_RATIONAL);
 		
-		addField(section, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-		addField(section, PROPOSAL + "/" + RATIONALE, getLabel(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+		VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
+		addField(titleRationale, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+		addField(titleRationale, PROPOSAL + "/" + RATIONALE, getLabel(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+		
+		section.addSection(titleRationale);
 		
 		return section;
 	}
@@ -426,8 +429,8 @@ public class CourseConfigurer
 
         public Widget createItem() {
         	VerticalSection item = new VerticalSection();
-            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()),
-            		parentPath + "/" + String.valueOf(itemCount -1));
+            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(getAddItemKey()), ACTIVITIES).toString()),
+            		parentPath + "/" + String.valueOf(getAddItemKey()));
             return item;
         }
     }
@@ -443,7 +446,7 @@ public class CourseConfigurer
         }
 
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection activity = new GroupSection();
             addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
             activity.nextLine();
@@ -462,8 +465,6 @@ public class CourseConfigurer
 
             activity.nextLine();
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
-            // FIXME look up what the label and implement as dropdown
-            //FIXME this fields constraints are wrong in its metadata, temporarily commented out
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  null, path);
             addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
@@ -586,7 +587,7 @@ public class CourseConfigurer
 
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
             addField(ns, CreditCourseJointsConstants.COURSE_ID, getLabel(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), null, path);
             return ns;
@@ -612,7 +613,7 @@ public class CourseConfigurer
 
         @Override
         public Widget createItem() {
-        	String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+        	String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
             addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), null, path);
             ns.nextLine();
@@ -641,7 +642,7 @@ public class CourseConfigurer
 
         @Override
         public Widget createItem() {
-        	String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+        	String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
             addField(ns, "versionCode", getLabel(LUConstants.CODE_LABEL_KEY), path);
             addField(ns, "versionTitle", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY), path);
@@ -823,7 +824,7 @@ public class CourseConfigurer
        
         @Override
         public Widget createItem() {
-            String innerPath = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String innerPath = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
 
             final GroupSection variableSection = new GroupSection();
             final GroupSection fixedSection= new GroupSection();
@@ -838,7 +839,7 @@ public class CourseConfigurer
             addField(perCreditSection, "feeType", getLabel(LUConstants.AMOUNT), innerPath );
 
             final GroupSection mainSection = new GroupSection();
-            final String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            final String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             addField(mainSection, "feeType", getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new FeeTypeList(),path );
             final KSDropDown rateTypeDropDown = new RateTypeList();
             addField(mainSection, "rateType",  getLabel(LUConstants.RATE_TYPE), rateTypeDropDown,path);
@@ -878,7 +879,7 @@ public class CourseConfigurer
         }
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
             addField(ns, "another Fee", getLabel(LUConstants.FEE), path );
             
@@ -922,7 +923,7 @@ public class CourseConfigurer
         }
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
             addField(ns, AffiliatedOrgInfoConstants.ORG_ID, getLabel(LUConstants.REVENUE), path );
             FieldDescriptor fd = addField(ns, PERCENTAGE, getLabel(LUConstants.AMOUNT), path);
@@ -980,7 +981,7 @@ public class CourseConfigurer
         }
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
             addField(ns, "expenditureOrg",  getLabel(LUConstants.EXPENDITURE),path );
             addField(ns, "totalPercentage", getLabel(LUConstants.AMOUNT),path);
