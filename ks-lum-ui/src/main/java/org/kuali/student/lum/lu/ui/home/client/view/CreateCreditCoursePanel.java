@@ -55,6 +55,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
 
         @Override
         public void onClick(ClickEvent event) {
+                // TODO - This should be a nice KSPanel Popup with a friendly message
         	Window.alert("Function not yet implemented");
         }
         
@@ -128,7 +129,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.MANAGE_CLU_SETS));
+				CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.BROWSE_COURSE_CATALOG));
 
 			}
 		});
@@ -161,6 +162,8 @@ public class CreateCreditCoursePanel extends ViewComposite{
         Hyperlink helpMeDecide = new Hyperlink("Help Me Decide", "HelpMe");
         helpMeDecide.addStyleName("Home-Small-Hyperlink");
         helpMeDecide.addStyleName("Content-Left-Margin");
+
+        // TODO - Why is this here. We don't need a new handler to do the same thing.
         helpMeDecide.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
