@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+<import resource="classpath:lu-cluCluRelationInfo-dictionary-structure-config.xml"/>
+
+<!-- ********************************************** -->
+<!-- object structure for object.cluCluRelationInfo -->
+<!-- ********************************************** -->
+<!-- Detailed information about a CLU to CLU relationship. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.cluCluRelationInfo.HasCourseFormat"/>
+	<dict:typeRef bean="type.cluCluRelationInfo.HasCourseActivity"/>
+	<dict:typeRef bean="type.cluCluRelationInfo.Co-Located"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo" parent="object.cluCluRelationInfo.abstract"/>
+
+<!-- TODO: cross-check w/ SIMPLE -->
+<dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat.abstract" abstract="true">
+	<dict:name>Has Course Format</dict:name>
+	<dict:desc>Maintains relation betrween a course and the course format shell</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseFormat.active"/>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseFormat.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat" parent="type.cluCluRelationInfo.HasCourseFormat.abstract"/>
+
+<!-- TODO: cross-check w/ SIMPLE -->
+<dict:type key="kuali.lu.relation.type.course.activity" id="type.cluCluRelationInfo.HasCourseActivity.abstract" abstract="true">
+	<dict:name>Has Course Activity</dict:name>
+	<dict:desc>Maintains relation betrween a course format shell and each individual activity</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseActivity.active"/>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseActivity.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.course.activity" id="type.cluCluRelationInfo.HasCourseActivity" parent="type.cluCluRelationInfo.HasCourseActivity.abstract"/>
+
+<!-- TODO: cross-check w/ SIMPLE -->
+<dict:type key="kuali.lu.relation.type.co-located" id="type.cluCluRelationInfo.Co-Located.abstract" abstract="true">
+	<dict:name>Co-Located</dict:name>
+	<dict:desc>Maintains relations betrween different courses the meet together (are co-located)</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluCluRelationInfo.Co-Located.active"/>
+		<dict:stateRef bean="state.cluCluRelationInfo.Co-Located.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.co-located" id="type.cluCluRelationInfo.Co-Located" parent="type.cluCluRelationInfo.Co-Located.abstract"/>
+
+<!-- ************************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Format.(default) -->
+<!-- ************************************************************** -->
+
+<dict:state key="*" id="state.cluCluRelationInfo.HasCourseFormat.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.format.relation.course.internal.id"/>
+	<dict:fieldRef bean="dict.course.format.relation.formatshell.internal.id"/>
+	<dict:fieldRef bean="dict.course.format.relation.required"/>
+	<dict:fieldRef bean="dict.course.format.relation.expirationDate"/>
+	<dict:fieldRef bean="dict.course.format.relation.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.format.relation.metainfo"/>
+	<dict:fieldRef bean="dict.course.format.relation.relation.type"/>
+	<dict:fieldRef bean="dict.course.format.relation.relation.state"/>
+	<dict:fieldRef bean="dict.course.format.relation.relation.internal.id"/>
+</dict:state>
+
+<!-- *********************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Format.active -->
+<!-- *********************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.cluCluRelationInfo.HasCourseFormat.abstract" id="state.cluCluRelationInfo.HasCourseFormat.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.cluCluRelationInfo.HasCourseFormat.active" parent="state.cluCluRelationInfo.HasCourseFormat.active.abstract"/>
+
+<!-- ************************************************************* -->
+<!-- State for state.cluCluRelationInfo.Has Course Format.inactive -->
+<!-- ************************************************************* -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.cluCluRelationInfo.HasCourseFormat.abstract" id="state.cluCluRelationInfo.HasCourseFormat.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.cluCluRelationInfo.HasCourseFormat.inactive" parent="state.cluCluRelationInfo.HasCourseFormat.inactive.abstract"/>
+
+<!-- **************************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Activity.(default) -->
+<!-- **************************************************************** -->
+
+<dict:state key="*" id="state.cluCluRelationInfo.HasCourseActivity.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.activity.relation.course.internal.id"/>
+	<dict:fieldRef bean="dict.course.activity.relation.activityshell.internal.id"/>
+	<dict:fieldRef bean="dict.course.activity.relation.required"/>
+	<dict:fieldRef bean="dict.course.activity.relation.expirationDate"/>
+	<dict:fieldRef bean="dict.course.activity.relation.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.activity.relation.metainfo"/>
+	<dict:fieldRef bean="dict.course.activity.relation.relation.type"/>
+	<dict:fieldRef bean="dict.course.activity.relation.relation.state"/>
+	<dict:fieldRef bean="dict.course.activity.relation.relation.internal.id"/>
+</dict:state>
+
+<!-- ************************************************************* -->
+<!-- State for state.cluCluRelationInfo.Has Course Activity.active -->
+<!-- ************************************************************* -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.cluCluRelationInfo.HasCourseActivity.abstract" id="state.cluCluRelationInfo.HasCourseActivity.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.cluCluRelationInfo.HasCourseActivity.active" parent="state.cluCluRelationInfo.HasCourseActivity.active.abstract"/>
+
+<!-- *************************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Activity.inactive -->
+<!-- *************************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.cluCluRelationInfo.HasCourseActivity.abstract" id="state.cluCluRelationInfo.HasCourseActivity.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.cluCluRelationInfo.HasCourseActivity.inactive" parent="state.cluCluRelationInfo.HasCourseActivity.inactive.abstract"/>
+
+<!-- ******************************************************* -->
+<!-- State for state.cluCluRelationInfo.Co-Located.(default) -->
+<!-- ******************************************************* -->
+
+<dict:state key="*" id="state.cluCluRelationInfo.Co-Located.abstract" abstract="true">
+	<dict:fieldRef bean="dict.colocated.course.relation.course.internal.id1"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.course.internal.id2"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.required"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.expirationDate"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.effectiveDate"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.metainfo"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.relation.type"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.relation.state"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.relation.id"/>
+</dict:state>
+
+<!-- **************************************************** -->
+<!-- State for state.cluCluRelationInfo.Co-Located.active -->
+<!-- **************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.cluCluRelationInfo.Co-Located.abstract" id="state.cluCluRelationInfo.Co-Located.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.cluCluRelationInfo.Co-Located.active" parent="state.cluCluRelationInfo.Co-Located.active.abstract"/>
+
+<!-- ****************************************************** -->
+<!-- State for state.cluCluRelationInfo.Co-Located.inactive -->
+<!-- ****************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.cluCluRelationInfo.Co-Located.abstract" id="state.cluCluRelationInfo.Co-Located.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.cluCluRelationInfo.Co-Located.inactive" parent="state.cluCluRelationInfo.Co-Located.inactive.abstract"/>
+
+
+<!-- ***************************************************************************************** -->
+<!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Format.(default) -->
+<!-- ***************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
+
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo.HasCourseFormat"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
+
+<!-- ************************************************************************************************* -->
+<!-- State for state.field.cluCluRelationInfo.metaInfo.Has Course Format.(default).(default).(default) -->
+<!-- ************************************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.format.relation.meta.versionInd"/>
+	<dict:fieldRef bean="dict.course.format.relation.meta.createTime"/>
+	<dict:fieldRef bean="dict.course.format.relation.meta.createId"/>
+	<dict:fieldRef bean="dict.course.format.relation.meta.updateTime"/>
+	<dict:fieldRef bean="dict.course.format.relation.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="state.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
+
+
+<!-- ******************************************* -->
+<!-- dict.course.format.relation.meta.versionInd -->
+<!-- ******************************************* -->
+<dict:field key="versionInd" id="dict.course.format.relation.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.course.format.relation.meta.versionInd" parent="dict.course.format.relation.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>course format meta versionInd</dict:name>
+	<dict:desc>Version number for this format course relationship info</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.versionInd.fd" parent="dict.course.format.relation.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.course.format.relation.meta.versionInd.cd" parent="dict.course.format.relation.meta.versionInd.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.course.format.relation.meta.createTime -->
+<!-- ******************************************* -->
+<dict:field key="createTime" id="dict.course.format.relation.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.course.format.relation.meta.createTime" parent="dict.course.format.relation.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>course format meta createTime</dict:name>
+	<dict:desc>Date-time this co-located course relationship was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createTime.fd" parent="dict.course.format.relation.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.course.format.relation.meta.createTime.cd" parent="dict.course.format.relation.meta.createTime.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.course.format.relation.meta.createId -->
+<!-- ***************************************** -->
+<dict:field key="createId" id="dict.course.format.relation.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.course.format.relation.meta.createId" parent="dict.course.format.relation.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createId.fd.abstract" abstract="true">
+	<dict:name>course format meta createId</dict:name>
+	<dict:desc>Principal of the persion who first created this co-located course relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createId.fd" parent="dict.course.format.relation.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.course.format.relation.meta.createId.cd" parent="dict.course.format.relation.meta.createId.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.course.format.relation.meta.updateTime -->
+<!-- ******************************************* -->
+<dict:field key="updateTime" id="dict.course.format.relation.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.course.format.relation.meta.updateTime" parent="dict.course.format.relation.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>course format meta updateTime</dict:name>
+	<dict:desc>Date-time this co-located course relationship was last updated</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateTime.fd" parent="dict.course.format.relation.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.course.format.relation.meta.updateTime.cd" parent="dict.course.format.relation.meta.updateTime.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.course.format.relation.meta.updateId -->
+<!-- ***************************************** -->
+<dict:field key="updateId" id="dict.course.format.relation.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.course.format.relation.meta.updateId" parent="dict.course.format.relation.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>course format meta updateId</dict:name>
+	<dict:desc>Principal of the persion who last updated this co-located course relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateId.fd" parent="dict.course.format.relation.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.course.format.relation.meta.updateId.cd" parent="dict.course.format.relation.meta.updateId.cd.abstract"/>
+
+
+<!-- ******************************************************************************************* -->
+<!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Activity.(default) -->
+<!-- ******************************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
+
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo.HasCourseActivity"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
+
+<!-- *************************************************************************************************** -->
+<!-- State for state.field.cluCluRelationInfo.metaInfo.Has Course Activity.(default).(default).(default) -->
+<!-- *************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.activity.relation.meta.versionInd"/>
+	<dict:fieldRef bean="dict.course.activity.relation.meta.createTime"/>
+	<dict:fieldRef bean="dict.course.activity.relation.meta.createId"/>
+	<dict:fieldRef bean="dict.course.activity.relation.meta.updateTime"/>
+	<dict:fieldRef bean="dict.course.activity.relation.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="state.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
+
+
+<!-- ********************************************* -->
+<!-- dict.course.activity.relation.meta.versionInd -->
+<!-- ********************************************* -->
+<dict:field key="versionInd" id="dict.course.activity.relation.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.course.activity.relation.meta.versionInd" parent="dict.course.activity.relation.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>course activity meta versionInd</dict:name>
+	<dict:desc>Version number for this activity course relationship info</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.versionInd.fd" parent="dict.course.activity.relation.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.course.activity.relation.meta.versionInd.cd" parent="dict.course.activity.relation.meta.versionInd.cd.abstract"/>
+
+<!-- ********************************************* -->
+<!-- dict.course.activity.relation.meta.createTime -->
+<!-- ********************************************* -->
+<dict:field key="createTime" id="dict.course.activity.relation.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.course.activity.relation.meta.createTime" parent="dict.course.activity.relation.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>course activity meta createTime</dict:name>
+	<dict:desc>Date-time this co-located course relationship was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createTime.fd" parent="dict.course.activity.relation.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.course.activity.relation.meta.createTime.cd" parent="dict.course.activity.relation.meta.createTime.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.course.activity.relation.meta.createId -->
+<!-- ******************************************* -->
+<dict:field key="createId" id="dict.course.activity.relation.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.course.activity.relation.meta.createId" parent="dict.course.activity.relation.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createId.fd.abstract" abstract="true">
+	<dict:name>course activity meta createId</dict:name>
+	<dict:desc>Principal of the persion who first created this co-located course relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createId.fd" parent="dict.course.activity.relation.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.course.activity.relation.meta.createId.cd" parent="dict.course.activity.relation.meta.createId.cd.abstract"/>
+
+<!-- ********************************************* -->
+<!-- dict.course.activity.relation.meta.updateTime -->
+<!-- ********************************************* -->
+<dict:field key="updateTime" id="dict.course.activity.relation.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.course.activity.relation.meta.updateTime" parent="dict.course.activity.relation.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>course activity meta updateTime</dict:name>
+	<dict:desc>Date-time this co-located course relationship was last updated</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateTime.fd" parent="dict.course.activity.relation.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.course.activity.relation.meta.updateTime.cd" parent="dict.course.activity.relation.meta.updateTime.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.course.activity.relation.meta.updateId -->
+<!-- ******************************************* -->
+<dict:field key="updateId" id="dict.course.activity.relation.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.course.activity.relation.meta.updateId" parent="dict.course.activity.relation.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>course activity meta updateId</dict:name>
+	<dict:desc>Principal of the persion who last updated this co-located course relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateId.fd" parent="dict.course.activity.relation.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.course.activity.relation.meta.updateId.cd" parent="dict.course.activity.relation.meta.updateId.cd.abstract"/>
+
+
+<!-- ********************************************************************************** -->
+<!-- object structure for object.field.cluCluRelationInfo.metaInfo.Co-Located.(default) -->
+<!-- ********************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.Co-Located"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located" parent="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
+
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo.Co-Located"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.Co-Located" parent="type.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
+
+<!-- ****************************************************************************************** -->
+<!-- State for state.field.cluCluRelationInfo.metaInfo.Co-Located.(default).(default).(default) -->
+<!-- ****************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.colocated.meta.versionInd"/>
+	<dict:fieldRef bean="dict.course.colocated.meta.createTime"/>
+	<dict:fieldRef bean="dict.course.colocated.meta.createId"/>
+	<dict:fieldRef bean="dict.course.colocated.meta.updateTime"/>
+	<dict:fieldRef bean="dict.course.colocated.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo.Co-Located" parent="state.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
+
+
+<!-- ************************************* -->
+<!-- dict.course.colocated.meta.versionInd -->
+<!-- ************************************* -->
+<dict:field key="versionInd" id="dict.course.colocated.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.colocated.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.course.colocated.meta.versionInd" parent="dict.course.colocated.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>course colocated meta versionInd</dict:name>
+	<dict:desc>Version number for this colocated course relationship info</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.colocated.meta.versionInd.fd" parent="dict.course.colocated.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.colocated.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.course.colocated.meta.versionInd.cd" parent="dict.course.colocated.meta.versionInd.cd.abstract"/>
+
+<!-- ************************************* -->
+<!-- dict.course.colocated.meta.createTime -->
+<!-- ************************************* -->
+<dict:field key="createTime" id="dict.course.colocated.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.colocated.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.course.colocated.meta.createTime" parent="dict.course.colocated.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>course colocated meta createTime</dict:name>
+	<dict:desc>Date-time this co-located course relationship was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.colocated.meta.createTime.fd" parent="dict.course.colocated.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.colocated.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.course.colocated.meta.createTime.cd" parent="dict.course.colocated.meta.createTime.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.course.colocated.meta.createId -->
+<!-- *********************************** -->
+<dict:field key="createId" id="dict.course.colocated.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.colocated.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.course.colocated.meta.createId" parent="dict.course.colocated.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.createId.fd.abstract" abstract="true">
+	<dict:name>course colocated meta createId</dict:name>
+	<dict:desc>Principal of the persion who first created this co-located course relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.colocated.meta.createId.fd" parent="dict.course.colocated.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.colocated.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.course.colocated.meta.createId.cd" parent="dict.course.colocated.meta.createId.cd.abstract"/>
+
+<!-- ************************************* -->
+<!-- dict.course.colocated.meta.updateTime -->
+<!-- ************************************* -->
+<dict:field key="updateTime" id="dict.course.colocated.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.colocated.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.course.colocated.meta.updateTime" parent="dict.course.colocated.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>course colocated meta updateTime</dict:name>
+	<dict:desc>Date-time this co-located course relationship was last updated</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateTime.fd" parent="dict.course.colocated.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.colocated.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.course.colocated.meta.updateTime.cd" parent="dict.course.colocated.meta.updateTime.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.course.colocated.meta.updateId -->
+<!-- *********************************** -->
+<dict:field key="updateId" id="dict.course.colocated.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.colocated.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.course.colocated.meta.updateId" parent="dict.course.colocated.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>course colocated meta updateId</dict:name>
+	<dict:desc>Principal of the persion who last updated this co-located course relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateId.fd" parent="dict.course.colocated.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.colocated.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.course.colocated.meta.updateId.cd" parent="dict.course.colocated.meta.updateId.cd.abstract"/>
+
+<!-- ********************************************** -->
+<!-- dict.course.format.relation.course.internal.id -->
+<!-- ********************************************** -->
+<dict:field key="cluId" id="dict.course.format.relation.course.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.course.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.course.internal.id.cd"/>
+</dict:field>
+<dict:field key="cluId" id="dict.course.format.relation.course.internal.id" parent="dict.course.format.relation.course.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.course.internal.id.fd.abstract" abstract="true">
+	<dict:name>course format course id</dict:name>
+	<dict:desc>course format course id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.course.internal.id.fd" parent="dict.course.format.relation.course.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.course.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluId" id="dict.course.format.relation.course.internal.id.cd" parent="dict.course.format.relation.course.internal.id.cd.abstract"/>
+
+<!-- *************************************************** -->
+<!-- dict.course.format.relation.formatshell.internal.id -->
+<!-- *************************************************** -->
+<dict:field key="relatedCluId" id="dict.course.format.relation.formatshell.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.formatshell.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.formatshell.internal.id.cd"/>
+</dict:field>
+<dict:field key="relatedCluId" id="dict.course.format.relation.formatshell.internal.id" parent="dict.course.format.relation.formatshell.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.formatshell.internal.id.fd.abstract" abstract="true">
+	<dict:name>course format format shell id</dict:name>
+	<dict:desc>course format format shell id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.formatshell.internal.id.fd" parent="dict.course.format.relation.formatshell.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.formatshell.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="relatedCluId" id="dict.course.format.relation.formatshell.internal.id.cd" parent="dict.course.format.relation.formatshell.internal.id.cd.abstract"/>
+
+<!-- ************************************ -->
+<!-- dict.course.format.relation.required -->
+<!-- ************************************ -->
+<dict:field key="isCluRelationRequired" id="dict.course.format.relation.required.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.required.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.required.cd"/>
+</dict:field>
+<dict:field key="isCluRelationRequired" id="dict.course.format.relation.required" parent="dict.course.format.relation.required.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.required.fd.abstract" abstract="true">
+	<dict:name>course format required</dict:name>
+	<dict:desc>indicates that colocation is required or not, hard coded to be false</dict:desc>
+	<dict:dataType>boolean</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.required.fd" parent="dict.course.format.relation.required.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.required.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.boolean"/>
+	<dict:constraintRef bean="constraint.hard.coded.true"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.course.format.relation.required">
+		<dict:maxLength>20</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="isCluRelationRequired" id="dict.course.format.relation.required.cd" parent="dict.course.format.relation.required.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.course.format.relation.expirationDate -->
+<!-- ****************************************** -->
+<dict:field key="effectiveDate" id="dict.course.format.relation.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.expirationDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.course.format.relation.expirationDate" parent="dict.course.format.relation.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.expirationDate.fd.abstract" abstract="true">
+	<dict:name>course format expirationDate</dict:name>
+	<dict:desc>expiration date</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.expirationDate.fd" parent="dict.course.format.relation.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.course.format.relation.expirationDate.cd" parent="dict.course.format.relation.expirationDate.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.course.format.relation.effectiveDate -->
+<!-- ***************************************** -->
+<dict:field key="expirationDate" id="dict.course.format.relation.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.course.format.relation.effectiveDate" parent="dict.course.format.relation.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>course format effectiveDate</dict:name>
+	<dict:desc>effective date</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.effectiveDate.fd" parent="dict.course.format.relation.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.course.format.relation.effectiveDate.cd" parent="dict.course.format.relation.effectiveDate.cd.abstract"/>
+
+<!-- ************************************ -->
+<!-- dict.course.format.relation.metainfo -->
+<!-- ************************************ -->
+<dict:field key="metaInfo" id="dict.course.format.relation.metainfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.metainfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.metainfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.course.format.relation.metainfo" parent="dict.course.format.relation.metainfo.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.metainfo.fd.abstract" abstract="true">
+	<dict:name>course format metainfo</dict:name>
+	<dict:desc>audit trail info</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.metainfo.fd" parent="dict.course.format.relation.metainfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.metainfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.course.format.relation.metainfo.cd" parent="dict.course.format.relation.metainfo.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.course.format.relation.relation.type -->
+<!-- ***************************************** -->
+<dict:field key="type" id="dict.course.format.relation.relation.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.relation.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.relation.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.course.format.relation.relation.type" parent="dict.course.format.relation.relation.type.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.type.fd.abstract" abstract="true">
+	<dict:name>course format relation type</dict:name>
+	<dict:desc>type of the relationship, hard coded to be course format</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.type.fd" parent="dict.course.format.relation.relation.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.relation.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lu.lu.relation.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.lulurelation.courseformat"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.course.format.relation.relation.type.cd" parent="dict.course.format.relation.relation.type.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.course.format.relation.relation.state -->
+<!-- ****************************************** -->
+<dict:field key="state" id="dict.course.format.relation.relation.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.relation.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.relation.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.course.format.relation.relation.state" parent="dict.course.format.relation.relation.state.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.state.fd.abstract" abstract="true">
+	<dict:name>course format relation state</dict:name>
+	<dict:desc>state of the relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.state.fd" parent="dict.course.format.relation.relation.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.relation.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.hard.coded.active"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.course.format.relation.relation.state.cd" parent="dict.course.format.relation.relation.state.cd.abstract"/>
+
+<!-- ************************************************ -->
+<!-- dict.course.format.relation.relation.internal.id -->
+<!-- ************************************************ -->
+<dict:field key="id" id="dict.course.format.relation.relation.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.relation.relation.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.relation.relation.internal.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.course.format.relation.relation.internal.id" parent="dict.course.format.relation.relation.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.internal.id.fd.abstract" abstract="true">
+	<dict:name>course format relation id</dict:name>
+	<dict:desc>relationship id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.internal.id.fd" parent="dict.course.format.relation.relation.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.relation.relation.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.course.format.relation.relation.internal.id.cd" parent="dict.course.format.relation.relation.internal.id.cd.abstract"/>
+
+<!-- ************************************************ -->
+<!-- dict.course.activity.relation.course.internal.id -->
+<!-- ************************************************ -->
+<dict:field key="cluId" id="dict.course.activity.relation.course.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.course.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.course.internal.id.cd"/>
+</dict:field>
+<dict:field key="cluId" id="dict.course.activity.relation.course.internal.id" parent="dict.course.activity.relation.course.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.course.internal.id.fd.abstract" abstract="true">
+	<dict:name>course activity course id</dict:name>
+	<dict:desc>course activity course id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.course.internal.id.fd" parent="dict.course.activity.relation.course.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.course.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluId" id="dict.course.activity.relation.course.internal.id.cd" parent="dict.course.activity.relation.course.internal.id.cd.abstract"/>
+
+<!-- ******************************************************* -->
+<!-- dict.course.activity.relation.activityshell.internal.id -->
+<!-- ******************************************************* -->
+<dict:field key="relatedCluId" id="dict.course.activity.relation.activityshell.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.activityshell.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.activityshell.internal.id.cd"/>
+</dict:field>
+<dict:field key="relatedCluId" id="dict.course.activity.relation.activityshell.internal.id" parent="dict.course.activity.relation.activityshell.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.activityshell.internal.id.fd.abstract" abstract="true">
+	<dict:name>course activity activity shell id</dict:name>
+	<dict:desc>course activity activity shell id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.activityshell.internal.id.fd" parent="dict.course.activity.relation.activityshell.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.activityshell.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="relatedCluId" id="dict.course.activity.relation.activityshell.internal.id.cd" parent="dict.course.activity.relation.activityshell.internal.id.cd.abstract"/>
+
+<!-- ************************************** -->
+<!-- dict.course.activity.relation.required -->
+<!-- ************************************** -->
+<dict:field key="isCluRelationRequired" id="dict.course.activity.relation.required.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.required.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.required.cd"/>
+</dict:field>
+<dict:field key="isCluRelationRequired" id="dict.course.activity.relation.required" parent="dict.course.activity.relation.required.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.required.fd.abstract" abstract="true">
+	<dict:name>course activity required</dict:name>
+	<dict:desc>indicates that colocation is required or not, hard coded to be false</dict:desc>
+	<dict:dataType>boolean</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.required.fd" parent="dict.course.activity.relation.required.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.required.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.boolean"/>
+	<dict:constraintRef bean="constraint.hard.coded.true"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="isCluRelationRequired" id="dict.course.activity.relation.required.cd" parent="dict.course.activity.relation.required.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.course.activity.relation.expirationDate -->
+<!-- ******************************************** -->
+<dict:field key="effectiveDate" id="dict.course.activity.relation.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.expirationDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.course.activity.relation.expirationDate" parent="dict.course.activity.relation.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.expirationDate.fd.abstract" abstract="true">
+	<dict:name>course activity expirationDate</dict:name>
+	<dict:desc>expiration date</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.expirationDate.fd" parent="dict.course.activity.relation.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.course.activity.relation.expirationDate.cd" parent="dict.course.activity.relation.expirationDate.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.course.activity.relation.effectiveDate -->
+<!-- ******************************************* -->
+<dict:field key="expirationDate" id="dict.course.activity.relation.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.course.activity.relation.effectiveDate" parent="dict.course.activity.relation.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>course activity effectiveDate</dict:name>
+	<dict:desc>effective date</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.effectiveDate.fd" parent="dict.course.activity.relation.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.course.activity.relation.effectiveDate.cd" parent="dict.course.activity.relation.effectiveDate.cd.abstract"/>
+
+<!-- ************************************** -->
+<!-- dict.course.activity.relation.metainfo -->
+<!-- ************************************** -->
+<dict:field key="metaInfo" id="dict.course.activity.relation.metainfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.metainfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.metainfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.course.activity.relation.metainfo" parent="dict.course.activity.relation.metainfo.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.metainfo.fd.abstract" abstract="true">
+	<dict:name>course activity metainfo</dict:name>
+	<dict:desc>audit trail info</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.metainfo.fd" parent="dict.course.activity.relation.metainfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.metainfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.course.activity.relation.metainfo.cd" parent="dict.course.activity.relation.metainfo.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.course.activity.relation.relation.type -->
+<!-- ******************************************* -->
+<dict:field key="type" id="dict.course.activity.relation.relation.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.relation.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.relation.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.course.activity.relation.relation.type" parent="dict.course.activity.relation.relation.type.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.type.fd.abstract" abstract="true">
+	<dict:name>course activity relation type</dict:name>
+	<dict:desc>type of the relationship, hard coded to be course activity</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.type.fd" parent="dict.course.activity.relation.relation.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.relation.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lu.lu.relation.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.lulurelation.courseformat"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.course.activity.relation.relation.type.cd" parent="dict.course.activity.relation.relation.type.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.course.activity.relation.relation.state -->
+<!-- ******************************************** -->
+<dict:field key="state" id="dict.course.activity.relation.relation.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.relation.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.relation.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.course.activity.relation.relation.state" parent="dict.course.activity.relation.relation.state.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.state.fd.abstract" abstract="true">
+	<dict:name>course activity relation state</dict:name>
+	<dict:desc>state of the relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.state.fd" parent="dict.course.activity.relation.relation.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.relation.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.hard.coded.active"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.course.activity.relation.relation.state.cd" parent="dict.course.activity.relation.relation.state.cd.abstract"/>
+
+<!-- ************************************************** -->
+<!-- dict.course.activity.relation.relation.internal.id -->
+<!-- ************************************************** -->
+<dict:field key="id" id="dict.course.activity.relation.relation.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.relation.relation.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.relation.relation.internal.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.course.activity.relation.relation.internal.id" parent="dict.course.activity.relation.relation.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.internal.id.fd.abstract" abstract="true">
+	<dict:name>course activity relation id</dict:name>
+	<dict:desc>relationship id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.internal.id.fd" parent="dict.course.activity.relation.relation.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.relation.relation.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.course.activity.relation.relation.internal.id.cd" parent="dict.course.activity.relation.relation.internal.id.cd.abstract"/>
+
+<!-- ************************************************** -->
+<!-- dict.colocated.course.relation.course.internal.id1 -->
+<!-- ************************************************** -->
+<dict:field key="cluId" id="dict.colocated.course.relation.course.internal.id1.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.course.internal.id1.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.course.internal.id1.cd"/>
+</dict:field>
+<dict:field key="cluId" id="dict.colocated.course.relation.course.internal.id1" parent="dict.colocated.course.relation.course.internal.id1.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id1.fd.abstract" abstract="true">
+	<dict:name>course colocated course id1</dict:name>
+	<dict:desc>course id 1</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id1.fd" parent="dict.colocated.course.relation.course.internal.id1.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.course.internal.id1.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluId" id="dict.colocated.course.relation.course.internal.id1.cd" parent="dict.colocated.course.relation.course.internal.id1.cd.abstract"/>
+
+<!-- ************************************************** -->
+<!-- dict.colocated.course.relation.course.internal.id2 -->
+<!-- ************************************************** -->
+<dict:field key="relatedCluId" id="dict.colocated.course.relation.course.internal.id2.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.course.internal.id2.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.course.internal.id2.cd"/>
+</dict:field>
+<dict:field key="relatedCluId" id="dict.colocated.course.relation.course.internal.id2" parent="dict.colocated.course.relation.course.internal.id2.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id2.fd.abstract" abstract="true">
+	<dict:name>course colocated course id2</dict:name>
+	<dict:desc>course id 2</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id2.fd" parent="dict.colocated.course.relation.course.internal.id2.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.course.internal.id2.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="relatedCluId" id="dict.colocated.course.relation.course.internal.id2.cd" parent="dict.colocated.course.relation.course.internal.id2.cd.abstract"/>
+
+<!-- *************************************** -->
+<!-- dict.colocated.course.relation.required -->
+<!-- *************************************** -->
+<dict:field key="isCluRelationRequired" id="dict.colocated.course.relation.required.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.required.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.required.cd"/>
+</dict:field>
+<dict:field key="isCluRelationRequired" id="dict.colocated.course.relation.required" parent="dict.colocated.course.relation.required.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.required.fd.abstract" abstract="true">
+	<dict:name>course colocated required</dict:name>
+	<dict:desc>indicates that colocation is required or not, hard coded to be false</dict:desc>
+	<dict:dataType>boolean</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.required.fd" parent="dict.colocated.course.relation.required.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.required.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.boolean"/>
+	<dict:constraintRef bean="constraint.hard.coded.false"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.colocated.course.relation.required">
+		<dict:maxLength>20</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="isCluRelationRequired" id="dict.colocated.course.relation.required.cd" parent="dict.colocated.course.relation.required.cd.abstract"/>
+
+<!-- ********************************************* -->
+<!-- dict.colocated.course.relation.expirationDate -->
+<!-- ********************************************* -->
+<dict:field key="effectiveDate" id="dict.colocated.course.relation.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.expirationDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.colocated.course.relation.expirationDate" parent="dict.colocated.course.relation.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.expirationDate.fd.abstract" abstract="true">
+	<dict:name>course colocated expirationDate</dict:name>
+	<dict:desc>expiration date</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.expirationDate.fd" parent="dict.colocated.course.relation.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.colocated.course.relation.expirationDate.cd" parent="dict.colocated.course.relation.expirationDate.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.colocated.course.relation.effectiveDate -->
+<!-- ******************************************** -->
+<dict:field key="expirationDate" id="dict.colocated.course.relation.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.colocated.course.relation.effectiveDate" parent="dict.colocated.course.relation.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>course colocated effectiveDate</dict:name>
+	<dict:desc>effective date</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.effectiveDate.fd" parent="dict.colocated.course.relation.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.colocated.course.relation.effectiveDate.cd" parent="dict.colocated.course.relation.effectiveDate.cd.abstract"/>
+
+<!-- *************************************** -->
+<!-- dict.colocated.course.relation.metainfo -->
+<!-- *************************************** -->
+<dict:field key="metaInfo" id="dict.colocated.course.relation.metainfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.metainfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.metainfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.colocated.course.relation.metainfo" parent="dict.colocated.course.relation.metainfo.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.metainfo.fd.abstract" abstract="true">
+	<dict:name>course colocated metainfo</dict:name>
+	<dict:desc>audit trail info</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo.Co-Located"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.metainfo.fd" parent="dict.colocated.course.relation.metainfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.metainfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.colocated.course.relation.metainfo.cd" parent="dict.colocated.course.relation.metainfo.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.colocated.course.relation.relation.type -->
+<!-- ******************************************** -->
+<dict:field key="type" id="dict.colocated.course.relation.relation.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.relation.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.relation.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.colocated.course.relation.relation.type" parent="dict.colocated.course.relation.relation.type.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.type.fd.abstract" abstract="true">
+	<dict:name>course colocated relation type</dict:name>
+	<dict:desc>type of the relationship, hard coded to be co-located</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.type.fd" parent="dict.colocated.course.relation.relation.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.relation.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lu.lu.relation.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.co-located"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.colocated.course.relation.relation.type.cd" parent="dict.colocated.course.relation.relation.type.cd.abstract"/>
+
+<!-- ********************************************* -->
+<!-- dict.colocated.course.relation.relation.state -->
+<!-- ********************************************* -->
+<dict:field key="state" id="dict.colocated.course.relation.relation.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.relation.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.relation.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.colocated.course.relation.relation.state" parent="dict.colocated.course.relation.relation.state.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.state.fd.abstract" abstract="true">
+	<dict:name>course colocated relation state</dict:name>
+	<dict:desc>state of the relationship</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.state.fd" parent="dict.colocated.course.relation.relation.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.relation.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.hard.coded.active"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.colocated.course.relation.relation.state.cd" parent="dict.colocated.course.relation.relation.state.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.colocated.course.relation.relation.id -->
+<!-- ****************************************** -->
+<dict:field key="id" id="dict.colocated.course.relation.relation.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.colocated.course.relation.relation.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.relation.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.colocated.course.relation.relation.id" parent="dict.colocated.course.relation.relation.id.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.id.fd.abstract" abstract="true">
+	<dict:name>course colocated relation id</dict:name>
+	<dict:desc>relationship id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.id.fd" parent="dict.colocated.course.relation.relation.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.colocated.course.relation.relation.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.colocated.course.relation.relation.id.cd" parent="dict.colocated.course.relation.relation.id.cd.abstract"/>
+</beans>
