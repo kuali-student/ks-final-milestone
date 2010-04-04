@@ -32,7 +32,7 @@ public class DepartmentCommitteeQualifierResolver extends
 		if (attributeSets.size() > 0 && attributeSets.get(0).size() > 0) {
 			orgId = getAttribute(attributeSets, KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 		}
-		List<SearchResultRow> results = relatedOrgsFromOrgId(orgId,KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
+		List<SearchResultRow> results = relatedOrgsFromOrgId(orgId,KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
 		return attributeSetFromSearchResult(results,KualiStudentKimAttributes.QUALIFICATION_DEPARTMENT,KualiStudentKimAttributes.QUALIFICATION_DEPARTMENT_ID);
 	}
 

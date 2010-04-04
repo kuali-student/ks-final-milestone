@@ -41,7 +41,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(AbstractCocOrgQualifierResolver.class);
 	
-	protected static final String KUALI_ORG_TYPE_CURRICULUM_CHILD = "kuali.org.CurriculumChild";
+	protected static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
 	protected static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
 	protected static final String KUALI_ORG_DEPARTMENT 			  = "kuali.org.Department";
 	protected static final String KUALI_ORG_COLLEGE    			  = "kuali.org.College";
@@ -188,7 +188,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 			if(ancestorOrgs!=null){
 				for(OrgInfo ancestorOrg:ancestorOrgs){
 					if(orgType!=null && orgType.equals(ancestorOrg.getType())){
-						List<SearchResultRow> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
+						List<SearchResultRow> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
 						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
 					}
 				}
