@@ -18,13 +18,11 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.dto.CurrencyAmountInfo;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluFeeInfoMetadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoFixedRateFeeConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoFixedRateFeeHelper;
@@ -33,14 +31,11 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoMult
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoMultipleRateFeeHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoPerCreditFeeConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoPerCreditFeeHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoVariableRateFeeConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoVariableRateFeeHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeSelectorConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper.Properties;
 import org.kuali.student.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.lum.lu.dto.CluFeeRecordInfo;
-
-import com.google.gwt.i18n.client.NumberFormat;
 
 public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 	
@@ -157,6 +152,9 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 		// dictionary changes to a minimum, since they have to go 
 		// back to the spreadsheet
 		Iterator<Property> feeInfoIter = input.iterator();
+		if(!feeInfoIter.hasNext()){
+			return null;
+		}
 		FeeInfoHelper feeHelper = FeeInfoHelper.wrap((Data) feeInfoIter.next().getValue());
 		// FeeInfoHelper feeHelper = FeeInfoHelper.wrap(input);
 		
