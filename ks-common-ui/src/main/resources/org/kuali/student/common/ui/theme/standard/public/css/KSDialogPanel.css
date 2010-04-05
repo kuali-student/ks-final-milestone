@@ -1,0 +1,22 @@
+.KS-Popup-Header{
+	background-color:#99bbe8;
+	font-weight: bold;
+	border-bottom: 1px solid black;
+	margin-bottom: 2px;
+	width: 100%;
+	cursor: move;
+}
+
+.ks-confirmation-message-layout{
+	width: 400px;
+}
+
+.ks-confirmation-message-label{
+	font-weight: bold;
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+.ks-button-spacing{
+	margin-right: 20px;
+}

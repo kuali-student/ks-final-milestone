@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="ks-standalone/target/classes" path="ks-standalone/src/main/resources"/>
-	<classpathentry kind="src" output="ks-embedded/target/classes" path="ks-embedded/src/main/java"/>
-	<classpathentry kind="src" output="ks-embedded/target/classes" path="ks-embedded/src/main/resources"/>
-	<classpathentry kind="src" output="ks-embedded/target/test-classes" path="ks-embedded/src/test/java"/>
-	<classpathentry kind="src" output="ks-embedded/target/test-classes" path="ks-embedded/src/test/resources"/>
-	<classpathentry kind="src" output="ks-rice/target/classes" path="ks-rice/src/main/java" />
-    <classpathentry kind="src" output="ks-rice/target/classes" path="ks-rice/src/main/resources" />
-    <classpathentry kind="src" output="ks-rice/target/test-classes" path="ks-rice/src/test/java"/>
-	<classpathentry kind="src" output="ks-rice/target/test-classes" path="ks-rice/src/test/resources"/>
+	<classpathentry kind="src" output="ks-common-util/target/classes" path="ks-common-util/src/main/java"/>
+	<classpathentry kind="src" output="ks-common-util/target/classes" path="ks-common-util/src/main/resources"/>
+	<classpathentry kind="src" output="ks-common-util/target/test-classes" path="ks-common-util/src/test/java"/>
+	<classpathentry kind="src" output="ks-common-util/target/test-classes" path="ks-common-util/src/test/resources"/>
+	<classpathentry kind="src" output="ks-common-test/target/classes" path="ks-common-test/src/main/java"/>
+	<classpathentry kind="src" output="ks-common-test/target/classes" path="ks-common-test/src/main/resources"/>
+	<classpathentry kind="src" output="ks-common-test/target/test-classes" path="ks-common-test/src/test/java"/>
+	<classpathentry kind="src" output="ks-common-test/target/test-classes" path="ks-common-test/src/test/resources"/>
+	<classpathentry kind="src" output="ks-common-impl/target/classes" path="ks-common-impl/src/main/java"/>
+	<classpathentry kind="src" output="ks-common-impl/target/classes" path="ks-common-impl/src/main/resources"/>
+	<classpathentry kind="src" output="ks-common-impl/target/test-classes" path="ks-common-impl/src/test/java"/>
+	<classpathentry kind="src" output="ks-common-impl/target/test-classes" path="ks-common-impl/src/test/resources"/>
+	<classpathentry kind="src" output="ks-common-ui/target/classes" path="ks-common-ui/src/main/java"/>
+	<classpathentry kind="src" output="ks-common-ui/target/classes" path="ks-common-ui/src/main/resources"/>
+	<classpathentry kind="src" output="ks-common-ui/target/test-classes" path="ks-common-ui/src/test/java"/>
+	<classpathentry kind="src" output="ks-common-ui/target/test-classes" path="ks-common-ui/src/test/resources"/>
+	<classpathentry kind="src" output="ks-core-api/target/classes" path="ks-core-api/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-api/target/classes" path="ks-core-api/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-impl/target/classes" path="ks-core-impl/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-impl/target/classes" path="ks-core-impl/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-impl/target/test-classes" path="ks-core-impl/src/test/java"/>
+	<classpathentry kind="src" output="ks-core-impl/target/test-classes" path="ks-core-impl/src/test/resources"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-rice/target/test-classes" path="ks-core-rice/src/test/java"/>
+	<classpathentry kind="src" output="ks-core-rice/target/test-classes" path="ks-core-rice/src/test/resources"/>
+	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-web/target/classes" path="ks-core-web/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-web/target/test-classes" path="ks-core-web/src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
