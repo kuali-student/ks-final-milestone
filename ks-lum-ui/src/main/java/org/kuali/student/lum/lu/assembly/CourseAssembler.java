@@ -560,10 +560,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			List<AcademicSubjectOrgInfo> subjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
 			if (course.getAcademicSubjectOrgs() != null) {
 				for (Data.Property p : course.getAcademicSubjectOrgs()) {
-					String org = p.getValue();
-					AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
-					info.setOrgId(org);
-					subjectOrgs.add(info);
+					if(!"_runtimeData".equals(p.getKey())){
+						String org = p.getValue();
+						AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
+						info.setOrgId(org);
+						subjectOrgs.add(info);
+					}
 				}
 			}
 			courseClu.setAcademicSubjectOrgs(subjectOrgs);
