@@ -105,10 +105,7 @@ public class CollaboratorTool extends Composite implements ToolView{
     
 	@Override
 	protected void onLoad() {
-		if (!loaded){
-			init();
-			loaded = true;
-		} else {
+		if (loaded){
 			//FIXME: This should already be handled in beforeShow, but not always getting called.
 			refreshDocumentStatus(Controller.NO_OP_CALLBACK);
 		}
@@ -179,7 +176,9 @@ public class CollaboratorTool extends Composite implements ToolView{
 			
 		});
 		
-		layout.add(createTableSection());		
+		layout.add(createTableSection());	
+		
+		loaded = true;
 	}
 
 	@Override
@@ -189,6 +188,9 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		if (!loaded){
+			init();
+		}
 		section.redraw();
 		controller.requestModel(CollaboratorModel.class, new ModelRequestCallback<CollaboratorModel>(){
 
@@ -428,6 +430,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 					Window.alert("Getting Collaborators failed");
 				}
 				public void onSuccess(List<WorkflowPersonInfo> result) {
+					
 					
 					int numberCollabs = 0;
 					table.clear();
