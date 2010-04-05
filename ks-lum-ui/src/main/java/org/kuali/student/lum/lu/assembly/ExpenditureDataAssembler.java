@@ -82,7 +82,7 @@ public class ExpenditureDataAssembler implements Assembler<Data, CluAccountingIn
 		
 		// get the AffiliatedOrg's
 		if (null != expenditureHelper.getExpenditureOrg()) {
-			Iterator<Property> revenueOrgIter = expenditureHelper.getExpenditureOrg().iterator();
+			Iterator<Property> revenueOrgIter = expenditureHelper.getExpenditureOrg().realPropertyIterator();
 			while (revenueOrgIter.hasNext()) {
 				AffiliatedOrgInfoHelper orgHelper = AffiliatedOrgInfoHelper.wrap((Data) revenueOrgIter.next().getValue());
 				AffiliatedOrgInfo orgInfo = new AffiliatedOrgInfo();

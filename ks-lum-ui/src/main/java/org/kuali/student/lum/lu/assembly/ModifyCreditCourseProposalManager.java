@@ -116,7 +116,7 @@ public class ModifyCreditCourseProposalManager{
 		if(data==null) return;
 		
     	//Loop through all properties
-    	for(Iterator<Property> i=data.iterator();i.hasNext();){
+    	for(Iterator<Property> i=data.realPropertyIterator();i.hasNext();){
     		
     		Property prop = i.next();
     		

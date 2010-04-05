@@ -277,10 +277,12 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             prop.setState(inputProposal.getState());
             prop.setName(inputProposal.getProposal().getTitle());
             for (Property p : inputProposal.getProposal().getReferences()) {
-                String ref = p.getValue();
-                if (!prop.getProposalReference().contains(ref)) {
-                    prop.getProposalReference().add(ref);
-                }
+            	if(!"_runtimeData".equals(p.getKey())){
+	            	String ref = p.getValue();
+	                if (!prop.getProposalReference().contains(ref)) {
+	                    prop.getProposalReference().add(ref);
+	                }
+            	}
             }
             if (prop.getMetaInfo() != null) {
                 prop.getMetaInfo().setVersionInd(getVersionIndicator(inputProposal.getProposal().getData()));

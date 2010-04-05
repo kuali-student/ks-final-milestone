@@ -310,7 +310,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         }
         	
         if (data != null){
-            Iterator<Property> itr = data.iterator();
+            Iterator<Property> itr = data.realPropertyIterator();
             SortedHelperSet cccsLoHelpers = new SortedHelperSet();
             
             // get top-level LO's in the right order
@@ -350,7 +350,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         SingleUseLoChildSingleUseLosHelper relationHelper = SingleUseLoChildSingleUseLosHelper.wrap(loHelper.getChildSingleUseLos());
         if (null != relationHelper) {
             SortedChildHelperSet childLoHelpers = new SortedChildHelperSet();
-            Iterator<Property> itr = relationHelper.getData().iterator();
+            Iterator<Property> itr = relationHelper.getData().realPropertyIterator();
             
             while (itr.hasNext()){
                 Property p = (Property) itr.next();
@@ -387,7 +387,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 		Data categoryData = helper.getCategories();
 		
 		if (null != categoryData) {
-			Iterator<Property> itr = categoryData.iterator();
+			Iterator<Property> itr = categoryData.realPropertyIterator();
 				
 			while (itr.hasNext()) {
 				Property catProp = itr.next();

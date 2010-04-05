@@ -573,8 +573,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			List<String> campuses = new ArrayList<String>();
 			if (course.getCampusLocations() != null) {
 				for (Data.Property p : course.getCampusLocations()) {
-					String campus = p.getValue();
-					campuses.add(campus);
+					if(!"_runtimeData".equals(p.getKey())){
+						String campus = p.getValue();
+						campuses.add(campus);
+					}
 				}
 			}
 			courseClu.setCampusLocations(campuses);
@@ -657,38 +659,40 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			// CreditCourseJointsHelper joints =
 			// CreditCourseJointsHelper.wrap(course.getJoints());
 			for (Data.Property p : course.getJoints()) {
-				CreditCourseJointsHelper joint = CreditCourseJointsHelper
-				.wrap((Data) p.getValue());
-				//If user has not entered a joint course on the screen then return back
-				if(joint.getCourseId()==null){
-					return;
-				}
-				if (isCreated(joint.getData())) {
-					CluCluRelationInfo rel = new CluCluRelationInfo();
-					rel.setCluId(parentCourseId);
-					rel.setRelatedCluId(joint.getCourseId());
-					//                  rel.setType(joint.getType());
-					//                  Remove hardcoded Type
-					rel.setType(JOINT_RELATION_TYPE);
-
-					CluCluRelationInfo result= luService.createCluCluRelation(parentCourseId, joint
-							.getCourseId(), JOINT_RELATION_TYPE, rel);
-					joint.setRelationId(result.getId());
-
-				}
-				else if(isUpdated(joint.getData())){
-					String relationId = joint.getRelationId();
-					CluInfo clu = luService.getClu(joint.getCourseId());
-					if(!(clu.getOfficialIdentifier().getLongName().equals(joint.getCourseTitle()))){
-						CluCluRelationInfo cluCluRelation = new CluCluRelationInfo();
-						cluCluRelation.setId(relationId);
-						cluCluRelation.setCluId(parentCourseId);
-						cluCluRelation.setRelatedCluId(joint.getCourseId());
-						cluCluRelation.setType(JOINT_RELATION_TYPE);
-
-						luService.updateCluCluRelation(relationId, cluCluRelation);
+				if(!"_runtimeData".equals(p.getKey())){
+					CreditCourseJointsHelper joint = CreditCourseJointsHelper
+					.wrap((Data) p.getValue());
+					//If user has not entered a joint course on the screen then return back
+					if(joint.getCourseId()==null){
+						return;
 					}
-
+					if (isCreated(joint.getData())) {
+						CluCluRelationInfo rel = new CluCluRelationInfo();
+						rel.setCluId(parentCourseId);
+						rel.setRelatedCluId(joint.getCourseId());
+						//                  rel.setType(joint.getType());
+						//                  Remove hardcoded Type
+						rel.setType(JOINT_RELATION_TYPE);
+	
+						CluCluRelationInfo result= luService.createCluCluRelation(parentCourseId, joint
+								.getCourseId(), JOINT_RELATION_TYPE, rel);
+						joint.setRelationId(result.getId());
+	
+					}
+					else if(isUpdated(joint.getData())){
+						String relationId = joint.getRelationId();
+						CluInfo clu = luService.getClu(joint.getCourseId());
+						if(!(clu.getOfficialIdentifier().getLongName().equals(joint.getCourseTitle()))){
+							CluCluRelationInfo cluCluRelation = new CluCluRelationInfo();
+							cluCluRelation.setId(relationId);
+							cluCluRelation.setCluId(parentCourseId);
+							cluCluRelation.setRelatedCluId(joint.getCourseId());
+							cluCluRelation.setType(JOINT_RELATION_TYPE);
+	
+							luService.updateCluCluRelation(relationId, cluCluRelation);
+						}
+	
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -900,73 +904,74 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			return;
 		}
 		for (Data.Property p : course.getFormats()) {
-			CreditCourseFormatHelper format = CreditCourseFormatHelper.wrap((Data)p.getValue());
-			CluInfoHierarchy formatHierarchy = null;
-			CluInfo formatClu = null;
-
-
-			if (isModified(format.getData())) {
-				if (isCreated(format.getData())) {
-					formatHierarchy = new CluInfoHierarchy();
-					formatClu = new CluInfo();
-					formatHierarchy.setCluInfo(formatClu);
-					courseHierarchy.getChildren().add(formatHierarchy);
-					formatHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (isDeleted(format.getData())) {
-					formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseFormatHelper format = CreditCourseFormatHelper.wrap((Data)p.getValue());
+				CluInfoHierarchy formatHierarchy = null;
+				CluInfo formatClu = null;
+	
+	
+				if (isModified(format.getData())) {
+					if (isCreated(format.getData())) {
+						formatHierarchy = new CluInfoHierarchy();
+						formatClu = new CluInfo();
+						formatHierarchy.setCluInfo(formatClu);
+						courseHierarchy.getChildren().add(formatHierarchy);
+						formatHierarchy.setModificationState(ModificationState.CREATED);
+					} else if (isDeleted(format.getData())) {
+						formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+						if(formatHierarchy != null){
+							formatClu = formatHierarchy.getCluInfo();
+							formatHierarchy.setModificationState(ModificationState.DELETED);
+						}
+					} else if (isUpdated(format.getData())) {
+						formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+						if(formatHierarchy != null){
+							formatClu = formatHierarchy.getCluInfo();
+							formatHierarchy.setModificationState(ModificationState.UPDATED);
+						}
+					} 
+	
+					if(formatClu != null){
+						// TODO un-hardcode
+						formatClu.setType(FORMAT_LU_TYPE);
+						formatClu.setState(state);
+						formatHierarchy.setParentRelationType(FORMAT_RELATION_TYPE);
+						formatHierarchy.setParentRelationState("Active");
+						
+						// set with effDate, adminOrg and officialIdent needed for validation
+						formatClu.setEffectiveDate(course.getEffectiveDate());
+	
+						AdminOrgInfo adminOrg = formatClu.getPrimaryAdminOrg();
+		                if (adminOrg == null) {
+		                    adminOrg = new AdminOrgInfo();
+		                    formatClu.setPrimaryAdminOrg(adminOrg);
+		                }
+		                adminOrg.setOrgId(course.getDepartment());
+		                formatClu.setPrimaryAdminOrg(adminOrg);
+										
+						CluIdentifierInfo cluId = formatClu.getOfficialIdentifier();
+			            if (cluId == null) {
+			                cluId = new CluIdentifierInfo();
+			                formatClu.setOfficialIdentifier(cluId);		                
+			            }
+			            cluId.setSuffixCode(course.getCourseNumberSuffix());
+	                    cluId.setLongName(course.getCourseTitle());
+	                    cluId.setDivision(course.getSubjectArea());
+	                    cluId.setShortName(course.getTranscriptTitle());
+	                    cluId.setType(FORMAT_LU_TYPE);
+			            
+		                
+						if (formatClu.getMetaInfo() != null) {
+							formatClu.getMetaInfo().setVersionInd(getVersionIndicator(format.getData()));
+						}
+	
+					}
+	
 					if(formatHierarchy != null){
-						formatClu = formatHierarchy.getCluInfo();
-						formatHierarchy.setModificationState(ModificationState.DELETED);
+						buildActivityUpdates(formatHierarchy, format, state);
 					}
-				} else if (isUpdated(format.getData())) {
-					formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
-					if(formatHierarchy != null){
-						formatClu = formatHierarchy.getCluInfo();
-						formatHierarchy.setModificationState(ModificationState.UPDATED);
-					}
-				} 
-
-				if(formatClu != null){
-					// TODO un-hardcode
-					formatClu.setType(FORMAT_LU_TYPE);
-					formatClu.setState(state);
-					formatHierarchy.setParentRelationType(FORMAT_RELATION_TYPE);
-					formatHierarchy.setParentRelationState("Active");
-					
-					// set with effDate, adminOrg and officialIdent needed for validation
-					formatClu.setEffectiveDate(course.getEffectiveDate());
-
-					AdminOrgInfo adminOrg = formatClu.getPrimaryAdminOrg();
-	                if (adminOrg == null) {
-	                    adminOrg = new AdminOrgInfo();
-	                    formatClu.setPrimaryAdminOrg(adminOrg);
-	                }
-	                adminOrg.setOrgId(course.getDepartment());
-	                formatClu.setPrimaryAdminOrg(adminOrg);
-									
-					CluIdentifierInfo cluId = formatClu.getOfficialIdentifier();
-		            if (cluId == null) {
-		                cluId = new CluIdentifierInfo();
-		                formatClu.setOfficialIdentifier(cluId);		                
-		            }
-		            cluId.setSuffixCode(course.getCourseNumberSuffix());
-                    cluId.setLongName(course.getCourseTitle());
-                    cluId.setDivision(course.getSubjectArea());
-                    cluId.setShortName(course.getTranscriptTitle());
-                    cluId.setType(FORMAT_LU_TYPE);
-		            
-	                
-					if (formatClu.getMetaInfo() != null) {
-						formatClu.getMetaInfo().setVersionInd(getVersionIndicator(format.getData()));
-					}
-
 				}
-
-				if(formatHierarchy != null){
-					buildActivityUpdates(formatHierarchy, format, state);
-				}
-
-			}
+        	}
 		}
 	}
 
@@ -978,95 +983,97 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			return;
 		}
 		for (Data.Property p : format.getActivities()) {
-			CreditCourseActivityHelper activity = CreditCourseActivityHelper.wrap((Data)p.getValue());
-			CluInfoHierarchy activityHierarchy = null;
-			CluInfo activityClu = null;
-
-
-			if (isModified(activity.getData())) {
-				if (isCreated(activity.getData())) {
-					activityHierarchy = new CluInfoHierarchy();
-					activityClu = new CluInfo();
-					activityHierarchy.setCluInfo(activityClu);
-					formatHierarchy.getChildren().add(activityHierarchy);
-
-					activityHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (isDeleted(activity.getData())) {
-					activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
-					if(activityHierarchy != null){
-						activityClu = activityHierarchy.getCluInfo();
-						activityHierarchy.setModificationState(ModificationState.DELETED);
-					}     	
-
-				} else if (isUpdated(activity.getData())) {
-					activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
-					if(activityHierarchy != null){
-						activityClu = activityHierarchy.getCluInfo();
-						activityHierarchy.setModificationState(ModificationState.UPDATED);
-					}
-				} 
-
-				if(activityClu != null){
-					activityClu.setType(activity.getActivityType());
-					activityClu.setState(state);
-					
-					// the formatClu was set with effDate, adminOrg and officialIdent above
-					// get it here and set the same for activity
-					CluInfo formatClu = formatHierarchy.getCluInfo();
-					activityClu.setEffectiveDate(formatClu.getEffectiveDate());
-					
-					AdminOrgInfo adminOrg = activityClu.getPrimaryAdminOrg();
-                    if (adminOrg == null) {
-                        activityClu.setPrimaryAdminOrg(formatClu.getPrimaryAdminOrg());
-                    }
-                    
-                    CluIdentifierInfo cluId = activityClu.getOfficialIdentifier();
-                    if (cluId == null) {
-                        cluId = new CluIdentifierInfo();
-                        activityClu.setOfficialIdentifier(cluId);
-                    }
-                    CluIdentifierInfo formatCluId = formatClu.getOfficialIdentifier();
-                    cluId.setSuffixCode(formatCluId.getSuffixCode());
-                    cluId.setLongName(formatCluId.getLongName());
-                    cluId.setDivision(formatCluId.getDivision());
-                    cluId.setShortName(formatCluId.getShortName());
-                    cluId.setType(activity.getActivityType());
-					
-
-					AmountInfo time = activityClu.getIntensity();
-					if (time == null) {
-						time = new AmountInfo();
-						activityClu.setIntensity(time);
-					}
-					if (activity.getContactHours() != null) {
-						time.setUnitType(activity.getContactHours().getPer());
-						time.setUnitQuantity(String.valueOf(activity.getContactHours().getHrs()));
-					}
-
-					TimeAmountInfo stdDuration = activityClu.getStdDuration();
-					if (stdDuration == null){
-						stdDuration = new TimeAmountInfo();
-						activityClu.setStdDuration(stdDuration);
-					}
-					if (activity.getDuration() != null){
-						stdDuration.setAtpDurationTypeKey(activity.getDuration().getTimeUnit());
-						stdDuration.setTimeQuantity(activity.getDuration().getQuantity());
-					}
-
-					Integer enrEst = activity.getDefaultEnrollmentEstimate();
-					activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
-
-					// TODO un-hardcode
-					
-					activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
-					activityHierarchy.setParentRelationState("Active");
-
-
-					if (activityClu.getMetaInfo() != null) {
-						activityClu.getMetaInfo().setVersionInd(getVersionIndicator(activity.getData()));
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseActivityHelper activity = CreditCourseActivityHelper.wrap((Data)p.getValue());
+				CluInfoHierarchy activityHierarchy = null;
+				CluInfo activityClu = null;
+	
+	
+				if (isModified(activity.getData())) {
+					if (isCreated(activity.getData())) {
+						activityHierarchy = new CluInfoHierarchy();
+						activityClu = new CluInfo();
+						activityHierarchy.setCluInfo(activityClu);
+						formatHierarchy.getChildren().add(activityHierarchy);
+	
+						activityHierarchy.setModificationState(ModificationState.CREATED);
+					} else if (isDeleted(activity.getData())) {
+						activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
+						if(activityHierarchy != null){
+							activityClu = activityHierarchy.getCluInfo();
+							activityHierarchy.setModificationState(ModificationState.DELETED);
+						}     	
+	
+					} else if (isUpdated(activity.getData())) {
+						activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
+						if(activityHierarchy != null){
+							activityClu = activityHierarchy.getCluInfo();
+							activityHierarchy.setModificationState(ModificationState.UPDATED);
+						}
+					} 
+	
+					if(activityClu != null){
+						activityClu.setType(activity.getActivityType());
+						activityClu.setState(state);
+						
+						// the formatClu was set with effDate, adminOrg and officialIdent above
+						// get it here and set the same for activity
+						CluInfo formatClu = formatHierarchy.getCluInfo();
+						activityClu.setEffectiveDate(formatClu.getEffectiveDate());
+						
+						AdminOrgInfo adminOrg = activityClu.getPrimaryAdminOrg();
+	                    if (adminOrg == null) {
+	                        activityClu.setPrimaryAdminOrg(formatClu.getPrimaryAdminOrg());
+	                    }
+	                    
+	                    CluIdentifierInfo cluId = activityClu.getOfficialIdentifier();
+	                    if (cluId == null) {
+	                        cluId = new CluIdentifierInfo();
+	                        activityClu.setOfficialIdentifier(cluId);
+	                    }
+	                    CluIdentifierInfo formatCluId = formatClu.getOfficialIdentifier();
+	                    cluId.setSuffixCode(formatCluId.getSuffixCode());
+	                    cluId.setLongName(formatCluId.getLongName());
+	                    cluId.setDivision(formatCluId.getDivision());
+	                    cluId.setShortName(formatCluId.getShortName());
+	                    cluId.setType(activity.getActivityType());
+						
+	
+						AmountInfo time = activityClu.getIntensity();
+						if (time == null) {
+							time = new AmountInfo();
+							activityClu.setIntensity(time);
+						}
+						if (activity.getContactHours() != null) {
+							time.setUnitType(activity.getContactHours().getPer());
+							time.setUnitQuantity(String.valueOf(activity.getContactHours().getHrs()));
+						}
+	
+						TimeAmountInfo stdDuration = activityClu.getStdDuration();
+						if (stdDuration == null){
+							stdDuration = new TimeAmountInfo();
+							activityClu.setStdDuration(stdDuration);
+						}
+						if (activity.getDuration() != null){
+							stdDuration.setAtpDurationTypeKey(activity.getDuration().getTimeUnit());
+							stdDuration.setTimeQuantity(activity.getDuration().getQuantity());
+						}
+	
+						Integer enrEst = activity.getDefaultEnrollmentEstimate();
+						activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
+	
+						// TODO un-hardcode
+						
+						activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
+						activityHierarchy.setParentRelationState("Active");
+	
+	
+						if (activityClu.getMetaInfo() != null) {
+							activityClu.getMetaInfo().setVersionInd(getVersionIndicator(activity.getData()));
+						}
 					}
 				}
-			}
+        	}
 		}
 	}
 
@@ -1094,16 +1101,18 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		alternateIdentifiers.removeAll(clearedIdInfos);
 
 		for (Data.Property p : course.getCrossListings()) {
-			CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
-			if(!isDeleted(xListings.getData())){ 
-				CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-				cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
-				cluIdentifier.setState(state);
-				cluIdentifier.setOrgId(xListings.getDepartment());
-				cluIdentifier.setDivision(xListings.getSubjectArea());
-				cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
-				alternateIdentifiers.add(cluIdentifier);
-			}
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
+				if(!isDeleted(xListings.getData())){ 
+					CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+					cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
+					cluIdentifier.setState(state);
+					cluIdentifier.setOrgId(xListings.getDepartment());
+					cluIdentifier.setDivision(xListings.getSubjectArea());
+					cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
+					alternateIdentifiers.add(cluIdentifier);
+				}
+        	}
 		}
 		cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
 	}
@@ -1132,19 +1141,21 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		alternateIdentifiers.removeAll(clearedIdInfos);
 
 		for (Data.Property p : course.getVersions()) {
-			CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
-			//Don't add to AlternateIdentifiers if it is deleted
-			if(!isDeleted(versions.getData())){ 
-				CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-				cluIdentifier.setId(versions.getId());
-				cluIdentifier.setDivision(versions.getSubjectArea());
-				cluIdentifier.setSuffixCode(versions.getCourseNumberSuffix());
-				cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
-				cluIdentifier.setState(state);
-				cluIdentifier.setLongName(versions.getVersionTitle());
-				cluIdentifier.setVariation(versions.getVersionCode());
-				alternateIdentifiers.add(cluIdentifier);
-			}
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
+				//Don't add to AlternateIdentifiers if it is deleted
+				if(!isDeleted(versions.getData())){ 
+					CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+					cluIdentifier.setId(versions.getId());
+					cluIdentifier.setDivision(versions.getSubjectArea());
+					cluIdentifier.setSuffixCode(versions.getCourseNumberSuffix());
+					cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
+					cluIdentifier.setState(state);
+					cluIdentifier.setLongName(versions.getVersionTitle());
+					cluIdentifier.setVariation(versions.getVersionCode());
+					alternateIdentifiers.add(cluIdentifier);
+				}
+        	}
 		}
 		cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
 	}

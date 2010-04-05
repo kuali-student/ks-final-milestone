@@ -248,7 +248,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		CreditCourseCourseSpecificLOsHelper cccsLoHelper;
 		RichTextInfoAssembler rtAssembler = new RichTextInfoAssembler();
 		
-        Iterator<Property> iter = input.iterator();
+        Iterator<Property> iter = input.realPropertyIterator();
         Data loData;
         
         List<CluLoRelationInfo> cluLoRelations = null;
@@ -350,7 +350,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		}
 		
 		if (null != categoryData) {
-			Iterator<Property> itr = loHelper.getCategories().iterator();
+			Iterator<Property> itr = loHelper.getCategories().realPropertyIterator();
 			while (itr.hasNext()) {
 				Property catProp = itr.next();
 				Data catData = catProp.getValue();
@@ -377,7 +377,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		
 		Data childLoData = parentLoHelper.getChildSingleUseLos();
 		if (null != childLoData) {
-	        Iterator<Property> iter = parentLoHelper.getChildSingleUseLos().iterator();
+	        Iterator<Property> iter = parentLoHelper.getChildSingleUseLos().realPropertyIterator();
 	        Data loData;
 	        while (iter.hasNext()) {
 		    	LoInfo loToSave;

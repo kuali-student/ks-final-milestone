@@ -205,10 +205,12 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         
         cluSetInfo.setId(cluSetHelper.getId());
         for (Data.Property p : clusData) {
-            CluHelper cluHelper = CluHelper.wrap((Data)p.getValue());
-            cluIds = (cluIds == null)? new ArrayList<String>(3) :
-                cluIds;
-            cluIds.add(cluHelper.getId());
+        	if(!"_runtimeData".equals(p.getKey())){
+	            CluHelper cluHelper = CluHelper.wrap((Data)p.getValue());
+	            cluIds = (cluIds == null)? new ArrayList<String>(3) :
+	                cluIds;
+	            cluIds.add(cluHelper.getId());
+        	}
         }
         if (cluIds != null) {
             cluSetInfo.setCluIds(cluIds);

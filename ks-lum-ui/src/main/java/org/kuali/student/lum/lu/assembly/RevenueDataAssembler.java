@@ -105,7 +105,7 @@ public class RevenueDataAssembler implements Assembler<Data, List<CluFeeRecordIn
 			
 			// get the AffiliatedOrg's
 			if (revenueHelper.getRevenueOrg() != null){
-				Iterator<Property> revenueOrgIter = revenueHelper.getRevenueOrg().iterator();
+				Iterator<Property> revenueOrgIter = revenueHelper.getRevenueOrg().realPropertyIterator();
 				// orgInfos.clear(); // only needed if there's more than one course/revenue elements; dictionary's been changed
 				while (revenueOrgIter.hasNext()) {
 					AffiliatedOrgInfoHelper orgHelper = AffiliatedOrgInfoHelper.wrap((Data) revenueOrgIter.next().getValue());

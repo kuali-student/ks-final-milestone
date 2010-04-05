@@ -158,7 +158,8 @@ import com.google.gwt.user.client.ui.Widget;
 	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
 	        
 	        //Review Proposal Tab
-	        layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
+	        ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
+	        layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, summaryConfigurer.generateSummarySection());
 	
 	        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(CourseSections.ASSEMBLER_TEST, "Assembler Test"));
 	
@@ -974,20 +975,20 @@ import com.google.gwt.user.client.ui.Widget;
 		        }
 	
 		        if (data != null) {
-		            Iterator<Property> itr = data.iterator();
+		            Iterator<Property> itr = data.realPropertyIterator();
 		            if (itr.hasNext()) {
 		            	FeeInfoHelper feeHelper = FeeInfoHelper.wrap((Data) itr.next().getValue());
 		            	if (null != feeHelper.getFixedRateFee()) {
-		            		addRateTypeSpecificItems(feeHelper.getFixedRateFee().iterator(), FeeInfoConstants.FIXED_RATE_FEE, widget, model, path);
+		            		addRateTypeSpecificItems(feeHelper.getFixedRateFee().realPropertyIterator(), FeeInfoConstants.FIXED_RATE_FEE, widget, model, path);
 	        			}
 		            	if (null != feeHelper.getVariableRateFee()) {
-		            		addRateTypeSpecificItems(feeHelper.getVariableRateFee().iterator(), FeeInfoConstants.VARIABLE_RATE_FEE, widget, model, path);
+		            		addRateTypeSpecificItems(feeHelper.getVariableRateFee().realPropertyIterator(), FeeInfoConstants.VARIABLE_RATE_FEE, widget, model, path);
 		            	}
 		            	if (null != feeHelper.getPerCreditFee()) {
-		            		addRateTypeSpecificItems(feeHelper.getPerCreditFee().iterator(), FeeInfoConstants.PER_CREDIT_FEE, widget, model, path);
+		            		addRateTypeSpecificItems(feeHelper.getPerCreditFee().realPropertyIterator(), FeeInfoConstants.PER_CREDIT_FEE, widget, model, path);
 		            	}
 		            	if (null != feeHelper.getMultipleRateFee()) {
-		            		addRateTypeSpecificItems(feeHelper.getMultipleRateFee().iterator(), FeeInfoConstants.MULTIPLE_RATE_FEE, widget, model, path);
+		            		addRateTypeSpecificItems(feeHelper.getMultipleRateFee().realPropertyIterator(), FeeInfoConstants.MULTIPLE_RATE_FEE, widget, model, path);
 		            	}
 	            	}
 	            }

@@ -151,7 +151,7 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 		// in the DOL dictionary. Revisit after R1.0; trying to keep
 		// dictionary changes to a minimum, since they have to go 
 		// back to the spreadsheet
-		Iterator<Property> feeInfoIter = input.iterator();
+		Iterator<Property> feeInfoIter = input.realPropertyIterator();
 		if(!feeInfoIter.hasNext()){
 			return null;
 		}
@@ -169,7 +169,7 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 		
 		if (null != feeHelper.getFixedRateFee()) {
 			// get the FixedRateFee's and add them to feeRecords
-			Iterator<Property> feeIter = feeHelper.getFixedRateFee().iterator();
+			Iterator<Property> feeIter = feeHelper.getFixedRateFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoFixedRateFeeHelper fixedHelper = FeeInfoFixedRateFeeHelper.wrap((Data) feeIter.next().getValue());
 				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
@@ -190,7 +190,7 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 		
 		if (null != feeHelper.getMultipleRateFee()) {
 			// get the MultipleRateFee's and add them to feeRecords
-			Iterator<Property> feeIter = feeHelper.getMultipleRateFee().iterator();
+			Iterator<Property> feeIter = feeHelper.getMultipleRateFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoMultipleRateFeeHelper multipleHelper = FeeInfoMultipleRateFeeHelper.wrap((Data) feeIter.next().getValue());
 				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
@@ -201,7 +201,7 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 					feeRecordAttributes.put(FeeSelectorConstants.RATE_TYPE, FeeInfoConstants.MULTIPLE_RATE_FEE);
 					// Note: not using feeRecordInfo.setFeeAmount(); see spec
 					Data amountsData = multipleHelper.getAmount();
-					Iterator<Property> amountIter = amountsData.iterator();
+					Iterator<Property> amountIter = amountsData.realPropertyIterator();
 					StringBuilder amountStrBuilder = new StringBuilder ();
 					while (amountIter.hasNext()) {
 						amountStrBuilder.append(amountIter.next().getValue());
@@ -218,7 +218,7 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 		
 		if (null != feeHelper.getPerCreditFee()) {
 			// get the CreditRateFee's and add them to feeRecords
-			Iterator<Property> feeIter = feeHelper.getPerCreditFee().iterator();
+			Iterator<Property> feeIter = feeHelper.getPerCreditFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoPerCreditFeeHelper perCreditHelper = FeeInfoPerCreditFeeHelper.wrap((Data) feeIter.next().getValue());
 				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
@@ -239,7 +239,7 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 		
 		if (null != feeHelper.getVariableRateFee()) {
 			// get the VariableRateFee's and add them to feeRecords
-			Iterator<Property> feeIter = feeHelper.getVariableRateFee().iterator();
+			Iterator<Property> feeIter = feeHelper.getVariableRateFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoVariableRateFeeHelper variableHelper = FeeInfoVariableRateFeeHelper.wrap((Data) feeIter.next().getValue());
 				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
