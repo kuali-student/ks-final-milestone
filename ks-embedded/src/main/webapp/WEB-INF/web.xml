@@ -4,7 +4,7 @@
 	<display-name>Kuali Rice Standalone</display-name>
 
     <listener>
-      <listener-class>org.kuali.rice.core.web.listener.RiceContextLoaderListener</listener-class>
+      <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
     </listener>
     
     <filter>
