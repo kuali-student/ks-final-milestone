@@ -138,9 +138,8 @@ public class SearchResultListItems implements ListItems{
     }
     
     private int getAttrKeyNdx(List<SearchResultRow> results, String keyAttrKey) {
-	    int notFound = -1;
-		
-		if (results.size() > 0){
+
+    	if (results.size() > 0){
 	        for (int i=0; i < results.get(0).getCells().size(); i++){
 	        	if (results.get(0).getCells().get(i).getKey().equals(keyAttrKey)) {
 	        		return i;
@@ -148,12 +147,11 @@ public class SearchResultListItems implements ListItems{
 	        }
 		}
 		
-		return notFound;
+		return 0;
 	}
     
     public void setResults(List<SearchResultRow> results) {
-    	//FIXME: default key index is 0.  Should probably force a keyAttrKey.
-    	setResults(results, 0);
+    	setResults(results, this.keyAttrNdx);
     }
     
     @Override
