@@ -178,7 +178,7 @@ public class VerticalSectionView extends SectionView{
     @Override
     @SuppressWarnings("unchecked")
     public void updateModel() {
-        if(model!=null){
+        if(model!=null && isValidationEnabled()){
             super.updateModel(model);
         }
     }

@@ -444,7 +444,12 @@ public abstract class BaseSection extends Composite implements Section{
     	this.isValidationEnabled = enableValidation;
     }
 
-    @Override
+    
+    public boolean isValidationEnabled() {
+		return isValidationEnabled;
+	}
+    
+	@Override
     public void updateModel(DataModel model){
         SectionBinding.INSTANCE.setModelValue(this, model, "");
     }
