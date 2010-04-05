@@ -15,6 +15,7 @@ import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
 public class CreditCourseProposalRpcGwtServlet extends
@@ -35,7 +36,7 @@ public class CreditCourseProposalRpcGwtServlet extends
 	    CreditCourseHelper course = null;
 	    CreditCourseProposalHelper helper = CreditCourseProposalHelper.wrap(data);
         course = CreditCourseHelper.wrap(helper.getCourse().getData());               
-	    course.setState("submitted");
+	    course.setState(LUConstants.LU_STATE_SUBMITTED);
         
 	    return super.submitDocumentWithData(data);
 	}
