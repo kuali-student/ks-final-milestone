@@ -12,84 +12,73 @@
 	 * or implied. See the License for the specific language governing
 	 * permissions and limitations under the License.
 	 */
-	package org.kuali.student.lum.lu.ui.course.client.configuration.course;
+package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 	
-	import java.util.ArrayList;
-	import java.util.HashMap;
-	import java.util.Iterator;
-	import java.util.List;
-	import java.util.Map;
-	
-	import org.kuali.student.common.ui.client.application.Application;
-	import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-	import org.kuali.student.common.ui.client.configurable.mvc.PropertyBinding;
-	import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-	import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-	import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-	import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
-	import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityItemBinding;
-	import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
-	import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
-	import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
-	import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItemWithHeader;
-	import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-	import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
-	import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-	import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
-	import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-	import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-	import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-	import org.kuali.student.common.ui.client.mvc.Callback;
-	import org.kuali.student.common.ui.client.mvc.DataModel;
-	import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-	import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-	import org.kuali.student.common.ui.client.widgets.KSDropDown;
-	import org.kuali.student.common.ui.client.widgets.KSLabel;
-	import org.kuali.student.common.ui.client.widgets.KSTextArea;
-	import org.kuali.student.common.ui.client.widgets.KSTextBox;
-	import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
-	import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
-	import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
-	import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-	import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
-	import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-	import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-	import org.kuali.student.core.assembly.data.Data;
-	import org.kuali.student.core.assembly.data.Metadata;
-	import org.kuali.student.core.assembly.data.QueryPath;
-	import org.kuali.student.core.assembly.data.Data.Property;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluFeeInfoHelper;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluFeeRecordInfoHelper;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityItemBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItemWithHeader;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
+import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeRecordInfoHelper;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
-	import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
-	import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
-	import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-	import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-	import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
-	import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
-	import org.kuali.student.lum.lu.ui.course.client.widgets.LRBuilder;
-	
-	import com.google.gwt.core.client.GWT;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LRBuilder;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 	
 	
@@ -116,16 +105,15 @@ import com.google.gwt.user.client.ui.Widget;
 	 AcademicSubjectOrgInfoConstants,
 	 AffiliatedOrgInfoConstants,
 	 CreditCourseRevenueInfoConstants,
-	 CreditCourseExpenditureInfoConstants
-	{
+	 CreditCourseExpenditureInfoConstants{
 	
 		//FIXME:  Initialize type and state
-	    private String type = "course";
-	    private String state = "draft";
-	    private String groupName;
+		protected String type = "course";
+	    protected String state = "draft";
+	    protected String groupName;
 	
-	    private boolean WITH_DIVIDER = true;
-	    private boolean NO_DIVIDER = false;
+	    protected boolean WITH_DIVIDER = true;
+	    protected boolean NO_DIVIDER = false;
 	
 	    public static final String CLU_PROPOSAL_MODEL					= "cluProposalModel";
 	    public static final String PROPOSAL_ID_PATH						= "proposal/id";
@@ -140,7 +128,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        PROGRAM_INFO, ASSEMBLER_TEST
 	    }
 	
-	    private DataModelDefinition modelDefinition;
+	    protected DataModelDefinition modelDefinition;
 	
 	    public void setModelDefinition(DataModelDefinition modelDefinition){
 	    	this.modelDefinition = modelDefinition;
@@ -190,15 +178,14 @@ import com.google.gwt.user.client.ui.Widget;
 	        return section;
 	    }
 	
-	    private VerticalSection generateSummaryDetails(SectionTitle title) {
+	    protected VerticalSection generateSummaryDetails(SectionTitle title) {
 	       return  ViewCluConfigurer.generateSummaryDetails(title);
 		}
 	
-		private VerticalSection generateSummaryBrief(SectionTitle title) {
-	        VerticalSection section = new VerticalSection();
+	    protected VerticalSection generateSummaryBrief(SectionTitle title) {
+	        VerticalSection section = new VerticalSection(title);
 	        section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
 	        section.addStyleName(LUConstants.STYLE_SECTION);
-	        section.setSectionTitle(title);
 	        addField(section, PROPOSAL + "/" + TITLE, getLabel(LUConstants.TITLE_LABEL_KEY) +":    ", new KSLabel());
 	        addField(section, COURSE + "/" + SUBJECT_AREA, getLabel(LUConstants.DIVISION_LABEL_KEY), new KSLabel());
 	        addField(section, COURSE + "/" + COURSE_NUMBER_SUFFIX, getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), new KSLabel());
@@ -230,7 +217,7 @@ import com.google.gwt.user.client.ui.Widget;
 	    }
 	
 	
-		private SectionView generateAuthorsRationaleSection(){
+		protected SectionView generateAuthorsRationaleSection(){
 			VerticalSectionView section = initSectionView(CourseSections.AUTHORS_RATIONALE, LUConstants.AUTHORS_RATIONAL);
 			
 		VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
@@ -248,14 +235,15 @@ import com.google.gwt.user.client.ui.Widget;
 	     * @param layout - a content pane to which this section is added to
 	     * @return
 	     */
-	    private SectionView generateCourseRequisitesSection() {
+	    protected SectionView generateCourseRequisitesSection() {
 	        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
+	        //Setting the section title after initializing the widget won't do anything
 	        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
 	        addField(section, SEARCH + "/" + "findCourse");
 	        return section;
 	    }
 	
-	    private SectionView generateActiveDatesSection() {
+	    protected SectionView generateActiveDatesSection() {
 	        VerticalSectionView section = initSectionView(CourseSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY);
 	
 	        section.addSection(generateActiveDateStartSection());
@@ -268,19 +256,19 @@ import com.google.gwt.user.client.ui.Widget;
 	        return section;
 	    }
 	
-	    private VerticalSection generateActiveDateEndSection() {
+	    protected VerticalSection generateActiveDateEndSection() {
 	        VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
 	        addField(endDate, COURSE + "/" + EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY));
 	        return endDate;
 		}
 	
-		private VerticalSection generateActiveDateStartSection() {
+	    protected VerticalSection generateActiveDateStartSection() {
 	        VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
 	        addField(startDate, COURSE + "/" + CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY));
 	        return startDate;
 		}
 	
-		public SectionView generateGovernanceSection(){
+	    protected SectionView generateGovernanceSection(){
 	        VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 	
 	        addField(section, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
@@ -303,13 +291,12 @@ import com.google.gwt.user.client.ui.Widget;
 	        return section;
 	    }
 	
-		private GroupSection generateCourseNumberSection() {
+		protected GroupSection generateCourseNumberSection() {
 	
 	        //COURSE NUMBER
-	        GroupSection courseNumber = new GroupSection();
+	        GroupSection courseNumber = new GroupSection(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY));
 	        courseNumber.addStyleName(LUConstants.STYLE_SECTION);
 	        courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-	        courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY));
 	        addField(courseNumber, COURSE + "/" + SUBJECT_AREA, null);
 	        addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, null);
 	
@@ -322,47 +309,44 @@ import com.google.gwt.user.client.ui.Widget;
 	        return courseNumber;
 		}
 	
-		private VerticalSection generateVersionCodesSection() {
+		protected VerticalSection generateVersionCodesSection() {
 	        //Version Codes
-	        VerticalSection versionCodes = new VerticalSection();
-	        versionCodes.setSectionTitle(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
+	        VerticalSection versionCodes = new VerticalSection(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
 	        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
 	        //versionCodes.addStyleName("KS-LUM-Section-Divider");
 	        return versionCodes;
 		}
 	
-		private VerticalSection generateOfferedJointlySection() {
+		protected VerticalSection generateOfferedJointlySection() {
 	        // Offered jointly
-	        VerticalSection offeredJointly = new VerticalSection();
-	        offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
+	        VerticalSection offeredJointly = new VerticalSection(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
 	        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
 	        //offeredJointly.addStyleName("KS-LUM-Section-Divider");
 	        return offeredJointly;
 		}
 	
-		private VerticalSection generateCrossListedSection() {
+		protected VerticalSection generateCrossListedSection() {
 	        // Cross-listed
-	        VerticalSection crossListed = new VerticalSection();
-	        crossListed.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
+	        VerticalSection crossListed = new VerticalSection(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
 	        // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
 	        addField(crossListed, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
 	        //crossListed.addStyleName("KS-LUM-Section-Divider");
 	        return crossListed;
 		}
 	
-		private VerticalSection generateCourseInfoShortTitleSection() {
+		protected VerticalSection generateCourseInfoShortTitleSection() {
 	        VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
 	        addField(shortTitle, COURSE + "/" + TRANSCRIPT_TITLE, null);
 	        return shortTitle;
 		}
 	
-		private VerticalSection generateLongTitleSection() {
+		protected VerticalSection generateLongTitleSection() {
 	        VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
 	        addField(longTitle, COURSE + "/" + COURSE_TITLE, null);
 	        return longTitle;
 		}
 	
-		private VerticalSection generateDescriptionSection() {
+		protected VerticalSection generateDescriptionSection() {
 	        VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
 	        //FIXME Temporary fix til we have a real rich text editor
 	        //addField(description, COURSE + "/" + DESCRIPTION, null);
@@ -383,14 +367,14 @@ import com.google.gwt.user.client.ui.Widget;
 	        return section;
 	    }
 	
-	    private VerticalSection generateCourseFormatsSection() {
+	    protected VerticalSection generateCourseFormatsSection() {
 	        //COURSE FORMATS
 	        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
 	        addField(courseFormats, COURSE + "/" + FORMATS, null, new CourseFormatList(COURSE + "/" + FORMATS));
 	        return courseFormats;
 		}
 	
-		private VerticalSection generateSchedulingSection() {
+	    protected VerticalSection generateSchedulingSection() {
 	        VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
 	        GroupSection duration = new GroupSection();
 	        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
@@ -399,20 +383,20 @@ import com.google.gwt.user.client.ui.Widget;
 	        return scheduling;
 		}
 	
-		private VerticalSection generateInstructorsSection() {
+	    protected VerticalSection generateInstructorsSection() {
 	        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
 	        // FIXME wilj: do we need to set the instructor's orgId? or can we default it at the assembler level?
 	        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR);
 	        return instructors;
 		}
 	
-	    private SectionView generateLearningObjectivesSection() {
+	    protected SectionView generateLearningObjectivesSection() {
 	        VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
 	        section.addSection(generateLearningObjectivesNestedSection());
 	        return section;
 	    }
 	
-	    private VerticalSection generateLearningObjectivesNestedSection() {
+	    protected VerticalSection generateLearningObjectivesNestedSection() {
 	        VerticalSection los = initSection(null, NO_DIVIDER);
 	         
 	        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
@@ -433,7 +417,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        return los;
 	    }
 	
-	    private VerticalSection generateLearningResultsSection() {
+	    protected VerticalSection generateLearningResultsSection() {
 	    	VerticalSection lrSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
 	    	LRBuilder lrBuilder = new LRBuilder(type, state, groupName, modelDefinition);
 	    	addField(lrSection, CreditCourseConstants.COURSE_SPECIFIC_LOS, null, lrBuilder, CreditCourseProposalConstants.COURSE);
@@ -697,28 +681,27 @@ import com.google.gwt.user.client.ui.Widget;
 	        return section;
 	    }
 	
-	    private VerticalSection generateShortTitleSection() {
+	    protected VerticalSection generateShortTitleSection() {
 	        VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
 	        addField(shortTitle, "cluInfo/officialIdentifier/shortName", null);
 	        return shortTitle;
 		}
 	
-	    private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
+	    protected VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
 	        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
 	        section.addStyleName(LUConstants.STYLE_SECTION);
-	        SectionTitle viewTitle = getH2Title(labelKey);
-	        viewTitle.addStyleName("ks-heading-page-title");
-	        section.setSectionTitle(viewTitle);
-	
+	        section.getSectionTitle().addStyleName("ks-heading-page-title");
 	        return section;
 	    }
 	
 	
-	    private VerticalSection initSection(SectionTitle title, boolean withDivider) {
-	        VerticalSection section = new VerticalSection();
-	        if (title !=  null) {
-	          title.addStyleName("ks-heading-page-section");
-	          section.setSectionTitle(title);
+	    protected VerticalSection initSection(SectionTitle title, boolean withDivider) {
+	        VerticalSection section;
+	    	if(title!=null){
+	        	section = new VerticalSection(title);
+	        	section.getSectionTitle().addStyleName("ks-heading-page-section");
+	        }else{
+	        	section = new VerticalSection();
 	        }
 	        section.addStyleName(LUConstants.STYLE_SECTION);
 	        if (withDivider)
@@ -726,45 +709,45 @@ import com.google.gwt.user.client.ui.Widget;
 	        return section;
 	    }
 	
-	    private String getLabel(String labelKey) {
+	    protected String getLabel(String labelKey) {
 	        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
 	    }
 	
-	    private SectionTitle getH1Title(String labelKey) {
+	    protected SectionTitle getH1Title(String labelKey) {
 	        return SectionTitle.generateH1Title(getLabel(labelKey));
 	    }
 	
-	    private SectionTitle getH2Title(String labelKey) {
+	    protected SectionTitle getH2Title(String labelKey) {
 	        return SectionTitle.generateH2Title(getLabel(labelKey));
 	    }
 	
-	    private SectionTitle getH3Title(String labelKey) {
+	    protected SectionTitle getH3Title(String labelKey) {
 	        return SectionTitle.generateH3Title(getLabel(labelKey));
 	    }
 	
-	    private SectionTitle getH4Title(String labelKey) {
+	    protected SectionTitle getH4Title(String labelKey) {
 	        return SectionTitle.generateH4Title(getLabel(labelKey));
 	    }
 	
-	    private SectionTitle getH5Title(String labelKey) {
+	    protected SectionTitle getH5Title(String labelKey) {
 	        return SectionTitle.generateH5Title(getLabel(labelKey));
 	    }
 	
 	    // TODO - when DOL is pushed farther down into LOBuilder,
 	    // revert these 5 methods to returning void again.
-	    private FieldDescriptor addField(Section section, String fieldKey) {
+	    protected FieldDescriptor addField(Section section, String fieldKey) {
 	    	return addField(section, fieldKey, null, null, null);
 	    }    
-	    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel) {
+	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel) {
 	    	return addField(section, fieldKey, fieldLabel, null, null);
 	    }
-	    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
+	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
 	    	return addField(section, fieldKey, fieldLabel, widget, null);
 	    }
-	    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
+	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
 	        return addField(section, fieldKey, fieldLabel, null, parentPath);
 	    }
-	    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
+	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
 	        QueryPath path = QueryPath.concat(parentPath, fieldKey);
 	    	Metadata meta = modelDefinition.getMetadata(path);
 	
@@ -775,7 +758,7 @@ import com.google.gwt.user.client.ui.Widget;
 	    	section.addField(fd);
 	    	return fd;
 	    }
-	    private SectionView generateFinancialsSection() {
+	    protected SectionView generateFinancialsSection() {
 	        VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 	
 	        VerticalSection justiFee = initSection(getH3Title(LUConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
