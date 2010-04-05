@@ -17,9 +17,9 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
@@ -39,6 +39,7 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
     private VerticalPanel mainPanel = new VerticalPanel();
     private KSAdvancedSearchRpc advancedSearch;
     private HandlerManager handlers = new HandlerManager(this);
+    
     private ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 
         @Override
@@ -105,5 +106,32 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
     
     private void fireSelectEvent(List<String> selectedItems){
         SelectionEvent.fire(this, selectedItems);
+    }
+
+    public boolean isPartialMatch() {
+        return advancedSearch.isPartialMatch();
+    }
+
+    public void setPartialMatch(boolean partialMatch) {
+        advancedSearch.setPartialMatch(partialMatch);
+    }
+    
+    public boolean isIgnoreCase() {
+        return advancedSearch.isIgnoreCase();
+    }
+
+    public void setIgnoreCase(boolean ignoreCase) {
+        advancedSearch.setIgnoreCase(ignoreCase);
+    }
+
+    public KSLabel getInstructions() {
+        return advancedSearch.getSearchInstructions();
+    }
+
+    public void setInstructions(String text) {
+        advancedSearch.setSearchInstructions(text);
+    }
+    public void reset() {
+        advancedSearch.reset();
     }
 }

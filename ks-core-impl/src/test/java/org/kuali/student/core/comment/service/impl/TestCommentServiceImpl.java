@@ -56,7 +56,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 @Daos( { @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl",testSqlFile="classpath:ks-comment.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.core.comment.service.impl.CommentServiceImpl", port = "8181",additionalContextFile="classpath:comment-additional-context.xml")
+    @Client(value = "org.kuali.student.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
     public CommentService client;
 
 

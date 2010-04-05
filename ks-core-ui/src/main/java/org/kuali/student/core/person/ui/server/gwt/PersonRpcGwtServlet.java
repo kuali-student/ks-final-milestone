@@ -3,9 +3,9 @@
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -14,51 +14,44 @@
  */
 package org.kuali.student.core.person.ui.server.gwt;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.dto.PersonNameInfo;
-import org.kuali.student.core.person.service.PersonService;
 import org.kuali.student.core.person.ui.client.service.PersonRpcService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.service.SearchService;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-public class PersonRpcGwtServlet extends RemoteServiceServlet implements
+/**
+ *
+ * @deprecated Use SearchRpcService instead in conjunction with PersonSearchServiceImpl
+ *
+ */
+public class PersonRpcGwtServlet extends BaseRpcGwtServletAbstract<SearchService> implements
 		PersonRpcService {
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(PersonRpcGwtServlet.class);
 	private static final long serialVersionUID = 3797505861921543183L;
 
-	private PersonService service;
-
 	private IdentityService identityService;
 	private String identityServiceAddress;
-	  
+/*
 	@Override
 	public List<Result> searchForResults(String searchTypeKey,
 			List<QueryParamValue> queryParamValues) {
 		// TODO Auto-generated method stub
 		// try {
 		List<Result> results = new ArrayList<Result>();
-		
+
 		if (null == identityService) {
 			identityService = (IdentityService) GlobalResourceLoader.getService(new QName("KIM","kimIdentityServiceSOAPUnsecure"));
 		}
-		
+
 		if (identityService != null) {
 			try{
-				@SuppressWarnings("unchecked")
 				List<KimEntityDefaultInfo> entities = (List<KimEntityDefaultInfo>) identityService
 						.lookupEntityDefaultInfo(new HashMap<String, String>(),
 								true);
@@ -83,7 +76,7 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 				LOG.error("Error getting identityService", e);
 			}
 		}
-		
+
 		String[] kimPrincipalIds= new String[]{
 				"1",
 				"admin",
@@ -125,7 +118,7 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 				"user3",
 				"user4"};
 		for(int i = 0;i<kimPrincipalIds.length;i++){
-			
+
 			Result result = new Result();
 			ResultCell cell = new ResultCell();
 			cell.setKey("Person Id");
@@ -140,17 +133,26 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 
 		return results;
 	}
-
-	public PersonService getService() {
-		return service;
-	}
-
-	public void setService(PersonService service) {
-		this.service = service;
-	}
-
+*/
 	@Override
 	public PersonInfo fetchPerson(String personId) {
+		if (null == identityService) {
+			identityService = (IdentityService) GlobalResourceLoader.getService(new QName("KIM","kimIdentityServiceSOAPUnsecure"));
+		}
+		//Try to use the identity service, otherwise send back name=id;
+		if (identityService != null) {
+			try{
+				KimPrincipalInfo kimPrincipalInfo = identityService.getPrincipal(personId);
+				PersonInfo person = new PersonInfo();
+				person.setId(kimPrincipalInfo.getPrincipalId());
+				PersonNameInfo nameInfo = new PersonNameInfo();
+				nameInfo.setGivenName(kimPrincipalInfo.getPrincipalName());
+				person.getPersonNameInfoList().add(nameInfo);
+				return person;
+			}catch(Exception e){
+				LOG.error("Error getting identityService", e);
+			}
+		}
 		PersonInfo person = new PersonInfo();
 		person.setId(personId);
 		PersonNameInfo nameInfo = new PersonNameInfo();
@@ -158,7 +160,7 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 		person.getPersonNameInfoList().add(nameInfo);
 		return person;
 	}
-
+/*
 	public IdentityService getIdentityService() {
 		return identityService;
 	}
@@ -174,5 +176,5 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 	public void setIdentityServiceAddress(String identityServiceAddress) {
 		this.identityServiceAddress = identityServiceAddress;
 	}
-
+*/
 }

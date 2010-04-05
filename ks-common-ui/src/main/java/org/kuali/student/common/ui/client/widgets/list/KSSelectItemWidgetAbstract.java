@@ -14,8 +14,11 @@
  */
 package org.kuali.student.common.ui.client.widgets.list;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.HasBlurHandlers;
@@ -23,6 +26,7 @@ import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasName;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This SelectItemWidget abstracts out the use of selecting an item from a list.
@@ -32,18 +36,19 @@ import com.google.gwt.user.client.ui.HasName;
  * @author Kuali Student Team
  *
  */
-public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName, HasFocusHandlers, HasBlurHandlers{
+public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName, HasFocusHandlers, HasBlurHandlers, HasSelectionChangeHandlers, HasWidgetReadyCallback{
 	private ListItems listItems = null;
 	private String name;
-	
+	private List<Callback<Widget>> widgetReadyCallbacks;
+	private boolean initialized = false;
+		
 	public ListItems getListItems() {
 		return listItems;
 	}
 
 	public <T extends Idable> void setListItems(ListItems listItems) {
 		this.listItems = listItems;
-	}
-	
+	}	
 	
 	public abstract void redraw();
 
@@ -143,8 +148,30 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
      * This method clears the current selection
      *
      */
-    public void clear(){
-        //FIXME: This method needs to be abstract;
+    public abstract void clear();
+
+    @Override
+    public void addWidgetReadyCallback(Callback<Widget> callback) {
+        if (widgetReadyCallbacks == null){
+            widgetReadyCallbacks = new ArrayList<Callback<Widget>>();
+        }
+        widgetReadyCallbacks.add(callback);    
+   }
+
+    @Override
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
+        if (initialized){
+            //Callbacks might need to be moved after a redraw happens
+            while (widgetReadyCallbacks != null && widgetReadyCallbacks.size() > 0){
+                Callback<Widget> callback = widgetReadyCallbacks.remove(0);
+                callback.exec(this);
+            }            
+        }
     }
-	
+
+    @Override
+    public boolean isInitialized() {
+        return initialized;
+    }
 }

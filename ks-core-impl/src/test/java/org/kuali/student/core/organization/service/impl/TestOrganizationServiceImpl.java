@@ -53,70 +53,97 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
 
 
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationServiceImpl extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", port = "8181",additionalContextFile="classpath:organization-additional-context.xml")
+	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", additionalContextFile="classpath:organization-additional-context.xml")
 	public OrganizationService client;
 
 	@Test
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
-		qpv1.setKey("org.queryParam.orgType");
-		qpv1.setValue("kuali.org.College");
-		queryParamValues.add(qpv1);
-		List<Result> results = client.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues);
-		assertEquals(6,results.size());
-		assertEquals(2,results.get(0).getResultCells().size());
+		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchParam searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.orgGenericType");
+		searchParam.setValue("kuali.org.College");
+		searchParams.add(searchParam);
 		
-		SearchTypeInfo st = client.getSearchType("org.search.orgQuickViewByHierarchyShortName");
-		String searchId = st.getSearchCriteriaTypeInfo().getQueryParams().get(0).getFieldDescriptor().getSearch().getKey();
-		results = client.searchForResults(searchId, null);
-		assertEquals(2,results.size());
+		searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.orgGenericShortName");
+		searchParam.setValue("CollegeE%");
+		searchParams.add(searchParam);
+		
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("org.search.test.orgs");
+		searchRequest.setParams(searchParams);
+		SearchResult result = client.search(searchRequest);
+		assertEquals(2,result.getRows().size());
+		
+		searchParams = new ArrayList<SearchParam>();
+		searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.orgType");
+		searchParam.setValue("kuali.org.College");
+		searchParams.add(searchParam);
+		
+		searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
+		searchRequest.setParams(searchParams);
+		
+		result = client.search(searchRequest);
+		assertEquals(6,result.getRows().size());
+		assertEquals(2,result.getRows().get(0).getCells().size());
 		
 		//Test org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType
-		queryParamValues = new ArrayList<QueryParamValue>();
-		qpv1 = new QueryParamValue();
-		qpv1.setKey("org.queryParam.relationType");
-		qpv1.setValue("kuali.org.Chartered");
-		queryParamValues.add(qpv1);
+		searchParams = new ArrayList<SearchParam>();
+		searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.relationType");
+		searchParam.setValue("kuali.org.Chartered");
+		searchParams.add(searchParam);
 		
-		QueryParamValue qpv2 = new QueryParamValue();
-		qpv2.setKey("org.queryParam.orgType");
-		qpv2.setValue("kuali.org.College");
-		queryParamValues.add(qpv2);
+		searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.orgType");
+		searchParam.setValue("kuali.org.College");
+		searchParams.add(searchParam);
 		
-		QueryParamValue qpv3 = new QueryParamValue();
-		qpv3.setKey("org.queryParam.relatedOrgType");
-		qpv3.setValue("kuali.org.COC");
-		queryParamValues.add(qpv3);
+		searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.relatedOrgType");
+		searchParam.setValue("kuali.org.COC");
+		searchParams.add(searchParam);
 		
-		results = client.searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType", queryParamValues);
-		assertEquals(5,results.size());
+		
+		searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
+		searchRequest.setParams(searchParams);
+		
+		result = client.search(searchRequest);
+		assertEquals(5,result.getRows().size());
 
 	}
 	
 	@Test
 	public void testSearchHierarchyShortName() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
-		qpv1.setKey("org.queryParam.orgHierarchyId");
-		qpv1.setValue("kuali.org.hierarchy.Main");
-		queryParamValues.add(qpv1);
-		qpv1 = new QueryParamValue();
-		qpv1.setKey("org.queryParam.orgShortName");
-		qpv1.setValue("Bio%");
-		queryParamValues.add(qpv1);
-		List<Result> results = client.searchForResults("org.search.orgQuickViewByHierarchyShortName", queryParamValues);
-		assertEquals(4,results.size());
-		assertEquals(2,results.get(0).getResultCells().size());
+		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchParam searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.orgHierarchyId");
+		searchParam.setValue("kuali.org.hierarchy.Main");
+		searchParams.add(searchParam);
+		searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.orgShortName");
+		searchParam.setValue("Bio%");
+		searchParams.add(searchParam);
+		
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("org.search.orgQuickViewByHierarchyShortName");
+		searchRequest.setParams(searchParams);
+		
+		SearchResult result = client.search(searchRequest);
+		assertEquals(4,result.getRows().size());
+		assertEquals(2,result.getRows().get(0).getCells().size());
 	}
 	
 	@Test
@@ -708,17 +735,21 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	
 	@Test
 	public void testHierarchiesOrgIsIn() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
-		qpv1.setKey("org.queryParam.orgId");
-		qpv1.setValue("31");
-		queryParamValues.add(qpv1);
-		queryParamValues.add(qpv1);
-		List<Result> results = client.searchForResults("org.search.hierarchiesOrgIsIn", queryParamValues);
-		assertEquals(1,results.size());
-		List<ResultCell> cells = results.get(0).getResultCells();
+		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchParam searchParam = new SearchParam();
+		searchParam.setKey("org.queryParam.orgId");
+		searchParam.setValue("31");
+		searchParams.add(searchParam);
+		
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("org.search.hierarchiesOrgIsIn");
+		searchRequest.setParams(searchParams);
+		
+		SearchResult result = client.search(searchRequest);
+		assertEquals(1,result.getRows().size());
+		List<SearchResultCell> cells = result.getRows().get(0).getCells();
 		assertEquals(1,cells.size());
-		ResultCell cell = cells.get(0);
+		SearchResultCell cell = cells.get(0);
 		assertEquals("org.resultColumn.orgHierarchyId", cell.getKey());
 		assertEquals("kuali.org.hierarchy.Main", cell.getValue());
 	}

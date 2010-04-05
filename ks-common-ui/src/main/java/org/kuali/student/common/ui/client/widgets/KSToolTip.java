@@ -15,7 +15,6 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;

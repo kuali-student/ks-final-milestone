@@ -2,11 +2,16 @@
 
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.google.gwt.http.HTTP"/>
+	
 	
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
 	
 	<inherits name="org.kuali.student.common.CommonUtil" />
+	
+	<!-- Theme                  -->
+	<inherits name="org.kuali.student.common.ui.theme.standard.StandardTheme" />
 	
 	<inherits name="org.kuali.student.core.Core" />
 	<inherits name="org.kuali.student.core.dictionary.Dictionary" />
@@ -15,8 +20,9 @@
 	<inherits name="org.kuali.student.core.search.Search" />
 	<inherits name="org.kuali.student.core.validation.Validation" />
 	<inherits name="org.kuali.student.core.messages.Message"/>
- 
-  	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
+	<inherits name='org.kuali.student.core.assembly.Assembly'/>
+	<inherits name="org.kuali.student.core.CoreRice" />
+
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
   	<inherits name="com.google.gwt.libideas.StyleInjector" /> 

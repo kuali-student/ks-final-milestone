@@ -24,12 +24,18 @@ package org.kuali.student.core.dictionary.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 
 /**
@@ -66,6 +72,21 @@ public class Type implements Serializable{
     @XmlAttribute(required = true)
     protected String key;
 
+	@XmlElement
+	private String name;
+	@XmlElement
+	private String desc;
+	@XmlElement
+	private Date effectiveDate;
+	@XmlElement
+	private Date expirationDate;
+	@XmlElement
+	private boolean modifiable;
+	
+	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+	private Map<String, String> attributes;
+	
     /**
      * Gets the value of the state property.
      * 
@@ -121,6 +142,57 @@ public class Type implements Serializable{
 
 	public void setState(List<State> state) {
 		this.state = state;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public boolean isModifiable() {
+		return modifiable;
+	}
+
+	public void setModifiable(boolean modifiable) {
+		this.modifiable = modifiable;
+	}
+
+	public Map<String, String> getAttributes() {
+		if(attributes == null){
+			attributes = new HashMap<String, String>();
+		}
+		return attributes;
+	}
+
+	public void setAttributes(Map<String, String> attributes) {
+		this.attributes = attributes;
 	}
 
 }

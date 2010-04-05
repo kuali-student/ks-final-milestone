@@ -20,7 +20,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
+import org.kuali.student.common.ui.client.mvc.CollectionModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.core.dto.Idable;
@@ -71,12 +72,13 @@ public abstract class ModelListItems<T extends Idable> implements ListItems{
         }
     }
         
-    public void setModel(Model<T> model){
+    public void setModel(CollectionModel<T> model){
         if(reg != null){
            reg.removeHandler();
         }
-        reg = model.addModelChangeHandler(new ModelChangeHandler<T>() {
-            public void onModelChange(ModelChangeEvent<T> event) {
+        reg = model.addModelChangeHandler(new ModelChangeHandler() {
+            public void onModelChange(ModelChangeEvent evt) {
+            	CollectionModelChangeEvent<T> event = (CollectionModelChangeEvent<T>) evt;
                 switch (event.getAction()) {
                     case ADD:
                         ModelListItems.this.add(event.getValue());

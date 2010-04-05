@@ -14,12 +14,14 @@
  */
 package org.kuali.student.core.dao;
 
-import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 public interface SearchableDao {
-	public List<Result> searchForResults(String queryString, SearchTypeInfo searchTypeInfo, List<QueryParamValue> queryParamValues);
+
+	public SearchResult search(SearchRequest searchRequest,
+			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo);
 }

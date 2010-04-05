@@ -14,7 +14,8 @@
  */
 package org.kuali.student.common.ui.client.security;
 
-import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.core.rice.authorization.PermissionType;
+
 
 /**
  * Implement this interface for any view that requires authorization checks.
@@ -28,5 +29,5 @@ public interface RequiresAuthorization {
     
     public void setAuthorizationRequired(boolean required);
     
-    public void checkAuthorization(AuthorizationCallback callback);
+    public void checkAuthorization(PermissionType permissionType, AuthorizationCallback callback);
 }

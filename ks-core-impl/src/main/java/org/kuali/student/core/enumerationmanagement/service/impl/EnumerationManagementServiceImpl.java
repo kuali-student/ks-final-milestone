@@ -24,7 +24,6 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerationmanagement.EnumerationException;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationManagementDAO;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueFieldInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaInfo;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
@@ -37,6 +36,12 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.slf4j.Logger;
@@ -50,19 +55,11 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     
 	final static Logger logger = LoggerFactory.getLogger(EnumerationManagementServiceImpl.class);
 	
-	public EnumerationManagementServiceImpl() {}
+    private SearchManager searchManager;
+
+    private EnumerationManagementDAO enumDAO;
 	
-	private EnumerationManagementDAO enumDAO;
-    
-    public EnumerationManagementDAO getEnumDAO() {
-        return enumDAO;
-    }
-
-    public void setEnumDAO(EnumerationManagementDAO enumDAO) {
-        this.enumDAO = enumDAO;
-    }
-
-
+	public EnumerationManagementServiceImpl() {}
     
     private ValidationResultContainer validateEnumeratedValue(EnumerationMetaInfo meta, EnumeratedValueInfo value){
 //    	
@@ -205,4 +202,92 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         enumDAO.removeEnumeratedValue(enumerationKey, code);
         return new StatusInfo();
     }
+	
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+	}
+
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchCriteriaTypes();
+	}
+
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchResultType(searchResultTypeKey);
+	}
+
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchResultTypes();
+	}
+
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchTypeKey, "searchTypeKey");
+		return searchManager.getSearchType(searchTypeKey);
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchTypes();
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+		return searchManager.search(searchRequest, enumDAO);
+	}
+	
+	/**
+	 * Check for missing parameter and throw localized exception if missing
+	 *
+	 * @param param
+	 * @param parameter name
+	 * @throws MissingParameterException
+	 */
+	private void checkForMissingParameter(Object param, String paramName)
+			throws MissingParameterException {
+		if (param == null) {
+			throw new MissingParameterException(paramName + " can not be null");
+		}
+	}
+
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
+	}
+
+	public void setEnumDAO(EnumerationManagementDAO enumDAO) {
+		this.enumDAO = enumDAO;
+	}
 }

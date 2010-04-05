@@ -56,22 +56,6 @@ public class KSConfirmButtonPanel extends KSConfirmButtonPanelAbstract{
 	public void addCancelHandler(ClickHandler handler){
 		confirmButtonPanel.addCancelHandler(handler);
 	}
-	
-	/**
-	 * Sets the current focus to the Confirm button.
-	 * 
-	 */
-	public void setConfirmFocus(){
-		confirmButtonPanel.setConfirmFocus();
-	}
-	
-	
-	/**
-	 * Sets the current focus to the Cancel button.
-	 * 
-	 */
-	public void setCancelFocus(){
-		confirmButtonPanel.setCancelFocus();
-	}
+
 
 }

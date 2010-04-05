@@ -14,7 +14,11 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
-import com.google.gwt.user.client.ui.Composite;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.core.rice.authorization.PermissionType;
+
 
 /**
  * This is a simple view composite that delegates all view operations to nested
@@ -24,7 +28,7 @@ import com.google.gwt.user.client.ui.Composite;
  * @author Kuali Student Team
  *
  */
-public class DelegatingViewComposite extends ViewComposite {
+public class DelegatingViewComposite extends ViewComposite implements RequiresAuthorization {
     Controller childController;
     
     /**
@@ -51,11 +55,11 @@ public class DelegatingViewComposite extends ViewComposite {
      * @see org.kuali.student.common.ui.client.mvc.View#beforeShow()
      */
     @Override
-    public void beforeShow() {
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
         if (childController.getCurrentView() == null){
-            childController.showDefaultView();
+            childController.showDefaultView(onReadyCallback);
         } else {
-            childController.getCurrentView().beforeShow();
+            childController.getCurrentView().beforeShow(onReadyCallback);
         }
     }
     
@@ -66,5 +70,43 @@ public class DelegatingViewComposite extends ViewComposite {
     public void setChildController(Controller controller){
         this.childController = controller;
     }
+
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        childController.collectHistory(frame);
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        childController.onHistoryEvent(frame);
+    }
+    
+    @Override
+    public void clear() {
+    	childController.reset();
+    }
+
+	@Override
+	public void checkAuthorization(PermissionType permissionType, AuthorizationCallback callback) {
+		if (childController instanceof RequiresAuthorization){
+			((RequiresAuthorization)childController).checkAuthorization(permissionType, callback);
+		}				
+	}
+
+	@Override
+	public boolean isAuthorizationRequired() {
+		if (childController instanceof RequiresAuthorization){
+			return ((RequiresAuthorization)childController).isAuthorizationRequired();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		if (childController instanceof RequiresAuthorization){
+			((RequiresAuthorization)childController).setAuthorizationRequired(required);
+		}		
+	}
 
 }

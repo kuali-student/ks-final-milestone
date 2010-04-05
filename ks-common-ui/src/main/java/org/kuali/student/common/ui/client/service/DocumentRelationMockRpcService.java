@@ -15,9 +15,9 @@
 package org.kuali.student.common.ui.client.service;
 
 import java.util.List;
+
 import org.kuali.student.core.dto.RefDocRelationInfoMock;
 import org.kuali.student.core.dto.StatusInfo;
-
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

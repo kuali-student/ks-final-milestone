@@ -34,9 +34,6 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.validator.ConstraintDataProvider;
 
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
-
 public class SectionConstraintDataProvider implements ConstraintDataProvider  {
     private ConstraintDataProvider model = null;
     private Section section = null;

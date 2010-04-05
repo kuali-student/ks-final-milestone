@@ -9,7 +9,131 @@
 	 ">
 	<import resource="organization-dictionary-config.xml" />
 
-	<search:searchType id="org.search.orgHierarchyIds">
+	<!-- definition for generic search component -->
+	<search:searchType id="org.search.generic" parent="org.search.generic-parent"/>
+	<search:searchType id="org.search.generic-parent"  abstract="true">
+		<search:name>Generic search for organizations</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.generic"/>  <!--  could be defined as stand alone -->
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.generic"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchResultTypeInfo id="org.result.generic" parent="org.result.generic-parent"/>
+	<search:searchResultTypeInfo id="org.result.generic-parent"  abstract="true">
+		<search:name>Organization Full View Less Hierarchies</search:name>
+		<search:desc>Full view of the Organization Less Hierarchies</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" /> 
+			<ref bean="org.resultColumn.orgShortName" />
+			<ref bean="org.resultColumn.orgOptionalLongName"/>
+			<ref bean="org.resultColumn.orgType" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="org.resultColumn.orgOptionalLongName" parent="org.resultColumn.orgOptionalLongName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgOptionalLongName-parent"  abstract="true">
+		<search:name>Name</search:name>
+		<search:desc>Long name for the organization, recorded as the default listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.generic" parent="org.criteria.generic-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.generic-parent"  abstract="true">
+		<search:name>List of generic criteria</search:name>
+		<search:desc>Generic criteria</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalLongName"/>
+			<ref bean="org.queryParam.orgOptionalLocation"/>
+			<ref bean="org.queryParam.orgOptionalId"/>
+			<ref bean="org.queryParam.orgOptionalShortName"/>
+			<ref bean="org.queryParam.startswith.orgOptionalShortName"/>
+			<ref bean="org.queryParam.orgOptionalType"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="org.queryParam.orgOptionalLongName" parent="org.queryParam.orgOptionalLongName-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalLongName-parent" 
+		optional="true" abstract="true">
+		<ref bean="field.orgInfo.longName.fd" />
+	</search:queryParam>
+	<search:queryParam id="org.queryParam.orgOptionalLocation" parent="org.queryParam.orgOptionalLocation-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalLocation-parent" 
+		optional="true" abstract="true">
+		<ref bean="org.fieldDescriptor.location" />
+	</search:queryParam>
+	<search:queryParam id="org.queryParam.orgOptionalId" parent="org.queryParam.orgOptionalId-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalId-parent" 
+		optional="true" abstract="true">
+		<ref bean="field.orgInfo.id.fd" />
+	</search:queryParam>
+	<search:queryParam id="org.queryParam.orgPositionId" parent="org.queryParam.orgPositionId-parent"/>
+	<search:queryParam id="org.queryParam.orgPositionId-parent" 
+		optional="true" abstract="true">
+		<ref bean="field.orgInfo.id.fd" />
+	</search:queryParam>
+	<search:queryParam id="org.queryParam.orgOptionalShortName" parent="org.queryParam.orgOptionalShortName-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalShortName-parent" 
+		optional="true" abstract="true">
+		<ref bean="field.orgInfo.shortName.fd" />
+	</search:queryParam>
+	<search:queryParam id="org.queryParam.startswith.orgOptionalShortName" parent="org.queryParam.startswith.orgOptionalShortName-parent"/>
+	<search:queryParam id="org.queryParam.startswith.orgOptionalShortName-parent" 
+		optional="true" abstract="true">
+		<ref bean="field.orgInfo.shortName.fd" />
+	</search:queryParam>
+	<search:queryParam id="org.queryParam.orgOptionalType" parent="org.queryParam.orgOptionalType-parent"/>
+	<search:queryParam id="org.queryParam.orgOptionalType-parent" 
+		optional="true" abstract="true">
+		<ref bean="field.orgInfo.type.fd" />
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="org.fieldDescriptor.location" parent="org.fieldDescriptor.location-parent"/>
+	<dict:fieldDescriptor id="org.fieldDescriptor.location-parent"  abstract="true">
+		<dict:name>Location</dict:name>
+		<dict:desc>Organization location.</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+		
+	<search:searchType id="org.search.test.orgs" parent="org.search.test.orgs-parent"/>
+	<search:searchType id="org.search.test.orgs-parent"  abstract="true">
+		<search:name>All Orgs Filtered</search:name>
+		<search:desc>Query with multiple optional elements</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgFullView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgGenericCriteria"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchCriteriaTypeInfo id="org.criteria.orgGenericCriteria" parent="org.criteria.orgGenericCriteria-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgGenericCriteria-parent"  abstract="true">
+		<search:name>OrgGenericCriteria</search:name>
+		<search:desc>OrgGenericCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgGenericType"/>
+			<ref bean="org.queryParam.orgGenericShortName"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="org.queryParam.orgGenericType" parent="org.queryParam.orgGenericType-parent"/>
+	<search:queryParam id="org.queryParam.orgGenericType-parent"  optional="true" abstract="true">
+		<ref bean="field.orgInfo.type.fd" />
+	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.orgGenericShortName" parent="org.queryParam.orgGenericShortName-parent"/>
+	<search:queryParam id="org.queryParam.orgGenericShortName-parent"  optional="true" abstract="true">
+		<ref bean="field.orgInfo.shortName.fd" />
+	</search:queryParam>
+	
+	<search:searchType id="org.search.orgHierarchyIds" parent="org.search.orgHierarchyIds-parent"/>
+	<search:searchType id="org.search.orgHierarchyIds-parent"  abstract="true">
 		<search:name>All org Hierarchies</search:name>
 		<search:desc>Returns all org hierarchy ids.</search:desc>
 		<search:searchResultTypeInfo>
@@ -19,8 +143,45 @@
 			<ref bean="org.criteria.orgHierarchyIds" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+	
+	<search:searchType id="org.search.orgTypes" parent="org.search.orgTypes-parent"/>
+	<search:searchType id="org.search.orgTypes-parent"  abstract="true">
+		<search:name>All org Types</search:name>
+		<search:desc>Returns all org types.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgType" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="org.search.orgPeronRelationTypes" parent="org.search.orgPeronRelationTypes-parent"/>
+	<search:searchType id="org.search.orgPeronRelationTypes-parent"  abstract="true">
+		<search:name>All org Types</search:name>
+		<search:desc>Returns all org types.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgPersonRelationType" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgPersonRelationType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="org.search.findOrgPositionRestrictions" parent="org.search.findOrgPositionRestrictions-parent"/>
+	<search:searchType id="org.search.findOrgPositionRestrictions-parent"  abstract="true">
+		<search:name>All org Hierarchies</search:name>
+		<search:desc>Returns all org hierarchy ids.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.findOrgPositionRestrictions" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.findOrgPositionRestrictions" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 
-	<search:searchType id="org.search.hierarchiesOrgIsIn">
+	<search:searchType id="org.search.hierarchiesOrgIsIn" parent="org.search.hierarchiesOrgIsIn-parent"/>
+	<search:searchType id="org.search.hierarchiesOrgIsIn-parent"  abstract="true">
 		<search:name>All org Hierarchies</search:name>
 		<search:desc>Returns all org hierarchy ids.</search:desc>
 		<search:searchResultTypeInfo>
@@ -31,7 +192,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
-	<search:searchType id="org.search.orgQuickViewByOrgType">
+	<search:searchType id="org.search.orgQuickViewByOrgType" parent="org.search.orgQuickViewByOrgType-parent"/>
+	<search:searchType id="org.search.orgQuickViewByOrgType-parent"  abstract="true">
 		<search:name>Organization Quick View By Org Type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs having a match on org type.</search:desc>
 		<search:searchResultTypeInfo>
@@ -42,7 +204,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgQuickViewByHierarchyShortName">
+	<search:searchType id="org.search.orgQuickViewByHierarchyShortName" parent="org.search.orgQuickViewByHierarchyShortName-parent"/>
+	<search:searchType id="org.search.orgQuickViewByHierarchyShortName-parent"  abstract="true">
 		<search:name>Organization Quick View By Hierarchy and ShortName match</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a hierarchy with like on shortName.</search:desc>
 		<search:searchResultTypeInfo>
@@ -53,7 +216,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType" parent="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType-parent"/>
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType-parent"  abstract="true">
 		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
 		<search:searchResultTypeInfo>
@@ -64,7 +228,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr">
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr" parent="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr-parent"/>
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr-parent"  abstract="true">
 		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
 		<search:searchResultTypeInfo>
@@ -75,7 +240,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
+	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
+	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"  abstract="true">
 		<search:name>Organization Quick View By Relation Type, Org Ide and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with and org and specified types</search:desc>
 		<search:searchResultTypeInfo>
@@ -86,7 +252,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgByShortName">
+	<search:searchType id="org.search.orgByShortName" parent="org.search.orgByShortName-parent"/>
+	<search:searchType id="org.search.orgByShortName-parent"  abstract="true">
 		<search:name>ShortName match</search:name>
 		<search:desc>Search on shortName only.</search:desc>
 		<search:searchResultTypeInfo>
@@ -97,7 +264,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgByShortNameAndType">
+	<search:searchType id="org.search.orgByShortNameAndType" parent="org.search.orgByShortNameAndType-parent"/>
+	<search:searchType id="org.search.orgByShortNameAndType-parent"  abstract="true">
 		<search:name>ShortName and Type match</search:name>
 		<search:desc>Search on shortName and Type.</search:desc>
 		<search:searchResultTypeInfo>
@@ -108,7 +276,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgQuickLongViewByFirstLetter">
+	<search:searchType id="org.search.orgQuickLongViewByFirstLetter" parent="org.search.orgQuickLongViewByFirstLetter-parent"/>
+	<search:searchType id="org.search.orgQuickLongViewByFirstLetter-parent"  abstract="true">
 		<search:name>Organization Quick View by First Letter of Short Name or Long Name</search:name>
 		<search:desc>Returns a quick view of organization information for orgs whose short or long name start with a particular letter</search:desc>
 		<search:searchResultTypeInfo>
@@ -119,7 +288,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgFullViewById">
+	<search:searchType id="org.search.orgFullViewById" parent="org.search.orgFullViewById-parent"/>
+	<search:searchType id="org.search.orgFullViewById-parent"  abstract="true">
 		<search:name>Full view by organization id key</search:name>
 		<search:desc>Returns a full view of organization information for the id supplied</search:desc>
 		<search:searchResultTypeInfo>
@@ -130,7 +300,8 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
-	<search:searchResultTypeInfo id="org.result.orgHierarchyIds">
+	<search:searchResultTypeInfo id="org.result.orgHierarchyIds" parent="org.result.orgHierarchyIds-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgHierarchyIds-parent"  abstract="true">
 		<search:name>Organization Quick View</search:name>
 		<search:desc>Quick view of the Organization</search:desc>
 		<search:resultColumns>
@@ -138,16 +309,48 @@
 			<ref bean="org.resultColumn.orgHierarchyName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.orgType" parent="org.result.orgType-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgType-parent"  abstract="true">
+		<search:name>Organization Type</search:name>
+		<search:desc>Organization Type</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgType" />
+			<ref bean="org.resultColumn.orgTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.orgPersonRelationType" parent="org.result.orgPersonRelationType-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgPersonRelationType-parent"  abstract="true">
+		<search:name>Organization Person RelationType</search:name>
+		<search:desc>Organization Person RelationType</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgPersonRelationType" />
+			<ref bean="org.resultColumn.orgPersonRelationTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
 
-	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsIn">
+	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsIn" parent="org.result.hierarchiesOrgIsIn-parent"/>
+	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsIn-parent"  abstract="true">
 		<search:name>Hierarchies Containing an Org</search:name>
 		<search:desc>IDs of hierarchies that a specified org is a member of</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgHierarchyId" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.findOrgPositionRestrictions" parent="org.result.findOrgPositionRestrictions-parent"/>
+	<search:searchResultTypeInfo id="org.result.findOrgPositionRestrictions-parent"  abstract="true">
+		<search:name>Organization Position Restriction</search:name>
+		<search:desc>Organization Position Restriction</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgPositionRestrictionType" />
+			<ref bean="org.resultColumn.orgPositionRestrictionTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
 
-	<search:searchResultTypeInfo id="org.result.orgQuickView">
+	<search:searchResultTypeInfo id="org.result.orgQuickView" parent="org.result.orgQuickView-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgQuickView-parent"  abstract="true">
 		<search:name>Organization Quick View</search:name>
 		<search:desc>Quick view of the Organization</search:desc>
 		<search:resultColumns>
@@ -156,7 +359,8 @@
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
-	<search:searchResultTypeInfo id="org.result.orgQuickLongView">
+	<search:searchResultTypeInfo id="org.result.orgQuickLongView" parent="org.result.orgQuickLongView-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgQuickLongView-parent"  abstract="true">
 		<search:name>Organization Quick View</search:name>
 		<search:desc>Quick view of the Organization</search:desc>
 		<search:resultColumns>
@@ -167,7 +371,8 @@
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	
-	<search:searchResultTypeInfo id="org.result.orgFullView">
+	<search:searchResultTypeInfo id="org.result.orgFullView" parent="org.result.orgFullView-parent"/>
+	<search:searchResultTypeInfo id="org.result.orgFullView-parent"  abstract="true">
 		<search:name>Organization Full View</search:name>
 		<search:desc>Full view of the Organization</search:desc>
 		<search:resultColumns>
@@ -179,88 +384,72 @@
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
-	<search:resultColumn id="org.resultColumn.orgId">
+	<search:resultColumn id="org.resultColumn.orgId" parent="org.resultColumn.orgId-parent"/>
+	<search:resultColumn id="org.resultColumn.orgId-parent"  abstract="true">
 		<search:name>Organization Identifier</search:name>
 		<search:desc>Identifier for the organization</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
-	<search:resultColumn id="org.resultColumn.orgShortName">
+	<search:resultColumn id="org.resultColumn.orgShortName" parent="org.resultColumn.orgShortName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgShortName-parent"  abstract="true">
 		<search:name>Organization Short Name</search:name>
-		<search:desc>Short name for the organization, recorded as the default
-				listing.</search:desc>
+		<search:desc>Short name for the organization, recorded as the default listing.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
-	<search:resultColumn id="org.resultColumn.orgLongName">
+	<search:resultColumn id="org.resultColumn.orgLongName" parent="org.resultColumn.orgLongName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgLongName-parent"  abstract="true">
 		<search:name>Organization Long Name</search:name>
-		<search:desc>Long name for the organization, recorded as the default
-				listing.</search:desc>
+		<search:desc>Long name for the organization, recorded as the default listing.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
-	<search:resultColumn id="org.resultColumn.orgHierarchyName">
+	<search:resultColumn id="org.resultColumn.orgHierarchyName" parent="org.resultColumn.orgHierarchyName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgHierarchyName-parent"  abstract="true">
 		<search:name>Organization Hierarchy Name</search:name>
 		<search:desc>Name for the Hierarchy an Organization is in.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
-	<search:resultColumn id="org.resultColumn.orgHierarchyId">
+	<search:resultColumn id="org.resultColumn.orgHierarchyId" parent="org.resultColumn.orgHierarchyId-parent"/>
+	<search:resultColumn id="org.resultColumn.orgHierarchyId-parent"  abstract="true">
 		<search:name>Organization Hierarchy Id</search:name>
 		<search:desc>Id for the Hierarchy an Organization is in.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
-	<search:resultColumn id="org.resultColumn.orgType">
+	<search:resultColumn id="org.resultColumn.orgType" parent="org.resultColumn.orgType-parent"/>
+	<search:resultColumn id="org.resultColumn.orgType-parent"  abstract="true">
 		<search:name>Organization Type</search:name>
 		<search:desc>Organization Type</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
-
-	<search:searchType id="nestedSearchType">
-		<search:name>Nested</search:name>
-		<search:desc>Nested Search Type</search:desc>
-		<search:searchResultTypeInfo id="searchResultTypeNested">
-			<search:name>Organization Quick View</search:name>
-			<search:desc>Quick view of the Organization</search:desc>
-			<search:resultColumns>
-				<search:resultColumn id="org.resultColumn.orgIdNested">
-					<search:name>Organization Identifier</search:name>
-					<search:desc>Identifier for the organization</search:desc>
-					<search:dataType>string</search:dataType>
-				</search:resultColumn>
-				<search:resultColumn id="org.resultColumn.orgIdNested2">
-					<search:name>Organization Identifier</search:name>
-					<search:desc>Identifier for the organization</search:desc>
-					<search:dataType>string</search:dataType>
-				</search:resultColumn>
-				<ref bean="org.resultColumn.orgShortName" />
-			</search:resultColumns>
-		</search:searchResultTypeInfo>
-		<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgTypeNested">
-			<search:name>OrgByOrgTypeCriteria</search:name>
-			<search:desc>OrgByOrgTypeCriteria Description</search:desc>
-			<search:queryParams>
-				<search:queryParam>
-					<dict:fieldDescriptor>
-						<dict:name>CLU Identifier</dict:name>
-						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
-						<dict:dataType>string</dict:dataType>
-						<dict:readOnly>true</dict:readOnly>
-					</dict:fieldDescriptor>
-				</search:queryParam>
-			</search:queryParams>
-		</search:searchCriteriaTypeInfo>
-	</search:searchType>
-
-	<dict:fieldDescriptor id="parentFieldDescriptor">
+	
+	<search:resultColumn id="org.resultColumn.orgTypeName" parent="org.resultColumn.orgTypeName-parent"/>
+	<search:resultColumn id="org.resultColumn.orgTypeName-parent"  abstract="true">
+		<search:name>Organization Type Name</search:name>
+		<search:desc>Organization Type Name</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	
+	<search:resultColumn id="org.resultColumn.orgPersonRelationType" parent="org.resultColumn.orgType-parent"/>
+	<search:resultColumn id="org.resultColumn.orgPersonRelationTypeName" parent="org.resultColumn.orgTypeName-parent"/>
+	
+	<search:resultColumn id="org.resultColumn.orgPositionRestrictionType" parent="org.resultColumn.orgType-parent"/>
+	<search:resultColumn id="org.resultColumn.orgPositionRestrictionTypeName" parent="org.resultColumn.orgTypeName-parent"/>
+	
+	<dict:fieldDescriptor id="parentFieldDescriptor" parent="parentFieldDescriptor-parent"/>
+	<dict:fieldDescriptor id="parentFieldDescriptor-parent"  abstract="true">
 		<dict:name>CLU Identifier</dict:name>
 		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 	
-	<dict:fieldDescriptor id="list">
+	<dict:fieldDescriptor id="list" parent="list-parent"/>
+	<dict:fieldDescriptor id="list-parent"  abstract="true">
 		<dict:name>CLU Identifier</dict:name>
 		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
 		<dict:dataType>complex</dict:dataType>
@@ -272,48 +461,78 @@
 		<dict:name>Child CLU Identifier</dict:name>
 	</dict:fieldDescriptor>
 
-	<search:queryParam id="org.queryParam.orgType">
-		<ref bean="childFieldDescriptor" />
+	<search:queryParam id="org.queryParam.orgType" parent="org.queryParam.orgType-parent"/>
+	<search:queryParam id="org.queryParam.orgType-parent"  abstract="true">
+		<ref bean="field.orgInfo.type.fd" />
 	</search:queryParam>
 	
-	<search:queryParam id="org.queryParam.orgTypeList">
-		<ref bean="list" />
+	<search:queryParam id="org.queryParam.orgTypeList" parent="org.queryParam.orgTypeList-parent"/>
+	<search:queryParam id="org.queryParam.orgTypeList-parent"  abstract="true">
+		<ref bean="field.orgInfo.type.fd" />
 	</search:queryParam>
 
-	<search:queryParam id="org.queryParam.relationType">
-		<ref bean="childFieldDescriptor" />
+	<search:queryParam id="org.queryParam.relationType" parent="org.queryParam.relationType-parent"/>
+	<search:queryParam id="org.queryParam.relationType-parent"  abstract="true">
+		<ref bean="field.orgOrgRelationInfo.type.fd" />
 	</search:queryParam>
 
-	<search:queryParam id="org.queryParam.relatedOrgType">
-		<ref bean="childFieldDescriptor" />
+	<search:queryParam id="org.queryParam.relatedOrgType" parent="org.queryParam.relatedOrgType-parent"/>
+	<search:queryParam id="org.queryParam.relatedOrgType-parent"  abstract="true">
+		<ref bean="field.orgInfo.type.fd" />
 	</search:queryParam>
 
 	
-	<search:queryParam id="org.queryParam.orgHierarchyId">
-		<dict:fieldDescriptor>
-			<dict:name>Hierarchy</dict:name>
-			<dict:search key="org.search.orgHierarchyIds"/>
-		</dict:fieldDescriptor>
+	<search:queryParam id="org.queryParam.orgHierarchyId" parent="org.queryParam.orgHierarchyId-parent"/>
+	<search:queryParam id="org.queryParam.orgHierarchyId-parent"  abstract="true">
+		<ref bean="field.orgOrgRelationTypeInfo.orgHierarchyKey.fd"/>
 	</search:queryParam>
 	
-	<search:queryParam id="org.queryParam.orgShortName">
-		<dict:fieldDescriptor parent="childFieldDescriptor">
-			<dict:name>Org Name</dict:name>
-		</dict:fieldDescriptor>
+	<search:queryParam id="org.queryParam.orgShortName" parent="org.queryParam.orgShortName-parent"/>
+	<search:queryParam id="org.queryParam.orgShortName-parent"  abstract="true">
+		<ref bean="field.orgInfo.shortName.fd"/>
 	</search:queryParam>
 	
-	<search:queryParam id="org.queryParam.orgId">
-		<dict:fieldDescriptor parent="childFieldDescriptor">
-			<dict:name>Org Id</dict:name>
-		</dict:fieldDescriptor>
+	<search:queryParam id="org.queryParam.orgId" parent="org.queryParam.orgId-parent"/>
+	<search:queryParam id="org.queryParam.orgId-parent"  abstract="true">
+		<ref bean="field.orgInfo.id.fd"/>
 	</search:queryParam>
 
-	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds">
+	<search:searchCriteriaTypeInfo id="org.criteria.findOrgPositionRestrictions" parent="org.criteria.findOrgPositionRestrictions-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.findOrgPositionRestrictions-parent"  abstract="true">
+		<search:name>findOrgPositionRestrictionsCriteria</search:name>
+		<search:desc>Org ID on which to search for Positions</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds" parent="org.criteria.orgHierarchyIds-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds-parent"  abstract="true">
 		<search:name>OrgHierarchyIdsCriteria</search:name>
 		<search:desc>OrgHierarchyIdsCriteria Description</search:desc>
 	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgType" parent="org.criteria.orgType-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgType-parent"  abstract="true">
+		<search:name>OrgTypeCriteria</search:name>
+		<search:desc>OrgTypeCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgPersonRelationType" parent="org.criteria.orgPersonRelationType-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgPersonRelationType-parent"  abstract="true">
+		<search:name>OrgPersonRelationTypeCriteria</search:name>
+		<search:desc>OrgPersonRelationTypeCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 
-	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsIn">
+	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsIn" parent="org.criteria.hierarchiesOrgIsIn-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsIn-parent"  abstract="true">
 		<search:name>HierarchiesOrgIsInCriteria</search:name>
 		<search:desc>Org ID on which to search for containing hierarchies</search:desc>
 		<search:queryParams>
@@ -321,7 +540,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType" parent="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType-parent"  abstract="true">
 		<search:name>OrgByRelationTypeOrgTypeRelatedOrgType</search:name>
 		<search:desc>Orgs in a relation with the given org type and related org type</search:desc>
 		<search:queryParams>
@@ -331,7 +551,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeAltr">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeAltr" parent="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeAltr-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeAltr-parent"  abstract="true">
 		<search:name>OrgByRelationTypeOrgTypeRelatedOrgType</search:name>
 		<search:desc>Orgs in a relation with the given org type and related org type</search:desc>
 		<search:queryParams>
@@ -341,7 +562,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"  abstract="true">
 		<search:name>OrgQuickViewByRelationTypeRelatedOrgTypeOrgId</search:name>
 		<search:desc>Orgs in a relation with the given orgid, type and related org type</search:desc>
 		<search:queryParams>
@@ -351,7 +573,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType" parent="org.criteria.orgByOrgType-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType-parent"  abstract="true">
 		<search:name>OrgByOrgTypeCriteria</search:name>
 		<search:desc>OrgByOrgTypeCriteria Description</search:desc>
 		<search:queryParams>
@@ -359,7 +582,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByHierarchyShortName">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByHierarchyShortName" parent="org.criteria.orgByHierarchyShortName-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByHierarchyShortName-parent"  abstract="true">
 		<search:name>OrgByHierarchyShortNameCriteria</search:name>
 		<search:desc>OrgByHierarchyShortNameCriteria Description</search:desc>
 		<search:queryParams>
@@ -368,7 +592,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortName">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortName" parent="org.criteria.orgByShortName-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortName-parent"  abstract="true">
 		<search:name>OrgByShortNameCriteria</search:name>
 		<search:desc>OrgByShortNameCriteria Description</search:desc>
 		<search:queryParams>
@@ -377,7 +602,8 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortNameAndType">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortNameAndType" parent="org.criteria.orgByShortNameAndType-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortNameAndType-parent"  abstract="true">
 		<search:name>OrgByShortNameAndTypeCriteria</search:name>
 		<search:desc>OrgByShortNameAndTypeCriteria Description</search:desc>
 		<search:queryParams>
@@ -387,14 +613,16 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByFirstLetter">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByFirstLetter" parent="org.criteria.orgByFirstLetter-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByFirstLetter-parent"  abstract="true">
 		<search:name>OrgByFirstLetterCriteria</search:name>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgShortName" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-	<search:searchCriteriaTypeInfo id="org.criteria.orgById">
+	<search:searchCriteriaTypeInfo id="org.criteria.orgById" parent="org.criteria.orgById-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgById-parent"  abstract="true">
 		<search:name>OrgByIdCriteria</search:name>
 		<search:desc>OrgByIdCriteria Description</search:desc>
 		<search:queryParams>
@@ -407,6 +635,15 @@
 			<map>
 				<entry key="org.search.orgHierarchyIds">
 					<value>SELECT oh.id, oh.name FROM OrgHierarchy oh</value>
+				</entry>
+				<entry key="org.search.orgTypes">
+					<value>SELECT org.id, org.name FROM OrgType org</value>
+				</entry>
+				<entry key="org.search.orgPeronRelationTypes">
+					<value>SELECT org.id, org.name FROM OrgPersonRelationType org</value>
+				</entry>
+				<entry key="org.search.findOrgPositionRestrictions">
+					<value>SELECT opr.personRelationType.id , opr.title FROM OrgPositionRestriction opr WHERE opr.org.id = :org_queryParam_orgId</value>
 				</entry>
 				<entry key="org.search.hierarchiesOrgIsIn">
 					<value>SELECT hierarchy.id FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
@@ -439,6 +676,39 @@
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr">
 					<value>SELECT rel.org.id, rel.org.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id in (:org_queryParam_orgTypeList))  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 				</entry>
+				<entry key="org.search.test.orgs">
+					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy</value>
+				</entry>
+				<entry key="org.search.generic">
+					<value>SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org</value>
+				</entry>				
+				<entry key="org.queryParam.orgGenericType">
+					<value>org.type.id = :org_queryParam_orgGenericType</value>
+				</entry>
+				<entry key="org.queryParam.orgGenericShortName">
+					<value>org.shortName like :org_queryParam_orgGenericShortName</value>
+				</entry>
+				<entry key="org.queryParam.orgOptionalId">
+					<value>org.id = :org_queryParam_orgOptionalId</value>
+				</entry>	
+				<entry key="org.queryParam.orgPositionId">
+					<value>org.org.id = :org_queryParam_orgPositionId</value>
+				</entry>				
+				<entry key="org.queryParam.orgOptionalType">
+					<value>org.type.id IN (:org_queryParam_orgOptionalType)</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalShortName">
+					<value>org.shortName</value>
+				</entry>
+				<entry key="org.queryParam.startswith.orgOptionalShortName">
+				    <value>org.shortName like :org_queryParam_startswith_orgOptionalShortName || '%' OR org.shortName like '% ' || :org_queryParam_startswith_orgOptionalShortName || '%'</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalLongName">
+					<value>org.longName</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalLocation">
+					<value>org.longName</value>  <!--  we don't have yet location defined in database -->
+				</entry>		
 			</map>
 		</property>
 	</bean>

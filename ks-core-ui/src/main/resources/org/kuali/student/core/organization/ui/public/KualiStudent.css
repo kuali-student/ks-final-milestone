@@ -26,7 +26,7 @@ BODY
 	margin:0 auto;
 }
 
-.gwt-TextBox {
+/*.gwt-TextBox {
 	width: 250px;
 }
 
@@ -36,7 +36,7 @@ BODY
 
 .gwt-TextArea {
 	width: 250px;
-}
+}*/
 
 .info {
 	border-style: solid;
@@ -243,6 +243,12 @@ background: FormBackgroundColor;
 border: outset FormBackgroundColor thin;
 }
 
+.KS-Org-Tree-Member-Section{
+	
+	background-color: #eeeeee;
+	width: 600;
+}
+
 .KS-Disclosure-Section{
 	  margin: 6px;
       border: 1px solid #c0c0c0; 
@@ -312,4 +318,18 @@ border-color: SelectionChoosingColor #aabbbb;
 	font-weight: bold;
 	font-size: 80%;
 	padding: 1ex;
+}
+
+.KS-CORE-Section {
+	margin: 5px;
+	padding: 5px 5px 10px 5px;
+	width: 95%;
+}
+
+.KS-CORE-Section-Divider {
+	border-top: 1px solid orange;
+}
+
+.PageScrollTable{
+	
 }

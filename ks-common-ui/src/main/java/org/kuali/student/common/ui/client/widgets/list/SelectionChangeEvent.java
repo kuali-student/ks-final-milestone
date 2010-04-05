@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
 
     private static Type<SelectionChangeHandler> TYPE;
+    private Widget widget;
 
     /**
      * Used to fire a SelectionChangeEvent
@@ -33,12 +34,25 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
      */
     public static void fire(Widget source) {
         if (TYPE != null) {
-          SelectionChangeEvent event = new SelectionChangeEvent();
+          SelectionChangeEvent event = new SelectionChangeEvent(source);
           source.fireEvent(event);
+          
         }
       }
+    
+    public SelectionChangeEvent(Widget widget){
+    	this.widget = widget;
+    }
+    
+    public Widget getWidget() {
+		return widget;
+	}
 
-    /**
+	public void setWidget(Widget widget) {
+		this.widget = widget;
+	}
+
+	/**
      * Gets the type associated with this event.
      * 
      * @return returns the handler type
@@ -55,7 +69,7 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
      */
     @Override
     protected void dispatch(SelectionChangeHandler handler) {
-        handler.onSelectionChange((KSSelectItemWidgetAbstract)this.getSource());
+        handler.onSelectionChange(this);
     }
 
     /**

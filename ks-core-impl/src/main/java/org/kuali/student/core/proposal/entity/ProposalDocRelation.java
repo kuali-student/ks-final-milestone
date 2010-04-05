@@ -33,7 +33,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 /**
  * Join table between Proposal and Document
@@ -67,7 +66,7 @@ public class ProposalDocRelation extends MetaEntity implements AttributeOwner<Pr
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private ProposalRichText descr;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -125,12 +124,12 @@ public class ProposalDocRelation extends MetaEntity implements AttributeOwner<Pr
         this.title = title;
     }
 
-    public RichText getDesc() {
-        return desc;
+    public ProposalRichText getDescr() {
+        return descr;
     }
 
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(ProposalRichText descr) {
+        this.descr = descr;
     }
 
     public Date getEffectiveDate() {

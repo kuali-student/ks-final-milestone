@@ -107,7 +107,7 @@ public class Header extends Composite {
         buildLogoPanel();
         main.add(logoPanel);
 
-        //main.add(separator1);
+        main.add(separator1);
         buildLinksPanel();
         main.add(linksPanel);    
         //main.add(separator2);

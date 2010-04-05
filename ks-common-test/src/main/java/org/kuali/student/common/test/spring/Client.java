@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Client {
 	public String value();
-	public String port() default "8181";
+	public String port() default "";
 	public boolean secure() default false;
 	public String additionalContextFile() default "";
 }

@@ -34,9 +34,6 @@ public class ContextEntity {
     @Column(name="ID")
     String id;
     
-    @Column(name="ENUM_ID")
-    String enumerationId;
-    
     @Column(name="CTX_KEY")
     String contextKey;
     

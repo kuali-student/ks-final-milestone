@@ -15,7 +15,10 @@
 package org.kuali.student.common.ui.client.widgets;
 
 
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * This class defines methods for implementations of a DisclosureSection.
@@ -25,7 +28,8 @@ import com.google.gwt.user.client.ui.Composite;
  *
  */
 public abstract class KSImageAbstract extends Composite{
-	/**
+
+/**
 	 * This method is a work around because GWT.Create can't call
      * constructors with arguments.
 	 * 
@@ -45,4 +49,9 @@ public abstract class KSImageAbstract extends Composite{
 	 */
 	protected abstract void init(String url, int left, int top, int width, int height);
 
+	protected abstract void init(ImageResource resource);
+
+	public abstract void addClickHandler(ClickHandler handler);
+
+	public abstract Image getImage();
 }

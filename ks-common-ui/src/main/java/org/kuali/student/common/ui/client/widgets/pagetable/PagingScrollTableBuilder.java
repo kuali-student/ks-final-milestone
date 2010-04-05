@@ -3,9 +3,9 @@
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -18,10 +18,10 @@ import java.util.List;
 
 import org.kuali.student.core.dto.Idable;
 
-
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.ui.HTML;
 /**
  * Constructing a PagingScrollTable from GWT's Incubator is complicated. This class uses the Builder
@@ -33,15 +33,15 @@ import com.google.gwt.user.client.ui.HTML;
  *     columnDefinitions(createColumnDefinitions()).build(new PersonDTOs().getPersons());
  * }
  * Parameterized type is the Data Transfer Object type which contains a row's data
- * 
+ *
  * Column Definitions map a table column to a dto's field and set column header
 
- * 
+ *
  * PagingOptions are the paging widget. It is created after the builder creates the table and
  * may be positioned anywhere.
  * @see com.google.gwt.gen2.table.client.PagingOptions
- * 
- * RowSelectionHandler is added after the builder creates the table. 
+ *
+ * RowSelectionHandler is added after the builder creates the table.
  * @see com.google.gwt.gen2.table.event.client.RowSelectionHandler
  * @see com.google.gwt.gen2.table.event.client.FixedWidthGrid
  * @see org.kuali.student.common.ui.client.widgets.pagetable.TableSelectionToLabelHandler
@@ -58,20 +58,20 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
     private List<AbstractColumnDefinition<RowType, ?>> columnDefs;
     private List<Integer> columnPixelWidths = new ArrayList<Integer>();
 
-  
+
     /**
      * This constructs the builder
-     * 
+     *
      */
     public PagingScrollTableBuilder() {
         super();
     }
 
-    
+
     /**
      * This method defines the table's display size in pixels
      * Required
-     * 
+     *
      * @param tablePixelWidth
      * @param tablePixelHeight
      * @return builder
@@ -81,11 +81,11 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
         this.tablePixelHeight = tablePixelHeight;
         return this;
     }
-    
+
     /**
      * This method defines the table's cache
      * Optional, use for paging table only. If not called, table displays all rows.
-     * 
+     *
      * @param numPageRows to display on a page
      * @param numPages in the table
      * @return builder
@@ -96,33 +96,33 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
         this.isPagable = true;
         return this;
     }
-    
+
     /**
      * This method adds the table's column definitions
      * Required
-     * 
+     *
      * @see com.google.gwt.gen2.table.client.AbstractColumnDefinition
-     * Set a column definitions preferredWidth in pixels, and the builder will use that to 
+     * Set a column definitions preferredWidth in pixels, and the builder will use that to
      * set the column width in the table. This works around setPreferredWidth not setting it itself.
      * ColumnDefinitions may be reused in other PagingScrollTables for the same dto. They are
      * passed to the builder as a
      * {@code List<AbstractColumnDefinition<RowType, ?>>}
      * Where rowType is the dto and '?' is the column type. The column definition's index in the list
      * is its column index in the table.
-     * 
+     *
      * @param columnDefs table display column index equals columnDefs index
      * @return builder
      */
     public PagingScrollTableBuilder<RowType> columnDefinitions(List<AbstractColumnDefinition<RowType, ?>> columnDefs) {
         this.columnDefs = columnDefs;
         return this;
-    } 
+    }
 
     /**
      * This method builds the table model. Call at the end of the builder method chain.
      * Required
-     * 
-     * 
+     *
+     *
      * @return the built pagingScrollTable
      */
     @SuppressWarnings("unchecked")//columnDef cast
@@ -145,10 +145,10 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
         }
         pagingScrollTable.setPixelSize(tablePixelWidth,tablePixelHeight);//FIXME workaround for incubator bug
         pagingScrollTable.setEmptyTableWidget(new HTML("There is no data to display"));
-        /*DefaultColumnSorter isn't initialized with GenericTableModel setting columnSorter null
-        causes table to use DefaultColumnSorter */
-        pagingScrollTable.getDataTable().setColumnSorter(null);
-  
+
+        // FIXME Get this setting from the search definition when it is available. For now just default to default value (multiple rows)
+        pagingScrollTable.getDataTable().setSelectionPolicy(SelectionPolicy.MULTI_ROW);
+
         return this.pagingScrollTable;
     }
 

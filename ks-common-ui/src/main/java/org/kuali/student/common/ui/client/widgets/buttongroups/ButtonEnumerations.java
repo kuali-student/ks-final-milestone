@@ -22,9 +22,9 @@ public class ButtonEnumerations {
     public interface ButtonEnum{
         public String getText();
     };
-    
+
     final static ApplicationContext context = Application.getApplicationContext();
-    
+
     public static enum OkEnum implements ButtonEnum{Ok;
 
     @Override
@@ -36,68 +36,68 @@ public class ButtonEnumerations {
         return null;  
     }
     };
-    
-    
+
+
     public static enum YesNoEnum implements ButtonEnum{YES, NO;
 
-        @Override
-        public String getText() {
-            switch(this){
-                case YES:
-                    return context.getMessage("yes");
-                case NO:
-                    return context.getMessage("no");
-            }
-            return null;  
+    @Override
+    public String getText() {
+        switch(this){
+            case YES:
+                return context.getMessage("yes");
+            case NO:
+                return context.getMessage("no");
         }
+        return null;  
+    }
     };
-    
+
     public static enum ConfirmCancelEnum implements ButtonEnum{CONFIRM, CANCEL;
 
-        @Override
-        public String getText() {
-            switch(this){
-                case CONFIRM:
-                    return context.getMessage("confirm");
-                case CANCEL:
-                    return context.getMessage("cancel");
-            }
-            return null;  
+    @Override
+    public String getText() {
+        switch(this){
+            case CONFIRM:
+                return context.getMessage("confirm");
+            case CANCEL:
+                return context.getMessage("cancel");
         }
+        return null;  
+    }
     };
-        
+
     public static enum YesNoCancelEnum implements ButtonEnum{YES, NO, CANCEL;
 
-        @Override
-        public String getText() {
-            switch(this){
-                case YES:
-                    return context.getMessage("yes");
-                case NO:
-                    return context.getMessage("no");
-                case CANCEL:
-                    return context.getMessage("cancel");
-            }
-            return null;  
+    @Override
+    public String getText() {
+        switch(this){
+            case YES:
+                return context.getMessage("yes");
+            case NO:
+                return context.getMessage("no");
+            case CANCEL:
+                return context.getMessage("cancel");
         }
+        return null;  
+    }
     };
-    
+
     public static enum AddModifyRemoveEnum implements ButtonEnum{ADD, MODIFY, REMOVE;
 
-        @Override
-        public String getText() {
-            switch(this){
-                case ADD:
-                    return context.getMessage("add");
-                case MODIFY:
-                    return context.getMessage("modify");
-                case REMOVE:
-                    return context.getMessage("remove");
-            }
-            return null;  
+    @Override
+    public String getText() {
+        switch(this){
+            case ADD:
+                return context.getMessage("add");
+            case MODIFY:
+                return context.getMessage("modify");
+            case REMOVE:
+                return context.getMessage("remove");
         }
+        return null;  
+    }
     };
-    
+
     public static enum SendCancelEnum implements ButtonEnum{SEND, CANCEL;
 
     @Override
@@ -110,5 +110,47 @@ public class ButtonEnumerations {
         }
         return null;  
     }
-};
+    };
+
+    public static enum GoCancelEnum implements ButtonEnum{GO, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case GO:
+                return context.getMessage("go");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+    };
+    
+    public static enum CreateCancelEnum implements ButtonEnum{CREATE, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case CREATE:
+                return context.getMessage("create");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+    };
+    
+    public static enum SearchCancelEnum implements ButtonEnum{SEARCH, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case SEARCH:
+                return context.getMessage("search");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+    };
 }

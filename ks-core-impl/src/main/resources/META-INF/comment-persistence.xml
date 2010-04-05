@@ -13,6 +13,7 @@
 
         <class>org.kuali.student.core.comment.entity.Comment</class>
         <class>org.kuali.student.core.comment.entity.CommentAttribute</class>
+        <class>org.kuali.student.core.comment.entity.CommentRichText</class>
         <class>org.kuali.student.core.comment.entity.CommentType</class>
         <class>org.kuali.student.core.comment.entity.CommentTypeAttribute</class>
         <class>org.kuali.student.core.comment.entity.Tag</class>

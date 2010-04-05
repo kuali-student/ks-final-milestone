@@ -16,21 +16,23 @@ package org.kuali.student.common.ui.client.widgets.documenttool;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
-import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
@@ -47,21 +49,18 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
 
-public class DocumentTool extends ToolView implements HasReferenceId{
+public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 	private String referenceId;
 	private String referenceTypeKey;
@@ -243,6 +242,25 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 		super(viewEnum, viewName);
 	}
 
+	private void isAuthorizedUploadDocuments() {
+        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+
+			@Override
+            public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+				GWT.log("Error checking permission for adding comments: ", caught);
+				throw new RuntimeException("Error checking Permissions: ", caught);
+            }
+
+			@Override
+            public void onSuccess(Boolean result) {
+				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
+				buttonPanel.setVisible(result);
+            }
+        	
+		});
+	}
+	
 	@Override
 	protected Widget createWidget() {
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
@@ -263,6 +281,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 		
 		buttonPanel.setContent(form);
 		layout.add(documentList);
+		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
 		
 		
@@ -423,7 +442,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
         private VerticalFlowPanel headerTextContainer = new VerticalFlowPanel();
         private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
         
-        Image delete = KSImages.INSTANCE.deleteComment().createImage();
+        KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
         
         private HTML name = new HTML("No file exists");
         private HTML documentText = new HTML();
@@ -537,4 +556,20 @@ public class DocumentTool extends ToolView implements HasReferenceId{
         }
         
     }
+	
+	
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+	@Override
+	public KSImage getImage() {
+		return Theme.INSTANCE.getCommonImages().getDocumentIcon();
+	}
 }

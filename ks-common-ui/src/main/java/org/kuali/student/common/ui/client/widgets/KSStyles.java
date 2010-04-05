@@ -21,6 +21,7 @@ package org.kuali.student.common.ui.client.widgets;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public interface KSStyles {
 	public static final String KS_ACCORDION = "KS-Accordion";
 	public static final String KS_ACCORDION_TITLEBAR = "KS-Accordion-Titlebar";
@@ -94,6 +95,7 @@ public interface KSStyles {
 	public static final String KS_LISTBOX_STYLE = "KS-Listbox";
 	public static final String KS_MODAL_GLASS = "KS-Modal-Dialog-Glass";
 	public static final String KS_MODAL_POPUP = "KS-Modal-Popup";
+	public static final String KS_PLACEHOLDER_STYLE = "KS-Placeholder";
 	
 	
 	public static final String KS_MOUSE_NORMAL = "KS-Mouse-Normal";

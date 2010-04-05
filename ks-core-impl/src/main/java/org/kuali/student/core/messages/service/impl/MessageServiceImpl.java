@@ -122,8 +122,7 @@ public class MessageServiceImpl implements MessageService{
 		    messageEntity =  messageDAO.updateMessage(localeKey, messageGroupKey, messageKey, messageEntity);
 		    MessageAssembler.toMessage( messageEntity,messageInfo);
 		    return messageInfo;
-		}
-        
+		}        
 	}
 
 	public Message addMessage(Message messageInfo) {

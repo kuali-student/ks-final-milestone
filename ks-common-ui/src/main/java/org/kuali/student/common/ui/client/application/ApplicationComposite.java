@@ -14,7 +14,8 @@
  */
 package org.kuali.student.common.ui.client.application;
 
-import com.google.gwt.core.client.GWT;
+import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -23,13 +24,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ApplicationComposite  extends Composite {
 	private final Panel body = new VerticalPanel();
-	private final Header header = GWT.create(Header.class);
+	//private final Header header = GWT.create(Header.class);
+	private final KSWrapper headerFooterContainer = new KSWrapper();
 	private final SimplePanel content = new SimplePanel();
 	
 	public ApplicationComposite() {
 		super.initWidget(body);
-		body.add(header);
-		body.add(content);
+		//body.add(header);
+		headerFooterContainer.setContent(content);
+		body.add(headerFooterContainer);
+		//body.add(content);
 		super.addStyleName("KS-Application");
 		content.addStyleName("KS-Application-Content");
 	}

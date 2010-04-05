@@ -16,6 +16,7 @@ package org.kuali.student.common.test.spring;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -60,8 +61,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * <p>
  * &#064;Dao defines the Dao implementation class, and an optional application
  * context that contains a list of beans that should be persisted. The list bean
- * should be called "persistList". A sql file that should be loaded can also be defined here with the
- * testSqlFile parameter.  This should be a sql file.
+ * should be called "persistList". SQL files that should be loaded can also be defined here with the
+ * testSqlFile parameter.  This should be an SQL file.
  * <p>
  * This test class is &#064;Transactional, so all tests will be rolled back.
  * That means the data you load will be in the same state for each test.
@@ -73,7 +74,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * public class DaoCommonTest extends AbstractTransactionalDaoTest {
  * 
  * &#064;Dao(value = &quot;org.kuali.student.MyDaoImpl&quot;, 
- *      testDataFile = &quot;classpath:META-INF/pretest-data-beans.xml&quot;)
+ *      testDataFile = &quot;classpath:META-INF/pretest-data-beans-1.xml,pretest-data-beans-2.xml&quot;)
  * public MyDao myDao;
  * 
  * &#064;Test
@@ -163,41 +164,50 @@ public abstract class AbstractTransactionalDaoTest {
 				if (f.isAnnotationPresent(Dao.class)) {
 					Dao dao = f.getAnnotation(Dao.class);
 					if (dao.testSqlFile().length() > 0) {
-						File sqlFile;
-					    if(dao.testSqlFile().startsWith("classpath:")){
-					 	   sqlFile = new ClassPathResource(dao.testSqlFile().substring("classpath:".length())).getFile();
-					    }else{
-					    	sqlFile = new File(dao.testSqlFile());
-					    }
-						BufferedReader in
-						   = new BufferedReader(new FileReader(sqlFile));
-						String ln;
-						
-						//Check if oracle
-						TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
-						TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
-					
-						try {
-						
-							while((ln=in.readLine())!=null){
-								if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
-									ln=ln.replaceFirst("[;/]\\s*$","");
-									em.createNativeQuery(ln).executeUpdate();
-								}
+						if (dao.testSqlFile().startsWith("classpath:")) {
+							String file = dao.testSqlFile().substring("classpath:".length());
+							String[] files = file.split("\\s*,\\s*");
+							for(String testFile : files) {
+								File sqlFile = new ClassPathResource(testFile).getFile();
+								process(sqlFile);
 							}
-							jtaTxManager.commit(txStatus);
-						} catch (Exception e) {
-							e.printStackTrace();
-							jtaTxManager.rollback(txStatus);
+						} else {
+							String[] files = dao.testSqlFile().split("\\s*,\\s*");
+							for(String testFile : files) {
+								File sqlFile = new File(testFile);
+								process(sqlFile);
+							}
 						}
-
 					}
 				}
 			}
 		}
-		
 	}
 
+	private void process(File sqlFile) throws FileNotFoundException {
+		BufferedReader in
+		   = new BufferedReader(new FileReader(sqlFile));
+		String ln;
+		
+		//Check if oracle
+		TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
+		TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
+	
+		try {
+		
+			while((ln=in.readLine())!=null){
+				if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
+					ln=ln.replaceFirst("[;/]\\s*$","");
+					em.createNativeQuery(ln).executeUpdate();
+				}
+			}
+			jtaTxManager.commit(txStatus);
+		} catch (Exception e) {
+			e.printStackTrace();
+			jtaTxManager.rollback(txStatus);
+		}
+	}
+	
 	/**
 	 * Passes some variables so they can be used in the application context
 	 */

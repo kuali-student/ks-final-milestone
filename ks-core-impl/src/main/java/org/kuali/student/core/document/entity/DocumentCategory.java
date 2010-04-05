@@ -51,7 +51,7 @@ public class DocumentCategory implements AttributeOwner<DocumentCategoryAttribut
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private DocumentRichText descr;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -103,15 +103,15 @@ public class DocumentCategory implements AttributeOwner<DocumentCategoryAttribut
     /**
      * @return the commentText
      */
-    public RichText getDesc() {
-        return desc;
+    public DocumentRichText getDescr() {
+        return descr;
     }
 
     /**
      * @param commentText the commentText to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(DocumentRichText descr) {
+        this.descr = descr;
     }
     
     /**

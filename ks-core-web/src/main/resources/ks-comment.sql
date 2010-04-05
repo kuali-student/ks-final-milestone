@@ -1,5 +1,5 @@
 // RichText
-INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-COMMENT-1', '<p>Comment 1</p>', 'Comment 1')
+INSERT INTO KSCO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-COMMENT-1', '<p>Comment 1</p>', 'Comment 1')
 /
 
 
@@ -7,6 +7,8 @@ INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-COMMENT-1', '
 INSERT INTO KSCO_REFERENCE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('referenceType.clu', 'Clu reference type', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Clu')
 /
 INSERT INTO KSCO_REFERENCE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('referenceType.type1', 'A Basic Reference 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Reference 1')
+/
+INSERT INTO KSCO_REFERENCE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('referenceType.clu.proposal', 'Clu reference type', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Clu Proposal')
 /
 
 
@@ -37,7 +39,6 @@ INSERT INTO KSCO_COMMENT (ID, RT_DESCR_ID, REFERENCE, EFF_DT, EXPIR_DT, TYPE, ST
 
 // Tag Type
 INSERT INTO KSCO_TAG_TYPE(TYPE_KEY,NAME,TYPE_DESC,EFF_DT,EXPIR_DT) values ('tagType.default','Default','Default tag type',{ts '2000-01-01 00:00:00.0'},{ts '2000-12-31 00:00:00.0'})
-
 /
 
 // Tag

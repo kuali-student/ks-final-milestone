@@ -24,12 +24,14 @@ import javax.jws.WebService;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.StringUtils;
 
 @WebService(endpointInterface = "org.kuali.student.core.dictionary.service.DictionaryService", serviceName = "DictionaryService", portName = "DictionaryService", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
 public class DictionaryServiceSpringImpl implements DictionaryService {
 
-	private String dictionaryContext;
+	private String[] dictionaryContext;
 	private Map<String, ObjectStructure> objectStructures;
 
 	public DictionaryServiceSpringImpl() {
@@ -38,10 +40,16 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 
 	public DictionaryServiceSpringImpl(String dictionaryContext) {
 		super();
+		String[] locations = StringUtils.tokenizeToStringArray(dictionaryContext, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+		this.dictionaryContext = locations;
+		init();
+	}
+	
+	public DictionaryServiceSpringImpl(String[] dictionaryContext) {
+		super();
 		this.dictionaryContext = dictionaryContext;
 		init();
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public void init() {
@@ -49,8 +57,20 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 
 		Map<String, ObjectStructure> beansOfType = (Map<String, ObjectStructure>) ac.getBeansOfType(ObjectStructure.class);
 		objectStructures = new HashMap<String, ObjectStructure>();
-		for (ObjectStructure objStr : beansOfType.values())
-			objectStructures.put(objStr.getKey(), objStr);
+		for (ObjectStructure objStr : beansOfType.values()){
+			//Only add top level structures
+			if(objStr.getId()!=null){
+				if(objStr.getId().startsWith("object.")){
+					if(!objStr.getId().startsWith("object.field.")){
+						objectStructures.put(objStr.getKey(), objStr);
+					}
+				}else{
+					objectStructures.put(objStr.getKey(), objStr);
+				}
+			}else{
+				objectStructures.put(objStr.getKey(), objStr);
+			}
+		}
 	}
 
 	@Override
@@ -77,11 +97,11 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 		return false;
 	}
 
-	public String getDictionaryContext() {
+	public String[] getDictionaryContext() {
 		return dictionaryContext;
 	}
 
-	public void setDictionaryContext(String dictionaryContext) {
+	public void setDictionaryContext(String[] dictionaryContext) {
 		this.dictionaryContext = dictionaryContext;
 	}
 

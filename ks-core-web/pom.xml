@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-web</artifactId>
-	<version>1.0.0-m1</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>KS Core Web</name>
 	<description>KS Core Web</description>
@@ -11,8 +11,12 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m1</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+	
+	<properties>
+		<ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
+	</properties>
 	
 	<build>
 		<plugins>
@@ -21,6 +25,7 @@
 				<artifactId>gwt-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<phase>${ks.gwt.compile.phase}</phase>
 						<goals>
 							<goal>compile</goal>
 						</goals>
@@ -28,7 +33,7 @@
 				</executions>
 				<configuration>
 					<modules>
-						<module>org.kuali.student.core.organization.ui.OrgEntry</module>
+						<module>${ks.gwt.module.org}</module>
 					</modules>
 				</configuration>
 			</plugin>
@@ -101,12 +106,12 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<type>jar</type>
-			<version>1.0.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
-			<version>1.0.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
@@ -149,7 +154,7 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-rice-lessdep</artifactId>
-			<version>1.0.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<type>pom</type>
 			<scope>runtime</scope>
 	    </dependency>					
@@ -157,32 +162,47 @@
 		<!--  Sources for GWT Compile -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-rice</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency> 			
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>1.0.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>1.0.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>	
+
 		
 		<dependency>
 			<groupId>net.sourceforge.htmlunit</groupId>

@@ -15,6 +15,13 @@
 package org.kuali.student.common.ui.client.mvc.dto;
 
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
+import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
+
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -22,12 +29,18 @@ import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
  * @author Kuali Student Team
  *
  */
-public class ReferenceModel implements HasReferenceId{
+public class ReferenceModel implements HasReferenceId, Model {
     String referenceId;
     String referenceTypeKey;
     String referenceType;
     String referenceState;
-    
+	private HandlerManager handlers = new HandlerManager(this);
+
+	@Override
+	public HandlerRegistration addModelChangeHandler(
+			ModelChangeHandler handler) {
+		return handlers.addHandler(ModelChangeEvent.TYPE, handler);
+	}
 
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId#setReferenceId(java.lang.String)
@@ -35,6 +48,7 @@ public class ReferenceModel implements HasReferenceId{
     @Override
     public void setReferenceId(String id) {
         this.referenceId = id;
+		handlers.fireEvent(new ModelChangeEvent(Action.RELOAD, this));
     }
 
     /**
@@ -53,6 +67,7 @@ public class ReferenceModel implements HasReferenceId{
     @Override
 	public void setReferenceTypeKey(String referenceTypeKey) {
 		this.referenceTypeKey = referenceTypeKey;
+		handlers.fireEvent(new ModelChangeEvent(Action.RELOAD, this));
 	}
 
     @Override
@@ -63,6 +78,7 @@ public class ReferenceModel implements HasReferenceId{
     @Override
 	public void setReferenceType(String referenceType) {
 		this.referenceType = referenceType;
+		handlers.fireEvent(new ModelChangeEvent(Action.RELOAD, this));
 	}
 
     @Override
@@ -73,5 +89,7 @@ public class ReferenceModel implements HasReferenceId{
     @Override
 	public void setReferenceState(String referenceState) {
 		this.referenceState = referenceState;
+		handlers.fireEvent(new ModelChangeEvent(Action.RELOAD, this));
 	}
+    
 }

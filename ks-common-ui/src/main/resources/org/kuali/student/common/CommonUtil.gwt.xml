@@ -4,5 +4,4 @@
 	<source path='util' >
 		<include name="MessageUtils.java"/>
 	</source>
-	
 </module>

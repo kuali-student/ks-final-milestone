@@ -15,7 +15,6 @@
 package org.kuali.student.common.ui.client.widgets.counting;
 
 
-import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 import org.kuali.student.common.ui.client.widgets.counting.impl.KSRichEditorImpl;
 
 import com.google.gwt.core.client.GWT;

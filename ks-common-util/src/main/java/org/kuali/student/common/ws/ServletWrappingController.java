@@ -90,7 +90,7 @@ public class ServletWrappingController extends AbstractController implements
 
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		log.info("handleRequestInternal");
+		log.info("handleRequestInternal : " + servletName);
 		try{
 			this.servletInstance.service(request, response);
 		}catch(Exception e){
@@ -102,7 +102,7 @@ public class ServletWrappingController extends AbstractController implements
 	}
 
 	public void destroy() {
-		log.info("destroy");
+		log.info("destroy : " + servletName);
 		this.servletInstance.destroy();
 	}
 

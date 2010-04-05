@@ -15,19 +15,12 @@
 package org.kuali.student.common.ui.client.css;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.libideas.resources.client.CssResource;
-import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
-import com.google.gwt.libideas.resources.client.CssResource;
-import com.google.gwt.libideas.resources.client.ImageResource.ImageOptions;
-import com.google.gwt.libideas.resources.client.ImageResource.RepeatStyle;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.ImageBundle.Resource;
 
-
+@Deprecated
 public interface KSCommonResources extends ImmutableResourceBundle{
     public static final KSCommonResources INSTANCE =  (KSCommonResources) GWT.create(KSCommonResources.class);
-
+/*
     @Resource("org/kuali/student/common/ui/public/KSGeneral.css")
 	public CssResource generalCss();
     @Resource("org/kuali/student/common/ui/public/KSAccordionMenu.css")
@@ -103,8 +96,6 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     
     @Resource("org/kuali/student/common/ui/public/KSAdvancedSearchWindow.css")
     public CssResource advancedSearchWindowCss();
-    @Resource("org/kuali/student/common/ui/public/KSSuggestBoxPicker.css")
-    public CssResource suggestBoxPickerCss();
     @Resource("org/kuali/student/common/ui/public/KSButtonLayout.css")
     public CssResource buttonLayoutCss();
     
@@ -131,5 +122,5 @@ public interface KSCommonResources extends ImmutableResourceBundle{
 
 	@Resource("org/kuali/student/common/ui/public/KSValidationLayout.css")
 	public CssResource validationLayoutCss(); 
-
+*/
 }

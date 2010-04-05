@@ -29,9 +29,10 @@ import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -66,7 +67,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     private VerticalPanel resultLayout = new VerticalPanel();
     //private KSSelectableTableList searchResults = new KSSelectableTableList();
     private SearchBackedTable searchResultsTable;
-    private KSLabel resultLabel = new KSLabel("No Search Results");
+    private KSLabel resultLabel = new KSLabel();
+    private KSLabel searchInstructions = new KSLabel();
     private KSButton selectButton = new KSButton("Select");
     private boolean hasSelectionHandlers = false;
     //private SearchResultListItems searchResultList = new SearchResultListItems();
@@ -77,6 +79,10 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     
     private BaseRpcServiceAsync searchService;
     private String searchTypeKey;
+    
+    private boolean ignoreCase = false;
+    private boolean partialMatch = false;
+
     
     /** 
      * This constructs a search widget.
@@ -101,6 +107,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         resultLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_PANEL);
         searchLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PANEL);
         searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+        searchLayout.add(searchInstructions);
         tabPanel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_TAB_PANEL);
         
         selectButton.addClickHandler(new ClickHandler(){
@@ -212,24 +219,32 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
            
     private void executeSearch(){
         //Build query paramaters
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+        List<SearchParam> searchParams = new ArrayList<SearchParam>();
         for (int row=0; row < searchParamTable.getRowCount()-1; row++ ){
             Widget w = searchParamTable.getWidget(row, 1);
             
-            QueryParamValue queryParamValue = new QueryParamValue();
-            queryParamValue.setKey(((HasName)w).getName());
+            SearchParam searchParam = new SearchParam();
+            searchParam.setKey(((HasName)w).getName());
             if (w instanceof KSSelectItemWidgetAbstract){
-                queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
-                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+            	searchParam.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+//                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
             } else {
                 String value = ((HasText)w).getText();
-                value = value.replace('*','%');
-                queryParamValue.setValue(value);
+                if (value.contains("*")) {
+                   value = value.replace('*','%');                    
+                }
+                else if (partialMatch) {
+                    value = "%" + value + "%";
+                }
+                if (ignoreCase) {
+                    value = value.toLowerCase();
+                }
+                searchParam.setValue(value);
             }
-            queryParamValues.add(queryParamValue);                
+            searchParams.add(searchParam);                
         }
         searchResultsTable.clearTable();
-        searchResultsTable.performSearch(queryParamValues);
+        searchResultsTable.performSearch(searchParams);
         tabPanel.selectTab(1);
        
         //Call the search service
@@ -259,7 +274,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     }
 
     private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
-        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
+        SearchRequest searchRequest = new SearchRequest();
+    	searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
 
             @Override
             public void onFailure(Throwable caught) {
@@ -267,8 +283,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
             }
 
             @Override
-            public void onSuccess(List<Result> results) {
-                selectField.setListItems(new SearchResultListItems(results));
+            public void onSuccess(SearchResult result) {
+                selectField.setListItems(new SearchResultListItems(result.getRows()));
                 selectField.redraw();
             }
             
@@ -306,4 +322,35 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         searchResultsTable.clearTable();
         tabPanel.selectTab(0);
     }
+
+
+    public boolean isIgnoreCase() {
+        return ignoreCase;
+    }
+
+
+    public void setIgnoreCase(boolean ignoreCase) {
+        this.ignoreCase = ignoreCase;
+    }
+
+    public boolean isPartialMatch() {
+        return partialMatch;
+    }
+
+
+    public void setPartialMatch(boolean partialMatch) {
+        this.partialMatch = partialMatch;
+    }
+
+    public KSLabel getSearchInstructions() {
+        return searchInstructions;
+    }
+
+
+    public void setSearchInstructions(String text) {
+        searchInstructions.setText(text);
+    }
+    
+    
+    
 }

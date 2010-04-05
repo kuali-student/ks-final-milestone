@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.validator.ClientDateParser;
 
 import com.google.gwt.user.client.ui.HasText;
 
+@Deprecated
 public class HasTextBinding implements PropertyBinding<HasText>{
     
     private ClientDateParser dateParser = new ClientDateParser();

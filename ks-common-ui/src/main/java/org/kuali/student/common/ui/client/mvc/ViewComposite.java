@@ -14,6 +14,8 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+
 import com.google.gwt.user.client.ui.Composite;
 
 /**
@@ -42,8 +44,10 @@ public abstract class ViewComposite extends Composite implements View {
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
      * done.
      */
-    public void beforeShow() {
-    // do nothing
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
+    	// do nothing
+    	onReadyCallback.exec(true);
     }
 
     /**
@@ -96,4 +100,13 @@ public abstract class ViewComposite extends Composite implements View {
     public void updateModel(){        
     }
     
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
+    }
 }

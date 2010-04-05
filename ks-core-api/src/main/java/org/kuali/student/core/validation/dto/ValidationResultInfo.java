@@ -45,8 +45,24 @@ public class ValidationResultInfo implements Serializable{
         	return e1.ordinal() > e2.ordinal() ? e1 : e2;
         }
     }	
+	
+	public ValidationResultInfo() {
+		super();
+		this.level = ErrorLevel.OK;
+	}
+	
+	public ValidationResultInfo(String element) {
+		super();
+		this.level = ErrorLevel.OK;
+		this.element = element;
+	}
+	
+	
 	@XmlElement
-	protected ErrorLevel level;
+	protected String element;
+	
+	@XmlElement
+	protected ErrorLevel level = ErrorLevel.OK;
 
 	@XmlElement
 	protected String message;
@@ -78,5 +94,72 @@ public class ValidationResultInfo implements Serializable{
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	public String getElement() {
+		return element;
+	}
+
+	public void setElement(String element) {
+		this.element = element;
+	}
+	
+    /**
+     * Returns the ValidationResult's error level
+     *
+     * @return
+     */
+    public ErrorLevel getErrorLevel() {
+        return level;
+    }
+
+    /**
+     * Convenience method. Adds a message with an error level of WARN
+     *
+     * @param message
+     *            the message to add
+     */
+    public void setWarning(String message) {
+    	this.level = ErrorLevel.WARN;
+    	this.message = message;
+    }
+
+    /**
+     * Convenience method. Adds a message with an error level of ERROR
+     *
+     * @param message
+     *            the message to add
+     */
+    public void setError(String message) {
+    	this.level = ErrorLevel.ERROR;
+    	this.message = message;
+    }
+
+    /**
+     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
+     *
+     * @return true if getErrorLevel() == ErrorLevel.OK
+     */
+    public boolean isOk() {
+        return getErrorLevel() == ErrorLevel.OK;
+    }
+
+    /**
+     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
+     *
+     * @return true if getErrorLevel() == ErrorLevel.WARN
+     */
+    public boolean isWarn() {
+        return getErrorLevel() == ErrorLevel.WARN;
+    }
+
+    /**
+     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
+     *
+     * @return true if getErrorLevel() == ErrorLevel.ERROR
+     */
+    public boolean isError() {
+        return getErrorLevel() == ErrorLevel.ERROR;
+    }
+
 	
 }

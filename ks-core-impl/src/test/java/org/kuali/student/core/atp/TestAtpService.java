@@ -46,7 +46,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 @Daos( { @Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpService extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl", port = "8181")
+	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl")
 	public AtpService client;
 
 	public static final String atpType_fallSemester = "atp.atpType.fallSemester";

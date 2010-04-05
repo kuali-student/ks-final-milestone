@@ -51,7 +51,7 @@ public class DateRange extends MetaEntity implements AttributeOwner<DateRangeAtt
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	private AtpRichText descr;
 
 	@ManyToOne
 	@JoinColumn(name = "ATP_ID")
@@ -83,12 +83,12 @@ public class DateRange extends MetaEntity implements AttributeOwner<DateRangeAtt
 		this.name = name;
 	}
 
-	public RichText getDesc() {
-		return desc;
+	public AtpRichText getDescr() {
+		return descr;
 	}
 
-	public void setDesc(RichText desc) {
-		this.desc = desc;
+	public void setDescr(AtpRichText descr) {
+		this.descr = descr;
 	}
 
 	public Atp getAtp() {

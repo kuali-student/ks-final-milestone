@@ -30,7 +30,7 @@ import org.kuali.student.common_test_tester.support.MyService;
 @PersistenceFileLocation("classpath:META-INF/test-persistence.xml")
 public class ServiceCommonCopyTest extends AbstractServiceTest {
 
-	@Client(value="org.kuali.student.common_test_tester.support.MyServiceImpl",port="9191",additionalContextFile="classpath:test-my-additional-context.xml")
+	@Client(value="org.kuali.student.common_test_tester.support.MyServiceImpl",port="9292",additionalContextFile="classpath:test-my-additional-context.xml")
 	public MyService client;
 
 	@Test

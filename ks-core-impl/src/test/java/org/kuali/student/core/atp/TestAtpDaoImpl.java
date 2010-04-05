@@ -22,7 +22,7 @@ import org.kuali.student.core.atp.dao.AtpDao;
 
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpDaoImpl extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl")
+	@Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl", testSqlFile = "classpath:ks-atp.sql")
 	public AtpDao dao;
 
 	@Test

@@ -14,8 +14,6 @@
  */
 package org.kuali.student.common.ui.client.validator;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;

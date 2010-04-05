@@ -44,7 +44,7 @@ import org.junit.runner.RunWith;
  * <p>
  * &#064;Client can also take the following additional settings
  * <ul>
- * <li>port - use to set port if the default port 8181 is not available.
+ * <li>port - use to set port if the default port 9191 is not available. The default port can be changed by the system property "ks.test.default.port"
  * <li>secure - set to true to return a secure client (default is false)
  * </ul>
  * 

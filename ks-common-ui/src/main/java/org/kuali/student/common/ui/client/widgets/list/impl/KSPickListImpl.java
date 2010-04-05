@@ -118,8 +118,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             unselectedTable.onLoad();
         }
     });
-    
-    
+        
     
     private final ListItems unselectedAdapter = new ListItems() {
         @Override
@@ -328,4 +327,8 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
 		return focus.addBlurHandler(handler);
 	}
 
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }
 }

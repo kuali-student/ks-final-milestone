@@ -40,18 +40,23 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 
+import com.google.gwt.core.client.GWT;
+
 /**
- * This singleton class is a repository for dictionary defs for LUM.   
+ * This singleton class is a repository for dictionary defs.   
  * This class holds a cache of dictionary defs loaded by an external process
+ * 
+ * This class is being deprecated, the service dictionary should no longer be consumed directly
+ * by the ui.
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
+@Deprecated
 public class DictionaryManager {
 
     private static final char DICT_KEY_SEPARATOR = ':';
 
-    private Validator validator = null;//FIXME! inject this somehow new Validator(); 
     private Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
 
 
@@ -91,11 +96,11 @@ public class DictionaryManager {
                     }
                     
                     result.put(f.getKey().toLowerCase(), f);
-                    System.out.println(f.getKey());
                 }                
                 indexedFields.put(structure.getKey().toLowerCase() + DICT_KEY_SEPARATOR + t.getKey().toLowerCase() + DICT_KEY_SEPARATOR +   s.getKey().toLowerCase() , result);
             }
-        }
+       }
+       GWT.log("DictionaryManager loaded type:" + structure.getKey(), null);
 
     }
 
@@ -107,13 +112,13 @@ public class DictionaryManager {
                     if (s.getKey().equals("active")) { // temp while we work out how to handle diff states of cluIdentifierInfo
                         for (Field f : s.getField()) {
                             result.put(field.getKey().toLowerCase() + '.' + f.getKey().toLowerCase(), f);
-                            System.out.println(field.getKey() + "." + f.getKey());
+//                            GWT.log(field.getKey() + "." + f.getKey(), null);
                         }
                     }
                 }
 
                 result.put(field.getKey().toLowerCase(), field);
-                System.out.println(field.getKey());
+//                GWT.log(field.getKey(), null);
             }
         }
     }
@@ -169,14 +174,5 @@ public class DictionaryManager {
     public Set<String> getTypes() {
         return indexedFields.keySet();
     }
-    
-    public Validator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-    
-    
+            
 }

@@ -60,13 +60,15 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			for (Field f : instance.getClass().getDeclaredFields()) {
 				if (f.isAnnotationPresent(Client.class)) {
 					Client a = f.getAnnotation(Client.class);
+					String port = System.getProperty("ks.test.port");
+					
 					Class<?> serviceImplClass = Class.forName(a.value());
 					String serviceName = "";
 					String serviceNamespaceURI = "";
-					String serviceWsdlLocation = "http://localhost:" + a.port()
+					String serviceWsdlLocation = "http://localhost:" + port
 							+ "/Service/Service" + (a.secure() ? "Secure" : "")
 							+ "?wsdl";
-					String serviceAddress = "http://localhost:" + a.port()
+					String serviceAddress = "http://localhost:" + port
 							+ "/Service/Service" + (a.secure() ? "Secure" : "");
 
 					if (serviceImplClass.isAnnotationPresent(WebService.class)) {
@@ -113,7 +115,11 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 	private void startServer() {
 		try {
 			// Set the default Port
-			System.setProperty("ks.test.port", "8181");
+			if (System.getProperty("ks.test.default.port")==null||System.getProperty("ks.test.default.port").isEmpty()){
+				System.setProperty("ks.test.port", "9191");
+			} else {
+				System.setProperty("ks.test.port", System.getProperty("ks.test.default.port"));
+			}
 
 			// Grab the client annotation and set the service implementation and
 			// port as system properties
@@ -127,7 +133,9 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 						System.setProperty("ks.test.serviceImplClass", a
 								.value());
 					}
-					System.setProperty("ks.test.port", a.port());
+					if(a.port()!=null&&!a.port().isEmpty()){
+						System.setProperty("ks.test.port", a.port());
+					}
 					if(!"".equals(a.additionalContextFile())){
 						System.setProperty("ks.test.additionalContextFile", a.additionalContextFile());
 					}else{

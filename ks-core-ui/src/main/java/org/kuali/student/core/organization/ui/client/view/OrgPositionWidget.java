@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
@@ -53,7 +54,7 @@ class OrgPositionWidget extends OrgMultiWidget {
     static final String FAKE_ID = "FAKE-ID-";
     private ListItems orgPosTypeList;
     List<Map<String,Object>> forms = new ArrayList<Map<String,Object>>();
-    private Model<OrgPositionRestrictionInfo> model = new Model<OrgPositionRestrictionInfo>();
+    private CollectionModel<OrgPositionRestrictionInfo> model = new CollectionModel<OrgPositionRestrictionInfo>();
     int newCount;
     
     public OrgPositionWidget() {
@@ -150,11 +151,13 @@ class OrgPositionWidget extends OrgMultiWidget {
                         if(map.get("new") != null && !orgPosTypeList.getItemIds().isEmpty())
                             info.setOrgPersonRelationTypeKey(orgPosTypeList.getItemIds().get(0));
                         posTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
-                            @Override
-                            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
-                                info.setOrgPersonRelationTypeKey(posTypeDropDown.getSelectedItem());
+
+							@Override
+							public void onSelectionChange(
+									SelectionChangeEvent event) {
+								info.setOrgPersonRelationTypeKey(posTypeDropDown.getSelectedItem());
                                 model.update(info);
-                            }});
+							}});
                         return false;
                     }
                     return true;
@@ -164,11 +167,13 @@ class OrgPositionWidget extends OrgMultiWidget {
             if(map.get("new") != null && !orgPosTypeList.getItemIds().isEmpty())
                 info.setOrgPersonRelationTypeKey(orgPosTypeList.getItemIds().get(0));
             posTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
-                @Override
-                public void onSelectionChange(KSSelectItemWidgetAbstract w) {
-                    info.setOrgPersonRelationTypeKey(posTypeDropDown.getSelectedItem());
+
+				@Override
+				public void onSelectionChange(SelectionChangeEvent event) {
+					info.setOrgPersonRelationTypeKey(posTypeDropDown.getSelectedItem());
                     model.update(info);
-                }});
+					
+				}});
         }
 
         map.put("form",orgForm);
@@ -366,10 +371,10 @@ class OrgPositionWidget extends OrgMultiWidget {
         }
     }
 
-    public Model<OrgPositionRestrictionInfo> getModel() {
+    public CollectionModel<OrgPositionRestrictionInfo> getModel() {
         return model;
     }
-    public void setModel(Model<OrgPositionRestrictionInfo> model) {
+    public void setModel(CollectionModel<OrgPositionRestrictionInfo> model) {
         this.model = model;
     }
     @Override

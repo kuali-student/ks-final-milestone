@@ -38,6 +38,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 
@@ -48,7 +49,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  */
 @WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AtpService {
+public interface AtpService extends SearchService {
     /** 
      * Retrieves the list of academic time period types known by this service
      * @return list of academic time period types

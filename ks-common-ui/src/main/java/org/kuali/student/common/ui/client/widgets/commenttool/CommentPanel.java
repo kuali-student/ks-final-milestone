@@ -21,15 +21,16 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
@@ -39,17 +40,14 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.js.rhino.Context;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -57,11 +55,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CommentPanel extends ToolView implements HasReferenceId{
+public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
 	final static ApplicationContext context = Application.getApplicationContext();
 	
@@ -72,8 +69,6 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     
 	private CommentRpcServiceAsync commentServiceAsync = GWT.create(CommentRpcService.class);
 	private static final String ALL = "All";
-	private static final String ALL_DESC = "All Comments";
-	private static final String ALL_NAME = "All";
     private VerticalFlowPanel layout = new VerticalFlowPanel();
     private VerticalFlowPanel commentList = new VerticalFlowPanel();
     private SectionTitle headerTitle = SectionTitle.generateH1Title("Proposal Comments");
@@ -281,9 +276,8 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     	commentTypes.addSelectionChangeHandler(new SelectionChangeHandler(){
 
 			@Override
-			public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+			public void onSelectionChange(SelectionChangeEvent event) {
 				refreshComments();
-				
 			}
     	});
     	
@@ -305,13 +299,58 @@ public class CommentPanel extends ToolView implements HasReferenceId{
         commentTypesPanel.add(seeComments);
         commentTypesPanel.add(commentTypes);
         createPanel.add(commentTypesPanel);
-        
+
+        // TODO: is this needed or will the screen refresh at some point?
+        isAuthorizedAddComment();
         layout.add(createPanel);
         layout.add(commentList);
         //refreshCommentTypes();
         return layout;
     }
-    
+
+    private void isAuthorizedAddComment() {
+        // check permission to see if user can comment
+        commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+
+			@Override
+            public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+				GWT.log("Error checking permission for adding comments: ", caught);
+				throw new RuntimeException("Error checking Permissions: ", caught);
+            }
+
+			@Override
+            public void onSuccess(Boolean result) {
+				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
+				createPanel.setVisible(result);
+            }
+        	
+		});
+    }
+
+    private void isAuthorizedEditComment(final Comment comment) {
+        // check permission to see if user can comment
+//        commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+//
+//			@Override
+//            public void onFailure(Throwable caught) {
+//				caught.printStackTrace();
+//				GWT.log("Error checking permission for adding comments: ", caught);
+//				throw new RuntimeException("Error checking Permissions: ", caught);
+//            }
+//
+//			@Override
+//            public void onSuccess(Boolean result) {
+//				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
+//				comment.showEditActions(result);
+//            }
+//        	
+//		});
+    	//TODO: force no edits for R1
+    	comment.showEditActions(false);
+    }
+
+    // TODO: Look into if this buttonPanel forced disable/enable is needed with new permissions and visibility of edit/create actions
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -426,34 +465,35 @@ public class CommentPanel extends ToolView implements HasReferenceId{
         
         
     }
-    
-    private void showCommentsEditActions(boolean show){
-    	if(show){
-    		//FIXME do a check to see if the current person can edit for each comment in the list then show the actions, else
-    		//dont show them
-    		if(!showingEditButtons){
-	    		createPanel.setVisible(show);
-	    		commentEditorPanel.setWidget(commentEditor);
-	    		for(Comment c: comments){
-	        		c.showEditActions(show);
-	        	}
-	    		showingEditButtons = true;
-    		}
-    	}
-    	else{
-    		if(showingEditButtons){
-	    		createPanel.setVisible(show);
-	    		commentEditorPanel.remove(commentEditor);
-	    		
-	    		for(Comment c: comments){
-	        		c.showEditActions(show);
-	        	}
-	    		showingEditButtons = false;
-    		}
-    	}
-    	
+
+    private void turnCommentEditingOn() {
+		//FIXME do a check to see if the current person can edit for each comment in the list then show the actions, else
+		//dont show them
+		if(!showingEditButtons){
+			// check permission for adding a comment to determine createPanel visibility
+			isAuthorizedAddComment();
+    		commentEditorPanel.setWidget(commentEditor);
+    		for(Comment c: comments){
+    			isAuthorizedEditComment(c);
+        	}
+    		showingEditButtons = true;
+		}
     }
-    
+
+    private void turnCommentEditingOff() {
+		if(showingEditButtons){
+			// permissions don't matter as we need to hide create panel by force
+    		createPanel.setVisible(false);
+    		commentEditorPanel.remove(commentEditor);
+    		
+    		for(Comment c: comments){
+    			// permissions don't matter as we need to hide edit actions by force
+        		c.showEditActions(false);
+        	}
+    		showingEditButtons = false;
+		}
+    }
+
     private KSRichEditor editor = new KSRichEditor();
     
     private class Comment extends Composite{
@@ -466,8 +506,8 @@ public class CommentPanel extends ToolView implements HasReferenceId{
         private HorizontalBlockFlowPanel footer = new HorizontalBlockFlowPanel();
         private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
         
-        Image edit = KSImages.INSTANCE.editComment().createImage();
-        Image delete = KSImages.INSTANCE.deleteComment().createImage();
+        KSImage edit = Theme.INSTANCE.getCommonImages().getEditCommentIcon();
+        KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
         
         private KSLabel name = new KSLabel();
         private HTML commentText = new HTML();
@@ -483,7 +523,7 @@ public class CommentPanel extends ToolView implements HasReferenceId{
                 public void onClick(ClickEvent event) {
                 	editLayout.clear();
                     //editActions.setVisible(false);
-                	showCommentsEditActions(false);
+                	turnCommentEditingOff();
                     content.addStyleName(KSStyles.KS_COMMENT_CONTAINER_IN_USE);
                     editor.setHTML(Comment.this.info.getCommentText().getFormatted());
                     
@@ -574,6 +614,7 @@ public class CommentPanel extends ToolView implements HasReferenceId{
             editActions.add(edit);
             editActions.add(delete);
             header.add(headerTextContainer);
+            isAuthorizedEditComment(this);
             header.add(editActions);
             footer.add(dateModified);
             setupViewLayout();
@@ -619,12 +660,27 @@ public class CommentPanel extends ToolView implements HasReferenceId{
             content.setWidget(viewLayout);
             
             
-            showCommentsEditActions(true);
+            turnCommentEditingOn();
         }
-        
+
         public void showEditActions(boolean show){
         	editActions.setVisible(show);
         }
         
     }
+    
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+	@Override
+	public KSImage getImage() {
+		return Theme.INSTANCE.getCommonImages().getCommentIcon();
+	}
 }

@@ -22,6 +22,7 @@
         <class>org.kuali.student.core.proposal.entity.ProposalReference</class>
         <class>org.kuali.student.core.proposal.entity.ProposalReferenceType</class>
         <class>org.kuali.student.core.proposal.entity.ProposalReferenceTypeAttribute</class>
+        <class>org.kuali.student.core.proposal.entity.ProposalRichText</class>
         <class>org.kuali.student.core.proposal.entity.ProposalType</class>
         <class>org.kuali.student.core.proposal.entity.ProposalTypeAttribute</class>
 

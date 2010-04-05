@@ -34,4 +34,11 @@ public interface DocumentRpcService extends BaseRpcService {
 	public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws Exception;
 	
     public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws Exception;
+
+    /**
+     * Check for authorization to upload documents
+     * @param referenceId identifier of reference
+     * @param referenceTypeKey reference type
+     */
+    public Boolean isAuthorizedUploadDocuments(String referenceId, String referenceTypeKey);
 }

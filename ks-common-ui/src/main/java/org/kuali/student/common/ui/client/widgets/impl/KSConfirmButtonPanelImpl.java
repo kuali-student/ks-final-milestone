@@ -14,10 +14,8 @@
  */
 package org.kuali.student.common.ui.client.widgets.impl;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSConfirmButtonPanelAbstract;
-import org.kuali.student.common.ui.client.widgets.KSMessages;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -56,14 +54,6 @@ public class KSConfirmButtonPanelImpl extends KSConfirmButtonPanelAbstract{
 	
 	public void addCancelHandler(ClickHandler handler){
 		cancel.addClickHandler(handler);
-	}
-	
-	public void setConfirmFocus(){
-		confirm.setFocus(true);
-	}
-	
-	public void setCancelFocus(){
-		cancel.setFocus(true);
 	}
 	
 	private void setupDefaultStyle(){

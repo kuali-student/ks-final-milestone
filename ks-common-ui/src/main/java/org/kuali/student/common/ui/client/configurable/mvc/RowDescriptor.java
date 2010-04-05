@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
-import org.kuali.student.common.ui.client.images.KSImages;
+import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
@@ -28,9 +29,6 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class RowDescriptor extends Composite{
@@ -58,8 +56,8 @@ public class RowDescriptor extends Composite{
     
     public void addField(FieldDescriptor fieldDescriptor){
         fields.add(fieldDescriptor);
-        if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
-            MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
+        if (fieldDescriptor.getFieldWidget() instanceof SimpleMultiplicityComposite){
+            SimpleMultiplicityComposite listField = (SimpleMultiplicityComposite) fieldDescriptor.getFieldWidget(); 
             listField.redraw();
             rowPanel.add(listField);
         }
@@ -111,20 +109,20 @@ public class RowDescriptor extends Composite{
     		HorizontalBlockFlowPanel validationLine = new HorizontalBlockFlowPanel();
     		VerticalFlowPanel imagePanel = new VerticalFlowPanel();
     		KSLabel message = new KSLabel(vr.getMessage());
-    		Image image;
+    		KSImage image;
     		message.setWordWrap(true);
     		if(vr.getLevel() == ErrorLevel.ERROR){
     			message.addStyleName("KS-Validation-Error-Message");
-    			image = KSImages.INSTANCE.errorIcon().createImage();
+    			image = Theme.INSTANCE.getCommonImages().getErrorIcon();
     			
     		}
     		else if(vr.getLevel() == ErrorLevel.WARN){
     			message.addStyleName("KS-Validation-Warning-Message");
-    			image = KSImages.INSTANCE.warningIcon().createImage();
+    			image = Theme.INSTANCE.getCommonImages().getWarningIcon();
     		}
     		else{
     			message.addStyleName("KS-Validation-Ok-Message");
-    			image = KSImages.INSTANCE.okIcon().createImage();
+    			image = Theme.INSTANCE.getCommonImages().getOkIcon();
     		}
     		imagePanel.add(image);
     		message.addStyleName("KS-Validation-Message");
@@ -149,8 +147,8 @@ public class RowDescriptor extends Composite{
         for (FieldDescriptor fd:fields){
             //TODO: Only resettting multplicity composite, should approporiately reset clear all field widgets
             Widget field = fd.getFieldWidget();
-            if (field instanceof MultiplicityComposite){
-                ((MultiplicityComposite)field).clear();
+            if (field instanceof SimpleMultiplicityComposite){
+                ((SimpleMultiplicityComposite) field).clear();
             }
         }
     }

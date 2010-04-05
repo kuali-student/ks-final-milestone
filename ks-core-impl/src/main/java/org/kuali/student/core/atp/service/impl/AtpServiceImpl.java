@@ -46,6 +46,12 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +60,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AtpServiceImpl implements AtpService {
 
 	private AtpDao atpDao;
-	
+    private SearchManager searchManager;
+
 	@Override
 	public DateRangeInfo addDateRange(String atpKey, String dateRangeKey,
 			DateRangeInfo dateRangeInfo) throws AlreadyExistsException,
@@ -510,6 +517,20 @@ public class AtpServiceImpl implements AtpService {
 		return null;
 	}
 
+	/**
+	 * Check for missing parameter and thow localized exception if missing
+	 *
+	 * @param param
+	 * @param parameter name
+	 * @throws MissingParameterException
+	 */
+	private void checkForMissingParameter(Object param, String paramName)
+			throws MissingParameterException {
+		if (param == null) {
+			throw new MissingParameterException(paramName + " can not be null");
+		}
+	}
+
 	public AtpDao getAtpDao() {
 		return atpDao;
 	}
@@ -518,5 +539,79 @@ public class AtpServiceImpl implements AtpService {
 		this.atpDao = atpDao;
 	}
 
+	public SearchManager getSearchManager() {
+		return searchManager;
+	}
+
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
+	}
+
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+	}
+
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchCriteriaTypes();
+	}
+
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchResultType(searchResultTypeKey);
+	}
+
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchResultTypes();
+	}
+
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchTypeKey, "searchTypeKey");
+		return searchManager.getSearchType(searchTypeKey);
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchTypes();
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException  {
+		// TODO Auto-generated method stub
+	    return searchManager.search(searchRequest, atpDao);
+	}
 
 }

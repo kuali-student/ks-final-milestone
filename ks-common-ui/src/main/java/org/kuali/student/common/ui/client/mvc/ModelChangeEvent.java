@@ -14,8 +14,6 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.core.dto.Idable;
-
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
@@ -24,8 +22,8 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author Kuali Student Team
  * @param <T>
  */
-public class ModelChangeEvent<T> extends GwtEvent<ModelChangeHandler<T>> {
-    public static final Type<ModelChangeHandler<?>> TYPE = new Type<ModelChangeHandler<?>>();
+public class ModelChangeEvent extends GwtEvent<ModelChangeHandler> {
+    public static final Type<ModelChangeHandler> TYPE = new Type<ModelChangeHandler>();
 
     /**
      * The actions that can be performed on a model.
@@ -33,31 +31,31 @@ public class ModelChangeEvent<T> extends GwtEvent<ModelChangeHandler<T>> {
      * @author Kuali Student Team
      */
     public enum Action {
-        ADD, REMOVE, UPDATE
+        ADD, REMOVE, UPDATE, RELOAD
     }
 
     private final Action action;
-    private final T value;
-
+    private final Model source;
+    
     /**
      * Constructs a new ModelChangeEvent with an action and a value
      * 
      * @param action
      * @param value
      */
-    public ModelChangeEvent(Action action, T value) {
+    public ModelChangeEvent(Action action, Model source) {
         this.action = action;
-        this.value = value;
+        this.source = source;
     }
 
     @Override
-    protected void dispatch(ModelChangeHandler<T> handler) {
+    protected void dispatch(ModelChangeHandler handler) {
         handler.onModelChange(this);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Type<ModelChangeHandler<T>> getAssociatedType() {
+    public Type<ModelChangeHandler> getAssociatedType() {
         return (Type) TYPE;
     }
 
@@ -71,12 +69,11 @@ public class ModelChangeEvent<T> extends GwtEvent<ModelChangeHandler<T>> {
     }
 
     /**
-     * Returns the object with which the event is associated
+     * Returns the model from which this event originated
      * 
-     * @return
+     * @return the model from which this event originated
      */
-    public T getValue() {
-        return this.value;
+    public Model getSource() {
+    	return this.source;
     }
-
 }

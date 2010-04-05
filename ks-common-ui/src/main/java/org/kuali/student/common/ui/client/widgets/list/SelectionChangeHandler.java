@@ -24,5 +24,5 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public interface SelectionChangeHandler extends EventHandler {
-    public void onSelectionChange(KSSelectItemWidgetAbstract w);
+    public void onSelectionChange(SelectionChangeEvent event);
 }

@@ -47,10 +47,12 @@ public class MessageUtils {
      * @return the interpolated message
      */
     public static String interpolate(String message, Map<String, Object> data) {
-        if (message != null) {
+        if (message != null && data != null) {
             Set<String> fields = findFields(message);
             for (String s : fields) {
-                message = message.replaceAll("\\$\\{" + s + "\\}", "" + escape(data.get(s).toString()));
+            	if(data.get(s) != null){
+            		message = message.replaceAll("\\$\\{" + s + "\\}", "" + escape(data.get(s).toString()));
+            	}
             }
         }
         return message;

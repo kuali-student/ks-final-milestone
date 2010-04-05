@@ -36,7 +36,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -62,7 +61,7 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private DocumentRichText descr;
 
     @Lob
     @Column(name = "DOCUMENT", length=10000000)
@@ -89,7 +88,7 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
     
     
     @ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(name="DOCUMENT_CATEGORY_DETAIL",
+    @JoinTable(name="KSDO_DOCUMENT_JN_DOC_CATEGORY",
             joinColumns=
             @JoinColumn(name="DOC_ID", referencedColumnName="DOC_ID"),
       inverseJoinColumns=
@@ -140,15 +139,15 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
     /**
      * @return the commentText
      */
-    public RichText getDesc() {
-        return desc;
+    public DocumentRichText getDescr() {
+        return descr;
     }
 
     /**
      * @param commentText the commentText to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(DocumentRichText descr) {
+        this.descr = descr;
     }
     
     

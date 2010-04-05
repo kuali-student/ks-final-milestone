@@ -16,6 +16,7 @@ package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSSelectableTableListImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -23,6 +24,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This represent a selectable list of items in a table. User can select single item
@@ -154,5 +156,21 @@ public class KSSelectableTableList extends KSSelectItemWidgetAbstract {
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return selectItemWidget.addBlurHandler(handler);
 	}
-    
+
+    public void addWidgetReadyCallback(Callback<Widget> callback) {
+        selectItemWidget.addWidgetReadyCallback(callback);
+    }
+
+    public boolean isInitialized() {
+        return selectItemWidget.isInitialized();
+    }
+
+    public void setInitialized(boolean initialized) {
+        selectItemWidget.setInitialized(initialized);
+    }
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }    
 }

@@ -14,17 +14,19 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
+
 /**
  * Interface defining the operations necessary to implement a view.
  * 
  * @author Kuali Student Team
  */
-public interface View {
+public interface View extends HistorySupport {
     /**
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
      * done.
      */
-    public void beforeShow();
+    public void beforeShow(Callback<Boolean> onReadyCallback);
 
     /**
      * Called by the controller before the view is hidden to allow the view to perform cleanup or request confirmation from

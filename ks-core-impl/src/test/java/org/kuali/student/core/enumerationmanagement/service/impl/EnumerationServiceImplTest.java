@@ -14,6 +14,7 @@
  */
 package org.kuali.student.core.enumerationmanagement.service.impl;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -41,12 +42,40 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
-    @Dao(value = "org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:enumeration-test-beans.xml")
+    @Dao(value = "org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:enumeration-test-beans.xml", testSqlFile="classpath:ks-em.sql")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 	
     public EnumerationManagementServiceImpl enumService = new EnumerationManagementServiceImpl();
+    
+    @Test
+    public void testSearch() throws OperationFailedException, MissingParameterException{
+    	SearchManager searchManager = new SearchManagerImpl("classpath:em-search-config.xml");
+    	enumService.setSearchManager(searchManager);
+    	enumService.setEnumDAO(enumerationManagementDAO);
+    	
+    	List<SearchTypeInfo> searchTypes = enumService.getSearchTypes();
+    	assertNotNull(searchTypes);
+    	assertEquals(1,searchTypes.size());
+    	String searchKey = searchTypes.get(0).getKey();
+    	SearchRequest searchRequest = new SearchRequest();
+    	searchRequest.setSearchKey(searchKey);
+    	searchRequest.setParams(new ArrayList<SearchParam>());
+    	SearchParam searchParam = new SearchParam();
+    	searchParam.setKey("enumeration.queryParam.enumerationType");
+    	searchParam.setValue("kuali.lu.subjectArea");
+    	searchRequest.getParams().add(searchParam);
+    	SearchResult searchResult = enumService.search(searchRequest);
+    	assertNotNull(searchResult);
+    	assertEquals(32,searchResult.getRows().size());
+    }
     
 	@Test
 	public void testSetEnumDAO(){

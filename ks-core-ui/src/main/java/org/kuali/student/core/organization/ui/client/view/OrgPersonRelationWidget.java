@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
@@ -38,18 +38,12 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.person.dto.PersonInfo;
-import org.kuali.student.core.person.ui.client.service.PersonRpcService;
-import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
-import org.kuali.student.core.person.ui.client.view.PersonSearchWidget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.Window;
@@ -74,7 +68,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
     public OrgPersonRelationWidget(String orgId, boolean open) {
         this(orgId, null, open);
     }
-    public OrgPersonRelationWidget(final String orgId, final Model<OrgPositionRestrictionInfo> model, final boolean open) {
+    public OrgPersonRelationWidget(final String orgId, final CollectionModel<OrgPositionRestrictionInfo> model, final boolean open) {
         super(new KSDisclosureSection("Membership", null, open));
         this.orgId = orgId;
         if(orgId != null) { //basically can't do much without an orgId
@@ -140,19 +134,19 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
             public void onClick(ClickEvent event) {
                 final KSModalDialogPanel searchPopup = new KSModalDialogPanel();
                 
-                PersonSearchWidget personSearchWidget = new PersonSearchWidget();
-                personSearchWidget.addSelectionHandler(new SelectionHandler<PersonInfo>(){
-                    public void onSelection(SelectionEvent<PersonInfo> event) {
-                        PersonInfo o = event.getSelectedItem();
-                        orgPersonRelForm.setFieldValue("relPersonName", o.getPersonNameInfoList().get(0).getGivenName());
-                        orgPersonRelForm.setFieldValue("relPersonId", o.getId());
-                        searchPopup.hide();
-                    }
-                });
+//                PersonSearchWidget personSearchWidget = new PersonSearchWidget();
+//                personSearchWidget.addSelectionHandler(new SelectionHandler<PersonInfo>(){
+//                    public void onSelection(SelectionEvent<PersonInfo> event) {
+//                        PersonInfo o = event.getSelectedItem();
+//                        orgPersonRelForm.setFieldValue("relPersonName", o.getPersonNameInfoList().get(0).getGivenName());
+//                        orgPersonRelForm.setFieldValue("relPersonId", o.getId());
+//                        searchPopup.hide();
+//                    }
+//                });
                 
                 VerticalPanel popupContent = new VerticalPanel();
                 popupContent.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-                popupContent.add(personSearchWidget);
+//                popupContent.add(personSearchWidget);
                 popupContent.add(new KSButton("Cancel", new ClickHandler(){
                     public void onClick(ClickEvent event) {
                         searchPopup.hide();
@@ -254,17 +248,17 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                             orgPersonRelForm.setFieldValue("relPersonId",orgPersonRelationInfo.getPersonId());
                             final String orgPersonRelType = orgPersonRelationInfo.getType();
                             
-                            PersonRpcServiceAsync personRpcService = GWT.create(PersonRpcService.class);
-                            personRpcService.fetchPerson(orgPersonRelationInfo.getPersonId(), 
-                                    new AsyncCallback<PersonInfo>(){
-
-                                        public void onFailure(Throwable caught) {
-                                        }
-
-                                        public void onSuccess(PersonInfo personInfo) {
-                                            orgPersonRelForm.setFieldValue("relPersonName", personInfo.getPersonNameInfoList().get(0).getGivenName());                       
-                                        }            
-                            });
+//                            PersonRpcServiceAsync personRpcService = GWT.create(PersonRpcService.class);
+//                            personRpcService.fetchPerson(orgPersonRelationInfo.getPersonId(), 
+//                                    new AsyncCallback<PersonInfo>(){
+//
+//                                        public void onFailure(Throwable caught) {
+//                                        }
+//
+//                                        public void onSuccess(PersonInfo personInfo) {
+//                                            orgPersonRelForm.setFieldValue("relPersonName", personInfo.getPersonNameInfoList().get(0).getGivenName());                       
+//                                        }            
+//                            });
 
                             //Disable editing of rel org id and name
                             ((FocusWidget)orgPersonRelForm.getFieldWidget("relPersonId")).setEnabled(false);

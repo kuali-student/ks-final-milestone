@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -26,6 +27,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * KSDropDown wraps gwt Listbox in a KSSelectItemWidgetAbstract. This provides  
@@ -151,8 +153,7 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
 
     @Override
     public void redraw() {
-        dropDown.redraw();
-        
+        dropDown.redraw();        
     }
 
 	@Override
@@ -165,5 +166,23 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
 		return dropDown.addBlurHandler(handler);
 	}
 
+    @Override
+    public void addWidgetReadyCallback(Callback<Widget> callback) {
+        dropDown.addWidgetReadyCallback(callback);
+    }
 
+    @Override
+    public boolean isInitialized() {
+        return dropDown.isInitialized();
+    }
+
+    @Override
+    public void setInitialized(boolean initialized) {
+        dropDown.setInitialized(initialized);
+    }
+
+    @Override
+    public void clear() {
+        dropDown.clear();        
+    }
 }

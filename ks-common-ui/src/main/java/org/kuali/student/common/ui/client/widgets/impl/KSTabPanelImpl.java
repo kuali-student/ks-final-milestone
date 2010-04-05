@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSTabPanelImpl extends KSTabPanelAbstract {
     
     private final DecoratedTabPanel panel = new DecoratedTabPanel();

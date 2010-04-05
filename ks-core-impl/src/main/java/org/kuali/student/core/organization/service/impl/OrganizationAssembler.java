@@ -70,7 +70,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		// copy attributes and RootOrg
 		orgHierarchyInfo.setAttributes(toAttributeMap(orgHierarchy.getAttributes()));
 		orgHierarchyInfo.setRootOrgId(orgHierarchy.getRootOrg().getId());
-
+		orgHierarchyInfo.setDescr(orgHierarchy.getDescr());
 		return orgHierarchyInfo;
 	}
 
@@ -165,7 +165,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
 		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionInd()));
 		restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getId());
-
+		restrictionInfo.setDesc(restriction.getDescr());
 		return restrictionInfo;
 
 	}
@@ -404,6 +404,8 @@ public class OrganizationAssembler extends BaseAssembler{
 		}
 		orgPositionRestriction.setPersonRelationType(orgPersonRelationType);
 
+		orgPositionRestriction.setDescr(orgPositionRestrictionInfo.getDesc());
+		
 		return orgPositionRestriction;
 	}
 }

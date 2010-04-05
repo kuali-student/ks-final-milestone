@@ -16,7 +16,6 @@ package org.kuali.student.common.ui.client.widgets.menus;
 
 import java.util.List;
 
-
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSAccordionMenuImpl;
 

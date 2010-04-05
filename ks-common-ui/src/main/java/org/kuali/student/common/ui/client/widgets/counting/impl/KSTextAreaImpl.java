@@ -14,17 +14,31 @@
  */
 package org.kuali.student.common.ui.client.widgets.counting.impl;
 
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_BACKSPACE;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_CTRL;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_DELETE;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_DOWN;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_END;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_HOME;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_LEFT;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_PAGEDOWN;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_PAGEUP;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_RIGHT;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_SHIFT;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_TAB;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_UP;
+
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.counting.KSTextAreaAbstract;
-
 
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import static com.google.gwt.event.dom.client.KeyCodes.*;
 
 
 

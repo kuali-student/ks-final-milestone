@@ -22,6 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.enumerationmanagement.EnumerationException;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationManagementDAO;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
@@ -31,24 +32,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
-    private EntityManager entityManager;
+public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl implements EnumerationManagementDAO {
     
     final static Logger logger = LoggerFactory.getLogger(EnumerationManagementDAOImpl.class);
 
-    @PersistenceContext(unitName = "EnumerationManagement")
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-    public EntityManager getEntityManager(){
-        return this.entityManager; 
-    }
-    
+	@PersistenceContext(unitName = "EnumerationManagement")
+	@Override
+	public void setEm(EntityManager em) {
+		super.setEm(em);
+	}
 
 	public List<EnumerationMetaEntity> findEnumerationMetas() {
     	List<EnumerationMetaEntity> metas = new ArrayList<EnumerationMetaEntity>();
     	try{
-	        Query query = entityManager.createQuery("SELECT e FROM EnumerationMetaEntity e");
+	        Query query = em.createQuery("SELECT e FROM EnumerationMetaEntity e");
 	        @SuppressWarnings("unchecked")	        
 	        List<EnumerationMetaEntity> resultList = (List<EnumerationMetaEntity>) query.getResultList();
 			metas = resultList;
@@ -62,8 +59,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     
     public EnumerationMetaEntity addEnumerationMeta(EnumerationMetaEntity entity){
     	try{
-	        entityManager.persist(entity);
-	        entity = entityManager.find(EnumerationMetaEntity.class, entity.getId());
+	        em.persist(entity);
+	        entity = em.find(EnumerationMetaEntity.class, entity.getId());
 		}
 	    catch(Exception e){
 	    	throw new EnumerationException("addEnumerationMeta query failed.", e);
@@ -76,7 +73,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         try{
 	    	EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
 	        if(meta != null){
-	        	entityManager.remove(meta);
+	        	em.remove(meta);
 	        	removed = true;
 	        }
 		}
@@ -89,13 +86,13 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 	}
 
     public EnumerationMetaEntity fetchEnumerationMeta(String enumerationKey) {
-    	EnumerationMetaEntity em = null;
+    	EnumerationMetaEntity enumerationMetaEntity = null;
     	try{
-	    	Query query = entityManager.createQuery("SELECT e FROM EnumerationMetaEntity e where e.enumerationKey = :key");
+	    	Query query = em.createQuery("SELECT e FROM EnumerationMetaEntity e where e.enumerationKey = :key");
 	        query.setParameter("key", enumerationKey);
 	        
 	        if(!query.getResultList().isEmpty()){
-	        	em = (EnumerationMetaEntity)query.getResultList().get(0);
+	        	enumerationMetaEntity = (EnumerationMetaEntity)query.getResultList().get(0);
 	        }else{
 	            return null;
 	        }
@@ -105,12 +102,12 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 			throw new EnumerationException("fetchEnumerationMeta query failed.", e);
         }
 
-        return em;
+        return enumerationMetaEntity;
     }
 
     public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {
     	try{
-	        entityManager.persist(value);
+	        em.persist(value);
 	        value.setEnumerationKey(enumerationKey);
     	}
         catch(Exception e){
@@ -146,7 +143,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 	        		e.setValue(enumeratedValueEntity.getValue());
 	        		e.setAbbrevValue(enumeratedValueEntity.getAbbrevValue());
 	        		e.setContextEntityList(enumeratedValueEntity.getContextEntityList());
-	        		entityManager.merge(e);
+	        		em.merge(e);
 	        		returnValue = e;
 	        	}
 	        }
@@ -183,7 +180,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 	    	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
 	        for(EnumeratedValueEntity e: list){
 	        	if(e.getCode().equals(code)){
-	        		entityManager.remove(e);
+	        		em.remove(e);
 	        		removed = true;
 	        	}
 	        }
@@ -201,7 +198,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		try{
-			Query query = entityManager.createQuery(
+			Query query = em.createQuery(
 		            "select e from EnumeratedValueEntity e " +
 		            "where e.enumerationKey = :enumerationKey ");
 			query.setParameter("enumerationKey", enumerationKey);
@@ -220,7 +217,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		try{
-			Query query = entityManager.createQuery(
+			Query query = em.createQuery(
 		            "select e from EnumeratedValueEntity e " +
 		            "where e.effectiveDate <= :contextDate and " +
 		            "(e.expirationDate is null or e.expirationDate >= :contextDate) and " +
@@ -241,7 +238,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		try{
-			Query query = entityManager.createQuery(
+			Query query = em.createQuery(
 		            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
 		            "where c.contextValue = :contextValue and " +
 		            "c.contextKey = :enumContextKey and " +
@@ -267,7 +264,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
     	
 		try{
-	        Query query = entityManager.createQuery(
+	        Query query = em.createQuery(
 	                "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " 
 	                + "where e.effectiveDate <= :contextDate and " +
 	                "(e.expirationDate is null or e.expirationDate >= :contextDate) and " + 

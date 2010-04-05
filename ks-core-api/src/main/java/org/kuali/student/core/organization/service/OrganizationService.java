@@ -22,7 +22,6 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumerable.service.EnumerableService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -76,7 +75,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 @WebService(name = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface OrganizationService extends DictionaryService, SearchService, EnumerableService {
+public interface OrganizationService extends DictionaryService, SearchService {
 
     /** 
      * Retrieves the list of organization hierarchies known by this service.

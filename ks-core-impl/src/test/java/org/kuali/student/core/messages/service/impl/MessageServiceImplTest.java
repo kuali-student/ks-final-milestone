@@ -35,7 +35,7 @@ import org.kuali.student.core.messages.service.MessageService;
 @PersistenceFileLocation("classpath:META-INF/messages-persistence.xml")
 public class MessageServiceImplTest extends AbstractServiceTest{    
     
-    @Client(value = "org.kuali.student.core.messages.service.impl.MessageServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.core.messages.service.impl.MessageServiceImpl")
     private MessageService messageService;
     
     

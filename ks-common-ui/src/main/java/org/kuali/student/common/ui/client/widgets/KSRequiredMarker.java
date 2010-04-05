@@ -14,13 +14,10 @@
  */
 package org.kuali.student.common.ui.client.widgets;
 
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
-import org.kuali.student.common.ui.client.images.KSImages;
+import org.kuali.student.common.ui.client.theme.Theme;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class KSRequiredMarker extends Composite{
@@ -28,7 +25,7 @@ public class KSRequiredMarker extends Composite{
 	private SimplePanel content = new SimplePanel();
 	//private KSLabel optionalLabel;
     private RequiredEnum required;
-    Image asterisk = KSImages.INSTANCE.asterisk().createImage();
+    KSImage asterisk = Theme.INSTANCE.getCommonImages().getAsterisk();
     
     public KSRequiredMarker(RequiredEnum required){
     	this.required = required;

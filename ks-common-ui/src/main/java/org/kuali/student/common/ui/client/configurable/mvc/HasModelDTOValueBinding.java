@@ -36,6 +36,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.MapType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 
+
+@Deprecated
 public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue>{
 
 	public static HasModelDTOValueBinding INSTANCE = new HasModelDTOValueBinding();
@@ -57,8 +59,10 @@ public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue
 		if(value instanceof ListType){
 			List<ModelDTOValue> list = ((ListType) value).get();
 			List<ModelDTOValue> newList = new ArrayList<ModelDTOValue>();
-			for(ModelDTOValue v : list){
-				newList.add(deepCopy(v));
+			if (null != list) {
+				for(ModelDTOValue v : list){
+					newList.add(deepCopy(v));
+				}
 			}
 			copy = new ListType();
 			((ListType) copy).set(newList);
@@ -66,14 +70,17 @@ public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue
 		else if(value instanceof MapType){
 			Map<String, ModelDTOValue> map = ((MapType)value).get();
 			Map<String, ModelDTOValue> newMap = new HashMap<String, ModelDTOValue>();
-			for(String key: map.keySet()){
-				newMap.put(key, deepCopy(map.get(key)));
+			if (null != map) {
+				for(String key: map.keySet()){
+					newMap.put(key, deepCopy(map.get(key)));
+				}
 			}
 			copy = new MapType();
 			((MapType) copy).set(newMap);
 		}
 		else if(value instanceof ModelDTOType){
 			ModelDTO model = ((ModelDTOType) value).get();
+			assert null != model;
 			ModelDTO newModel = new ModelDTO(model.getClassName());
 			if(model.getAdapter() != null){
 				newModel.setAdapter(new ModelDTOAdapter(newModel, model.getAdapter().getObjectKeyClassNameMap(), model.getAdapter().getObjectKey()));
@@ -119,7 +126,10 @@ public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue
         }
         else if(value instanceof DateType){
             copy = new DateType();
-            ((DateType) copy).set((Date)(((DateType) value).get().clone()));
+            Date dateVal = (Date) ((DateType) value).get();
+            if (null != dateVal) {
+	            ((DateType) copy).set((Date) dateVal.clone());
+            }
         }
 		
 		return copy;

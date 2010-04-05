@@ -8,15 +8,100 @@
 	<xsd:import namespace="http://www.springframework.org/schema/beans"
 		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" />
 	<xsd:import namespace="http://student.kuali.org/xsd/dictionary-extension"
-		schemaLocation="http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd" />
+		schemaLocation="http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd" />
 
+	<!-- Cross Search -->
+	<xsd:complexType name="crossSearchTypeInfo">
+		<xsd:complexContent>
+			<xsd:extension base="searchType">
+				<xsd:sequence>
+					<xsd:element name="subSearch" type="subSearchInfo"
+						maxOccurs="unbounded" minOccurs="0" />
+					<xsd:element name="joinCriteria" type="joinCriteriaInfo"
+						maxOccurs="1" minOccurs="0" />
+					<xsd:element name="joinResultMapping" type="joinResultMappingInfo"
+						maxOccurs="unbounded" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="subSearchInfo">
+		<xsd:sequence>
+			<xsd:element name="subSearchParamMappings" type="subSearchParamMappingInfo"
+				maxOccurs="unbounded" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="key" type="xsd:string" use="required" />
+		<xsd:attribute name="searchkey" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="joinCriteriaInfo">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="joinCriteria" type="joinCriteriaInfo"/>
+				<xsd:element name="comparison" type="joinComparisonInfo"/>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="type" type="joinType" use="required" />
+	</xsd:complexType>
+
+	<xsd:simpleType name="joinType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AND" />
+			<xsd:enumeration value="OR" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="joinResultMappingInfo">
+		<xsd:attribute name="subSearchKey" type="xsd:string"
+			use="required" />
+		<xsd:attribute name="subSearchResultParam" type="xsd:string"
+			use="required" />
+		<xsd:attribute name="resultParam" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="joinComparisonInfo">
+		<xsd:sequence>
+			<xsd:element name="leftHandSide" type="comparisonParamInfo"
+				maxOccurs="1" minOccurs="1" />
+			<xsd:element name="rightHandSide" type="comparisonParamInfo"
+				maxOccurs="1" minOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="type" type="comparisonType" use="required" />
+	</xsd:complexType>
+
+	<xsd:simpleType name="comparisonType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="EQUALS" />
+			<xsd:enumeration value="NOTEQUALS" />
+			<xsd:enumeration value="LESSTHAN" />
+			<xsd:enumeration value="GREATERTHAN" />
+			<xsd:enumeration value="LESSTHANEQUALS" />
+			<xsd:enumeration value="GREATERTHANEQUALS" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="comparisonParamInfo">
+		<xsd:attribute name="subSearchKey" type="xsd:string"
+			use="required" />
+		<xsd:attribute name="param" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="subSearchParamMappingInfo">
+		<xsd:attribute name="crossSearchParam" type="xsd:string"
+			use="required" />
+		<xsd:attribute name="subSearchParam" type="xsd:string"
+			use="required" />
+	</xsd:complexType>
+
+	<!-- Regular search -->
 	<xsd:complexType name="searchCriteriaTypeInfo">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
+				<xsd:choice minOccurs="0" maxOccurs="1">
 					<xsd:sequence>
 						<xsd:element name="name" type="xsd:string" maxOccurs="1"
-							minOccurs="1"></xsd:element>
+							minOccurs="0"></xsd:element>
 						<xsd:element name="desc" type="xsd:string" maxOccurs="1"
 							minOccurs="0"></xsd:element>
 						<xsd:element name="queryParams" type="queryParams"
@@ -24,6 +109,8 @@
 					</xsd:sequence>
 					<xsd:element ref="beans:ref" />
 				</xsd:choice>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -31,12 +118,15 @@
 	<xsd:complexType name="queryParam">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
+				<xsd:choice minOccurs="0">
 					<xsd:sequence>
 						<xsd:element ref="dict:fieldDescriptor" />
 					</xsd:sequence>
 					<xsd:element ref="beans:ref" />
 				</xsd:choice>
+				<xsd:attribute name="optional" type="xsd:boolean" />
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -44,13 +134,15 @@
 	<xsd:complexType name="resultColumn">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:sequence>
+				<xsd:sequence minOccurs="0">
 					<xsd:element name="name" type="xsd:string" maxOccurs="1"
-						minOccurs="1"></xsd:element>
+						minOccurs="0"></xsd:element>
 					<xsd:element name="desc" type="xsd:string" maxOccurs="1"
 						minOccurs="0"></xsd:element>
 					<xsd:element name="dataType" type="xsd:string"></xsd:element>
 				</xsd:sequence>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -67,7 +159,7 @@
 	<xsd:complexType name="searchResultTypeInfo">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
+				<xsd:choice minOccurs="0">
 					<xsd:sequence>
 						<xsd:element name="name" type="xsd:string"></xsd:element>
 						<xsd:element name="desc" type="xsd:string"></xsd:element>
@@ -75,6 +167,8 @@
 					</xsd:sequence>
 					<xsd:element ref="beans:ref" />
 				</xsd:choice>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -82,9 +176,9 @@
 	<xsd:complexType name="searchType">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:sequence>
+				<xsd:sequence minOccurs="0">
 					<xsd:element name="name" type="xsd:string" maxOccurs="1"
-						minOccurs="1">
+						minOccurs="0">
 					</xsd:element>
 					<xsd:element name="desc" type="xsd:string" maxOccurs="1"
 						minOccurs="0">
@@ -92,6 +186,8 @@
 					<xsd:element name="searchResultTypeInfo" type="searchResultTypeInfo"></xsd:element>
 					<xsd:element name="searchCriteriaTypeInfo" type="searchCriteriaTypeInfo"></xsd:element>
 				</xsd:sequence>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -105,6 +201,8 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"
+		name="crossSearchType" type="crossSearchTypeInfo" />
 	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"
 		name="searchCriteriaTypeInfo" type="searchCriteriaTypeInfo" />
 	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"

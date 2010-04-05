@@ -25,9 +25,8 @@ import org.kuali.student.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentAttribute;
 import org.kuali.student.core.document.entity.DocumentCategory;
+import org.kuali.student.core.document.entity.DocumentRichText;
 import org.kuali.student.core.document.entity.DocumentType;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
@@ -40,25 +39,12 @@ import org.springframework.beans.BeanUtils;
  */
 public class DocumentServiceAssembler extends BaseAssembler {
 
-    public static RichTextInfo toRichTextInfo(RichText entity) {
-        if(entity==null){
-            return null;
-        }
-
-        RichTextInfo dto = new RichTextInfo();
-
-        BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-
-        return dto;
-
-    }
-
     public static DocumentInfo toDocumentInfo(Document entity) {
         DocumentInfo dto = new DocumentInfo();
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "metaInfo","type", "categoryList", "document" });
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getType().getId());
@@ -83,7 +69,7 @@ public class DocumentServiceAssembler extends BaseAssembler {
             entity = new Document();
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "desc", "attributes", "metaInfo", "type", "id", "documentBinaryInfo" });
-        entity.setDesc(toRichText(dto.getDesc()));
+        entity.setDescr(toRichText(DocumentRichText.class, dto.getDesc()));
         entity.setDocument(dto.getDocumentBinaryInfo().getBinary());
         entity.setAttributes(toGenericAttributes(DocumentAttribute.class, dto.getAttributes(), entity, dao));
         return entity;
@@ -94,7 +80,7 @@ public class DocumentServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "type", "documents" });
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
 //        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
@@ -126,5 +112,4 @@ public class DocumentServiceAssembler extends BaseAssembler {
         return list;
     }
 
-    
 }

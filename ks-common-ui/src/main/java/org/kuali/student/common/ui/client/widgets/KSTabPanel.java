@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
+@Deprecated
 public class KSTabPanel extends KSTabPanelAbstract {
 
     private KSTabPanelAbstract panel = GWT.create(KSTabPanelImpl.class);

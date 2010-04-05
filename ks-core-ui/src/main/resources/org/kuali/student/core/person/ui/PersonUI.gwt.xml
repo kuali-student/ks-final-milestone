@@ -2,6 +2,5 @@
 	<inherits name="org.kuali.student.core.person.Person"/>
 	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 	
-	<extend-property name="locale" values="en"/>
-	<stylesheet src="KualiStudent.css" />    
+	<extend-property name="locale" values="en"/>    
 </module>

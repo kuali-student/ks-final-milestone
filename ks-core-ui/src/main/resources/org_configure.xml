@@ -1,0 +1,69 @@
+<sectionConfig>
+<sectionView viewName="ORG_INFO" tab="Organization">
+	<section sectionName="Organization" enum="ORG_INFO"></section>
+	<fields>
+		<field label="orgType" key="orgInfo/type"></field>
+		<field label="orgName" key="orgInfo/longName"></field>
+		<field label="orgAbbr" key="orgInfo/shortName"></field>
+		<field label="orgDesc" key="orgInfo/longDesc"></field>
+		<field label="orgEffDate" key="orgInfo/effectiveDate"></field>
+		<field label="orgExpDate" key="orgInfo/expirationDate"></field>
+		
+<!--		<field label="orgDesc" key="org/versions" widget="VersionCodeList"></field>  -->
+
+		<multipleField itemLabel="orgOrgRelationSection" addItemLabel="Add" key="orgOrgRelationInfo">
+			<fields>
+				<field label="orgOrgRelationType" key="orgOrgRelationTypeKey" widget="OrgRelationTypePicker"></field>
+				<field label="orgOrgRelationName" key="relatedOrgId" ></field>
+				<field label="orgOrgRelationEffDate" key="effectiveDate"></field>
+				<field label="orgOrgRelationExpDate" key="expirationDate"></field>
+			</fields>
+		</multipleField>
+
+		<multipleField itemLabel="orgPositionRelationSection" addItemLabel="Add" key="OrgPositionRestrictionInfo">
+			<fields>
+				<field label="orgPositionRelationTypeKey" key="orgPersonRelationTypeKey"></field>
+				<field label="orgPositionRelationTitle" key="title" ></field>
+				<field label="orgPositionRelationDesc" key="desc"></field>
+				<field label="orgPositionRelationMinPpl" key="minNumRelations"></field>
+				<field label="orgPositionRelationMaxPpl" key="maxNumRelations"></field>
+			</fields>
+		</multipleField>
+
+	</fields>
+</sectionView>
+
+<sectionView viewName="POSITIONS" tab="Positions/Members">
+	<section sectionName="Positions" enum="POSITIONS"></section>
+	<fields>
+			<field label="" key="" widget="PositionTable"></field> 
+			<multipleField itemLabel="orgPersonRelationSection" addItemLabel="Add" key="orgPersonRelationInfo">
+				<fields>
+					<field label="orgPersonRelationPerson" key="personId"></field>
+					<field label="orgPersonRelationType" key="type" widget="OrgPersonRelationTypePicker"></field>
+					<field label="orgPersonRelationEffDate" key="effectiveDate"></field>
+					<field label="orgPersonRelationExpDate" key="expirationDate"></field>
+				</fields>
+			</multipleField> 
+
+
+	</fields>
+</sectionView>
+
+<sectionView viewName="SEARCH" tab="Search/Modify">
+	<section sectionName="Search" enum="SEARCH"></section>
+	<fields>
+		<field label="orgId" key="orgSearchInfo/searchOrgs"></field> 
+
+	</fields>
+</sectionView> 
+<sectionView viewName="BROWSE_TREE" tab="Browse">
+	<section sectionName="Browse" enum="BROWSE_TREE"></section>
+	<fields>
+		<field label="" key="orgSearchInfo/searchOrgs" widget="OrgLocateTree"></field> 
+
+	</fields>
+</sectionView>
+
+
+</sectionConfig>

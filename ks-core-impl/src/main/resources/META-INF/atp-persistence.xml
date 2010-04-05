@@ -8,12 +8,13 @@
 		<class>org.kuali.student.core.entity.Attribute</class>
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
-		<class>org.kuali.student.core.entity.RichText</class>
+        <class>org.kuali.student.core.entity.RichText</class>
 		
 		<class>org.kuali.student.core.atp.entity.Atp</class>
 		<class>org.kuali.student.core.atp.entity.AtpAttribute</class>
 		<class>org.kuali.student.core.atp.entity.AtpDurationType</class>
 		<class>org.kuali.student.core.atp.entity.AtpDurationTypeAttribute</class>
+        <class>org.kuali.student.core.atp.entity.AtpRichText</class>
 		<class>org.kuali.student.core.atp.entity.AtpSeasonalType</class>
 		<class>org.kuali.student.core.atp.entity.AtpSeasonalTypeAttribute</class>
 		<class>org.kuali.student.core.atp.entity.AtpType</class>

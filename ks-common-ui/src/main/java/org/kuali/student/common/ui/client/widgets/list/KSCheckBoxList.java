@@ -16,6 +16,7 @@ package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSCheckBoxListImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -24,6 +25,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -142,7 +144,29 @@ public class KSCheckBoxList extends KSSelectItemWidgetAbstract implements HasBlu
 	public HandlerRegistration addFocusHandler(FocusHandler handler) {
 		return selectItemWidget.addFocusHandler(handler);
 	}
+
+    public void addWidgetReadyCallback(Callback<Widget> callback) {
+        selectItemWidget.addWidgetReadyCallback(callback);
+    }
+
+    public boolean isInitialized() {
+        return selectItemWidget.isInitialized();
+    }
+
+    public void setInitialized(boolean initialized) {
+        selectItemWidget.setInitialized(initialized);
+    }
     
+    /**
+     * By default if the list items used by the checkbox has multiple attributes, the checkbox
+     * generated will display all attributes as columns. Set this property to true if this
+     * behavior is not desired.
+     * 
+     * @param ignoreMultiple
+     */
+    public void setIgnoreMultipleAttributes(boolean ignoreMultiple){
+    	selectItemWidget.setIgnoreMultipleAttributes(ignoreMultiple);
+    }
 }
 
 

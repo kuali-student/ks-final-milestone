@@ -18,15 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.springframework.context.ApplicationContext;
@@ -38,12 +39,16 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class SearchManagerImpl implements SearchManager{
 
+	final Logger logger = Logger.getLogger(SearchManagerImpl.class);
+	
 	private String searchContextFile;
 	private Map<String, SearchTypeInfo> searchInfoTypeMap;
 	private Map<String, SearchCriteriaTypeInfo> searchCriteriaTypeMap;
 	private Map<String, SearchResultTypeInfo> searchResultTypeInfoMap;
 	private Map<String, String> queryMap;
-
+	
+	private CrossSearchManager crossSearchManager;
+	
 	@SuppressWarnings("unchecked")
 	private void init() {
 		ApplicationContext ac = new FileSystemXmlApplicationContext(searchContextFile);
@@ -57,19 +62,6 @@ public class SearchManagerImpl implements SearchManager{
 		super();
 		this.searchContextFile = searchContextFile;
 		init();
-	}
-
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues, SearchableDao dao)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		String queryString = queryMap.get(searchTypeKey);
-		SearchTypeInfo searchTypeInfo = searchInfoTypeMap.get(searchTypeKey);
-		if (searchTypeInfo == null) {
-			throw new InvalidParameterException("No such searchTypeKey found: " + searchTypeKey);
-		}
-		return dao.searchForResults(queryString, searchTypeInfo, queryParamValues);
 	}
 
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
@@ -143,4 +135,32 @@ public class SearchManagerImpl implements SearchManager{
 	public void setSearchContext(String searchContextFile) {
 		this.searchContextFile = searchContextFile;
 	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) {
+		
+		String searchKey = searchRequest.getSearchKey();
+		
+		//Check if the search is a cross search
+		SearchTypeInfo searchType = searchInfoTypeMap.get(searchKey);
+		if(searchType instanceof CrossSearchTypeInfo){
+			if(crossSearchManager == null){
+				throw new RuntimeException("Requested cross service search:"+searchKey+", but no cross service search manager was defined.");
+			}
+			return crossSearchManager.doCrossSearch(searchRequest, (CrossSearchTypeInfo) searchType);
+		}
+		
+
+		try{
+			return dao.search(searchRequest, queryMap, searchType);
+		}catch (Exception e){
+			logger.error("Search Failed for searchKey:"+searchKey,e);
+			throw new RuntimeException("Search Failed for searchKey:"+searchKey, e);
+		}
+	}
+
+	public void setCrossSearchManager(CrossSearchManager crossSearchManager) {
+		this.crossSearchManager = crossSearchManager;
+	}
+
 }

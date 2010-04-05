@@ -30,7 +30,7 @@
 		<!--                                           -->
 <%
  MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
- String messageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en",new String[]{"common"});
+ String messageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en",new String[]{"common","org","validation"});
 %>
 
 <script type="text/javascript">
@@ -50,11 +50,14 @@
 		<!-- OPTIONAL: include this if you want history support -->
 		<iframe src="javascript:''" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0"></iframe>
 
-
-		<div id="loadingSpinner">
-			<img src="images/loading.gif" />
-			<b>Loading...</b>
+		<div id="applicationPanel" style="height: 100%; width: 100%; overflow: auto">
+			<div id="loadingSpinner">
+				<img src="images/loading.gif" />
+				<b>Loading...</b>
+			</div>
+			<script language='javascript' src='org.kuali.student.core.organization.ui.OrgEntry.nocache.js'></script>
+			<div id="orgPositionsTable"></div>
+			<div id="orgTreeMemberTable"></div>
 		</div>
-		<script language='javascript' src='org.kuali.student.core.organization.ui.OrgEntry.nocache.js'></script>
 	</body>
 </html>

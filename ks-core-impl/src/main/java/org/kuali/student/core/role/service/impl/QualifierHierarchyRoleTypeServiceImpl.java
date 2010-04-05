@@ -20,18 +20,18 @@ import java.util.List;
 import javax.jws.WebService;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.role.QualifierHierarchyRoleTypeService;
 import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
 import org.kuali.student.core.role.entity.Qualifier;
 import org.kuali.student.core.role.entity.QualifierHierarchy;
 import org.kuali.student.core.role.entity.QualifierType;
+import org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
  * 
  */
-@WebService(endpointInterface = "org.kuali.student.core.role.QualifierHierarchyRoleTypeService", serviceName = "QHRoleTypeService", portName = "QHRoleTypeService", targetNamespace = "http://student.kuali.org/wsdl/qhRoleType")
+@WebService(endpointInterface = "org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService", serviceName = "QHRoleTypeService", portName = "QHRoleTypeService", targetNamespace = "http://student.kuali.org/wsdl/qhRoleType")
 @Transactional
 
 //TODO: Implement this correctly using KimRoleTypeService
