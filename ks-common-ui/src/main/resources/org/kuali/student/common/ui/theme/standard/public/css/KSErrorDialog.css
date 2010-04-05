@@ -25,6 +25,8 @@
 }
 
 .KS-Error-Dialog-TextArea {
+	width: 400px;
+	height: 100px;
 }
 
 .KS-Error-Dialog-Panel {
