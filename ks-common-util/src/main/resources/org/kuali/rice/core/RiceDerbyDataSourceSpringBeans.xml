@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-    <bean id="riceDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource">
+    <bean id="riceDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
         <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="${datasource.driver.name}" />
         <property name="url" value="${datasource.url}" />

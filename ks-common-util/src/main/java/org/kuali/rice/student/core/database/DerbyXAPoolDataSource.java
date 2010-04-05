@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.rice.core.database;
+package org.kuali.rice.student.core.database;
 
 import java.sql.SQLException;
 
