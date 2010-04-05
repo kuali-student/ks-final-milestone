@@ -73,8 +73,8 @@ public class KSErrorDialog {
         final KSTextArea errorDescription = new KSTextArea();
         errorDescription.setText(getErrorDescription(error));
         errorDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
-        errorDescription.setReadOnly(false);
-        errorDescription.setEnabled(false);
+        errorDescription.setReadOnly(true);
+        //errorDescription.setEnabled(false);
         errorDescriptionPanel.add(errorDescription);
 
         final KSLabel describeActionLabel = new KSLabel(context.getMessage(MessagesRequired.DESCRIBE_ACTION.toString()));
