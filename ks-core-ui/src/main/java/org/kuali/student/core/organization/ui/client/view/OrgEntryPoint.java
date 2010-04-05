@@ -54,8 +54,7 @@ public class OrgEntryPoint implements EntryPoint{
 //    private OrgMenu orgMenu = new OrgMenu(content);;
     
     public void onModuleLoad() {
-        final ApplicationContext context = new ApplicationContext();
-        Application.setApplicationContext(context);
+        final ApplicationContext context = Application.getApplicationContext();
         final String injectString = OrgTheme.INSTANCE.getOrgCss().getCssString();
         StyleInjector.injectStylesheet(injectString);
         

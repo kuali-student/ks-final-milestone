@@ -23,8 +23,6 @@ import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.messages.dto.Message;
 
-// TODO find out what we'll really be storing here, and where to get it
-// for now this is just a mockup
 public class ApplicationContext {
 	private boolean loggedIn = true;
 	private String userId = "testuser";
@@ -37,7 +35,11 @@ public class ApplicationContext {
 	
 	private SecurityContext securityContext;
 	
-	public ApplicationContext() {
+	/**
+	 * This constructor should only be visible to the common application package. If ApplicationContext is 
+	 * required outside this package do Application.getApplicationContext();
+	 */
+	protected ApplicationContext() {
 		roles.add("role1");
 		roles.add("role2");
 	}
