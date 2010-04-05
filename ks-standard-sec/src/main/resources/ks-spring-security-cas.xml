@@ -16,7 +16,7 @@
 	
 	
 	<bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 		
 	<security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" >
     	<security:intercept-url pattern="/logout.html*" filters="none"/>
@@ -76,7 +76,7 @@
 	<!-- Client for proxy ticket validation and SAML -->
 
 	<bean id="samlIssuerClient"
-		class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.security.saml.service.SamlIssuerService"/>
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/security/saml}SamlIssuerService"/>
 	</bean>

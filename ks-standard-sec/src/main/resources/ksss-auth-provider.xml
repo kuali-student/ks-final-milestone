@@ -36,7 +36,7 @@
 
 	<!--Enabling Kim identity service to authenticate the users	-->
 	<!--Using KSB client proxy to fetch the service	-->
-	<bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="identityServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
 		<property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
 	</bean>
