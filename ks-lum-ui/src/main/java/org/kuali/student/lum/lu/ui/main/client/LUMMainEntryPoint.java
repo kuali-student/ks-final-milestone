@@ -45,8 +45,7 @@ public class LUMMainEntryPoint implements EntryPoint{
 
     @Override
     public void onModuleLoad() {
-        final ApplicationContext context = new ApplicationContext();
-        Application.setApplicationContext(context);
+        final ApplicationContext context = Application.getApplicationContext();
 
         final String injectString = LumTheme.INSTANCE.getLumCss().getCssString();
         StyleInjector.injectStylesheet(injectString);   
