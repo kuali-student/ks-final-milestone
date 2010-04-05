@@ -12,7 +12,7 @@ require 'rubygems'
 
 # Need class variables for elements to check whether they've been written
 # These elements map to xmlelements that can only be written once
-@@tsung_xml_written       = false
+#@@tsung_xml_written       = false
 @@session_element         = {}
 @@transaction_element     = {}
 
@@ -26,13 +26,6 @@ class TsungSessions
   def initialize(config)
     config.log.debug_msg("TsungSessions-> entering initialize...")
     @config           = config
-    if(!@@tsung_xml_written)
-      config.log.debug_msg("TsungSessions-> entering write_xml_elements...")
-      @@tsung_element      = config.xml_writer.xml.elements['tsung']
-      @@sessions_element   = @@tsung_element.add_element('sessions')
-      @@tsung_xml_written  = true
-    end
-
     self.config.log.debug_msg("Created TsungSessions: #{self.to_s}")
   end
   
@@ -59,7 +52,7 @@ class Session < TsungSessions
     # Check if this specific session element has been written
     if(!@@session_element[@name][:written])
       config.log.debug_msg("Session-> entering write_xml_elements...")
-      @@session_element[@name][:element] = @@sessions_element.add_element('session', {"name" => @name, "probability" => @probability, "type" => @type})
+      @@session_element[@name][:element] = self.config.sessions_element.add_element('session', {"name" => @name, "probability" => @probability, "type" => @type})
       @@session_element[@name][:written] = true
     end
     
@@ -158,23 +151,31 @@ class Requests < Transaction
       :dyn_variables => {
         # "name"
         # "regexp"
-      }
+      },
+      :rice_req => false
     }
   
     opts = defaults.merge(opts)
     req_opts = req_defaults.merge(req_opts)
     
     # Split the hashes to take our dyn_variable
-    dyn_variables = req_opts.reject{|k,v| k == "subst"}[:dyn_variables]
-    req_opts.delete_if{|k,v| k == :dyn_variables}
+    #dyn_variables = req_opts.reject{|k,v| k == "subst"}[:dyn_variables]
+    dyn_variables = req_opts[:dyn_variables]
+    rice_req = req_opts[:rice_req]
+    req_opts.delete_if{|k,v| k != "subst"}
     
+    new_url = ''
     # Make sure requests begins with app context
-    if(url !~ /^\/self.config.context/) 
+    if(rice_req)
+      new_url = "http://#{self.config.rice_server}/#{self.config.rice_context}"
+      new_url << '/' if(url !~ /^\//)
+    elsif(url !~ /^\/self.config.context/) 
       new_url = '/' + self.config.context
       new_url << '/' if(url !~ /^\//)
-      url = new_url + url
-      opts["url"] = url
     end
+    
+    url = new_url + url
+    opts["url"] = url
         
     # Building request string soley for list method
     req_str = "<http url='#{url}' version='#{opts[:version]}' method='#{opts[:method]}'"

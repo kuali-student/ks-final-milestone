@@ -18,7 +18,7 @@ class AutoConfig
 
   attr_accessor :config_dir, :suite_dir, :test_dir, :log_dir, :output, :clients, :servers, :phases, :agents,
     :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context, :verbose,
-    :tsung_log_level, :directory
+    :tsung_log_level, :directory, :rice_server, :rice_context, :tsung_element, :sessions_element
 
   
   def initialize
@@ -71,7 +71,18 @@ class AutoConfig
     end
   
     self.servers = servers.split(/,/)
-  
+    
+    #
+    # Rice Host
+    #
+    print "Rice server location? [hostname:port] "
+    rice_server = gets.chomp!
+    while(rice_server !~ /^([^:]+:\d+)$/) # validate format
+      print "Please use correct format [hostname1:port,hostname2:port,...] "
+      rice_server = gets.chomp!
+    end
+    
+    self.rice_server = rice_server
   
     #
     # Phases
@@ -298,14 +309,14 @@ class AutoConfig
     }
     tsung_opts["dumptraffic"] = "true" if(self.verbose)
     
-    tsung = xml_doc.add_element('tsung', tsung_opts)
+    self.tsung_element = xml_doc.add_element('tsung', tsung_opts)
     
     # Clients
-    clients = tsung.add_element('clients')
+    clients = self.tsung_element.add_element('clients')
     self.clients.each { |client| clients.add_element('client', {"host" => client, "use_controller_vm" => "true"})}
     
     # Servers
-    servers = tsung.add_element('servers')
+    servers = self.tsung_element.add_element('servers')
     self.servers.each do |server|
       (host, port) = server.split(':')
       servers.add_element('server', {"host" => host, "port" => port, "type" => "tcp"})
@@ -315,14 +326,14 @@ class AutoConfig
     # TODO: we have no option in setup to configure monitoring
     
     # Load
-    load = tsung.add_element('load')
+    load = self.tsung_element.add_element('load')
     self.phases.each_pair do |phase, detail|
       arrival_phase = load.add_element('arrivalphase', {"phase" => phase, "duration" => detail[:duration], "unit" => detail[:unit]})
       arrival_phase.add_element('users', {"interarrival" => detail[:user_interval], "unit" => detail[:user_unit]})
     end
     
     # Options - user agent
-    options = tsung.add_element('options')
+    options = self.tsung_element.add_element('options')
     option = options.add_element('option', {"type" => "ts_http", "name" => "user_agent"})
     self.agents.each_pair do |agent, probability| 
       ua = option.add_element('user_agent', {"probability" => probability})
@@ -335,6 +346,13 @@ class AutoConfig
     #tsung.document.write($stdout, 2)
     puts ""
     self.log.debug_msg "Exiting write_config_xml..."
+    
+  end
+  
+  # Initialize sessions in xml
+  def init_sessions
+    
+    self.sessions_element = self.tsung_element.add_element('sessions')
     
   end
   
