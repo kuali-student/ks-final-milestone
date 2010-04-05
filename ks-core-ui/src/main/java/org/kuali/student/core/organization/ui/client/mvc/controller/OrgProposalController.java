@@ -451,6 +451,8 @@ public class OrgProposalController extends TabbedSectionLayout{
 	                            System.out.println("Loaded OrgMetaData");
 	                            orgProposalModel.setDefinition(def);
 	                            commonConfigurer.setModelDefinition(def);
+	                            flag=false;
+	                            init();
 	                            System.out.println(" model updated ");
 	                            fetchProposalOrg(modifyActionEvent);
 	                            System.out.println("Reached summit 1 ");
@@ -478,13 +480,24 @@ public class OrgProposalController extends TabbedSectionLayout{
 	                   commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
 	                   getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
 	                   View currentView = getCurrentView();
-	                   View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+	                   final View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	                   setButtonPermission();
-	                   renderView(orgView);
+	                   
 	                   if (orgView instanceof VerticalSectionView) {
-	                       ((VerticalSectionView) orgView).redraw();
+	                       ((VerticalSectionView) orgView).beforeShow(new Callback<Boolean>(){
+
+                            @Override
+                            public void exec(Boolean result) {
+                                // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+//                                ((VerticalSectionView) orgView).redraw();
+                                renderView(orgView);
+                                modified = true;
+                            }
+	                           
+	                       });
+	                       
 	                   }
-	                   modified = true;
+	                 
 	               }
 	           });
 	       }
