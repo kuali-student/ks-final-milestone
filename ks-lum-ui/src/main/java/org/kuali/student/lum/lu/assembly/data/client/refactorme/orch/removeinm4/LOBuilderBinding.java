@@ -303,8 +303,12 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
     	
     	// change the 'courseSpecificLOs' elements into a List of OutlineNode's
         QueryPath qPath = QueryPath.parse(path);
-        Data data = model.get(qPath);
-
+        
+        Data data = null;
+        if(model!=null){
+        	data = model.get(qPath);
+        }
+        	
         if (data != null){
             Iterator<Property> itr = data.iterator();
             SortedHelperSet cccsLoHelpers = new SortedHelperSet();
