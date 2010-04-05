@@ -98,8 +98,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     
     private void init(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
         if (inLookupMetadata == null) {
-            KSErrorDialog errorDialog = new KSErrorDialog();
-            errorDialog.show(new Throwable("Invalid lookup configuration: missing initial lookup metadata."));
+            KSErrorDialog.show(new Throwable("Invalid lookup configuration: missing initial lookup metadata."));
             return;
         }    
         
@@ -255,8 +254,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
             @Override
             public void onFailure(Throwable cause) {
-                KSErrorDialog errorDialog = new KSErrorDialog();
-                errorDialog.show(cause);
+                KSErrorDialog.show(cause);
             }
 
             @Override

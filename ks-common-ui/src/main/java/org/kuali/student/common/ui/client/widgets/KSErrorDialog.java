@@ -50,12 +50,12 @@ public class KSErrorDialog {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
             public void onUncaughtException(Throwable e) {
                 GWT.log(e.getMessage(), e);
-            	new KSErrorDialog().show(e);
+            	KSErrorDialog.show(e);
             }
         });
     }
 
-    public void show(final Throwable error) {
+    public static void show(final Throwable error) {
         final KSLightBox lightbox = new KSLightBox();
         
         final VerticalPanel panel = new VerticalPanel();
@@ -73,7 +73,7 @@ public class KSErrorDialog {
         final KSTextArea errorDescription = new KSTextArea();
         errorDescription.setText(getErrorDescription(error));
         errorDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
-        errorDescription.setReadOnly(true);
+        errorDescription.setReadOnly(false);
         errorDescription.setEnabled(false);
         errorDescriptionPanel.add(errorDescription);
 
@@ -121,11 +121,12 @@ public class KSErrorDialog {
 
     }
 
-    private String getErrorDescription(Throwable error) {
+    private static String getErrorDescription(Throwable error) {
         // TODO maybe retrieve more error info
         return error.toString();
     }
-    private void sendReport(final Throwable error, final String actionDescription) {
+    
+    private static void sendReport(final Throwable error, final String actionDescription) {
         // TODO actually gather client context info, such as browser version, user id, etc
         Logger.getClientContextInfo().put("logType", "clientError");
         Logger.getClientContextInfo().put("actionDescription", actionDescription);
@@ -135,6 +136,5 @@ public class KSErrorDialog {
         // hack, clear out context info, should probably find a better way of doing this
         Logger.getClientContextInfo().clear();
     }
-
 
 }
