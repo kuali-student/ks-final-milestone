@@ -37,6 +37,7 @@ import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
@@ -176,6 +177,24 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         result.setTitle(prop.getName());
         result.setReferenceType(prop.getProposalReferenceType());
         result.setReferences(new Data());
+        
+        //Copy MetaInfo
+        MetaInfoHelper metaInfo = MetaInfoHelper.wrap(new Data());
+        metaInfo.setCreateId(prop.getMetaInfo().getCreateId());
+        metaInfo.setUpdateId(prop.getMetaInfo().getUpdateId());
+        metaInfo.setCreateTime(prop.getMetaInfo().getCreateTime());
+        metaInfo.setUpdateTime(prop.getMetaInfo().getUpdateTime());
+        result.setMetaInfo(metaInfo);
+        
+        Data proposerPersons = new Data();
+        
+        if(prop.getProposerPerson()!=null){
+        	for(String proposerPerson:prop.getProposerPerson()){
+        		proposerPersons.add(proposerPerson);
+        	}
+            result.setProposerPerson(proposerPersons);
+        }
+        
         for (String s : prop.getProposalReference()) {
             result.getReferences().add(s);
         }
