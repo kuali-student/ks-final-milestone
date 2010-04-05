@@ -87,7 +87,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                     DataValue v = (DataValue)picker.getValue();
                     Data d = v.get();
                     
-                    Iterator<Property> iter = d.iterator();
+                    Iterator<Property> iter = d.realPropertyIterator();
                     while(iter.hasNext()) {
                         Property p = iter.next();
                         String s = p.getValue();
@@ -243,7 +243,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         clear();
         if(value != null) {
             Data data = ((DataValue)value).get();
-            Iterator<Property> iter = data.iterator();
+            Iterator<Property> iter = data.realPropertyIterator();
             while(iter.hasNext()) {
                 Property p = iter.next();
                 String v = (String)p.getValue();
