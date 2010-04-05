@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
@@ -72,8 +73,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
 		private Map<String, KSListPanel> sectionMap = new HashMap<String, KSListPanel>();
 		private boolean menuAdded = false;
-		private boolean shown = false;
-		private boolean renderedOnce = false;
 		private Enum<?> tabDefaultView = null;
 		
 		public Enum<?> getTabDefaultView() {
@@ -181,9 +180,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			}
 		}
 
-		public void renderView(View view) {
-			renderedOnce = true;
-			
+		public void renderView(View view) {			
 			content.setWidget((Widget)view);
 			if(menuAdded){
 			    if (currSectionIdx == sectionMenuItems.size() - 1){
@@ -225,16 +222,10 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		}
 
 		public void beforeShow(final Callback<Boolean> onReadyCallback) {
-			if(!shown) {
-			    // This code is commented because the Summary section was getting loaded.
-			    //this call does nothing and the summary section was blank.
-			    // This code looks funny and needs to be looked at.
-//				onReadyCallback.exec(true);
-			    showView(tabDefaultView, onReadyCallback); 
-			} else {
-				showView(tabDefaultView, onReadyCallback);
-			}
+			showView(tabDefaultView, onReadyCallback);
 		}
+		
+		
 	}
 	
 	private void init(){
@@ -343,6 +334,16 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			if(section != null){
 				layout.setTabDefaultView(section.getViewEnum());
 			}
+			
+			//Handler for when tab is clicked
+			tabPanel.addTabCustomCallback(tabKey, new Callback<String>(){
+
+				@Override
+				public void exec(String result) {
+					layout.beforeShow(NO_OP_CALLBACK);
+				}
+				
+			});
 		}
 		else{
 			layout = tabLayoutMap.get(tabKey);
@@ -357,17 +358,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 				
 		if (defaultView == null){
 		    defaultView = section.getViewEnum();
-		}
-		
-		tabPanel.addTabCustomCallback(tabKey, new Callback<String>(){
-
-			@Override
-			public void exec(String result) {
-				layout.beforeShow(NO_OP_CALLBACK);
-			}
-			
-		});
-		
+		}				
 	}
 
 	@Override
