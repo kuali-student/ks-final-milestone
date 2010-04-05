@@ -11,7 +11,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean id="config" class="org.kuali.rice.core.config.spring.RiceConfigFactoryBean">
+	<bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
 		<property name="configLocations">
 			<list>
 				<value>classpath:META-INF/ks-lum-ui-config.xml</value>
@@ -20,7 +20,7 @@
 	</bean>
     
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
 
 	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSLumUIContext"/>	

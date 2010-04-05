@@ -13,7 +13,7 @@
 	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
