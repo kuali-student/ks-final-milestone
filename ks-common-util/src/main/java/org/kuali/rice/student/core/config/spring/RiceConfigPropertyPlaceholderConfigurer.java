@@ -1,4 +1,4 @@
-package org.kuali.rice.core.config.spring;
+package org.kuali.rice.student.core.config.spring;
 
 import java.io.IOException;
 import java.util.HashSet;

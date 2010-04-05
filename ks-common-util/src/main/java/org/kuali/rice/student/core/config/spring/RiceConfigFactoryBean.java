@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.rice.core.config.spring;
+package org.kuali.rice.student.core.config.spring;
 
 /*
  * Copyright 2007 The Kuali Foundation

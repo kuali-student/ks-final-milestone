@@ -1,6 +1,6 @@
-package org.kuali.rice.core.config.spring;
+package org.kuali.rice.student.core.config.spring;
 
-import org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer.PlaceholderResolvingStringValueResolver;
+import org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer.PlaceholderResolvingStringValueResolver;
 import org.springframework.beans.factory.config.BeanDefinitionVisitor;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.util.StringValueResolver;

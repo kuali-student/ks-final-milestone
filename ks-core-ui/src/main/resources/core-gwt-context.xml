@@ -15,7 +15,7 @@
 	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 
 	<!-- Service Clients -->
 	<bean id="orgClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">

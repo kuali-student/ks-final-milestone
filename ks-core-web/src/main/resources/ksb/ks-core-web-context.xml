@@ -14,7 +14,7 @@
 
     <import resource="classpath:ksb/ks-core-context.xml" />
     
-	<bean id="config" class="org.kuali.rice.core.config.spring.RiceConfigFactoryBean">
+	<bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
 		<property name="configLocations">
 			<list>
 				<value>classpath:META-INF/ks-core-web-config.xml</value>
@@ -23,7 +23,7 @@
 	</bean>
     
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
 
     <import resource="classpath:ks-spring-security.xml" />
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
