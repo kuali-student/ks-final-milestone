@@ -1,18 +1,8 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
-import org.kuali.student.common.ui.client.configurable.mvc.RowDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,7 +12,6 @@ public class VerticalSection extends BaseSection{
 	private FlowPanel layout = new FlowPanel();
 	
 	public VerticalSection(){
-		layout.add(this.sectionTitle);
 		this.initWidget(layout);
 		layout.setStyleName("ks-form-module");
 		sectionTitle.addStyleName("ks-heading-page-section");
