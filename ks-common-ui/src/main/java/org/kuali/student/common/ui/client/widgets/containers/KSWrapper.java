@@ -48,7 +48,8 @@ public class KSWrapper extends Composite{
     private final String APP_URL			= "application.url";
     private final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
     private final String RICE_URL           = "ks.rice.url";
-    private final String RICE_LINK_LABEL   = "ks.rice.label";
+    private final String RICE_LINK_LABEL	= "ks.rice.label";
+    private final String APP_VERSION		= "ks.application.version";
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
         
@@ -85,6 +86,7 @@ public class KSWrapper extends Composite{
     private String lumAppUrl = "..";
     private String riceURL ="..";
     private String riceLinkLabel="Rice";
+    private String appVersion = "";
     
     private boolean loaded = false;
             
@@ -112,7 +114,7 @@ public class KSWrapper extends Composite{
 	protected void onLoad() {
 		super.onLoad();
 		if (!loaded){
-			List<String> serverPropertyList = Arrays.asList(ACTION_LIST_URL, APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL);
+			List<String> serverPropertyList = Arrays.asList(ACTION_LIST_URL, APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION);
 			
 	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
 	            public void onFailure(Throwable caught) { 
@@ -128,7 +130,8 @@ public class KSWrapper extends Composite{
 	                    lumAppUrl 		= result.get(LUM_APP_URL);
 	                    actionListUrl 	= result.get(ACTION_LIST_URL);
 	                    riceURL         = result.get(RICE_URL);
-	                    riceLinkLabel = result.get(RICE_LINK_LABEL);
+	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
+	                    appVersion		= result.get(APP_VERSION);
 	                }
 	                init();
 	            }
@@ -200,7 +203,7 @@ public class KSWrapper extends Composite{
 	        
 	           public void onClick(ClickEvent event) {
 	               final PopupPanel helpPopup = new PopupPanel(true);
-	               helpPopup.setWidget(new HTML("<br><h3>&nbsp;&nbsp; Kuali Student Version : 1.0.0-m4 &nbsp;&nbsp;<h3>"));
+	               helpPopup.setWidget(new HTML("<br><h3>&nbsp;&nbsp; " + appVersion + "&nbsp;&nbsp;<h3>"));
 	               
 	               helpPopup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
 	                   public void setPosition(int offsetWidth, int offsetHeight) {
