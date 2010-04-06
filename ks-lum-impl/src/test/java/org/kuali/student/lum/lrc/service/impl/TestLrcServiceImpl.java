@@ -52,6 +52,8 @@ import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 @Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcServiceImpl extends AbstractServiceTest {
@@ -320,7 +322,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
     public void getResultComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ResultComponentTypeInfo> rctis = client.getResultComponentTypes();
         assertNotNull(rctis);
-        assertEquals(3, rctis.size());
+        assertEquals(6, rctis.size());
     }
 
     @Test
@@ -667,5 +669,24 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
+    }
+    
+    public void testBusinessCaseExample() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	ResultComponentInfo rc = new ResultComponentInfo();
+        RichTextInfo richText = new RichTextInfo();
+        richText.setFormatted("<p>ResultComponent</p>");
+        richText.setPlain("ResultComponent");
+        rc.setDesc(richText);
+    	
+        String specificGradeId = "LRC-RESULT_VALUE-GRADE-1";
+        
+        rc.setName("ResultComponent");
+        rc.setResultValueIds(Arrays.asList(new String[] {specificGradeId}));
+        rc.setState("ACTIVE");
+        rc.setType("resultComponentType.grade");
+        
+        client.createResultComponent("resultComponentType.grade", rc);
+    	
+    	
     }
 }

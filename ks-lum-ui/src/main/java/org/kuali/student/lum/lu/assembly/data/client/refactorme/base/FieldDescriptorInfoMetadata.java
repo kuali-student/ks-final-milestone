@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.FieldDescriptorInfoHelper.Properties;
 
 
@@ -38,14 +38,18 @@ public class FieldDescriptorInfoMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		Map <String, Integer> recursions = new HashMap ();
-		loadChildMetadata (mainMeta, type, state, recursions);
+		loadChildMetadata (mainMeta, type, state, new RecursionCounter ());
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  RecursionCounter recursions)
 	{
-		int recurseLevel = increment (recursions, "FieldDescriptorInfoMetadata");
+		if (recursions.decrement (this.getClass ().getName ()) < 0)
+		{
+			recursions.increment (this.getClass ().getName ());
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+			return;
+		}
 		
 		Metadata childMeta;
 		Metadata listMeta;
@@ -86,77 +90,25 @@ public class FieldDescriptorInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("dictionary.field.descriptor.field.types"));
 		}
 		
-		// metadata for minLength
+		// metadata for constraints
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.MIN_LENGTH.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.INTEGER);
+		mainMeta.getProperties ().put (Properties.CONSTRAINTS.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("non-negative.integer"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
+		listMeta = new Metadata ();
+		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		new ConstraintDescriptorInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
-		// metadata for maxLength
+		// metadata for complexStructure
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.MAX_LENGTH.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("non-negative.integer"));
-		}
-		
-		// metadata for validChars
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.VALID_CHARS.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		
-		// metadata for invalidChars
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.INVALID_CHARS.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		
-		// metadata for minValue
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.MIN_VALUE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		
-		// metadata for maxValue
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.MAX_VALUE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		
-		// metadata for enumFieldView
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.ENUM_FIELD_VIEW.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.COMPLEX_STRUCTURE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -164,63 +116,21 @@ public class FieldDescriptorInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new EnumFieldViewInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new ObjectStructureInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
-		// metadata for minOccurs
+		// metadata for key
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.MIN_OCCURS.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.INTEGER);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("non-negative.integer"));
-		}
-		
-		// metadata for maxOccurs
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.MAX_OCCURS.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.KEY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("non-negative.integer"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.key"));
 		}
 		
-		// metadata for readOnly
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.READ_ONLY.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.BOOLEAN);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("boolean"));
-		}
-		
-	}
-	
-	private int increment (Map<String, Integer> recursions, String key)
-	{
-		Integer recurseLevel = recursions.get (key);
-		if (recurseLevel == null)
-		{
-			recursions.put (key, 0);
-			return 0;
-		}
-		recursions.put (key, recurseLevel.intValue () + 1);
-		return recurseLevel.intValue ();
+		recursions.increment (this.getClass ().getName ());
 	}
 }
 

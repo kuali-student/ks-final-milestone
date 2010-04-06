@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	 
+	<import resource="lu-dictionary-config.xml" />
+	
+	<search:searchType id="lrc.search.resultComponent" parent="lrc.search.resultComponent-parent"/>
+	<search:searchType id="lrc.search.resultComponent-parent"  abstract="true">
+		<search:name>Basic Search for Result Components</search:name>
+		<search:desc>Return list of Result Components</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lrc.result.resultComponent"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lrc.criteria.resultComponent"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lrc.result.resultComponent" parent="lrc.result.resultComponent-parent"/>
+	<search:searchResultTypeInfo id="lrc.result.resultComponent-parent"  abstract="true">
+		<search:name>Lu Full View</search:name>
+		<search:desc>Full view of clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lrc.resultColumn.resultComponent.id" /> 
+			<ref bean="lrc.resultColumn.resultComponent.name"/>
+			<ref bean="lrc.resultColumn.resultComponent.type"/>		
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponent" parent="lrc.criteria.resultComponent-parent"/>
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponent-parent"  abstract="true">
+		<search:name>LuAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lrc.queryParam.resultComponent.id" />
+			<ref bean="lrc.queryParam.resultComponent.type" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lrc.queryParam.resultComponent.id" parent="lrc.queryParam.resultComponent.id-parent"/>
+	<search:queryParam id="lrc.queryParam.resultComponent.id-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultComponent.id.fd"/>	
+	</search:queryParam>			
+	
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.id.fd" parent="lrc.queryParam.resultComponent.id.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.id.fd-abstract" abstract="true">
+		<dict:name>ResultComponent Key</dict:name>
+		<dict:desc>Result Component Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<search:queryParam id="lrc.queryParam.resultComponent.type" parent="lrc.queryParam.resultComponent.type-parent"/>
+	<search:queryParam id="lrc.queryParam.resultComponent.type-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultComponent.type.fd"/>	
+	</search:queryParam>			
+	
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.type.fd" parent="lrc.queryParam.resultComponent.type.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.type.fd-abstract" abstract="true">
+		<dict:name>ResultComponent Type Key</dict:name>
+		<dict:desc>Result Component Type Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+	<search:resultColumn id="lrc.resultColumn.resultComponent.id" parent="lrc.resultColumn.resultComponent.id-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultComponent.id-parent"  abstract="true">
+        <search:name>ResultComponent Key</search:name>
+        <search:desc>Result Component Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	
+	<search:resultColumn id="lrc.resultColumn.resultComponent.name" parent="lrc.resultColumn.resultComponent.name-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultComponent.name-parent"  abstract="true">
+        <search:name>ResultComponent Name</search:name>
+        <search:desc>Result Component Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="lrc.resultColumn.resultComponent.type" parent="lrc.resultColumn.resultComponent.type-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultComponent.type-parent"  abstract="true">
+        <search:name>ResultComponent Type</search:name>
+        <search:desc>Result Component Type</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	    
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+		        <entry key="lrc.search.resultComponent">
+		            <value>SELECT rc.id, rc.name, rc.type FROM ResultComponent rc </value>
+		        </entry>
+		        
+				<entry key="lrc.queryParam.resultComponent.id">
+					<value>rc.id = :lrc_queryParam_resultComponent_id</value>
+				</entry>
+				
+				<entry key="lrc.queryParam.resultComponent.type">
+					<value>rc.type.id = :lrc_queryParam_resultComponent_type</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+</beans>

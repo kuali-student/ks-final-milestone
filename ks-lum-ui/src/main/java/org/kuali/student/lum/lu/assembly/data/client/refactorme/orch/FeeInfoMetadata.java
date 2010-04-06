@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper.Properties;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeRecordInfoHelper.Properties;
 
 
 public class FeeInfoMetadata
@@ -38,98 +39,106 @@ public class FeeInfoMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		Map <String, Integer> recursions = new HashMap ();
-		loadChildMetadata (mainMeta, type, state, recursions);
+		loadChildMetadata (mainMeta, type, state, new RecursionCounter ());
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  RecursionCounter recursions)
 	{
-		int recurseLevel = increment (recursions, "FeeInfoMetadata");
+		if (recursions.decrement (this.getClass ().getName ()) < 0)
+		{
+			recursions.increment (this.getClass ().getName ());
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+			return;
+		}
 		
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for FeeType
+		// metadata for Justification
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.FEE_TYPE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		
-		// metadata for FeeAmount
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.FEE_AMOUNT.getKey (), childMeta);
+		mainMeta.getProperties ().put (FeeInfoHelper.Properties.JUSTIFICATION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("multi.line.text"));
+			ConstraintMetadata consMeta = new ConstraintMetadata ();
+			consMeta.setMaxLength (1000);
+			childMeta.getConstraints ().add (consMeta);
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			/*
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			*/
 		}
 		
-		// metadata for Taxable
+		// metadata for FixedRateFee
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.TAXABLE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
+		mainMeta.getProperties ().put (Properties.FIXED_RATE_FEE.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 		}
+		listMeta = new Metadata ();
+		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		new FeeInfoFixedRateFeeMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
-		// metadata for FeeDesc
+		// metadata for VariableRateFee
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.FEE_DESC.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
+		mainMeta.getProperties ().put (Properties.VARIABLE_RATE_FEE.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
+		listMeta = new Metadata ();
+		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		new FeeInfoVariableRateFeeMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
-		// metadata for InternalNotation
+		// metadata for MultipleRateFee
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.INTERNAL_NOTATION.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
+		mainMeta.getProperties ().put (Properties.MULTIPLE_RATE_FEE.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
+		listMeta = new Metadata ();
+		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		new FeeInfoMultipleRateFeeMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
-		// metadata for _runtimeData
+		// metadata for PerCreditFee
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties._RUNTIME_DATA.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		mainMeta.getProperties ().put (Properties.PER_CREDIT_FEE.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.LIST);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		listMeta = new Metadata ();
+		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		new FeeInfoPerCreditFeeMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
-	}
-	
-	private int increment (Map<String, Integer> recursions, String key)
-	{
-		Integer recurseLevel = recursions.get (key);
-		if (recurseLevel == null)
-		{
-			recursions.put (key, 0);
-			return 0;
-		}
-		recursions.put (key, recurseLevel.intValue () + 1);
-		return recurseLevel.intValue ();
+		recursions.increment (this.getClass ().getName ());
 	}
 }
 

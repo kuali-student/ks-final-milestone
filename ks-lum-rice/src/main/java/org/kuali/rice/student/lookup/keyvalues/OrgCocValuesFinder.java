@@ -17,54 +17,51 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 
-public class OrgCocValuesFinder extends KeyValuesBase{
-    public static List<KeyLabelPair> findCocOrgs() {
+public class OrgCocValuesFinder extends StudentKeyValuesBase {
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
+
+	public static List<KeyLabelPair> findCocOrgs() {
         List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
-
-        OrganizationService orgService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName(
-                        "http://student.kuali.org/wsdl/organization",
-                        "OrganizationService"));
 
         List<String> types = new ArrayList<String>();
         types.add("kuali.org.College");
         types.add("kuali.org.Department");
         types.add("kuali.org.Division");
         
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
-        QueryParamValue qpOrgType = new QueryParamValue();
+        List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
+        SearchParam qpOrgType = new SearchParam();
         qpOrgType.setKey("org.queryParam.relationType");
         qpOrgType.setValue("kuali.org.CurriculumChild");
         queryParamValues.add(qpOrgType);
         
-        qpOrgType = new QueryParamValue();
+        qpOrgType = new SearchParam();
         qpOrgType.setKey("org.queryParam.orgTypeList");
         qpOrgType.setValue(types);
         queryParamValues.add(qpOrgType);
         
-        qpOrgType = new QueryParamValue();
+        qpOrgType = new SearchParam();
         qpOrgType.setKey("org.queryParam.relatedOrgType");
         qpOrgType.setValue("kuali.org.COC");
         queryParamValues.add(qpOrgType);
 
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr");
+        searchRequest.setParams(queryParamValues);
+        
         try {
-            List<Result> results = orgService.searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr",
-                    queryParamValues);
+            SearchResult results = getOrganizationService().search(searchRequest);
 
-            for (Result result : results) {
+            for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
-                for (ResultCell resultCell : result.getResultCells()) {
+                for (SearchResultCell resultCell : result.getCells()) {
                     if ("org.resultColumn.orgId".equals(resultCell
                             .getKey())) {
                         orgId = resultCell.getValue();
@@ -73,12 +70,12 @@ public class OrgCocValuesFinder extends KeyValuesBase{
                         orgShortName = resultCell.getValue();
                     }
                 }
-                // departments.add(new KeyLabelPair(orgId, orgShortName));
-                departments.add(new KeyLabelPair(orgShortName, orgShortName));
+                departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
             }
 
             return departments;
         } catch (Exception e) {
+        	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
         }
     }

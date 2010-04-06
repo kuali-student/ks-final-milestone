@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class RuntimeDataHelper
@@ -29,7 +29,8 @@ public class RuntimeDataHelper
 		CREATED ("created"),
 		DELETED ("deleted"),
 		UPDATED ("updated"),
-		VERSIONS ("versions");
+		VERSIONS ("versions"),
+		DIRTY ("dirty");
 		
 		private final String key;
 		
@@ -111,6 +112,18 @@ public class RuntimeDataHelper
 	public Data getVersions ()
 	{
 		return (Data) data.get (Properties.VERSIONS.getKey ());
+	}
+	
+	
+	public void setDirty (Boolean value)
+	{
+		data.set (Properties.DIRTY.getKey (), value);
+	}
+	
+	
+	public Boolean isDirty ()
+	{
+		return (Boolean) data.get (Properties.DIRTY.getKey ());
 	}
 	
 }

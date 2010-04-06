@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,8 @@ public interface FieldDescriptorInfoConstants
 	public static final String NAME = "name";
 	public static final String DESC = "desc";
 	public static final String DATA_TYPE = "dataType";
-	public static final String MIN_LENGTH = "minLength";
-	public static final String MAX_LENGTH = "maxLength";
-	public static final String VALID_CHARS = "validChars";
-	public static final String INVALID_CHARS = "invalidChars";
-	public static final String MIN_VALUE = "minValue";
-	public static final String MAX_VALUE = "maxValue";
-	public static final String ENUM_FIELD_VIEW = "enumFieldView";
-	public static final String MIN_OCCURS = "minOccurs";
-	public static final String MAX_OCCURS = "maxOccurs";
-	public static final String READ_ONLY = "readOnly";
+	public static final String CONSTRAINTS = "constraints";
+	public static final String COMPLEX_STRUCTURE = "complexStructure";
+	public static final String KEY = "key";
 }
 

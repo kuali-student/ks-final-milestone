@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
 
 
 public class ConstraintMetadataBank
@@ -83,7 +83,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Alphanumeric code, hypen and period.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
-		consMeta.setValidChars ("[A-Za-z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -92,7 +92,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("uppercase alphanumeric code, hypen and period.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
-		consMeta.setValidChars ("[A-Z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -101,7 +101,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("lowercase alphanumeric code, hypen and period.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
-		consMeta.setValidChars ("[a-z0-9.-]*");
+		consMeta.setValidChars ("regex:[a-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -111,14 +111,14 @@ public class ConstraintMetadataBank
 		consMeta.setComments ("old reg ex was \"[A-Za-z0-9.-;;'&%$#@!]*");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (255);
-		consMeta.setValidChars ("[\\p{Print} ]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-;:\"'&%$#@!\\t ]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("letter");
 		consMeta.setMessageId ("kuali.msg.validation.letter");
 		consMeta.setDesc ("letters only");
-		consMeta.setValidChars ("[A-Za-z]*");
+		consMeta.setValidChars ("regex:[A-Za-z]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -149,14 +149,14 @@ public class ConstraintMetadataBank
 		consMeta.setId ("no.linefeeds");
 		consMeta.setMessageId ("kuali.msg.validation.no.linefeeds");
 		consMeta.setDesc ("Any character EXCEPT carraige returns and line feeds");
-		consMeta.setValidChars ("[^\\n\\r]*");
+		consMeta.setValidChars ("regex:[^\\n\\r]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("no.tabs");
 		consMeta.setMessageId ("kuali.msg.validation.no.tabs");
 		consMeta.setDesc ("Any character EXCEPT a tab");
-		consMeta.setValidChars ("[^\\t]*");
+		consMeta.setValidChars ("regex:[^\\t]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -165,7 +165,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed.");
 		consMeta.setComments ("old reg ex was [A-Za-z0-9.-;;'&%$#@!\\n\\r\\t]*");
 		consMeta.setMinLength (1);
-		consMeta.setValidChars ("[\\p{Print}\\p{Blank}\\n\\r]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-;:\"'&%$#@!\\n\\r\\t ]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -174,7 +174,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc.");
 		consMeta.setComments ("Not sure if characterset for rich text is the same for regular text but just interpretted differently.  I.e. html is plain text interpreted differently.");
 		consMeta.setMinLength (1);
-		consMeta.setValidChars ("[\\p{Print}\\p{Blank}\\n\\r]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-;:\"'&%$#@!\\n\\r\\t ]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -202,7 +202,7 @@ public class ConstraintMetadataBank
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=14");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (10);
-		consMeta.setValidChars ("^(\\+|-)?\\d+$");
+		consMeta.setValidChars ("regex:^(\\+|-)?[0-9]+$");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -213,7 +213,7 @@ public class ConstraintMetadataBank
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (10);
 		consMeta.setMinValue ("0");
-		consMeta.setValidChars ("^\\d+$");
+		consMeta.setValidChars ("regex:^[0-9]+$");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -223,7 +223,7 @@ public class ConstraintMetadataBank
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=117");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (10);
-		consMeta.setValidChars ("^[-+]?\\d+(\\.\\d+)?$");
+		consMeta.setValidChars ("regex:^[-+]?[0-9]+(\\.[0-9]+)?$");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -233,7 +233,7 @@ public class ConstraintMetadataBank
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=117");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (10);
-		consMeta.setValidChars ("^[-+]?\\d+(\\.\\d+)?$");
+		consMeta.setValidChars ("regex:^[-+]?[0-9]+(\\.[0-9]+)?$");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -243,7 +243,7 @@ public class ConstraintMetadataBank
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=131");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (10);
-		consMeta.setValidChars ("^\\$?\\d+(\\.(\\d{2}))?$");
+		consMeta.setValidChars ("regex:^\\$?[0-9]+(\\.([0-9]{2}))?$");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -253,7 +253,7 @@ public class ConstraintMetadataBank
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=96");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (2083);
-		consMeta.setValidChars ("(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?");
+		consMeta.setValidChars ("regex:(http|ftp|https):\\/\\/[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -263,17 +263,15 @@ public class ConstraintMetadataBank
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=905");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (5);
-		consMeta.setValidChars ("[Ff]+(alse)?|[Tt]+(rue)");
+		consMeta.setValidChars ("regex:[Ff]+(alse)?|[Tt]+(rue)");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("kuali.id");
 		consMeta.setMessageId ("kuali.msg.validation.kuali.id");
 		consMeta.setDesc ("Kuali ID; calculated by service on add, then read-only.");
-		consMeta.setComments ("MinOccur on ID's of 1 may not work because it is missing on the create");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (36);
-		consMeta.setMinOccurs (1);
 		consMeta.setMaxOccurs (1);
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.validation.KualiIdValidator");
@@ -289,7 +287,7 @@ public class ConstraintMetadataBank
 		consMeta.setMaxOccurs (1);
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.validation.KualiTypeValidator");
-		consMeta.setValidChars ("[A-Za-z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -301,7 +299,7 @@ public class ConstraintMetadataBank
 		consMeta.setMinOccurs (1);
 		consMeta.setMaxOccurs (1);
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("[A-Za-z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -313,15 +311,13 @@ public class ConstraintMetadataBank
 		consMeta.setMinOccurs (1);
 		consMeta.setMaxOccurs (1);
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("[A-Za-z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("kuali.meta.data");
 		consMeta.setMessageId ("kuali.msg.validation.kuali.meta.data");
 		consMeta.setDesc ("Kuali Meta Data: calculated by service, read-only");
-		consMeta.setComments ("MinOccur on Meta data structures may not 1 not work because it is not supplied  on the create");
-		consMeta.setMinOccurs (1);
 		consMeta.setMaxOccurs (1);
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.validation.KualiMetaDataValidator");
@@ -409,7 +405,7 @@ public class ConstraintMetadataBank
 		consMeta.setMaxLength (60);
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.lum.lrc.validation.GradeExistsValidator");
-		consMeta.setValidChars ("[A-Za-z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -421,7 +417,7 @@ public class ConstraintMetadataBank
 		consMeta.setMaxLength (60);
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.lum.lrc.validation.CreditExistsValidator");
-		consMeta.setValidChars ("[A-Za-z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -433,7 +429,7 @@ public class ConstraintMetadataBank
 		consMeta.setMaxLength (60);
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.lum.lrc.validation.credentialExistsValidator");
-		consMeta.setValidChars ("[A-Za-z0-9.-]*");
+		consMeta.setValidChars ("regex:[A-Za-z0-9.-]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -510,6 +506,22 @@ public class ConstraintMetadataBank
 		consMeta.setId ("atp.types");
 		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured  time period types");
+		consMeta.setMinLength (1);
+		consMeta.setMaxLength (60);
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("milestone.types");
+		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		consMeta.setDesc ("In list of configured  time period milestone types");
+		consMeta.setMinLength (1);
+		consMeta.setMaxLength (60);
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("daterange.types");
+		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		consMeta.setDesc ("In list of configured  time period daterange types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
@@ -641,6 +653,14 @@ public class ConstraintMetadataBank
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("rate.types");
+		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		consMeta.setDesc ("In a list of configured rate types");
+		consMeta.setMinLength (1);
+		consMeta.setMaxLength (60);
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("reference.types");
 		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured reference types");
@@ -671,7 +691,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("In list of configured subject areas");
 		consMeta.setMinLength (4);
 		consMeta.setMaxLength (4);
-		consMeta.setValidChars ("[A-Z]*");
+		consMeta.setValidChars ("regex:[A-Z]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -680,7 +700,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("In list of configured available course numbers");
 		consMeta.setMinLength (3);
 		consMeta.setMaxLength (3);
-		consMeta.setValidChars ("[0-9]*");
+		consMeta.setValidChars ("regex:[0-9]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -728,7 +748,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.CreditCourse");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourse");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -737,7 +757,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourseFormatShell\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.CreditCourseFormatShell");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourseFormatShell");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -745,7 +765,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Program\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.Program");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Program");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -753,7 +773,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.ProgramLevel\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.ProgramLevel");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.ProgramLevel");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -761,7 +781,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.ProgramType\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.ProgramType");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.ProgramType");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -769,7 +789,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.DegreeLevel\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.DegreeLevel");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.DegreeLevel");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -777,7 +797,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.DegreeType\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.DegreeType");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.DegreeType");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -785,7 +805,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Major\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.Major");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Major");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -793,7 +813,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Minor\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.Minor");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Minor");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -801,7 +821,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.GeneralEd\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.GeneralEd");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.GeneralEd");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -809,7 +829,7 @@ public class ConstraintMetadataBank
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Honors\"");
 		consMeta.setServerSide (true);
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.Honors");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Honors");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -818,7 +838,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.identifier.official\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.CreditCourse\\.identifier\\.official");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourse\\.identifier\\.official");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -827,7 +847,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"active\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("active");
+		consMeta.setValidChars ("regex:active");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -836,7 +856,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.identifier.cross-listed\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.CreditCourse\\.identifier\\.cross-listed");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourse\\.identifier\\.cross-listed");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -845,7 +865,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.relation.type.co-located\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.relation\\.type\\.co-located");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.relation\\.type\\.co-located");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -854,7 +874,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.lu.relation.type.hasCourseFormat\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kulai\\.lu\\.lu\\.relation\\.type\\.hasCourseFormat");
+		consMeta.setValidChars ("regex:kulai\\.lu\\.lu\\.relation\\.type\\.hasCourseFormat");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -863,7 +883,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.lu.relation.type.hasProgramLevel\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.lu\\.relation\\.type\\.hasProgramLevel");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.lu\\.relation\\.type\\.hasProgramLevel");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -872,7 +892,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.lu.relation.type.hasProgramType\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.lu\\.relation\\.type\\.hasProgramType");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.lu\\.relation\\.type\\.hasProgramType");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -881,7 +901,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.identifier.version\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.CreditCourse\\.identifier\\.version");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourse\\.identifier\\.version");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -890,7 +910,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be 0");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("0");
+		consMeta.setValidChars ("regex:0");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -899,7 +919,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be 1");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("1");
+		consMeta.setValidChars ("regex:1");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -908,7 +928,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be TRUE");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("true");
+		consMeta.setValidChars ("regex:true");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -917,7 +937,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be FALSE");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("false");
+		consMeta.setValidChars ("regex:false");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -926,7 +946,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.dynamic.eye.color\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.CreditCourse\\.dynamic\\.eye\\.color");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourse\\.dynamic\\.eye\\.color");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -935,7 +955,16 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.dynamic.left.handed\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lu\\.type\\.CreditCourse\\.dynamic\\.left\\.handed");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourse\\.dynamic\\.left\\.handed");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("hard.coded.rate.type");
+		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.dynamic.rate.type\"");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
+		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.CreditCourse\\.dynamic\\.rate\\.type");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -944,7 +973,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("must be \"kuali.lo.type.singleUse\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lo\\.type\\.singleUse");
+		consMeta.setValidChars ("regex:kuali\\.lo\\.type\\.singleUse");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -953,7 +982,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("must be \"kuali.lo.type.SingleUse.dynamic.sequence\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lo\\.type\\.singleUse\\dynamic\\sequence");
+		consMeta.setValidChars ("regex:kuali\\.lo\\.type\\.singleUse\\.dynamic\\.sequence");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -962,7 +991,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("must be \"kuali.lo.category.type.unclassified\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lo\\.category\\.type\\.unclassified");
+		consMeta.setValidChars ("regex:kuali\\.lo\\.category\\.type\\.unclassified");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -971,7 +1000,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("must be \"kuali.lo.category.type.accreditation\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lo\\.category\\.type\\.accreditation");
+		consMeta.setValidChars ("regex:kuali\\.lo\\.category\\.type\\.accreditation");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -980,7 +1009,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("must be \"kuali.lo.category.type.skill\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lo\\.category\\.type\\.skill");
+		consMeta.setValidChars ("regex:kuali\\.lo\\.category\\.type\\.skill");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -989,7 +1018,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("must be \"kuali.lo.category.type.subject\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.lo\\.category\\.type\\.subject");
+		consMeta.setValidChars ("regex:kuali\\.lo\\.category\\.type\\.subject");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -998,7 +1027,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lu.lo.relation.type.includes\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kulai\\.lu\\.lo\\.relation\\.type\\.includes");
+		consMeta.setValidChars ("regex:kulai\\.lu\\.lo\\.relation\\.type\\.includes");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1007,7 +1036,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.lo.lo.relation.type.includes\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kulai\\.lo\\.lo\\.relation\\.type\\.includes");
+		consMeta.setValidChars ("regex:kulai\\.lo\\.lo\\.relation\\.type\\.includes");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1016,7 +1045,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.loRepository.key.single.use\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.loRepository\\.key\\.singleUse");
+		consMeta.setValidChars ("regex:kuali\\.loRepository\\.key\\.singleUse");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1025,7 +1054,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("must be \"Kuali.resultUsageType.CreditAwarded\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("Kuali\\.resultUsageType\\.CreditAwarded");
+		consMeta.setValidChars ("regex:Kuali\\.resultUsageType\\.CreditAwarded");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1034,7 +1063,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.resultComponentType.credit.degree.fixed\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.resultComponentType\\.credit\\.degree\\.fixed");
+		consMeta.setValidChars ("regex:kuali\\.resultComponentType\\.credit\\.degree\\.fixed");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1043,7 +1072,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.resultComponentType.credit.degree.range\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.resultComponentType\\.credit\\.degree\\.range");
+		consMeta.setValidChars ("regex:kuali\\.resultComponentType\\.credit\\.degree\\.range");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1052,7 +1081,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.resultComponentType.finalGrade\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.resultComponentType\\.finalGrade");
+		consMeta.setValidChars ("regex:kuali\\.resultComponentType\\.finalGrade");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1061,7 +1090,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.creditType.credit.degree\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.creditType\\.credit\\.degree");
+		consMeta.setValidChars ("regex:kuali\\.creditType\\.credit\\.degree");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1070,7 +1099,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.resultComponentType.finalQualitative\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.resultComponentType\\.finalQualitative");
+		consMeta.setValidChars ("regex:kuali\\.resultComponentType\\.finalQualitative");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1079,7 +1108,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"Must be \"kuali.resultUsageType.finalGradeAwarded\"\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.resultUsageType\\.finalGradeAwarded");
+		consMeta.setValidChars ("regex:kuali\\.resultUsageType\\.finalGradeAwarded");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1088,7 +1117,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.gradeType.Letter\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.gradeType\\.Letter");
+		consMeta.setValidChars ("regex:kuali\\.gradeType\\.Letter");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1097,7 +1126,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.gradeType.Pass-Fail\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.gradeType\\.Pass-Fail");
+		consMeta.setValidChars ("regex:kuali\\.gradeType\\.Pass-Fail");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1106,7 +1135,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.resultComponentType.finalQualitative\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.resultComponentType\\.finalQualitative");
+		consMeta.setValidChars ("regex:kuali\\.resultComponentType\\.finalQualitative");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1115,7 +1144,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.referenceType.CLU\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.referenceType\\.CLU");
+		consMeta.setValidChars ("regex:kuali\\.referenceType\\.CLU");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1124,7 +1153,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.referenceType.proposal\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.referenceType\\.proposal");
+		consMeta.setValidChars ("regex:kuali\\.referenceType\\.proposal");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1133,7 +1162,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be \"kuali.proposal.type.group\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.proposal\\.type\\.group");
+		consMeta.setValidChars ("regex:kuali\\.proposal\\.type\\.group");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1142,7 +1171,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.proposal.ProposalDocRelationType.syllabus\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.proposal\\.ProposalDocRelationType\\.syllabus");
+		consMeta.setValidChars ("regex:kuali\\.proposal\\.ProposalDocRelationType\\.syllabus");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1151,7 +1180,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.proposal.ProposalDocRelationType.other\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.proposal\\.ProposalDocRelationType\\.other");
+		consMeta.setValidChars ("regex:kuali\\.proposal\\.ProposalDocRelationType\\.other");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1160,7 +1189,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.document.type.file\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.document\\.type\\.file");
+		consMeta.setValidChars ("regex:kuali\\.document\\.type\\.file");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1169,7 +1198,52 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.document.category.courseProposal.Doc.Category\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.document\\.category\\.courseProposal\\.Doc\\.Category");
+		consMeta.setValidChars ("regex:kuali\\.document\\.category\\.courseProposal\\.Doc\\.Category");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("hard.coded.rateType.fixedRate");
+		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		consMeta.setDesc ("Must be \"Fixed Rate\"");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
+		consMeta.setValidChars ("regex:Fixed Rate");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("hard.coded.rateType.variableRate");
+		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		consMeta.setDesc ("Must be \"Variable Rate\"");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
+		consMeta.setValidChars ("regex:Variable Rate");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("hard.coded.rateType.multipleRate");
+		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		consMeta.setDesc ("Must be \"Multiple Rate\"");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
+		consMeta.setValidChars ("regex:Multiple Rate");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("hard.coded.rateType.perCreditRate");
+		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		consMeta.setDesc ("Must be \"Per Credit Rate\"");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
+		consMeta.setValidChars ("regex:Per Credit Rate");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("hard.coded.feeType.Revenue");
+		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		consMeta.setDesc ("Must be \"Revenue\"");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
+		consMeta.setValidChars ("regex:Revenue");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1354,30 +1428,30 @@ public class ConstraintMetadataBank
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
-		consMeta.setId ("lu.statement.operators");
+		consMeta.setId ("statement.operators");
 		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
-		consMeta.setDesc ("In list of configured lu statement operators (AND and OR)");
+		consMeta.setDesc ("In list of configured statement operators (AND and OR)");
 		consMeta.setComments ("Hard coded to be AND or OR");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
-		consMeta.setId ("lu.statement.types");
+		consMeta.setId ("statement.types");
 		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
-		consMeta.setDesc ("In list of valid lu statement types");
+		consMeta.setDesc ("In list of valid statement types");
 		consMeta.setComments ("See LuStatementInfo types defined on the Types tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
-		consMeta.setId ("lu.statement.states");
+		consMeta.setId ("statement.states");
 		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
-		consMeta.setDesc ("In list of valid lu statement states");
+		consMeta.setDesc ("In list of valid statement states");
 		consMeta.setComments ("See LuStatementInfo states defined on the States tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
-		consMeta.setId ("related.luStatementd");
+		consMeta.setId ("related.Statementd");
 		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
-		consMeta.setDesc ("Id of an existing LU Statement");
+		consMeta.setDesc ("Id of an existing Statement");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (36);
@@ -1490,7 +1564,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.credit.course\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.credit\\.course");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.credit\\.course");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1499,7 +1573,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.credit.course.set\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.credit\\.course\\.set");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.credit\\.course\\.set");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1508,7 +1582,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.requiredCount\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.requiredCount");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.requiredCount");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1517,7 +1591,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.lrd\\.credit\\.course\\.final\\.grade");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.lrd\\.credit\\.course\\.final\\.grade");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1526,7 +1600,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.overall\\.gpa");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.overall\\.gpa");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1535,7 +1609,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.overall\\.totalCredits");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.overall\\.totalCredits");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1544,7 +1618,23 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.operator");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.operator");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("atp.in.future");
+		consMeta.setMessageId ("kuali.msg.validation.atp.not.in.future");
+		consMeta.setDesc ("The ATP must start in the future");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.atp.validation.FutureATPValidatorValidator");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("course.variation.code.unique");
+		consMeta.setMessageId ("kuali.msg.validation.course.variation.not.unique");
+		consMeta.setDesc ("The variation codes must be unique");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.lum.lu.validation.UniqueVariationValidatorValidator");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1553,7 +1643,7 @@ public class ConstraintMetadataBank
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("kuali\\.reqCompFieldType\\.countType");
+		consMeta.setValidChars ("regex:kuali\\.reqCompFieldType\\.countType");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();

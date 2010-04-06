@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.home.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -24,7 +25,6 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -46,12 +46,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class HomeMenuController extends Controller{
     
     public enum MenuViews {
-        DEFAULT_VIEW, CREATE_COURSE_VIEW, FIND_VIEW, CREATE_PROGRAM_VIEW
+        DEFAULT_VIEW, CREATE_COURSE_VIEW, MODIFY_COURSE_VIEW, FIND_VIEW, CREATE_PROGRAM_VIEW
     }
     
     public View defaultPanel = new DefaultPanel(this);
     public View creditCoursePanel = new CreateCreditCoursePanel(this);
     public View findPanel = new FindPanel(this);
+    public View modifyFindPanel = new ModifyFindPanel(this);
     
     public HorizontalPanel mainPanel = new HorizontalPanel();
     public VerticalPanel menuPanel = new VerticalPanel();
@@ -136,8 +137,12 @@ public class HomeMenuController extends Controller{
             }
             else if (sender == createProgram.getPanel()) {
             	createProgram.select();
-            	fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_PROGRAM));
-            }            
+            	fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.CREATE_PROGRAM));
+            }
+            else if (sender == modifyCourse.getPanel()) {
+                modifyCourse.select();
+                showView(MenuViews.MODIFY_COURSE_VIEW, NO_OP_CALLBACK);
+            }
             else if(sender == find.getPanel()){
                 find.select();
                 showView(MenuViews.FIND_VIEW, NO_OP_CALLBACK);
@@ -172,6 +177,7 @@ public class HomeMenuController extends Controller{
     }
         
     public HomeMenuController(){
+        super(HomeMenuController.class.getName());
         SimplePanel simple = new SimplePanel();
         mainPanel.setStyleName("Course-Home-Main-Panel");
         menuPanel.setStyleName("Course-Home-Menu-Panel");
@@ -210,6 +216,8 @@ public class HomeMenuController extends Controller{
                 return defaultPanel;
             case CREATE_COURSE_VIEW:
                 return creditCoursePanel;
+            case MODIFY_COURSE_VIEW:
+                return modifyFindPanel;
             case CREATE_PROGRAM_VIEW:
             	return defaultPanel;
             case FIND_VIEW:
@@ -239,7 +247,7 @@ public class HomeMenuController extends Controller{
     @Override
     public void fireApplicationEvent(ApplicationEvent event) {
         
-        if ((event instanceof ChangeViewStateEvent) && (getParentController() != null)) {
+        if ((event instanceof ChangeViewActionEvent) && (getParentController() != null)) {
             this.getParentController().fireApplicationEvent(event);
         }
         else{
@@ -251,4 +259,8 @@ public class HomeMenuController extends Controller{
         return MenuViews.class;
     }
     
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return MenuViews.valueOf(enumValue);
+    }
 }

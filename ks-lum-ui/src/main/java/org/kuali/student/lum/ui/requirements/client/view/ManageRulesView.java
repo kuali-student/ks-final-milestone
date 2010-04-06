@@ -14,13 +14,13 @@
  */
 package org.kuali.student.lum.ui.requirements.client.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -30,14 +30,13 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
-import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ObjectClonerUtil;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
@@ -114,17 +113,16 @@ public class ManageRulesView extends ViewComposite {
                         }
                     });                          
                 }
+                
+                redraw();                
+                isInitialized = true;
+                onReadyCallback.exec(true);                
             }
 
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        }); 
-       
-        redraw();
-        
-        isInitialized = true;
-        onReadyCallback.exec(true);
+        });        
     }
 
     private void setupHandlers() {            
@@ -145,15 +143,15 @@ public class ManageRulesView extends ViewComposite {
                     StatementVO statementVO = (StatementVO) userObject;
                     if (statementVO != null) {
                         StatementOperatorTypeKey currentOp =
-                            (statementVO.getLuStatementInfo().getOperator());
+                            (statementVO.getStatementInfo().getOperator());
                         StatementOperatorTypeKey newOp = null;
                         if (currentOp == StatementOperatorTypeKey.AND) {
                             newOp = StatementOperatorTypeKey.OR;
                         } else {
                             newOp = StatementOperatorTypeKey.AND;
                         }
-                        statementVO.getLuStatementInfo().setOperator(newOp);
-                        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                        statementVO.getStatementInfo().setOperator(newOp);
+                        RuleInfo prereqInfo = model.getValue();
                         StatementVO unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
                         boolean structureChanged = prereqInfo.getStatementVO().simplify();
                         prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
@@ -203,63 +201,35 @@ public class ManageRulesView extends ViewComposite {
                 Object userObject = widget.getNode().getUserObject();   
                 if (userObject instanceof ReqComponentVO) {
                     final ReqComponentVO rule = (ReqComponentVO) userObject;
-                
-                    getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<CollectionModel<ReqComponentVO>>() {
-                        public void onModelReady(CollectionModel<ReqComponentVO> theModel) {
-                            RulesUtilities.clearModel(theModel);
-                            theModel.add(rule);                            
-                        }
-        
-                        public void onRequestFail(Throwable cause) {
-                            throw new RuntimeException("Unable to connect to model", cause);
-                        }
-                    });                
-                                    
-                    getController().showView(PrereqViews.CLAUSE_EDITOR, Controller.NO_OP_CALLBACK);
+                    ((CourseReqManager)getController()).setComponentToEdit(rule);  //selected rule to be given to rule component editor                                                                 
+                    getController().showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
                 }
             }
         };
         
         btnAddRule.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {      
-                
-                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<CollectionModel<ReqComponentVO>>() {
-                    public void onModelReady(CollectionModel<ReqComponentVO> theModel) {
-                        if (theModel != null) {
-                            RulesUtilities.clearModel(theModel);
-                        }                    
-                    }
-
-                    public void onRequestFail(Throwable cause) {
-                        throw new RuntimeException("Unable to connect to model", cause);
-                    }
-                });                  
-                
-                getController().showView(PrereqViews.CLAUSE_EDITOR, Controller.NO_OP_CALLBACK);
+            	((CourseReqManager)getController()).setComponentToEdit(null);  //selected rule to be given to rule component editor
+                getController().showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
             }
         });                
         
         btnMoveRuleDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO statementVO = prereqInfo.getStatementVO();
                 if (statementVO != null) {
-                    List<ReqComponentVO> selectedRCs =
-                        statementVO.getSelectedReqComponentVOs();
-                    List<StatementVO> selectedSs =
-                        statementVO.getSelectedStatementVOs();
-                    int numSelectedRCs = (selectedRCs == null)? 0 :
-                        selectedRCs.size();
-                    int numSelectedSs = (selectedSs == null)? 0 :
-                        selectedSs.size();
+                    List<ReqComponentVO> selectedRCs = statementVO.getSelectedReqComponentVOs();
+                    List<StatementVO> selectedSs = statementVO.getSelectedStatementVOs();
+                    int numSelectedRCs = (selectedRCs == null)? 0 : selectedRCs.size();
+                    int numSelectedSs = (selectedSs == null)? 0 : selectedSs.size();
                     ReqComponentVO selectedReqCompVO = null;
+                    
                     if (numSelectedRCs == 1 && numSelectedSs == 0) {
                         selectedReqCompVO = selectedRCs.get(0);
-                        StatementVO enclosingStatementVO = 
-                            prereqInfo.getStatementVO().getEnclosingStatementVO(
-                                    prereqInfo.getStatementVO(), selectedReqCompVO);
+                        StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
-                        prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
+                        prereqInfo.getEditHistory().save(statementVO);
                         redraw();
                     }
                 }
@@ -268,25 +238,20 @@ public class ManageRulesView extends ViewComposite {
 
         btnMoveRuleUp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO statementVO = prereqInfo.getStatementVO();
                 if (statementVO != null) {
-                    List<ReqComponentVO> selectedRCs =
-                        statementVO.getSelectedReqComponentVOs();
-                    List<StatementVO> selectedSs =
-                        statementVO.getSelectedStatementVOs();
-                    int numSelectedRCs = (selectedRCs == null)? 0 :
-                        selectedRCs.size();
-                    int numSelectedSs = (selectedSs == null)? 0 :
-                        selectedSs.size();
+                    List<ReqComponentVO> selectedRCs = statementVO.getSelectedReqComponentVOs();
+                    List<StatementVO> selectedSs = statementVO.getSelectedStatementVOs();
+                    int numSelectedRCs = (selectedRCs == null)? 0 : selectedRCs.size();
+                    int numSelectedSs = (selectedSs == null)? 0 : selectedSs.size();
                     ReqComponentVO selectedReqCompVO = null;
+                    
                     if (numSelectedRCs == 1 && numSelectedSs == 0) {
                         selectedReqCompVO = selectedRCs.get(0);
-                        StatementVO enclosingStatementVO = 
-                            prereqInfo.getStatementVO().getEnclosingStatementVO(
-                                    prereqInfo.getStatementVO(), selectedReqCompVO);
+                        StatementVO enclosingStatementVO =  statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
-                        prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
+                        prereqInfo.getEditHistory().save(statementVO);
                         redraw();
                     }
                 }
@@ -295,7 +260,7 @@ public class ManageRulesView extends ViewComposite {
         
         btnAddOR.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO unsimplified = null;
                 boolean structureChanged = false;
                 prereqInfo.insertOR();
@@ -315,7 +280,7 @@ public class ManageRulesView extends ViewComposite {
         
         btnAddAND.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO unsimplified = null;
                 boolean structureChanged = false;
                 prereqInfo.insertAND();
@@ -335,7 +300,7 @@ public class ManageRulesView extends ViewComposite {
         
         btnDelete.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO unsimplified = null;
                 boolean structureChanged = false;
                 prereqInfo.deleteItem();
@@ -357,7 +322,7 @@ public class ManageRulesView extends ViewComposite {
         
         btnAddToGroup.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO unsimplified = null;
                 boolean structureChanged = false;
                 prereqInfo.addToGroup();
@@ -379,7 +344,7 @@ public class ManageRulesView extends ViewComposite {
         
         editManually.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 prereqInfo.populateExpression();
                 prereqInfo.setPreviewedExpression(prereqInfo.getExpression());
                 getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR, Controller.NO_OP_CALLBACK);
@@ -388,7 +353,7 @@ public class ManageRulesView extends ViewComposite {
         
         btnUndo.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO previousState = prereqInfo.getEditHistory().undo();
                 if (previousState != null) {
                     prereqInfo.setStatementVO(previousState);
@@ -399,7 +364,7 @@ public class ManageRulesView extends ViewComposite {
         
         btnRedo.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 StatementVO nextState = prereqInfo.getEditHistory().redo();
                 if (nextState != null) {
                     prereqInfo.setStatementVO(nextState);
@@ -410,38 +375,40 @@ public class ManageRulesView extends ViewComposite {
         
         btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                //store this new rule model in the top most model
-            	// TODO need to modify this to use new DataModel
-//                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
-//
-//                    @Override
-//                    public void onModelReady(Model<CluProposalModelDTO> cluModel) {
-//                    	RuleInfo managedRule = RulesUtilities.getReqInfoModelObject(model);
-//                    	managedRule.setNaturalLanguage(naturalLanguage);
-//                    	List<RuleInfo> ruleInfos = cluModel.get().getRuleInfos();
-//                  
-//                        for (RuleInfo origRuleInfo : ruleInfos) {
-//                            if (origRuleInfo.getLuStatementTypeKey().equals(managedRule.getLuStatementTypeKey())) {              	
-//                                ruleInfos.remove(origRuleInfo);
-//                                ruleInfos.add(managedRule);
-//                            }                
-//                        }
-//                        
-//                        //switch to first page
-//                        getController().showView(PrereqViews.RULES_LIST);                                               
-//                    }
-//
-//                    @Override
-//                    public void onRequestFail(Throwable cause) {
-//                        Window.alert("Failed to request for CluProposalModelDTO");
-//                    }
-//                });            	            
+            	getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
+
+            	getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
+                    @Override
+                    public void onModelReady(DataModel dataModel) {
+                    	RuleInfo managedRule = model.getValue();
+                    	managedRule.setNaturalLanguage(naturalLanguage);  
+                    	
+                    	/*
+                    	LuData luData = (LuData)dataModel.getRoot();                  	
+                    	List<RuleInfo> ruleInfos = luData.getRuleInfos();                   
+                        for (RuleInfo origRuleInfo : ruleInfos) {
+                            if (origRuleInfo.getLuStatementTypeKey().equals(managedRule.getLuStatementTypeKey())) {              	
+                                ruleInfos.remove(origRuleInfo);
+                                ruleInfos.add(managedRule);
+                            }                
+                        } */
+                        
+                        //switch to first page
+                        getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                    	GWT.log("Failed to get LuData DataModel", cause);
+                    	Window.alert("Failed to get LuData DataModel");                        
+                    }
+                });            	            
             }
         });        
     }
     
     public void showUnSimpTemporarily(StatementVO unsimplified) {
-        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+        RuleInfo prereqInfo = model.getValue();
         prereqInfo.setStatementVO(unsimplified);
         prereqInfo.setSimplifying(true);
         redraw();
@@ -449,8 +416,7 @@ public class ManageRulesView extends ViewComposite {
         // simplification
         Timer simplifyingTimer = new Timer() {
             public void run() {
-                RuleInfo prereqInfo = 
-                    RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 prereqInfo.setSimplifying(false);
                 prereqInfo.setStatementVO(prereqInfo.getEditHistory().getCurrentState());
                 redraw();
@@ -460,12 +426,16 @@ public class ManageRulesView extends ViewComposite {
     }
     
     private void redraw() {
+        if (CourseReqSummaryHolder.getView() != null) {
+            CourseReqSummaryHolder.getView().setTheController(getController());
+            CourseReqSummaryHolder.getView().redraw();
+        }
         complexView.clear();
         complexView.setStyleName("Content-Margin");
         
         SimplePanel tempPanel = new SimplePanel();
         tempPanel.setStyleName("KS-Rules-FullWidth");
-        KSLabel preReqHeading = new KSLabel("Manage " + getRuleTypeName() + " Rules");
+        KSLabel preReqHeading = new KSLabel(getHeading());
         preReqHeading.setStyleName("KS-ReqMgr-Heading");
         tempPanel.add(preReqHeading);
         complexView.add(tempPanel);
@@ -543,7 +513,7 @@ public class ManageRulesView extends ViewComposite {
     
     private void updateRulesTable() {
         
-        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+        RuleInfo prereqInfo = model.getValue();
         simpleRuleNL.setText("");                
         complexRuleNL.setText("");
         updateTable(); 
@@ -600,7 +570,7 @@ public class ManageRulesView extends ViewComposite {
     }        
     
     private void updateTable() {        
-        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+        RuleInfo prereqInfo = model.getValue();
         btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
         btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
         btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
@@ -630,8 +600,8 @@ public class ManageRulesView extends ViewComposite {
     
     private void updateNaturalLanguage() {                 
         
-        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(RulesUtilities.getReqInfoModelObject(model).getCluId(),
-                                RulesUtilities.getReqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
+        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(model.getValue().getCluId(),
+        									model.getValue().getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
@@ -644,13 +614,17 @@ public class ManageRulesView extends ViewComposite {
             } 
         }); 
     }
+
+    private String getHeading() {
+    	return "Manage " + getRuleTypeName() + " Rules";
+    }
     
     private String getRuleTypeName() {
-    	String luStatementTypeKey = RulesUtilities.getReqInfoModelObject(model).getLuStatementTypeKey();
-        if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
-        if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
-        if (luStatementTypeKey.contains("coreq")) return "Corequisite";
-        if (luStatementTypeKey.contains("antireq")) return "Antirequisite";
+    	String luStatementTypeKey = model.getValue().getSelectedStatementType();
+        if (luStatementTypeKey.contains("enroll")) return RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ_TEXT;
+        if (luStatementTypeKey.contains("prereq")) return RuleConstants.KS_STATEMENT_TYPE_PREREQ_TEXT;
+        if (luStatementTypeKey.contains("coreq")) return RuleConstants.KS_STATEMENT_TYPE_COREQ_TEXT;
+        if (luStatementTypeKey.contains("antireq")) return RuleConstants.KS_STATEMENT_TYPE_ANTIREQ_TEXT;
         return "";
-    }    
+    }
 }

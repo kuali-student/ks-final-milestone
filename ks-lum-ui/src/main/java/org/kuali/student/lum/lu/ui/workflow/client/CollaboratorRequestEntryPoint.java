@@ -16,10 +16,11 @@ package org.kuali.student.lum.lu.ui.workflow.client;
 
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -32,7 +33,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CollaboratorRequestEntryPoint implements EntryPoint{
 	
-    private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+    private CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	private ServerPropertiesRpcServiceAsync serverPropertiesRpcServiceAsync = GWT.create(ServerPropertiesRpcService.class);
 	
     private VerticalPanel rootPanel = new VerticalPanel();
@@ -42,7 +43,7 @@ public class CollaboratorRequestEntryPoint implements EntryPoint{
     
 	private KSButton wfApproveButton = new KSButton("Approve", new ClickHandler(){
 		public void onClick(ClickEvent event) {
-			cluProposalRpcServiceAsync.approveDocument(docId, new AsyncCallback<Boolean>(){
+			cluProposalRpcServiceAsync.approveDocumentWithId(docId, new AsyncCallback<Boolean>(){
 				public void onFailure(
 						Throwable caught) {
 					Window.alert("Error approving Proposal");
@@ -62,7 +63,7 @@ public class CollaboratorRequestEntryPoint implements EntryPoint{
 
 	private KSButton  wfDisApproveButton = new KSButton("Disapprove", new ClickHandler(){
         public void onClick(ClickEvent event) {
-			cluProposalRpcServiceAsync.disapproveDocument(docId, new AsyncCallback<Boolean>(){
+			cluProposalRpcServiceAsync.disapproveDocumentWithId(docId, new AsyncCallback<Boolean>(){
 				public void onFailure(
 						Throwable caught) {
 					Window.alert("Error disapproving Proposal");
@@ -88,24 +89,9 @@ public class CollaboratorRequestEntryPoint implements EntryPoint{
         backdoorId = Window.Location.getParameter("backdoorId");
         
         if(docId!=null){
-            if(backdoorId!=null){
-                cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                    }
-
-                    public void onSuccess(Boolean result) {
-                        if(!result){
-                            Window.alert("Error with backdoor login");
-                        }
-                        showView();
-                    }
-                });
-            }else{
                 showView();
-            }
         }
-		RootPanel.get().add(rootPanel);		
+		ApplicationPanel.get().add(rootPanel);		
 	}
     
 	private void showView() {

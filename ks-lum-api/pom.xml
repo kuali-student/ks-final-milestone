@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
 	<artifactId>ks-lum-api</artifactId>
-	<version>1.0.0-m3</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS LUM API</name>
 	<description>KS Learning Unit Managment API</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-m3</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -19,6 +19,11 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
 			<version>${ks-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+			<version>${ks-brms.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -65,20 +70,6 @@
                             </className>
                             <serviceName>LrcService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/lrc</targetNameSpace>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>nlt-wsdl</id>
-                        <phase>process-classes</phase>
-                        <configuration>
-                            <className>
-                                org.kuali.student.lum.nlt.service.TranslationService
-                            </className>
-                            <serviceName>TranslationService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/wsdl/nlt</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>

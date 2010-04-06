@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
 	<artifactId>ks-lum-ui</artifactId>
-	<version>1.0.0-m3</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS LUM UI</name>
 	<description>KS Learing Unit Management UI</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-m3</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -171,26 +171,51 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-rice-lessdep</artifactId>
+			<version>${ks-core.version}</version>
+			<type>pom</type>
+		</dependency>
 
 		<!-- LUM Dependencies -->
 		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+			<version>${ks-brms.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+			<version>${ks-brms.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-impl</artifactId>
-            <version>1.0.0-m3</version>
+            <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-rice</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 

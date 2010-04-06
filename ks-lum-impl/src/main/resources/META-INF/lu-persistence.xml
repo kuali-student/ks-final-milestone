@@ -10,7 +10,14 @@
 		<class>org.kuali.student.core.entity.MetaEntity</class>
 		<class>org.kuali.student.core.entity.RichText</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
+		<class>org.kuali.student.core.entity.Amount</class>
 
+		<class>org.kuali.student.lum.lu.entity.AffiliatedOrg</class>
+		<class>org.kuali.student.lum.lu.entity.AllowedCluLoRelationType</class>
+		<class>org.kuali.student.lum.lu.entity.AllowedCluResultLuType</class>		
+		<class>org.kuali.student.lum.lu.entity.AllowedLuLuRelationType</class>				
+		<class>org.kuali.student.lum.lu.entity.AllowedResultComponentUsageType</class>
+		<class>org.kuali.student.lum.lu.entity.AllowedResultUsageLuType</class>
 		<class>org.kuali.student.lum.lu.entity.Clu</class>
 		<class>org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg</class>
 		<class>org.kuali.student.lum.lu.entity.CluAccounting</class>
@@ -27,19 +34,32 @@
 		<class>org.kuali.student.lum.lu.entity.CluCredit</class>
 		<class>org.kuali.student.lum.lu.entity.CluFee</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluFeeRecord</class>
+		<class>org.kuali.student.lum.lu.entity.CluFeeRecordAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluIdentifier</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructor</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructorAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.CluOrg</class>
+		<class>org.kuali.student.lum.lu.entity.CluLoRelation</class>
+		<class>org.kuali.student.lum.lu.entity.CluLoRelationAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluLoRelationType</class>
+		<class>org.kuali.student.lum.lu.entity.CluLoRelationTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluPublishing</class>
 		<class>org.kuali.student.lum.lu.entity.CluPublishingAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluResult</class>
+		<class>org.kuali.student.lum.lu.entity.CluResultType</class>
+		<class>org.kuali.student.lum.lu.entity.CluResultTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluSet</class>
 		<class>org.kuali.student.lum.lu.entity.CluSetAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LearningObjective</class>
-		<class>org.kuali.student.lum.lu.entity.LrType</class>
-		<class>org.kuali.student.lum.lu.entity.LrTypeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluSetType</class>
+		<class>org.kuali.student.lum.lu.entity.CluSetTypeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.DeliveryMethodType</class>
+		<class>org.kuali.student.lum.lu.entity.DeliveryMethodTypeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.InstructionalFormatType</class>
+		<class>org.kuali.student.lum.lu.entity.InstructionalFormatTypeAttribute</class>		
 		<class>org.kuali.student.lum.lu.entity.LuCode</class>
 		<class>org.kuali.student.lum.lu.entity.LuCodeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.LuCodeType</class>	
+		<class>org.kuali.student.lum.lu.entity.LuCodeTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuDocumentRelation</class>
 		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationType</class>
@@ -50,20 +70,18 @@
 		<class>org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuLuRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.LuLuRelationTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatement</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatementAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatementType</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatementTypeAttribute</class>
-        <class>org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate</class>
+		<class>org.kuali.student.lum.lu.entity.LuPublicationType</class>
+		<class>org.kuali.student.lum.lu.entity.LuPublicationTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuRichText</class>
 		<class>org.kuali.student.lum.lu.entity.LuType</class>
 		<class>org.kuali.student.lum.lu.entity.LuTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponent</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentField</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentFieldType</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentType</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate</class>
 		<class>org.kuali.student.lum.lu.entity.Resource</class>
+		<class>org.kuali.student.lum.lu.entity.ResultOption</class>
+		<class>org.kuali.student.lum.lu.entity.ResultUsageType</class>
+		<class>org.kuali.student.lum.lu.entity.ResultUsageTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.MembershipQuery</class>
+        <class>org.kuali.student.lum.lu.entity.SearchParameter</class>
+        <class>org.kuali.student.lum.lu.entity.SearchParameterValue</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 	</persistence-unit>

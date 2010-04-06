@@ -1,18 +1,21 @@
 // RichText
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-9', '<p>Desc</p>', 'Desc')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-10', '<p>Learning objectives defined by faculty that are specific to a course</p>','Learning objectives defined by faculty that are specific to a course')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-11', '<p>Default Learning Objective type</p>', 'Default Learning Objective type')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-12', '<p>Basic Learning Objective type</p>', 'Basic Learning Objective type')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-13', '<p>Advanced Learning Objective type</p>', 'Advanced Learning Objective type')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-14', 'The ability to use sensory cues to ...', 'The ability to use sensory cues to guide motor activity.  This ranges from sensory stimulation, through cue selection, to translation.')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-15', '<p>Create Wiki</p>', 'Create Wiki')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-16', '<p>Update Wiki</p>', 'Update Wiki')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-17', '<p>Modify Wiki</p>', 'Modify Wiki')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-18', '<p>Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs</p>', 'Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-19', '<p>Empty Test LoCategory</p>', 'Empty Test LoCategory')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-20', '<p>Destroy Wiki</p>', 'Destroy Wiki')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-21', '<p>Annihilate Wiki</p>', 'Annihilate Wiki')
-INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-22', '<p>Learning objectives mandated by the state</p>', 'Learning objectives mandated by the state')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-6', '<p>Desc</p>', 'Desc')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-7', '<p>Desc2</p>', 'Desc2')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-8', '<p>Desc3</p>', 'Desc3')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-9', '<p>Desc4</p>', 'Desc4')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-10', '<p>Learning objectives defined by faculty that are specific to a course</p>','Learning objectives defined by faculty that are specific to a course')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-11', '<p>Default Learning Objective type</p>', 'Default Learning Objective type')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-12', '<p>Basic Learning Objective type</p>', 'Basic Learning Objective type')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-13', '<p>Advanced Learning Objective type</p>', 'Advanced Learning Objective type')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-14', 'The ability to use sensory cues to ...', 'The ability to use sensory cues to guide motor activity.  This ranges from sensory stimulation, through cue selection, to translation.')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-15', '<p>Create Wiki</p>', 'Create Wiki')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-16', '<p>Update Wiki</p>', 'Update Wiki')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-17', '<p>Modify Wiki</p>', 'Modify Wiki')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-18', '<p>Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs</p>', 'Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-19', '<p>Empty Test LoCategory</p>', 'Empty Test LoCategory')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-20', '<p>Destroy Wiki</p>', 'Destroy Wiki')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-21', '<p>Annihilate Wiki</p>', 'Annihilate Wiki')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-22', '<p>Learning objectives mandated by the state</p>', 'Learning objectives mandated by the state')
 
 // LoType
 INSERT INTO KSLU_LO_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('kuali.lo.type.governed', 'Governed','LO governed by an organization external to department, e.g., the college at large, or a state or accrediting organization', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
@@ -39,9 +42,9 @@ INSERT INTO KSLU_LO_CATEGORY_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('l
 
 // LoCategory
 INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Perception', 'RICHTEXT-14', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('054CAA88-C21D-4496-8287-36A311A11D68', 'Test Category 2', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('162979A3-25B9-4921-BC8F-C861B2267A73', 'Test Category 3', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('7114D2A4-F66D-4D3A-9D41-A7AA4299C797', 'Test Category 4', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('054CAA88-C21D-4496-8287-36A311A11D68', 'Test Category 2', 'RICHTEXT-6', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('162979A3-25B9-4921-BC8F-C861B2267A73', 'Test Category 3', 'RICHTEXT-7', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('7114D2A4-F66D-4D3A-9D41-A7AA4299C797', 'Test Category 4', 'RICHTEXT-8', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
 INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('F2F02922-4E77-4144-AA07-8C2C956370DC', 'Empty Test Category', 'RICHTEXT-19', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
 
 // Lo 

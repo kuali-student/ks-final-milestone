@@ -5,19 +5,56 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="KualiStudentKimAttributes" parent="KualiStudentKimAttributes-parentBean" />
-
   <bean id="KualiStudentKimAttributes-parentBean" abstract="true" parent="BusinessObjectEntry"
         p:businessObjectClass="org.kuali.rice.student.bo.KualiStudentKimAttributes"
         p:objectLabel="Kuali Student KIM Attributes">
     <property name="attributes">
       <list>
+        <ref bean="KualiStudentKimAttributes-dataId" />
+        <ref bean="KualiStudentKimAttributes-org" />
         <ref bean="KualiStudentKimAttributes-department" />
         <ref bean="KualiStudentKimAttributes-college" />
         <ref bean="KualiStudentKimAttributes-division" />
         <ref bean="KualiStudentKimAttributes-dtoName" />
         <ref bean="KualiStudentKimAttributes-dtoFieldKey" />
         <ref bean="KualiStudentKimAttributes-fieldAccessLevel" />
+        <ref bean="KualiStudentKimAttributes-screenComponent" />
+        <ref bean="KualiStudentKimAttributes-sectionId" />
+        <ref bean="KualiStudentKimAttributes-descendHierarchy" />
       </list>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-dataId" parent="KualiStudentKimAttributes-dataId-parentBean" />
+  <bean id="KualiStudentKimAttributes-dataId-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="dataId"
+        p:forceUppercase="false"
+        p:label="Student Data Id"
+        p:shortLabel="Data Id"
+        p:maxLength="200"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-org" parent="KualiStudentKimAttributes-org-parentBean" />
+  <bean id="KualiStudentKimAttributes-org-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="org"
+        p:forceUppercase="false"
+        p:label="Organization"
+        p:shortLabel="Org"
+        p:maxLength="40"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.AllOrgsValuesFinder" />
     </property>
   </bean>
 
@@ -34,8 +71,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentCocValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentCocValuesFinder" />
     </property>
   </bean>
 
@@ -52,11 +88,10 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeCocValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeCocValuesFinder" />
     </property>
   </bean>
-  
+
   <bean id="KualiStudentKimAttributes-division" parent="KualiStudentKimAttributes-division-parentBean" />
   <bean id="KualiStudentKimAttributes-division-parentBean" abstract="true" parent="AttributeDefinition"
         p:name="division"
@@ -70,8 +105,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DivisionCocValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DivisionCocValuesFinder" />
     </property>
   </bean>
 
@@ -123,4 +157,50 @@
     </property>
   </bean>
 
-</beans>  
+  <bean id="KualiStudentKimAttributes-screenComponent" parent="KualiStudentKimAttributes-screenComponent-parentBean" />
+  <bean id="KualiStudentKimAttributes-screenComponent-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="screenComponent"
+        p:forceUppercase="false"
+        p:label="Screen Component"
+        p:shortLabel="Screen Component"
+        p:maxLength="200"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-sectionId" parent="KualiStudentKimAttributes-sectionId-parentBean" />
+  <bean id="KualiStudentKimAttributes-sectionId-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="sectionId"
+        p:forceUppercase="false"
+        p:label="Section ID"
+        p:shortLabel="Section ID"
+        p:maxLength="150"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-descendHierarchy" parent="KualiStudentKimAttributes-descendHierarchy-parentBean" />
+  <bean id="KualiStudentKimAttributes-descendHierarchy-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="descendHierarchy"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Descends Hierarchy"/>
+    <property name="shortLabel" value="Descends Hierarchy"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+
+</beans>

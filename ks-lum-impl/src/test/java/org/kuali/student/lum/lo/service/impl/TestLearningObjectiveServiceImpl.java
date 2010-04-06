@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lo.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -32,10 +33,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -43,8 +44,6 @@ import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
 import org.kuali.student.lum.lo.dto.LoTypeInfo;
-import org.kuali.student.lum.lo.entity.LoCategory;
-import org.kuali.student.lum.lo.entity.LoCategoryType;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
@@ -56,7 +55,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     @Test
     public void testLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
         LoInfo loInfo = new LoInfo();
-        loInfo.setName("How Lo Can You Go?");
+        loInfo.setName("How Lo Can You Go");
         RichTextInfo richText = new RichTextInfo();
         richText.setFormatted("<p>New ResultComponent</p>");
         richText.setPlain("New ResultComponent");
@@ -64,9 +63,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         Date date = new Date();
         loInfo.setEffectiveDate(date);
         loInfo.setExpirationDate(date);
+        loInfo.setLoRepositoryKey("kuali.loRepository.key.singleUse");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
+        loInfo.setType("kuali.lo.type.singleUse");
         loInfo.setState("draft");
 
         LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
@@ -89,7 +90,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals("draft", created.getState());
 
         loInfo = client.getLo(loId);
-        loInfo.setName("Lo in the mid-30s");
+        loInfo.setName("Lo in the mid 30s");
 
         LoInfo updated = client.updateLo(loId, loInfo);
         assertNotNull(updated);
@@ -163,6 +164,45 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertEquals(3, loInfos.size());
     }
     
+	/*
+	 * Creating an LoCategory with the same name, type & state
+	 */
+	@Test
+	public void testDisallowLoCategoryDuplication() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+		String catName = "DontDupThisCategory";
+		String catState = "active";
+		String catType = "loCategoryType.accreditation";
+		String catRepo = "kuali.loRepository.key.singleUse";
+		
+		LoCategoryInfo newCatInfo = new LoCategoryInfo();
+		newCatInfo.setName(catName);
+		newCatInfo.setType(catType);
+		newCatInfo.setState(catState);
+		newCatInfo.setLoRepository(catRepo);
+		
+		newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
+		
+		LoCategoryInfo dupCatInfo = new LoCategoryInfo();
+		dupCatInfo.setName(catName);
+		dupCatInfo.setType(catType);
+		dupCatInfo.setState(catState);
+		dupCatInfo.setLoRepository(catRepo);
+		
+		
+		try {
+			dupCatInfo = client.createLoCategory(catRepo, catType, dupCatInfo);
+			// delete the two (one erroneously) created so as to not mess up other tests
+			client.deleteLoCategory(newCatInfo.getId());
+			client.deleteLoCategory(dupCatInfo.getId());
+            fail("OperationFailedException expected when creating LoCategory with the same name, type and state");
+		} catch (OperationFailedException ofe) {
+			// expected result
+		}
+		// delete the one created so as to not mess up other tests
+		client.deleteLoCategory(newCatInfo.getId());
+	}	
+	
+
     @Test
     public void testGetRelatedLosByLoId() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
     	List<LoInfo> relatedLos = null;
@@ -470,23 +510,55 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         category.setAttributes(attributes);
         
         
-        String categoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
+        String categoryId = "550e8400-e29b-41d4-a716-446655440000";
+        
         category = client.getLoCategory(categoryId);
-        assertEquals("Test Category 2", category.getName());
+        assertEquals("Perception", category.getName());
+        assertEquals("loCategoryType.skillarea", category.getType());
         category.setName("LENNY, THE LECHEROUS MILK THIEF");
+        category.setType("loCategoryType.accreditation");
+        
+        List<LoInfo> twoLos = client.getLosByLoCategory(categoryId);
+        assertTrue(null != twoLos);
+        assertEquals(2, twoLos.size());
+        assertTrue(twoLos.get(0).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
+        			twoLos.get(0).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+        assertTrue(twoLos.get(1).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
+        			twoLos.get(1).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
         
         LoCategoryInfo updated = client.updateLoCategory(categoryId, category);
         assertNotNull(updated);
         assertNotNull(updated.getId());
+        
+        // make sure it all stuck
+        updated = client.getLoCategory(updated.getId());
+        assertEquals("LENNY, THE LECHEROUS MILK THIEF", updated.getName());
+        assertEquals("loCategoryType.accreditation", updated.getType());
         
         try {
             client.updateLoCategory(categoryId, category);
             fail("VersionMismatchException expected");
         } catch (VersionMismatchException e) {}
         
-        List<LoInfo> los = client.getLosByLoCategory(categoryId);
+        // switch to new LoCategory id; new one was created when we changed its type
+        String newCategoryId = updated.getId();
+        
+        // make sure it's new
+        assertFalse(categoryId.equals(newCategoryId));
+       
+        // make sure the LoCategories were cloned
+        List<LoInfo> los = client.getLosByLoCategory(newCategoryId);
+        assertEquals(2, los.size());
+        assertTrue(los.get(0).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
+        			los.get(0).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+        assertTrue(los.get(1).getId().equals("81ABEA67-3BCC-4088-8348-E265F3670145") ||
+        			los.get(1).getId().equals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+        
+        los = client.getLosByLoCategory(categoryId);
         assertTrue(null == los || los.isEmpty());
         
+        // add one to an LO that didn't have one
+        categoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
         StatusInfo statusInfo = client.addLoCategoryToLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
         assertTrue(statusInfo.getSuccess());
         
@@ -495,14 +567,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals("91A91860-D796-4A17-976B-A6165B1A0B05", los.get(0).getId()); 
         
         categories = client.getLoCategoriesForLo("91A91860-D796-4A17-976B-A6165B1A0B05");
-        boolean foundCat = false;
-        for (LoCategoryInfo loCategoryInfo : categories) {
-            if(loCategoryInfo.getId().equals(categoryId)) {
-                foundCat = true;
-                break;
-            }
-        }
-        assertTrue(foundCat);
+        assertEquals(1, categories.size());
         
         try {
             statusInfo = client.deleteLoCategory(categoryId);
@@ -513,6 +578,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertTrue(statusInfo.getSuccess());
         
         los = client.getLosByLoCategory(categoryId);
+        assertTrue(null == los || los.size() == 0);
         statusInfo = client.deleteLoCategory(categoryId);
         assertTrue(statusInfo.getSuccess());
     }
@@ -520,17 +586,20 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testSearchForResults() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		String testLoName = "Navigate Wiki";
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		SearchParam qpv1 = new SearchParam();
 		qpv1.setKey("lo.queryParam.loName");
 		qpv1.setValue(testLoName);
 		queryParamValues.add(qpv1);
-		List<Result> results = client.searchForResults("lo.search.loByName", queryParamValues);
-		assertEquals(1,results.size());
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setParams(queryParamValues);
+		searchRequest.setSearchKey("lo.search.loByName");
+		SearchResult result = client.search(searchRequest);
+		assertEquals(1,result.getRows().size());
 		
-        List<ResultCell> resultCells = results.get(0).getResultCells();
+        List<SearchResultCell> resultCells = result.getRows().get(0).getCells();
         assertEquals(2, resultCells.size());
-        ResultCell cell = resultCells.get(0);
+        SearchResultCell cell = resultCells.get(0);
         assertEquals("lo.resultColumn.loId", cell.getKey());
         assertEquals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", cell.getValue());
         cell = resultCells.get(1);

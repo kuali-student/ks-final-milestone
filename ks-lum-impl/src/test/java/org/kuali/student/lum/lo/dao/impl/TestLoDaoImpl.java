@@ -51,7 +51,7 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 			fail("Unable to find existing Learning Objective");
 		}
 		assertNotNull(lo);
-		assertEquals("Destroy Wiki", lo.getDesc().getPlain());
+		assertEquals("Destroy Wiki", lo.getDescr().getPlain());
 	}
 	
 	@Test

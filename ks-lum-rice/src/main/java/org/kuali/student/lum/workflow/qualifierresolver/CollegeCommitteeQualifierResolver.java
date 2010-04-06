@@ -21,7 +21,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 
 public class CollegeCommitteeQualifierResolver extends
-		AbstractOrgQualifierResolver {
+		AbstractCocOrgQualifierResolver {
 	@Override
 	public List<AttributeSet> resolve(RouteContext routeContext) {
 		List<AttributeSet> attributeSets = super.resolve(routeContext);

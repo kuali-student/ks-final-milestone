@@ -31,7 +31,6 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_LRC_SCALE")
@@ -45,7 +44,7 @@ public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private LrcRichText descr;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -87,17 +86,17 @@ public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
     }
 
     /**
-     * @return the desc
+     * @return the descr
      */
-    public RichText getDesc() {
-        return desc;
+    public LrcRichText getDesc() {
+        return descr;
     }
 
     /**
-     * @param desc the desc to set
+     * @param descr the descr to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDesc(LrcRichText descr) {
+        this.descr = descr;
     }
 
     /**

@@ -19,32 +19,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSListBox;
-import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.*;
-import org.kuali.student.common.ui.client.widgets.buttongroups.YesNoGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 public class SearchDialog extends Composite {
@@ -58,7 +50,6 @@ public class SearchDialog extends Composite {
     private KSButton btnCancel = new KSButton("Cancel");
     private KSButton btnAdd = new KSButton("Add");
     KSListBox cluList = new KSListBox();    
-    private CollectionModel<RuleInfo> model;
     private Controller controller;
     private Map<String, String> listData;
     
@@ -93,25 +84,12 @@ public class SearchDialog extends Composite {
     }
     
     public void show() {
-        if (model == null) {
-            controller.requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
-                public void onModelReady(CollectionModel<RuleInfo> theModel) {
-                    //printModel(theModel);
-                    model = theModel;                    
-                }
-
-                public void onRequestFail(Throwable cause) {
-                    throw new RuntimeException("Unable to connect to model", cause);
-                }
-            });
-        }
         popupPanel.show();
     }
     
     public void hide() {
         popupPanel.hide();
     }
-
 
     public void addCourseAddHandler(ClickHandler addCourseHandler) {
         btnAdd.addClickHandler(addCourseHandler);

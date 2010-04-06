@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class FieldDescriptorInfoHelper
@@ -29,16 +29,9 @@ public class FieldDescriptorInfoHelper
 		NAME ("name"),
 		DESC ("desc"),
 		DATA_TYPE ("dataType"),
-		MIN_LENGTH ("minLength"),
-		MAX_LENGTH ("maxLength"),
-		VALID_CHARS ("validChars"),
-		INVALID_CHARS ("invalidChars"),
-		MIN_VALUE ("minValue"),
-		MAX_VALUE ("maxValue"),
-		ENUM_FIELD_VIEW ("enumFieldView"),
-		MIN_OCCURS ("minOccurs"),
-		MAX_OCCURS ("maxOccurs"),
-		READ_ONLY ("readOnly");
+		CONSTRAINTS ("constraints"),
+		COMPLEX_STRUCTURE ("complexStructure"),
+		KEY ("key");
 		
 		private final String key;
 		
@@ -111,123 +104,39 @@ public class FieldDescriptorInfoHelper
 	}
 	
 	
-	public void setMinLength (Integer value)
+	public void setConstraints (Data value)
 	{
-		data.set (Properties.MIN_LENGTH.getKey (), value);
+		data.set (Properties.CONSTRAINTS.getKey (), value);
 	}
 	
 	
-	public Integer getMinLength ()
+	public Data getConstraints ()
 	{
-		return (Integer) data.get (Properties.MIN_LENGTH.getKey ());
+		return (Data) data.get (Properties.CONSTRAINTS.getKey ());
 	}
 	
 	
-	public void setMaxLength (String value)
+	public void setComplexStructure (ObjectStructureInfoHelper value)
 	{
-		data.set (Properties.MAX_LENGTH.getKey (), value);
+		data.set (Properties.COMPLEX_STRUCTURE.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
-	public String getMaxLength ()
+	public ObjectStructureInfoHelper getComplexStructure ()
 	{
-		return (String) data.get (Properties.MAX_LENGTH.getKey ());
+		return ObjectStructureInfoHelper.wrap ((Data) data.get (Properties.COMPLEX_STRUCTURE.getKey ()));
 	}
 	
 	
-	public void setValidChars (String value)
+	public void setKey (String value)
 	{
-		data.set (Properties.VALID_CHARS.getKey (), value);
+		data.set (Properties.KEY.getKey (), value);
 	}
 	
 	
-	public String getValidChars ()
+	public String getKey ()
 	{
-		return (String) data.get (Properties.VALID_CHARS.getKey ());
-	}
-	
-	
-	public void setInvalidChars (String value)
-	{
-		data.set (Properties.INVALID_CHARS.getKey (), value);
-	}
-	
-	
-	public String getInvalidChars ()
-	{
-		return (String) data.get (Properties.INVALID_CHARS.getKey ());
-	}
-	
-	
-	public void setMinValue (String value)
-	{
-		data.set (Properties.MIN_VALUE.getKey (), value);
-	}
-	
-	
-	public String getMinValue ()
-	{
-		return (String) data.get (Properties.MIN_VALUE.getKey ());
-	}
-	
-	
-	public void setMaxValue (String value)
-	{
-		data.set (Properties.MAX_VALUE.getKey (), value);
-	}
-	
-	
-	public String getMaxValue ()
-	{
-		return (String) data.get (Properties.MAX_VALUE.getKey ());
-	}
-	
-	
-	public void setEnumFieldView (EnumFieldViewInfoHelper value)
-	{
-		data.set (Properties.ENUM_FIELD_VIEW.getKey (), (value == null) ? null : value.getData ());
-	}
-	
-	
-	public EnumFieldViewInfoHelper getEnumFieldView ()
-	{
-		return EnumFieldViewInfoHelper.wrap ((Data) data.get (Properties.ENUM_FIELD_VIEW.getKey ()));
-	}
-	
-	
-	public void setMinOccurs (Integer value)
-	{
-		data.set (Properties.MIN_OCCURS.getKey (), value);
-	}
-	
-	
-	public Integer getMinOccurs ()
-	{
-		return (Integer) data.get (Properties.MIN_OCCURS.getKey ());
-	}
-	
-	
-	public void setMaxOccurs (String value)
-	{
-		data.set (Properties.MAX_OCCURS.getKey (), value);
-	}
-	
-	
-	public String getMaxOccurs ()
-	{
-		return (String) data.get (Properties.MAX_OCCURS.getKey ());
-	}
-	
-	
-	public void setReadOnly (Boolean value)
-	{
-		data.set (Properties.READ_ONLY.getKey (), value);
-	}
-	
-	
-	public Boolean isReadOnly ()
-	{
-		return (Boolean) data.get (Properties.READ_ONLY.getKey ());
+		return (String) data.get (Properties.KEY.getKey ());
 	}
 	
 }

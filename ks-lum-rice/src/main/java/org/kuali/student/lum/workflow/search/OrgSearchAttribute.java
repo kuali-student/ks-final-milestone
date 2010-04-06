@@ -21,7 +21,6 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
-import org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute;
 import org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl;
 import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -33,7 +32,7 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
 /**
- * Extension for CluDocument searches that converts Organization ID to the Organization Long Name
+ * Extension for CluCreditCourse documents searches that converts Organization ID to the Organization Long Name
  * @author lindholm
  *
  */

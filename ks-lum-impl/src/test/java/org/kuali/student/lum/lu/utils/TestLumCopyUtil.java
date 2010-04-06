@@ -40,9 +40,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -73,24 +73,18 @@ public class TestLumCopyUtil {
         cloned.setStudySubjectArea("Changed");
         assertFalse(clu.getStudySubjectArea().equals(cloned.getStudySubjectArea()));
 
-        cloned.getDesc().setPlain("Changed");
-        assertFalse(clu.getDesc().getPlain().equals(cloned.getDesc().getPlain()));
-
-        cloned.getMarketingDesc().setPlain("Changed");
-        assertFalse(clu.getMarketingDesc().getPlain().equals(cloned.getMarketingDesc().getPlain()));
+        cloned.getDescr().setPlain("Changed");
+        assertFalse(clu.getDescr().getPlain().equals(cloned.getDescr().getPlain()));
 
         AccreditationInfo newAccrediation = new AccreditationInfo();
         newAccrediation.setId("sdkh77");
         newAccrediation.setOrgId("87");
-        cloned.getAccreditationList().add(newAccrediation);
-        assertFalse(clu.getAccreditationList().size() ==  cloned.getAccreditationList().size());
+        cloned.getAccreditations().add(newAccrediation);
+        assertFalse(clu.getAccreditations().size() ==  cloned.getAccreditations().size());
 
 
-        cloned.getCampusLocationList().add("Central Campus");
-        assertFalse(clu.getCampusLocationList().size() ==  cloned.getCampusLocationList().size());
-
-        cloned.setAdminOrg("Biology");
-        assertFalse(clu.getAdminOrg().equals(cloned.getAdminOrg()));
+        cloned.getCampusLocations().add("Central Campus");
+        assertFalse(clu.getCampusLocations().size() ==  cloned.getCampusLocations().size());
 
         assertFalse(clu.getPrimaryInstructor().toString().equals(cloned.getPrimaryInstructor().toString()));
         cloned.getPrimaryInstructor().getAttributes().put("EyeColour", "Green");
@@ -175,7 +169,6 @@ public class TestLumCopyUtil {
         CluInfo clu1 = new CluInfo();
 
         CluIdentifierInfo idInfo = new CluIdentifierInfo();
-        idInfo.setCluId("CHEM100");
         idInfo.setCode("CHEM100");
         idInfo.setDivision("UGRAD");
         idInfo.setId("1234-dfgh");
@@ -188,21 +181,18 @@ public class TestLumCopyUtil {
         clu1.setOfficialIdentifier(idInfo);
 
         // alternate ids here
-
-        clu1.setAcademicSubjectOrgs(new ArrayList<String>(Arrays.asList("Chemitry", "Physics")));
         clu1.setStudySubjectArea("Biochemistry");
 
         RichTextInfo desc = new RichTextInfo();
         desc.setPlain("This is plain text description");
         desc.setFormatted("This is <b>formatted</b> description");
-        clu1.setDesc(desc);
+        clu1.setDescr(desc);
 
         RichTextInfo marketingDesc = new RichTextInfo();
         marketingDesc.setPlain("This is plain text description");
         marketingDesc.setFormatted("This is <b>formatted</b> description");
-        clu1.setMarketingDesc(marketingDesc);
 
-        clu1.setCampusLocationList(new ArrayList<String>(Arrays.asList("South Campus", "Downtown Campus")));
+        clu1.setCampusLocations(new ArrayList<String>(Arrays.asList("South Campus", "Downtown Campus")));
 
         AccreditationInfo accreditation = new AccreditationInfo();
         accreditation.setId("3409850495-sdfgsdfg");
@@ -210,10 +200,8 @@ public class TestLumCopyUtil {
         Calendar date = GregorianCalendar.getInstance();
         date.add(Calendar.YEAR, -3);
         accreditation.setEffectiveDate(date.getTime());
-        clu1.setAccreditationList(new ArrayList<AccreditationInfo>(Arrays.asList(accreditation)));
+        clu1.setAccreditations(new ArrayList<AccreditationInfo>(Arrays.asList(accreditation)));
 
-        clu1.setAdminOrg("Department of Chemistry");
-        clu1.setParticipatingOrgs(new ArrayList<String>(Arrays.asList("Chemistry", "Physics", "Biology")));
 
         CluInstructorInfo instructor = new CluInstructorInfo();
         instructor.setOrgId("123abc");
@@ -230,15 +218,10 @@ public class TestLumCopyUtil {
         expiryDate.add(Calendar.YEAR, 2);
         clu1.setExpirationDate(expiryDate.getTime());
 
-        TimeAmountInfo time = new TimeAmountInfo();
-        time.setTimeQuantity(new Integer(4));
-        time.setAtpDurationTypeKey("weeks");
+        AmountInfo time = new AmountInfo();
+        time.setUnitQuantity("4");
+        time.setUnitType("weeks");
         clu1.setIntensity(time);
-
-        time = new TimeAmountInfo();
-        time.setTimeQuantity(new Integer(10));
-        time.setAtpDurationTypeKey("sessions");
-        clu1.setStdDuration(time);
 
         clu1.setCanCreateLui(false);
         clu1.setReferenceURL("http://www.ubc.ca");

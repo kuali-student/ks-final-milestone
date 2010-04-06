@@ -33,7 +33,6 @@ import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "KSLU_CLU_JN_CAMP_LOC")
-
 public class CluCampusLocation {
     
     @Id
@@ -44,9 +43,9 @@ public class CluCampusLocation {
     private String campusLocation; 
 
     @ManyToOne
-    @JoinColumn(name = "CLU_ID")
+    @JoinColumn(name="CLU_ID")
     private Clu clu;
-
+    
     @PrePersist
     public void onPrePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
@@ -68,13 +67,11 @@ public class CluCampusLocation {
         this.campusLocation = campusLocation;
     }
 
-    public Clu getClu() {
-        return clu;
-    }
+	public Clu getClu() {
+		return clu;
+	}
 
-    public void setClu(Clu clu) {
-        this.clu = clu;
-    }
-
-    
+	public void setClu(Clu clu) {
+		this.clu = clu;
+	}        
 }

@@ -21,6 +21,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -38,7 +41,11 @@ public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
     
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluAccountingAttribute> attributes;
-    
+
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "KSLU_CLU_ACCT_JN_AFFIL_ORG", joinColumns = @JoinColumn(name = "CLU_ACCT_ID"), inverseJoinColumns = @JoinColumn(name = "AFFIL_ORG_ID"))
+	private List<AffiliatedOrg> affiliatedOrgs;
+	
 	@PrePersist
 	public  void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
@@ -62,4 +69,16 @@ public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
     public void setId(String id) {
         this.id = id;
     }
+
+	public List<AffiliatedOrg> getAffiliatedOrgs() {
+		if(null == this.affiliatedOrgs) {
+			this.affiliatedOrgs = new ArrayList<AffiliatedOrg>();
+		}
+		
+		return this.affiliatedOrgs;
+	}
+
+	public void setAffiliatedOrgs(List<AffiliatedOrg> affiliatedOrgs) {
+		this.affiliatedOrgs = affiliatedOrgs;
+	}        
 }

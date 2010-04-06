@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper.Properties;
 
 
@@ -38,14 +37,18 @@ public class CreditCourseProposalMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		Map <String, Integer> recursions = new HashMap ();
-		loadChildMetadata (mainMeta, type, state, recursions);
+		loadChildMetadata (mainMeta, type, state, new RecursionCounter ());
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  RecursionCounter recursions)
 	{
-		int recurseLevel = increment (recursions, "CreditCourseProposalMetadata");
+		if (recursions.decrement (this.getClass ().getName ()) < 0)
+		{
+			recursions.increment (this.getClass ().getName ());
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+			return;
+		}
 		
 		Metadata childMeta;
 		Metadata listMeta;
@@ -59,14 +62,7 @@ public class CreditCourseProposalMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CreditCourseProposalInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new CreditCourseProposalInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for Course
 		childMeta = new Metadata ();
@@ -77,14 +73,7 @@ public class CreditCourseProposalMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for State
 		childMeta = new Metadata ();
@@ -111,21 +100,26 @@ public class CreditCourseProposalMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("course.proposal.types"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("proposal.types"));
 		}
 		
-	}
-	
-	private int increment (Map<String, Integer> recursions, String key)
-	{
-		Integer recurseLevel = recursions.get (key);
-		if (recurseLevel == null)
+		// metadata for Search
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.SEARCH.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			recursions.put (key, 0);
-			return 0;
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("course.proposal.types"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("proposal.types"));
 		}
-		recursions.put (key, recurseLevel.intValue () + 1);
-		return recurseLevel.intValue ();
+		
+		recursions.increment (this.getClass ().getName ());
 	}
 }
 

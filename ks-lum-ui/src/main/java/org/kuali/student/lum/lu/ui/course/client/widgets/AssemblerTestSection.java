@@ -3,16 +3,19 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.Data.Property;
-import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallback;
-import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallback;
+import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
@@ -21,9 +24,10 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.service.DataSaveResult;
+//import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
+//import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,6 +46,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -50,7 +55,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  *
  */
 public class AssemblerTestSection extends SectionView {
-	private static final CluProposalRpcServiceAsync service = GWT.create(CluProposalRpcService.class);
+	private static final CreditCourseProposalRpcServiceAsync service = GWT.create(CreditCourseProposalRpcService.class);
     
 	private final AssemblerTestComposite widget = new AssemblerTestComposite();
 	public AssemblerTestSection(Enum<?> viewEnum, String viewName) {
@@ -71,11 +76,6 @@ public class AssemblerTestSection extends SectionView {
 	@Override
 	public void redraw() {
 		// do nothing
-	}
-
-	@Override
-	public void validate(Callback<ErrorLevel> callback) {
-		callback.exec(ErrorLevel.OK);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class AssemblerTestSection extends SectionView {
 				}
 			}));
 			
-			service.getCreditCourseProposalMetadata(new AsyncCallback<Metadata>() {
+			service.getMetadata("", "",new AsyncCallback<Metadata>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -142,7 +142,7 @@ public class AssemblerTestSection extends SectionView {
 			status.setText("Creating new proposal");
 			CreditCourseProposalHelper prop = createCreditCourseProposal();
 			status.setText("Saving new proposal");
-			service.saveCreditCourseProposal(prop.getData(), new AsyncCallback<DataSaveResult>() {
+			service.saveData(prop.getData(), new AsyncCallback<DataSaveResult>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -178,7 +178,7 @@ public class AssemblerTestSection extends SectionView {
 		}
 		private void modifyLastSaved() {
 			status.setText("Retrieving saved proposal");
-			service.getCreditCourseProposal(lastCreatedId, new AsyncCallback<Data>() {
+			service.getData(lastCreatedId, new AsyncCallback<Data>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -203,7 +203,7 @@ public class AssemblerTestSection extends SectionView {
 					setUpdated(course);
 					
 					status.setText("Saving modified proposal");
-					service.saveCreditCourseProposal(result, new AsyncCallback<DataSaveResult>() {
+					service.saveData(result, new AsyncCallback<DataSaveResult>() {
 
 						@Override
 						public void onFailure(Throwable caught) {
@@ -229,7 +229,7 @@ public class AssemblerTestSection extends SectionView {
 				status.setText("No previous proposal to retrieve");
 			} else {
 				status.setText("Retrieving saved proposal");
-				service.getCreditCourseProposal(lastCreatedId, new AsyncCallback<Data>() {
+				service.getData(lastCreatedId, new AsyncCallback<Data>() {
 	
 					@Override
 					public void onFailure(Throwable caught) {
@@ -533,6 +533,34 @@ public class AssemblerTestSection extends SectionView {
 			d.set("_runtimeData", runtime);
 		}
 		runtime.set(key, value);
+	}
+
+	@Override
+	protected void addFieldToLayout(FieldDescriptor f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void addSectionToLayout(BaseSection s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void addWidgetToLayout(Widget w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
 	}
 	
 }

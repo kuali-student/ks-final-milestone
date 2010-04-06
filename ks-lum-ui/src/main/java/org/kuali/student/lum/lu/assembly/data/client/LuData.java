@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 /** 
@@ -25,7 +25,6 @@ public class LuData extends Data {
 
 	private Data data;
 	private List<RuleInfo> ruleInfos = new ArrayList<RuleInfo>();
-	private LoModelDTO loModelDTO = new LoModelDTO();
 	protected Map<String, String> applicationStateMap = new HashMap<String, String>();
 
 	public LuData(Data data){
@@ -53,14 +52,6 @@ public class LuData extends Data {
 		return ruleInfos;
 	}
 
-	public void setLoModelDTO(LoModelDTO loModelDTO) {
-		this.loModelDTO = loModelDTO;
-	}
-
-	public LoModelDTO getLoModelDTO() {
-		return loModelDTO;
-	}
-
 	/**
 	 * Set the underlying data
 	 * @param data
@@ -69,7 +60,15 @@ public class LuData extends Data {
 		this.data = data;
 	}
 	
-	/**
+    /**
+     * Get the underlying data
+     * @param data
+     */
+    public Data getData(){
+        return data;
+    }
+    
+    /**
 	 * Gets the application state by key.
 	 * 
 	 * @param key Application state key
@@ -92,14 +91,6 @@ public class LuData extends Data {
 	//The following methods just delegate to the wrapped data object
 		
 	public void add(Boolean value) {
-		data.add(value);
-	}
-
-	public void add(Byte value) {
-		data.add(value);
-	}
-
-	public void add(Character value) {
 		data.add(value);
 	}
 
@@ -219,13 +210,6 @@ public class LuData extends Data {
 		data.set(key, value);
 	}
 
-	public void set(Integer key, Byte value) {
-		data.set(key, value);
-	}
-
-	public void set(Integer key, Character value) {
-		data.set(key, value);
-	}
 
 	public void set(Integer key, Data value) {
 		data.set(key, value);
@@ -271,13 +255,7 @@ public class LuData extends Data {
 		data.set(key, value);
 	}
 
-	public void set(Key key, Byte value) {
-		data.set(key, value);
-	}
-
-	public void set(Key key, Character value) {
-		data.set(key, value);
-	}
+	
 
 	public void set(Key key, Data value) {
 		data.set(key, value);
@@ -327,13 +305,7 @@ public class LuData extends Data {
 		data.set(key, value);
 	}
 
-	public void set(String key, Byte value) {
-		data.set(key, value);
-	}
-
-	public void set(String key, Character value) {
-		data.set(key, value);
-	}
+	
 
 	public void set(String key, Data value) {
 		data.set(key, value);

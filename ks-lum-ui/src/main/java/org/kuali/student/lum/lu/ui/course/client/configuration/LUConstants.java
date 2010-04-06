@@ -28,8 +28,6 @@ public class LUConstants {
     //TODO These should probably be somewhere else as they are LUM wide constants - not just
     //     UI specific
 
-    public final static String LU_TYPE_CREDIT_COURSE = "luType.shell.course";
-    
     public final static String COURSE_GROUP_NAME = "course";
     public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
     public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
@@ -54,7 +52,7 @@ public class LUConstants {
 
     //Section names
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
-    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "Authors + Collaborators";
+    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "People & Permissions";
     public static final String SECTION_GOVERNANCE = "Governance";
     public static final String SECTION_COURSE_LOGISTICS = "Course Logistics";
 
@@ -76,8 +74,8 @@ public class LUConstants {
     public static final String SECTION_PROGRAM_REQUIREMENTS = "Program Requirements";    
     
     //Tools
-    public static final String TOOL_COMMENTS = "Proposal Comments";
-    public static final String TOOL_DOCUMENTS = "Attach Documents";
+    public static final String TOOL_COMMENTS_LABEL_KEY = "toolComments";
+    public static final String TOOL_DOCUMENTS_LABEL_KEY = "toolDocuments";
     public static final String SECTION_ATTACHMENTS = "Attachments";
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
    
@@ -93,6 +91,7 @@ public class LUConstants {
 
     // Message keys for top-level section label lookup
     public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
+    public static final String COURSE_INFORMATION_LABEL_KEY = "cluCourseInformation";
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
     public static final String STUDENT_ELIGIBILITY_LABEL_KEY = "cluStudentEligibility";
     public static final String ADMINISTRATION_LABEL_KEY = "cluAdministration";
@@ -101,6 +100,13 @@ public class LUConstants {
     public static final String PROPOSAL_TITLE_LABEL_KEY = "cluProposalTitle";
     public static final String PROPOSAL_DIRECTIONS_LABEL_KEY = "cluProposalDirections";
     public static final String PROPOSAL_PERSON_LABEL_KEY = "cluProposalPerson";
+    public static final String PROPOSAL_RATIONALE_LABEL_KEY = "cluProposalRationale";
+    public static final String PROPOSAL_TITLE_SECTION_LABEL_KEY = "cluProposalTitleSection";
+    
+    //Authors & Rationale Labels
+    public static final String AUTHORS_RATIONAL = "cluAuthorsRationale";
+       
+    public static final String EDIT_TAB_LABEL_KEY = "cluEditTab";
     
     //Summary labels
     public static final String SUMMARY_LABEL_KEY = "cluSummary";
@@ -112,7 +118,7 @@ public class LUConstants {
     
     // Governance labels
     public static final String GOVERNANCE_LABEL_KEY = "cluGovernance";
-    public static final String CURRICULUM_OVERSIGHT_LABEL_KEY = "cluCurriculumOversight";
+    public static final String ACADEMIC_SUBJECT_ORGS_KEY = "cluCurriculumOversight";
     public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";
     public static final String ADMIN_ORGS_LABEL_KEY = "cluAdminOrgs";
     public static final String ADMIN_ORG_LABEL_KEY = "cluAdminOrg";
@@ -128,7 +134,17 @@ public class LUConstants {
     public static final String CREDIT_VALUE_LABEL_KEY = "cluCreditValue";
     public static final String MAX_CREDITS_LABEL_KEY = "cluMaxCredits";
     
+    // Learning Results Labels
     public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
+    public static final String LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluLearningResultAssessmentScale";
+    public static final String ADD_LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluAddLearningResultAssessmentScale";
+    public static final String ADD_LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluAddLearningResultOutcome";
+    public static final String LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluLearningResultOutcome";
+    public static final String LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY = "cluLearningResultOutcomeType";
+    public static final String LEARNING_RESULT_STUDENT_REGI_OPTIONS_LABEL_KEY = "cluLearningResultsStudentRegiOptions";
+    public static final String LEARNING_RESULT_OUTCOME_CREDIT_VALUE_LABEL_KEY = "cluLearningResultsOutcomeCreditValue";
+    public static final String LEARNING_RESULT_OUTCOME_MAX_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeMaxCredits";
+
     public static final String SCHEDULING_LABEL_KEY = "cluScheduling";  
     public static final String FORMATS_LABEL_KEY = "cluFormats";
     public static final String FORMAT_LABEL_KEY = "cluFormat";
@@ -158,8 +174,6 @@ public class LUConstants {
     public static final String DESCRIPTION_LABEL_LABEL_KEY = "cluDescriptionLabel";
     public static final String STATUS_LABEL_KEY = "cluStatus";
     
-    public static final String RATIONALE_LABEL_KEY = "cluRationale";
-
     public static final String CROSS_LISTED_LABEL_KEY = "cluCrosslisted";
     public static final String CROSS_LISTED_ITEM_LABEL_KEY = "cluCrosslistedItem";
     public static final String CROSS_LISTED_ALT_LABEL_KEY = "cluCrosslistedAlt";
@@ -190,7 +204,7 @@ public class LUConstants {
     public static final String LO_SEARCH_LINK_KEY = "cluLOSearch";
     public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
     public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
-    public static final String LO_CATEGORY_CODE_KEY = "cluLOCategoryCode";
+    public static final String LO_CATEGORY_KEY = "cluLOCategory";
 
     
     //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
@@ -226,7 +240,44 @@ public class LUConstants {
     public static final String DEPT_REQS_LABEL_KEY = "cluDeptRequirements";
     public static final String DEPT_LABEL_KEY = "cluDept";
 
+    //  View Course labels
+    public static final String CURRENT_VIEW_LABEL_KEY = "cluCurrentView";
+    public static final String COURSE_DETAILS_LABEL_KEY = "cluCourseDetails";
+    public static final String STATE_LABEL_KEY = "cluState";
+    public static final String TYPE_LABEL_KEY = "cluType";
+    public static final String PRIMARY_INSTRUCTOR_LABEL_KEY = "cluPrimaryInstructor";
+    public static final String DISCLOSURE_PANEL_LABEL_KEY = "cluDisclosurePanelHeading";
+    public static final String TERMS_OFFERED_LABEL_KEY = "cluTermsOffered";
+    public static final String DURATION_TYPE_LABEL_KEY = "cluDurationType";
+    public static final String DURATION_QUANTITY_LABEL_KEY = "cluDurationQuantity";
+    public static final String FIRST_OFFERING_KEY = "cluFirstOffering";
 
+    // Financial labels
+    public static final String COURSE_FEE_TITLE = "cluCourseFeesTitle";
+    public static final String JUSTIFICATION_FEE ="cluJustificationOfFees";
+    public static final String FINANCIAL_INFORMATION ="cluFinancialInformation";
+    public static final String REVENUE = "cluRevenue";
+    public static final String AMOUNT = "cluAmount";
+    public static final String EXPENDITURE = "cluExpenditure";
+    public static final String VARIABLE_RATE ="cluVariableRate";
+    public static final String FIXED_RATE = "cluFixedRate";
+    public static final String MULTIPLE_RATE = "cluMultipleRate";
+    public static final String PER_CREDIT_RATE = "cluPerCreditRate";
+    public static final String LAB_FEE = "cluLabFee";
+    public static final String MATERIAL_FEE = "cluMaterialFee";
+    public static final String STUDIO_FEE = "cluStudioFee";
+    public static final String FIELD_TRIP_FEE = "cluFieldTripFee";
+    public static final String FIELD_STUDY_FEE= "cluFieldStudyFee";
+    public static final String ADMINISTRATIVE_FEE = "cluAdministrativeFee";
+    public static final String COOP_FEE = "cluCoopFee";
+    public static final String GREENS_FEE = "cluGreensFee";
+    public static final String ADD_A_FEE = "cluAddAfee";
+    public static final String TO = "cluTo";
+    public static final String RATE_TYPE = "cluRateType";
+    public static final String ADD_ANOTHER_FEE = "cluAddAnotherFee";     
+    public static final String FEE = "cluFee";
+    public static final String ORGANIZATION = "cluOrganization";
+    public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
 
 }
 

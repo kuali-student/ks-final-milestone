@@ -29,6 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,7 +37,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_CLU_SET")
@@ -44,10 +44,8 @@ import org.kuali.student.core.entity.RichText;
 	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE c.id IN (:cluSetIdList)"),
 	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(c) FROM CluSet c JOIN c.clus clu WHERE c.id = :cluSetId AND clu.id = :cluId")
 })
+public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute> {
 
-
-public class CluSet extends MetaEntity implements
-		AttributeOwner<CluSetAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
@@ -57,7 +55,7 @@ public class CluSet extends MetaEntity implements
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	private LuRichText descr;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -70,8 +68,6 @@ public class CluSet extends MetaEntity implements
 	@Column(name = "CRIT_SET")
 	private boolean criteriaSet;
 	
-	// private CluCriteria cluCriteria;//TODO Criteria
-
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
 	private List<CluSet> cluSets;
@@ -83,6 +79,19 @@ public class CluSet extends MetaEntity implements
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluSetAttribute> attributes;
 
+	@Column(name="TYPE")
+	private String type;
+
+	@Column(name = "ST")
+    private String state;
+	
+	@Column(name = "ADMIN_ORG_ID")
+	private String adminOrg;
+	
+    @OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="MEM_QUERY_ID")
+	private MembershipQuery membershipQuery;
+	
 	@Override
     public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
@@ -115,12 +124,12 @@ public class CluSet extends MetaEntity implements
 		this.name = name;
 	}
 
-	public RichText getDesc() {
-		return desc;
+	public LuRichText getDescr() {
+		return descr;
 	}
 
-	public void setDesc(RichText desc) {
-		this.desc = desc;
+	public void setDescr(LuRichText descr) {
+		this.descr = descr;
 	}
 
 	public Date getEffectiveDate() {
@@ -161,12 +170,45 @@ public class CluSet extends MetaEntity implements
 		this.attributes = attributes;
 	}
 
-	public boolean isCriteriaSet() {
-		return criteriaSet;
+//	public boolean isCriteriaSet() {
+//		return criteriaSet;
+//		return (membershipQuery != null);
+//	}
+
+//	public void setCriteriaSet(boolean criteriaSet) {
+//		this.criteriaSet = criteriaSet;
+//	}
+
+	public String getType() {
+		return type;
 	}
 
-	public void setCriteriaSet(boolean criteriaSet) {
-		this.criteriaSet = criteriaSet;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAdminOrg() {
+		return adminOrg;
+	}
+
+	public void setAdminOrg(String adminOrg) {
+		this.adminOrg = adminOrg;
+	}
+
+	public MembershipQuery getMembershipQuery() {
+		return membershipQuery;
+	}
+
+	public void setMembershipQuery(MembershipQuery membershipQuery) {
+		this.membershipQuery = membershipQuery;
 	}
 
 }

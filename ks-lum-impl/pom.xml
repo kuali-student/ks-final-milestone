@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
 	<artifactId>ks-lum-impl</artifactId>
-	<version>1.0.0-m3</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS LUM Impl</name>
 	<description>KS Learning Unit Management Impl</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-m3</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -35,15 +35,20 @@
 	<dependencies>
 
         <dependency>
-          <groupId>org.kuali.student.brms</groupId>
-          <artifactId>ks-brms-execution-impl</artifactId>
+          <groupId>org.kuali.student.brms.statement</groupId>
+          <artifactId>ks-statement-api</artifactId>
+          <version>${ks-brms.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.kuali.student.brms.statement</groupId>
+          <artifactId>ks-statement-impl</artifactId>
           <version>${ks-brms.version}</version>
         </dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
@@ -55,6 +60,27 @@
 			<artifactId>ks-common-util</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-impl</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.derby</groupId>
+          <artifactId>derbyclient</artifactId>
+          <version>10.4.2.0</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-impl</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
 
 
 		<dependency>
@@ -63,7 +89,6 @@
 			<version>${ks-core.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 
 	</dependencies>
 

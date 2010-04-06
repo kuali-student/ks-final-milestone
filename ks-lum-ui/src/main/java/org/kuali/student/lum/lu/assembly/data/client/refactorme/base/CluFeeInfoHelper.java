@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class CluFeeInfoHelper
@@ -26,8 +26,9 @@ public class CluFeeInfoHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		CLU_FEE_RECORD_INFO_LIST ("cluFeeRecordInfoList"),
-		ATTRIBUTES ("attributes");
+		CLU_FEE_RECORDS ("cluFeeRecords"),
+		ATTRIBUTES ("attributes"),
+		ID ("id");
 		
 		private final String key;
 		
@@ -64,15 +65,15 @@ public class CluFeeInfoHelper
 	}
 	
 	
-	public void setCluFeeRecordInfoList (Data value)
+	public void setCluFeeRecords (Data value)
 	{
-		data.set (Properties.CLU_FEE_RECORD_INFO_LIST.getKey (), value);
+		data.set (Properties.CLU_FEE_RECORDS.getKey (), value);
 	}
 	
 	
-	public Data getCluFeeRecordInfoList ()
+	public Data getCluFeeRecords ()
 	{
-		return (Data) data.get (Properties.CLU_FEE_RECORD_INFO_LIST.getKey ());
+		return (Data) data.get (Properties.CLU_FEE_RECORDS.getKey ());
 	}
 	
 	
@@ -87,5 +88,14 @@ public class CluFeeInfoHelper
 		return (Data) data.get (Properties.ATTRIBUTES.getKey ());
 	}
 	
+	public void setId (String value)
+	{
+		data.set (Properties.ID.getKey (), value);
+	}
+	
+	public String getId ()
+	{
+		return (String) data.get (Properties.ID.getKey ());
+	}
 }
 

@@ -14,119 +14,44 @@
  */
 package org.kuali.student.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.core.dto.TypeInfo;
 
 /**
  *Detailed information about a single learning unit type.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuTypeInfo implements Serializable, Idable, HasAttributes {
+public class LuTypeInfo extends TypeInfo{
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String name;
+    private String instructionalFormat;
 
     @XmlElement
-    private String desc;
+    private String deliveryMethod;
+    
+	public String getInstructionalFormat() {
+		return instructionalFormat;
+	}
 
-    @XmlElement
-    private Date effectiveDate;
+	public void setInstructionalFormat(String instructionalFormat) {
+		this.instructionalFormat = instructionalFormat;
+	}
 
-    @XmlElement
-    private Date expirationDate;
+	public String getDeliveryMethod() {
+		return deliveryMethod;
+	}
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
-
-    @XmlAttribute(name="key")
-    private String id;
-
-    /**
-     * Friendly name of the learning unit type
-     */
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Narrative description of the learning unit type
-     */
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * Date and time that this learning unit type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    /**
-     * Date and time that this learning unit type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Unique identifier for a learning unit type.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+	}
 
 	@Override
 	public String toString() {
-		return "LuTypeInfo[id=" + id + "]";
+		return "LuTypeInfo[id=" + getId() + "]";
 	}
 }

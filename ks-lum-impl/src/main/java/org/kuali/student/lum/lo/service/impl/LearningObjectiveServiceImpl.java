@@ -14,17 +14,16 @@
  */
 package org.kuali.student.lum.lo.service.impl;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -34,13 +33,12 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.dao.LoDao;
@@ -71,6 +69,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     private LoDao loDao;
 	private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
+	private Validator validator;
 
 	public LoDao getLoDao() {
         return loDao;
@@ -88,7 +87,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    /*
+    /**
+	 * @param validator the validator to set
+	 */
+	public void setValidator(Validator validator) {
+		this.validator = validator;
+	}
+
+	/*
      * (non-Javadoc)
      * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoRepositories()
      */
@@ -195,6 +201,16 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loType, "loType");
 	    checkForMissingParameter(loInfo, "loInfo");
 	    
+	    
+		// Validate LO
+		List<ValidationResultInfo> val = validateLo("SYSTEM", loInfo);
+		if(null != val && val.size() > 0) {
+			for (ValidationResultInfo result : val) {
+				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
+			}
+			throw new DataValidationErrorException("Validation error!");
+		}
+		
 	    // make sure LoType and LoRepository exist before trying to create
 	    // if checkForMissingParameter above did its job, we don't have to null-check these id's
 	    LoType type = null;
@@ -421,6 +437,15 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(loInfo, "loInfo");
 
+		// Validate LO
+		List<ValidationResultInfo> val = validateLo("SYSTEM", loInfo);
+		if(null != val && val.size() > 0) {
+			for (ValidationResultInfo result : val) {
+				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
+			}
+			throw new DataValidationErrorException("Validation error!");
+		}
+		
 	    Lo lo = loDao.fetch(Lo.class, loId);
         
         if (!String.valueOf(lo.getVersionInd()).equals(loInfo.getMetaInfo().getVersionInd())){
@@ -444,21 +469,88 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
 	    
+		// Validate LoCategory
+		List<ValidationResultInfo> val = validateLoCategory("SYSTEM", loCategoryInfo);
+		if(null != val && val.size() > 0) {
+			for (ValidationResultInfo result : val) {
+				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
+			}
+			throw new DataValidationErrorException("Validation error!");
+		}
+	    
 	    LoCategory loCategory = loDao.fetch(LoCategory.class, loCategoryId);
         
         if (!String.valueOf(loCategory.getVersionInd()).equals(loCategoryInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
-        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
-        loDao.update(loCategory);
+        // if state is changing from "active"
+        if (loCategory.getState().equals("active") && ( ! loCategoryInfo.getState().equals("active") )) {
+    		// N.B. - ability to 'retire' LoCategory's that are still associated w/ active
+    		// LO's is configured and enforced on the client
+        	List<LoInfo> loInfos = getLosByLoCategory(loCategoryId);
+    		if (null != loInfos) {
+				// remove associations of this LoCategory from active LO's
+    			for (LoInfo info : loInfos) {
+    				if (info.getState().equals("active"))  {
+	    				try {
+							removeLoCategoryFromLo(loCategoryId, info.getId());
+						} catch (UnsupportedActionException uaee) {
+				    		throw new OperationFailedException("Unable to update LoCategory: could not remove association with active LearningObjective", uaee);
+						}
+    				}
+    			}
+    		}
+        }
+        	
+        // if type is changing
+        if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getType()) ) {
+        	loCategory = cloneLoCategory(loCategory, loCategoryInfo);
+        } else {
+	        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
+	        loDao.update(loCategory);
+        }
         return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
 	}
 
-	//
-	// TODO - copy/adapt these from LuServiceImpl
-	//
-	
+    // inactivate current LoCategory & clone it w/ its relationships,
+	// used when changing immutable type of LoCategory
+	// https://test.kuali.org/confluence/display/KULSTG/DS+-+LO+Centrally+Maintain+Categories
+	private LoCategory cloneLoCategory(LoCategory loCategory, LoCategoryInfo loCategoryInfo) throws DoesNotExistException, InvalidParameterException, OperationFailedException {
+    	LoCategoryType catType = null;
+    	
+    	try {
+        	catType = loDao.fetch(LoCategoryType.class, loCategoryInfo.getType());
+    	} catch (DoesNotExistException dnee) {
+    		throw new DoesNotExistException("Attempt to set LoCategory's type to nonexistent LoCategoryType", dnee);
+    	}
+        	
+    	// clone the existing LO
+    	LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
+    	newLoCategoryInfo.setType(catType.getId());
+    	newLoCategoryInfo.setName(loCategoryInfo.getName());
+    	LoCategory newLoCategory = loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
+        	
+    	// clone Lo-LoCategory relations
+    	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
+    	for (Lo lo : catsLos) {
+    		try {
+    			// create the new one
+				loDao.addLoCategoryToLo(newLoCategory.getId(), lo.getId());
+				// remove the old one
+				loDao.removeLoCategoryFromLo(loCategory.getId(), lo.getId());
+			} catch (UnsupportedActionException uae) {
+				throw new OperationFailedException(uae.getMessage(), uae);
+			}
+    	}
+        	
+    	// inactivate old LoCategory
+    	loCategory.setState("inactive");
+    	loDao.update(loCategory);
+        	
+    	return newLoCategory;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#validateLo(java.lang.String, org.kuali.student.lum.lo.dto.LoInfo)
 	 */
@@ -469,8 +561,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(validationType, "validationType");
 	    checkForMissingParameter(loInfo, "loInfo");
-		// TODO Auto-generated method stub
-		return null;
+		return validator.validateTypeStateObject(loInfo, getObjectStructure("org.kuali.student.lum.lo.dto.LoInfo"));
 	}
 
 	/* (non-Javadoc)
@@ -483,8 +574,15 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(validationType, "validationType");
 	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
-		// TODO Auto-generated method stub
-		return null;
+		return validator.validateTypeStateObject(loCategoryInfo, getObjectStructure("org.kuali.student.lum.lo.dto.LoCategoryInfo"));
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateLoLoRelation(
+			String validationType, LoLoRelationInfo loLoRelationInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return validator.validateTypeStateObject(loLoRelationInfo, getObjectStructure("org.kuali.student.lum.lo.dto.LoLoRelationInfo"));
 	}
 
     /**
@@ -512,8 +610,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
-
-
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
@@ -545,16 +641,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
         return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.enumerable.service.EnumerableService#getEnumeration(java.lang.String, java.lang.String, java.lang.String, java.util.Date)
-	 */
-	@Override
-	public List<EnumeratedValue> getEnumeration(String enumerationKey,
-			String enumContextKey, String contextValue, Date contextDate) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -642,21 +728,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-	 */
-	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-        checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        checkForMissingParameter(queryParamValues, "queryParamValues");
-
-        return searchManager.searchForResults(searchTypeKey, queryParamValues, loDao);
-	}
-
 	@Override
 	public LoLoRelationInfo createLoLoRelation(String loId, String relatedLoId,
 			String loLoRelationType, LoLoRelationInfo loLoRelationInfo)
@@ -668,6 +739,15 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(relatedLoId, "relatedLoId");
 	    checkForMissingParameter(loLoRelationType, "loLoRelationType");
 	    checkForMissingParameter(loLoRelationInfo, "loLoRelationInfo");
+	    
+		// Validate LoLoRelation
+		List<ValidationResultInfo> val = validateLoLoRelation("SYSTEM", loLoRelationInfo);
+		if(null != val && val.size() > 0) {
+			for (ValidationResultInfo result : val) {
+				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
+			}
+			throw new DataValidationErrorException("Validation error!");
+		}
 	    
 	    if (null == loLoRelationInfo.getState()) {
 	    	loLoRelationInfo.setState("draft"); // TODO - enum of allowed states? retrieve allowed states from dictionary?
@@ -749,16 +829,16 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ValidationResultInfo> validateLoLoRelation(
-			String validationType, LoLoRelationInfo loLoRelationInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
+		
+		// TODO - this is never called; why does it exist?
+		/*
+		// Validate LoLoRelation
+		List<ValidationResultInfo> val = validateLoLoRelation("SYSTEM", loLoRelationInfo);
+		if(null != val && val.size() > 0) {
+			throw new DataValidationErrorException("Validation error!");
+		}
+		*/
+	    
 		return null;
 	}
 
@@ -772,6 +852,44 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loCategoryTypeKey, "loCategoryTypeKey");
 	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
 	    
+		// Validate LoCategory
+		List<ValidationResultInfo> val = validateLoCategory("SYSTEM", loCategoryInfo);
+		if(null != val && val.size() > 0) {
+			for (ValidationResultInfo result : val) {
+				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
+			}
+			throw new DataValidationErrorException("Validation error!");
+		}
+	    
+	    // KSLUM-86 - don't allow dups w/ same name, type & state
+	    SearchRequest request = new SearchRequest();
+	    request.setSearchKey("lo.search.loCategoriesByNameRepoTypeState");
+	    
+ 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchParam qpv1 = new SearchParam();
+		qpv1.setKey("lo.queryParam.loCategoryName");
+		qpv1.setValue(loCategoryInfo.getName());
+		searchParams.add(qpv1);
+		SearchParam qpv2 = new SearchParam();
+		qpv2.setKey("lo.queryParam.loCategoryRepo");
+		qpv2.setValue(loRepositoryKey);
+		searchParams.add(qpv2);
+		SearchParam qpv3 = new SearchParam();
+		qpv3.setKey("lo.queryParam.loCategoryType");
+		qpv3.setValue(loCategoryInfo.getType());
+		searchParams.add(qpv3);
+		SearchParam qpv4 = new SearchParam();
+		qpv4.setKey("lo.queryParam.loCategoryState");
+		qpv4.setValue(loCategoryInfo.getState());
+		searchParams.add(qpv4);
+		
+		request.setParams(searchParams);
+		
+		SearchResult result = search(request);
+		if (result.getRows().size() > 0) {
+			throw new OperationFailedException("Cannot create a duplicate LoCategory in the same Learning Objective repository");
+		}
+		
 	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, loDao);
 	    LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
 	    category.setLoCategoryType(loCatType);
@@ -808,9 +926,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, loDao);
 	}
 
 }

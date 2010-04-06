@@ -2,13 +2,13 @@ package org.kuali.student.lum.lu.assembly;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.Assembler;
-import org.kuali.student.common.assembly.client.AssemblyException;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.SaveResult;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluIdentifierInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluIdentifierInfoMetadata;
@@ -23,7 +23,6 @@ public class CluIdentifierInfoAssembler implements Assembler<Data, CluIdentifier
 			return null;
 		}
 		CluIdentifierInfoHelper result = CluIdentifierInfoHelper.wrap(new Data());
-		result.setId(input.getCluId());
 		result.setCode(input.getCode());
 		result.setDivision(input.getDivision());
 		result.setId(input.getId());
@@ -46,7 +45,6 @@ public class CluIdentifierInfoAssembler implements Assembler<Data, CluIdentifier
 		}
 		CluIdentifierInfo result = new CluIdentifierInfo();
 		CluIdentifierInfoHelper hlp = CluIdentifierInfoHelper.wrap(input);
-		result.setCluId(hlp.getId());
 		result.setCode(hlp.getCode());
 		result.setDivision(hlp.getDivision());
 		result.setId(hlp.getId());
@@ -67,7 +65,7 @@ public class CluIdentifierInfoAssembler implements Assembler<Data, CluIdentifier
 	}
 
 	@Override
-	public Metadata getMetadata(String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
 		return new CluIdentifierInfoMetadata().getMetadata(type, state);
 	}
 
@@ -84,6 +82,12 @@ public class CluIdentifierInfoAssembler implements Assembler<Data, CluIdentifier
 	}
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
 	}

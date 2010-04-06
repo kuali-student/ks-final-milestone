@@ -4,27 +4,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
+import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -53,10 +49,9 @@ public class CluCodePicker extends Composite implements SuggestPicker {
     private String state;
     private String messageGroup;
 
-    private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
-    final SearchSuggestOracle luSearchOracle = new SearchSuggestOracle(luRpcServiceAsync,
+    final SearchSuggestOracle luSearchOracle = new SearchSuggestOracle(
             "lu.search.cluByCodeAndState",
-            "lu.queryParam.cluCode",
+            "lu.queryParam.startsWith.cluCode",
             "lu.queryParam.cluId",
             "lu.resultColumn.cluId", 
     "lu.resultColumn.cluOfficialIdentifier.cluCode");
@@ -105,12 +100,18 @@ public class CluCodePicker extends Composite implements SuggestPicker {
         main.add(getLabel(LUConstants.CODE_LABEL_KEY));
         main.add(suggestBox);
 //        main.add(stateDropDown);
-        final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-        QueryParamValue luStateParam = new QueryParamValue();
-        luStateParam.setKey("lu.queryParam.cluState");     
-        luStateParam.setValue(STATE_ACTIVATED);
-        params.add(luStateParam);
-        luSearchOracle.setAdditionalQueryParams(params);
+//        final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+//        QueryParamValue luStateParam = new QueryParamValue();
+//        luStateParam.setKey("lu.queryParam.cluState");     
+//        luStateParam.setValue(STATE_ACTIVATED);
+//        params.add(luStateParam);
+		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+		SearchParam luStateParam = new SearchParam();
+		luStateParam.setKey("lu.queryParam.cluState");
+		luStateParam.setValue(STATE_ACTIVATED);
+		additionalParams.add(luStateParam);
+
+        luSearchOracle.setAdditionalSearchParams(additionalParams);
 
 
 //        stateDropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -233,4 +234,10 @@ public class CluCodePicker extends Composite implements SuggestPicker {
         };
 
     }
+
+	@Override
+	public HandlerRegistration addSelectionChangeHandler(
+			SelectionChangeHandler handler) {
+		return suggestBox.addSelectionChangeHandler(handler);
+	}
 }

@@ -14,224 +14,210 @@
  */
 package org.kuali.student.lum.lu.ui.main.client.controller;
 
-import java.util.List;
-
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.application.ViewContext.IdType;
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
+import org.kuali.student.common.ui.client.event.ChangeViewActionHandler;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
-import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
-import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluController;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class LUMApplicationManager extends Controller{
+public class LUMApplicationManager extends Controller {
 
-	   private final SimplePanel viewPanel = new SimplePanel();
+	private final SimplePanel viewPanel = new SimplePanel();
 
-	    KSHistory history;
+	private final View homeMenuView = new DelegatingViewComposite(this,	new HomeMenuController());
 
-	    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
+	private Controller createCourseController = null;
+	private DelegatingViewComposite createCourseView;
 
-	    private Controller cluProposalController = null;
-	    private Controller viewCluController = null;
-	    private DelegatingViewComposite createCluView;
-	    private DelegatingViewComposite viewCluView;
+	private Controller viewCourseController = null;
+	private DelegatingViewComposite viewCourseView;
 
-	    private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+	private Controller manageCluSetsController = null;
+	private DelegatingViewComposite manageCluSetsView;
 
-	    public LUMApplicationManager(){
-	        super();
-	        history = new KSHistory(this);
-	        super.initWidget(viewPanel);
-	    }
+	private Controller browseCatalogController = null;
+	private DelegatingViewComposite browseCatalogView;
 
-	    protected void onLoad() {
-	        addApplicationEventHandler(ChangeViewStateEvent.TYPE, new ChangeViewStateHandler() {
-	            public void onViewStateChange(ChangeViewStateEvent event) {
-	                //FIXME: This is very hacky
-	                if (event.getEventSource() != null && event.getEventSource() instanceof SelectionEvent){                    
-	                    List<String> selectedIds = (List<String>)((SelectionEvent)event.getEventSource()).getSelectedItem();
-	                    String selectedId = selectedIds.get(0);
+	private boolean loaded = false;
 
-	                    if (event.getViewType().equals(LUMViews.EDIT_COURSE_PROPOSAL)){
-	                        initCluProposalViewFromProposalId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, selectedId);                        
-	                    }
+	public LUMApplicationManager() {
+		super(LUMApplicationManager.class.getName());
+		super.initWidget(viewPanel);
+	}
 
-	                    if (event.getViewType().equals(LUMViews.VIEW_COURSE)) {
-	                        initViewCluViewFromCluId(selectedId);                        
-	                    }
+	protected void onLoad() {
+		if (!loaded) {
+			addApplicationEventHandler(ChangeViewActionEvent.TYPE,
+					new ChangeViewActionHandler() {
+						@SuppressWarnings("unchecked")
+						public void onViewStateChange(ChangeViewActionEvent event) {
+							ViewContext context = event.getViewContext();
 
-	                }
-	                showView(event.getViewType(), NO_OP_CALLBACK);  
-	            }
-	        });
+							if (context != null && context.getId() != null) {
+								context.setPermissionType(PermissionType.OPEN);
+								switch ((LUMViews)event.getViewType()){
+									case EDIT_COURSE_PROPOSAL: initCreateCourse(context);break;
+									case VIEW_COURSE: initViewCourseFromCourseId(context.getId());break;
+									case MODIFY_COURSE: initModifyCourse(context);break;
+								}
+							}
 
-	        addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
-	            public void onLogout(LogoutEvent event) {
-	                Window.Location.assign("/j_spring_security_logout");
-	            }
-	        });
-	    }
+							showView(event.getViewType(), NO_OP_CALLBACK);
+						}
+					});
 
-	    public enum LUMViews {
-	        HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE, CREATE_PROGRAM
-	    }
+			addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
+				public void onLogout(LogoutEvent event) {
+					Window.Location.assign("/j_spring_security_logout");
+				}
+			});
 
-	    @Override
-	    protected <V extends Enum<?>> View getView(V viewType) {
-	    	// FIXME the showDefaultView calls should probably be handled elsewhere, not in this factory method
-	        switch ((LUMViews) viewType) {
-	            case HOME_MENU:
-	                return homeMenuView;
-	            case CREATE_COURSE:
-	                //initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE);
-	                initBlankCourseView();
-	                
-	                //FIXME: This is a quick fix, need better way to reset view
-	                cluProposalController.showDefaultView(NO_OP_CALLBACK);  
+			loaded = true;
+		}
+	}
 
-	                return createCluView;
-	            case EDIT_COURSE_PROPOSAL:
-	                //View setup should already be handled.
+	public enum LUMViews {
+		HOME_MENU,
+  CREATE_COURSE,
+  EDIT_COURSE_PROPOSAL,
+  VIEW_COURSE,
+  MODIFY_COURSE,
+  CREATE_PROGRAM,
+  MANAGE_CLU_SETS,
+  BROWSE_COURSE_CATALOG
+	}
 
-	                //FIXME: This is quick fix, need better way via config to set and show summary view.
-	                cluProposalController.showDefaultView(NO_OP_CALLBACK); 
-//	                cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);//FIXME this was causing the nav bar not to show up
-	                return createCluView;
-	            case VIEW_COURSE:
-	                if (viewCluView == null){
-	                    viewCluView = new DelegatingViewComposite(this, new ViewCluController());
-	                }
-	                viewCluController.showDefaultView(NO_OP_CALLBACK);
-	                return viewCluView;
-	            case CREATE_PROGRAM:
-	                initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE, LUConstants.CLU_TYPE_CREDIT_PROGRAM);  //FIXME replace with program specific constants
+	@Override
+	protected <V extends Enum<?>> View getView(V viewType) {
+		switch ((LUMViews) viewType) {
+			case HOME_MENU:
+				return homeMenuView;
+			case CREATE_COURSE:
+				return initBlankCreateCourse();
+			case EDIT_COURSE_PROPOSAL:
+				return createCourseView;
+			case VIEW_COURSE:
+				initViewCourse();
+				return viewCourseView;
+            case MODIFY_COURSE:
+                return createCourseView; 
+			case CREATE_PROGRAM:
+				// FIXME replace with program view
+				return createCourseView; // createProgramView;
+			case MANAGE_CLU_SETS:
+				manageCluSetsController = new CluSetsManagementController();
+				manageCluSetsView = new DelegatingViewComposite(LUMApplicationManager.this, manageCluSetsController);
+				manageCluSetsController.showDefaultView(NO_OP_CALLBACK);
+				return manageCluSetsView;
+			case BROWSE_COURSE_CATALOG:
+				browseCatalogController = new CatalogBrowserController();
+				browseCatalogView = new DelegatingViewComposite(LUMApplicationManager.this, browseCatalogController);
+				browseCatalogController.showDefaultView(NO_OP_CALLBACK);
+				return browseCatalogView;
+			default:
+				return null;
+		}
+	}
 
-	                //FIXME: This is a quick fix, need better way to reset view
-	                cluProposalController.showDefaultView(NO_OP_CALLBACK);  
+	private View initBlankCreateCourse() {
+		ViewContext context = new ViewContext();
+		context.setPermissionType(PermissionType.INITIATE);
+		createCourseController = new CourseProposalController(context);
+		createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
 
-	                return createCluView; //createProgramView;                
-	            default:
-	                return null;
-	        }
-	    }
+		return createCourseView;
+	}
 
-	    private View initBlankCourseView(){
-	        cluProposalController = new CourseProposalController();
-	        createCluView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);
-	        
-	        return createCluView;
-	    }
-	    
-	    private View initBlankCluProposalView(String proposalType, String cluType){
-	       // if (cluProposalController == null){
-	            cluProposalController = new CourseProposalController(proposalType, cluType);           
-	       // }
-	       // ((CluProposalController)cluProposalController).clear(proposalType, cluType);
-	        createCluView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);         
+	private View initCreateCourse(ViewContext context) {
+		createCourseController = new CourseProposalController(context);
+		createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
 
-	        return createCluView;
-	    }
+		return createCourseView;
+	}
+	
+    private View initModifyCourse(ViewContext context) {
+        KSTitleContainerImpl layoutTitle = new KSTitleContainerImpl("Modify Course");
+        createCourseController = new CourseProposalController(context, layoutTitle);
+        // FIXME: ADD IN VALID PERMISSION CHECK HERE
+		context.setPermissionType(null);
+        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
 
-	    private View initCluProposalViewFromProposalId(String proposalType, String cluType, String proposalId){
-	        initBlankCluProposalView(proposalType, cluType);
-	        ((CourseProposalController)cluProposalController).setProposalId(proposalId);
-	        return createCluView;
-	    }
+        return createCourseView;
+    }
 
-	    private View initCluProposalViewFromDocId(String proposalType, String cluType, String docId){
-	    //    if (cluProposalController == null){
-	    	cluProposalController = new CourseProposalController(proposalType, cluType, docId);           
-	    //    }
-	   //     ((CluProposalController)cluProposalController).clear(proposalType, cluType);
-	        ((CourseProposalController)cluProposalController).setDocId(docId);
-	        createCluView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController); 
-	        
-	        return createCluView;        
-	    }
+	private View initViewCourseFromCourseId(String id) {
+		initViewCourse();
+		((ViewCourseController) viewCourseController).setCourseId(id);
 
-	    private View initViewCluViewFromCluId(String cluId){
-	        initBlankViewCluView();
-	        ((ViewCluController)viewCluController).setId(cluId);
-	        
-	        return viewCluView;
-	    }    
-	    
-	    private View initBlankViewCluView(){
-	        if (viewCluController == null){
-	            viewCluController = new ViewCluController(); 
-	            viewCluView = new DelegatingViewComposite(LUMApplicationManager.this, viewCluController);            
-	        }
-	        ((ViewCluController)viewCluController).clear();
+		return viewCourseView;
+	}
 
-	        return viewCluView;
-	    }
-	    
-	    //Accessor for get view
-	    public <V extends Enum<?>> View getControllerView(V viewType){
-	        return this.getView(viewType);
-	    }
+	private View initViewCourse() {
+		if (viewCourseController == null) {
+			ViewContext context = new ViewContext();
+			context.setPermissionType(PermissionType.OPEN);
+			viewCourseController = new ViewCourseController(context);
+			viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, viewCourseController);
+		}
+		
+		((ViewCourseController) viewCourseController).clear();
 
-	    @Override
-	    protected void hideView(View view) {
-	        viewPanel.clear();
+		return viewCourseView;
+	}
 
-	    }
+	// Accessor for get view
+	public <V extends Enum<?>> View getControllerView(V viewType) {
+		return this.getView(viewType);
+	}
 
-	    @Override
-	    protected void renderView(View view) {
-	        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-	        viewPanel.setWidget((Composite)view);
-	    }
+	@Override
+	protected void hideView(View view) {
+		viewPanel.clear();
 
-	    @Override
-	    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
-	        final String docId=Window.Location.getParameter("docId");
-	        String backdoorId=Window.Location.getParameter("backdoorId");
-	        if(docId!=null){
-	            if(backdoorId!=null){
-	                cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
-	                    public void onFailure(Throwable caught) {
-	                        Window.alert(caught.getMessage());
-	                        onReadyCallback.exec(false);
-	                    }
+	}
 
-	                    public void onSuccess(Boolean result) {
-	                        if(!result){
-	                            Window.alert("Error with backdoor login");
-	                            onReadyCallback.exec(false);
-	                        }
-	                        initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
-	                        showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
-	                    }
+	@Override
+	protected void renderView(View view) {
+		viewPanel.setWidget((Composite) view);
+	}
 
-	                });
-	            }else{
-	                initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
-	                this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
-	            }
-	        }
-	        else{
-	            this.showView(LUMViews.HOME_MENU, onReadyCallback);
-	        }
-	    }
+	@Override
+	public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+		final String docId = Window.Location.getParameter("docId");
+		if (docId != null) {
+			ViewContext context = new ViewContext();
+			context.setId(docId);
+			context.setIdType(IdType.DOCUMENT_ID);
+			context.setPermissionType(PermissionType.OPEN);
+			initCreateCourse(context);
+			this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
+		} else {
+			this.showView(LUMViews.HOME_MENU, onReadyCallback);
+		}
+	}
 
-	    public Class<? extends Enum<?>> getViewsEnum() {
-	        return LUMViews.class;
-	    }        
+	public Class<? extends Enum<?>> getViewsEnum() {
+		return LUMViews.class;
+	}
+
+	@Override
+	public Enum<?> getViewEnumValue(String enumValue) {
+		return LUMViews.valueOf(enumValue);
+	}
 }

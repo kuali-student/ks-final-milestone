@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class FeeInfoHelper
@@ -26,12 +26,12 @@ public class FeeInfoHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		FEE_TYPE ("feeType"),
-		FEE_AMOUNT ("feeAmount"),
-		TAXABLE ("taxable"),
-		FEE_DESC ("feeDesc"),
-		INTERNAL_NOTATION ("internalNotation"),
-		_RUNTIME_DATA ("_runtimeData");
+		JUSTIFICATION ("justification"),
+		FIXED_RATE_FEE ("fixedRateFee"),
+		VARIABLE_RATE_FEE ("variableRateFee"),
+		MULTIPLE_RATE_FEE ("multipleRateFee"),
+		PER_CREDIT_FEE ("perCreditFee"),
+		ID ("id");
 		
 		private final String key;
 		
@@ -68,75 +68,72 @@ public class FeeInfoHelper
 	}
 	
 	
-	public void setFeeType (String value)
+	public void setJustification (String value)
 	{
-		data.set (Properties.FEE_TYPE.getKey (), value);
+		data.set (Properties.JUSTIFICATION.getKey (), value);
 	}
 	
 	
-	public String getFeeType ()
+	public String getJustification ()
 	{
-		return (String) data.get (Properties.FEE_TYPE.getKey ());
+		return (String) data.get (Properties.JUSTIFICATION.getKey ());
+	}
+	
+	public void setFixedRateFee (Data value)
+	{
+		data.set (Properties.FIXED_RATE_FEE.getKey (), value);
 	}
 	
 	
-	public void setFeeAmount (String value)
+	public Data getFixedRateFee ()
 	{
-		data.set (Properties.FEE_AMOUNT.getKey (), value);
+		return (Data) data.get (Properties.FIXED_RATE_FEE.getKey ());
 	}
 	
 	
-	public String getFeeAmount ()
+	public void setVariableRateFee (Data value)
 	{
-		return (String) data.get (Properties.FEE_AMOUNT.getKey ());
+		data.set (Properties.VARIABLE_RATE_FEE.getKey (), value);
 	}
 	
 	
-	public void setTaxable (String value)
+	public Data getVariableRateFee ()
 	{
-		data.set (Properties.TAXABLE.getKey (), value);
+		return (Data) data.get (Properties.VARIABLE_RATE_FEE.getKey ());
 	}
 	
 	
-	public String getTaxable ()
+	public void setMultipleRateFee (Data value)
 	{
-		return (String) data.get (Properties.TAXABLE.getKey ());
+		data.set (Properties.MULTIPLE_RATE_FEE.getKey (), value);
 	}
 	
 	
-	public void setFeeDesc (String value)
+	public Data getMultipleRateFee ()
 	{
-		data.set (Properties.FEE_DESC.getKey (), value);
+		return (Data) data.get (Properties.MULTIPLE_RATE_FEE.getKey ());
 	}
 	
 	
-	public String getFeeDesc ()
+	public void setPerCreditFee (Data value)
 	{
-		return (String) data.get (Properties.FEE_DESC.getKey ());
+		data.set (Properties.PER_CREDIT_FEE.getKey (), value);
 	}
 	
 	
-	public void setInternalNotation (String value)
+	public Data getPerCreditFee ()
 	{
-		data.set (Properties.INTERNAL_NOTATION.getKey (), value);
+		return (Data) data.get (Properties.PER_CREDIT_FEE.getKey ());
 	}
 	
-	
-	public String getInternalNotation ()
+	public void setId (String value)
 	{
-		return (String) data.get (Properties.INTERNAL_NOTATION.getKey ());
+		data.set (Properties.ID.getKey (), value);
 	}
 	
-	
-	public void set_runtimeData (RuntimeDataHelper value)
+	public String getId ()
 	{
-		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
-	}
-	
-	
-	public RuntimeDataHelper get_runtimeData ()
-	{
-		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
+		return (String) data.get (Properties.ID.getKey ());
 	}
 	
 }

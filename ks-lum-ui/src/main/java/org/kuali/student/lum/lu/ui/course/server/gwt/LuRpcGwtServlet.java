@@ -26,6 +26,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 
@@ -90,9 +91,10 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implem
         return null;
     }
 
-    public List<String> getLoIdsByClu(String cluId) {
+    public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId) {
+
         try {
-            return service.getLoIdsByClu(cluId);
+            return service.getCluLoRelationsByClu(cluId);
 
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -104,6 +106,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implem
             e.printStackTrace();
 
         }
+
         return null;
     }
 

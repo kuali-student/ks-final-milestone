@@ -19,27 +19,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 
@@ -50,99 +51,62 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  * Users can then re-organize LOs on the screen including altering the sequence and creating sub LOs
  *
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- *
+ * @author Kuali Student Team
  *
  */
-public class LOBuilder extends Composite  implements HasModelDTOValue {
+public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LOPicker>>> {
     
     private static String type;
     private static String state;
+    private static String repoKey;
     private static String messageGroup;
     
-    LOSearchWindow searchWindow;   
-
     VerticalPanel main = new VerticalPanel();
-
     HorizontalPanel searchMainPanel = new HorizontalPanel();
     SimplePanel searchSpacerPanel = new SimplePanel();
-    HorizontalPanel searchLinkPanel = new HorizontalPanel();
-
-
+    KSPicker searchWindow;  
     VerticalPanel loPanel = new VerticalPanel();
 
-    KSLabel searchLink;
     LearningObjectiveList loList;
     KSLabel instructions ;
-
-    private static final int NUM_INITIAL_LOS = 5;
-
 
 
     protected LOBuilder() {
         //TODO: should this be an error?  Can we set realistic defaults?
-
     }
 
-    public LOBuilder(String luType, String luState, String luGroup) {
+    public LOBuilder(String luType, String luState, String luGroup, String loRepoKey, final Metadata metadata) {
         super();
         initWidget(main);
 
         type = luType;
         state = luState;
+        repoKey = loRepoKey;
         messageGroup = luGroup;
 
-        ClickHandler searchClickHandler = new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if (searchWindow == null) {
-                    
-                    ConfirmCancelGroup buttons = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
-
-                        @Override
-                        public void exec(ConfirmCancelEnum result) {
-                            switch(result){
-                                case CONFIRM:
-                                    loList.addSelectedLOs(searchWindow.getLoSelections());
-                                    searchWindow.hide();
-                                    break;
-                                case CANCEL:
-                                    searchWindow.hide();
-                                    break;
-                            }
-                        }
-                    });
-
-                    searchWindow = new LOSearchWindow(messageGroup, type, state, buttons ); 
-
-
-                }
-                else {
-                    searchWindow.reset();
-                }
-                searchWindow.show();
-            }
-        };
-
-
-        instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS_KEY));
-        searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));
-        searchLink.addClickHandler(searchClickHandler);
-        KSImage searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
-        searchImage.addClickHandler(searchClickHandler);
-
-        searchLinkPanel.add(searchImage);
-        searchLinkPanel.add(searchLink);
+        //searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));  picker needs to handle labels like this
+        searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+        searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+            public void onValueChange(ValueChangeEvent<List<String>> event) {
+                List<String> selection = (List<String>)event.getValue();
+                loList.addSelectedLOs(selection);
+            }                    
+        });
         searchSpacerPanel.add(new KSLabel(""));
-
         searchMainPanel.add(searchSpacerPanel);
-        searchMainPanel.add(searchLinkPanel);
+        searchMainPanel.add(searchWindow);            
 
+        //adding search icon - should this be part of search link? coordinate with UX
+        //searchImage.addClickHandler(searchClickHandler);
+        //KSImage searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
+        //searchLinkPanel.add(searchImage);
+              
+        instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS_KEY));
+        
         loList = new LearningObjectiveList();
         loPanel.add(loList);
 
-        searchImage.addStyleName("KS-LOBuilder-Search-Image");
-        searchLink.addStyleName("KS-LOBuilder-Search-Link");
+        //searchImage.addStyleName("KS-LOBuilder-Search-Image");
         searchSpacerPanel.addStyleName("KS-LOBuilder-Spacer-Panel");
         searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
         loPanel.addStyleName("KS-LOBuilder-LO-Panel");
@@ -151,67 +115,84 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         main.add(searchMainPanel);
         main.add(instructions);
         main.add(loPanel);
-
     }
     
+	/**
+	 * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
+	 */
+	@Override
+	public void setValue(List<OutlineNode<LOPicker>> value, boolean fireEvents) {
+		setValue(value, false);
+	}
+	
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
+     */
     @Override
-    public void setValue(ModelDTOValue modelDTOValue) {
-        loList.setValue(modelDTOValue);
-
-    }
-
-    @Override
-    public void setValue(ModelDTOValue value, boolean fireEvents) {
-        // setValue(value, fireEvents); // methinks this would blow the stack :)
-        setValue(value);
+    public void setValue(List<OutlineNode<LOPicker>> data) {
+        loList.setValue(data);
     }
 
     /**
      * @see com.google.gwt.user.client.ui.HasValue#getValue()
      */
     @Override
-    public ModelDTOValue getValue() {
+    public List<OutlineNode<LOPicker>> getValue() {
         return loList.getValue();
-    }
-
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#updateModelDTO(org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
-     */
-    @Override
-    public void updateModelDTOValue() {
-        loList.updateModelDTOValue();
     }
 
     /**
      * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<OutlineNode<LOPicker>>> handler) {
         return loList.addValueChangeHandler(handler);
     }
-
 
     private static String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
     }
 
-    public static class LearningObjectiveList extends Composite /*implements HasModelDTOValue*/{
-        protected List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
-        OutlineNodeModel outlineModel = new OutlineNodeModel();
+    /**
+	 * @return the type
+	 */
+	public static String getType() {
+		return type;
+	}
+
+	/**
+	 * @return the state
+	 */
+	public static String getState() {
+		return state;
+	}
+
+	public static String getRepoKey() {
+		return repoKey;
+	}
+
+	/**
+	 * @return the messageGroup
+	 */
+	public static String getMessageGroup() {
+		return messageGroup;
+	}
+
+	public static class LearningObjectiveList extends Composite {
+        OutlineNodeModel<LOPicker> outlineModel = new OutlineNodeModel<LOPicker>();
         OutlineManager outlineComposite = new OutlineManager();
         VerticalPanel mainPanel = new VerticalPanel();
         
         public LearningObjectiveList(){
             mainPanel.add(outlineComposite);
-            KSLabel addnew = new KSLabel("Add new Learnging Objective");
+            KSLabel addnew = new KSLabel("Add item");
             addnew.addStyleName("KS-LOBuilder-New");
             mainPanel.add(addnew);
             addnew.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     setValue(getValue()); 
-                    List<String> list = new ArrayList<String>();
-                    list.add("");
-                    addSelectedLOs(list);
+                    appendLO("");
+                    reDraw();
                 }
             });
             super.initWidget(mainPanel);
@@ -227,117 +208,62 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             list.add("");
             addSelectedLOs(list);
         }
-     
-        public ModelDTOValue getValue() {
-            ModelDTOValue.ListType list = new ModelDTOValue.ListType();
-            modelDTOList = new ArrayList<ModelDTO>();
-            // get from outline model
-            OutlineNode[] outlineNodes = outlineModel.toOutlineNodes(); 
-            for(OutlineNode outlineNode: outlineNodes){
-                ModelDTO modelDTO = new ModelDTO();
-                ModelDTOValue.StringType str = new ModelDTOValue.StringType();
-                str.set(((LOPicker)outlineNode.getUserObject()).getLOText());
-                modelDTO.put("value", str);
-                
-                ModelDTOValue.ModelDTOType lo = new ModelDTOValue.ModelDTOType();
-                Object possibleLo = outlineNode.getOpaque();
-                if (null != possibleLo && possibleLo instanceof ModelDTO) {
-                	lo.set((ModelDTO) possibleLo);
-                	modelDTO.put("lo", lo);
-                }
 
-                ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
-                intT.set(modelDTOList.size());
-                modelDTO.put("sequence",intT);
-                
-                intT = new ModelDTOValue.IntegerType();
-                intT.set(outlineNode.getIndentLevel());
-                modelDTO.put("level",intT);
-                modelDTOList.add(modelDTO);
-            }
-            // fill the list of ModelDTO to ModelDTOValue.ModelDTOType 
-            List<ModelDTOValue> valueList = new ArrayList<ModelDTOValue>();
-            for(ModelDTO dto:modelDTOList){
-                ModelDTOValue.ModelDTOType dtoValue = new ModelDTOValue.ModelDTOType();
-                dtoValue.set(dto);
-                valueList.add(dtoValue);
-            }
-            list.set(valueList);
-
-            return list;
+        public List<OutlineNode<LOPicker>> getValue() {
+        	return outlineModel.getOutlineNodes();
         }
-        public void setValue(ModelDTOValue value) {
-            ModelDTOValue.ListType list = (ModelDTOValue.ListType) value;
-            modelDTOList = new ArrayList<ModelDTO>();
-            // fill the ModelDTOValue.ModelDTOType to List<ModelDTO>
-            // when the server hasn't been called yet, there's not list in LoModelDTO
-            if (null != list) {
-	            for(ModelDTOValue dto : list.get()){
-	                ModelDTOValue.ModelDTOType dtoType = (ModelDTOValue.ModelDTOType)dto;
-	                modelDTOList.add(dtoType.get());
-	            }
-            }
+        
+        public void setValue(List<OutlineNode<LOPicker>> value) {
+        	outlineModel.clearNodes();
+        	outlineModel.getOutlineNodes().addAll(value);
             reDraw();
         }
-
-        public void addSelectedLOs(List<String> loDescription) {
-            for(String strValue:loDescription){
-                ModelDTO modelDTO = new ModelDTO();
-                ModelDTOValue.StringType str = new ModelDTOValue.StringType();
-                str.set(strValue);
-                modelDTO.put("value", str);
-
-                ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
-                intT.set(new Integer( modelDTOList.size()));
-                modelDTO.put("sequence",intT);
-                
-                intT = new ModelDTOValue.IntegerType();
-                intT.set(0);
-                modelDTO.put("level",intT);
-                
-                modelDTOList.add(modelDTO);
-            }
-            reDraw();
-        }
-        private void reDraw(){
-          outlineModel.clearNodes();
-          for (int i = 0; i < modelDTOList.size(); i++) {
-            OutlineNode aNode = new OutlineNode();
-            aNode.setModel(outlineModel);
-            aNode.setUserObject(new LOPicker());
+        
+        private void appendLO(String loValue){
+            OutlineNode<LOPicker> aNode = new OutlineNode<LOPicker>();
+            LOPicker newPicker = new LOPicker(messageGroup, type, state, repoKey);
             
-            String strvalue = ((ModelDTOValue.StringType)modelDTOList.get(i).get("value")).get();
-            int level = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("level")).get();
-           // int sequence = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("sequence")).get();
-            ModelDTOValue possibleLoValue = (ModelDTOValue.ModelDTOType) modelDTOList.get(i).get("lo");
-            Object possibleLo = null;
-            if (null != possibleLoValue) {
-            	possibleLo = ((ModelDTOValue.ModelDTOType) possibleLoValue).get();
-            }
-            // the LO from server should be in the right order
-            ((LOPicker)aNode.getUserObject()).setLOText(strvalue);
-            if (null != possibleLo) {
-            	aNode.setOpaque(possibleLo);
-            }
-            aNode.setIndentLevel(level);
+            newPicker.setLOText(loValue);
+            aNode.setUserObject(newPicker);
+            aNode.setModel(outlineModel);
+            
             outlineModel.addOutlineNode(aNode);
-          }
-
-          outlineComposite.render();
-          
         }
-        public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
-//            for (HasModelDTOValue widget : modelDTOValueWidgets) {
-  //              widget.addValueChangeHandler(handler);
-    //        }
+        
+        //add one or more description by going through existing LO box and populating the empty ones
+        //if not enough empty LO boxes then add new ones
+        public void addSelectedLOs(List<String> loDescription) {
+            
+            List<OutlineNode<LOPicker>> existingLOs = outlineModel.getOutlineNodes();
+            
+            int ix = existingLOs.size();
+            for (String strValue : loDescription){
+                
+                boolean foundEmptyBox = false;
+                while (ix > 0) {
+                    ix--;
+                    if (existingLOs.get(ix).getUserObject().getLOText().trim().length() == 0) {
+                        existingLOs.get(ix).getUserObject().setLOText(strValue);
+                        foundEmptyBox = true;
+                        break;
+                    }
+                }
+                                
+                //we didn't find empty LO box so add a new one
+                if (foundEmptyBox == false) {
+                    appendLO(strValue);
+                }                                
+            }
+            reDraw();
+        }
+        
+        private void reDraw(){
+          outlineComposite.render();
+        }
+        
+        public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<OutlineNode<LOPicker>>> handler) {
             return new NOOPListValueChangeHandler();
         }
-        public void updateModelDTOValue() {
-        	// M3 - update?
-        }
-
-//        public void setValue(ModelDTOValue value, boolean fireEvents) {
-//        }
             
         private class NOOPListValueChangeHandler implements HandlerRegistration {
             public void removeHandler() {

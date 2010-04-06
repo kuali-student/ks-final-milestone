@@ -2,13 +2,13 @@ package org.kuali.student.lum.lu.assembly;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.Assembler;
-import org.kuali.student.common.assembly.client.AssemblyException;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.SaveResult;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoMetadata;
@@ -47,7 +47,7 @@ public class CluInstructorInfoDataAssembler implements Assembler<Data, CluInstru
 	}
 
 	@Override
-	public Metadata getMetadata(String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
 		return new CluInstructorInfoMetadata().getMetadata(type, state);
 	}
 
@@ -64,6 +64,12 @@ public class CluInstructorInfoDataAssembler implements Assembler<Data, CluInstru
 	}
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;
 	}

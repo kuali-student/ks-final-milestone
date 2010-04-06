@@ -23,6 +23,7 @@
         <class>org.kuali.student.lum.lrc.entity.GradeAttribute</class>
         <class>org.kuali.student.lum.lrc.entity.GradeType</class>
         <class>org.kuali.student.lum.lrc.entity.GradeTypeAttribute</class>
+        <class>org.kuali.student.lum.lrc.entity.LrcRichText</class>
         <class>org.kuali.student.lum.lrc.entity.ResultComponent</class>
         <class>org.kuali.student.lum.lrc.entity.ResultComponentAttribute</class>
         <class>org.kuali.student.lum.lrc.entity.ResultComponentType</class>

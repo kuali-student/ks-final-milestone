@@ -14,14 +14,15 @@
  */
 package org.kuali.student.lum.lu.ui.home.client.view;
 
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CategoryManagement;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
-import com.google.gwt.dom.client.HRElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -31,7 +32,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -45,6 +45,9 @@ public class CreateCreditCoursePanel extends ViewComposite{
     private KSButton selectTemplate = new KSButton("Select Proposal Template");
     private KSButton copyProposal = new KSButton("Copy Course Proposal");
     private KSButton copyCourse = new KSButton("Copy Existing Course");
+    private KSButton categoryManagement = new KSButton("Category Management");
+    private KSButton cluSetManagement = new KSButton("CLU Set Management");
+    private KSButton browseCatalog = new KSButton("Browse Catalog");
     
     private ButtonEventHandler handler = new ButtonEventHandler();
     
@@ -52,13 +55,8 @@ public class CreateCreditCoursePanel extends ViewComposite{
 
         @Override
         public void onClick(ClickEvent event) {
-            Widget sender = (Widget) event.getSource();
-            
-            if(sender == startBlank){
-                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_COURSE));
-            } else {
-                Window.alert("Function not yet implemented");
-            }
+                // TODO - This should be a nice KSPanel Popup with a friendly message
+        	Window.alert("Function not yet implemented");
         }
         
     }
@@ -67,7 +65,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
         private HorizontalPanel row = new HorizontalPanel();
         private KSLabel descLabel = new KSLabel();
         
-        public ButtonRow(Button theButton, String description){
+        public ButtonRow(KSButton theButton, String description){
             row.addStyleName("Home-Button-Row");
             row.addStyleName("Content-Left-Margin");
             descLabel.addStyleName("Home-Description-Label");
@@ -81,7 +79,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
             this.initWidget(row);
         }
         
-        public ButtonRow(Button theButton, String description, Widget moreLink){
+        public ButtonRow(KSButton theButton, String description, Widget moreLink){
             this(theButton, description);
             descLabel.getElement().appendChild(moreLink.getElement());
         }
@@ -106,24 +104,74 @@ public class CreateCreditCoursePanel extends ViewComposite{
         viewProcess.addClickHandler(handler);
         mainPanel.add(new RowBreak());
         mainPanel.add(new ButtonRow(startBlank, "Create a new blank course proposal."));
-        startBlank.addClickHandler(handler);
+        startBlank.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				 CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.CREATE_COURSE));		
+			}
+		});
         mainPanel.add(new ButtonRow(selectTemplate, "Create a proposal from a proposal template."));
         selectTemplate.addClickHandler(handler);
         mainPanel.add(new ButtonRow(copyProposal, "Create a proposal by copying an existing course proposal."));
         copyProposal.addClickHandler(handler);
         mainPanel.add(new ButtonRow(copyCourse, "Create a proposal by copying an existing course."));
+        cluSetManagement.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.MANAGE_CLU_SETS));
+				
+			}
+		});
+       mainPanel.add(new ButtonRow(cluSetManagement, "Manage CLU Sets."));
+       browseCatalog.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.BROWSE_COURSE_CATALOG));
+
+			}
+		});
+        mainPanel.add(new ButtonRow(browseCatalog, "Browse Catalog"));
+
+        mainPanel.add(new ButtonRow(categoryManagement, "Manage the category"));
+        categoryManagement.addClickHandler(new ClickHandler(){
+            @Override
+            public void onClick(ClickEvent event) {
+                Button closeButton = new Button("Close");
+                
+                final KSLightBox pop = new KSLightBox();
+                VerticalPanel mainPanel = new VerticalPanel();
+                mainPanel.add(new CategoryManagement());
+                mainPanel.add(closeButton);
+                
+                closeButton.addClickHandler(new ClickHandler(){
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        pop.hide();
+                    }
+                });
+                
+                pop.setWidget(mainPanel);
+                pop.show();
+            }
+        });
+        
         copyCourse.addClickHandler(handler);
         Hyperlink helpMeDecide = new Hyperlink("Help Me Decide", "HelpMe");
         helpMeDecide.addStyleName("Home-Small-Hyperlink");
         helpMeDecide.addStyleName("Content-Left-Margin");
-        helpMeDecide.addClickHandler(new ClickHandler(){
 
+        // TODO - Why is this here. We don't need a new handler to do the same thing.
+        helpMeDecide.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
                 Window.alert("Function not yet implemented.");                
             }
         });
         mainPanel.add(helpMeDecide);
+
         this.initWidget(mainPanel);
     }
 }

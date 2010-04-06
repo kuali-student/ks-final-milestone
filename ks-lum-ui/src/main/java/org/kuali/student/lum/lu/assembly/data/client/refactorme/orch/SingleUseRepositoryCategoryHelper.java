@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
 import java.util.Date;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class SingleUseRepositoryCategoryHelper
@@ -27,7 +27,7 @@ public class SingleUseRepositoryCategoryHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		I_D ("iD"),
+		ID ("iD"),
 		NAME ("name"),
 		LO_REPOSITORY ("loRepository"),
 		TYPE_KEY ("typeKey"),
@@ -74,13 +74,13 @@ public class SingleUseRepositoryCategoryHelper
 	
 	public void setID (String value)
 	{
-		data.set (Properties.I_D.getKey (), value);
+		data.set (Properties.ID.getKey (), value);
 	}
 	
 	
 	public String getID ()
 	{
-		return (String) data.get (Properties.I_D.getKey ());
+		return (String) data.get (Properties.ID.getKey ());
 	}
 	
 	

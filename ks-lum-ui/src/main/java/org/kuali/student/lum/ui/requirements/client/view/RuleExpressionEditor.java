@@ -20,7 +20,6 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -28,7 +27,6 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -100,14 +98,13 @@ public class RuleExpressionEditor extends ViewComposite {
                         return;
                 }
                 String expression = taExpression.getText();
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
-                prereqInfo.setExpression(expression);
+                model.getValue().setExpression(expression);
             }
         });
         btnPreview.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 String expression = null;
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 expression = prereqInfo.getExpression();
                 prereqInfo.setPreviewedExpression(expression);
                 redraw();
@@ -116,21 +113,20 @@ public class RuleExpressionEditor extends ViewComposite {
         
         btnDone.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                RuleInfo prereqInfo = model.getValue();
                 List<String> errorMessages = new ArrayList<String>();
-                List<ReqComponentVO> rcs = 
-                    (prereqInfo.getStatementVO() == null ||
-                            prereqInfo.getStatementVO().getAllReqComponentVOs() == null)?
-                                    new ArrayList<ReqComponentVO>() :
-                                        prereqInfo.getStatementVO().getAllReqComponentVOs();
+                List<ReqComponentVO> rcs = (prereqInfo.getStatementVO() == null ||
+                            				prereqInfo.getStatementVO().getAllReqComponentVOs() == null)?
+                            						new ArrayList<ReqComponentVO>() :
+                            								prereqInfo.getStatementVO().getAllReqComponentVOs();
                 ruleExpressionParser.setExpression(prereqInfo.getExpression());
                 boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
                 List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
                 ruleExpressionParser.checkMissingRCs(missingRCs, rcs);
+                
                 if (validExpression && missingRCs.isEmpty()) {
                     StatementVO newStatementVO = ruleExpressionParser.parseExpressionIntoStatementVO(
-                            prereqInfo.getExpression(),
-                            prereqInfo.getStatementVO());
+                            prereqInfo.getExpression(), prereqInfo.getStatementVO(), prereqInfo.getSelectedStatementType());
                     prereqInfo.setStatementVO(newStatementVO);
                     prereqInfo.setPreviewedExpression(null);
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
@@ -145,8 +141,7 @@ public class RuleExpressionEditor extends ViewComposite {
         
         btnCancel.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
-                prereqInfo.setPreviewedExpression(null);
+                model.getValue().setPreviewedExpression(null);
                 getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         });
@@ -223,7 +218,7 @@ public class RuleExpressionEditor extends ViewComposite {
         buttonsPanel.add(btnCancel);                
         flexTable.setWidget(rowNum, 0, buttonsPanel);
         
-        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+        RuleInfo prereqInfo = model.getValue();
         if (prereqInfo != null) {
             taExpression.setText("");
             if (prereqInfo.getExpression() != null) {
@@ -244,11 +239,12 @@ public class RuleExpressionEditor extends ViewComposite {
                 boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
                 htmlErrorMessage.setHTML("");
                 ruleTable.clear();
+                
                 if (!validExpression) {
                     showErrors(errorMessages);
                 } else {
                     Node tree = ruleExpressionParser.parseExpressionIntoTree(
-                        previewExpression, prereqInfo.getStatementVO());
+                        previewExpression, prereqInfo.getStatementVO(), prereqInfo.getSelectedStatementType());
                     if (tree != null) {
                         ruleTable.buildTable(tree);
                     }

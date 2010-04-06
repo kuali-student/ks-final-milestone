@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class CreditCourseProposalHelper
@@ -29,7 +29,8 @@ public class CreditCourseProposalHelper
 		PROPOSAL ("proposal"),
 		COURSE ("course"),
 		STATE ("state"),
-		TYPE ("type");
+		TYPE ("type"),
+		SEARCH ("search");
 		
 		private final String key;
 		
@@ -111,6 +112,18 @@ public class CreditCourseProposalHelper
 	public String getType ()
 	{
 		return (String) data.get (Properties.TYPE.getKey ());
+	}
+	
+	
+	public void setSearch (String value)
+	{
+		data.set (Properties.SEARCH.getKey (), value);
+	}
+	
+	
+	public String getSearch ()
+	{
+		return (String) data.get (Properties.SEARCH.getKey ());
 	}
 	
 }

@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.TextBox;
 
 public 
-class OutlineNodeModel {
-    private ArrayList<OutlineNode> outlineNodeList = new ArrayList<OutlineNode>();
+class OutlineNodeModel<T> {
+    private ArrayList<OutlineNode<T>> outlineNodeList = new ArrayList<OutlineNode<T>>();
 
     private ArrayList<ChangeHandler> changeHandlerList = new ArrayList<ChangeHandler>();
 
-    private OutlineNode currentNode;
+    private OutlineNode<T> currentNode;
     
     public void clearNodes(){
-        outlineNodeList = new ArrayList<OutlineNode>();
+        outlineNodeList = new ArrayList<OutlineNode<T>>();
     }
-    public void setCurrentNode(OutlineNode aNode) {
+    public void setCurrentNode(OutlineNode<T> aNode) {
       currentNode = aNode;
     }
     
@@ -39,21 +38,21 @@ class OutlineNodeModel {
 //      if (index == -1 || index == outlineNodeList.size() - 1) {
     //    return;
      // }
-      List<OutlineNode> siblingList = getSiblingList();
+      List<OutlineNode<T>> siblingList = getSiblingList();
       int indexInSibling = siblingList.indexOf(currentNode);
-      OutlineNode nextNodeInSibling = siblingList.get(indexInSibling - 1);
+      OutlineNode<T> nextNodeInSibling = siblingList.get(indexInSibling - 1);
 
-      List<OutlineNode> childList = getChildList(currentNode);
+      List<OutlineNode<T>> childList = getChildList(currentNode);
       childList.add(0, currentNode);// add parent
       for (int i = 0; i < childList.size(); i++) {
-        OutlineNode aNode = childList.get(i);
+        OutlineNode<T> aNode = childList.get(i);
         outlineNodeList.remove(aNode);
       }
 
       int moveToIndex = outlineNodeList.indexOf(nextNodeInSibling);
 
       for (int i = 0; i < childList.size(); i++) {
-        OutlineNode aNode = childList.get(i);
+        OutlineNode<T> aNode = childList.get(i);
         outlineNodeList.add(moveToIndex + i, aNode);
       }
       fireChangeEvents();
@@ -66,18 +65,18 @@ class OutlineNodeModel {
       if (index == -1 || index == outlineNodeList.size() - 1) {
         return;
       }
-      List<OutlineNode> siblingList = getSiblingList();
+      List<OutlineNode<T>> siblingList = getSiblingList();
       int indexInSibling = siblingList.indexOf(currentNode);
-      OutlineNode nextNodeInSibling = siblingList.get(indexInSibling + 1);
+      OutlineNode<T> nextNodeInSibling = siblingList.get(indexInSibling + 1);
 
-      List<OutlineNode> childList = getChildList(currentNode);
+      List<OutlineNode<T>> childList = getChildList(currentNode);
       childList.add(0, currentNode);// add parent
       for (int i = 0; i < childList.size(); i++) {
-        OutlineNode aNode = childList.get(i);
+        OutlineNode<T> aNode = childList.get(i);
         outlineNodeList.remove(aNode);
       }
 
-      List<OutlineNode> nextNodeChildList = getChildList(nextNodeInSibling);
+      List<OutlineNode<T>> nextNodeChildList = getChildList(nextNodeInSibling);
       int moveToIndex = -1;
       if(nextNodeChildList.size() != 0){
         moveToIndex = outlineNodeList.indexOf(nextNodeChildList.get(nextNodeChildList.size()-1));
@@ -86,7 +85,7 @@ class OutlineNodeModel {
       }
 
       for (int i = 0; i < childList.size(); i++) {
-        OutlineNode aNode = childList.get(i);
+        OutlineNode<T> aNode = childList.get(i);
         outlineNodeList.add(moveToIndex + 1 + i, aNode);
       }
 
@@ -102,9 +101,9 @@ class OutlineNodeModel {
 
     public void outdentCurrent() {
       if (this.isOutdentable()) {
-        List<OutlineNode> childList = getChildList(currentNode);
+        List<OutlineNode<T>> childList = getChildList(currentNode);
         childList.add(0, currentNode);// add parent
-        for(OutlineNode aNode:childList){
+        for(OutlineNode<T> aNode:childList){
           aNode.outdent();
         }
         fireChangeEvents();
@@ -113,10 +112,10 @@ class OutlineNodeModel {
 
     public void deleteCurrent() {
       if (this.isDeletable()) {
-        List<OutlineNode> childList = getChildList(currentNode);
+        List<OutlineNode<T>> childList = getChildList(currentNode);
         childList.add(0, currentNode);// add parent
         for (int i = 0; i < childList.size(); i++) {
-          OutlineNode aNode = childList.get(i);
+          OutlineNode<T> aNode = childList.get(i);
           outlineNodeList.remove(aNode);
         }
         fireChangeEvents();
@@ -125,8 +124,8 @@ class OutlineNodeModel {
 
     public void addPeer() {
       int index = outlineNodeList.indexOf(currentNode);
-      OutlineNode aNode = new OutlineNode();
-      aNode.setUserObject(new TextBox());
+      OutlineNode<T> aNode = new OutlineNode<T>();
+      // aNode.setUserObject(new TextBox());
       aNode.setIndentLevel(currentNode.getIndentLevel());
       outlineNodeList.add(index + 1, aNode);
       fireChangeEvents();
@@ -134,24 +133,29 @@ class OutlineNodeModel {
 
     public void addChild() {
       int index = outlineNodeList.indexOf(currentNode);
-      OutlineNode aNode = new OutlineNode();
-      aNode.setUserObject(new TextBox());
+      OutlineNode<T> aNode = new OutlineNode<T>();
+      // aNode.setUserObject(new TextBox());
       aNode.setIndentLevel(currentNode.getIndentLevel() + 1);
       outlineNodeList.add(index + 1, aNode);
       fireChangeEvents();
     }
 
-    public void addOutlineNode(OutlineNode aNode) {
+    public void addOutlineNode(OutlineNode<T> aNode) {
       outlineNodeList.add(aNode);
     }
 
-    public OutlineNode[] toOutlineNodes() {
+    @SuppressWarnings("unchecked")
+	public OutlineNode<T>[] toOutlineNodes() {
       return outlineNodeList.toArray(new OutlineNode[outlineNodeList.size()]);
     }
 
-    public List<OutlineNode> getChildList(OutlineNode aNode) {
+    public List<OutlineNode<T>> getOutlineNodes() {
+      return outlineNodeList;
+    }
+
+    public List<OutlineNode<T>> getChildList(OutlineNode<T> aNode) {
       int index = outlineNodeList.indexOf(aNode);
-      List<OutlineNode> childList = new ArrayList<OutlineNode>();
+      List<OutlineNode<T>> childList = new ArrayList<OutlineNode<T>>();
       for (int i = index + 1; i < outlineNodeList.size(); i++) {
         if (outlineNodeList.get(i).getIndentLevel() > aNode.getIndentLevel()) {
           childList.add(outlineNodeList.get(i));
@@ -162,8 +166,8 @@ class OutlineNodeModel {
       return childList;
     }
 
-    public List<OutlineNode> getSiblingList() {
-      List<OutlineNode> siblingList = new ArrayList<OutlineNode>();
+    public List<OutlineNode<T>> getSiblingList() {
+      List<OutlineNode<T>> siblingList = new ArrayList<OutlineNode<T>>();
       int index = outlineNodeList.indexOf(currentNode);
       // if first level
       if (currentNode.getIndentLevel() == 0) {
@@ -176,7 +180,7 @@ class OutlineNodeModel {
       }
       // not first level
       // get parent first and then get all Siblings
-      OutlineNode parentNode = null;
+      OutlineNode<T> parentNode = null;
       for (int i = index - 1; i >= 0; i--) {
         if (outlineNodeList.get(i).getIndentLevel() - currentNode.getIndentLevel() == -1) {
           parentNode = outlineNodeList.get(i);
@@ -201,7 +205,7 @@ class OutlineNodeModel {
       }
       // if current node is the only child
 
-      List<OutlineNode> siblingList = getSiblingList();
+      List<OutlineNode<T>> siblingList = getSiblingList();
       if (siblingList.size() == 1) {
         return false;
       }
@@ -218,16 +222,11 @@ class OutlineNodeModel {
       if (currentNode.getIndentLevel() == 0) {// first level
         return false;
       }
-      // have kids
-//      List<OutlineNode> childList = getChildList(currentNode);
-    //  if(childList.size()>0){
-      //  return false;
-     // }
       return true;
     }
 
     public boolean isMoveUpable() {
-      List<OutlineNode> list = getSiblingList();
+      List<OutlineNode<T>> list = getSiblingList();
       if (list.size() == 1) { // only child
         return false;
       }
@@ -239,7 +238,7 @@ class OutlineNodeModel {
     }
 
     public boolean isMoveDownable() {
-      List<OutlineNode> list = getSiblingList();
+      List<OutlineNode<T>> list = getSiblingList();
       if (list.size() == 0) { // only child
         return false;
       }
@@ -251,20 +250,9 @@ class OutlineNodeModel {
     }
 
     public boolean isDeletable() {
-//      List<OutlineNode> list = getSiblingList();
-
-    //  if (list.size() == 0) { // only child
-      //  return false;
-     // }
-     // int index = list.indexOf(currentNode);
-      
-//      if (index == 0 && currentNode.getIndentLevel() == 0) {// first child
-    //    return false;
-      //}
       if(outlineNodeList.size() == 1){
         return false;
       }
       return true;
     }
-
   }

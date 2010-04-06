@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.ui.requirements.client.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,35 +22,31 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
+import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
+import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.view.CourseRequisiteView;
-import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.ManageRulesView;
+import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.RuleExpressionEditor;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CourseReqManager extends Controller {
-    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-    
+ 
     public enum PrereqViews {
-        RULES_LIST, MANAGE_RULES, CLAUSE_EDITOR, RULE_EXPRESSION_EDITOR
+        RULES_LIST, MANAGE_RULES, RULE_COMPONENT_EDITOR, RULE_EXPRESSION_EDITOR
     }
 
     //controller's widgets
@@ -57,18 +54,21 @@ public class CourseReqManager extends Controller {
     private final SimplePanel viewPanel = new SimplePanel();
     private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this);
     private final ManageRulesView manageRulesView = new ManageRulesView(this);
-    private final RuleComponentEditorView rulesEditorView = new RuleComponentEditorView(this);
+    private final RuleComponentEditorView ruleCompEditorView = new RuleComponentEditorView(this);
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
     
     //controller's data
-    private CollectionModel<RuleInfo> ruleInfo;                      //contains all rules, each rule has its own RuleInfo object
-    private CollectionModel<ReqComponentVO>  selectedReqCompVO;    
-    private CollectionModel<ReqComponentTypeInfo> reqComponentTypes; //all requirements type info (fields and NL templates) for given statement type
-    private String luStatementType = "unknown";             //type of rule that is being edited
+    private CollectionModel<RuleInfo> ruleInfo;         //contains all rules belonging to this course
+    private String cluId = null;						//course id
+    private static int id = 0; 
+    private ReqComponentVO componentToEdit;				//which component user chosen to edit	
+    private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();
+   
+    private String selectedLuStatementType = "unknown";             //type of rule that user selected to work on (add or edit)
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
     public CourseReqManager(VerticalPanel displayPanel) {
-        super();       
+        super(CourseReqManager.class.getName());       
         
         if (displayPanel == null) {        
        	 	super.initWidget(viewPanel);
@@ -78,7 +78,6 @@ public class CourseReqManager extends Controller {
         }
         
         this.ruleInfo = null;
-        resetReqCompVOModel();
         loadSearchBoxData();
     }
     
@@ -88,30 +87,56 @@ public class CourseReqManager extends Controller {
    
     @Override
     protected void onLoad() {
-        //showDefaultView();   instead of showing default view every time user comes back, just show screen user left of last time
+        //showDefaultView();   instead of showing default view every time user comes back, just show the screen user left off last time
     }
 
     // controller operations
     @Override
     @SuppressWarnings("unchecked")
-    public void requestModel(Class modelType, ModelRequestCallback callback) {
-        if (modelType.equals(RuleInfo.class)) {
-            
-            //pass back only rule corresponding to the user selected rule type
+    public void requestModel(Class modelType, final ModelRequestCallback callback) {
+    	//retrieving all rules for given course
+    	if (modelType.equals(LuData.class)) {    		
+
+	    	super.requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL,
+	    			new ModelRequestCallback<DataModel>() {
+	                    @Override
+	                    public void onModelReady(DataModel dataModel) {
+	                    	LuData luData = (LuData)dataModel.getRoot();
+	                    	
+	                		if (ruleInfo == null) {	                     			                    	
+		                    	List<RuleInfo> rules = luData.getRuleInfos();
+		                    	ruleInfo = new CollectionModel<RuleInfo>();
+		                    	for (RuleInfo oneRule : rules) {
+		                    		oneRule.setId(Integer.toString(id++));
+		                    		ruleInfo.add(oneRule);
+		                    	}
+		                    	cluId = dataModel.get("course/id");
+		                    	
+		                    	//make sure each rule info has set course id
+		                    	if (rules != null) {
+			                        for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
+			                            oneRuleInfo.setCluId(cluId);            		                            
+			                        }		     
+		                    	}	                    	
+	                		} else {
+	                			luData.setRuleInfos(new ArrayList(ruleInfo.getValues()));
+	                		}
+	                        callback.onModelReady(dataModel);
+	                    }    
+	
+	                    @Override
+	                    public void onRequestFail(Throwable cause) {
+	                    	GWT.log("Failed to get LuData DataModel", cause);
+	                    	Window.alert("Failed to get LuData DataModel");
+	                    }
+	            });    		    		
+    	}
+    	//retrieving a specific type of rule (selected by user for editing)
+    	else if (modelType.equals(RuleInfo.class)) {            
         	CollectionModel<RuleInfo> ruleInfoGivenType = new CollectionModel<RuleInfo>();
-            ruleInfoGivenType.add(getRuleInfo(luStatementType));                        
-            callback.onModelReady(ruleInfoGivenType);
-        } else if (modelType.equals(ReqComponentTypeInfo.class)) {
-          //  if (reqComponentTypes == null) {
-                retrieveModelData(ReqComponentTypeInfo.class, callback);
-          //  }
-          //  else {
-          //      callback.onModelReady(reqComponentTypes);
-          //  }
-        } else if (modelType.equals(ReqComponentVO.class)) {
-            callback.onModelReady(selectedReqCompVO);
-        }
-        else {
+            ruleInfoGivenType.setValue(getRuleInfo(selectedLuStatementType));                        
+            callback.onModelReady(ruleInfoGivenType);            
+        } else {
             super.requestModel(modelType, callback);
         }
     }
@@ -119,7 +144,14 @@ public class CourseReqManager extends Controller {
     private RuleInfo getRuleInfo(String luStatementTypeKey) {
         if (ruleInfo.getValues() != null && !ruleInfo.getValues().isEmpty()) {
             for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
-                if (oneRuleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {
+            	// if the rule
+            	if (oneRuleInfo.getStatementVO() == null) {
+                    oneRuleInfo.setCluId(cluId);
+                    oneRuleInfo.setId(Integer.toString(id++));
+                    oneRuleInfo.setSelectedStatementType(luStatementTypeKey);
+                    oneRuleInfo.setStatementVO(oneRuleInfo.createNewStatementVO());
+            	}
+                if (oneRuleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {
                     return oneRuleInfo;
                 }                
             }
@@ -151,9 +183,12 @@ public class CourseReqManager extends Controller {
 	            return courseRequisiteView;
 	        case MANAGE_RULES:
                 return manageRulesView;
-            case CLAUSE_EDITOR:    
-                rulesEditorView.setCluSetsData(cluSetsData);
-                return rulesEditorView;
+            case RULE_COMPONENT_EDITOR:    
+                ruleCompEditorView.setCluSetsData(cluSetsData);                
+                ruleCompEditorView.setEditedStatementVO(getRuleInfo(selectedLuStatementType).getStatementVO());
+                ruleCompEditorView.setEditedReqCompVO(componentToEdit);
+                ruleCompEditorView.setFieldsWithLookup(fieldsWithLookup);
+                return ruleCompEditorView;
             case RULE_EXPRESSION_EDITOR:
                 return ruleExpressionEditorView;
             default:
@@ -161,31 +196,15 @@ public class CourseReqManager extends Controller {
         }
     }
 
-    //TODO: should we retrieve requirement comp. types for all applicable lu statement types?
-    public void retrieveModelData(Class<? extends Idable> modelType, final ModelRequestCallback<CollectionModel<ReqComponentTypeInfo>> callback) {
-        
-        if (luStatementType == null) {
-            throw new IllegalArgumentException();
-        }
-        
-        System.out.println("Retrieving req. comp. types: " + luStatementType);
-        
-        if (modelType.equals(ReqComponentTypeInfo.class)) {        
-            requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(luStatementType, new AsyncCallback<List<ReqComponentTypeInfo>>() {
-                public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage());
-                    // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
-                }
-    
-                public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {  
-                    reqComponentTypes = new CollectionModel<ReqComponentTypeInfo>();
-                    for (ReqComponentTypeInfo reqCompInfo : reqComponentTypeInfoList) {
-                        reqComponentTypes.add(reqCompInfo);
-                    }      
-                    callback.onModelReady(reqComponentTypes);                                   
-                }
-            });  
-        }
+	//create a blank root statementVO
+    public void addNewRule(String statementType) {
+        RuleInfo newPrereqInfo = new RuleInfo();
+        newPrereqInfo.setCluId(cluId);
+        newPrereqInfo.setId(Integer.toString(id++));
+        newPrereqInfo.setEditHistory(new EditHistory());
+        newPrereqInfo.setSelectedStatementType(statementType);
+        newPrereqInfo.setStatementVO(newPrereqInfo.createNewStatementVO());
+        ruleInfo.add(newPrereqInfo);
     }
 
     private void loadSearchBoxData() {        
@@ -194,34 +213,44 @@ public class CourseReqManager extends Controller {
         cluSetsData.put("CLUSET-NL-1", "CLUSET-NL-1");              
     }
     
+    public void saveEditHistory(StatementVO editedStatementVO) {
+    	getRuleInfo(selectedLuStatementType).getEditHistory().save(editedStatementVO);
+    }
+    
     public Class<? extends Enum<?>> getViewsEnum() {
         return PrereqViews.class;
     }
-    
-    public void resetReqCompVOModel () {
-        this.selectedReqCompVO = new CollectionModel<ReqComponentVO>();
+
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return PrereqViews.valueOf(enumValue);
     }
     
-    public SimplePanel getMainPanel() {
-        return mainPanel;
+    public void setRule(RuleInfo newRule) {
+  		ruleInfo.add(newRule);
     }
     
-    public void setRuleInfoModel(List<RuleInfo> rules) {
-    	ruleInfo = new CollectionModel<RuleInfo>();
-    	for (RuleInfo rule : rules) {
-    		this.ruleInfo.add(rule);
-    	}
-    }
-    
-    public CollectionModel<RuleInfo> getRuleInfoModel() {
-        return ruleInfo;
-    }    
-    
-    public String getLuStatementType() {
-        return luStatementType;
+    public String getSelectedLuStatementType() {
+        return selectedLuStatementType;
     }
 
-    public void setLuStatementType(String luStatementType) {
-        this.luStatementType = luStatementType;
-    }    
+    public void setSelectedLuStatementType(String luStatementType) {
+        this.selectedLuStatementType = luStatementType;
+    } 
+    
+    public String getCluId() {
+		return cluId;
+	}
+
+	public void setComponentToEdit(ReqComponentVO componentToEdit) {
+		this.componentToEdit = componentToEdit;
+	}
+
+	public List<FieldDescriptor> getFieldsWithLookup() {
+		return fieldsWithLookup;
+	}
+
+	public void setFieldsWithLookup(List<FieldDescriptor> fieldsWithLookup) {
+		this.fieldsWithLookup = fieldsWithLookup;
+	}		
 }

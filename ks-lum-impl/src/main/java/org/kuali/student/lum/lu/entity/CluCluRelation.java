@@ -40,6 +40,7 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 	@NamedQuery(name="CluCluRelation.getCluCluRelation", query="SELECT rel FROM CluCluRelation rel WHERE rel.clu.id = :cluId"),
 	@NamedQuery(name="CluCluRelation.getRelatedCluIdsByCluId", query="SELECT rel.relatedClu.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
+	@NamedQuery(name="CluCluRelation.getRelationTypeByCluId", query="SELECT distinct rel.luLuRelationType.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.relatedClu.id = :relatedCluId"),
 	@NamedQuery(name="CluCluRelation.getRelatedClusByCluId", query="SELECT rel.relatedClu FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId")
 })
 public class CluCluRelation extends MetaEntity implements

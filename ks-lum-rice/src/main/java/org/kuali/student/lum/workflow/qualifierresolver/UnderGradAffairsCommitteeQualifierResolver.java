@@ -20,7 +20,7 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 
-public class UnderGradAffairsCommitteeQualifierResolver extends AbstractOrgQualifierResolver{
+public class UnderGradAffairsCommitteeQualifierResolver extends AbstractCocOrgQualifierResolver{
 	@Override
 	public List<AttributeSet> resolve(RouteContext routeContext) {
 		List<AttributeSet> attributeSets = super.resolve(routeContext);

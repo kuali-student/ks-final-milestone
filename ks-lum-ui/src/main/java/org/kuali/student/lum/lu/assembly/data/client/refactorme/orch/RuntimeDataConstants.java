@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,5 +23,6 @@ public interface RuntimeDataConstants
 	public static final String DELETED = "deleted";
 	public static final String UPDATED = "updated";
 	public static final String VERSIONS = "versions";
+	public static final String DIRTY = "dirty";
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,10 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 public interface CreditCourseConstants
 {
 	public static final String ID = "id";
+	public static final String COPY_OF_COURSE_ID = "copyOfCourseId";
 	public static final String FORMATS = "formats";
 	public static final String TERMS_OFFERED = "termsOffered";
+	public static final String FIRST_EXPECTED_OFFERING = "firstExpectedOffering";
 	public static final String DURATION = "duration";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";
@@ -31,9 +33,12 @@ public interface CreditCourseConstants
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
 	public static final String CROSS_LISTINGS = "crossListings";
 	public static final String VERSIONS = "versions";
+	public static final String GRADING_OPTIONS = "gradingOptions";
 	public static final String JOINTS = "joints";
 	public static final String FINAL_RESULTS = "finalResults";
 	public static final String FEES = "fees";
+	public static final String EXPENDITURE_INFO = "expenditureInfo";
+	public static final String REVENUE_INFO = "revenueInfo";
 	public static final String STATE = "state";
 	public static final String TYPE = "type";
 	public static final String EFFECTIVE_DATE = "effectiveDate";
@@ -41,7 +46,8 @@ public interface CreditCourseConstants
 	public static final String ACADEMIC_SUBJECT_ORGS = "academicSubjectOrgs";
 	public static final String CAMPUS_LOCATIONS = "campusLocations";
 	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
-	public static final String COURSE_SPECIFIC_L_OS = "courseSpecificLOs";
+	public static final String COURSE_SPECIFIC_LOS = "courseSpecificLOs";
+	public static final String COURSE_SPECIFIC_LRTS = "courseSpecificLRTs";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

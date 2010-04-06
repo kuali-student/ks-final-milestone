@@ -1,7 +1,309 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="LoService" targetNamespace="http://student.kuali.org/wsdl/lo" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="CircularRelationshipException" type="tns:CircularRelationshipException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="UnsupportedActionException" type="tns:UnsupportedActionException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DependentObjectsExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="UnsupportedActionException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CircularRelationshipException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
+    <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
+    <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
+    <xs:element name="getSearchCriteriaTypeResponse" type="tns:getSearchCriteriaTypeResponse"/>
+    <xs:element name="getSearchCriteriaTypes" type="tns:getSearchCriteriaTypes"/>
+    <xs:element name="getSearchCriteriaTypesResponse" type="tns:getSearchCriteriaTypesResponse"/>
+    <xs:element name="getSearchResultType" type="tns:getSearchResultType"/>
+    <xs:element name="getSearchResultTypeResponse" type="tns:getSearchResultTypeResponse"/>
+    <xs:element name="getSearchResultTypes" type="tns:getSearchResultTypes"/>
+    <xs:element name="getSearchResultTypesResponse" type="tns:getSearchResultTypesResponse"/>
+    <xs:element name="getSearchType" type="tns:getSearchType"/>
+    <xs:element name="getSearchTypeResponse" type="tns:getSearchTypeResponse"/>
+    <xs:element name="getSearchTypes" type="tns:getSearchTypes"/>
+    <xs:element name="getSearchTypesByCriteria" type="tns:getSearchTypesByCriteria"/>
+    <xs:element name="getSearchTypesByCriteriaResponse" type="tns:getSearchTypesByCriteriaResponse"/>
+    <xs:element name="getSearchTypesByResult" type="tns:getSearchTypesByResult"/>
+    <xs:element name="getSearchTypesByResultResponse" type="tns:getSearchTypesByResultResponse"/>
+    <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
+    <xs:element name="searchForResults" type="tns:searchForResults"/>
+    <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
+    <xs:complexType name="getSearchCriteriaTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getSearchCriteriaTypesResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchCriteriaTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchCriteriaTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="queryParams">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="queryParam" type="tns:queryParamInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="queryParamInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+        <xs:attribute name="optional" type="xs:boolean" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="getSearchResultType">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="searchResultTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchResultTypeResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchResultTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResultTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="resultColumns">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="resultColumn" type="tns:resultColumnInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="resultColumnInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getSearchResultTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getSearchResultTypesResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchResultTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchForResults">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="queryParamValues" type="tns:queryParamValue"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="queryParamValue">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchForResultsResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:result"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="result">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="resultCell">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getSearchCriteriaType">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchCriteriaTypeResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchCriteriaTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchType">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypeResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="searchResultTypeInfo" type="tns:searchResultTypeInfo"/>
+            <xs:element minOccurs="0" name="searchCriteriaTypeInfo" type="tns:searchCriteriaTypeInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypesResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchRequest">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="searchKey" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="params" nillable="true" type="tns:searchParam"/>
+            <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
+            <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
+            <xs:element minOccurs="0" name="startAt" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+            <xs:element minOccurs="0" name="neededTotalResults" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchParam">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchResult">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="startAt" type="xs:int"/>
+            <xs:element minOccurs="0" name="totalResults" type="xs:int"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="rows" nillable="true" type="tns:searchResultRow"/>
+            <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
+            <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResultRow">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="cells" nillable="true" type="tns:searchResultCell"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResultCell">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element minOccurs="0" name="key" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypesByResult">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="searchResultTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypesByResultResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypesByCriteria">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypesByCriteriaResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchRelationship">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
+            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeAttribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="parentType" type="xs:string"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="alias" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="sortDirection">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ASC"/>
+            <xs:enumeration value="DESC"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/lo" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+    <xs:import namespace="http://student.kuali.org/wsdl/lo"/>
     <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
     <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
     <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
@@ -39,6 +341,12 @@
     <xs:complexType name="type">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element name="modifiable" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="key" type="xs:string" use="required"/>
@@ -146,14 +454,6 @@
         <xs:attribute name="min" type="xs:int"/>
         <xs:attribute name="max" type="xs:int"/>
     </xs:complexType>
-    <xs:complexType name="getObjectTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getObjectTypesResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="validateStructureData">
         <xs:sequence>
             <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
@@ -166,12 +466,13 @@
             <xs:element form="unqualified" name="return" type="xs:boolean"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="context">
-        <xs:simpleContent>
-            <xs:extension base="xs:string">
-                <xs:attribute name="type" type="xs:string" use="required"/>
-            </xs:extension>
-        </xs:simpleContent>
+    <xs:complexType name="getObjectTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getObjectTypesResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
     </xs:complexType>
     <xs:complexType name="validateObject">
         <xs:sequence>
@@ -196,41 +497,23 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/search" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:ns2="http://student.kuali.org/wsdl/exceptions" xmlns:ns3="http://student.kuali.org/wsdl/enumerable" xmlns:tns="http://student.kuali.org/wsdl/lo" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/lo">
-    <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
-    <xs:element name="addChildLoToLo" type="tns:addChildLoToLo"/>
-    <xs:element name="addChildLoToLoResponse" type="tns:addChildLoToLoResponse"/>
-    <xs:element name="addEquivalentLoToLo" type="tns:addEquivalentLoToLo"/>
-    <xs:element name="addEquivalentLoToLoResponse" type="tns:addEquivalentLoToLoResponse"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/search" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:ns2="http://student.kuali.org/wsdl/dictionary" xmlns:ns3="http://student.kuali.org/wsdl/organization" xmlns:tns="http://student.kuali.org/wsdl/lo" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/lo">
     <xs:element name="addLoCategoryToLo" type="tns:addLoCategoryToLo"/>
     <xs:element name="addLoCategoryToLoResponse" type="tns:addLoCategoryToLoResponse"/>
     <xs:element name="createLo" type="tns:createLo"/>
     <xs:element name="createLoCategory" type="tns:createLoCategory"/>
     <xs:element name="createLoCategoryResponse" type="tns:createLoCategoryResponse"/>
+    <xs:element name="createLoLoRelation" type="tns:createLoLoRelation"/>
+    <xs:element name="createLoLoRelationResponse" type="tns:createLoLoRelationResponse"/>
     <xs:element name="createLoResponse" type="tns:createLoResponse"/>
     <xs:element name="deleteLo" type="tns:deleteLo"/>
     <xs:element name="deleteLoCategory" type="tns:deleteLoCategory"/>
     <xs:element name="deleteLoCategoryResponse" type="tns:deleteLoCategoryResponse"/>
+    <xs:element name="deleteLoLoRelation" type="tns:deleteLoLoRelation"/>
+    <xs:element name="deleteLoLoRelationResponse" type="tns:deleteLoLoRelationResponse"/>
     <xs:element name="deleteLoResponse" type="tns:deleteLoResponse"/>
-    <xs:element name="enumeratedValue">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="code" type="xs:string"/>
-                <xs:element name="abbrevValue" type="xs:string"/>
-                <xs:element name="effectiveDate" type="xs:dateTime"/>
-                <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-                <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
-                <xs:element maxOccurs="unbounded" name="contexts" type="ns1:context"/>
-                <xs:element name="value" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="getAllDescendants" type="tns:getAllDescendants"/>
-    <xs:element name="getAllDescendantsResponse" type="tns:getAllDescendantsResponse"/>
-    <xs:element name="getAncestors" type="tns:getAncestors"/>
-    <xs:element name="getAncestorsResponse" type="tns:getAncestorsResponse"/>
-    <xs:element name="getEquivalentLos" type="tns:getEquivalentLos"/>
-    <xs:element name="getEquivalentLosResponse" type="tns:getEquivalentLosResponse"/>
+    <xs:element name="getAllowedLoLoRelationTypesForLoType" type="tns:getAllowedLoLoRelationTypesForLoType"/>
+    <xs:element name="getAllowedLoLoRelationTypesForLoTypeResponse" type="tns:getAllowedLoLoRelationTypesForLoTypeResponse"/>
     <xs:element name="getLo" type="tns:getLo"/>
     <xs:element name="getLoByIdList" type="tns:getLoByIdList"/>
     <xs:element name="getLoByIdListResponse" type="tns:getLoByIdListResponse"/>
@@ -240,16 +523,22 @@
     <xs:element name="getLoCategoriesResponse" type="tns:getLoCategoriesResponse"/>
     <xs:element name="getLoCategory" type="tns:getLoCategory"/>
     <xs:element name="getLoCategoryResponse" type="tns:getLoCategoryResponse"/>
-    <xs:element name="getLoChildren" type="tns:getLoChildren"/>
-    <xs:element name="getLoChildrenResponse" type="tns:getLoChildrenResponse"/>
-    <xs:element name="getLoEquivalents" type="tns:getLoEquivalents"/>
-    <xs:element name="getLoEquivalentsResponse" type="tns:getLoEquivalentsResponse"/>
-    <xs:element name="getLoHierarchies" type="tns:getLoHierarchies"/>
-    <xs:element name="getLoHierarchiesResponse" type="tns:getLoHierarchiesResponse"/>
-    <xs:element name="getLoHierarchy" type="tns:getLoHierarchy"/>
-    <xs:element name="getLoHierarchyResponse" type="tns:getLoHierarchyResponse"/>
-    <xs:element name="getLoParents" type="tns:getLoParents"/>
-    <xs:element name="getLoParentsResponse" type="tns:getLoParentsResponse"/>
+    <xs:element name="getLoCategoryType" type="tns:getLoCategoryType"/>
+    <xs:element name="getLoCategoryTypeResponse" type="tns:getLoCategoryTypeResponse"/>
+    <xs:element name="getLoCategoryTypes" type="tns:getLoCategoryTypes"/>
+    <xs:element name="getLoCategoryTypesResponse" type="tns:getLoCategoryTypesResponse"/>
+    <xs:element name="getLoLoRelation" type="tns:getLoLoRelation"/>
+    <xs:element name="getLoLoRelationResponse" type="tns:getLoLoRelationResponse"/>
+    <xs:element name="getLoLoRelationType" type="tns:getLoLoRelationType"/>
+    <xs:element name="getLoLoRelationTypeResponse" type="tns:getLoLoRelationTypeResponse"/>
+    <xs:element name="getLoLoRelationTypes" type="tns:getLoLoRelationTypes"/>
+    <xs:element name="getLoLoRelationTypesResponse" type="tns:getLoLoRelationTypesResponse"/>
+    <xs:element name="getLoLoRelationsByLoId" type="tns:getLoLoRelationsByLoId"/>
+    <xs:element name="getLoLoRelationsByLoIdResponse" type="tns:getLoLoRelationsByLoIdResponse"/>
+    <xs:element name="getLoRepositories" type="tns:getLoRepositories"/>
+    <xs:element name="getLoRepositoriesResponse" type="tns:getLoRepositoriesResponse"/>
+    <xs:element name="getLoRepository" type="tns:getLoRepository"/>
+    <xs:element name="getLoRepositoryResponse" type="tns:getLoRepositoryResponse"/>
     <xs:element name="getLoResponse" type="tns:getLoResponse"/>
     <xs:element name="getLoType" type="tns:getLoType"/>
     <xs:element name="getLoTypeResponse" type="tns:getLoTypeResponse"/>
@@ -257,24 +546,37 @@
     <xs:element name="getLoTypesResponse" type="tns:getLoTypesResponse"/>
     <xs:element name="getLosByLoCategory" type="tns:getLosByLoCategory"/>
     <xs:element name="getLosByLoCategoryResponse" type="tns:getLosByLoCategoryResponse"/>
-    <xs:element name="isDescendant" type="tns:isDescendant"/>
-    <xs:element name="isDescendantResponse" type="tns:isDescendantResponse"/>
-    <xs:element name="isEquivalent" type="tns:isEquivalent"/>
-    <xs:element name="isEquivalentResponse" type="tns:isEquivalentResponse"/>
-    <xs:element name="removeChildLoFromLo" type="tns:removeChildLoFromLo"/>
-    <xs:element name="removeChildLoFromLoResponse" type="tns:removeChildLoFromLoResponse"/>
-    <xs:element name="removeEquivalentLoFromLo" type="tns:removeEquivalentLoFromLo"/>
-    <xs:element name="removeEquivalentLoFromLoResponse" type="tns:removeEquivalentLoFromLoResponse"/>
+    <xs:element name="getLosByRelatedLoId" type="tns:getLosByRelatedLoId"/>
+    <xs:element name="getLosByRelatedLoIdResponse" type="tns:getLosByRelatedLoIdResponse"/>
+    <xs:element name="getLosByRepository" type="tns:getLosByRepository"/>
+    <xs:element name="getLosByRepositoryResponse" type="tns:getLosByRepositoryResponse"/>
+    <xs:element name="getRelatedLosByLoId" type="tns:getRelatedLosByLoId"/>
+    <xs:element name="getRelatedLosByLoIdResponse" type="tns:getRelatedLosByLoIdResponse"/>
     <xs:element name="removeLoCategoryFromLo" type="tns:removeLoCategoryFromLo"/>
     <xs:element name="removeLoCategoryFromLoResponse" type="tns:removeLoCategoryFromLoResponse"/>
     <xs:element name="updateLo" type="tns:updateLo"/>
     <xs:element name="updateLoCategory" type="tns:updateLoCategory"/>
     <xs:element name="updateLoCategoryResponse" type="tns:updateLoCategoryResponse"/>
+    <xs:element name="updateLoLoRelation" type="tns:updateLoLoRelation"/>
+    <xs:element name="updateLoLoRelationResponse" type="tns:updateLoLoRelationResponse"/>
     <xs:element name="updateLoResponse" type="tns:updateLoResponse"/>
     <xs:element name="validateLo" type="tns:validateLo"/>
     <xs:element name="validateLoCategory" type="tns:validateLoCategory"/>
     <xs:element name="validateLoCategoryResponse" type="tns:validateLoCategoryResponse"/>
+    <xs:element name="validateLoLoRelation" type="tns:validateLoLoRelation"/>
+    <xs:element name="validateLoLoRelationResponse" type="tns:validateLoLoRelationResponse"/>
     <xs:element name="validateLoResponse" type="tns:validateLoResponse"/>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
     <xs:complexType name="getLoTypes">
         <xs:sequence/>
     </xs:complexType>
@@ -293,17 +595,6 @@
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="jaxbAttributeList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Attribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
     <xs:complexType name="getLoType">
         <xs:sequence>
             <xs:element minOccurs="0" name="loTypeKey" type="xs:string"/>
@@ -314,23 +605,25 @@
             <xs:element minOccurs="0" name="return" type="tns:loTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="updateLoCategory">
+    <xs:complexType name="getLoRepositories">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getLoRepositoriesResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loCategoryId" type="xs:string"/>
-            <xs:element minOccurs="0" name="loCategoryInfo" type="tns:loCategoryInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loRepositoryInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="loCategoryInfo">
+    <xs:complexType name="loRepositoryInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
-            <xs:element minOccurs="0" name="loHierarchy" type="xs:string"/>
+            <xs:element minOccurs="0" name="rootLoId" type="xs:string"/>
             <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
             <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
             <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
             <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="richTextInfo">
         <xs:sequence>
@@ -347,21 +640,143 @@
             <xs:element minOccurs="0" name="updateId" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="getLoLoRelationTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getLoLoRelationTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loLoRelationTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="loLoRelationTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="revName" type="xs:string"/>
+            <xs:element minOccurs="0" name="revDesc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getLoCategoryTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getLoCategoryTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loCategoryTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="loCategoryTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getLoLoRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loLoRelationId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getLoLoRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:loLoRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="loLoRelationInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loId" type="xs:string"/>
+            <xs:element minOccurs="0" name="relatedLoId" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="deleteLoLoRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loLoRelationId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteLoLoRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="statusInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateLoCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loCategoryId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loCategoryInfo" type="tns:loCategoryInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="loCategoryInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+            <xs:element minOccurs="0" name="loRepository" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
     <xs:complexType name="updateLoCategoryResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="tns:loCategoryInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="isEquivalent">
+    <xs:complexType name="getLoCategoryType">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-            <xs:element minOccurs="0" name="equivalentLoId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loCategoryTypeKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="isEquivalentResponse">
+    <xs:complexType name="getLoCategoryTypeResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="return" type="tns:loCategoryTypeInfo"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getLosByRepository">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loRepositoryKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="loTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="loStateKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getLosByRepositoryResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="loInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+            <xs:element minOccurs="0" name="loRepositoryKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="deleteLoCategory">
         <xs:sequence>
@@ -373,60 +788,9 @@
             <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="statusInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeEquivalentLoFromLo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-            <xs:element minOccurs="0" name="equivalentLoId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeEquivalentLoFromLoResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLoParents">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLoParentsResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="loInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
-            <xs:element minOccurs="0" name="loHierarchy" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getEquivalentLos">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEquivalentLosResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="getLoCategories">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loHierarchyKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="loRepositoryKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getLoCategoriesResponse">
@@ -452,35 +816,35 @@
     </xs:complexType>
     <xs:complexType name="validateLoResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultContainer">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
-            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="element" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="validationResultInfo">
         <xs:sequence>
+            <xs:element minOccurs="0" name="element" type="xs:string"/>
             <xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
             <xs:element minOccurs="0" name="message" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getAllDescendants">
+    <xs:complexType name="getAllowedLoLoRelationTypesForLoType">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="relatedLoTypeKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getAllDescendantsResponse">
+    <xs:complexType name="getAllowedLoLoRelationTypesForLoTypeResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getLoRepository">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loRepositoryKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getLoRepositoryResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:loRepositoryInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="removeLoCategoryFromLo">
@@ -504,9 +868,23 @@
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="createLoLoRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loId" type="xs:string"/>
+            <xs:element minOccurs="0" name="relatedLoId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loLoRelationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="loLoRelationInfo" type="tns:loLoRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createLoLoRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:loLoRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="createLoCategory">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loHierarchyKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="loRepositoryKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="loCategoryTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="loCategoryInfo" type="tns:loCategoryInfo"/>
         </xs:sequence>
     </xs:complexType>
@@ -536,12 +914,13 @@
             <xs:element minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getLoChildren">
+    <xs:complexType name="getRelatedLosByLoId">
         <xs:sequence>
             <xs:element minOccurs="0" name="loId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loLoRelationType" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getLoChildrenResponse">
+    <xs:complexType name="getRelatedLosByLoIdResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
@@ -554,23 +933,33 @@
     </xs:complexType>
     <xs:complexType name="validateLoCategoryResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="removeChildLoFromLo">
+    <xs:complexType name="updateLoLoRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loLoRelationId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loLoRelationInfo" type="tns:loLoRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateLoLoRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:loLoRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getLoLoRelationsByLoId">
         <xs:sequence>
             <xs:element minOccurs="0" name="loId" type="xs:string"/>
-            <xs:element minOccurs="0" name="parentLoId" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="removeChildLoFromLoResponse">
+    <xs:complexType name="getLoLoRelationsByLoIdResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loLoRelationInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="createLo">
         <xs:sequence>
-            <xs:element minOccurs="0" name="parentLoId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loRepositoryKey" type="xs:string"/>
             <xs:element minOccurs="0" name="loType" type="xs:string"/>
             <xs:element minOccurs="0" name="loInfo" type="tns:loInfo"/>
         </xs:sequence>
@@ -580,74 +969,24 @@
             <xs:element minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="addEquivalentLoToLo">
+    <xs:complexType name="validateLoLoRelation">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-            <xs:element minOccurs="0" name="equivalentLoId" type="xs:string"/>
+            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="loLoRelationInfo" type="tns:loLoRelationInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="addEquivalentLoToLoResponse">
+    <xs:complexType name="validateLoLoRelationResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getAncestors">
+    <xs:complexType name="getLosByRelatedLoId">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
+            <xs:element minOccurs="0" name="relatedLoId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loLoRelationType" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getAncestorsResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="isDescendant">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-            <xs:element minOccurs="0" name="descendantLoId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="isDescendantResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="xs:boolean"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLoHierarchies">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getLoHierarchiesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loHierarchyInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="loHierarchyInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
-            <xs:element minOccurs="0" name="rootLoId" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getLoHierarchy">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="loHierarchyKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLoHierarchyResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:loHierarchyInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLosByLoCategory">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="loCategoryId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLosByLoCategoryResponse">
+    <xs:complexType name="getLosByRelatedLoIdResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
@@ -663,15 +1002,14 @@
             <xs:element minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="addChildLoToLo">
+    <xs:complexType name="getLosByLoCategory">
         <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-            <xs:element minOccurs="0" name="parentLoId" type="xs:string"/>
+            <xs:element minOccurs="0" name="loCategoryId" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="addChildLoToLoResponse">
+    <xs:complexType name="getLosByLoCategoryResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="deleteLo">
@@ -684,6 +1022,16 @@
             <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="getLoLoRelationType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="loLoRelationTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getLoLoRelationTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:loLoRelationTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="getLoCategory">
         <xs:sequence>
             <xs:element minOccurs="0" name="loCategoryId" type="xs:string"/>
@@ -692,16 +1040,6 @@
     <xs:complexType name="getLoCategoryResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="tns:loCategoryInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLoEquivalents">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="loId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getLoEquivalentsResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:simpleType name="errorLevel">
@@ -713,335 +1051,60 @@
     </xs:simpleType>
     <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns0:getSearchCriteriaTypes"/>
     <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns0:getSearchCriteriaTypesResponse"/>
-    <xs:element name="OperationFailedException" nillable="true" type="ns2:OperationFailedException"/>
-    <xs:element name="DoesNotExistException" nillable="true" type="ns2:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" nillable="true" type="ns2:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" nillable="true" type="ns2:MissingParameterException"/>
-    <xs:element name="DataValidationErrorException" nillable="true" type="ns2:DataValidationErrorException"/>
-    <xs:element name="PermissionDeniedException" nillable="true" type="ns2:PermissionDeniedException"/>
-    <xs:element name="VersionMismatchException" nillable="true" type="ns2:VersionMismatchException"/>
-    <xs:element name="DependentObjectsExistException" nillable="true" type="ns2:DependentObjectsExistException"/>
-    <xs:element name="getObjectTypes" nillable="true" type="ns1:getObjectTypes"/>
-    <xs:element name="getObjectTypesResponse" nillable="true" type="ns1:getObjectTypesResponse"/>
-    <xs:element name="validateStructureData" nillable="true" type="ns1:validateStructureData"/>
-    <xs:element name="validateStructureDataResponse" nillable="true" type="ns1:validateStructureDataResponse"/>
-    <xs:element name="getSearchResultTypes" nillable="true" type="ns0:getSearchResultTypes"/>
-    <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns0:getSearchResultTypesResponse"/>
+    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
+    <xs:element name="DependentObjectsExistException" nillable="true" type="ns1:DependentObjectsExistException"/>
+    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
+    <xs:element name="DataValidationErrorException" nillable="true" type="ns1:DataValidationErrorException"/>
+    <xs:element name="VersionMismatchException" nillable="true" type="ns1:VersionMismatchException"/>
+    <xs:element name="validateStructureData" nillable="true" type="ns2:validateStructureData"/>
+    <xs:element name="validateStructureDataResponse" nillable="true" type="ns2:validateStructureDataResponse"/>
+    <xs:element name="getObjectTypes" nillable="true" type="ns2:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" nillable="true" type="ns2:getObjectTypesResponse"/>
     <xs:element name="getSearchResultType" nillable="true" type="ns0:getSearchResultType"/>
     <xs:element name="getSearchResultTypeResponse" nillable="true" type="ns0:getSearchResultTypeResponse"/>
-    <xs:element name="getEnumeration" nillable="true" type="ns3:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" nillable="true" type="ns3:getEnumerationResponse"/>
+    <xs:element name="getSearchResultTypes" nillable="true" type="ns0:getSearchResultTypes"/>
+    <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns0:getSearchResultTypesResponse"/>
     <xs:element name="searchForResults" nillable="true" type="ns0:searchForResults"/>
     <xs:element name="searchForResultsResponse" nillable="true" type="ns0:searchForResultsResponse"/>
-    <xs:element name="UnsupportedActionException" nillable="true" type="ns2:UnsupportedActionException"/>
+    <xs:element name="UnsupportedActionException" nillable="true" type="ns1:UnsupportedActionException"/>
     <xs:element name="getSearchCriteriaType" nillable="true" type="ns0:getSearchCriteriaType"/>
     <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns0:getSearchCriteriaTypeResponse"/>
-    <xs:element name="validateObject" nillable="true" type="ns1:validateObject"/>
-    <xs:element name="validateObjectResponse" nillable="true" type="ns1:validateObjectResponse"/>
+    <xs:element name="validateObject" nillable="true" type="ns2:validateObject"/>
+    <xs:element name="validateObjectResponse" nillable="true" type="ns2:validateObjectResponse"/>
+    <xs:element name="AlreadyExistsException" nillable="true" type="ns1:AlreadyExistsException"/>
+    <xs:element name="CircularRelationshipException" nillable="true" type="ns1:CircularRelationshipException"/>
     <xs:element name="getSearchType" nillable="true" type="ns0:getSearchType"/>
     <xs:element name="getSearchTypeResponse" nillable="true" type="ns0:getSearchTypeResponse"/>
-    <xs:element name="AlreadyExistsException" nillable="true" type="ns2:AlreadyExistsException"/>
-    <xs:element name="getObjectStructure" nillable="true" type="ns1:getObjectStructure"/>
-    <xs:element name="getObjectStructureResponse" nillable="true" type="ns1:getObjectStructureResponse"/>
+    <xs:element name="getObjectStructure" nillable="true" type="ns2:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" nillable="true" type="ns2:getObjectStructureResponse"/>
     <xs:element name="getSearchTypes" nillable="true" type="ns0:getSearchTypes"/>
     <xs:element name="getSearchTypesResponse" nillable="true" type="ns0:getSearchTypesResponse"/>
+    <xs:element name="search" nillable="true" type="ns3:search"/>
+    <xs:element name="searchResponse" nillable="true" type="ns3:searchResponse"/>
     <xs:element name="getSearchTypesByResult" nillable="true" type="ns0:getSearchTypesByResult"/>
     <xs:element name="getSearchTypesByResultResponse" nillable="true" type="ns0:getSearchTypesByResultResponse"/>
-    <xs:element name="CircularReferenceException" nillable="true" type="ns2:CircularReferenceException"/>
     <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns0:getSearchTypesByCriteria"/>
     <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns0:getSearchTypesByCriteriaResponse"/>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/lo" xmlns:tns="http://student.kuali.org/wsdl/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerable">
-    <xs:import namespace="http://student.kuali.org/wsdl/lo"/>
-    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
-    <xs:complexType name="getEnumeration">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
+    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
+    <xs:element name="search" type="tns:search"/>
+    <xs:element name="searchResponse" type="tns:searchResponse"/>
+    <xs:complexType name="search">
         <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getEnumerationResponse">
+    <xs:complexType name="searchResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="code" type="xs:string"/>
-                        <xs:element name="abbrevValue" type="xs:string"/>
-                        <xs:element name="effectiveDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
-                        <xs:element maxOccurs="unbounded" name="contexts" type="ns0:context"/>
-                        <xs:element name="value" type="xs:string"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
-    <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
-    <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
-    <xs:element name="getSearchCriteriaTypeResponse" type="tns:getSearchCriteriaTypeResponse"/>
-    <xs:element name="getSearchCriteriaTypes" type="tns:getSearchCriteriaTypes"/>
-    <xs:element name="getSearchCriteriaTypesResponse" type="tns:getSearchCriteriaTypesResponse"/>
-    <xs:element name="getSearchResultType" type="tns:getSearchResultType"/>
-    <xs:element name="getSearchResultTypeResponse" type="tns:getSearchResultTypeResponse"/>
-    <xs:element name="getSearchResultTypes" type="tns:getSearchResultTypes"/>
-    <xs:element name="getSearchResultTypesResponse" type="tns:getSearchResultTypesResponse"/>
-    <xs:element name="getSearchType" type="tns:getSearchType"/>
-    <xs:element name="getSearchTypeResponse" type="tns:getSearchTypeResponse"/>
-    <xs:element name="getSearchTypes" type="tns:getSearchTypes"/>
-    <xs:element name="getSearchTypesByCriteria" type="tns:getSearchTypesByCriteria"/>
-    <xs:element name="getSearchTypesByCriteriaResponse" type="tns:getSearchTypesByCriteriaResponse"/>
-    <xs:element name="getSearchTypesByResult" type="tns:getSearchTypesByResult"/>
-    <xs:element name="getSearchTypesByResultResponse" type="tns:getSearchTypesByResultResponse"/>
-    <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
-    <xs:element name="searchForResults" type="tns:searchForResults"/>
-    <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
-    <xs:complexType name="getSearchCriteriaTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getSearchCriteriaTypesResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchCriteriaTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchCriteriaTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="queryParams">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="queryParam" type="tns:queryParamInfo"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="queryParamInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getSearchResultTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getSearchResultTypesResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchResultTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchResultTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="resultColumns">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="resultColumn" type="tns:resultColumnInfo"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="resultColumnInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getSearchResultType">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchResultTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchResultTypeResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchResultTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchForResults">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="queryParamValues" type="tns:queryParamValue"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="queryParamValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchForResultsResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:result"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="result">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="resultCell">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getSearchCriteriaType">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchCriteriaTypeResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchCriteriaTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchType">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchTypeResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="searchResultTypeInfo" type="tns:searchResultTypeInfo"/>
-            <xs:element minOccurs="0" name="searchCriteriaTypeInfo" type="tns:searchCriteriaTypeInfo"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getSearchTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getSearchTypesResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchTypesByResult">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchResultTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchTypesByResultResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchTypesByCriteria">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getSearchTypesByCriteriaResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchRelationship">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
-            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="typeAttribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="parentType" type="xs:string"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="alias" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="UnsupportedActionException" type="tns:UnsupportedActionException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DependentObjectsExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="UnsupportedActionException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="CircularReferenceException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="getLoHierarchy">
-    <wsdl:part name="parameters" element="tns:getLoHierarchy">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="MissingParameterException">
     <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
     </wsdl:part>
@@ -1054,12 +1117,16 @@
     <wsdl:part name="parameters" element="tns:getSearchResultTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getEnumerationResponse">
-    <wsdl:part name="parameters" element="tns:getEnumerationResponse">
+  <wsdl:message name="updateLoLoRelationResponse">
+    <wsdl:part name="parameters" element="tns:updateLoLoRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchCriteriaTypesResponse">
     <wsdl:part name="parameters" element="tns:getSearchCriteriaTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateLoLoRelationResponse">
+    <wsdl:part name="parameters" element="tns:validateLoLoRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoCategoriesForLoResponse">
@@ -1074,24 +1141,28 @@
     <wsdl:part name="parameters" element="tns:addLoCategoryToLo">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="CircularReferenceException">
-    <wsdl:part name="CircularReferenceException" element="tns:CircularReferenceException">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createLoCategoryResponse">
     <wsdl:part name="parameters" element="tns:createLoCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLosByRelatedLoIdResponse">
+    <wsdl:part name="parameters" element="tns:getLosByRelatedLoIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoRepositories">
+    <wsdl:part name="parameters" element="tns:getLoRepositories">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoCategoryTypesResponse">
+    <wsdl:part name="parameters" element="tns:getLoCategoryTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoTypeResponse">
     <wsdl:part name="parameters" element="tns:getLoTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLoHierarchies">
-    <wsdl:part name="parameters" element="tns:getLoHierarchies">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="isDescendant">
-    <wsdl:part name="parameters" element="tns:isDescendant">
+  <wsdl:message name="getLoLoRelationsByLoIdResponse">
+    <wsdl:part name="parameters" element="tns:getLoLoRelationsByLoIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getObjectTypes">
@@ -1102,28 +1173,12 @@
     <wsdl:part name="parameters" element="tns:updateLoCategoryResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="isEquivalent">
-    <wsdl:part name="parameters" element="tns:isEquivalent">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getLoEquivalentsResponse">
-    <wsdl:part name="parameters" element="tns:getLoEquivalentsResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getEquivalentLos">
-    <wsdl:part name="parameters" element="tns:getEquivalentLos">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="InvalidParameterException">
     <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchTypeResponse">
     <wsdl:part name="parameters" element="tns:getSearchTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getLoChildren">
-    <wsdl:part name="parameters" element="tns:getLoChildren">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoCategories">
@@ -1142,12 +1197,16 @@
     <wsdl:part name="parameters" element="tns:getSearchType">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getLosByRepositoryResponse">
+    <wsdl:part name="parameters" element="tns:getLosByRepositoryResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="PermissionDeniedException">
     <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLoHierarchyResponse">
-    <wsdl:part name="parameters" element="tns:getLoHierarchyResponse">
+  <wsdl:message name="updateLoLoRelation">
+    <wsdl:part name="parameters" element="tns:updateLoLoRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForResultsResponse">
@@ -1158,24 +1217,24 @@
     <wsdl:part name="parameters" element="tns:updateLoResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="DependentObjectsExistException">
-    <wsdl:part name="DependentObjectsExistException" element="tns:DependentObjectsExistException">
+  <wsdl:message name="getLoLoRelationTypeResponse">
+    <wsdl:part name="parameters" element="tns:getLoLoRelationTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAncestorsResponse">
-    <wsdl:part name="parameters" element="tns:getAncestorsResponse">
+  <wsdl:message name="DependentObjectsExistException">
+    <wsdl:part name="DependentObjectsExistException" element="tns:DependentObjectsExistException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getObjectTypesResponse">
     <wsdl:part name="parameters" element="tns:getObjectTypesResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeEquivalentLoFromLoResponse">
-    <wsdl:part name="parameters" element="tns:removeEquivalentLoFromLoResponse">
+  <wsdl:message name="getLoRepository">
+    <wsdl:part name="parameters" element="tns:getLoRepository">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="addEquivalentLoToLoResponse">
-    <wsdl:part name="parameters" element="tns:addEquivalentLoToLoResponse">
+  <wsdl:message name="getLoCategoryType">
+    <wsdl:part name="parameters" element="tns:getLoCategoryType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoCategoryResponse">
@@ -1194,10 +1253,6 @@
     <wsdl:part name="parameters" element="tns:getLosByLoCategoryResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="isEquivalentResponse">
-    <wsdl:part name="parameters" element="tns:isEquivalentResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getSearchTypesByCriteriaResponse">
     <wsdl:part name="parameters" element="tns:getSearchTypesByCriteriaResponse">
     </wsdl:part>
@@ -1206,32 +1261,56 @@
     <wsdl:part name="parameters" element="tns:getSearchTypes">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAncestors">
-    <wsdl:part name="parameters" element="tns:getAncestors">
+  <wsdl:message name="searchResponse">
+    <wsdl:part name="parameters" element="tns:searchResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoByIdListResponse">
     <wsdl:part name="parameters" element="tns:getLoByIdListResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAllDescendants">
-    <wsdl:part name="parameters" element="tns:getAllDescendants">
+  <wsdl:message name="getLosByRelatedLoId">
+    <wsdl:part name="parameters" element="tns:getLosByRelatedLoId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoCategoryTypeResponse">
+    <wsdl:part name="parameters" element="tns:getLoCategoryTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLoLoRelationResponse">
+    <wsdl:part name="parameters" element="tns:createLoLoRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoCategoryTypes">
+    <wsdl:part name="parameters" element="tns:getLoCategoryTypes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addLoCategoryToLoResponse">
     <wsdl:part name="parameters" element="tns:addLoCategoryToLoResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getEnumeration">
-    <wsdl:part name="parameters" element="tns:getEnumeration">
+  <wsdl:message name="getAllowedLoLoRelationTypesForLoType">
+    <wsdl:part name="parameters" element="tns:getAllowedLoLoRelationTypesForLoType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLosByRepository">
+    <wsdl:part name="parameters" element="tns:getLosByRepository">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteLoCategoryResponse">
     <wsdl:part name="parameters" element="tns:deleteLoCategoryResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="search">
+    <wsdl:part name="parameters" element="tns:search">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getSearchResultTypesResponse">
     <wsdl:part name="parameters" element="tns:getSearchResultTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoRepositoryResponse">
+    <wsdl:part name="parameters" element="tns:getLoRepositoryResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoTypesResponse">
@@ -1240,6 +1319,10 @@
   </wsdl:message>
   <wsdl:message name="getSearchCriteriaTypeResponse">
     <wsdl:part name="parameters" element="tns:getSearchCriteriaTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRelatedLosByLoId">
+    <wsdl:part name="parameters" element="tns:getRelatedLosByLoId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchResultType">
@@ -1254,32 +1337,28 @@
     <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="addChildLoToLoResponse">
-    <wsdl:part name="parameters" element="tns:addChildLoToLoResponse">
+  <wsdl:message name="getRelatedLosByLoIdResponse">
+    <wsdl:part name="parameters" element="tns:getRelatedLosByLoIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoByIdList">
     <wsdl:part name="parameters" element="tns:getLoByIdList">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLoEquivalents">
-    <wsdl:part name="parameters" element="tns:getLoEquivalents">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getSearchResultTypes">
     <wsdl:part name="parameters" element="tns:getSearchResultTypes">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getEquivalentLosResponse">
-    <wsdl:part name="parameters" element="tns:getEquivalentLosResponse">
+  <wsdl:message name="getLoRepositoriesResponse">
+    <wsdl:part name="parameters" element="tns:getLoRepositoriesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeLoCategoryFromLo">
     <wsdl:part name="parameters" element="tns:removeLoCategoryFromLo">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeChildLoFromLo">
-    <wsdl:part name="parameters" element="tns:removeChildLoFromLo">
+  <wsdl:message name="getLoLoRelationResponse">
+    <wsdl:part name="parameters" element="tns:getLoLoRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createLoResponse">
@@ -1290,8 +1369,8 @@
     <wsdl:part name="parameters" element="tns:getLosByLoCategory">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLoParents">
-    <wsdl:part name="parameters" element="tns:getLoParents">
+  <wsdl:message name="getLoLoRelationType">
+    <wsdl:part name="parameters" element="tns:getLoLoRelationType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateLoResponse">
@@ -1302,10 +1381,6 @@
     <wsdl:part name="parameters" element="tns:createLoCategory">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="addEquivalentLoToLo">
-    <wsdl:part name="parameters" element="tns:addEquivalentLoToLo">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="validateLoCategory">
     <wsdl:part name="parameters" element="tns:validateLoCategory">
     </wsdl:part>
@@ -1314,12 +1389,12 @@
     <wsdl:part name="parameters" element="tns:createLo">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLoChildrenResponse">
-    <wsdl:part name="parameters" element="tns:getLoChildrenResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getLoType">
     <wsdl:part name="parameters" element="tns:getLoType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoLoRelation">
+    <wsdl:part name="parameters" element="tns:getLoLoRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoCategoriesForLo">
@@ -1330,12 +1405,16 @@
     <wsdl:part name="parameters" element="tns:validateStructureData">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createLoLoRelation">
+    <wsdl:part name="parameters" element="tns:createLoLoRelation">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getLoResponse">
     <wsdl:part name="parameters" element="tns:getLoResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLoParentsResponse">
-    <wsdl:part name="parameters" element="tns:getLoParentsResponse">
+  <wsdl:message name="deleteLoLoRelationResponse">
+    <wsdl:part name="parameters" element="tns:deleteLoLoRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchTypesByResultResponse">
@@ -1358,16 +1437,16 @@
     <wsdl:part name="parameters" element="tns:getObjectStructure">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeChildLoFromLoResponse">
-    <wsdl:part name="parameters" element="tns:removeChildLoFromLoResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllDescendantsResponse">
-    <wsdl:part name="parameters" element="tns:getAllDescendantsResponse">
+  <wsdl:message name="getLoLoRelationTypes">
+    <wsdl:part name="parameters" element="tns:getLoLoRelationTypes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchCriteriaType">
     <wsdl:part name="parameters" element="tns:getSearchCriteriaType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLoLoRelationsByLoId">
+    <wsdl:part name="parameters" element="tns:getLoLoRelationsByLoId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="VersionMismatchException">
@@ -1376,6 +1455,10 @@
   </wsdl:message>
   <wsdl:message name="OperationFailedException">
     <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllowedLoLoRelationTypesForLoTypeResponse">
+    <wsdl:part name="parameters" element="tns:getAllowedLoLoRelationTypesForLoTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateLoCategory">
@@ -1394,8 +1477,8 @@
     <wsdl:part name="parameters" element="tns:validateLoCategoryResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="addChildLoToLo">
-    <wsdl:part name="parameters" element="tns:addChildLoToLo">
+  <wsdl:message name="validateLoLoRelation">
+    <wsdl:part name="parameters" element="tns:validateLoLoRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLoCategoriesResponse">
@@ -1404,10 +1487,6 @@
   </wsdl:message>
   <wsdl:message name="UnsupportedActionException">
     <wsdl:part name="UnsupportedActionException" element="tns:UnsupportedActionException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getLoHierarchiesResponse">
-    <wsdl:part name="parameters" element="tns:getLoHierarchiesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForResults">
@@ -1438,16 +1517,20 @@
     <wsdl:part name="parameters" element="tns:getSearchTypesResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="CircularRelationshipException">
+    <wsdl:part name="CircularRelationshipException" element="tns:CircularRelationshipException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLoLoRelation">
+    <wsdl:part name="parameters" element="tns:deleteLoLoRelation">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteLo">
     <wsdl:part name="parameters" element="tns:deleteLo">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeEquivalentLoFromLo">
-    <wsdl:part name="parameters" element="tns:removeEquivalentLoFromLo">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="isDescendantResponse">
-    <wsdl:part name="parameters" element="tns:isDescendantResponse">
+  <wsdl:message name="getLoLoRelationTypesResponse">
+    <wsdl:part name="parameters" element="tns:getLoLoRelationTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="LearningObjectiveService">
@@ -1481,6 +1564,62 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getLoRepositories">
+      <wsdl:input name="getLoRepositories" message="tns:getLoRepositories">
+    </wsdl:input>
+      <wsdl:output name="getLoRepositoriesResponse" message="tns:getLoRepositoriesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoLoRelationTypes">
+      <wsdl:input name="getLoLoRelationTypes" message="tns:getLoLoRelationTypes">
+    </wsdl:input>
+      <wsdl:output name="getLoLoRelationTypesResponse" message="tns:getLoLoRelationTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoCategoryTypes">
+      <wsdl:input name="getLoCategoryTypes" message="tns:getLoCategoryTypes">
+    </wsdl:input>
+      <wsdl:output name="getLoCategoryTypesResponse" message="tns:getLoCategoryTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoLoRelation">
+      <wsdl:input name="getLoLoRelation" message="tns:getLoLoRelation">
+    </wsdl:input>
+      <wsdl:output name="getLoLoRelationResponse" message="tns:getLoLoRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLoLoRelation">
+      <wsdl:input name="deleteLoLoRelation" message="tns:deleteLoLoRelation">
+    </wsdl:input>
+      <wsdl:output name="deleteLoLoRelationResponse" message="tns:deleteLoLoRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="updateLoCategory">
       <wsdl:input name="updateLoCategory" message="tns:updateLoCategory">
     </wsdl:input>
@@ -1501,16 +1640,28 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="isEquivalent">
-      <wsdl:input name="isEquivalent" message="tns:isEquivalent">
+    <wsdl:operation name="getLoCategoryType">
+      <wsdl:input name="getLoCategoryType" message="tns:getLoCategoryType">
     </wsdl:input>
-      <wsdl:output name="isEquivalentResponse" message="tns:isEquivalentResponse">
+      <wsdl:output name="getLoCategoryTypeResponse" message="tns:getLoCategoryTypeResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
       <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
       <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLosByRepository">
+      <wsdl:input name="getLosByRepository" message="tns:getLosByRepository">
+    </wsdl:input>
+      <wsdl:output name="getLosByRepositoryResponse" message="tns:getLosByRepositoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
@@ -1533,61 +1684,17 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="removeEquivalentLoFromLo">
-      <wsdl:input name="removeEquivalentLoFromLo" message="tns:removeEquivalentLoFromLo">
-    </wsdl:input>
-      <wsdl:output name="removeEquivalentLoFromLoResponse" message="tns:removeEquivalentLoFromLoResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getObjectTypes">
-      <wsdl:input name="getObjectTypes" message="tns:getObjectTypes">
-    </wsdl:input>
-      <wsdl:output name="getObjectTypesResponse" message="tns:getObjectTypesResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="validateStructureData">
       <wsdl:input name="validateStructureData" message="tns:validateStructureData">
     </wsdl:input>
       <wsdl:output name="validateStructureDataResponse" message="tns:validateStructureDataResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getLoParents">
-      <wsdl:input name="getLoParents" message="tns:getLoParents">
+    <wsdl:operation name="getObjectTypes">
+      <wsdl:input name="getObjectTypes" message="tns:getObjectTypes">
     </wsdl:input>
-      <wsdl:output name="getLoParentsResponse" message="tns:getLoParentsResponse">
+      <wsdl:output name="getObjectTypesResponse" message="tns:getObjectTypesResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getEquivalentLos">
-      <wsdl:input name="getEquivalentLos" message="tns:getEquivalentLos">
-    </wsdl:input>
-      <wsdl:output name="getEquivalentLosResponse" message="tns:getEquivalentLosResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getLoCategories">
       <wsdl:input name="getLoCategories" message="tns:getLoCategories">
@@ -1631,11 +1738,17 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getSearchResultTypes">
-      <wsdl:input name="getSearchResultTypes" message="tns:getSearchResultTypes">
+    <wsdl:operation name="getAllowedLoLoRelationTypesForLoType">
+      <wsdl:input name="getAllowedLoLoRelationTypesForLoType" message="tns:getAllowedLoLoRelationTypesForLoType">
     </wsdl:input>
-      <wsdl:output name="getSearchResultTypesResponse" message="tns:getSearchResultTypesResponse">
+      <wsdl:output name="getAllowedLoLoRelationTypesForLoTypeResponse" message="tns:getAllowedLoLoRelationTypesForLoTypeResponse">
     </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
@@ -1653,11 +1766,27 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getEnumeration">
-      <wsdl:input name="getEnumeration" message="tns:getEnumeration">
+    <wsdl:operation name="getSearchResultTypes">
+      <wsdl:input name="getSearchResultTypes" message="tns:getSearchResultTypes">
     </wsdl:input>
-      <wsdl:output name="getEnumerationResponse" message="tns:getEnumerationResponse">
+      <wsdl:output name="getSearchResultTypesResponse" message="tns:getSearchResultTypesResponse">
     </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoRepository">
+      <wsdl:input name="getLoRepository" message="tns:getLoRepository">
+    </wsdl:input>
+      <wsdl:output name="getLoRepositoryResponse" message="tns:getLoRepositoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchForResults">
       <wsdl:input name="searchForResults" message="tns:searchForResults">
@@ -1671,20 +1800,6 @@
       <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getAllDescendants">
-      <wsdl:input name="getAllDescendants" message="tns:getAllDescendants">
-    </wsdl:input>
-      <wsdl:output name="getAllDescendantsResponse" message="tns:getAllDescendantsResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
@@ -1735,6 +1850,28 @@
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
       <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLoLoRelation">
+      <wsdl:input name="createLoLoRelation" message="tns:createLoLoRelation">
+    </wsdl:input>
+      <wsdl:output name="createLoLoRelationResponse" message="tns:createLoLoRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="CircularRelationshipException" message="tns:CircularRelationshipException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
@@ -1811,10 +1948,10 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getLoChildren">
-      <wsdl:input name="getLoChildren" message="tns:getLoChildren">
+    <wsdl:operation name="getRelatedLosByLoId">
+      <wsdl:input name="getRelatedLosByLoId" message="tns:getRelatedLosByLoId">
     </wsdl:input>
-      <wsdl:output name="getLoChildrenResponse" message="tns:getLoChildrenResponse">
+      <wsdl:output name="getRelatedLosByLoIdResponse" message="tns:getRelatedLosByLoIdResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1839,18 +1976,20 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="removeChildLoFromLo">
-      <wsdl:input name="removeChildLoFromLo" message="tns:removeChildLoFromLo">
+    <wsdl:operation name="updateLoLoRelation">
+      <wsdl:input name="updateLoLoRelation" message="tns:updateLoLoRelation">
     </wsdl:input>
-      <wsdl:output name="removeChildLoFromLoResponse" message="tns:removeChildLoFromLoResponse">
+      <wsdl:output name="updateLoLoRelationResponse" message="tns:updateLoLoRelationResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
     </wsdl:fault>
       <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
       <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
     </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
@@ -1863,6 +2002,28 @@
       <wsdl:output name="getSearchTypesResponse" message="tns:getSearchTypesResponse">
     </wsdl:output>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoLoRelationsByLoId">
+      <wsdl:input name="getLoLoRelationsByLoId" message="tns:getLoLoRelationsByLoId">
+    </wsdl:input>
+      <wsdl:output name="getLoLoRelationsByLoIdResponse" message="tns:getLoLoRelationsByLoIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="search">
+      <wsdl:input name="search" message="tns:search">
+    </wsdl:input>
+      <wsdl:output name="searchResponse" message="tns:searchResponse">
+    </wsdl:output>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createLo">
@@ -1883,42 +2044,10 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="addEquivalentLoToLo">
-      <wsdl:input name="addEquivalentLoToLo" message="tns:addEquivalentLoToLo">
+    <wsdl:operation name="validateLoLoRelation">
+      <wsdl:input name="validateLoLoRelation" message="tns:validateLoLoRelation">
     </wsdl:input>
-      <wsdl:output name="addEquivalentLoToLoResponse" message="tns:addEquivalentLoToLoResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getAncestors">
-      <wsdl:input name="getAncestors" message="tns:getAncestors">
-    </wsdl:input>
-      <wsdl:output name="getAncestorsResponse" message="tns:getAncestorsResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="isDescendant">
-      <wsdl:input name="isDescendant" message="tns:isDescendant">
-    </wsdl:input>
-      <wsdl:output name="isDescendantResponse" message="tns:isDescendantResponse">
+      <wsdl:output name="validateLoLoRelationResponse" message="tns:validateLoLoRelationResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1943,32 +2072,10 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getLoHierarchies">
-      <wsdl:input name="getLoHierarchies" message="tns:getLoHierarchies">
+    <wsdl:operation name="getLosByRelatedLoId">
+      <wsdl:input name="getLosByRelatedLoId" message="tns:getLosByRelatedLoId">
     </wsdl:input>
-      <wsdl:output name="getLoHierarchiesResponse" message="tns:getLoHierarchiesResponse">
-    </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getLoHierarchy">
-      <wsdl:input name="getLoHierarchy" message="tns:getLoHierarchy">
-    </wsdl:input>
-      <wsdl:output name="getLoHierarchyResponse" message="tns:getLoHierarchyResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getLosByLoCategory">
-      <wsdl:input name="getLosByLoCategory" message="tns:getLosByLoCategory">
-    </wsdl:input>
-      <wsdl:output name="getLosByLoCategoryResponse" message="tns:getLosByLoCategoryResponse">
+      <wsdl:output name="getLosByRelatedLoIdResponse" message="tns:getLosByRelatedLoIdResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1999,24 +2106,16 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="addChildLoToLo">
-      <wsdl:input name="addChildLoToLo" message="tns:addChildLoToLo">
+    <wsdl:operation name="getLosByLoCategory">
+      <wsdl:input name="getLosByLoCategory" message="tns:getLosByLoCategory">
     </wsdl:input>
-      <wsdl:output name="addChildLoToLoResponse" message="tns:addChildLoToLoResponse">
+      <wsdl:output name="getLosByLoCategoryResponse" message="tns:getLosByLoCategoryResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="UnsupportedActionException" message="tns:UnsupportedActionException">
-    </wsdl:fault>
       <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
-    </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
-    </wsdl:fault>
       <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
@@ -2035,6 +2134,18 @@
       <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoLoRelationType">
+      <wsdl:input name="getLoLoRelationType" message="tns:getLoLoRelationType">
+    </wsdl:input>
+      <wsdl:output name="getLoLoRelationTypeResponse" message="tns:getLoLoRelationTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
@@ -2067,20 +2178,6 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getLoEquivalents">
-      <wsdl:input name="getLoEquivalents" message="tns:getLoEquivalents">
-    </wsdl:input>
-      <wsdl:output name="getLoEquivalentsResponse" message="tns:getLoEquivalentsResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LearningObjectiveServiceServiceSoapBinding" type="tns:LearningObjectiveService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -2090,6 +2187,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getSearchCriteriaTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoRepositories">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLoRepositories">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLoRepositoriesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="OperationFailedException">
@@ -2129,6 +2238,78 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getLoCategoryTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLoCategoryTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLoCategoryTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoLoRelationTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLoLoRelationTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLoLoRelationTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoLoRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLoLoRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLoLoRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLoLoRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteLoLoRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteLoLoRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="updateLoCategory">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="updateLoCategory">
@@ -2159,12 +2340,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="isEquivalent">
+    <wsdl:operation name="getLoCategoryType">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="isEquivalent">
+      <wsdl:input name="getLoCategoryType">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="isEquivalentResponse">
+      <wsdl:output name="getLoCategoryTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -2207,21 +2388,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getObjectTypes">
+    <wsdl:operation name="getLosByRepository">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getObjectTypes">
+      <wsdl:input name="getLosByRepository">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getObjectTypesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="removeEquivalentLoFromLo">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeEquivalentLoFromLo">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="removeEquivalentLoFromLoResponse">
+      <wsdl:output name="getLosByRepositoryResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -2229,33 +2401,6 @@
       </wsdl:fault>
       <wsdl:fault name="MissingParameterException">
         <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getLoParents">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getLoParents">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getLoParentsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
@@ -2270,26 +2415,14 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getEquivalentLos">
+    <wsdl:operation name="getObjectTypes">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getEquivalentLos">
+      <wsdl:input name="getObjectTypes">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getEquivalentLosResponse">
+      <wsdl:output name="getObjectTypesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getLoCategories">
       <soap:operation soapAction="" style="document"/>
@@ -2354,14 +2487,23 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getSearchResultTypes">
+    <wsdl:operation name="getAllowedLoLoRelationTypesForLoType">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getSearchResultTypes">
+      <wsdl:input name="getAllowedLoLoRelationTypesForLoType">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getSearchResultTypesResponse">
+      <wsdl:output name="getAllowedLoLoRelationTypesForLoTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
@@ -2387,21 +2529,24 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getEnumeration">
+    <wsdl:operation name="getSearchResultTypes">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getEnumeration">
+      <wsdl:input name="getSearchResultTypes">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getEnumerationResponse">
+      <wsdl:output name="getSearchResultTypesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getAllDescendants">
+    <wsdl:operation name="getLoRepository">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getAllDescendants">
+      <wsdl:input name="getLoRepository">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getAllDescendantsResponse">
+      <wsdl:output name="getLoRepositoryResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -2543,6 +2688,39 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="createLoLoRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLoLoRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLoLoRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CircularRelationshipException">
+        <soap:fault name="CircularRelationshipException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="addLoCategoryToLo">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="addLoCategoryToLo">
@@ -2624,12 +2802,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getLoChildren">
+    <wsdl:operation name="getRelatedLosByLoId">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getLoChildren">
+      <wsdl:input name="getRelatedLosByLoId">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getLoChildrenResponse">
+      <wsdl:output name="getRelatedLosByLoIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -2640,33 +2818,6 @@
       </wsdl:fault>
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="removeChildLoFromLo">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeChildLoFromLo">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="removeChildLoFromLoResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DependentObjectsExistException">
-        <soap:fault name="DependentObjectsExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
@@ -2705,12 +2856,42 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="addEquivalentLoToLo">
+    <wsdl:operation name="updateLoLoRelation">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="addEquivalentLoToLo">
+      <wsdl:input name="updateLoLoRelation">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="addEquivalentLoToLoResponse">
+      <wsdl:output name="updateLoLoRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoLoRelationsByLoId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLoLoRelationsByLoId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLoLoRelationsByLoIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -2719,14 +2900,8 @@
       <wsdl:fault name="MissingParameterException">
         <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException">
-        <soap:fault name="AlreadyExistsException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
@@ -2759,12 +2934,24 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getAncestors">
+    <wsdl:operation name="search">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getAncestors">
+      <wsdl:input name="search">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getAncestorsResponse">
+      <wsdl:output name="searchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateLoLoRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateLoLoRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateLoLoRelationResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -2801,12 +2988,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="isDescendant">
+    <wsdl:operation name="getLosByRelatedLoId">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="isDescendant">
+      <wsdl:input name="getLosByRelatedLoId">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="isDescendantResponse">
+      <wsdl:output name="getLosByRelatedLoIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -2817,93 +3004,6 @@
       </wsdl:fault>
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getLoHierarchy">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getLoHierarchy">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getLoHierarchyResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getLoHierarchies">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getLoHierarchies">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getLoHierarchiesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getLosByLoCategory">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getLosByLoCategory">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getLosByLoCategoryResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="addChildLoToLo">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="addChildLoToLo">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="addChildLoToLoResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="UnsupportedActionException">
-        <soap:fault name="UnsupportedActionException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException">
-        <soap:fault name="AlreadyExistsException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException">
-        <soap:fault name="CircularReferenceException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
@@ -2966,6 +3066,27 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getLosByLoCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLosByLoCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLosByLoCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getLoCategory">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getLoCategory">
@@ -2987,17 +3108,14 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getLoEquivalents">
+    <wsdl:operation name="getLoLoRelationType">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getLoEquivalents">
+      <wsdl:input name="getLoLoRelationType">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getLoEquivalentsResponse">
+      <wsdl:output name="getLoLoRelationTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="MissingParameterException">
         <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>

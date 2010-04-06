@@ -22,10 +22,13 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -35,20 +38,12 @@ import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
-import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
-import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -70,13 +65,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class RuleComponentEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-    //private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
 
     public enum reqCompFieldDefinitions { TODO }
 
     //view's widgets
     private static final int NOF_BASIC_RULE_TYPES = 3;
-    private static final String TEMLATE_LANGUAGE = "en";
+    public static final String TEMLATE_LANGUAGE = "en";
     private static final String CATALOG_TEMLATE = "KUALI.CATALOG";
     private static final String EXAMPLE_TEMLATE = "KUALI.EXAMPLE";
     private static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";
@@ -97,19 +91,22 @@ public class RuleComponentEditorView extends ViewComposite {
 
     //view's data
     private boolean addNewReqComp;
-    private CollectionModel<RuleInfo> modelRuleInfo;
+    private StatementVO editedStatementVO;						//edited rule
+    private ReqComponentVO editedReqCompVO;   					//edited req. component plus extra UI data
+    private ReqComponentInfo editedReqComp;						//edited req. component info
     private ReqComponentTypeInfo selectedReqType;
-    private ReqComponentInfo editedReqComp;
     private List<ReqCompFieldInfo> editedFields;
     private String origReqCompType;
-    private ReqComponentVO editedReqCompVO;
-    private List<ReqComponentTypeInfo> reqCompTypeList;     //list of all Requirement Component Types
-    private ListItems listItemReqCompTypes;                 //list of advanced Requirement Component Types
-    private List<ReqComponentTypeInfo> advReqCompTypeList;     //list of advanced Requirement Component Types
+
+    private List<ReqComponentTypeInfo> reqCompTypeList;     	//list of all Requirement Component Types
+    private ListItems listItemReqCompTypes;                 	//list of advanced Requirement Component Types
+    private List<ReqComponentTypeInfo> advReqCompTypeList;     	//list of advanced Requirement Component Types
     private List<Object> reqCompWidgets = new ArrayList<Object>();
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private static int tempCounterID = 2000;
-    private List<TmpCoursePicker> valueWidgets = new ArrayList<TmpCoursePicker>();    
+    private List<ReqCompPicker> valueWidgets = new ArrayList<ReqCompPicker>();    
+    private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();  //contains definition of lookups
+    private CollectionModel<RuleInfo> model;
 
     public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -118,10 +115,65 @@ public class RuleComponentEditorView extends ViewComposite {
     }
 
     @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback) {
-        setReqComponentListAndReqComp();
-        // TODO should probably pass the callback into the method above and invoke it when the work is actually done
-        onReadyCallback.exec(true);
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {   
+        setupReqCompTypesList();
+
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
+            public void onModelReady(CollectionModel<RuleInfo> theModel) {
+                model = theModel;    
+            }
+
+            public void onRequestFail(Throwable cause) {
+                throw new RuntimeException("Unable to connect to model", cause);
+            }
+        }); 
+        requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(getSelectedStatementType(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
+            public void onFailure(Throwable cause) {
+            	GWT.log("Failed to get req. component types for statement of type:" + getSelectedStatementType(), cause);
+            	Window.alert("Failed to get req. component types for statement of type:" + getSelectedStatementType());
+            }
+
+            public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {  
+            	reqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
+                for (ReqComponentTypeInfo reqCompInfo : reqComponentTypeInfoList) {
+                	reqCompTypeList.add(reqCompInfo);
+                }      
+
+                advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
+                if (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES) {
+                    for(int i = NOF_BASIC_RULE_TYPES; i < reqCompTypeList.size(); i++){
+                        advReqCompTypeList.add(reqCompTypeList.get(i));
+                    }
+                } 
+                
+                compReqTypesList.setListItems(listItemReqCompTypes);
+                if (compReqTypesList.getSelectedItem() != null) {
+                    compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
+                }            
+                
+                //true if we are editing existing rule
+                 if (editedReqCompVO != null) {                	
+                    addNewReqComp = false;
+                    editedReqComp = editedReqCompVO.getReqComponentInfo();
+                    origReqCompType = editedReqComp.getType();
+                    for (int i = 0; i < reqCompTypeList.size(); i++) {
+                        if (editedReqComp.getType().equals(reqCompTypeList.get(i).getId())) {
+                            selectedReqType = reqCompTypeList.get(i);
+                            break;
+                        }
+                    }
+                } else {
+                    //create a basic structure for a new rule
+                	addNewReqComp = true;
+                	origReqCompType = null;
+                    setupNewEditedReqComp(null);
+                    selectedReqType = null;
+                }
+
+                redraw(); 
+                onReadyCallback.exec(true);
+            }
+        });                         
     }
 
     public void redraw() {
@@ -202,7 +254,7 @@ public class RuleComponentEditorView extends ViewComposite {
         VerticalPanel rbPanel = new VerticalPanel();
         int nofBasicRuleTypes = (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES ? NOF_BASIC_RULE_TYPES : reqCompTypeList.size());
         for (int i = 0; i < nofBasicRuleTypes; i++) {
-            KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, reqCompTypeList.get(i).getDesc());
+            KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, reqCompTypeList.get(i).getDescr());
             rbRuleType.add(newButton);
             newButton.addFocusHandler(ruleTypeSelectionHandler);
             if ((selectedReqType != null) && reqCompTypeList.get(i).getId().equals(selectedReqType.getId())) {
@@ -252,47 +304,72 @@ public class RuleComponentEditorView extends ViewComposite {
         displayReqComponentDetailsCont();
     }
 
-    private String getTemplate(String nlUsageTypeKey) {
-    	return getTemplate(nlUsageTypeKey, TEMLATE_LANGUAGE);
-    }
+//    private String getTemplate(String nlUsageTypeKey) {
+//    	return getTemplate(nlUsageTypeKey, TEMLATE_LANGUAGE);
+//    }
     
-    private String getTemplate(String nlUsageTypeKey, String language) {
-    	for(ReqComponentTypeNLTemplateInfo template : editedReqComp.getRequiredComponentType().getNlUsageTemplates()) {
-    		if(nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
-    			return template.getTemplate();
-    		}
-    	}
-    	return null;
-    }
+//    private String getTemplate(String nlUsageTypeKey, String language) {
+        //FIXME: templates are no longer in ReqComponentType
+//    	for(ReqComponentTypeNLTemplateInfo template : editedReqComp.getRequiredComponentType().getNlUsageTemplates()) {
+//    		if(nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
+//    			return template.getTemplate();
+//    		}
+//    	}
+//    	return null;
+//        return null;
+//    }
     
     private void displayReqComponentDetailsCont() {
         //show heading
         VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel();
-        KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDesc() + ":");
+        KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDescr() + ":");
         reqCompTypeName.setStyleName("KS-ReqMgr-SubHeading");
         reqCompDetailsExampleContainerPanel.add(reqCompTypeName);
 
         //show details
         HorizontalPanel reqCompDetailsExamplePanel = new HorizontalPanel();
-        SimplePanel reqCompDetailsPanel = new SimplePanel();
+        final SimplePanel reqCompDetailsPanel = new SimplePanel();
         reqCompDetailsPanel.setStyleName("KS-Rules-ReqCompEdit-Width");
 
-        String compositionTemplate = getTemplate(COMPOSITION_TEMLATE);
-        displayReqComponentText(compositionTemplate, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
-        reqCompDetailsPanel.add(reqCompDesc);
+        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE,
+                new AsyncCallback<String>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                caught.printStackTrace();
+            }
+
+            public void onSuccess(final String reqCompNaturalLanguage) {
+                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
+                editedReqCompVO.setCheckBoxOn(true);                
+                editedStatementVO.clearSelections();
+                ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
+//                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
+                displayReqComponentText(reqCompNaturalLanguage, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
+                reqCompDetailsPanel.add(reqCompDesc);
+            }
+        });
 
         reqCompDetailsExamplePanel.add(reqCompDetailsPanel);
 
         //show example
-        VerticalPanel examplePanel = new VerticalPanel();
+        final VerticalPanel examplePanel = new VerticalPanel();
         examplePanel.setSpacing(0);
         KSLabel exampleText1 = new KSLabel("Example:");
         exampleText1.setStyleName("KS-RuleEditor-ExampleText1");
         examplePanel.add(exampleText1);
-        String exampleTemplate = getTemplate(EXAMPLE_TEMLATE);
-        exampleText.setText(exampleTemplate);
-        exampleText.setStyleName("KS-RuleEditor-ExampleText2");
-        examplePanel.add(exampleText);
+        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, EXAMPLE_TEMLATE, TEMLATE_LANGUAGE,
+                new AsyncCallback<String>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                caught.printStackTrace();
+            }
+
+            public void onSuccess(final String reqCompNaturalLanguage) {
+                exampleText.setText(reqCompNaturalLanguage);
+                exampleText.setStyleName("KS-RuleEditor-ExampleText2");
+                examplePanel.add(exampleText);
+            }
+        });
         reqCompDetailsExamplePanel.add(examplePanel);
 
         reqCompDetailsExampleContainerPanel.add(reqCompDetailsExamplePanel);
@@ -316,6 +393,7 @@ public class RuleComponentEditorView extends ViewComposite {
                     editedReqComp.setType(origReqCompType); //revert possible changes to type
                 }
                 getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
+                updateNLAndExit();                    	                    	
             }
         });
 
@@ -328,38 +406,13 @@ public class RuleComponentEditorView extends ViewComposite {
                     return;
                 }
 
-            	//2. check that entered values are valid
-                requirementsRpcServiceAsync.verifyFieldsAndSetIds(editedFields, new AsyncCallback<List<ReqCompFieldInfo>>() {
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                        caught.printStackTrace();
-                    }
-
-                    public void onSuccess(final List<ReqCompFieldInfo> editedFields) { 
-                    	//3. update req. component being edited
-                        editedReqComp.setReqCompFields(editedFields);                                                                
-                        editedReqComp.setType(selectedReqType.getId());
-                        editedReqCompVO.setCheckBoxOn(true);
-                        
-                        //4. create new req. component and possibly new statement if none exists yet
-                        RuleInfo reqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
-                        StatementVO statementVO = reqInfo.getStatementVO();
-                        
-                        // Setup first statementVO if user just created the first req. component for this rule
-                        if (statementVO == null) {
-                            LuStatementInfo newLuStatementInfo = new LuStatementInfo();
-                            statementVO = new StatementVO();
-                            newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-                            newLuStatementInfo.setType(reqInfo.getLuStatementTypeKey());
-                            statementVO.setLuStatementInfo(newLuStatementInfo);
-                            reqInfo.setStatementVO(statementVO);
-                        }
-                        statementVO.addReqComponentVO(editedReqCompVO);
-                        statementVO.clearSelections();
-                        
-                        updateNLAndExit();                    	                    	
-                    }
-                });	    	            	                    	                    
+            	//2. update req. component being edited
+                editedReqComp.setReqCompFields(editedFields);                                                                
+                editedReqComp.setType(selectedReqType.getId());
+                
+                //3. create new req. component and possibly new statement if none exists yet                      
+                editedStatementVO.addReqComponentVO(editedReqCompVO);
+                updateNLAndExit();                    	                    	
             }
         });
 
@@ -371,28 +424,11 @@ public class RuleComponentEditorView extends ViewComposite {
                     return;
                 }
 
-            	//2. check that entered values are valid
-                requirementsRpcServiceAsync.verifyFieldsAndSetIds(editedFields, new AsyncCallback<List<ReqCompFieldInfo>>() {
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                        caught.printStackTrace();
-                    }
-
-                    public void onSuccess(final List<ReqCompFieldInfo> editedFields) { 
-                    	//3. update req. component being edited
-                        editedReqComp.setReqCompFields(editedFields);
-                        
-                        //2. update rule model
-                        if (modelRuleInfo != null) {
-                            RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
-                            StatementVO statementVO = prereqInfo.getStatementVO();
-                            prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                            statementVO.clearSelections();
-                            editedReqCompVO.setCheckBoxOn(true);
-                        }
-                        updateNLAndExit();                  	                    	
-                    }
-                });	                                                
+            	//2. update req. component being edited
+                editedReqComp.setReqCompFields(editedFields);
+                
+                //3. update rule
+                updateNLAndExit();                        
             }
         });
 
@@ -410,7 +446,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 }
 
                 for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
-                    if (btn.getText().trim().equals(reqCompTypeList.get(i).getDesc().trim())) {
+                    if (btn.getText().trim().equals(reqCompTypeList.get(i).getDescr().trim())) {
                         selectedReqType = reqCompTypeList.get(i);
                         if (addNewReqComp) {
                             setupNewEditedReqComp(selectedReqType);
@@ -426,14 +462,15 @@ public class RuleComponentEditorView extends ViewComposite {
         };
 
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
-             public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+			@Override        
+             public void onSelectionChange(SelectionChangeEvent event) {
                  addReqComp.setEnabled(true);
                  updateReqComp.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
                      button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);
                  }
 
-                 List<String> ids = w.getSelectedItems();
+                 List<String> ids = ((KSSelectItemWidgetAbstract)event.getWidget()).getSelectedItems();
                  selectedReqType = advReqCompTypeList.get(Integer.valueOf(ids.get(0)));
                  if (addNewReqComp) {
                      setupNewEditedReqComp(selectedReqType);
@@ -459,14 +496,15 @@ public class RuleComponentEditorView extends ViewComposite {
         	if (reqCompWidget.getClass().getName().contains("KSTextBox")) {
         		name = ((KSTextBox)reqCompWidget).getName();
         		value = ((KSTextBox)reqCompWidget).getText();
-        	} else if (reqCompWidget.getClass().getName().contains("TmpCoursePicker")) {
-        		name = ((TmpCoursePicker)reqCompWidget).getName();
-        		value = ((TmpCoursePicker)reqCompWidget).getSelectedValue();            		
+        	} else if (reqCompWidget.getClass().getName().contains("ReqCompPicker")) {
+        		name = ((ReqCompPicker)reqCompWidget).getName();
+        		value = ((ReqCompPicker)reqCompWidget).getValue().get();            		
         	}
         	
             ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
             fieldInfo.setId(name);
             fieldInfo.setValue(value);
+
             if (checkField(fieldInfo) == false) {
             	editedFields.clear();
                 return false;
@@ -544,8 +582,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
             //TODO use ENUMs and Switch()
             final String[] fieldTokens = tokens[i].split(";");
-            final Map<String, String> fieldProperties =
-                new HashMap<String, String>();
+            final Map<String, String> fieldProperties = new HashMap<String, String>();
             if (fieldTokens != null) {
                 for (String fieldToken : fieldTokens) {
                     if (fieldToken == null) continue;
@@ -590,14 +627,14 @@ public class RuleComponentEditorView extends ViewComposite {
             }
 
             if (tag.equals("reqCompFieldType.clu")) {
-            	final TmpCoursePicker valueWidget = configureCourseSearch();
+            	final ReqCompPicker valueWidget = configureCourseSearch();
                 valueWidgets.add(valueWidget);
                 String cluIdsInClause = getSpecificFieldValue(fields, tag);
                 
                 String[] cluIds = (cluIdsInClause == null)? null : cluIdsInClause.split("(, *)");                
                 //retrieve clu code to display for user
                 if ((cluIds != null) && (tagCount < cluIds.length) && (cluIds[tagCount].length() > 0)) {
-                	retrieveCluCode(tagCount, cluIds[tagCount]);
+                	valueWidget.setValue(cluIds[tagCount]);
                 }
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
@@ -666,31 +703,13 @@ public class RuleComponentEditorView extends ViewComposite {
         }
         parentWidget.setWidget(innerReqComponentTextPanel);
     }
-
-	private void retrieveCluCode(final int id, final String cluId) {	
-        requirementsRpcServiceAsync.retrieveCluCode(cluId, new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                caught.printStackTrace();
-            }
-
-            public void onSuccess(final String cluCode) {
-            	if (cluCode != null) {
-            		valueWidgets.get(id).setSuggestBox(cluId, cluCode);
-            	}
-            }
-        });		  
-	}
     
-    public static class TmpCoursePicker extends KSSearchComponent {
+    public static class ReqCompPicker extends KSPicker {
 
     	private String name;
-    	private String text;
 
-		public TmpCoursePicker(SearchComponentConfiguration searchConfig,
-				SearchSuggestOracle orgSearchOracle) {
-			super(searchConfig, orgSearchOracle);
-			// TODO Auto-generated constructor stub
+		public ReqCompPicker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
+			super(inLookupMetadata, additionalLookupMetadata);
 		}
     	
 		public String getName() {
@@ -699,15 +718,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
 		public void setName(String name) {
 			this.name = name;
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}    	
+		}   	
     }
     
     private ReqCompFieldInfo getReqCompFieldInfo(List<ReqCompFieldInfo> fields, String key) {
@@ -739,7 +750,10 @@ public class RuleComponentEditorView extends ViewComposite {
 
     private void setupNewEditedReqComp(ReqComponentTypeInfo reqCompTypeInfo) {
         editedReqComp = new ReqComponentInfo();
-        editedReqComp.setDesc("");      //will be set after user is finished with all changes
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain("");
+        desc.setFormatted("");
+        editedReqComp.setDesc(desc);      							//will be set after user is finished with all changes
         editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO
         editedReqComp.setReqCompFields(null); //fieldList);                       
         editedReqComp.setRequiredComponentType(reqCompTypeInfo);
@@ -747,141 +761,24 @@ public class RuleComponentEditorView extends ViewComposite {
         editedReqCompVO = new ReqComponentVO(editedReqComp);
     }
 
-    private void setReqComponentListAndReqComp() {
-
-        getController().requestModel(ReqComponentTypeInfo.class, new ModelRequestCallback<CollectionModel<ReqComponentTypeInfo>>() {
-            public void onModelReady(CollectionModel<ReqComponentTypeInfo> theModel) {
-                reqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
-                reqCompTypeList.addAll(theModel.getValues());
-
-                advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
-
-                if (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES) {
-                    for(int i = NOF_BASIC_RULE_TYPES; i < reqCompTypeList.size(); i++){
-                        advReqCompTypeList.add(reqCompTypeList.get(i));
-                    }
-                }
-
-                listItemReqCompTypes = new ListItems() {
-                    @Override
-                    public List<String> getAttrKeys() {
-                        List<String> attributes = new ArrayList<String>();
-                        attributes.add("Key");
-                        return attributes;
-                    }
-
-                    @Override
-                    public String getItemAttribute(String id, String attrkey) {
-                        String value = null;
-                        Integer index;
-                        try{
-                            index = Integer.valueOf(id);
-                            value = advReqCompTypeList.get(index).getDesc();
-                        } catch (Exception e) {
-                        }
-
-                        return value;
-                    }
-
-                    @Override
-                    public int getItemCount() {
-                        return advReqCompTypeList.size();
-                    }
-
-                    @Override
-                    public List<String> getItemIds() {
-                        List<String> ids = new ArrayList<String>();
-                        for(int i = 0; i < advReqCompTypeList.size(); i++){
-                            ids.add(String.valueOf(i));
-                        }
-                        return ids;
-                    }
-
-                    @Override
-                    public String getItemText(String id) {
-                        return getItemAttribute(id, "?");
-                    }
-                };
-
-                compReqTypesList.setListItems(listItemReqCompTypes);
-
-                setupReqComponent();
-            }
-
-            public void onRequestFail(Throwable cause) {
-                throw new RuntimeException("Unable to connect to model", cause);
-            }
-        });
-    }
-
-    private void setupReqComponent() {
-
-        if (compReqTypesList.getSelectedItem() != null) {
-            compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
-        }
-
-        getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
-            public void onModelReady(CollectionModel<RuleInfo> theModel) {
-                modelRuleInfo = theModel;
-
-                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<CollectionModel<ReqComponentVO>>() {
-                    public void onModelReady(CollectionModel<ReqComponentVO> theModel) {
-
-                        if (theModel != null) {
-                            List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
-                            selectedReqComp.addAll(theModel.getValues());
-
-                            //true if we are editing existing rule
-                            origReqCompType = null;
-                            if (selectedReqComp.size() > 0) {
-                                addNewReqComp = false;
-                                editedReqCompVO = theModel.get(selectedReqComp.get(0).getId());
-                                editedReqComp = editedReqCompVO.getReqComponentInfo();
-                                origReqCompType = editedReqComp.getType();
-                                for (int i = 0; i < reqCompTypeList.size(); i++) {
-                                    if (editedReqComp.getType().equals(reqCompTypeList.get(i).getId())) {
-                                        selectedReqType = reqCompTypeList.get(i);
-                                        break;
-                                    }
-                                }
-
-                            } else {
-                                //create a basic structure for a new rule
-                                addNewReqComp = true;
-                                setupNewEditedReqComp(null);
-                                selectedReqType = null;
-                            }
-                        }
-                        redraw();
-                    }
-
-                    public void onRequestFail(Throwable cause) {
-                        throw new RuntimeException("Unable to connect to model", cause);
-                    }
-                });
-
-            }
-
-            public void onRequestFail(Throwable cause) {
-                throw new RuntimeException("Unable to connect to model", cause);
-            }
-        });
-    }
-
     private void updateNLAndExit() {    	            	
-        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                caught.printStackTrace();
-            }
-
-            public void onSuccess(final String reqCompNaturalLanguage) {
-                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
-                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
-            }
-        });            	
+    	if (editedReqComp.getType() != null && !editedReqComp.getType().isEmpty()) {
+	    	requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+	            public void onFailure(Throwable caught) {
+	                Window.alert(caught.getMessage());
+	                caught.printStackTrace();
+	            }
+	
+	            public void onSuccess(final String reqCompNaturalLanguage) {
+	                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
+	                editedReqCompVO.setCheckBoxOn(true);                
+	                editedStatementVO.clearSelections();
+	                model.getValue().setStatementVO(editedStatementVO);
+	                ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
+	                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
+	            }
+	        });
+    	}
     }
 
     public void setCluSetsData(Map<String, String> cluSetsData) {
@@ -889,7 +786,7 @@ public class RuleComponentEditorView extends ViewComposite {
     }
     
     private String getRuleTypeName() {
-    	String luStatementTypeKey = RulesUtilities.getReqInfoModelObject(modelRuleInfo).getLuStatementTypeKey();
+    	String luStatementTypeKey = getSelectedStatementType();
         if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
         if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
         if (luStatementTypeKey.contains("coreq")) return "Corequisite";
@@ -897,47 +794,72 @@ public class RuleComponentEditorView extends ViewComposite {
         return "";
     }  
     
-    private static TmpCoursePicker configureCourseSearch() {
- 	   
-    	LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
-    	
-    	List<String> basicCriteria = new ArrayList<String>() {
-  		   {
-  		      add("lu.queryParam.luOptionalLongName");
-  		   }
-  		};
-  	
-  		List<String> advancedCriteria = new ArrayList<String>() {
-   		   {
-   		      add("lu.queryParam.luOptionalLongName");
-  		      add("lu.queryParam.luOptionalCode");
-  		      add("lu.queryParam.luOptionalLevel");  		      
-   		   }
-   		};       			
-   		
-        //set context criteria - we want to show only courses
-   		List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();
-		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
-		orgOptionalTypeParam.setKey("lu.queryParam.luOptionalType");
-		orgOptionalTypeParam.setValue("luType.shell.course");   
-		contextCriteria.add(orgOptionalTypeParam); 
-    	
-    	SearchComponentConfiguration searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, advancedCriteria);
-    	
-    	searchConfig.setSearchDialogTitle("Find Course");
-    	searchConfig.setSearchService(luRpcServiceAsync);
-    	searchConfig.setSearchTypeKey("lu.search.generic");
-    	searchConfig.setResultIdKey("lu.resultColumn.cluId");  //lu.resultColumn.luOptionalCode  lu.resultColumn.cluId
-    	searchConfig.setRetrievedColumnKey("lu.resultColumn.luOptionalCode");
-    	
-    	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-    	final SearchSuggestOracle cluSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
-    	        "lu.search.generic", 
-    	        "lu.queryParam.luOptionalCode", //field user is entering and we search on... add '%' the parameter
-    	        "lu.queryParam.luOptionalId", 		//if one wants to search by ID rather than by name
-    	        "lu.resultColumn.cluId", 		
-    	        "lu.resultColumn.luOptionalCode");    	  				
-    	
-    	return new TmpCoursePicker(searchConfig, cluSearchOracle);
-    }     
+    private String getSelectedStatementType() {
+        return ((CourseReqManager) getController()).getSelectedLuStatementType();
+    }
+    
+    private void setupReqCompTypesList() {
+	    listItemReqCompTypes = new ListItems() {
+	        @Override
+	        public List<String> getAttrKeys() {
+	            List<String> attributes = new ArrayList<String>();
+	            attributes.add("Key");
+	            return attributes;
+	        }
+	
+	        @Override
+	        public String getItemAttribute(String id, String attrkey) {
+	            String value = null;
+	            Integer index;
+	            try{
+	                index = Integer.valueOf(id);
+	                value = advReqCompTypeList.get(index).getDescr();
+	            } catch (Exception e) {
+	            }
+	
+	            return value;
+	        }
+	
+	        @Override
+	        public int getItemCount() {
+	            return advReqCompTypeList.size();
+	        }
+	
+	        @Override
+	        public List<String> getItemIds() {
+	            List<String> ids = new ArrayList<String>();
+	            for(int i = 0; i < advReqCompTypeList.size(); i++){
+	                ids.add(String.valueOf(i));
+	            }
+	            return ids;
+	        }
+	
+	        @Override
+	        public String getItemText(String id) {
+	            return getItemAttribute(id, "?");
+	        }
+	    };  
+    }
+    
+    
+    private ReqCompPicker configureCourseSearch() { 
+    	for (FieldDescriptor fieldMetadata : fieldsWithLookup) {
+    		if (fieldMetadata.getMetadata().getName().equals("findCourse")) {
+    			return new ReqCompPicker(fieldMetadata.getMetadata().getInitialLookup(), fieldMetadata.getMetadata().getAdditionalLookups()); 	
+    		}
+    	}
+    	return null;	
+    }
+
+	public void setEditedStatementVO(StatementVO editedStatementVO) {
+		this.editedStatementVO = editedStatementVO;
+	}
+
+	public void setEditedReqCompVO(ReqComponentVO editedReqCompVO) {
+		this.editedReqCompVO = editedReqCompVO;
+	}
+
+	public void setFieldsWithLookup(List<FieldDescriptor> fieldsWithLookup) {
+		this.fieldsWithLookup = fieldsWithLookup;
+	}
 }

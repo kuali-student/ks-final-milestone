@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
 import java.util.Date;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 
 
@@ -29,8 +29,10 @@ public class CreditCourseHelper
 	public enum Properties implements PropertyEnum
 	{
 		ID ("id"),
+		COPY_OF_COURSE_ID ("copyOfCourseId"),
 		FORMATS ("formats"),
 		TERMS_OFFERED ("termsOffered"),
+		FIRST_EXPECTED_OFFERING ("firstExpectedOffering"),
 		DURATION ("duration"),
 		TRANSCRIPT_TITLE ("transcriptTitle"),
 		COURSE_TITLE ("courseTitle"),
@@ -43,6 +45,8 @@ public class CreditCourseHelper
 		JOINTS ("joints"),
 		FINAL_RESULTS ("finalResults"),
 		FEES ("fees"),
+		EXPENDITURE_INFO ("expenditureInfo"),
+		REVENUE_INFO ("revenueInfo"),
 		STATE ("state"),
 		TYPE ("type"),
 		EFFECTIVE_DATE ("effectiveDate"),
@@ -50,7 +54,7 @@ public class CreditCourseHelper
 		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
-		COURSE_SPECIFIC_L_OS ("courseSpecificLOs"),
+		COURSE_SPECIFIC_LOS ("courseSpecificLOs"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -100,6 +104,18 @@ public class CreditCourseHelper
 	}
 	
 	
+	public void setCopyOfCourseId (String value)
+	{
+		data.set (Properties.COPY_OF_COURSE_ID.getKey (), value);
+	}
+	
+	
+	public String getCopyOfCourseId ()
+	{
+		return (String) data.get (Properties.COPY_OF_COURSE_ID.getKey ());
+	}
+	
+	
 	public void setFormats (Data value)
 	{
 		data.set (Properties.FORMATS.getKey (), value);
@@ -121,6 +137,18 @@ public class CreditCourseHelper
 	public Data getTermsOffered ()
 	{
 		return (Data) data.get (Properties.TERMS_OFFERED.getKey ());
+	}
+	
+	
+	public void setFirstExpectedOffering (String value)
+	{
+		data.set (Properties.FIRST_EXPECTED_OFFERING.getKey (), value);
+	}
+	
+	
+	public String getFirstExpectedOffering ()
+	{
+		return (String) data.get (Properties.FIRST_EXPECTED_OFFERING.getKey ());
 	}
 	
 	
@@ -268,6 +296,30 @@ public class CreditCourseHelper
 	}
 	
 	
+	public void setExpenditureInfo (CreditCourseExpenditureInfoHelper value)
+	{
+		data.set (Properties.EXPENDITURE_INFO.getKey (), (value == null) ? null : value.getData ());
+	}
+	
+	
+	public CreditCourseExpenditureInfoHelper getExpenditureInfo ()
+	{
+		return CreditCourseExpenditureInfoHelper.wrap ((Data) data.get (Properties.EXPENDITURE_INFO.getKey ()));
+	}
+	
+	
+	public void setRevenueInfo (CreditCourseRevenueInfoHelper value)
+	{
+		data.set (Properties.REVENUE_INFO.getKey (), (value == null) ? null : value.getData ());
+	}
+	
+	
+	public CreditCourseRevenueInfoHelper getRevenueInfo ()
+	{
+		return CreditCourseRevenueInfoHelper.wrap ((Data) data.get (Properties.REVENUE_INFO.getKey ()));
+	}
+	
+	
 	public void setState (String value)
 	{
 		data.set (Properties.STATE.getKey (), value);
@@ -354,13 +406,13 @@ public class CreditCourseHelper
 	
 	public void setCourseSpecificLOs (Data value)
 	{
-		data.set (Properties.COURSE_SPECIFIC_L_OS.getKey (), value);
+		data.set (Properties.COURSE_SPECIFIC_LOS.getKey (), value);
 	}
 	
 	
 	public Data getCourseSpecificLOs ()
 	{
-		return (Data) data.get (Properties.COURSE_SPECIFIC_L_OS.getKey ());
+		return (Data) data.get (Properties.COURSE_SPECIFIC_LOS.getKey ());
 	}
 	
 	

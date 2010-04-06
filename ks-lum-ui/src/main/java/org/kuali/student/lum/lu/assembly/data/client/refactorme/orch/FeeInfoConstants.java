@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,12 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 public interface FeeInfoConstants
 {
-	public static final String FEE_TYPE = "feeType";
-	public static final String FEE_AMOUNT = "feeAmount";
-	public static final String TAXABLE = "taxable";
-	public static final String FEE_DESC = "feeDesc";
-	public static final String INTERNAL_NOTATION = "internalNotation";
-	public static final String _RUNTIME_DATA = "_runtimeData";
+	public static final String JUSTIFICATION = "justification";
+	public static final String FIXED_RATE_FEE = "fixedRateFee";
+	public static final String VARIABLE_RATE_FEE = "variableRateFee";
+	public static final String MULTIPLE_RATE_FEE = "multipleRateFee";
+	public static final String PER_CREDIT_FEE = "perCreditFee";
+	public static final String FEE_RECORDS = "feeRecords";
+	public static final String REVENUE = "Revenue";
 }
 

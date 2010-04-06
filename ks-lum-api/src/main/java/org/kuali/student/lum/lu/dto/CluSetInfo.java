@@ -45,7 +45,7 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     private String name;
 
     @XmlElement
-    private RichTextInfo desc;
+    private RichTextInfo descr;
 
     @XmlElement
     private Date effectiveDate;
@@ -53,8 +53,11 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     @XmlElement
     private Date expirationDate;
 
-//    @XmlElement
-//    private CluCriteriaInfo cluCriteria;
+    @XmlElement
+    private MembershipQueryInfo membershipQuery;
+    
+    @XmlElement
+    private String adminOrg;
 
     @XmlElement
     private List<String> cluSetIds;
@@ -68,6 +71,12 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private MetaInfo metaInfo;
+
+    @XmlAttribute
+    private String type;
+
+    @XmlAttribute
+    private String state;
 
     @XmlAttribute
     private String id;
@@ -86,12 +95,12 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     /**
      * Narrative description of the CLU Set.
      */
-    public RichTextInfo getDesc() {
-        return desc;
+    public RichTextInfo getDescr() {
+        return descr;
     }
 
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 
     /**
@@ -190,4 +199,48 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     public void setId(String id) {
         this.id = id;
     }
+
+	public MembershipQueryInfo getMembershipQuery() {
+		return membershipQuery;
+	}
+
+	public void setMembershipQuery(MembershipQueryInfo membershipQuery) {
+		this.membershipQuery = membershipQuery;
+	}
+
+	/**
+	 * Gets the clu set type. 
+	 * Once set at create time, this field may not be updated.
+	 * 
+	 * @return Clu set type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * Sets the clu set type. 
+	 * Once set at create time, this field may not be updated.
+	 * 
+	 * @param type Clu set type
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAdminOrg() {
+		return adminOrg;
+	}
+
+	public void setAdminOrg(String adminOrg) {
+		this.adminOrg = adminOrg;
+	}    
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
 import java.util.Date;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 
 
@@ -29,8 +29,9 @@ public class SingleUseLoHelper
 	public enum Properties implements PropertyEnum
 	{
 		ID ("id"),
+		NAME ("name"),
 		DESCRIPTION ("description"),
-		CATEGORY ("category"),
+		CATEGORIES ("categories"),
 		LO_REPOSITORY ("loRepository"),
 		CHILD_SINGLE_USE_LOS ("childSingleUseLos"),
 		EFFECTIVE_DATE ("effectiveDate"),
@@ -85,6 +86,18 @@ public class SingleUseLoHelper
 	}
 	
 	
+	public void setName (String value)
+	{
+		data.set (Properties.NAME.getKey (), value);
+	}
+	
+	
+	public String getName ()
+	{
+		return (String) data.get (Properties.NAME.getKey ());
+	}
+	
+	
 	public void setDescription (RichTextInfoHelper value)
 	{
 		data.set (Properties.DESCRIPTION.getKey (), (value == null) ? null : value.getData ());
@@ -97,15 +110,15 @@ public class SingleUseLoHelper
 	}
 	
 	
-	public void setCategory (Data value)
+	public void setCategories (Data value)
 	{
-		data.set (Properties.CATEGORY.getKey (), value);
+		data.set (Properties.CATEGORIES.getKey (), value);
 	}
 	
 	
-	public Data getCategory ()
+	public Data getCategories ()
 	{
-		return (Data) data.get (Properties.CATEGORY.getKey ());
+		return (Data) data.get (Properties.CATEGORIES.getKey ());
 	}
 	
 	

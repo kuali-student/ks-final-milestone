@@ -2,51 +2,20 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
 
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-//***************************************************
-
-//public class OutlineManager {
-//}
-//  public void onModuleLoad() {
-//    final OutlineManangerComposite outlineComposite = new OutlineManangerComposite();
-//    OutlineNodeModel outlineModel = new OutlineNodeModel();
-//    for (int i = 0; i < 8; i++) {
-//      OutlineNode aNode = new OutlineNode();
-//      aNode.setModel(outlineModel);
-//      aNode.setUserObject(new TextBox());
-//      outlineModel.addOutlineNode(aNode);
-
-//    }
-//    outlineComposite.setModel(outlineModel);
-//    outlineModel.addChangeHandler(new ChangeHandler() {
-//      public void onChange(ChangeEvent event) {
-//        outlineComposite.render();
-//      }
-//    });
-
-//    outlineComposite.render();
-//    RootPanel.get().add(new Label("Outline Manager "));
-//    RootPanel.get().add(new Label(" "));
-//    RootPanel.get().add(new Label(" "));
-    
-//    RootPanel.get().add(outlineComposite);
-//  }
-
-
 
 
 class OutlineManagerToolbar extends HorizontalPanel {
@@ -60,7 +29,6 @@ class OutlineManagerToolbar extends HorizontalPanel {
 
     KSButton deleteButton = new KSButton();
 
-  // Button insertPeerAboveButton = new Button("InsertPeerAbove");
 
     KSButton addPeerButton = new KSButton();
 
@@ -69,17 +37,18 @@ class OutlineManagerToolbar extends HorizontalPanel {
   OutlineNodeModel outlineModel;
 
   OutlineManagerToolbar() {
-    //super(true, false);
+
     HorizontalPanel buttonPanel = new HorizontalPanel();
-    super.setPixelSize(100, 22);
+
+    this.setStyleName("KS-LOOutlineManagerToolbar");
     super.add(buttonPanel);
     buttonPanel.add(moveUpButton);
     buttonPanel.add(moveDownButton);
     buttonPanel.add(indentButton);
     buttonPanel.add(outdentButton);
     buttonPanel.add(deleteButton);
-//    buttonPanel.add(addPeerButton);
-  //  buttonPanel.add(addChildButton);
+    buttonPanel.addStyleName("KS-LOButtonPanel");
+
     sinkEvents(Event.ONMOUSEMOVE);
     sinkEvents(Event.ONMOUSEOUT);
     
@@ -94,43 +63,37 @@ class OutlineManagerToolbar extends HorizontalPanel {
     moveUpButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.moveUpCurrent();
-     //   OutlineManagerToolbar.this.hide();
+
       }
     });
     moveDownButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.moveDownCurrent();
-       // OutlineManagerToolbar.this.hide();
       }
     });
     indentButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.indentCurrent();
-        //OutlineManagerToolbar.this.hide();
       }
     });
     outdentButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.outdentCurrent();
-        //OutlineManagerToolbar.this.hide();
       }
     });
     deleteButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.deleteCurrent();
-        //OutlineManagerToolbar.this.hide();
       }
     });
     addPeerButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.addPeer();
-        //OutlineManagerToolbar.this.hide();
       }
     });
     addChildButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.addChild();
-        //OutlineManagerToolbar.this.hide();
       }
     });
   }
@@ -192,17 +155,16 @@ class OutlineManagerToolbar extends HorizontalPanel {
 public class OutlineManager extends Composite {
   OutlineNodeModel outlineModel;
 
-//  OutlineManagerToolbar toolbar = new OutlineManagerToolbar();
 
   VerticalPanel mainPanel = new VerticalPanel();
 
   public OutlineManager() {
     super.initWidget(mainPanel);
+    mainPanel.setStyleName("KS-LOMainPanel");
   }
 
   public void setModel(OutlineNodeModel model) {
     outlineModel = model;
-  //  toolbar.setModel(model);
   }
 
   public void render() {
@@ -210,13 +172,9 @@ public class OutlineManager extends Composite {
     OutlineNode[] outlineNodes = outlineModel.toOutlineNodes();
     for (final OutlineNode aNode : outlineNodes) {
       NodePanel nodePanel = new NodePanel();
-  //    nodePanel.setToolbar(toolbar);
+      nodePanel.setStyleName("KS-LONodePanel");
       nodePanel.setOutlineNode(aNode);
-   //   nodePanel.addMouseMoveHandler(new MouseMoveHandler() {
-     //   public void onMouseMove(MouseMoveEvent event) {
-//          outlineModel.setCurrentNode(aNode);
-       // }
-     // });
+
       mainPanel.add(nodePanel);
     }
   }
@@ -230,30 +188,35 @@ public class OutlineManager extends Composite {
   }
   class NodePanel extends  VerticalPanel{
    OutlineManagerToolbar toolbar = new OutlineManagerToolbar();
-
+   HorizontalPanel emptySpacePanel = new HorizontalPanel();
     ArrayList<MouseMoveHandler> mouseMoveHandlerList = new ArrayList<MouseMoveHandler>();
     HorizontalPanel horitonalPanel = new HorizontalPanel();
     OutlineNode currentNode; 
     NodePanel() {
       toolbar.setModel(outlineModel);
+      horitonalPanel.setStyleName("KS-LOHNodePanel");
       super.sinkEvents(Event.ONMOUSEMOVE);
       super.sinkEvents(Event.ONMOUSEOUT);
+      emptySpacePanel.setStyleName("KS-LOOutlineManagerToolbar");
+      KSImage ieHack = Theme.INSTANCE.getCommonImages().getSpacer();
+      emptySpacePanel.add(ieHack);
+      super.insert(emptySpacePanel,0);
     }
 
     public void setOutlineNode(OutlineNode aNode) {
         currentNode = aNode;
       for (int i = 0; i < aNode.getIndentLevel(); i++) {
         Label label = new Label();
-        label.setPixelSize(50,10);
+        label.setStyleName("KS-LONodeIndent");
         horitonalPanel.add(label);
         
         // space for toolbar
         label = new Label();
-        label.setPixelSize(50,10);
+        label.setStyleName("KS-LONodeIndentToolbar");
         toolbar.insert(label, 0);
       }
       Widget userWidget = (Widget) aNode.getUserObject();
-      userWidget.setPixelSize(200, 50);
+      userWidget.setStyleName("KS-LOaNode");
       horitonalPanel.add(userWidget);
 
       add(horitonalPanel);
@@ -267,22 +230,21 @@ public class OutlineManager extends Composite {
       toolbar = t;
     }
     public void showToolbar(){
+        super.remove(emptySpacePanel);
         super.insert(toolbar, 0);
     }
     public void hideToolbar(){
-        super.remove(toolbar);//toolbar.setVisible(true);
+        super.remove(toolbar);
+        super.insert(emptySpacePanel,0);
     }
     public void onBrowserEvent(Event event) {
       switch (DOM.eventGetType(event)) {
       case Event.ONMOUSEMOVE: {
           closeAllToolbar();
  
-      //  for (MouseMoveHandler handler : mouseMoveHandlerList) {
-        //  handler.onMouseMove(null);
-       // }
+
         outlineModel.setCurrentNode(currentNode);
-   //    toolbar.setPopupPosition(super.getAbsoluteLeft(), super.getAbsoluteTop() - 20);
-        //toolbar.setVisible(true);
+
         showToolbar();
         toolbar.updateButtonStates();
         break;

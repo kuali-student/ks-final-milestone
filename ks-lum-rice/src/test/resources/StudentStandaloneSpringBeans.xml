@@ -17,7 +17,7 @@
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionServiceUnsecure">
+				p:localServiceName="kimPermissionService">
 				<property name="busSecurity" value="false" />
 				<property name="jaxWsService" value="true" />
 			</bean>
@@ -57,7 +57,7 @@
 
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService"
-		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
 		<property name="includedOrgPersonRelationTypes">
 			<list>
 				<value>kuali.org.PersonRelation.Chair</value>
@@ -68,7 +68,7 @@
 
 	<!-- Org Derived role (anyone that's related to this org) -->
 	<bean id="ksOrgCommitteeRoleTypeService"
-		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
 		<property name="excludedOrgPersonRelationTypes">
 			<list>
 				<value>kuali.org.PersonRelation.Chair</value>
@@ -77,14 +77,32 @@
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
-	<!-- Action Request Derived role -->
-	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSActionRequestDerivedRoleTypeServiceImpl"/>
+    <!-- Action Request Derived role (Non Adhoc) -->
+    <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
 
-	<!-- Route Log Derived role -->
-	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl"/>
+    <!-- Action Request Derived role (Adhoc) -->
+    <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Route Log Derived role -->
+    <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSRouteLogDerivedRoleTypeServiceImpl">
+        <property name="checkFutureRequests" value="false" />
+    </bean>    
+
+    <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.kns.authorization.PermissionDerivedRoleTypeServiceImpl">
+        <property name="permissionTemplateNamespace" value="KS-SYS" />
+        <property name="permissionTemplateName" value="Comment on Document" />
+    </bean>
+
+    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.kns.authorization.PermissionDerivedRoleTypeServiceImpl">
+        <property name="permissionTemplateNamespace" value="KS-SYS" />
+        <property name="permissionTemplateName" value="Edit Document" />
+    </bean>
+
+    <!-- Organization Hierarchy Role Type -->
+    <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
 
 	<!-- Hierarchy Derived role -->
 <!--
-	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.HierarchyNodeTestRoleTypeServiceBase" />
+	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.role.type.HierarchyNodeTestRoleTypeServiceBase" />
 -->
 </beans>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,9 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 public interface SingleUseLoConstants
 {
 	public static final String ID = "id";
+	public static final String NAME = "name";
 	public static final String DESCRIPTION = "description";
-	public static final String CATEGORY = "category";
+	public static final String CATEGORIES = "categories";
 	public static final String LO_REPOSITORY = "loRepository";
 	public static final String CHILD_SINGLE_USE_LOS = "childSingleUseLos";
 	public static final String EFFECTIVE_DATE = "effectiveDate";

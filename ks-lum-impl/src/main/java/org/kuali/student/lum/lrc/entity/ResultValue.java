@@ -32,7 +32,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 /*
  * Copyright 2009 The Kuali Foundation
@@ -65,7 +64,7 @@ public abstract class ResultValue extends MetaEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private LrcRichText descr;
 
     @Column(name = "VALUE")
     private String value;
@@ -110,17 +109,17 @@ public abstract class ResultValue extends MetaEntity {
     }
 
     /**
-     * @return the desc
+     * @return the descr
      */
-    public RichText getDesc() {
-        return desc;
+    public LrcRichText getDescr() {
+        return descr;
     }
 
     /**
-     * @param desc the desc to set
+     * @param descr the descr to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(LrcRichText descr) {
+        this.descr = descr;
     }
 
     /**
