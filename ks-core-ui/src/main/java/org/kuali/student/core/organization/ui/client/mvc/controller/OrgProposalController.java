@@ -282,6 +282,7 @@ public class OrgProposalController extends TabbedSectionLayout{
                 doSaveAction(saveAction);
             }            
         });
+        setButtonPermission();
         }
         initialized = true;
     }
@@ -409,17 +410,24 @@ public class OrgProposalController extends TabbedSectionLayout{
 	    
 	    private void setButtonPermission(){
 	        HorizontalPanel buttonPanel = getButtonPanel(ORG_TAB_NAME);
-	        QueryPath metaPath = QueryPath.concat(null, ORG_INFO_PATH);
-	        Metadata meta = orgProposalModel.getMetadata(metaPath); 
-	        if(!meta.isCanEdit()){
-	            buttonPanel.setVisible(false);
-	        }
-	        else{
+	        QueryPath orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
+	        QueryPath orgOrgPath = QueryPath.concat(null, ORGORG_PATH);
+	        QueryPath orgPosPath = QueryPath.concat(null, POSITION_PATH);
+	        QueryPath orgPersonPath = QueryPath.concat(null, PERSON_PATH);
+	        Metadata orgInfometa = orgProposalModel.getMetadata(orgInfoPath); 
+	        Metadata orgOrgmeta = orgProposalModel.getMetadata(orgOrgPath); 
+	        Metadata orgPosmeta = orgProposalModel.getMetadata(orgPosPath); 
+	        Metadata orgPersonmeta = orgProposalModel.getMetadata(orgPersonPath); 
+	        
+	        if(orgInfometa.isCanEdit()||orgOrgmeta.isCanEdit()||orgPosmeta.isCanEdit()){
 	            buttonPanel.setVisible(true);
 	        }
+	        else{
+	            buttonPanel.setVisible(false);
+	        }
 	        buttonPanel = getButtonPanel(POSITION_TAB_NAME);
-	        metaPath = QueryPath.concat(null, ORG_INFO_PATH);
-	        if(!meta.isCanEdit()){
+	        orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
+	        if(!orgPersonmeta.isCanEdit()){
                 buttonPanel.setVisible(false);
             }
 	        else{
