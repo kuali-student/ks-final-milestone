@@ -5947,24 +5947,6 @@
 		</property>
 	</bean>
 
-    <bean id="course.lrc.gradeTypes" parent="dataFieldDescriptor">
-        <property name="name" value="gradeTypes" />
-        <property name="writeAccess" value="ALWAYS" />
-        <property name="onChangeRefreshMetadata" value="false" />
-        <property name="dataType" value="STRING" />
-        <!--property name="constraints">
-            <list>
-                <ref bean="constraint.single" />
-                <ref bean="constraint.required" />
-                <ref bean="constraint.optional" />
-                <ref bean="constraint.repeating" />
-                <ref bean="constraint.atp.types" />
-            </list>
-        </property-->
-        <property name="initialLookup">
-		    <ref bean="kuali.lookup.lrcgradetypes" />
-        </property>
-	</bean>
 	<!--  define configuration for a suggest box -->
 	<bean id="kuali.lu.lookup.admin.departments.suggest" parent="lookup">
 		<property name="searchTypeId" value="org.search.generic" />
