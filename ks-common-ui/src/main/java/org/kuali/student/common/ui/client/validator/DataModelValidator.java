@@ -48,6 +48,8 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataType;
+import org.kuali.student.core.assembly.data.Data.StringKey;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
@@ -321,7 +323,7 @@ public class DataModelValidator {
 				if (d != null) {
     				Double min = getLargestMinValueDouble(meta);
     				Double max = getSmallestMaxValueDouble(meta);
-    				
+    				    				
     				if (min != null && max != null) {
     					if (d < min || d > max) {
     						v.addError(OUT_OF_RANGE.getKey());
@@ -407,9 +409,10 @@ public class DataModelValidator {
 			
 				
 				if (d != null) {
-    				Date min = getLargestMinValueDate(meta, dateParser);
-    				Date max = getSmallestMaxValueDate(meta, dateParser);
-    				
+					//Get defined min/max value constraint
+    				Date min = getLargestMinValueDate(meta, dateParser, getCrossFieldMinValue(model, path, meta));
+    				Date max = getSmallestMaxValueDate(meta, dateParser, getCrossFieldMaxValue(model, path, meta));
+    				    				
     				if (min != null && max != null) {
     					if (d.getTime() < min.getTime() || d.getTime() > max.getTime()) {
     						v.addError(OUT_OF_RANGE.getKey());
@@ -582,6 +585,38 @@ public class DataModelValidator {
         return m;
     }
     
+	//FIXME: This is a temp solution for getting cross field min value
+    private Object getCrossFieldMinValue(DataModel model, QueryPath path, Metadata meta){
+    	Object v = null;
+    	for (ConstraintMetadata cons : meta.getConstraints()) {
+			if (cons.getMinValue() != null && cons.getMinValue().contains("../")){
+				QueryPath crossFieldPath = QueryPath.parse(path.toString());
+				String crossFieldKey = cons.getMinValue().substring(3);
+				crossFieldPath.remove(crossFieldPath.size()-1);
+				crossFieldPath.add(new StringKey(crossFieldKey));
+				v = model.get(crossFieldPath);
+			}
+		}
+    	
+    	return v;
+    }
+    
+	//FIXME: This is a temp solution for getting cross field max value
+    private Object getCrossFieldMaxValue(DataModel model, QueryPath path, Metadata meta){
+    	Object v = null;
+    	for (ConstraintMetadata cons : meta.getConstraints()) {
+			if (cons.getMaxValue() != null && cons.getMaxValue().contains("../")){
+				QueryPath crossFieldPath = QueryPath.parse(path.toString());
+				String crossFieldKey = cons.getMinValue().substring(3);
+				crossFieldPath.remove(crossFieldPath.size()-1);
+				crossFieldPath.add(new StringKey(crossFieldKey));
+				v = model.get(crossFieldPath);
+			}
+		}
+    	
+    	return v;
+    }
+
     private void put(Map<String, Object> m, String key, Object value) {
         if (value != null) {
             m.put(key, value);

@@ -356,7 +356,7 @@ public class MetadataInterrogator {
 		return result;
 	}
 
-	public static Date getLargestMinValueDate(Metadata meta, DateParser parser) {
+	public static Date getLargestMinValueDate(Metadata meta, DateParser parser, Object dataValue) {
 		if (meta == null) {
 			return null;
 		}
@@ -369,10 +369,15 @@ public class MetadataInterrogator {
 				}
 			}
 		}
+		if (dataValue != null && dataValue instanceof Date){
+			if (result == null || (((Date)dataValue).getTime() > result.getTime())){
+				result = (Date)dataValue;
+			}
+		}
 		return result;
 	}
 
-	public static Date getSmallestMaxValueDate(Metadata meta, DateParser parser) {
+	public static Date getSmallestMaxValueDate(Metadata meta, DateParser parser, Object dataValue) {
 		if (meta == null) {
 			return null;
 		}
@@ -383,6 +388,11 @@ public class MetadataInterrogator {
 				if (result == null || max.getTime() < result.getTime()) {
 					result = max;
 				}
+			}
+		}
+		if (dataValue != null && dataValue instanceof Date){
+			if (result==null || (((Date)dataValue).getTime() < result.getTime())){
+				result = (Date)dataValue;
 			}
 		}
 		return result;
