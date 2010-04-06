@@ -194,6 +194,11 @@ public class LuData extends Data {
 		return data.iterator();
 	}
 
+	@Override
+	public Iterator<Property> realPropertyIterator() {
+		return data.realPropertyIterator();
+	}
+	
 	public <T> T query(QueryPath path) {
 		return data.<T>query(path);
 	}
