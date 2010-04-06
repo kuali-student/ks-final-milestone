@@ -57,7 +57,7 @@ public class LRBuilder extends Composite {
     	VerticalSection learningResultsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
 //        addField(learningResultsSection, COURSE + "/" + LEARNING_RESULTS, getLabel(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY), new LearingResultAssessmentScaleType(), path.toString());
     	addField(learningResultsSection, COURSE + "/" + CreditCourseConstants.GRADING_OPTIONS, getLabel(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY));
-        addField(learningResultsSection, COURSE + "/" + LEARNING_RESULTS, null, new LearningResultOutcomeList(COURSE + "/" + LEARNING_RESULTS));
+        addField(learningResultsSection, COURSE + "/" + LEARNING_RESULTS, getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), new LearningResultOutcomeList(COURSE + "/" + LEARNING_RESULTS));
         
     	VerticalSection regiOptionsSection = initSection(SectionTitle.generateH3Title("Student Registration")/*getH3Title(LUConstants.LEARNING_RESULT_STUDENT_REGI_OPTIONS_LABEL_KEY)*/, WITH_DIVIDER);
         LearningResultStudentRegiOptions regiOptions = new LearningResultStudentRegiOptions();

@@ -7,7 +7,6 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.brms.statement.service.StatementService;
@@ -90,7 +89,6 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 //    private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
     private ProposalService proposalService;
     private LuService luService;
-    private LuService lrcService;
     private StatementService statementService;
     private LearningObjectiveService loService;
     private OrganizationService orgService;
@@ -134,14 +132,6 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 
         return result.getData();
     }
-
-    public LuService getLrcService() {
-		return lrcService;
-	}
-
-	public void setLrcService(LuService lrcService) {
-		this.lrcService = lrcService;
-	}
 
 	private Assembler<Data, CluInfoHierarchy> getCourseAssembler() {
         return courseAssembler;

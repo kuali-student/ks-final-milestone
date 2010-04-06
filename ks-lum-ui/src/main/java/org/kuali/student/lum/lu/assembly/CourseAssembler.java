@@ -46,7 +46,6 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lrc.service.LrcService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
@@ -106,7 +105,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	private final ExpenditureDataAssembler expenditureAssembler = new ExpenditureDataAssembler();
 
 	private LuService luService;
-	private LrcService lrcService;
 	private StatementService statementService;
 	private LearningObjectiveService loService;
 	private OrganizationService orgService;
@@ -428,12 +426,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			}
 		}
 	}
-
-
-	public void setLrcService(LrcService lrcService) {
-		this.lrcService = lrcService;
-	}
-
 
 
 	private SaveResult<CluInfoHierarchy> saveHierarchy(CreditCourseHelper course) throws AssemblyException {

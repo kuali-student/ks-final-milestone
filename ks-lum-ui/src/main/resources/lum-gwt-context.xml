@@ -51,10 +51,6 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService">
 					<ref bean="LoRpcGwtServletController" />
 				</entry>
-                <entry
-                    key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LrcRpcService">
-                    <ref bean="LrcRpcGwtServletController" />
-                </entry>
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController" />
@@ -140,12 +136,6 @@
 		<property name="servletName" value="LuRpcGwtServlet" />
 		<property name="servletInstance" ref="LuRpcGwtServlet" />
 	</bean>
-
-    <bean id="LrcRpcGwtServletController"
-        class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="LrcRpcGwtServlet" />
-        <property name="servletInstance" ref="LrcRpcGwtServlet" />
-    </bean>
 
 	<bean id="CluProposalRpcGwtServletController"
 		class="org.kuali.student.common.ws.ServletWrappingController">
@@ -255,13 +245,7 @@
 		<property name="servletInstance" ref="LogRpcGwtServlet" />
 	</bean>
 
-    <bean id="lrcRpcServiceGwtController"
-        class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="lrcRpcGwtServlet" />
-        <property name="servletInstance" ref="lrcRpcGwtServlet" />
-    </bean>
-
-	<!-- GWT Servlets -->
+    	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet"
 		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
 		<property name="service" ref="luClient" />
@@ -273,12 +257,7 @@
 		<property name="service" ref="luClient" />
 	</bean>
 
-    <bean id="LrcRpcGwtServlet"
-        class="org.kuali.student.lum.lu.ui.course.server.gwt.LrcRpcGwtServlet">
-        <property name="service" ref="lrcClient" />
-    </bean>
-
-	<bean id="WorkflowToolRpcGwtServlet"
+    <bean id="WorkflowToolRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.WorkflowToolRpcGwtServlet">
 		<property name="metadataService" ref="metadataServiceImpl" />
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
@@ -435,12 +414,6 @@
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">
 		<property name="service" ref="loClient" />
 	</bean>
-
-    <bean id="lrcRpcGwtServlet"
-        class="org.kuali.student.lum.lu.ui.course.server.gwt.LrcRpcGwtServlet">
-        <property name="service" ref="lrcClient" />
-    </bean>
-
 
 	<bean id="SecurityGwtServlet"
 		class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">

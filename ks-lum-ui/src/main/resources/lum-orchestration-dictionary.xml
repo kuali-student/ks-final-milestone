@@ -6117,7 +6117,7 @@
 		<property name="searchTypeId" value="lrc.search.resultComponent" />
 		<property name="name" value="All Grade Types" />
 		<property name="desc" value="Returns the list of all Grade Types" />
-		<property name="widget" value="DROP_DOWN" />
+		<property name="widget" value="CHECKBOX_LIST"/>
 		<property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id" />
 		<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id" />
 		<property name="resultDisplayKey" value="lrc.resultColumn.resultComponent.name" />
