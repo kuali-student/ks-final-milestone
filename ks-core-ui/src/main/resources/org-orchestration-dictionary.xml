@@ -334,7 +334,7 @@
 		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.optional" />
+				<ref bean="constraint.required" />
 				<ref bean="constraint.single" />
 			</list>
 		</property>
@@ -1063,6 +1063,12 @@
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
 	</bean>
 	<bean id="orgInfo._runtimeData" parent="dataFieldDescriptor">
 		<property name="name" value="_runtimeData" />
