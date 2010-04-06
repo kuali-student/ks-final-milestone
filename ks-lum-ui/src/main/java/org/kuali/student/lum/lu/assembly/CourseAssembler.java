@@ -956,7 +956,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		                    formatClu.setPrimaryAdminOrg(adminOrg);
 		                }
 		                adminOrg.setOrgId(course.getDepartment());
-		                formatClu.setPrimaryAdminOrg(adminOrg);
 										
 						CluIdentifierInfo cluId = formatClu.getOfficialIdentifier();
 			            if (cluId == null) {
@@ -1032,8 +1031,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 						
 						AdminOrgInfo adminOrg = activityClu.getPrimaryAdminOrg();
 	                    if (adminOrg == null) {
-	                        activityClu.setPrimaryAdminOrg(formatClu.getPrimaryAdminOrg());
+	                        adminOrg = new AdminOrgInfo();
+	                        activityClu.setPrimaryAdminOrg(adminOrg);
 	                    }
+	                    adminOrg.setOrgId(formatClu.getPrimaryAdminOrg().getOrgId());
 	                    
 	                    CluIdentifierInfo cluId = activityClu.getOfficialIdentifier();
 	                    if (cluId == null) {
