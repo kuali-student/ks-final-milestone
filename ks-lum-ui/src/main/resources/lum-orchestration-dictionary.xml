@@ -518,6 +518,14 @@
 		<property name="comments"
 			value="http://regexlib.com/REDetails.aspx?regexp_id=13" />
 	</bean>
+	<bean id="constraint.cross.greaterthan.effective.date" parent="constraint">
+		<property name="id" value="cross.greaterthan.effective.date"/>
+		<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>
+		<property name="desc" value="Must be empty or a date greater than the entity's effective date"/>
+		
+		<!-- This is a hack, since we don't have a well defined way to handle cross field constraints. -->
+		<property name="minValue" value="../effectiveDate"/>
+	</bean>
 	<bean id="constraint.not.used" parent="constraint">
 		<property name="id" value="not.used" />
 		<property name="messageId" value="kuali.msg.validation.not.used" />
@@ -4224,8 +4232,8 @@
 			<list>
 				<ref bean="constraint.single" />
 				<ref bean="constraint.optional" />
-				<ref bean="constraint.single" />
 				<ref bean="constraint.date.time" />
+				<ref bean="constraint.cross.greaterthan.effective.date" />
 			</list>
 		</property>
 	</bean>
