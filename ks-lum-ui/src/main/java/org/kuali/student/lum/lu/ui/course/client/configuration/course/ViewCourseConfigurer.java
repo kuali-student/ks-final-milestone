@@ -70,7 +70,6 @@ AffiliatedOrgInfoConstants
 
     public static final String COURSE_MODEL	= "courseModel";
 
-	private static final String PATH_SEPARATOR = "/";
 	private static final String ID_TRANSLATION = "id-translation";
 	//FIXME: Temp paths waiting for DOL changes
     private static final String VERSION_TITLE_PATH = "versionTitle";
@@ -105,6 +104,7 @@ AffiliatedOrgInfoConstants
     
     private SectionView generateDetails() {
         VerticalSectionView section = initSectionView(Sections.BASIC_INFO, LUConstants.COURSE_DETAILS_LABEL_KEY);
+        section.enableValidation(false);
                
         section.addSection(generateBasicSection());
         section.addSection(generateComprehensiveSection());
@@ -118,7 +118,7 @@ AffiliatedOrgInfoConstants
 		VerticalSection section = new VerticalSection();
 		
 		addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
-        addField(section, DESCRIPTION+ PATH_SEPARATOR + "plain", getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
+        addField(section, QueryPath.concat(DESCRIPTION, "plain").toString(), getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
 
         addField(section,  getTranslationKey(CreditCourseConstants.STATE), getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
         
@@ -130,7 +130,7 @@ AffiliatedOrgInfoConstants
         addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
         //FIXME: Need to translate the FEE ID
         addField(section, FEES , getLabel(LUConstants.FINANCIALS_LABEL_KEY), new FeeList(FEES));
-        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList(CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + CAMPUS_LOCATIONS + PATH_SEPARATOR));
+        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList(CAMPUS_LOCATIONS));
 
         addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
         addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
@@ -146,8 +146,8 @@ AffiliatedOrgInfoConstants
 //      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
     //    addField(section, TERMS_OFFERED_PATH, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new KSLabel());
         addField(section, getTranslationKey(FIRST_EXPECTED_OFFERING), getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
-        addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + getTranslationKey(TERM_TYPE), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
-        addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + QUANTITY, getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
+        addField(section, QueryPath.concat(CreditCourseConstants.DURATION, getTranslationKey(TERM_TYPE)).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
+        addField(section, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
         addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
 
         //FIXME  In M4 Only one primary admin org can be set so don't need a list here. Fix for M5
@@ -158,7 +158,7 @@ AffiliatedOrgInfoConstants
         addField(section, CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
         addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
 
-        addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList(CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + ACADEMIC_SUBJECT_ORGS + PATH_SEPARATOR));
+        addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList(ACADEMIC_SUBJECT_ORGS));
         addField(section,  REVENUE_INFO , getLabel(LUConstants.REVENUE), new RevenueInformationList(REVENUE_INFO));
         addField(section,  EXPENDITURE_INFO , "Expenditure Info", new ExpenditureInformationList(EXPENDITURE_INFO));
 
@@ -205,7 +205,7 @@ AffiliatedOrgInfoConstants
         }
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, CreditCourseConstants._RUNTIME_DATA, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
             addField(ns, ID_TRANSLATION, null, new KSLabel(), path);
 
@@ -223,7 +223,7 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             VerticalSection item = new VerticalSection();
             addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()),
-                    parentPath + PATH_SEPARATOR + String.valueOf(itemCount -1));
+                    QueryPath.concat(parentPath, String.valueOf(itemCount -1)).toString());
             return item;
         }
     }
@@ -239,7 +239,7 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection activity = new GroupSection();
-            addField(activity, ACTIVITY_TYPE, null, new KSLabel(), path);
+            addField(activity, getTranslationKey(ACTIVITY_TYPE), null, new KSLabel(), path);
 //            activity.nextLine();
 //
 //            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
@@ -277,9 +277,9 @@ AffiliatedOrgInfoConstants
         }
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            GroupSection ns = new GroupSection();
-            addField(ns, ID_TRANSLATION, null, new KSLabel(), path);
+           String path = QueryPath.concat(parentPath, CreditCourseConstants._RUNTIME_DATA, String.valueOf(itemCount-1)).toString();
+           GroupSection ns = new GroupSection();
+           addField(ns, ID_TRANSLATION, null, new KSLabel(), path);
 
             return ns;
         }
@@ -403,7 +403,7 @@ AffiliatedOrgInfoConstants
     }
 
     private String getTranslationKey(String fieldKey) {
-    	return CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + fieldKey + PATH_SEPARATOR + ID_TRANSLATION;
+    	return QueryPath.concat(CreditCourseConstants._RUNTIME_DATA, fieldKey ,  ID_TRANSLATION).toString();
     }
 
     protected String getTabKey() {
