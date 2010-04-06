@@ -80,7 +80,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		    result = new KSLabel();
 		} else {
 		    if (config.lookupMeta != null && config.lookupMeta.getWidget() != null) {
-                if (config.metadata != null && MetadataInterrogator.isRepeating(config.metadata) && LookupMetadata.Widget.SUGGEST_BOX.equals(config.lookupMeta.getWidget())) {
+                if (config.metadata != null && MetadataInterrogator.isRepeating(config.metadata)) {
                     result =  new KSSelectedList(config);
                 } else {
                     result = new KSPicker(config);
