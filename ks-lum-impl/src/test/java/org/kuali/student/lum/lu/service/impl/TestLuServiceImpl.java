@@ -69,12 +69,14 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
+import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -2434,6 +2436,31 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertTrue(updatedCluSet.getCluSetIds().isEmpty());
 	}
 
+	@Test
+	public void testCreateCluResult() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		CluResultInfo dto = new CluResultInfo();
+		RichTextInfo desc = new RichTextInfo();
+		desc.setPlain("Plain description");
+		dto.setDesc(desc);
+		dto.setCluId("CLU-1");
+		dto.setState("active");
+		dto.setType("cluResultType.finalGrade");
+		dto.setEffectiveDate(new Date());
+		dto.setExpirationDate(new Date());
+		
+		CluResultInfo cluResult = client.createCluResult("CLU-1", "cluResultType.finalGrade", dto);
+		
+		assertNotNull(cluResult.getDesc());
+		assertEquals(dto.getDesc().getPlain(), cluResult.getDesc().getPlain());
+		assertNotNull(cluResult.getId());
+		assertNotNull(cluResult.getCluId());
+		assertEquals(dto.getCluId(), cluResult.getCluId());
+		assertNotNull(cluResult.getType());
+		assertEquals(dto.getType(), cluResult.getType());
+		assertEquals(dto.getEffectiveDate(), cluResult.getEffectiveDate());
+		assertEquals(dto.getExpirationDate(), cluResult.getExpirationDate());
+	}
+	
 	private CluSetInfo createCluSetInfo() throws ParseException {
 		CluSetInfo cluSetInfo = new CluSetInfo();
 	

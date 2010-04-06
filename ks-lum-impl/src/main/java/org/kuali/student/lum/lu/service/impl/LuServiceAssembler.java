@@ -473,15 +473,18 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		CluResultInfo dto = new CluResultInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "resultOptions" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "resultOptions", "desc" });
 
-		List<ResultOptionInfo> resultOptions = toResultOptionInfos(entity
-				.getResultOptions());
+		List<ResultOptionInfo> resultOptions = toResultOptionInfos(entity.getResultOptions());
 		dto.setResultOptions(resultOptions);
+		dto.setDesc(toRichTextInfo(entity.getDesc()));
+		dto.setCluId(entity.getClu().getId());
+		CluResultTypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
+		dto.setType(type.getId());
 
 		return dto;
 	}
-
+	
 	public static List<CluResultInfo> toCluResultInfos(List<CluResult> entities) {
 		if (entities == null) {
 			return null;

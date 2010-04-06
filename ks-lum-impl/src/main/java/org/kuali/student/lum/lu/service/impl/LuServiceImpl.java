@@ -1749,14 +1749,14 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public CluResultInfo createCluResult(String cluId, String cluResultType,
+	public CluResultInfo createCluResult(String cluId, String cluResultTypeKey,
 			CluResultInfo cluResultInfo) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, DoesNotExistException {
 
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(cluResultType, "cluResultType");
+		checkForMissingParameter(cluResultTypeKey, "cluResultTypeKey");
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
 		// Validate CluResult
@@ -1764,6 +1764,9 @@ public class LuServiceImpl implements LuService {
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!");
 		}
+		
+		cluResultInfo.setType(cluResultTypeKey);
+		cluResultInfo.setCluId(cluId);
 
 		List<ResultOption> resOptList = new ArrayList<ResultOption>();
 		for (ResultOptionInfo resOptInfo : cluResultInfo.getResultOptions()) {
@@ -1786,6 +1789,12 @@ public class LuServiceImpl implements LuService {
 		cluResult.setDesc(LuServiceAssembler
 				.toRichText(LuRichText.class, cluResultInfo.getDesc()));
 		cluResult.setResultOptions(resOptList);
+		
+		Clu clu = luDao.fetch(Clu.class, cluId);
+		cluResult.setClu(clu);
+		
+		CluResultType type = luDao.fetch(CluResultType.class, cluResultTypeKey);
+		cluResult.setCluResultType(type);
 
 		luDao.create(cluResult);
 
