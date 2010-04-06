@@ -18,6 +18,7 @@ package org.kuali.student.core.assembly.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
@@ -37,8 +38,12 @@ import org.kuali.student.core.search.service.impl.SearchDispatcher;
  */
 public class IdTranslator {
     
-    private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+    private static final String ENUMERATION = "enumeration";
+	private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
     private SearchDispatcher searchDispatcher;
+    
+    final Logger LOG = Logger.getLogger(IdTranslator.class);
+
     public IdTranslator(SearchDispatcher searchDispatcher) throws AssemblyException {
     	this.searchDispatcher = searchDispatcher;
     }
@@ -49,26 +54,34 @@ public class IdTranslator {
     	
     	sr.setSearchKey(lookupMetadata.getSearchTypeId());
 
-		List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		//FIXME: workaround until orch dict can handle multi part keys on initiallookup defs
-		if (lookupMetadata.getSearchParamIdKey().contains(new StringBuilder("enumeration"))) {
-			for (LookupParamMetadata p : lookupMetadata.getParams()) {
-				if (p.getWriteAccess() != null && p.getWriteAccess().equals(WriteAccess.NEVER) && p.getDefaultValueString() != null) {
-					SearchParam param = createParam(p.getKey(), p.getDefaultValueString());
-					searchParams.add(param);   							    
-				}
-				else if (p.getWriteAccess() == null || !p.getWriteAccess().equals(WriteAccess.NEVER)){
-					SearchParam param = createParam(p.getKey(), searchId);
-					searchParams.add(param);   								
-				}
-			}
-		}
-		else {
-			SearchParam param = createParam(lookupMetadata.getSearchParamIdKey(), searchId);
-	    	searchParams.add(param);	
-		}
-		
-    	sr.setParams(searchParams);
+
+    	List<SearchParam> searchParams = new ArrayList<SearchParam>();
+    	if (lookupMetadata.getSearchParamIdKey() != null) {
+    		//FIXME: workaround until orch dict can handle multi part keys on initiallookup defs
+    		if (lookupMetadata.getSearchParamIdKey().contains(ENUMERATION)) {
+    			for (LookupParamMetadata p : lookupMetadata.getParams()) {
+    				if (p.getWriteAccess() != null && p.getWriteAccess().equals(WriteAccess.NEVER) && p.getDefaultValueString() != null) {
+    					SearchParam param = createParam(p.getKey(), p.getDefaultValueString());
+    					searchParams.add(param);   							    
+    				}
+    				else if (p.getWriteAccess() == null || !p.getWriteAccess().equals(WriteAccess.NEVER)){
+    					SearchParam param = createParam(p.getKey(), searchId);
+    					searchParams.add(param);   								
+    				}
+    			}
+    		}
+    		else {
+    			SearchParam param = createParam(lookupMetadata.getSearchParamIdKey(), searchId);
+    			searchParams.add(param);	
+    		}
+
+    		sr.setParams(searchParams); 		
+    	}	
+    	else {
+    		LOG.warn("Unable to build search request for " + lookupMetadata.getSearchTypeId() + " translation for id " + searchId);
+    		
+    	}
+
     	
     	sr.getParams().addAll(additionalParams);
 
