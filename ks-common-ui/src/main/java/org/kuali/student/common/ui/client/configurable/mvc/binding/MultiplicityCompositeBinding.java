@@ -9,6 +9,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
 
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -63,7 +64,7 @@ public class MultiplicityCompositeBinding extends ModelWidgetBindingSupport<Mult
             while (itr.hasNext()) {
                 Property p = (Property) itr.next();
 
-                if (p.getKey() instanceof Integer && !isItemDeleted(model, path, (Integer)p.getKey())) {                
+                if (p.getKey() instanceof Integer && !isItemDeleted(model, path, (Integer)p.getKey(), mcWidget)) {                
                     MultiplicityItem item = mcWidget.addItem();
                     item.setCreated(false);
                     item.setItemKey((Integer) p.getKey());
@@ -82,16 +83,22 @@ public class MultiplicityCompositeBinding extends ModelWidgetBindingSupport<Mult
      * @param path
      * @param index
      */
-    public boolean isItemDeleted(DataModel model, String path, Integer index){
+    public boolean isItemDeleted(DataModel model, String path, Integer index, MultiplicityComposite mcWidget){
     	boolean isDeleted = false;
+    	
+    	// FIXME: Find a better way to do this
+    	// If this is a read only widget deletions aren't possible so no point checking
+    	if (!(mcWidget instanceof DisplayMultiplicityComposite)) {
 
-    	QueryPath runtimeDeletedPath = QueryPath.concat(path, String.valueOf(index), MultiplicityItemBinding.RT_DELETED);
-    	
-    	Boolean runtimeDeleted = model.get(runtimeDeletedPath);
-    	if (runtimeDeleted != null){
-    		isDeleted = runtimeDeleted;
+    		QueryPath runtimeDeletedPath = QueryPath.concat(path, String.valueOf(index), MultiplicityItemBinding.RT_DELETED);
+
+    		Boolean runtimeDeleted = model.get(runtimeDeletedPath);
+    		if (runtimeDeleted != null){
+    			isDeleted = runtimeDeleted;
+    		}
+    		return isDeleted;
     	}
-    	
+  	
     	return isDeleted;
     }
 
