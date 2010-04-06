@@ -80,8 +80,9 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		    result = new KSLabel();
 		} else {
 		    if (config.lookupMeta != null && config.lookupMeta.getWidget() != null) {
-                if (config.metadata != null && MetadataInterrogator.isRepeating(config.metadata)) {
-                    result =  new KSSelectedList(config);
+		    	//All repeating fields should use the KSSelectedList for multiplicities (Except checkboxes)
+                if (config.metadata != null && MetadataInterrogator.isRepeating(config.metadata) && !LookupMetadata.Widget.CHECKBOX_LIST.equals(config.lookupMeta.getWidget())) {
+                    result = new KSSelectedList(config);
                 } else {
                     result = new KSPicker(config);
                 }
