@@ -36,6 +36,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelper>{
     private OrganizationService orgService;
     private Metadata metadata;
+    private DataModel orgPersonModel = new DataModel();
     public static final String PERSON_PATH                  = "orgPersonRelationInfo";
     
     public void setMetaData(Metadata metadata){
@@ -80,6 +81,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
 
     @Override
     public SaveResult<Data> save(Data input) throws AssemblyException {
+        
         addPersonRelation(input);
         SaveResult<Data> result = new SaveResult<Data>();
         List<ValidationResultInfo> validationResults = validate(input);
@@ -99,17 +101,23 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         if (input == null) {
             return;
         }
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgPersonModel.setDefinition(def);
+        //Set this for readonly permission
+        QueryPath metaPath = QueryPath.concat(null, PERSON_PATH);
+        Metadata orgPersonMeta =orgPersonModel.getMetadata(metaPath);
         for (Property p : (Data)input.get("orgPersonRelationInfo")) {
             OrgPersonHelper orgPersonHelper=  OrgPersonHelper.wrap((Data)p.getValue());
-            if(isUpdated(orgPersonHelper.getData())){
-                OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
-                orgPersonRelationInfo.setId(orgPersonHelper.getId());
-                try{
-                    OrgPersonRelationInfo  result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(),orgPersonRelationInfo);
-                    addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
-                }
-                catch(Exception e ){
-                    throw new AssemblyException();
+            if (isUpdated(orgPersonHelper.getData())) {
+                if (orgPersonMeta.isCanEdit()) {
+                    OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
+                    orgPersonRelationInfo.setId(orgPersonHelper.getId());
+                    try {
+                        OrgPersonRelationInfo result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(), orgPersonRelationInfo);
+                        addVersionIndicator(orgPersonHelper.getData(), OrgPersonRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
+                    } catch (Exception e) {
+                        throw new AssemblyException();
+                    }
                 }
             }
             else if(isDeleted(orgPersonHelper.getData())){
@@ -170,7 +178,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         Data orgRelations = new Data();
         try {
         int count =0;
-        DataModel orgPersonModel = new DataModel();
+
         DataModelDefinition def = new DataModelDefinition(metadata);
         orgPersonModel.setDefinition(def);
         //Set this for readonly permission

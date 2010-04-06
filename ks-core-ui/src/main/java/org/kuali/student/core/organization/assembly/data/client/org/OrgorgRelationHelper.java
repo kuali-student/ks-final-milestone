@@ -1,9 +1,12 @@
 package org.kuali.student.core.organization.assembly.data.client.org;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
+
 
 
 public class OrgorgRelationHelper{
@@ -77,6 +80,16 @@ public class OrgorgRelationHelper{
     }
     
     public Date getEffectiveDate() {
+        if(data.get(Properties.EFFECTIVE_DATE.getKey()) instanceof String){
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+          
+                try {
+                    return df.parse((String) data.get(Properties.EFFECTIVE_DATE.getKey()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            
+        }
         return data.get(Properties.EFFECTIVE_DATE.getKey());
     }
     
@@ -85,6 +98,14 @@ public class OrgorgRelationHelper{
     }
     
     public Date getExpirationDate() {
+        if(data.get(Properties.EXPIRATION_DATE.getKey()) instanceof String){
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                return df.parse((String) data.get(Properties.EXPIRATION_DATE.getKey()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return data.get(Properties.EXPIRATION_DATE.getKey());
     }
     

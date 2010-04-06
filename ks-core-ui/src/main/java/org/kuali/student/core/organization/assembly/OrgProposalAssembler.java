@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -42,8 +45,10 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     private OrganizationService orgService;
     public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
+    public static final String ORG_INFO_PATH                  = "orgInfo";
     public static final String QUALIFICATION_ORG_ID                 = "orgId";
     private Metadata metadata;
+    private DataModel orgProposalModel = new DataModel();
     public OrgProposalAssembler(){
 
     }
@@ -81,7 +86,9 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
     @Override
     public Data get(String id) throws AssemblyException {
-        setMetadata(id);
+        if(metadata==null){
+            setMetadata(id);
+        }
         OrgInfo orgInfo = new OrgInfo();
         List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
         List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
@@ -97,6 +104,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             orgOrgRelationAssembler.setOrgService(orgService);
             OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
             orgPositionRestrictionAssembler.setOrgService(orgService);
+            orgPositionRestrictionAssembler.setMetaData(metadata);
             OrgPersonRelationAssembler orgPersonRelationAssembler = new OrgPersonRelationAssembler();
             orgPersonRelationAssembler.setMetaData(metadata);
             orgPersonRelationAssembler.setOrgService(orgService);
@@ -121,6 +129,9 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     public SaveResult<Data> save(Data input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
+        if(metadata==null){
+            setMetadata(orgHelper.getId());
+        }
         OrgInfoData orgInfoData = buildOrgInfo(orgHelper);
         SaveResult<Data> result = new SaveResult<Data>();
         List<ValidationResultInfo> validationResults = validate(input);
@@ -138,17 +149,20 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             if(orgId!=null&&input.get("orgOrgRelationInfo")!=null){
 //                OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(input);
                 OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
+                orgOrgRelationAssembler.setMetaData(metadata);
                 orgOrgRelationAssembler.setOrgService(orgService);
                 Data relationData = orgOrgRelationAssembler.save(input).getValue();
 
             }
             if(orgId!=null&&input.get("OrgPositionRestrictionInfo")!=null){
                 OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
+                orgPositionRestrictionAssembler.setMetaData(metadata);
                 orgPositionRestrictionAssembler.setOrgService(orgService);
                 Data positionData = orgPositionRestrictionAssembler.save(input).getValue();
             }
             if(orgId!=null&&input.get("orgPersonRelationInfo")!=null){
                 OrgPersonRelationAssembler orgPersonRelationAssembler= new OrgPersonRelationAssembler();
+                orgPersonRelationAssembler.setMetaData(metadata);
                 orgPersonRelationAssembler.setOrgService(orgService);
                 Data relationData = orgPersonRelationAssembler.save(input).getValue();
             }
@@ -206,14 +220,20 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     private void saveOrg(OrgInfoData input) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
         OrgInfo result = null;
         OrgInfo orgInfo = input.getOrgInfo();
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgProposalModel.setDefinition(def);
+        QueryPath metaPath = QueryPath.concat(null, ORG_INFO_PATH);
+        Metadata orgProposalMeta =orgProposalModel.getMetadata(metaPath);
         if (input.getModificationState() != null) {
-            switch (input.getModificationState()) {
-                case CREATED:
-                    result = orgService.createOrganization(orgInfo.getType(), orgInfo);
-                    break;
-                case UPDATED:
-                    result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
-                default:
+            if (orgProposalMeta.isCanEdit()) {
+                switch (input.getModificationState()) {
+                    case CREATED:
+                        result = orgService.createOrganization(orgInfo.getType(), orgInfo);
+                        break;
+                    case UPDATED:
+                        result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
+                    default:
+                }
             }
         }
         if (result != null) {

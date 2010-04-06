@@ -39,6 +39,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
     private OrganizationService orgService;
     private Metadata metadata;
+    private DataModel orgOrgModel = new DataModel();
     
     public void setMetaData(Metadata metadata){
         this.metadata=metadata;
@@ -74,6 +75,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         }
         catch(Exception e){
             e.printStackTrace();
+            throw(new AssemblyException());
         }
         return orgOrgRelationMap;
     }
@@ -149,18 +151,23 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         if (input == null) {
             return;
         }
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgOrgModel.setDefinition(def);
+        QueryPath metaPath = QueryPath.concat(null, ORGORG_PATH);
+        Metadata orgOrgMeta =orgOrgModel.getMetadata(metaPath);
         for (Property p : (Data)input.get("orgOrgRelationInfo")) {
             OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap((Data)p.getValue());
-            if(isUpdated(orgOrgRelation.getData())){
-                OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
-                orgOrgRelationInfo.setId(orgOrgRelation.getId());
-                try{
-                    OrgOrgRelationInfo  result = orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
-                    addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
-                }
-                catch(Exception e ){
-                    e.printStackTrace();
-                    throw(new AssemblyException());
+            if (isUpdated(orgOrgRelation.getData())) {
+                if (orgOrgMeta.isCanEdit()) {
+                    OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
+                    orgOrgRelationInfo.setId(orgOrgRelation.getId());
+                    try {
+                        OrgOrgRelationInfo result = orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
+                        addVersionIndicator(orgOrgRelation.getData(), OrgOrgRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw (new AssemblyException());
+                    }
                 }
             }
             else if(isDeleted(orgOrgRelation.getData())){
@@ -200,7 +207,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     }
     
     
-    private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations,List<OrgOrgRelationInfo> parentRelations){
+    private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations,List<OrgOrgRelationInfo> parentRelations) throws AssemblyException{
        
         Data orgOrgRelations = new Data();
         String relationTypeTranslation;
@@ -264,7 +271,8 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         
         }
         catch(Exception e){
-            
+            e.printStackTrace();
+            throw(new AssemblyException());
         }
         return orgOrgRelations;
     }

@@ -10,10 +10,13 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
@@ -29,6 +32,13 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPositionHelper>{
     private OrganizationService orgService;
+    private Metadata metadata;
+    public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
+    private DataModel orgPositionModel = new DataModel();
+    public void setMetaData(Metadata metadata){
+        this.metadata=metadata;
+    }
+    
     @Override
     public Data assemble(OrgPositionHelper input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
@@ -94,18 +104,23 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         if (input == null) {
             return;
         }
-        for (Property p : (Data)input.get("OrgPositionRestrictionInfo")) {
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgPositionModel.setDefinition(def);
+        QueryPath metaPath = QueryPath.concat(null, POSITION_PATH);
+        Metadata orgPersonMeta =orgPositionModel.getMetadata(metaPath);
+        
+        for (Property p : (Data)input.get(POSITION_PATH)) {
             OrgPositionHelper orgPositionHelper=  OrgPositionHelper.wrap((Data)p.getValue());
-            if(isUpdated(orgPositionHelper.getData())){
-                OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
-                orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
-                try{
-                    OrgPositionRestrictionInfo  result = orgService.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), 
-                            orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
-                    addVersionIndicator(orgPositionHelper.getData(),OrgPositionRestrictionInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
-                }
-                catch(Exception e ){
-                    throw new AssemblyException();
+            if (isUpdated(orgPositionHelper.getData())) {
+                if (orgPersonMeta.isCanEdit()) {
+                    OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
+                    orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
+                    try {
+                        OrgPositionRestrictionInfo result = orgService.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
+                        addVersionIndicator(orgPositionHelper.getData(), OrgPositionRestrictionInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
+                    } catch (Exception e) {
+                        throw new AssemblyException();
+                    }
                 }
             }
             else if(isDeleted(orgPositionHelper.getData())){
