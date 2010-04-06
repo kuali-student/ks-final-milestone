@@ -15,16 +15,20 @@ public class MultiplicityHeader extends Composite{
 	private FlowPanel clearDiv = new FlowPanel();
 	private SectionTitle title;
 	private KSLinkButton help;
-	private KSLinkButton delete;
+	private KSLinkButton delete = null;
 	
-	public MultiplicityHeader(SectionTitle title){
+	public MultiplicityHeader(SectionTitle title, boolean readOnly){
 		this.title = title;
 		header.add(title);
 		
 		help = new KSLinkButton("?", ButtonStyle.HELP);
-		delete = new KSLinkButton("X", ButtonStyle.DELETE);
 		actions.add(help);
-		actions.add(delete);
+		
+		if(!readOnly){
+			delete = new KSLinkButton("X", ButtonStyle.DELETE);
+			actions.add(delete);
+		}
+		
 		actions.setStyleName("ks-form-header-title-actions");
 		
 		header.add(actions);
@@ -35,7 +39,9 @@ public class MultiplicityHeader extends Composite{
 	}
 
 	public void addDeleteHandler(ClickHandler handler){
-		delete.addClickHandler(handler);
+		if(delete!=null){
+			delete.addClickHandler(handler);
+		}
 	}
 	
 	public void addHelpHandler(ClickHandler handler){

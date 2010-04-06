@@ -31,14 +31,15 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class UpdatableMultiplicityComposite extends MultiplicityComposite {
     protected String addItemLabel;
     protected String itemLabel;
-    
+    protected boolean readOnly = false;
     
     public UpdatableMultiplicityComposite(StyleType style){
     	super(style);
-/*    	if(style == StyleType.TOP_LEVEL){
-    		this.titleWidget = SectionTitle.generateH3Title(title);
-    		this.titleWidget.addStyleName("ks-heading-page-section");
-    	}*/
+    }
+    
+    public UpdatableMultiplicityComposite(StyleType style, boolean readOnly){
+    	super(style);
+    	this.readOnly=readOnly;
     }
     
     /**
@@ -46,9 +47,8 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
      */
     @Override
     public MultiplicityItem getItemDecorator(StyleType style) {
-        org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader item = new org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader(style);
+        org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader item = new org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader(style, readOnly);
         item.setItemLabel(itemLabel + " " + itemCount);            
-
         return item;
     }
 
@@ -56,6 +56,11 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
      * @see org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite#generateAddWidget()
      */
     public Widget generateAddWidget() {
+    	//If this is read only don't display add widgets
+    	if(readOnly){
+    		return null;
+    	}
+    	
     	KSButton addWidget;
     	if(style == StyleType.TOP_LEVEL){
     		addWidget = new KSButton(addItemLabel, ButtonStyle.FORM_LARGE);

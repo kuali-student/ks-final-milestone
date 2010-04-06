@@ -3,12 +3,10 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 
 public class RemovableItemWithHeader extends MultiplicityItem{
 
@@ -24,6 +22,10 @@ public class RemovableItemWithHeader extends MultiplicityItem{
     public void isReadOnly(boolean readOnly){
         this.readOnly=readOnly;
     }
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+	}
 	
 	public RemovableItemWithHeader(StyleType style){
 		this.style = style;
@@ -31,6 +33,12 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 		
 	}
 	
+	public RemovableItemWithHeader(StyleType style, boolean readOnly){
+		this.style = style;
+		this.readOnly = readOnly;
+		this.initWidget(layout);
+		
+	}
 	
 	@Override
 	public void clear() {
@@ -51,7 +59,7 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 	    	if(style == StyleType.TOP_LEVEL){
 	    		SectionTitle title = SectionTitle.generateH4Title(itemLabel);
 	    		title.addStyleName("ks-form-bordered-header-title");
-	    		header = new MultiplicityHeader(title);
+	    		header = new MultiplicityHeader(title, readOnly);
 	    		header.setStyleName("ks-form-bordered-header");
 	    		layout.setStyleName("ks-form-bordered");
 	    		body.setStyleName("ks-form-bordered-body");
@@ -59,7 +67,7 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 	    	else if(style == StyleType.SUB_LEVEL){
 	    		SectionTitle title = SectionTitle.generateH5Title(itemLabel);
 	    		title.addStyleName("ks-form-course-format-activity-header-title");
-	    		header = new MultiplicityHeader(title);
+	    		header = new MultiplicityHeader(title, readOnly);
 	    		header.setStyleName("ks-form-course-format-activity-header");
 	    		layout.setStyleName("ks-form-course-format-activity");
 	    	}
