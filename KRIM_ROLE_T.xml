@@ -7,6 +7,21 @@
         OBJ_ID="5ADF18B6D4847954E0404F8189D85002" ROLE_ID="1"
         ROLE_NM="User" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role is for use with administrative privilege for Organization"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
+        OBJ_ID="B34BE6AF9E4A42DBA53ADA39C629F439" ROLE_ID="10000"
+        ROLE_NM="Kuali Student Organization Admin" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role is for use with all access permission for Organization with attached qualifiers"
+        KIM_TYP_ID="114" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
+        OBJ_ID="FF497D87-0831-5C09-63ED-780565803526" ROLE_ID="10001"
+        ROLE_NM="Kuali Orgainzation Maintenance" VER_NBR="2"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role is for use with permission to add memberships to an Organization"
+        KIM_TYP_ID="114" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
+        OBJ_ID="89AA5AFF-4891-ADAA-FBE0-5D8CC7DCBA0F" ROLE_ID="10002"
+        ROLE_NM="Kuali Orgainzation Membership" VER_NBR="2"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with that have received an action request for a given document."
         KIM_TYP_ID="42" LAST_UPDT_DT="20081114141017"
         NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F62A8EEE0404F8189D8770F"
