@@ -9,12 +9,12 @@
   <groupId>org.kuali.student.test.ws</groupId>
   <artifactId>maven-soapui-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>soapUI - Maven 2 plugin</name>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-soapui-plugin-1.0.1</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-soapui-plugin-1.0.1</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/maven-soapui-plugin-1.0.1</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/maven-soapui-plugin</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/maven-soapui-plugin</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/maven-soapui-plugin</url>
   </scm>
   <repositories>
     <!--
