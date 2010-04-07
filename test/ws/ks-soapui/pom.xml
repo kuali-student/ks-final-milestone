@@ -50,12 +50,14 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>eviware</groupId>
+        <groupId>org.kuali.student.test.ws</groupId>
         <artifactId>maven-soapui-plugin</artifactId>
-        <version>3.6-SNAPSHOT</version>
+        <version>3.5-kuali-SNAPSHOT</version>
         <configuration>
           <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
-          <host>https://localhost/ks-embedded</host>
+          <protocol>http</protocol>
+          <host>localhost</host>
+          <context>ks-embedded</context>
         </configuration>
       </plugin>
     </plugins>
