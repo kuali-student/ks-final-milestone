@@ -36,6 +36,7 @@ public class TestMojo extends AbstractMojo {
 			throw new MojoExecutionException("soapui-project-file setting is required");
 		}
 
+		getLog().info("Runnint SoapUI version: " + SoapUI.SOAPUI_VERSION);
 		KualiSoapUITestCaseRunner runner = new KualiSoapUITestCaseRunner("soapUI " + SoapUI.SOAPUI_VERSION + " Maven2 TestCase Runner");
 		runner.setProjectFile(projectFile);
 		runner.setContext(context);
