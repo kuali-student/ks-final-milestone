@@ -20,13 +20,6 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
@@ -44,10 +37,6 @@
         <artifactId>maven-soapui-plugin</artifactId>
         <version>1.0.0</version>
         <configuration>
-          <!--
-            <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
-            <baseURL>http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded</baseURL>
-          -->
           <projectFile>classpath:KualiStudent-soapui-project.xml</projectFile>
           <baseURL>https://test.kuali.org/ks-dev</baseURL>
         </configuration>
