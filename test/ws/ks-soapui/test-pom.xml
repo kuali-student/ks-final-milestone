@@ -42,13 +42,13 @@
       <plugin>
         <groupId>org.kuali.student.test.ws</groupId>
         <artifactId>maven-soapui-plugin</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <configuration>
           <!--
-            <projectFile>classpath:KualiStudent-soapui-project.xml</projectFile>
+            <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
             <baseURL>http://test.kuali.org/ks-dev</baseURL>
           -->
-          <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
+          <projectFile>classpath:KualiStudent-soapui-project.xml</projectFile>
           <baseURL>http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded</baseURL>
         </configuration>
         <dependencies>
