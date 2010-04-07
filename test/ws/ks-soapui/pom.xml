@@ -52,7 +52,7 @@
       <plugin>
         <groupId>org.kuali.student.test.ws</groupId>
         <artifactId>maven-soapui-plugin</artifactId>
-        <version>3.5-kuali-2-SNAPSHOT</version>
+        <version>3.5-kuali-2</version>
         <configuration>
           <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
           <baseURL>https://test.kuali.org/ks-dev</baseURL>
