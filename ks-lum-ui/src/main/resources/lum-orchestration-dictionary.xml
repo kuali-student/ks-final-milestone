@@ -1385,59 +1385,39 @@
 		</property>
 		<property name="initialLookup">
 			<bean parent="lookup">
-				<property name="searchTypeId" value="enumeration.management.search" />
+				<property name="id" value="kuali.enumeration.management.search.subjectAreas" />			
 				<property name="name" value="Get enumerations" />
 				<property name="desc" value="Get enumerated lists of values given context" />
-				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationType" />
+				<property name="searchTypeId" value="enumeration.management.search" />
+				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+				<property name="widget" value="SUGGEST_BOX" />			
 				<property name="params">
 					<list>
 						<bean parent="param">
 							<property name="key" value="enumeration.queryParam.enumerationType" />
+							<property name="name" value="Enumeration Type" />
+							<property name="desc" value="The type of the enumeration to search" />
 							<property name="writeAccess" value="NEVER" />
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="true" />
 							<property name="defaultValueString" value="kuali.lu.subjectArea" />
-							<property name="name" value="Enumeration Type" />
-							<property name="desc" value="The type of the enumeration to search" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.contextType" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Context Type" />
-							<property name="desc" value="The type of context being used" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.contextValue" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Context Value" />
-							<property name="desc" value="The value of the supplied context" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.contextDate" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="DATE" />
-							<property name="optional" value="true" />
-							<property name="name" value="Context Date" />
-							<property name="desc" value="A date supplied as context" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.enumerationCode" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
+							<property name="key" value="enumeration.queryParam.enumerationOptionalCode" />
 							<property name="name" value="Context Value" />
 							<property name="desc" value="The enumeration code to lookup" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="usage" value="DEFAULT" />							
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
 				</property>
+				<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+				<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
+				<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />				
 				<property name="results">
 					<list>
 						<bean parent="result">
@@ -1489,11 +1469,6 @@
 						</bean>
 					</list>
 				</property>
-				<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-				<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
-				<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
-				<property name="usage" value="DEFAULT" />
-				<property name="id" value="kuali.lu.lookup.subjectAreas" />
 			</bean>
 		</property>
 		<property name="additionalLookups">
@@ -3865,59 +3840,39 @@
 		</property>
 		<property name="initialLookup">
 			<bean parent="lookup">
-				<property name="searchTypeId" value="enumeration.management.search" />
+				<property name="id" value="kuali.enumeration.management.search.subjectAreas" />	
 				<property name="name" value="Get enumerations" />
-				<property name="desc" value="Get enumerated lists of values given context" />
-				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationType" />				
+				<property name="desc" value="Get enumerated lists of values given context" />						
+				<property name="searchTypeId" value="enumeration.management.search" />
+				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+				<property name="widget" value="SUGGEST_BOX"/>								
 				<property name="params">
-					<list>
+					<list>								
 						<bean parent="param">
 							<property name="key" value="enumeration.queryParam.enumerationType" />
+							<property name="name" value="Enumeration Type" />
+							<property name="desc" value="The type of the enumeration to search" />
 							<property name="writeAccess" value="NEVER" />
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="true" />
 							<property name="defaultValueString" value="kuali.lu.subjectArea" />
-							<property name="name" value="Enumeration Type" />
-							<property name="desc" value="The type of the enumeration to search" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.contextType" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Context Type" />
-							<property name="desc" value="The type of context being used" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.contextValue" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Context Value" />
-							<property name="desc" value="The value of the supplied context" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.contextDate" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="dataType" value="DATE" />
-							<property name="optional" value="true" />
-							<property name="name" value="Context Date" />
-							<property name="desc" value="A date supplied as context" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param">
-							<property name="key" value="enumeration.queryParam.enumerationCode" />
-							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Context Value" />
+							<property name="key" value="enumeration.queryParam.enumerationOptionalCode" />
+							<property name="name" value="Enumeration code" />
 							<property name="desc" value="The enumeration code to lookup" />
+							<property name="writeAccess" value="ALWAYS" />							
+							<property name="dataType" value="STRING" />
+							<property name="usage" value="DEFAULT" />							
+							<property name="optional" value="true" />
 							<property name="caseSensitive" value="true" />
-						</bean>						
+						</bean>								
 					</list>
 				</property>
+				<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+				<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
+				<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />				
 				<property name="results">
 					<list>
 						<bean parent="result">
@@ -3969,11 +3924,6 @@
 						</bean>
 					</list>
 				</property>
-				<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-				<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
-				<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
-				<property name="usage" value="DEFAULT" />
-				<property name="id" value="kuali.lu.lookup.subjectAreas" />
 			</bean>
 		</property>
 		<property name="additionalLookups">
@@ -5261,6 +5211,7 @@
 		<property name="fields">
 			<list>
 				<ref bean="search.findCourse" />
+				<ref bean="search.findProposal" />				
 				<ref bean="search.findCluSet" />
 			</list>
 		</property>
@@ -5556,7 +5507,7 @@
 			<bean parent="lookup">
 				<property name="id" value="kuali.lu.lookup.findCourse.suggest" />
 				<property name="searchTypeId" value="lu.search.generic" />
-				<property name="name" value="Find Course" />
+				<property name="name" value="Find an existing course." />
 				<property name="desc" value="Search for courses" />
 				<property name="widget" value="SUGGEST_BOX"/>
 				<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
@@ -5703,6 +5654,85 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="search.findProposal" parent="dataFieldDescriptor">
+		<property name="name" value="findProposal" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.related.cluId" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<!--  define configuration for a suggest box -->
+			<bean parent="lookup">
+				<property name="name" value="Find an existing proposal" />
+				<property name="desc" value="Search for proposals" />
+				<property name="widget" value="NO_WIDGET"/>
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list>
+				<!-- definition of advanced search window -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="kuali.proposal.lookup.Proposals"/>
+					<property name="searchTypeId" value="proposal.search.generic"/>
+					<property name="name" value="Find Proposal"/>
+					<property name="desc" value="Search for proposals"/>
+					<property name="title" value="Find Proposal"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="proposal.queryParam.proposalId"/>
+								<property name="name" value="Id"/>
+								<property name="desc" value="Unique identifier for a proposal."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="DEFAULT"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="proposal.queryParam.proposalOptionalName"/>
+								<property name="name" value="Name"/>
+								<property name="desc" value="Name."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="proposal.resultColumn.proposalId"/>
+					<property name="resultDisplayKey" value="proposal.resultColumn.proposalOptionalName"/>
+					<property name="resultSortKey" value="proposal.resultColumn.proposalOptionalName"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="proposal.resultColumn.proposalId"/>
+								<property name="name" value="Id"/>
+								<property name="desc" value="Id for the proposal."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="proposal.resultColumn.proposalOptionalName"/>
+								<property name="name" value="Name"/>
+								<property name="desc" value="Name for the proposal."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>	
 	<bean id="search.findCluSet" parent="dataFieldDescriptor">
 		<property name="name" value="findCluSet" />
 		<property name="writeAccess" value="ALWAYS" />
