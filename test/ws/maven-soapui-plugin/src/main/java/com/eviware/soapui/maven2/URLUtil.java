@@ -8,7 +8,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
+ * The SoapUI maven plugin did not deal with URL very well. It got confused by
+ * http://localhost/ks-embedded for example. This logic properly parses URL in a Kuali Student
+ * friendly way
  * 
  * @author Jeff Caddel
  * 

@@ -10,6 +10,13 @@ import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestRequest;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.tools.SoapUITestCaseRunner;
 
+/**
+ * Allows context, protocol, and port to be specified in addition to host
+ * 
+ * @author Jeff Caddel
+ * 
+ * @since Apr 6, 2010 11:41:55 PM
+ */
 public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 	protected final Log log = LogFactory.getLog(this.getClass());
 
