@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<kuali-users>
-  <user username="kuali-admin" password="admin" personid="1234-344"/>
-  <user username="kuali-student" password="student" personid="123456"/>
-</kuali-users>
