@@ -6,7 +6,7 @@
     <artifactId>ws</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <groupId>org.kuali.student.test.performance.ws.soapui</groupId>
+  <groupId>org.kuali.student.test.ws.soapui</groupId>
   <artifactId>ks-soapui</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
