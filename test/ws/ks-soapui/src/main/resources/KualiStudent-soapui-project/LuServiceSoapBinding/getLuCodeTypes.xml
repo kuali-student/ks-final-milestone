@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getLuCodeTypes" bindingOperationName="getLuCodeTypes" type="Request-Response" outputName="getLuCodeTypesResponse" inputName="getLuCodeTypes" receivesAttachments="false" sendsAttachments="false" id="9ded4a6d-e792-4a62-8cd8-9947d34bcff0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
