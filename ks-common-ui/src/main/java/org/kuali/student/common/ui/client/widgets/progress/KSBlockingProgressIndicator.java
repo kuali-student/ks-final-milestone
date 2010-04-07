@@ -18,8 +18,8 @@ import java.util.LinkedList;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSMessages;
-import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -40,7 +40,7 @@ public class KSBlockingProgressIndicator{
 	private static final VerticalPanel mainPanel = new VerticalPanel();
 	private static final VerticalPanel listPanel = new VerticalPanel();
 	
-	private static KSModalDialogPanel popupIndicator = new KSModalDialogPanel();
+	private static KSLightBox popupIndicator;
 	
 	private static boolean initialized = false;
 	
@@ -53,8 +53,8 @@ public class KSBlockingProgressIndicator{
 		
 		
 		mainPanel.add(listPanel);
-		
-		popupIndicator.setHeader(Application.getApplicationContext().getMessage(KSMessages.PROCESSING));
+	
+		popupIndicator = new KSLightBox(false);
 		
 		popupIndicator.setWidget(mainPanel);
 		setupDefaultStyle();
@@ -91,7 +91,7 @@ public class KSBlockingProgressIndicator{
 		
 		showIndicator();
 		listPanel.clear();
-		KSImage kSImage = new KSImage("images/twiddler3.gif");
+		KSImage kSImage = new KSImage("images/common/twiddler3.gif");
 		for(BlockingTask task: tasks){
 			HorizontalPanel taskPanel = new HorizontalPanel();
 			taskPanel.add(new Label(task.getDescription()));
@@ -114,7 +114,6 @@ public class KSBlockingProgressIndicator{
 	}
 	
 	private static  void setupDefaultStyle(){
-		popupIndicator.addStyleName(KSStyles.KS_BLOCKING_TASK_WINDOW);
 		listPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_LIST);
 		mainPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_MAIN);
 		mainPanel.addStyleName(KSStyles.KS_MOUSE_NORMAL);
