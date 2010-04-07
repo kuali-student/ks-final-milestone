@@ -38,7 +38,7 @@
         <version>1.0.0</version>
         <configuration>
           <projectFile>classpath:KualiStudent-soapui-project.xml</projectFile>
-          <baseURL>https://test.kuali.org/ks-dev</baseURL>
+          <baseURL>http://appserv-1.ks.kuali.net/ks-standalone</baseURL>
         </configuration>
         <dependencies>
           <dependency>
