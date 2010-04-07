@@ -3743,9 +3743,12 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ST" size="255" type="VARCHAR"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_KEY_ID" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="FK2F5DDA6A5558AE9C">
+            <reference foreign="TYPE_KEY" local="TYPE_KEY_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="KSLU_CLU" name="FK2F5DDA6A4AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
