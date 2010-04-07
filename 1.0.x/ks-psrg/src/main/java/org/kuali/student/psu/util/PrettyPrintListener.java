@@ -1,4 +1,4 @@
-package org.kuali.student.psrg.util;
+package org.kuali.student.psu.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

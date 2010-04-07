@@ -1,4 +1,4 @@
-package org.kuali.student.psrg.util;
+package org.kuali.student.psu.util;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 

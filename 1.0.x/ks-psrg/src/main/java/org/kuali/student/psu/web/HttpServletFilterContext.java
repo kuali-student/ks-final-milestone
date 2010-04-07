@@ -1,4 +1,4 @@
-package org.kuali.student.psrg.web;
+package org.kuali.student.psu.web;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;

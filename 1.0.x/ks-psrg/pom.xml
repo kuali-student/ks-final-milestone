@@ -6,8 +6,8 @@
     <artifactId>student</artifactId>
     <version>1.0.0-m5-SNAPSHOT</version>
   </parent>
-  <groupId>org.kuali.student.psrg</groupId>
-  <artifactId>ks-psrg</artifactId>
+  <groupId>org.kuali.student.psu</groupId>
+  <artifactId>ks-psu</artifactId>
   <packaging>jar</packaging>
   <name>PSRG University</name>
   <description>PSRG University</description>
@@ -96,10 +96,10 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-    	<groupId>aspectj</groupId>
-    	<artifactId>aspectjrt</artifactId>
-    	<version>1.5.4</version>
-    	<scope>compile</scope>
+      <groupId>aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.5.4</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 </project>
