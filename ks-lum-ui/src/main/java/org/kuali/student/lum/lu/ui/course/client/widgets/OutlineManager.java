@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -19,20 +20,20 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 class OutlineManagerToolbar extends HorizontalPanel {
-    KSButton moveUpButton = new KSButton();
+    Button moveUpButton = new Button();
 
-    KSButton moveDownButton = new KSButton();
+    Button moveDownButton = new Button();
 
-    KSButton indentButton = new KSButton();
+    Button indentButton = new Button();
 
-    KSButton outdentButton = new KSButton();
+    Button outdentButton = new Button();
 
-    KSButton deleteButton = new KSButton();
+    Button deleteButton = new Button();
 
 
-    KSButton addPeerButton = new KSButton();
+    Button addPeerButton = new Button();
 
-    KSButton addChildButton = new KSButton();
+    Button addChildButton = new Button();
 
   OutlineNodeModel outlineModel;
 
