@@ -7,14 +7,14 @@
   </parent>
   <groupId>org.kuali.student.test.ws.soapui</groupId>
   <artifactId>ks-soapui</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>WS - SoapUI</name>
   <description>This is a collection of SoapUI artifacts for testing Kuali Student web services</description>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</url>
   </scm>
   <repositories>
     <repository>
