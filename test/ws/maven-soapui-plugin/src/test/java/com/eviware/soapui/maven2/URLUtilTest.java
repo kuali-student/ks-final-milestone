@@ -49,4 +49,24 @@ public class URLUtilTest extends TestCase {
 		assertTrue(s.startsWith("http://localhost/ks-stg"));
 		System.out.println(s);
 	}
+
+	public void testGetUpdatedEndPoint1() {
+		System.out.println();
+		String endpoint = "http://localhost/ks-embedded/services/LUService";
+		String baseURL = "https://test.kuali.org/ks-stg";
+		String servicesContext = "services";
+		String s = uu.getUpdatedEndPoint(endpoint, baseURL, servicesContext);
+		System.out.println(s);
+		assertTrue(s.startsWith("https://test.kuali.org/ks-stg/services/"));
+	}
+
+	public void testGetUpdatedEndPoint2() {
+		System.out.println();
+		String endpoint = "http://localhost/services/LUService";
+		String baseURL = "https://test.kuali.org/";
+		String servicesContext = "services";
+		String s = uu.getUpdatedEndPoint(endpoint, baseURL, servicesContext);
+		System.out.println(s);
+		assertTrue(s.startsWith("https://test.kuali.org/services/"));
+	}
 }

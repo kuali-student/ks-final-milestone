@@ -20,6 +20,29 @@ public class URLUtil {
 	protected final Log log = LogFactory.getLog(this.getClass());
 
 	/**
+	 * Return an updated endpoint based on the baseURL and servicesContext
+	 */
+	public String getUpdatedEndPoint(String endPoint, String baseURL, String servicesContext) {
+		if (!baseURL.endsWith("/")) {
+			baseURL += "/";
+		}
+
+		// Get a URL object
+		URL oldURL = getURL(endPoint);
+		URL newURL = getURL(baseURL);
+
+		String path = oldURL.getPath();
+
+		int pos = path.indexOf("/" + servicesContext + "/") + 1;
+
+		String s = path.substring(pos);
+
+		String newFullURL = newURL.toString() + s;
+
+		return newFullURL;
+	}
+
+	/**
 	 * Replace the port with our new port
 	 * 
 	 * @param endPoint

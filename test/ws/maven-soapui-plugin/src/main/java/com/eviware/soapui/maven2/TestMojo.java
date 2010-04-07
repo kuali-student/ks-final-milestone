@@ -42,6 +42,8 @@ public class TestMojo extends AbstractMojo {
 		runner.setContext(context);
 		runner.setProtocol(protocol);
 		runner.setPort(port);
+		runner.setBaseURL(baseURL);
+		runner.setServicesContext(servicesContext);
 
 		if (endpoint != null) {
 			runner.setEndpoint(endpoint);
@@ -198,6 +200,22 @@ public class TestMojo extends AbstractMojo {
 	 */
 
 	private String context;
+
+	/**
+	 * The base url to use for all requests (eg https://test.kuali.org/ks-stg
+	 * 
+	 * @parameter default-value=""
+	 */
+
+	private String baseURL;
+
+	/**
+	 * The base url to use for all requests (eg https://test.kuali.org/ks-stg
+	 * 
+	 * @parameter default-value="services"
+	 */
+
+	private String servicesContext;
 
 	/**
 	 * Overrides the endpoint to use for requests

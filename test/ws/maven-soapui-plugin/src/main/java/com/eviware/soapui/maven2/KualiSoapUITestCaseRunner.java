@@ -24,6 +24,8 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 	String context;
 	String protocol;
 	Integer port;
+	String baseURL;
+	String servicesContext;
 
 	public KualiSoapUITestCaseRunner() {
 		super();
@@ -58,6 +60,10 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 
 	protected void configureEndpoint(AbstractHttpRequest<?> httpRequest) {
 		if (StringUtils.hasContent(getEndpoint())) {
+			httpRequest.setEndpoint(getEndpoint());
+			return;
+		}
+		if (StringUtils.hasContent(getBaseURL())) {
 			httpRequest.setEndpoint(getEndpoint());
 			return;
 		}
@@ -130,5 +136,21 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 
 	public void setPort(Integer port) {
 		this.port = port;
+	}
+
+	public String getBaseURL() {
+		return baseURL;
+	}
+
+	public void setBaseURL(String baseURL) {
+		this.baseURL = baseURL;
+	}
+
+	public String getServicesContext() {
+		return servicesContext;
+	}
+
+	public void setServicesContext(String servicesContext) {
+		this.servicesContext = servicesContext;
 	}
 }
