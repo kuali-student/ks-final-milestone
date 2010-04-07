@@ -13,10 +13,21 @@
 package com.eviware.soapui.maven2;
 
 import com.eviware.soapui.SoapUI;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 /**
@@ -27,18 +38,45 @@ import java.util.Properties;
 
 public class TestMojo extends AbstractMojo {
 
+	protected File copyProjectFile() throws MojoExecutionException {
+		if (projectFile == null) {
+			throw new MojoExecutionException("soapui-project-file setting is required");
+		}
+
+		InputStream in = null;
+		OutputStream out = null;
+		try {
+			ResourceLoader loader = new DefaultResourceLoader();
+			Resource resource = loader.getResource(projectFile);
+			in = resource.getInputStream();
+			File temp = getTemporaryFile();
+			out = new BufferedOutputStream(new FileOutputStream(temp));
+			IOUtils.copy(in, out);
+			return temp;
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error copying project file", e);
+		} finally {
+			IOUtils.closeQuietly(in);
+			IOUtils.closeQuietly(out);
+		}
+	}
+
+	protected File getTemporaryFile() throws IOException {
+		File temp = File.createTempFile("soapui-project", ".xml");
+		temp.deleteOnExit();
+		return temp;
+	}
+
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		if (skip || "true".equals(System.getProperty("maven.test.skip"))) {
 			return;
 		}
 
-		if (projectFile == null) {
-			throw new MojoExecutionException("soapui-project-file setting is required");
-		}
-
 		getLog().info("Running SoapUI version: " + SoapUI.SOAPUI_VERSION);
 		KualiSoapUITestCaseRunner runner = new KualiSoapUITestCaseRunner("soapUI " + SoapUI.SOAPUI_VERSION + " Maven2 TestCase Runner");
-		runner.setProjectFile(projectFile);
+		File file = copyProjectFile();
+		getLog().info("Loading SoapUI project from: " + file.getAbsolutePath());
+		runner.setProjectFile(file.getAbsolutePath());
 		runner.setContext(context);
 		runner.setProtocol(protocol);
 		runner.setPort(port);
