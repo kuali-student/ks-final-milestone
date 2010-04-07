@@ -55,10 +55,9 @@
         <version>3.5-kuali-1-SNAPSHOT</version>
         <configuration>
           <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
-          <protocol>https</protocol>
-          <host>test.kuali.org</host>
+          <protocol>http</protocol>
+          <host>localhost</host>
           <context>ks-stg</context>
-          <port>443</port>
         </configuration>
       </plugin>
     </plugins>
