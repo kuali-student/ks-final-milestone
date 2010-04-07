@@ -35,10 +35,9 @@ import java.util.Properties;
  * 
  * @goal test
  */
-
 public class TestMojo extends AbstractMojo {
 
-	protected File copyProjectFile() throws MojoExecutionException {
+	protected File getProjectFileHandle() throws MojoExecutionException {
 		if (projectFile == null) {
 			throw new MojoExecutionException("soapui-project-file setting is required");
 		}
@@ -79,14 +78,11 @@ public class TestMojo extends AbstractMojo {
 
 		getLog().info("Running SoapUI version: " + SoapUI.SOAPUI_VERSION);
 		KualiSoapUITestCaseRunner runner = new KualiSoapUITestCaseRunner("soapUI " + SoapUI.SOAPUI_VERSION + " Maven2 TestCase Runner");
-		File file = copyProjectFile();
+		File file = getProjectFileHandle();
 		getLog().info("Loading SoapUI project from: " + file.getAbsolutePath());
 		runner.setProjectFile(file.getAbsolutePath());
-		runner.setContext(context);
-		runner.setProtocol(protocol);
-		runner.setPort(port);
 		runner.setBaseURL(baseURL);
-		runner.setServicesContext(servicesContext);
+		runner.setServiceContext(serviceContext);
 
 		if (endpoint != null) {
 			runner.setEndpoint(endpoint);
@@ -140,11 +136,12 @@ public class TestMojo extends AbstractMojo {
 		if (projectProperties != null)
 			runner.setProjectProperties(projectProperties);
 
-		if (soapuiProperties != null && soapuiProperties.size() > 0)
+		if (soapuiProperties != null && soapuiProperties.size() > 0) {
 			for (Object key : soapuiProperties.keySet()) {
 				getLog().info("Setting " + (String) key + " value " + soapuiProperties.getProperty((String) key));
 				System.setProperty((String) key, soapuiProperties.getProperty((String) key));
 			}
+		}
 		try {
 			runner.run();
 		} catch (Exception e) {
@@ -221,31 +218,7 @@ public class TestMojo extends AbstractMojo {
 	private String host;
 
 	/**
-	 * The port to use for requests (eg 80, 443)
-	 * 
-	 * @parameter default-value="80"
-	 */
-
-	private Integer port;
-
-	/**
-	 * The protocol to use for requests (eg http, https)
-	 * 
-	 * @parameter default-value="http"
-	 */
-
-	private String protocol;
-
-	/**
-	 * The context to use for requests (eg ks-embedded, ks-stg, ks-dev etc)
-	 * 
-	 * @parameter default-value=""
-	 */
-
-	private String context;
-
-	/**
-	 * The base url to use for all requests (eg https://test.kuali.org/ks-stg
+	 * The base url to use for all requests (eg https://test.kuali.org/ks-stg)
 	 * 
 	 * @parameter default-value=""
 	 */
@@ -253,12 +226,12 @@ public class TestMojo extends AbstractMojo {
 	private String baseURL;
 
 	/**
-	 * The base url to use for all requests (eg https://test.kuali.org/ks-stg
+	 * The context services are deployed to eg ("/services/")
 	 * 
 	 * @parameter default-value="services"
 	 */
 
-	private String servicesContext;
+	private String serviceContext;
 
 	/**
 	 * Overrides the endpoint to use for requests

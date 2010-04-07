@@ -11,7 +11,9 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.tools.SoapUITestCaseRunner;
 
 /**
- * Allows context, protocol, and port to be specified in addition to host
+ * Allows a baseURL to be specified that service endpoints are relative to. Also allows a
+ * serviceContext to be specified. The serviceContext defaults to "/services/" if nothing is
+ * specified
  * 
  * @author Jeff Caddel
  * 
@@ -21,11 +23,8 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 	protected final Log log = LogFactory.getLog(this.getClass());
 
 	URLUtil urlUtil = new URLUtil();
-	String context;
-	String protocol;
-	Integer port;
 	String baseURL;
-	String servicesContext;
+	String serviceContext;
 
 	public KualiSoapUITestCaseRunner() {
 		super();
@@ -66,7 +65,7 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 		if (StringUtils.hasContent(getBaseURL())) {
 			try {
 				log.info("Old endpoint: " + httpRequest.getEndpoint());
-				String newEndPoint = urlUtil.getUpdatedEndPoint(httpRequest.getEndpoint(), baseURL, servicesContext);
+				String newEndPoint = urlUtil.getUpdatedEndPoint(httpRequest.getEndpoint(), baseURL, serviceContext);
 				log.info("New endpoint: " + newEndPoint);
 				httpRequest.setEndpoint(newEndPoint);
 			} catch (Exception e) {
@@ -83,34 +82,6 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 				log.error("Failed to set host on endpoint", e);
 			}
 		}
-		if (StringUtils.hasContent(getContext())) {
-			try {
-				log.info("Replacing context: '" + httpRequest.getEndpoint() + "' with '" + getContext() + "'");
-				String ep = urlUtil.replaceContext(httpRequest.getEndpoint(), getContext());
-				httpRequest.setEndpoint(ep);
-			} catch (Exception e) {
-				log.error("Failed to set context on endpoint", e);
-			}
-		}
-		log.info("Protocol: " + getProtocol());
-		if (StringUtils.hasContent(getProtocol())) {
-			try {
-				log.info("Replacing protocol: '" + httpRequest.getEndpoint() + "' with '" + getProtocol() + "'");
-				String ep = urlUtil.replaceProtocol(httpRequest.getEndpoint(), getProtocol());
-				httpRequest.setEndpoint(ep);
-			} catch (Exception e) {
-				log.error("Failed to set protocol on endpoint", e);
-			}
-		}
-		if (port != null) {
-			try {
-				log.info("Replacing port: '" + httpRequest.getEndpoint() + "' with '" + getPort() + "'");
-				String ep = urlUtil.replacePort(httpRequest.getEndpoint(), getPort());
-				httpRequest.setEndpoint(ep);
-			} catch (Exception e) {
-				log.error("Failed to set port on endpoint", e);
-			}
-		}
 	}
 
 	public URLUtil getUrlUtil() {
@@ -121,30 +92,6 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 		this.urlUtil = urlUtil;
 	}
 
-	public String getContext() {
-		return context;
-	}
-
-	public void setContext(String context) {
-		this.context = context;
-	}
-
-	public String getProtocol() {
-		return protocol;
-	}
-
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
-	}
-
-	public Integer getPort() {
-		return port;
-	}
-
-	public void setPort(Integer port) {
-		this.port = port;
-	}
-
 	public String getBaseURL() {
 		return baseURL;
 	}
@@ -153,11 +100,11 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 		this.baseURL = baseURL;
 	}
 
-	public String getServicesContext() {
-		return servicesContext;
+	public String getServiceContext() {
+		return serviceContext;
 	}
 
-	public void setServicesContext(String servicesContext) {
-		this.servicesContext = servicesContext;
+	public void setServiceContext(String servicesContext) {
+		this.serviceContext = servicesContext;
 	}
 }
