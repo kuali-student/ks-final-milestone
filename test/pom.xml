@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student-parent</artifactId>
-    <version>4</version>
+    <version>1</version>
     <relativePath>../maven/student/pom.xml</relativePath>
   </parent>
   <groupId>org.kuali.student.test</groupId>
