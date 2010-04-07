@@ -46,6 +46,13 @@
       <id>eviwarePluginRepository</id>
       <url>http://www.eviware.com/repository/maven2</url>
     </pluginRepository>
+    <pluginRepository>
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
   </pluginRepositories>
   <build>
     <plugins>
