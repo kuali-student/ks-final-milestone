@@ -154,7 +154,9 @@
 	<bean parent="enCourse" p:id="cluCourseRequisites" p:value="Course Requisites" />
 	<bean parent="enCourse" p:id="cluPreRequisites" p:value="Pre-Requisites" />
 	<bean parent="enCourse" p:id="cluCoRequisites" p:value="Co-Requisites" />
-
+	<bean parent="enCourse" p:id="cluAntiRequisites" p:value="Anti-Requisites" />
+	<bean parent="enCourse" p:id="cluEnrollRequisites" p:value="Enrollment-Requisites" />
+	
 	<bean parent="enCourse" p:id="cluAdministration" p:value="Administration" />
 	<bean parent="enCourse" p:id="cluEffectiveDate" p:value="Course active on" />
 
