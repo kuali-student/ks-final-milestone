@@ -64,7 +64,14 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 			return;
 		}
 		if (StringUtils.hasContent(getBaseURL())) {
-			httpRequest.setEndpoint(getEndpoint());
+			try {
+				log.info("Old endpoint: " + httpRequest.getEndpoint());
+				String newEndPoint = urlUtil.getUpdatedEndPoint(httpRequest.getEndpoint(), baseURL, servicesContext);
+				log.info("New endpoint: " + newEndPoint);
+				httpRequest.setEndpoint(newEndPoint);
+			} catch (Exception e) {
+				log.error("Failed to set host on endpoint", e);
+			}
 			return;
 		}
 		if (StringUtils.hasContent(getHost())) {
