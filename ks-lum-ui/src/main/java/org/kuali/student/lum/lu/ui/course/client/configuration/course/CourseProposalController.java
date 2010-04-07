@@ -47,10 +47,11 @@ import org.kuali.student.common.ui.client.service.WorkflowRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -194,16 +195,12 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
 
     private void init(final Callback<Boolean> onReadyCallback) {
-    	KSProgressIndicator progressInd = new KSProgressIndicator();
-    	progressInd.setText("Loading");
-    	progressInd.show();
-    	progressWindow.removeCloseLink();
-    	progressWindow.setWidget(progressInd);
 
     	if (initialized) {
     		onReadyCallback.exec(true);
     	} else {
-    		progressWindow.show();
+        	final BlockingTask loadTask = new BlockingTask("Loading");
+    		KSBlockingProgressIndicator.addTask(loadTask);
 
     		String idType = null;
     		String viewContextId = null;
@@ -233,7 +230,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
 	        	public void onFailure(Throwable caught) {
 	                    	onReadyCallback.exec(false);
-	                    	progressWindow.hide();
+	                    	KSBlockingProgressIndicator.removeTask(loadTask);
 	                        throw new RuntimeException("Failed to get model definition.", caught);                        
 	                    }
 	
@@ -243,7 +240,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	                        init(def);
 	                        initialized = true;
 	                        onReadyCallback.exec(true);
-	                        progressWindow.hide();
+	                        KSBlockingProgressIndicator.removeTask(loadTask);
 	                    }                
 	            });	        
     	}
