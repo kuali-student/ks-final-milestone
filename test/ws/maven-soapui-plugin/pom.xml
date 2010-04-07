@@ -180,41 +180,6 @@
       <version>xmlbeans-2.4.0</version>
     </dependency>
     <dependency>
-      <groupId>eviware</groupId>
-      <artifactId>soapui-xmlbeans</artifactId>
-      <version>3.5-beta2</version>
-    </dependency>
-    <dependency>
-      <groupId>eviware</groupId>
-      <artifactId>policy-xmlbeans</artifactId>
-      <version>1.5</version>
-    </dependency>
-    <dependency>
-      <groupId>eviware</groupId>
-      <artifactId>ext-xmlbeans</artifactId>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>eviware</groupId>
-      <artifactId>soap-xmlbeans</artifactId>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>eviware</groupId>
-      <artifactId>wadl-xmlbeans</artifactId>
-      <version>1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>eviware</groupId>
-      <artifactId>j2ee-xmlbeans</artifactId>
-      <version>1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>eviware</groupId>
-      <artifactId>soapui</artifactId>
-      <version>3.5-beta2</version>
-    </dependency>
-    <dependency>
       <groupId>saxon</groupId>
       <artifactId>saxon</artifactId>
       <version>9.1.0.8j</version>
@@ -379,5 +344,42 @@
       <version>1.5</version>
       <type>jar</type>
     </dependency>
+
+    <dependency>
+      <groupId>eviware</groupId>
+      <artifactId>soapui-xmlbeans</artifactId>
+      <version>3.5</version>
+    </dependency>
+    <dependency>
+      <groupId>eviware</groupId>
+      <artifactId>policy-xmlbeans</artifactId>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>eviware</groupId>
+      <artifactId>ext-xmlbeans</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>eviware</groupId>
+      <artifactId>soap-xmlbeans</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>eviware</groupId>
+      <artifactId>wadl-xmlbeans</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>eviware</groupId>
+      <artifactId>j2ee-xmlbeans</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>eviware</groupId>
+      <artifactId>soapui</artifactId>
+      <version>3.5</version>
+    </dependency>
+
   </dependencies>
 </project>
