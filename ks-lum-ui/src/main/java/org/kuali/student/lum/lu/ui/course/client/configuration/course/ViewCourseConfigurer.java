@@ -36,6 +36,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedO
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
@@ -65,6 +66,7 @@ CreditCourseDurationConstants,
 FeeInfoConstants,
 LearningObjectiveConstants,
 CreditCourseRevenueInfoConstants,
+CreditCourseExpenditureInfoConstants,
 AffiliatedOrgInfoConstants
 {
 
@@ -128,8 +130,8 @@ AffiliatedOrgInfoConstants
 //FIXME        addField(section, CREDITS,  getLabel(LUConstants.CREDITS_LABEL_KEY), new KSLabel());
         addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new KSLabelList(true));
         addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
-        //FIXME: Need to translate the FEE ID
-        addField(section, FEES , getLabel(LUConstants.FINANCIALS_LABEL_KEY), new FeeList(FEES));
+
+        addField(section, FEES , "Fees", new FeesList(FEES));
         addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList(CAMPUS_LOCATIONS));
 
         addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
@@ -159,8 +161,11 @@ AffiliatedOrgInfoConstants
         addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
 
         addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList(ACADEMIC_SUBJECT_ORGS));
-        addField(section,  REVENUE_INFO , getLabel(LUConstants.REVENUE), new RevenueInformationList(REVENUE_INFO));
-        addField(section,  EXPENDITURE_INFO , "Expenditure Info", new ExpenditureInformationList(EXPENDITURE_INFO));
+        
+        String revenuePath=QueryPath.concat(REVENUE_INFO, REVENUE_ORG).toString();
+        addField(section, revenuePath  , getLabel(LUConstants.REVENUE), new RevenueInformationList(revenuePath));
+        String expenditurePath = QueryPath.concat(EXPENDITURE_INFO, EXPENDITURE_ORG).toString();
+        addField(section,  expenditurePath , "Expenditure Info", new ExpenditureInformationList(EXPENDITURE_INFO));
 
         addField(section, COURSE_SPECIFIC_LOS,  getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY),  new LearningObjectiveList(COURSE_SPECIFIC_LOS));
         
@@ -339,10 +344,41 @@ AffiliatedOrgInfoConstants
         }
     } 
 
-    public class FeeList extends DisplayMultiplicityComposite {
+    public class FeesList extends DisplayMultiplicityComposite {
     	
 		private final String parentPath;
-        public FeeList(String parentPath){
+        public FeesList(String parentPath){
+            this.parentPath = parentPath;
+        }
+
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection groupSection = new GroupSection();   		
+    		
+            String fixedFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.FIXED_RATE_FEE).toString();
+            addField(groupSection, FeeInfoConstants.FIXED_RATE_FEE, null, new FeeDetailsList(fixedFeePath), path );
+
+            groupSection.nextLine();
+            String variableFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.VARIABLE_RATE_FEE).toString();
+            addField(groupSection, FeeInfoConstants.VARIABLE_RATE_FEE, null, new FeeDetailsList(variableFeePath), path );
+            
+            groupSection.nextLine();
+            String perCreditFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.PER_CREDIT_FEE).toString();
+            addField(groupSection, FeeInfoConstants.PER_CREDIT_FEE, null, new FeeDetailsList(perCreditFeePath), path );
+            
+            groupSection.nextLine();
+            String multipleFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.MULTIPLE_RATE_FEE).toString();
+            addField(groupSection, FeeInfoConstants.MULTIPLE_RATE_FEE, null, new FeeDetailsList(multipleFeePath), path );
+
+            return groupSection;
+        }
+    }
+    
+
+    public class FeeDetailsList extends DisplayMultiplicityComposite {
+		private final String parentPath;
+        public FeeDetailsList(String parentPath){
             this.parentPath = parentPath;
         }
 
@@ -350,14 +386,13 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
-
-            addField(groupSection, "id", getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
-            addField(groupSection, "feeType", getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
-            addField(groupSection, "rateType",  getLabel(LUConstants.RATE_TYPE), new KSLabel(),path);
+            addField(groupSection,  "rateType",  null, new KSLabel(),path);
+            addField(groupSection,  "amount",  null, new KSLabel(),path);
+            addField(groupSection, "feeType", null, new KSLabel(),path );
             return groupSection;
+       	
         }
     }
-    
     public class RevenueInformationList extends DisplayMultiplicityComposite {
     	
 		private final String parentPath;
@@ -370,8 +405,8 @@ AffiliatedOrgInfoConstants
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, REVENUE_ORG, getLabel(LUConstants.REVENUE), new KSLabel(),  path );
-            addField(groupSection, PERCENTAGE, getLabel(LUConstants.AMOUNT), new KSLabel(),  path );
+            addField(groupSection, getTranslationKey(ORG_ID), null, new KSLabel(),  path );
+            addField(groupSection, PERCENTAGE, null, new KSLabel(),  path );
             return groupSection;
         }
     }
@@ -385,10 +420,10 @@ AffiliatedOrgInfoConstants
 
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, EXPENDITURE_INFO, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, "expenditureOrg",  getLabel(LUConstants.EXPENDITURE),new KSLabel(), path );
+            addField(groupSection, getTranslationKey("expenditureOrg"),  getLabel(LUConstants.EXPENDITURE),new KSLabel(), path );
             addField(groupSection, "totalPercentage", getLabel(LUConstants.AMOUNT), new KSLabel(), path);
 
             return groupSection;
