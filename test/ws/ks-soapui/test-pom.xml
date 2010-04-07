@@ -44,7 +44,7 @@
           <dependency>
             <groupId>org.kuali.student.test.ws.soapui</groupId>
             <artifactId>ks-soapui</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-m5</version>
           </dependency>
         </dependencies>
       </plugin>
