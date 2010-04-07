@@ -1,5 +1,0 @@
-<module>
-	<inherits name="org.kuali.student.common.ui.CommonUI"/>
-	
-	<extend-property name="locale" values="en"/>
-</module>
