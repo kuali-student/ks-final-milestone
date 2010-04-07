@@ -17,7 +17,7 @@
       <plugin>
         <groupId>eviware</groupId>
         <artifactId>maven-soapui-plugin</artifactId>
-        <version>3.6-SNAPSHOT</version>
+        <version>3.5-KUALI-SNAPSHOT</version>
         <configuration>
           <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
           <host>https://localhost/ks-embedded</host>
