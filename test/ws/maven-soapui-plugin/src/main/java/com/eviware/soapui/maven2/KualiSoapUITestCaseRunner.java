@@ -35,47 +35,7 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 
 	protected void prepareRequestStep(HttpRequestTestStep requestStep) {
 		AbstractHttpRequest<?> httpRequest = requestStep.getHttpRequest();
-		if (StringUtils.hasContent(getEndpoint())) {
-			httpRequest.setEndpoint(getEndpoint());
-		} else {
-			if (StringUtils.hasContent(getHost())) {
-				try {
-					log.info("Replacing host: '" + httpRequest.getEndpoint() + "' with '" + getHost() + "'");
-					String ep = urlUtil.replaceHost(httpRequest.getEndpoint(), getHost());
-					httpRequest.setEndpoint(ep);
-				} catch (Exception e) {
-					log.error("Failed to set host on endpoint", e);
-				}
-			}
-			if (StringUtils.hasContent(getContext())) {
-				try {
-					log.info("Replacing context: '" + httpRequest.getEndpoint() + "' with '" + getContext() + "'");
-					String ep = urlUtil.replaceContext(httpRequest.getEndpoint(), getContext());
-					httpRequest.setEndpoint(ep);
-				} catch (Exception e) {
-					log.error("Failed to set context on endpoint", e);
-				}
-			}
-			log.info("Protocol: " + getProtocol());
-			if (StringUtils.hasContent(getProtocol())) {
-				try {
-					log.info("Replacing protocol: '" + httpRequest.getEndpoint() + "' with '" + getProtocol() + "'");
-					String ep = urlUtil.replaceProtocol(httpRequest.getEndpoint(), getProtocol());
-					httpRequest.setEndpoint(ep);
-				} catch (Exception e) {
-					log.error("Failed to set protocol on endpoint", e);
-				}
-			}
-			if (port != null) {
-				try {
-					log.info("Replacing port: '" + httpRequest.getEndpoint() + "' with '" + getPort() + "'");
-					String ep = urlUtil.replacePort(httpRequest.getEndpoint(), getPort());
-					httpRequest.setEndpoint(ep);
-				} catch (Exception e) {
-					log.error("Failed to set port on endpoint", e);
-				}
-			}
-		}
+		configureEndpoint(httpRequest);
 
 		if (StringUtils.hasContent(getUsername())) {
 			httpRequest.setUsername(getUsername());
@@ -92,6 +52,50 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 		if (httpRequest instanceof WsdlRequest) {
 			if (getWssPasswordType() != null && getWssPasswordType().length() > 0) {
 				((WsdlRequest) httpRequest).setWssPasswordType(getWssPasswordType().equals("Digest") ? WsdlTestRequest.PW_TYPE_DIGEST : WsdlTestRequest.PW_TYPE_TEXT);
+			}
+		}
+	}
+
+	protected void configureEndpoint(AbstractHttpRequest<?> httpRequest) {
+		if (StringUtils.hasContent(getEndpoint())) {
+			httpRequest.setEndpoint(getEndpoint());
+			return;
+		}
+		if (StringUtils.hasContent(getHost())) {
+			try {
+				log.info("Replacing host: '" + httpRequest.getEndpoint() + "' with '" + getHost() + "'");
+				String ep = urlUtil.replaceHost(httpRequest.getEndpoint(), getHost());
+				httpRequest.setEndpoint(ep);
+			} catch (Exception e) {
+				log.error("Failed to set host on endpoint", e);
+			}
+		}
+		if (StringUtils.hasContent(getContext())) {
+			try {
+				log.info("Replacing context: '" + httpRequest.getEndpoint() + "' with '" + getContext() + "'");
+				String ep = urlUtil.replaceContext(httpRequest.getEndpoint(), getContext());
+				httpRequest.setEndpoint(ep);
+			} catch (Exception e) {
+				log.error("Failed to set context on endpoint", e);
+			}
+		}
+		log.info("Protocol: " + getProtocol());
+		if (StringUtils.hasContent(getProtocol())) {
+			try {
+				log.info("Replacing protocol: '" + httpRequest.getEndpoint() + "' with '" + getProtocol() + "'");
+				String ep = urlUtil.replaceProtocol(httpRequest.getEndpoint(), getProtocol());
+				httpRequest.setEndpoint(ep);
+			} catch (Exception e) {
+				log.error("Failed to set protocol on endpoint", e);
+			}
+		}
+		if (port != null) {
+			try {
+				log.info("Replacing port: '" + httpRequest.getEndpoint() + "' with '" + getPort() + "'");
+				String ep = urlUtil.replacePort(httpRequest.getEndpoint(), getPort());
+				httpRequest.setEndpoint(ep);
+			} catch (Exception e) {
+				log.error("Failed to set port on endpoint", e);
 			}
 		}
 	}
