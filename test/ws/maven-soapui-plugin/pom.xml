@@ -13,6 +13,25 @@
   <version>3.5-kuali-SNAPSHOT</version>
   <name>soapUI - Maven 2 plugin</name>
   <repositories>
+    <!--
+      Once the Kuali Master POM has been approved and published to the
+      kuali.release repository, remove the kuali.release.lab repository entry
+      from this pom
+    -->
+    <repository>
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
     <repository>
       <id>eviwareRepository</id>
       <url>http://www.eviware.com/repository/maven2</url>
@@ -28,9 +47,6 @@
       <url>http://www.eviware.com/repository/maven2</url>
     </pluginRepository>
   </pluginRepositories>
-  <scm>
-    <connection>scm:svn:svn://svn.eviware.com/soapui/trunk/maven-plugin</connection>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
