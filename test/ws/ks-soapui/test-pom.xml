@@ -7,22 +7,12 @@
     <version>1.0.0</version>
   </parent>
   <groupId>org.kuali.student.test.ws.soapui</groupId>
-  <artifactId>ks-soapui</artifactId>
+  <artifactId>ks-test-pom</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <name>WS - SoapUI</name>
-  <description>This is a collection of SoapUI artifacts for testing Kuali Student web services</description>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</url>
-  </scm>
+  <description>Just a simple test pom</description>
   <repositories>
-    <!--
-      Once the Kuali Master POM has been approved and published to the
-      kuali.release repository, remove the kuali.release.lab repository entry
-      from this pom
-    -->
     <repository>
       <id>kuali.release.lab</id>
       <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
@@ -47,4 +37,24 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.student.test.ws</groupId>
+        <artifactId>maven-soapui-plugin</artifactId>
+        <version>3.5-kuali-3</version>
+        <configuration>
+          <projectFile>classpath:KualiStudent-soapui-project.xml</projectFile>
+          <baseURL>https://test.kuali.org/ks-dev</baseURL>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.kuali.student.test.ws.soapui</groupId>
+            <artifactId>ks-soapui</artifactId>
+            <version>1.0.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 </project>
