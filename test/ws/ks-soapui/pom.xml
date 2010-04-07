@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student.test.ws</groupId>
@@ -8,14 +7,14 @@
   </parent>
   <groupId>org.kuali.student.test.ws.soapui</groupId>
   <artifactId>ks-soapui</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   <name>WS - SoapUI</name>
   <description>This is a collection of SoapUI artifacts for testing Kuali Student web services</description>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/ks-soapui</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0</url>
   </scm>
   <repositories>
     <repository>
