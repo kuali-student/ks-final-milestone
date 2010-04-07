@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
@@ -33,7 +35,10 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedO
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoChildSingleUseLosConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
@@ -108,14 +113,91 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         section.addSection(courseLogisticsSection);
         
         section.addSection(generateCourseInfoSection());
-        //section.addSection(generateLearningObjectivesSection());
+        section.addSection(generateLearningObjectivesSummarySection());
         section.addSection(generateCourseRequisitesSummarySection());
         section.addSection(generateActiveDatesSection());
         //section.addSection(generateFinancialsSection()); Not working in edit mode        
         return section;
     }
     
+    protected VerticalSection generateLearningObjectivesSummarySection(){
+    	VerticalSection learningObjectivesSummarySection = initSection(getH3Title(LUConstants.LEARNING_OBJECTIVE_LABEL_KEY), WITH_DIVIDER);
+    	FieldDescriptor fd = addField(learningObjectivesSummarySection, COURSE+"/"+COURSE_SPECIFIC_LOS);
+        fd.setWidgetBinding(new CourseLOsBinding());
+        fd.setFieldWidget(new CourseLoPanel());
+        learningObjectivesSummarySection.addField(fd);
+    	return learningObjectivesSummarySection;
+    }
     
+    public class CourseLOsBinding implements ModelWidgetBinding<CourseLoPanel>{
+		@Override
+		public void setModelValue(
+				CourseLoPanel widget,
+				DataModel model, String path) {
+			return;
+		}
+
+		@Override
+		public void setWidgetValue(
+				CourseLoPanel widget,
+				DataModel model, String path) {
+    		widget.update(model,path);
+		}
+    }
+    public class CourseLoPanel extends Composite{
+    	private VerticalPanel rootPanel = new VerticalPanel();
+    	public CourseLoPanel(){
+    		super();
+    		initWidget(rootPanel);
+    	}
+    	public void parseAndDisplay(Data data, int nestLevel){
+    		Iterator<Data.Property> iter = data.realPropertyIterator();
+    		while(iter.hasNext()){
+    			Data.Property prop = iter.next();
+    			if(prop.getValue() instanceof Data){
+    				Data propData = (Data)prop.getValue();
+    				if(Integer.class.equals(prop.getKeyType())||SingleUseLoConstants.CHILD_SINGLE_USE_LOS.equals(prop.getKey())){
+    					parseAndDisplay(propData, nestLevel+1);
+    				}else if(CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO.equals(prop.getKey())||
+    						SingleUseLoChildSingleUseLosConstants.CHILD_LO.equals(prop.getKey())){
+    					//Do display
+    					String loString = propData.query(SingleUseLoConstants.DESCRIPTION+"/"+"plain");
+    					for(int i=0;i<nestLevel;i++){
+    						loString = "  "+loString;//TODO unsure on how styling work
+    					}
+    					Data categoryData = propData.get(SingleUseLoConstants.CATEGORIES);
+    					if(categoryData!=null){
+    						loString+=" (";
+    						Iterator<Data.Property> catIter = categoryData.realPropertyIterator();
+    						while(catIter.hasNext()){
+    							Data.Property category = catIter.next();
+    							if(category.getValue()!=null){
+    								String categoryDesc = ((Data)category.getValue()).get(SingleUseLoConstants.NAME);
+    								loString+=categoryDesc;
+    								if(catIter.hasNext()){
+    									loString+=", ";
+    								}
+    							}
+    						}
+    						loString+=")";
+    					}
+    					KSLabel label= new KSLabel(loString);
+    					rootPanel.add(label);
+    					
+   						if(propData.get(SingleUseLoConstants.CHILD_SINGLE_USE_LOS)!=null){
+    						//Parse more here
+    						parseAndDisplay((Data)propData.get(SingleUseLoConstants.CHILD_SINGLE_USE_LOS), nestLevel+1);
+   						}
+    				}
+    			}
+    		}
+    	}
+    	public void update(DataModel model, String path){
+    		rootPanel.clear();
+			Data data = model.getRoot().query(path);
+			parseAndDisplay(data,0);
+    	}
+    }
     protected VerticalSection generateCourseRequisitesSummarySection(){
     	VerticalSection courseRequisitesSummarySection = initSection(getH3Title(LUConstants.REQUISITES_LABEL_KEY), WITH_DIVIDER);
     	FieldDescriptor fd = addField(courseRequisitesSummarySection, COURSE+"/"+STATEMENTS);
