@@ -93,6 +93,7 @@
 			<ref bean="enumeration.queryParam.contextValue" />
 			<ref bean="enumeration.queryParam.contextDate" />
 			<ref bean="enumeration.queryParam.enumerationCode" />
+			<ref bean="enumeration.queryParam.enumerationOptionalCode" />			
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
@@ -125,6 +126,12 @@
 		<ref bean="enumeration.fieldDescriptor.enumerationCode" />
 	</search:queryParam>
 	
+	<search:queryParam id="enumeration.queryParam.enumerationOptionalCode" parent="enumeration.queryParam.enumerationOptionalCode-parent"/>
+	<search:queryParam id="enumeration.queryParam.enumerationOptionalCode-parent" 
+		optional="true" abstract="true">
+		<ref bean="enumeration.fieldDescriptor.enumerationOptionalCode" />
+	</search:queryParam>	
+	
 	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumType" parent="enumeration.fieldDescriptor.enumType-parent"/>
 	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumType-parent" abstract="true">
 		<dict:name>Enumeration Type</dict:name>
@@ -155,10 +162,17 @@
 	
 	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumerationCode" parent="enumeration.fieldDescriptor.enumerationCode-parent"/>
 	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumerationCode-parent" abstract="true">
-		<dict:name>Context Value</dict:name>
-		<dict:desc>The value of the supplied context</dict:desc>
+		<dict:name>Enumeration Code</dict:name>
+		<dict:desc>The code of the enumeration</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	
+	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumerationOptionalCode" parent="enumeration.fieldDescriptor.enumerationOptionalCode-parent"/>
+	<dict:fieldDescriptor id="enumeration.fieldDescriptor.enumerationOptionalCode-parent" abstract="true">
+		<dict:name>Enumeration Code</dict:name>
+		<dict:desc>Enumeration code with wild card</dict:desc>
+		<dict:dataType>string</dict:dataType>
+	</dict:fieldDescriptor>	
 	
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -169,6 +183,9 @@
 				<entry key="enumeration.queryParam.enumerationCode">
 					<value>enumValue.code = :enumeration_queryParam_enumerationCode</value>
 				</entry>
+				<entry key="enumeration.queryParam.enumerationOptionalCode">
+					<value>enumValue.code</value>
+				</entry>				
 			</map>
 		</property>
 	</bean>
