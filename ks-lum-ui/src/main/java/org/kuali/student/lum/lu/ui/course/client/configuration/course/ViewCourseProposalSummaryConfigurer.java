@@ -1,11 +1,13 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
@@ -15,6 +17,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -25,17 +28,25 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
+import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author Daniel Epstein
+ *
+ */
 public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
 
     
@@ -79,7 +90,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
 
         //addField(section, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, getLabel(LUConstants.DESCRIPTION_LABEL_LABEL_KEY), new KSLabel());
        // TODO: Norm: find out why was this prefixed with proposal there is no state on proposal it is on the main object
-        addField(section, PROPOSAL + "/" + CreditCourseProposalConstants.STATE, getLabel(LUConstants.STATUS_LABEL_KEY), new KSLabel());
+        //addField(section, PROPOSAL + "/" + CreditCourseProposalConstants.STATE, getLabel(LUConstants.STATUS_LABEL_KEY), new KSLabel());
         return section;
     }
 	
@@ -97,12 +108,76 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         section.addSection(courseLogisticsSection);
         
         section.addSection(generateCourseInfoSection());
-        section.addSection(generateLearningObjectivesSection());
-        section.addSection(generateCourseRequisitesSection());
+        //section.addSection(generateLearningObjectivesSection());
+        section.addSection(generateCourseRequisitesSummarySection());
         section.addSection(generateActiveDatesSection());
         //section.addSection(generateFinancialsSection()); Not working in edit mode        
         return section;
     }
+    
+    
+    protected VerticalSection generateCourseRequisitesSummarySection(){
+    	VerticalSection courseRequisitesSummarySection = initSection(getH3Title(LUConstants.REQUISITES_LABEL_KEY), WITH_DIVIDER);
+    	FieldDescriptor fd = addField(courseRequisitesSummarySection, COURSE+"/"+STATEMENTS);
+        fd.setWidgetBinding(new CourseRequisitesBinding());
+        fd.setFieldWidget(new RequisitePanel());
+    	courseRequisitesSummarySection.addField(fd);
+    	return courseRequisitesSummarySection;
+    }
+    
+    public class CourseRequisitesBinding implements ModelWidgetBinding<RequisitePanel>{
+		@Override
+		public void setModelValue(
+				RequisitePanel widget,
+				DataModel model, String path) {
+			return;
+		}
+
+		@Override
+		public void setWidgetValue(
+				RequisitePanel widget,
+				DataModel model, String path) {
+    		widget.update(model,path);
+		}
+    }
+
+    
+    public class RequisitePanel extends Composite{
+    	private VerticalPanel rootPanel = new VerticalPanel();
+    	public RequisitePanel(){
+    		super();
+    		initWidget(rootPanel);
+    	}
+    	public void update(DataModel model, String path){
+			LuData data = (LuData)model.getRoot();
+			List<RuleInfo> ruleInfos = data.getRuleInfos();
+    		
+    		rootPanel.clear();
+    		if(ruleInfos!=null){
+    			//For every rule info, look up the type and corresponding statement, then add labels to the rootPanel
+    			for(RuleInfo ruleInfo:ruleInfos){
+    				String type = ruleInfo.getSelectedStatementType();
+    				String typeDisplay="";
+    				if(RuleConstants.KS_STATEMENT_TYPE_PREREQ.equals(type)){
+    					typeDisplay=LUConstants.PREQS_LABEL_KEY;
+    				}else if(RuleConstants.KS_STATEMENT_TYPE_COREQ.equals(type)){
+    					typeDisplay=LUConstants.CREQS_LABEL_KEY;
+    				}else if(RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ.equals(type)){
+    					typeDisplay=LUConstants.EREQS_LABEL_KEY;
+    				}else if(RuleConstants.KS_STATEMENT_TYPE_ANTIREQ.equals(type)){
+    					typeDisplay=LUConstants.AREQS_LABEL_KEY;
+    				}
+    				rootPanel.add(getH4Title(typeDisplay));
+    				KSLabel rationaleLabel = new KSLabel(ruleInfo.getRationale());
+    				rootPanel.add(rationaleLabel);
+    				String statement = data.query(path+"/"+ruleInfo.getId());
+    				KSLabel statementLabel = new KSLabel(statement);
+    				rootPanel.add(statementLabel);
+    			}
+    		}
+    	}
+    }
+    
     @Override
     protected VerticalSection generateCourseFormatsSection() {
         //COURSE FORMATS
@@ -170,6 +245,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
     	return fd;
     }
 
+   
 	public class CourseFormatList extends UpdatableMultiplicityComposite {
     	private final String parentPath;
         public CourseFormatList(String parentPath){
@@ -177,6 +253,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         	this.parentPath = parentPath;
             setAddItemLabel(getLabel(LUConstants.COURSE_ADD_FORMAT_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));
+            this.readOnly=true;
         }
 
         public Widget createItem() {
@@ -195,6 +272,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         	this.parentPath = parentPath;
             setAddItemLabel(getLabel(LUConstants.ADD_ACTIVITY_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY));
+            this.readOnly=true;
         }
 
         public Widget createItem() {
@@ -330,6 +408,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public OfferedJointlyList(String parentPath){
             super(StyleType.TOP_LEVEL);
             this.parentPath = parentPath;
+            this.readOnly=true;
         }
 
 /*        @Override
@@ -356,6 +435,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public CrossListedList(String parentPath){
         	super(StyleType.TOP_LEVEL);
         	this.parentPath = parentPath;
+        	this.readOnly=true;
         }
 
 /*        @Override
@@ -385,6 +465,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public VersionCodeList(String parentPath){
         	super(StyleType.TOP_LEVEL);
         	this.parentPath = parentPath;
+        	this.readOnly=true;
         }
 
 /*        @Override
@@ -439,7 +520,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public FeeList(String parentPath){
             super(StyleType.TOP_LEVEL);
             this.parentPath = parentPath;
-            
+            this.readOnly=true;
         }
        
         @Override
@@ -496,6 +577,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public MultipleFeeList(String parentPath){
             super(StyleType.TOP_LEVEL);
             this.parentPath = parentPath;
+            this.readOnly=true;
         }
         @Override
         public Widget createItem() {
@@ -540,6 +622,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public FinancialInformationList(String parentPath){
             super(StyleType.TOP_LEVEL);
             this.parentPath = parentPath;
+            this.readOnly=true;
         }
         @Override
         public Widget createItem() {
@@ -598,6 +681,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public ExpenditureList(String parentPath){
             super(StyleType.TOP_LEVEL);
             this.parentPath = parentPath;
+            this.readOnly=true;
         }
         @Override
         public Widget createItem() {

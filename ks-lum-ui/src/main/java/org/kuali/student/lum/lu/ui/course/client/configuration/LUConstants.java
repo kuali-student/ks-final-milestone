@@ -214,7 +214,8 @@ public class LUConstants {
     public static final String REQUISITES_LABEL_KEY = "cluCourseRequisites";
     public static final String PREQS_LABEL_KEY = "cluPreRequisites";
     public static final String CREQS_LABEL_KEY = "cluCoRequisites";
-
+    public static final String AREQS_LABEL_KEY = "cluAntiRequisites";
+    public static final String EREQS_LABEL_KEY = "cluEnrollRequisites";
     //Active Dates labels
     public static final String EFFECTIVE_DATE_LABEL_KEY = "cluEffectiveDate";
     public static final String ACTIVE_DATES_LABEL_KEY = "cluActiveDates";
