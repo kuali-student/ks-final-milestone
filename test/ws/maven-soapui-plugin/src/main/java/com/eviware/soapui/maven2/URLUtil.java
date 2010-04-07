@@ -8,8 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The SoapUI maven plugin did not deal with URL very well. It got confused by
- * http://localhost/ks-embedded for example. This logic properly parses URL in a Kuali Student
+ * The SoapUI maven plugin did not deal with URL's very well. It got confused by
+ * http://localhost/ks-embedded for example. This logic properly parses URL's in a Kuali Student
  * friendly way
  * 
  * @author Jeff Caddel
@@ -23,31 +23,33 @@ public class URLUtil {
 	 * Return an updated endpoint based on the baseURL and servicesContext
 	 */
 	public String getUpdatedEndPoint(String endPoint, String baseURL, String servicesContext) {
+		// Always make sure baseURL ends with a trailing slash
 		if (!baseURL.endsWith("/")) {
 			baseURL += "/";
 		}
 
-		// Get a URL object
+		// Construct some URL objects
 		URL oldURL = getURL(endPoint);
 		URL newURL = getURL(baseURL);
 
+		// Extract the path portion of the existing endpoint
 		String path = oldURL.getPath();
 
+		// Figure out where the "/services/" portion of the path is
 		int pos = path.indexOf("/" + servicesContext + "/") + 1;
 
-		String s = path.substring(pos);
+		// Save the portion pointing to the service, eg "services/LuService"
+		String serviceSuffix = path.substring(pos);
 
-		String newFullURL = newURL.toString() + s;
+		// Append this to the baseURL
+		String newFullURL = newURL.toString() + serviceSuffix;
 
+		// Return the new URL
 		return newFullURL;
 	}
 
 	/**
 	 * Replace the port with our new port
-	 * 
-	 * @param endPoint
-	 * @param context
-	 * @return
 	 */
 	public String replacePort(String endPoint, Integer port) {
 		// Get a URL object
@@ -58,10 +60,6 @@ public class URLUtil {
 
 	/**
 	 * Replace the protocol with our new protocol
-	 * 
-	 * @param endPoint
-	 * @param context
-	 * @return
 	 */
 	public String replaceProtocol(String endPoint, String protocol) {
 		// Get a URL object
@@ -72,10 +70,6 @@ public class URLUtil {
 
 	/**
 	 * Replace the context with our new context
-	 * 
-	 * @param endPoint
-	 * @param context
-	 * @return
 	 */
 	public String replaceContext(String endPoint, String context) {
 		// Get a URL object
@@ -88,10 +82,6 @@ public class URLUtil {
 
 	/**
 	 * Replace the host with our new host
-	 * 
-	 * @param endPoint
-	 * @param host
-	 * @return
 	 */
 	public String replaceHost(String endPoint, String host) {
 		// Get a URL object
@@ -115,7 +105,6 @@ public class URLUtil {
 	 * 
 	 * @param url
 	 * @param newContext
-	 * @return
 	 */
 	protected String getNewPath(URL url, String newContext) {
 		String path = url.getPath();
@@ -140,7 +129,6 @@ public class URLUtil {
 	 * http://localhost - context is ""<br>
 	 * 
 	 * @param url
-	 * @return
 	 */
 	protected String getContext(URL url) {
 		String path = url.getPath();
@@ -154,7 +142,6 @@ public class URLUtil {
 	 * @param hostname
 	 * @param port
 	 * @param file
-	 * @return
 	 */
 	protected URL getURL(String protocol, String hostname, int port, String file) {
 		try {
@@ -168,7 +155,6 @@ public class URLUtil {
 	 * Return a URL from the string passed in
 	 * 
 	 * @param spec
-	 * @return
 	 */
 	protected URL getURL(String spec) {
 		try {
