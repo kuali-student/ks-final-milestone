@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali.student.test.ws</groupId>
     <artifactId>ws</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <groupId>org.kuali.student.test.ws.soapui</groupId>
   <artifactId>ks-soapui</artifactId>
@@ -43,15 +43,15 @@
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>eviwarePluginRepository</id>
-      <url>http://www.eviware.com/repository/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
       <id>kuali.release.lab</id>
       <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>eviwarePluginRepository</id>
+      <url>http://www.eviware.com/repository/maven2</url>
     </pluginRepository>
   </pluginRepositories>
   <build>
@@ -63,6 +63,7 @@
         <configuration>
           <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
           <baseURL>https://test.kuali.org/ks-dev</baseURL>
+          <!-- <baseURL>http://localhost/ks-embedded</baseURL> -->
         </configuration>
       </plugin>
     </plugins>
