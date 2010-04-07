@@ -11,9 +11,29 @@
   <artifactId>test</artifactId>
   <packaging>pom</packaging>
   <name>Kuali Student Testing</name>
-  <url>http://localhost/</url>
   <description>Kuali Student Testing</description>
-  <version>2-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
+  <repositories>
+    <!--
+      Once the Kuali Master POM has been approved and published to the
+      kuali.release repository, remove the kuali.release.lab repository entry
+      from this pom
+    -->
+    <repository>
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <modules>
     <!-- 
     <module>performance</module>
