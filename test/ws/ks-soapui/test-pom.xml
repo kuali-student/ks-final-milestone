@@ -45,7 +45,8 @@
         <version>1.0.0</version>
         <configuration>
           <projectFile>classpath:KualiStudent-soapui-project.xml</projectFile>
-          <baseURL>https://test.kuali.org/ks-dev</baseURL>
+          <baseURL>http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded</baseURL>
+          <!-- <baseURL>http://test.kuali.org/ks-dev</baseURL> -->
         </configuration>
         <dependencies>
           <dependency>
