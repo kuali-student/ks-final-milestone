@@ -237,6 +237,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
     		rootPanel.clear();
     		if(ruleInfos!=null){
     			//For every rule info, look up the type and corresponding statement, then add labels to the rootPanel
+    			int statementIndex = 0;
     			for(RuleInfo ruleInfo:ruleInfos){
     				String type = ruleInfo.getSelectedStatementType();
     				String typeDisplay="";
@@ -252,9 +253,10 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
     				rootPanel.add(getH4Title(typeDisplay));
     				KSLabel rationaleLabel = new KSLabel(ruleInfo.getRationale());
     				rootPanel.add(rationaleLabel);
-    				String statement = data.query(path+"/"+ruleInfo.getId());
+    				String statement = data.query(path+"/"+statementIndex);
     				KSLabel statementLabel = new KSLabel(statement);
     				rootPanel.add(statementLabel);
+    				statementIndex++;
     			}
     		}
     	}
