@@ -43,6 +43,11 @@ public class TestMojo extends AbstractMojo {
 			throw new MojoExecutionException("soapui-project-file setting is required");
 		}
 
+		File file = new File(projectFile);
+		if (file.exists()) {
+			return file;
+		}
+
 		InputStream in = null;
 		OutputStream out = null;
 		try {
