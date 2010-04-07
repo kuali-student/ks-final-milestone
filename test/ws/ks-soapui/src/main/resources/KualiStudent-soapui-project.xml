@@ -16782,7 +16782,7 @@ todayStr = sdf.format(new Date()+1096)
    <soapenv:Body>
       <lu:getClu>
     
-      <cluId>96f2b7ca-cdab-496a-9d23-a586b0dbe1d8</cluId></lu:getClu>
+      <cluId>39580c62-048c-4bd6-bcfb-5a9fd5b5f7b4</cluId></lu:getClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;return id="</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains"><con:configuration><token/><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluPropertiesForUpdate"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluIdToCluIdElement</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createCreditCourseActiveDates</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
 //ns2:createCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>updateCreditCourseActiveDates</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
@@ -16796,9 +16796,9 @@ todayStr = sdf.format(new Date()+1096)
    <soapenv:Header/>
    <soapenv:Body>
       <lu:updateClu>
-         <cluId>96f2b7ca-cdab-496a-9d23-a586b0dbe1d8</cluId>
-         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="96f2b7ca-cdab-496a-9d23-a586b0dbe1d8">
-            <officialIdentifier id="c14c382f-39cc-4229-b66f-cd907f434f9f">
+         <cluId>39580c62-048c-4bd6-bcfb-5a9fd5b5f7b4</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="39580c62-048c-4bd6-bcfb-5a9fd5b5f7b4">
+            <officialIdentifier id="62a8e2ca-b5a2-4ecb-9e9b-bde428e9359b">
               <code>nullnull</code>
             </officialIdentifier>
             <academicSubjectOrgs>
@@ -16826,7 +16826,7 @@ todayStr = sdf.format(new Date()+1096)
    <soapenv:Header/>
    <soapenv:Body>
       <lu:deleteClu>
-        <cluId>87daf975-6a1b-44fd-841f-982fcf091804</cluId>
+        <cluId>39580c62-048c-4bd6-bcfb-5a9fd5b5f7b4</cluId>
       </lu:deleteClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase></con:testSuite><con:reporting><con:xmlTemplates/><con:parameters/></con:reporting></con:soapui-project>
