@@ -12,6 +12,11 @@
   <packaging>maven-plugin</packaging>
   <version>3.5-kuali-1-SNAPSHOT</version>
   <name>soapUI - Maven 2 plugin</name>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/maven-soapui-plugin</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/maven-soapui-plugin</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test/ws/maven-soapui-plugin</url>
+  </scm>
   <repositories>
     <!--
       Once the Kuali Master POM has been approved and published to the
