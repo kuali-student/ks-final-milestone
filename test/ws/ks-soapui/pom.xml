@@ -12,4 +12,52 @@
   <packaging>jar</packaging>
   <name>WS - SoapUI</name>
   <description>This is a service testing framework based on SoapUI</description>
+  <repositories>
+    <!--
+      Once the Kuali Master POM has been approved and published to the
+      kuali.release repository, remove the kuali.release.lab repository entry
+      from this pom
+    -->
+    <repository>
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>eviwareRepository</id>
+      <url>http://www.eviware.com/repository/maven2</url>
+    </repository>
+    <repository>
+      <id>L2fprodMaven2Repository</id>
+      <url>http://www.l2fprod.com/maven2</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>eviwarePluginRepository</id>
+      <url>http://www.eviware.com/repository/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>eviware</groupId>
+        <artifactId>maven-soapui-plugin</artifactId>
+        <version>3.6-SNAPSHOT</version>
+        <configuration>
+          <projectFile>${basedir}/src/main/resources/KualiStudent-soapui-project.xml</projectFile>
+          <host>https://localhost/ks-embedded</host>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
