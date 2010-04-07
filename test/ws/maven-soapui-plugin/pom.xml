@@ -12,13 +12,22 @@
   <packaging>maven-plugin</packaging>
   <version>3.5-kuali-SNAPSHOT</version>
   <name>soapUI - Maven 2 plugin</name>
-  <url>http://www.soapui.org/plugin/</url>
-  <description>Maven 2 project for soapUI plugin</description>
-  <inceptionYear>2006</inceptionYear>
-  <organization>
-    <name>Eviware Software AB</name>
-    <url>http://www.eviware.com</url>
-  </organization>
+  <repositories>
+    <repository>
+      <id>eviwareRepository</id>
+      <url>http://www.eviware.com/repository/maven2</url>
+    </repository>
+    <repository>
+      <id>L2fprodMaven2Repository</id>
+      <url>http://www.l2fprod.com/maven2</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>eviwarePluginRepository</id>
+      <url>http://www.eviware.com/repository/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
   <scm>
     <connection>scm:svn:svn://svn.eviware.com/soapui/trunk/maven-plugin</connection>
   </scm>
@@ -403,20 +412,4 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <id>eviwareRepository</id>
-      <url>http://www.eviware.com/repository/maven2</url>
-    </repository>
-    <repository>
-      <id>L2fprodMaven2Repository</id>
-      <url>http://www.l2fprod.com/maven2</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>eviwarePluginRepository</id>
-      <url>http://www.eviware.com/repository/maven2</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>
