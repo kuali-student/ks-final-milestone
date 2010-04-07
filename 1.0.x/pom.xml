@@ -38,7 +38,7 @@
     <module>ks-core</module>
     <module>brms</module>
     <module>ks-lum</module>
-    <module>ks-psrg</module>
+    <module>ks-psu</module>
     <module>ks-web</module>
   </modules>
   <scm>
