@@ -19,18 +19,28 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RefDocRelationInfoMock;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.entity.Meta;
 import org.kuali.student.core.mock.service.DocumentRelationService;
+import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
+import org.kuali.student.lum.lu.entity.LuDocumentRelation;
+import org.kuali.student.lum.lu.entity.LuRichText;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.impl.LuServiceImpl;
 
 @WebService(endpointInterface = "org.kuali.student.core.mock.service.DocumentRelationService", serviceName = "DocumentRelationService", portName = "DocumentRelationService", targetNamespace = "http://student.kuali.org/wsdl/documentRelation")
 public class DocumentRelationServiceImpl implements DocumentRelationService{
 
 	LuService service;
+	private LuDao luDao;
+	
+	
+	public DocumentRelationServiceImpl() {
+
+	}
 	@Override
 	public void createRefDocRelation(String refId, String docId,RefDocRelationInfoMock relInfo) throws Exception {
 		LuDocRelationInfo info = new LuDocRelationInfo();
@@ -47,20 +57,38 @@ public class DocumentRelationServiceImpl implements DocumentRelationService{
 	@Override
 	public List<RefDocRelationInfoMock> getRefDocIdsForRef(String id)
 			throws Exception {
-		List<RefDocRelationInfoMock> relations = new ArrayList<RefDocRelationInfoMock>();
+
+	    List<RefDocRelationInfoMock> relationInfos = new ArrayList<RefDocRelationInfoMock>();
+		List<LuDocumentRelation> documentRelations = luDao.getLuDocRelationsByClu(id);
+		
 		//TODO: Fix with LuService RC1.4 changes		
-//		List<LuDocRelationInfo> infos = service.getLuDocRelationsByClu(id);
-//		for(LuDocRelationInfo i : infos){
-//			RefDocRelationInfoMock relInfo = new RefDocRelationInfoMock();
-//			relInfo.setRefId(i.getCluId());
-//			relInfo.setDocumentId(i.getDocumentId());
-//			relInfo.setId(i.getId());
-//			relInfo.setMetaInfo(i.getMetaInfo());
-//			relInfo.setTitle(i.getTitle());
-//			relInfo.setDesc(i.getDesc());
-//			relations.add(relInfo);
-//		}
-		return relations;
+		for(LuDocumentRelation relation : documentRelations){
+			RefDocRelationInfoMock relationInfo = new RefDocRelationInfoMock();
+			relationInfo.setRefId(relation.getClu().getId());
+			relationInfo.setDocumentId(relation.getDocumentId());
+			relationInfo.setId(relation.getId());
+			MetaInfo metaInfo = new MetaInfo();
+			Meta meta = relation.getMeta();
+			metaInfo.setCreateId(meta.getCreateId());
+			metaInfo.setCreateTime(meta.getCreateTime());
+			metaInfo.setUpdateId(meta.getUpdateId());
+			metaInfo.setUpdateTime(meta.getUpdateTime());
+			//FIXME: version indicator
+			metaInfo.setVersionInd("1");
+			relationInfo.setMetaInfo(metaInfo);
+			relationInfo.setTitle(relation.getTitle());
+			RichTextInfo richTextInfo = null;
+			LuRichText richText = relation.getDescr();
+			if(richText != null) {
+			    richTextInfo = new RichTextInfo();
+			    richTextInfo.setFormatted(richText.getFormatted());
+			    richTextInfo.setPlain(richText.getPlain());
+			}
+			
+			relationInfo.setDesc(richTextInfo);
+			relationInfos.add(relationInfo);
+		}
+		return relationInfos;
 	}
 	
 	@Override 
@@ -77,6 +105,10 @@ public class DocumentRelationServiceImpl implements DocumentRelationService{
 	public void setService(LuService service) {
 		this.service = service;
 	}
+
+    public void setLuDao(LuDao luDao) {
+        this.luDao = luDao;
+    }
 
 
 	
