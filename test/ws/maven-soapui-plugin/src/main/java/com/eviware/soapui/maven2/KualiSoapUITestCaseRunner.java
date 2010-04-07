@@ -15,6 +15,8 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 
 	URLUtil urlUtil = new URLUtil();
 	String context;
+	String protocol;
+	Integer port;
 
 	public KualiSoapUITestCaseRunner() {
 		super();
@@ -45,6 +47,25 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 					httpRequest.setEndpoint(ep);
 				} catch (Exception e) {
 					log.error("Failed to set context on endpoint", e);
+				}
+			}
+			log.info("Protocol: " + getProtocol());
+			if (StringUtils.hasContent(getProtocol())) {
+				try {
+					log.info("Replacing protocol: '" + httpRequest.getEndpoint() + "' with '" + getProtocol() + "'");
+					String ep = urlUtil.replaceProtocol(httpRequest.getEndpoint(), getProtocol());
+					httpRequest.setEndpoint(ep);
+				} catch (Exception e) {
+					log.error("Failed to set protocol on endpoint", e);
+				}
+			}
+			if (port != null) {
+				try {
+					log.info("Replacing port: '" + httpRequest.getEndpoint() + "' with '" + getPort() + "'");
+					String ep = urlUtil.replacePort(httpRequest.getEndpoint(), getPort());
+					httpRequest.setEndpoint(ep);
+				} catch (Exception e) {
+					log.error("Failed to set port on endpoint", e);
 				}
 			}
 		}
@@ -82,5 +103,21 @@ public class KualiSoapUITestCaseRunner extends SoapUITestCaseRunner {
 
 	public void setContext(String context) {
 		this.context = context;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
+	public Integer getPort() {
+		return port;
+	}
+
+	public void setPort(Integer port) {
+		this.port = port;
 	}
 }

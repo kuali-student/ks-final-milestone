@@ -18,6 +18,34 @@ public class URLUtil {
 	protected final Log log = LogFactory.getLog(this.getClass());
 
 	/**
+	 * Replace the port with our new port
+	 * 
+	 * @param endPoint
+	 * @param context
+	 * @return
+	 */
+	public String replacePort(String endPoint, Integer port) {
+		// Get a URL object
+		URL url = getURL(endPoint);
+		// Construct a new URL with the new path
+		return getURL(url.getProtocol(), url.getHost(), port, url.getPath()).toString();
+	}
+
+	/**
+	 * Replace the protocol with our new protocol
+	 * 
+	 * @param endPoint
+	 * @param context
+	 * @return
+	 */
+	public String replaceProtocol(String endPoint, String protocol) {
+		// Get a URL object
+		URL url = getURL(endPoint);
+		// Construct a new URL with the new path
+		return getURL(protocol, url.getHost(), getPort(url), url.getPath()).toString();
+	}
+
+	/**
 	 * Replace the context with our new context
 	 * 
 	 * @param endPoint

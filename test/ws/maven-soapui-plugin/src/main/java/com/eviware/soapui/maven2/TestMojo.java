@@ -39,6 +39,8 @@ public class TestMojo extends AbstractMojo {
 		KualiSoapUITestCaseRunner runner = new KualiSoapUITestCaseRunner("soapUI " + SoapUI.SOAPUI_VERSION + " Maven2 TestCase Runner");
 		runner.setProjectFile(projectFile);
 		runner.setContext(context);
+		runner.setProtocol(protocol);
+		runner.setPort(port);
 
 		if (endpoint != null) {
 			runner.setEndpoint(endpoint);
@@ -173,7 +175,23 @@ public class TestMojo extends AbstractMojo {
 	private String host;
 
 	/**
-	 * The host to use for requests
+	 * The port to use for requests (eg 80, 443)
+	 * 
+	 * @parameter default-value="80"
+	 */
+
+	private Integer port;
+
+	/**
+	 * The protocol to use for requests (eg http, https)
+	 * 
+	 * @parameter default-value="http"
+	 */
+
+	private String protocol;
+
+	/**
+	 * The context to use for requests (eg ks-embedded, ks-stg, ks-dev etc)
 	 * 
 	 * @parameter default-value=""
 	 */
