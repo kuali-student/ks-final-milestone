@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
-import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -47,7 +46,6 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
@@ -59,7 +57,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class CluSetsManagementController extends TabbedSectionLayout { //PagedSectionLayout {  FIXME should be paged layout? 
-	
+
     private final DataModel createCluSetModel = new DataModel();    
     private final DataModel editCluSetModel = new DataModel();
     private final DataModel viewCluSetModel = new DataModel();
@@ -71,16 +69,16 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     private CluSetsConfigurer cfg = new CluSetsConfigurer();
 
     private boolean initialized = false;
-	CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
-	
-	final KSLightBox progressWindow = new KSLightBox();
+    CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
 
-           
+    final KSLightBox progressWindow = new KSLightBox();
+
+
     public CluSetsManagementController(){
         super(CluSetsManagementController.class.getName());
         initialize();
     }
-    
+
     private void initialize() {
         super.setDefaultModelId(CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL);
         super.registerModel(CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
@@ -99,16 +97,16 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                         }
                         callback.onModelReady(createCluSetModel);
                         workCompleteCallback.exec(true);
-                        
+
                     }               
                 };
                 createCluSetModelRequestQueue.submit(workItem);                
             }
-            
+
         });
-        
+
         super.registerModel(CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
-            
+
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
                 if (editCluSetModelRequestQueue == null){
@@ -123,16 +121,16 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                         }
                         callback.onModelReady(editCluSetModel);
                         workCompleteCallback.exec(true);
-                        
+
                     }               
                 };
                 editCluSetModelRequestQueue.submit(workItem);                
             }
 
         });
-        
+
         super.registerModel(CluSetsConfigurer.VIEW_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
-            
+
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
                 if (viewCluSetModelRequestQueue == null){
@@ -147,14 +145,14 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                         }
                         callback.onModelReady(viewCluSetModel);
                         workCompleteCallback.exec(true);
-                        
+
                     }               
                 };
                 viewCluSetModelRequestQueue.submit(workItem);                
             }
 
         });
-        
+
         super.registerModel(CluSetsConfigurer.EDIT_SEARCH_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -185,7 +183,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                 editSearchCluSetModelRequestQueue.submit(workItem);                
             }
         });
-        
+
         super.registerModel(CluSetsConfigurer.VIEW_SEARCH_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -216,7 +214,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                 viewSearchCluSetModelRequestQueue.submit(workItem);                
             }
         });
-        
+
         super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
 
             @Override
@@ -238,64 +236,74 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                     public void onRequestFail(Throwable cause) {
                         GWT.log("Unable to retrieve model for validation", cause);
                     }
-                    
+
                 });
             }
-            
+
         });
     }
-    
+
     private KSButton getQuitButton(){
         return new KSButton("Quit", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        Controller parentController = CluSetsManagementController.this.getParentController(); 
-                        parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
-                    }
-                });       
+            public void onClick(ClickEvent event) {
+                Controller parentController = CluSetsManagementController.this.getParentController(); 
+                parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
+            }
+        });       
     }
-    
-    private void init(final Callback<Boolean> onReadyCallback) {
-    	KSProgressIndicator progressInd = new KSProgressIndicator();
-    	progressInd.setText("Loading");
-    	progressInd.show();
-    	progressWindow.setWidget(progressInd);
 
-    	if (initialized) {
-    		onReadyCallback.exec(true);
-    	} else {
-    		progressWindow.show();
-    		
-	        cluSetManagementRpcServiceAsync.getMetadata("", "", new AsyncCallback<Metadata>(){
-	
-	                    @Override
-	                    public void onFailure(Throwable caught) {
-	                    	onReadyCallback.exec(false);
-	                    	progressWindow.hide();
-	                        throw new RuntimeException("Failed to get model definition.", caught);                        
-	                    }
-	
-	                    @Override
-	                    public void onSuccess(Metadata result) {
-	                    	DataModelDefinition def = new DataModelDefinition(result);
-	                        createCluSetModel.setDefinition(def);
-	                        editCluSetModel.setDefinition(def);
-	                        viewCluSetModel.setDefinition(def);
-	                        init(def);
-	                        initialized = true;
-	                        onReadyCallback.exec(true);
-	                        progressWindow.hide();
-	                    }                
-	            });	        
-    	}
+    private KSButton getSaveButton(){
+        return new KSButton("Save", new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                fireApplicationEvent(new SaveActionEvent());
+            }
+        });
     }
-    
+
+    private void init(final Callback<Boolean> onReadyCallback) {
+        KSProgressIndicator progressInd = new KSProgressIndicator();
+        progressInd.setText("Loading");
+        progressInd.show();
+        progressWindow.setWidget(progressInd);
+
+        if (initialized) {
+            onReadyCallback.exec(true);
+        } else {
+            progressWindow.show();
+
+            cluSetManagementRpcServiceAsync.getMetadata("", "", new AsyncCallback<Metadata>(){
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    onReadyCallback.exec(false);
+                    progressWindow.hide();
+                    throw new RuntimeException("Failed to get model definition.", caught);                        
+                }
+
+                @Override
+                public void onSuccess(Metadata result) {
+                    DataModelDefinition def = new DataModelDefinition(result);
+                    createCluSetModel.setDefinition(def);
+                    editCluSetModel.setDefinition(def);
+                    viewCluSetModel.setDefinition(def);
+                    init(def);
+                    initialized = true;
+                    onReadyCallback.exec(true);
+                    progressWindow.hide();
+                }                
+            });	        
+        }
+    }
+
     private void init(DataModelDefinition modelDefinition){
-        
+
         cfg.setModelDefinition(modelDefinition);
-        
+
         if (!initialized){
-            cfg.configureCluSetManager(this);           
+            cfg.configureCluSetManager(this);
+            addButton("Manage CLU Sets", getSaveButton());
             addButton("Manage CLU Sets", getQuitButton());
+            addButton("View CLU Sets", getSaveButton());
             addButton("View CLU Sets", getQuitButton());
 
             addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
@@ -306,10 +314,10 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                 }
             });
         }
-        
+
         initialized = true;
     } 
-        
+
     /**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
      */
@@ -317,20 +325,27 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     public Class<? extends Enum<?>> getViewsEnum() {
         return CourseConfigurer.CourseSections.class;
     }
-    
+
+    @Override
+    protected void renderView(View view) {
+        super.renderView(view);
+        getNextButton("Manage CLU Sets").setVisible(false);
+        getNextButton("View CLU Sets").setVisible(false);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
         super.requestModel(modelType, callback);
     }
-    
+
     public void doSaveAction(final SaveActionEvent saveActionEvent){
         Enum clusetSectionEnum = getCurrentViewEnum();
         final DataModel modelToBeSaved;
         final boolean clearData;
 
         getCurrentView().updateModel();
-        
+
         if (clusetSectionEnum == CluSetsConfigurer.CluSetSections.CREATE_CLU_SET) {
             modelToBeSaved = createCluSetModel;
             // save the model and starts with an empty data once model is saved
@@ -370,42 +385,42 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
             }
         });
     }
-    
+
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent,
             final boolean clearData) {
         final KSLightBox saveWindow = new KSLightBox();
         final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
         final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
-                
-                @Override
-                public void exec(OkEnum result) {
-                    saveWindow.hide();
-                    saveActionEvent.doActionComplete();                
-                }
-            });
+
+            @Override
+            public void exec(OkEnum result) {
+                saveWindow.hide();
+                saveActionEvent.doActionComplete();                
+            }
+        });
 
         buttonGroup.setWidth("250px");
         buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
         buttonGroup.setContent(saveMessage);
 
-        
+
         if (saveActionEvent.isAcknowledgeRequired()){
             saveWindow.setWidget(buttonGroup);
         } else {
             saveWindow.setWidget(saveMessage);
         }
         saveWindow.show();
-        
+
         final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
 
             @Override
             public void exec(Throwable caught) {
-                 GWT.log("Save Failed.", caught);
-                 saveWindow.setWidget(buttonGroup);
-                 saveMessage.setText("Save Failed!  Please Try Again.");
-                 buttonGroup.getButton(OkEnum.Ok).setEnabled(true);   
+                GWT.log("Save Failed.", caught);
+                saveWindow.setWidget(buttonGroup);
+                saveMessage.setText("Save Failed!  Please Try Again.");
+                buttonGroup.getButton(OkEnum.Ok).setEnabled(true);   
             }
-            
+
         };
         try {
             cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new AsyncCallback<DataSaveResult>() {
@@ -451,30 +466,30 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
         }
     }
 
-	@Override
-	public void showDefaultView(final Callback<Boolean> onReadyCallback) {
-		init(new Callback<Boolean>() {
-			@Override
-			public void exec(Boolean result) {
-				if (result) {
-					doShowDefaultView(onReadyCallback);
-				} else {
-					onReadyCallback.exec(false);
-				}
-			}
-		});
-	}
-	
-	private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
-		super.showDefaultView(onReadyCallback);
-	}
+    @Override
+    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+        init(new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+                if (result) {
+                    doShowDefaultView(onReadyCallback);
+                } else {
+                    onReadyCallback.exec(false);
+                }
+            }
+        });
+    }
 
-	@Override
-	public Enum<?> getViewEnumValue(String enumValue) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+    private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
+        super.showDefaultView(onReadyCallback);
+    }
+
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     @Override
     public void setParentController(Controller controller) {
         // TODO Auto-generated method stub
