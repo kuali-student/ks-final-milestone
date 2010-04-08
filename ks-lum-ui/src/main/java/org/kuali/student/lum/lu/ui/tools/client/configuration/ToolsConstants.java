@@ -35,6 +35,7 @@ public class ToolsConstants {
     public static final String NEW_CLU_SET = "Create New Clu Set";
     public static final String NEW_CLU_SET_INFO = "CLU set Information";
     public static final String EDIT_CLU_SET = "Edit Clu Set";
+    public static final String VIEW_CLU_SET = "View Clu Set";
     public static final String EDIT_CLU_SET_INFO = "CLU set Information";
     public static final String ORGANIZATION = "Organization";
     public static final String TITLE = "Title";

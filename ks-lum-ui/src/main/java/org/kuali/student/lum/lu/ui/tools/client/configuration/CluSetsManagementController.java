@@ -19,11 +19,13 @@ import java.util.List;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
+import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -46,6 +48,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
+import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
@@ -59,9 +62,12 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 	
     private final DataModel createCluSetModel = new DataModel();    
     private final DataModel editCluSetModel = new DataModel();
+    private final DataModel viewCluSetModel = new DataModel();
     private WorkQueue createCluSetModelRequestQueue;
     private WorkQueue editCluSetModelRequestQueue;
-    private WorkQueue searchCluSetModelRequestQueue;
+    private WorkQueue viewCluSetModelRequestQueue;
+    private WorkQueue editSearchCluSetModelRequestQueue;
+    private WorkQueue viewSearchCluSetModelRequestQueue;
     private CluSetsConfigurer cfg = new CluSetsConfigurer();
 
     private boolean initialized = false;
@@ -125,21 +131,45 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 
         });
         
-        super.registerModel(CluSetsConfigurer.SEARCH_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
+        super.registerModel(CluSetsConfigurer.VIEW_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
+            
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-                if (searchCluSetModelRequestQueue == null){
-                    searchCluSetModelRequestQueue = new WorkQueue();
+                if (viewCluSetModelRequestQueue == null){
+                    viewCluSetModelRequestQueue = new WorkQueue();
+                }
+
+                WorkItem workItem = new WorkItem(){
+                    @Override
+                    public void exec(Callback<Boolean> workCompleteCallback) {
+                        if (viewCluSetModel.getRoot() == null || viewCluSetModel.getRoot().size() == 0){
+                            viewCluSetModel.setRoot(new Data());
+                        }
+                        callback.onModelReady(viewCluSetModel);
+                        workCompleteCallback.exec(true);
+                        
+                    }               
+                };
+                viewCluSetModelRequestQueue.submit(workItem);                
+            }
+
+        });
+        
+        super.registerModel(CluSetsConfigurer.EDIT_SEARCH_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+                if (editSearchCluSetModelRequestQueue == null){
+                    editSearchCluSetModelRequestQueue = new WorkQueue();
                 }
 
                 WorkItem workItem = new WorkItem(){
                     @Override
                     public void exec(final Callback<Boolean> workCompleteCallback) {
-                        if (cfg.getSearchCluSetId() != null) {
-                            cluSetManagementRpcServiceAsync.getData(cfg.getSearchCluSetId(), new AsyncCallback<Data>() {
+                        if (cfg.getEditSearchCluSetId() != null) {
+                            cluSetManagementRpcServiceAsync.getData(cfg.getEditSearchCluSetId(), new AsyncCallback<Data>() {
                                 @Override
                                 public void onFailure(Throwable caught) {
-                                    Window.alert("Failed to retrieve cluset with id" + cfg.getSearchCluSetId());
+                                    Window.alert("Failed to retrieve cluset with id" + cfg.getEditSearchCluSetId());
                                     workCompleteCallback.exec(false);
                                 }
                                 @Override
@@ -152,7 +182,38 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                         }
                     }               
                 };
-                searchCluSetModelRequestQueue.submit(workItem);                
+                editSearchCluSetModelRequestQueue.submit(workItem);                
+            }
+        });
+        
+        super.registerModel(CluSetsConfigurer.VIEW_SEARCH_CLUSET_MGT_MODEL, new ModelProvider<DataModel>() {
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+                if (viewSearchCluSetModelRequestQueue == null){
+                    viewSearchCluSetModelRequestQueue = new WorkQueue();
+                }
+
+                WorkItem workItem = new WorkItem(){
+                    @Override
+                    public void exec(final Callback<Boolean> workCompleteCallback) {
+                        if (cfg.getViewSearchCluSetId() != null) {
+                            cluSetManagementRpcServiceAsync.getData(cfg.getViewSearchCluSetId(), new AsyncCallback<Data>() {
+                                @Override
+                                public void onFailure(Throwable caught) {
+                                    Window.alert("Failed to retrieve cluset with id" + cfg.getViewSearchCluSetId());
+                                    workCompleteCallback.exec(false);
+                                }
+                                @Override
+                                public void onSuccess(Data result) {
+                                    viewCluSetModel.setRoot(result);
+                                    callback.onModelReady(viewCluSetModel);
+                                    workCompleteCallback.exec(true);
+                                }
+                            });
+                        }
+                    }               
+                };
+                viewSearchCluSetModelRequestQueue.submit(workItem);                
             }
         });
         
@@ -188,7 +249,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
         return new KSButton("Quit", new ClickHandler(){
                     public void onClick(ClickEvent event) {
                         Controller parentController = CluSetsManagementController.this.getParentController(); 
-                   //     parentController.fireApplicationEvent(new ApplicationEvent<LUMViews>(LUMViews.HOME_MENU, event));
+                        parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
                     }
                 });       
     }
@@ -202,7 +263,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     	if (initialized) {
     		onReadyCallback.exec(true);
     	} else {
-    		progressWindow.show();    		
+    		progressWindow.show();
     		
 	        cluSetManagementRpcServiceAsync.getMetadata("", "", new AsyncCallback<Metadata>(){
 	
@@ -218,6 +279,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 	                    	DataModelDefinition def = new DataModelDefinition(result);
 	                        createCluSetModel.setDefinition(def);
 	                        editCluSetModel.setDefinition(def);
+	                        viewCluSetModel.setDefinition(def);
 	                        init(def);
 	                        initialized = true;
 	                        onReadyCallback.exec(true);
@@ -230,9 +292,12 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     private void init(DataModelDefinition modelDefinition){
         
         cfg.setModelDefinition(modelDefinition);
-        cfg.configureCluSetManager(this);           
         
         if (!initialized){
+            cfg.configureCluSetManager(this);           
+            addButton("Manage CLU Sets", getQuitButton());
+            addButton("View CLU Sets", getQuitButton());
+
             addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
                 @Override
                 public void doSave(SaveActionEvent saveAction) {

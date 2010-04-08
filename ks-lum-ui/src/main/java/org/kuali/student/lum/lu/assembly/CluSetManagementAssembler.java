@@ -111,9 +111,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 return result;
             }
             
-            SaveResult<Data> cluSetResult = saveCluSet(input);
-            result.setValidationResults(cluSetResult.getValidationResults());
-            result.setValue(cluSetResult.getValue());
+            SaveResult<Data> clusetResult = saveCluSet(input);
+            result.setValidationResults(clusetResult.getValidationResults());
+            result.setValue(clusetResult.getValue());
             return result;
         } catch (Exception e) {
             throw new AssemblyException("Unable to save ....", e);

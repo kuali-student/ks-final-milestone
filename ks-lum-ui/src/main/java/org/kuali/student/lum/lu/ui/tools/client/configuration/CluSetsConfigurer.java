@@ -24,11 +24,13 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableL
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
@@ -54,14 +56,17 @@ public class CluSetsConfigurer {
 
     public static final String CREATE_CLUSET_MGT_MODEL = "createCluSetManagementModel";
     public static final String EDIT_CLUSET_MGT_MODEL = "editCluSetManagementModel";
-    public static final String SEARCH_CLUSET_MGT_MODEL = "searchCluSetManagementModel";
-    private String searchCluSetId = null;
+    public static final String VIEW_CLUSET_MGT_MODEL = "viewCluSetManagerModel";
+    public static final String EDIT_SEARCH_CLUSET_MGT_MODEL = "editSearchCluSetManagementModel";
+    public static final String VIEW_SEARCH_CLUSET_MGT_MODEL = "viewSearchCluSetManagementModel";
+    private String editSearchCluSetId = null;
+    private String viewSearchCluSetId = null;
 
 
     private DataModelDefinition modelDefinition;
 
     public enum CluSetSections{
-        CREATE_CLU_SET, EDIT_CLU_SET
+        CREATE_CLU_SET, EDIT_CLU_SET, VIEW_CLU_SET
     }
 
     public void setModelDefinition(DataModelDefinition modelDefinition){
@@ -72,6 +77,7 @@ public class CluSetsConfigurer {
 //        addStartSection(layout);
         layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, createCluSetSection());
         layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, editCluSetSection());        
+        layout.addSection(new String[] {"View CLU Sets"}, viewCluSetSection());        
     }
     
     private void addClusetDetailsSections(SectionView parentView, final String modelId) {
@@ -156,11 +162,11 @@ public class CluSetsConfigurer {
             @Override
             public void exec(SelectedResults result) {
                 if (result != null && result.getReturnKey() != null && result.getReturnKey().trim().length() > 0) {
-                    searchCluSetId = result.getReturnKey();
+                    editSearchCluSetId = result.getReturnKey();
                     // TODO retrieve cluset by id and 
                     final LayoutController parent = LayoutController.findParentLayout(section);
                     if(parent != null){
-                        parent.requestModel(CluSetsConfigurer.SEARCH_CLUSET_MGT_MODEL, new ModelRequestCallback<DataModel>() {
+                        parent.requestModel(CluSetsConfigurer.EDIT_SEARCH_CLUSET_MGT_MODEL, new ModelRequestCallback<DataModel>() {
                             @Override
                             public void onModelReady(DataModel model) {
                                 section.updateView(model);
@@ -169,7 +175,7 @@ public class CluSetsConfigurer {
 
                             @Override
                             public void onRequestFail(Throwable cause) {
-                                GWT.log("Unable to retrieve model" + EDIT_CLUSET_MGT_MODEL.toString(), null);
+                                GWT.log("Unable to retrieve model" + EDIT_SEARCH_CLUSET_MGT_MODEL.toString(), null);
                             }
 
                         });
@@ -184,6 +190,63 @@ public class CluSetsConfigurer {
         addClusetDetailsSections(section, CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
         return section;
 	}
+    
+    private SectionView viewCluSetSection() {
+        final VerticalSectionView sectionView = initVerticalSectionView(CluSetSections.VIEW_CLU_SET, ToolsConstants.VIEW_CLU_SET, VIEW_CLUSET_MGT_MODEL);
+
+        
+        Picker cluSetPicker = configureSearch(ToolsConstants.SEARCH_CLU_SET);
+        cluSetPicker.addBasicSelectionCompletedCallback(new Callback<SelectedResults>() {
+            @Override
+            public void exec(SelectedResults result) {
+                if (result != null && result.getReturnKey() != null && result.getReturnKey().trim().length() > 0) {
+                    viewSearchCluSetId = result.getReturnKey();
+                    // TODO retrieve cluset by id and 
+                    final LayoutController parent = LayoutController.findParentLayout(sectionView);
+                    if(parent != null){
+                        parent.requestModel(CluSetsConfigurer.VIEW_SEARCH_CLUSET_MGT_MODEL, new ModelRequestCallback<DataModel>() {
+                            @Override
+                            public void onModelReady(DataModel model) {
+                                sectionView.updateView(model);
+                                sectionView.redraw();
+                            }
+
+                            @Override
+                            public void onRequestFail(Throwable cause) {
+                                GWT.log("Unable to retrieve model" + VIEW_SEARCH_CLUSET_MGT_MODEL.toString(), null);
+                            }
+
+                        });
+                    }
+                }
+            }
+        });
+        addField(sectionView, ToolsConstants.SEARCH_CLU_SET, "", cluSetPicker);
+
+        VerticalSection nameSection = initSection(null, WITH_DIVIDER);
+        addField(nameSection, ToolsConstants.CLU_SET_NAME_FIELD, "Name", new KSLabel());
+        sectionView.addSection(nameSection);
+        
+        VerticalSection expirationDateSection = initSection(null, WITH_DIVIDER);
+        addField(expirationDateSection, ToolsConstants.CLU_SET_EXP_DATE_FIELD, getLabel(ToolsConstants.EFFECTIVE_DATE), new KSLabel());
+        sectionView.addSection(expirationDateSection);
+
+        VerticalSection clusSection = initSection(null, WITH_DIVIDER);
+        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
+        FieldDescriptor clusFieldDescriptor = addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, "CLUs", cluItemList);
+        final CluItemListFieldBinding cluItemListFieldBinding = new CluItemListFieldBinding();
+        clusFieldDescriptor.setWidgetBinding(cluItemListFieldBinding);
+        sectionView.addSection(clusSection);
+        return sectionView;
+    }
+    
+    private VerticalSectionView initVerticalSectionView(Enum<?> viewEnum, String labelKey, String modelId) {
+        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), modelId);
+        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.setSectionTitle(getH1Title(labelKey));
+
+        return section;
+    }
     
     private NestedSectionView initNestedSectionView (Enum<?> viewEnum, String labelKey, String modelId) {
         NestedSectionView section = new NestedSectionView(viewEnum, getLabel(labelKey), modelId);
@@ -316,12 +379,20 @@ public class CluSetsConfigurer {
     	return fd;
     }
 
-    public String getSearchCluSetId() {
-        return searchCluSetId;
+    public String getEditSearchCluSetId() {
+        return editSearchCluSetId;
     }
 
-    public void setSearchCluSetId(String searchCluSetId) {
-        this.searchCluSetId = searchCluSetId;
+    public void setEditSearchCluSetId(String searchCluSetId) {
+        this.editSearchCluSetId = searchCluSetId;
+    }
+
+    public String getViewSearchCluSetId() {
+        return viewSearchCluSetId;
+    }
+
+    public void setViewSearchCluSetId(String viewSearchCluSetId) {
+        this.viewSearchCluSetId = viewSearchCluSetId;
     }
     
 }
