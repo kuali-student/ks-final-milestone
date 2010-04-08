@@ -89,11 +89,17 @@
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
-    <!-- Action Request Derived role (Non Adhoc) -->
+    <!-- Action Request Derived role (type - Non Adhoc) (status - ACTIVE) -->
     <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
 
-    <!-- Action Request Derived role (Adhoc) -->
+    <!-- Action Request Derived role (type = Adhoc) (status - ACTIVE) -->
     <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (type = Non Adhoc) (status - DONE) -->
+    <bean id="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (type = Adhoc) (status - DONE) -->
+    <bean id="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocDoneActionRequestDerivedRoleTypeServiceImpl"/>
 
     <!-- Route Log Derived role -->
     <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSRouteLogDerivedRoleTypeServiceImpl">
