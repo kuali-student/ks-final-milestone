@@ -360,12 +360,12 @@ AffiliatedOrgInfoConstants
             addField(groupSection, FeeInfoConstants.FIXED_RATE_FEE, null, new FeeDetailsList(fixedFeePath), path );
 
             groupSection.nextLine();
-            String variableFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.VARIABLE_RATE_FEE).toString();
-            addField(groupSection, FeeInfoConstants.VARIABLE_RATE_FEE, null, new FeeDetailsList(variableFeePath), path );
-            
-            groupSection.nextLine();
             String perCreditFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.PER_CREDIT_FEE).toString();
             addField(groupSection, FeeInfoConstants.PER_CREDIT_FEE, null, new FeeDetailsList(perCreditFeePath), path );
+            
+            groupSection.nextLine();
+            String variableFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.VARIABLE_RATE_FEE).toString();
+            addField(groupSection, FeeInfoConstants.VARIABLE_RATE_FEE, null, new FeeDetailsList(variableFeePath), path );
             
             groupSection.nextLine();
             String multipleFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.MULTIPLE_RATE_FEE).toString();
@@ -386,9 +386,9 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
-            addField(groupSection,  "rateType",  null, new KSLabel(),path);
+            addField(groupSection,  getTranslationKey("rateType"),  null, new KSLabel(),path);
             addField(groupSection,  "amount",  null, new KSLabel(),path);
-            addField(groupSection, "feeType", null, new KSLabel(),path );
+            addField(groupSection, getTranslationKey("feeType"), null, new KSLabel(),path );
             return groupSection;
        	
         }
