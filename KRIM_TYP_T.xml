@@ -27,6 +27,10 @@
         NM="Derived Role: KS Non-Adhoc Action Request Role Type"
         NMSPC_CD="KS-SYS" OBJ_ID="ORGADMINDERIVED000000T0000000TYP"
         SRVC_NM="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="115"
+        NM="Derived Role: KS Completed Non-Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="ORGADMINDERIVEDED0000T0000000TYP"
+        SRVC_NM="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="11" NM="Component Field"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4DC7954E0404F8189D85002"
         SRVC_NM="componentFieldPermissionTypeService" VER_NBR="1"/>
@@ -46,6 +50,10 @@
         NM="Derived Role: KS Adhoc Action Request Role Type"
         NMSPC_CD="KS-SYS" OBJ_ID="ORGCOMMITTEEDERIVED3689129T00TYP"
         SRVC_NM="ksAdhocActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="116"
+        NM="Derived Role: KS Completed Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="ORGCOMMWSXEEDEIVED3689129T00TYP1"
+        SRVC_NM="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="114"
         NM="Organization Role Type" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMTYPE000930000000012300TYP"
