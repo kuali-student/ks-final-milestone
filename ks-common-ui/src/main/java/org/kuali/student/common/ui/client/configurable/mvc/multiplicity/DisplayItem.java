@@ -8,6 +8,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -24,10 +25,18 @@ public class DisplayItem extends MultiplicityItem {
 
     protected FlowPanel itemPanel = new FlowPanel();
     
+	private StyleType style;
+
+    
     public DisplayItem(){        
         initWidget(itemPanel);
     }
 
+	public DisplayItem(StyleType style){
+		this.style = style;
+		this.initWidget(itemPanel);
+		
+	}
     public void onLoad(){
     }
     
@@ -47,6 +56,8 @@ public class DisplayItem extends MultiplicityItem {
         Widget item = getItemWidget();
         if (!loaded){
        
+            itemPanel.addStyleName("KS-Multiplicity-Display-Item");
+
             itemPanel.add(item);
             loaded = true;
         }

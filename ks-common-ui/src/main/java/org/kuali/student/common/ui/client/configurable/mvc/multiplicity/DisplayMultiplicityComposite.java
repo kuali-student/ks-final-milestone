@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class DisplayMultiplicityComposite extends MultiplicityComposite {
    
     public DisplayMultiplicityComposite(){
-    	super(StyleType.TOP_LEVEL);
+    	super(StyleType.SUB_LEVEL);
     }
     
     /**
@@ -36,7 +36,7 @@ public abstract class DisplayMultiplicityComposite extends MultiplicityComposite
      */
     @Override
     public MultiplicityItem getItemDecorator(StyleType style) {
-        return new DisplayItem();
+        return new DisplayItem(style);
     }
     
     @Override
