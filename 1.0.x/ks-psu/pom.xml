@@ -96,7 +96,7 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>aspectj</groupId>
+      <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
       <version>1.5.4</version>
       <scope>compile</scope>
