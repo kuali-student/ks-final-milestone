@@ -483,4 +483,22 @@ insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_r
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('6d548f95-bbab-4041-8f3c-0fc507dd8d6e', 'ID1', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'Active', '0c81b192-82aa-4342-a7ed-2f63739a7d04', 'luLuRelationType.contains', '3142b5bb-899a-4f59-8022-cf9b411040c0' );
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('521887e2-9ea3-49be-b7c0-cfcedb350b47', 'ID1', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'Active', '0c81b192-82aa-4342-a7ed-2f63739a7d04', 'luLuRelationType.contains', 'd4ebc2e0-6707-40f7-aa8e-182139da07bb' );
 
-update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_FIRST_ATP = 'kuali.atp.season.Summer', FEE_ID = 'FEE-1', ATPDURATIONTYPEKEY = 'kuali.atp.duration.Week', TIMEQUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
+// Financials
+insert into KSLU_CLU_FEE(id, versionind) values ('99de7877-b443-4a47-bb18-1d668b73f583', 0);
+insert into KSLU_CLU_FEE_ATTR(id, attr_name, attr_value, owner) values ('99b8a2eb-1cc5-432c-b41d-4bc864700f4e','justification','because','99de7877-b443-4a47-bb18-1d668b73f583');
+insert into KSLU_CLU_FEE_REC (id, createid, createtime,versionind, fee_type ) values ('99cac9bc-4eae-4e35-b105-8fb0778cf1cc', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, 'kuali.enum.type.feeTypes.labFee' );
+insert into KSLU_CLU_FEE_REC (id, createid, createtime,versionind, fee_type ) values ('99756442-3855-4e56-b617-cd4e7e18f3be', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, 'kuali.enum.type.feeTypes.materialFee' );
+insert into KSLU_CLU_FEE_REC (id, createid, createtime,versionind, fee_type ) values ('99978a91-b272-4d34-aef2-a8208811fa87', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, 'Revenue' );
+insert into KSLU_CLU_FEE_JN_CLU_FEE_REC(clu_fee_id, clu_fee_rec_id) values ('99de7877-b443-4a47-bb18-1d668b73f583', '99cac9bc-4eae-4e35-b105-8fb0778cf1cc' );
+insert into KSLU_CLU_FEE_JN_CLU_FEE_REC(clu_fee_id, clu_fee_rec_id) values ('99de7877-b443-4a47-bb18-1d668b73f583', '99756442-3855-4e56-b617-cd4e7e18f3be' );
+insert into KSLU_CLU_FEE_JN_CLU_FEE_REC(clu_fee_id, clu_fee_rec_id) values ('99de7877-b443-4a47-bb18-1d668b73f583', '99978a91-b272-4d34-aef2-a8208811fa87' );
+insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('994b14a0-8251-4345-bc19-716473ae6b4e', 'amount' , '50','99cac9bc-4eae-4e35-b105-8fb0778cf1cc' );
+insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('99cb8847-d418-4ddc-8ed1-dc9a7e93b46a', 'rateType' , 'fixedRateFee','99cac9bc-4eae-4e35-b105-8fb0778cf1cc' );
+insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('99fed894-fe4b-4b8d-9926-2ea166b84a66', 'amount' , '20','99756442-3855-4e56-b617-cd4e7e18f3be' );
+insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('996b50ac-c09f-4915-b3ad-7e77b940fcf2', 'rateType' , 'perCreditFee','99756442-3855-4e56-b617-cd4e7e18f3be' );
+insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('990dfd0f-0565-407f-b667-84976e549a0b', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, '54', 100 );
+insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('99eab0f0-0687-4c90-9ce5-7d4993e4b84a', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, '52', 100 );
+insert into KSLU_CLU_FEEREC_JN_AFFIL_ORG (clu_fee_rec_id, affil_org_id ) values ('99978a91-b272-4d34-aef2-a8208811fa87' , '99eab0f0-0687-4c90-9ce5-7d4993e4b84a');
+insert into KSLU_CLU_ACCT (id) values ('99e7dd0a-3634-4a73-a858-e708695ac3ea' );
+
+update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_FIRST_ATP = 'kuali.atp.season.Summer', FEE_ID = '99de7877-b443-4a47-bb18-1d668b73f583', ATPDURATIONTYPEKEY = 'kuali.atp.duration.Week', TIMEQUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
