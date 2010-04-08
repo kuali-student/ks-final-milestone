@@ -94,7 +94,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     
 	private boolean initialized = false;
 	
-	private final KSLightBox progressWindow = new KSLightBox();
+	private BlockingTask initializingTask = new BlockingTask("Loading");
+	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
@@ -199,8 +200,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     	if (initialized) {
     		onReadyCallback.exec(true);
     	} else {
-        	final BlockingTask loadTask = new BlockingTask("Loading");
-    		KSBlockingProgressIndicator.addTask(loadTask);
+    		KSBlockingProgressIndicator.addTask(initializingTask);
 
     		String idType = null;
     		String viewContextId = null;
@@ -230,7 +230,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
 	        	public void onFailure(Throwable caught) {
 	                    	onReadyCallback.exec(false);
-	                    	KSBlockingProgressIndicator.removeTask(loadTask);
+	                    	KSBlockingProgressIndicator.removeTask(initializingTask);
 	                        throw new RuntimeException("Failed to get model definition.", caught);                        
 	                    }
 	
@@ -240,7 +240,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	                        init(def);
 	                        initialized = true;
 	                        onReadyCallback.exec(true);
-	                        KSBlockingProgressIndicator.removeTask(loadTask);
+	                        KSBlockingProgressIndicator.removeTask(initializingTask);
 	                    }                
 	            });	        
     	}
@@ -351,14 +351,14 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     
     @SuppressWarnings("unchecked")        
     private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-       
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
         cluProposalRpcServiceAsync.getDataFromWorkflowId(getViewContext().getId(), new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Error loading Proposal from docId: "+getViewContext().getId()+". "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
 
             }
 
@@ -367,7 +367,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 				cluProposalModel.setRoot(result);
 		        callback.onModelReady(cluProposalModel);
 		        workCompleteCallback.exec(true);
-		        progressWindow.hide();              
+		        KSBlockingProgressIndicator.removeTask(loadDataTask);              
             }
             
         });
@@ -376,14 +376,14 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     
     @SuppressWarnings("unchecked")    
     private void getCluProposalFromProposalId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-    	progressWindow.show();
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
     	cluProposalRpcServiceAsync.getData(getViewContext().getId(), new AsyncCallback<Data>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
                 Window.alert("Error loading Proposal: "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);   
 			}
 
 			@Override
@@ -391,7 +391,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 				cluProposalModel.setRoot(result);
 		        callback.onModelReady(cluProposalModel);
 		        workCompleteCallback.exec(true);
-		        progressWindow.hide();
+		        KSBlockingProgressIndicator.removeTask(loadDataTask);   
 			}
     		
     	});
@@ -399,14 +399,14 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     
     @SuppressWarnings("unchecked")
     private void getNewProposalWithCopyOfClu(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        progressWindow.show();
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
         cluProposalRpcServiceAsync.getNewProposalWithCopyOfClu(getViewContext().getId(), new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Error loading Proposal: "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);   
             }
 
             @Override
@@ -415,7 +415,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 getContainer().setTitle(getSectionTitle());
                 callback.onModelReady(cluProposalModel);
                 workCompleteCallback.exec(true);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);   
             }
             
         });        
