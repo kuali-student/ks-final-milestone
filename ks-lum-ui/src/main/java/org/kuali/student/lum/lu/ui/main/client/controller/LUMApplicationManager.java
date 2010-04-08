@@ -126,7 +126,7 @@ public class LUMApplicationManager extends Controller {
 				manageCluSetsController.showDefaultView(NO_OP_CALLBACK);
 				return manageCluSetsView;
 			case BROWSE_COURSE_CATALOG:
-				browseCatalogController = new CatalogBrowserController();
+				browseCatalogController = new CatalogBrowserController(this);
 				browseCatalogView = new DelegatingViewComposite(LUMApplicationManager.this, browseCatalogController);
 				browseCatalogController.showDefaultView(NO_OP_CALLBACK);
 				return browseCatalogView;

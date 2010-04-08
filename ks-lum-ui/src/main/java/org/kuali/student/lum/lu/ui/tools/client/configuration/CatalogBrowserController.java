@@ -14,13 +14,8 @@
  */
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
-import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
-import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -29,37 +24,36 @@ import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogBySubjectAreaMetadata;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogMetadata;
 
 public class CatalogBrowserController extends TabbedSectionLayout
-{ //PagedSectionLayout {  FIXME should be paged layout?
+{
 
  private final DataModel dataModel = new DataModel ();
  private WorkQueue modelRequestQueue;
  private boolean initialized = false;
  final KSLightBox progressWindow = new KSLightBox ();
+ private Controller controller;
 
- public CatalogBrowserController ()
+
+ public CatalogBrowserController (Controller controller)
  {
   super (CatalogBrowserController.class.getName ());
+  this.controller = controller;
+//  Window.alert ("about to initialize controller");
   initialize ();
  }
 
  private void initialize ()
  {
-  super.setDefaultModelId (CourseConfigurer.CLU_PROPOSAL_MODEL);
-  super.registerModel (CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelProvider<DataModel> ()
+  super.setDefaultModelId (CatalogBrowserConfigurer.CATALOG_BROWSER_MODEL);
+  super.registerModel (CatalogBrowserConfigurer.CATALOG_BROWSER_MODEL,
+                       new ModelProvider<DataModel> ()
   {
 
    @Override
@@ -88,57 +82,6 @@ public class CatalogBrowserController extends TabbedSectionLayout
 
   });
 
-  super.addApplicationEventHandler (ValidateRequestEvent.TYPE, new ValidateRequestHandler ()
-  {
-
-   @Override
-   public void onValidateRequest (ValidateRequestEvent event)
-   {
-    requestModel (new ModelRequestCallback<DataModel> ()
-    {
-
-     @Override
-     public void onModelReady (DataModel model)
-     {
-      model.validate (new Callback<List<ValidationResultContainer>> ()
-      {
-
-       @Override
-       public void exec (List<ValidationResultContainer> result)
-       {
-        ValidateResultEvent e = new ValidateResultEvent ();
-        e.setValidationResult (result);
-        fireApplicationEvent (e);
-       }
-
-      });
-     }
-
-     @Override
-     public void onRequestFail (Throwable cause)
-     {
-      GWT.log ("Unable to retrieve model for validation", cause);
-     }
-
-    });
-   }
-
-  });
- }
-
- private KSButton getQuitButton ()
- {
-  return new KSButton ("Quit", new ClickHandler ()
-  {
-
-   public void onClick (ClickEvent event)
-   {
-    Controller parentController = CatalogBrowserController.this.
-     getParentController ();
-    //     parentController.fireApplicationEvent(new ApplicationEvent<LUMViews>(LUMViews.HOME_MENU, event));
-   }
-
-  });
  }
 
  private void init (final Callback<Boolean> onReadyCallback)
@@ -158,7 +101,7 @@ public class CatalogBrowserController extends TabbedSectionLayout
 
    // TODO: replace this with some sort of asynch call like below
    Metadata result =
-    new BrowseCourseCatalogBySubjectAreaMetadata ().getMetadata ("", "");
+    new BrowseCourseCatalogMetadata ().getMetadata ("", "");
    DataModelDefinition def = new DataModelDefinition (result);
    dataModel.setDefinition (def);
    init (def);
@@ -197,6 +140,7 @@ public class CatalogBrowserController extends TabbedSectionLayout
 
   CatalogBrowserConfigurer cfg = new CatalogBrowserConfigurer ();
   cfg.setModelDefinition (modelDefinition);
+  cfg.setController (controller);
   cfg.configureCatalogBrowser (this);
 
   if ( ! initialized)
@@ -212,7 +156,7 @@ public class CatalogBrowserController extends TabbedSectionLayout
  @Override
  public Class<? extends Enum<?>> getViewsEnum ()
  {
-  return CourseConfigurer.CourseSections.class;
+  return CatalogBrowserConfigurer.Sections.class;
  }
 
  @SuppressWarnings("unchecked")
