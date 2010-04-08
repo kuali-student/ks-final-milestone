@@ -15,6 +15,7 @@
 package org.kuali.student.lum.kim.role.type;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
@@ -51,6 +53,26 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 
 	protected enum REQUESTS_TYPES_TO_CHECK {
 		BOTH, ADHOC_ONLY, NON_ADHOC_ONLY;
+	}
+
+	protected enum REQUESTS_STATUS_TO_CHECK {
+		INITIALIZED(KEWConstants.ACTION_REQUEST_INITIALIZED), ACTIVE(KEWConstants.ACTION_REQUEST_ACTIVATED), 
+		DONE(KEWConstants.ACTION_REQUEST_DONE_STATE);
+
+		private String kewActionRequestStatusCode;
+
+		private REQUESTS_STATUS_TO_CHECK(String kewActionRequestStatusCode) {
+	        this.kewActionRequestStatusCode = kewActionRequestStatusCode;
+        }
+
+		public static REQUESTS_STATUS_TO_CHECK getByCode(String code) {
+			for (REQUESTS_STATUS_TO_CHECK type : REQUESTS_STATUS_TO_CHECK.values()) {
+				if (type.kewActionRequestStatusCode.equals(code)) {
+					return type;
+				}
+			}
+			return null;
+		}
 	}
 
 	{
@@ -246,7 +268,8 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	}
 
 	protected boolean verifyActionRequest(ActionRequestDTO ar) {
-		if (ar.isActivated()) {
+		REQUESTS_STATUS_TO_CHECK statusEnum = REQUESTS_STATUS_TO_CHECK.getByCode(ar.getStatus());
+		if (getRequestStatusesToCheck().contains(statusEnum)) {
 			if (ar.isAdHocRequest()) {
 				return getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.BOTH) || getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.ADHOC_ONLY);
 			}
@@ -269,6 +292,10 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 
 	protected REQUESTS_TYPES_TO_CHECK getRequestTypesToCheck() {
 		return REQUESTS_TYPES_TO_CHECK.BOTH;
+	}
+
+	protected List<REQUESTS_STATUS_TO_CHECK> getRequestStatusesToCheck() {
+		return Collections.singletonList(REQUESTS_STATUS_TO_CHECK.ACTIVE);
 	}
 
 	protected WorkflowUtility getWorkflowUtility() {

@@ -127,7 +127,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
 		if (StringUtils.isEmpty(documentTypeName)) {
 			String ksObjectType = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
 			if (StringUtils.equals(ksObjectType, "referenceType.clu.proposal")) {
-	            documentTypeName = "CluCollaboratorDocument";
+	            documentTypeName = "CluCreditCourseProposal";
 			}
 		}
 		String appId = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );

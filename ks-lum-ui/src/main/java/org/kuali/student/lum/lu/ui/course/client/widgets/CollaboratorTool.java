@@ -316,8 +316,17 @@ public class CollaboratorTool extends Composite implements ToolView{
 		refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
 	}
 	
+	/**
+	 * If this code is changed or overriden to allow non-APPROVE adhoc requests
+	 * to have the EDIT permission then the Kuali Student Post Processor classes
+	 * that remove permission added via the People/Permissions screen must be
+	 * altered to remove EDIT permission when a route level changes or users who
+	 * are sent an ACKKNOWLEDGE or FYI request will keep their edit access
+	 * across nodes
+	 */
 	private void refreshPermissionList(String selectedAction){
 		permissionListItems.clear();
+		// SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
 		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
             permissionListItems.addItem(PermissionType.EDIT.getCode(),EDIT_COMMENT_VIEW);					
 		}
@@ -430,7 +439,6 @@ public class CollaboratorTool extends Composite implements ToolView{
 					Window.alert("Getting Collaborators failed");
 				}
 				public void onSuccess(List<WorkflowPersonInfo> result) {
-					
 					
 					int numberCollabs = 0;
 					table.clear();

@@ -25,7 +25,6 @@ import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.AdHocRevokeDTO;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.postprocessor.AfterProcessEvent;
@@ -73,7 +72,8 @@ public class CluPostProcessor implements PostProcessor{
 		if (actionTaken != null) {
 			for (ActionRequestValue actionRequest : actionTaken.getActionRequests()) {
 		        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
-		        	removeAdhocPermissions(actionRequest.getPrincipalId(), doc);
+					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
+					removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
 		        }
 	        }
 		}
@@ -91,20 +91,20 @@ public class CluPostProcessor implements PostProcessor{
 	public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
 		WorkflowDocument doc = new WorkflowDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getRouteHeaderId());
 
-		// if this is the initial route then clear all adhoc requests
-		if (StringUtils.equals("PreRoute",documentRouteLevelChange.getOldNodeName())) {
-			AdHocRevokeDTO revoke = new AdHocRevokeDTO();
-			revoke.setNodeName(documentRouteLevelChange.getOldNodeName());
-			doc.revokeAdHocRequests(revoke, "");
+		// if this is the initial route then clear only edit permissions as per KSLUM-192
+		if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
+			// remove edit perm for all adhoc action requests to a user for the route node we just exited
+			for (ActionRequestDTO actionRequestDTO : doc.getActionRequests()) {
+				if (actionRequestDTO.isAdHocRequest() && actionRequestDTO.isUserRequest() && 
+						StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequestDTO.getNodeName())) {
+					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequestDTO.getPrincipalId());
+					removeEditAdhocPermissions(actionRequestDTO.getPrincipalId(), doc);
+				}
+	        }
 		}
-
-		// remove perms for all adhoc action requests to a user for the route node we just exited
-		for (ActionRequestDTO actionRequestDTO : doc.getActionRequests()) {
-			if (actionRequestDTO.isAdHocRequest() && actionRequestDTO.isUserRequest() && 
-					StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequestDTO.getNodeName())) {
-		        removeAdhocPermissions(actionRequestDTO.getPrincipalId(), doc);
-			}
-        }
+		else {
+			LOG.info("Will not clear any permissions added via adhoc requests");
+		}
 
 //		//Clear all the current Collab FYIs on the current document
 //		Collection<ActionItem> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(routeHeaderId);
@@ -141,16 +141,21 @@ public class CluPostProcessor implements PostProcessor{
 //        		}
 //        	}
 //        }
-
 		return new ProcessDocReport(true, "");
 	}
 
-	private void removeAdhocPermissions(String principalId, WorkflowDocument doc) {
+	private void removeEditAdhocPermissions(String principalId, WorkflowDocument doc) {
     	AttributeSet qualifications = new AttributeSet();
     	qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentType());
     	qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getAppDocId());
-        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
-        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);		
+        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);		
+	}
+
+	private void removeCommentAdhocPermissions(String roleNamespace, String roleName, String principalId, WorkflowDocument doc) {
+    	AttributeSet qualifications = new AttributeSet();
+    	qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentType());
+    	qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getAppDocId());
+        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
 	}
 
 	private String getPrincipalIdForSystemUser() {

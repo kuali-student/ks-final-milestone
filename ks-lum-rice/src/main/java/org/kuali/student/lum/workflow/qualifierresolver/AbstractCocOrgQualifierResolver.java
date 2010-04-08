@@ -51,7 +51,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 
 	protected OrganizationService orgService;
 
-	protected static final String ORG_RESOLVER_CONFIG =
+	private static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
 										"<baseXPathExpression>/documentContent/applicationContent/cluProposalDocInfo</baseXPathExpression>" +
 										"<qualifier name=\"" + KualiStudentKimAttributes.QUALIFICATION_ORG_ID +  "\">" +
@@ -59,7 +59,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 										"</qualifier>" +
 									"</resolverConfig>";
 
-	protected static RuleAttribute ruleAttribute = new RuleAttribute();
+	private final static RuleAttribute ruleAttribute = new RuleAttribute();
 
 	static {
 		ruleAttribute.setXmlConfigData(ORG_RESOLVER_CONFIG);

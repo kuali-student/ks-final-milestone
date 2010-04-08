@@ -178,7 +178,7 @@
 			<type>pom</type>
 		</dependency>
 
-		<!-- LUM Dependencies -->
+		<!-- BRMS Dependencies -->
 		<dependency>
 			<groupId>org.kuali.student.brms.statement</groupId>
 			<artifactId>ks-statement-api</artifactId>
@@ -193,6 +193,7 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- LUM Dependencies -->
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
