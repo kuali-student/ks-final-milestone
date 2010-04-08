@@ -86,6 +86,11 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		public HorizontalPanel getButtonPanel(){
 		    return this.sectionButtonPanel;
 		}
+		
+		public KSButton getNextButton() {
+		    return nextButton;
+		}
+		
 		private KSButton nextButton = new KSButton("Save & Continue", new ClickHandler(){
 	        public void onClick(final ClickEvent event) {
                 
@@ -95,7 +100,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
                     public void onActionComplete(ActionEvent action) {
                         int nextSectionIndex = currSectionIdx + 1;
                         // FIXME this is not safe for all sorts of reasons, do not call handlers directly like this.
-                        sectionMenuItems.get(nextSectionIndex).getClickHandler().onClick(event);
+                        if (nextSectionIndex < sectionMenuItems.size()) {
+                            sectionMenuItems.get(nextSectionIndex).getClickHandler().onClick(event);
+                        }
                     }                    
                 });
                 
@@ -466,6 +473,15 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
             return layout.getButtonPanel();
         }
         return null;  
+    }
+    
+    public KSButton getNextButton(String tabKey) {
+        TabLayout layout = tabLayoutMap.get(tabKey);
+        
+        if (layout != null) {
+            return layout.getNextButton();
+        }
+        return null;
     }
 	    
     public void clear(){
