@@ -95,7 +95,12 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     private final Timer resizeTimer = new Timer() {
 		@Override
 		public void run() {
-			adjust();
+			try {
+				adjust();
+			} catch (Exception e){
+				this.cancel();
+				throw new RuntimeException("Error Resizing Lightbox", e);
+			}
 		}
 	};
 	
