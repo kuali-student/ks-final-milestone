@@ -9,8 +9,8 @@
   <groupId>org.kuali.student.psu</groupId>
   <artifactId>ks-psu</artifactId>
   <packaging>jar</packaging>
-  <name>PSRG University</name>
-  <description>PSRG University</description>
+  <name>Pacific State University</name>
+  <description>Pacific State University</description>
   <repositories>
     <!--
       Once the Kuali Master POM has been approved and published to the
