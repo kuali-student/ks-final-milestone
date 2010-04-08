@@ -31,6 +31,7 @@
 			<ref bean="lu.queryParam.luOptionalLongName"/>
 			<ref bean="lu.queryParam.luOptionalType"/>
 			<ref bean="lu.queryParam.luOptionalCode"/>
+			<ref bean="lu.queryParam.luOptionalDivision"/>
 			<ref bean="lu.queryParam.luOptionalLevel"/>
 			<ref bean="lu.queryParam.luOptionalDescr"/>
 			<ref bean="lu.queryParam.luOptionalState"/>
@@ -52,6 +53,10 @@
 	<search:queryParam id="lu.queryParam.luOptionalCode" parent="lu.queryParam.luOptionalCode-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalCode-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.code.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalDivision" parent="lu.queryParam.luOptionalDivision-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalDivision-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.officialIdentifier.division.fd"/>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalLevel" parent="lu.queryParam.luOptionalLevel-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLevel-parent"  optional="true" abstract="true">
@@ -556,6 +561,9 @@
 				</entry>	
 				<entry key="lu.queryParam.luOptionalCode">
 					<value>clu.officialIdentifier.code</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalDivision">
+					<value>clu.officialIdentifier.division</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalLevel">
 					<value>clu.officialIdentifier.level</value>
