@@ -869,7 +869,7 @@ import com.google.gwt.user.client.ui.Widget;
 			}
 	    }
 	    
-	    private class TransmogrifyingFeeRecordItem extends GroupSection {
+	    public class TransmogrifyingFeeRecordItem extends GroupSection {
 	
 			private String parentPath;
 			private FeeTypeList feeTypeList = new FeeTypeList();
@@ -952,7 +952,7 @@ import com.google.gwt.user.client.ui.Widget;
 	    	}
 		}
 	    
-		private class FeeListBinding implements ModelWidgetBinding<FeeList> {
+		public class FeeListBinding implements ModelWidgetBinding<FeeList> {
 	
 			@Override
 			public void setModelValue(FeeList widget, DataModel model, String path) {

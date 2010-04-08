@@ -3,33 +3,31 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityItemBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
@@ -37,13 +35,14 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoChildSingleUseLosConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -116,7 +115,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         section.addSection(generateLearningObjectivesSummarySection());
         section.addSection(generateCourseRequisitesSummarySection());
         section.addSection(generateActiveDatesSection());
-        //section.addSection(generateFinancialsSection()); Not working in edit mode        
+        section.addSection(generateFinancialsSection());     
         return section;
     }
     
@@ -151,6 +150,9 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
     		initWidget(rootPanel);
     	}
     	public void parseAndDisplay(Data data, int nestLevel){
+    		if(data==null){
+    			return;
+    		}
     		Iterator<Data.Property> iter = data.realPropertyIterator();
     		while(iter.hasNext()){
     			Data.Property prop = iter.next();
@@ -274,7 +276,7 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
     protected VerticalSection generateVersionCodesSection() {
         //Version Codes
         VerticalSection versionCodes = new VerticalSection(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
-        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS, true));
         //versionCodes.addStyleName("KS-LUM-Section-Divider");
         return versionCodes;
 	}
@@ -540,14 +542,41 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         }
     }
 
+    
+    protected SectionView generateFinancialsSection() {
+        VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
+
+        VerticalSection justiFee = initSection(getH3Title(LUConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
+        addField(justiFee, COURSE + "/" + FEES + "/0/" + JUSTIFICATION,  getLabel(LUConstants.JUSTIFICATION_FEE), new KSLabel()); 
+        
+        FieldDescriptor feeFD = addField(justiFee, COURSE + "/" + FEES, null, new FeeList(COURSE + "/" + FEES, true));
+        feeFD.setWidgetBinding(new FeeListBinding());
+        
+        section.addSection(justiFee);
+        
+    VerticalSection financialSection = initSection(getH3Title(LUConstants.FINANCIAL_INFORMATION), WITH_DIVIDER);
+        
+        FinancialInformationList finInfoList = new FinancialInformationList(COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, true);
+        finInfoList.setMinEmptyItems(1);
+    addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, getLabel(LUConstants.REVENUE) , finInfoList);
+        
+        ExpenditureList expInfoList = new ExpenditureList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, true);
+        expInfoList.setMinEmptyItems(1);
+        addField(financialSection, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, getLabel(LUConstants.EXPENDITURE), expInfoList);
+        
+        section.addSection(financialSection);
+
+        return section;
+    }
+    
     public class VersionCodeList extends UpdatableMultiplicityComposite {
         {
             setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
         }
         private final String parentPath;
-        public VersionCodeList(String parentPath){
-        	super(StyleType.TOP_LEVEL);
+        public VersionCodeList(String parentPath, boolean readOnly){
+        	super(StyleType.TOP_LEVEL, readOnly);
         	this.parentPath = parentPath;
         	this.readOnly=true;
         }
@@ -567,101 +596,99 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
             return ns;
         }
     }
-    public class RateTypeList extends KSDropDown{
+    public class RateTypeList extends KSLabel{
+        HashMap<String,String> types = new HashMap<String,String>();    	
         public RateTypeList(){
-            SimpleListItems types = new SimpleListItems();
-            types.addItem("kuali.enum.type.rateTypes.variableRateFee",getLabel(LUConstants.VARIABLE_RATE));
-            types.addItem("kuali.enum.type.rateTypes.fixedRateFee", getLabel(LUConstants.FIXED_RATE));
-            types.addItem("kuali.enum.type.rateTypes.multipleRateFee",  getLabel(LUConstants.MULTIPLE_RATE));
-            types.addItem("kuali.enum.type.rateTypes.perCreditFee",getLabel(LUConstants.PER_CREDIT_RATE));
-            super.setListItems(types);
+            types.put("kuali.enum.type.rateTypes.variableRateFee",getLabel(LUConstants.VARIABLE_RATE));
+            types.put("kuali.enum.type.rateTypes.fixedRateFee", getLabel(LUConstants.FIXED_RATE));
+            types.put("kuali.enum.type.rateTypes.multipleRateFee",  getLabel(LUConstants.MULTIPLE_RATE));
+            types.put("kuali.enum.type.rateTypes.perCreditFee",getLabel(LUConstants.PER_CREDIT_RATE));
         }
+		@Override
+		public void setText(String text) {
+			super.setText(types.get(text));
+		}
     }
-    public class FeeTypeList extends KSDropDown{
+    public class FeeTypeList extends KSLabel{
+    	HashMap<String,String> types = new HashMap<String,String>();    	
         public FeeTypeList(){
-            SimpleListItems types = new SimpleListItems();
-            types.addItem("kuali.enum.type.feeTypes.labFee", getLabel(LUConstants.LAB_FEE));
-            types.addItem("kuali.enum.type.feeTypes.materialFee",  getLabel(LUConstants.MATERIAL_FEE));
-            types.addItem("kuali.enum.type.feeTypes.studioFee", getLabel(LUConstants.STUDIO_FEE));
-            types.addItem("kuali.enum.type.feeTypes.fieldTripFee", getLabel(LUConstants.FIELD_TRIP_FEE));
-            types.addItem("kuali.enum.type.feeTypes.fieldStudyFee", getLabel(LUConstants.FIELD_STUDY_FEE));
-            types.addItem("kuali.enum.type.feeTypes.administrativeFee", getLabel(LUConstants.ADMINISTRATIVE_FEE));
-            types.addItem("kuali.enum.type.feeTypes.coopFee", getLabel(LUConstants.COOP_FEE));
-            types.addItem("kuali.enum.type.feeTypes.greensFee",  getLabel(LUConstants.GREENS_FEE));
-            super.setListItems(types);
+            types.put("kuali.enum.type.feeTypes.labFee", getLabel(LUConstants.LAB_FEE));
+            types.put("kuali.enum.type.feeTypes.materialFee",  getLabel(LUConstants.MATERIAL_FEE));
+            types.put("kuali.enum.type.feeTypes.studioFee", getLabel(LUConstants.STUDIO_FEE));
+            types.put("kuali.enum.type.feeTypes.fieldTripFee", getLabel(LUConstants.FIELD_TRIP_FEE));
+            types.put("kuali.enum.type.feeTypes.fieldStudyFee", getLabel(LUConstants.FIELD_STUDY_FEE));
+            types.put("kuali.enum.type.feeTypes.administrativeFee", getLabel(LUConstants.ADMINISTRATIVE_FEE));
+            types.put("kuali.enum.type.feeTypes.coopFee", getLabel(LUConstants.COOP_FEE));
+            types.put("kuali.enum.type.feeTypes.greensFee",  getLabel(LUConstants.GREENS_FEE));
         }
+		@Override
+		public void setText(String text) {
+			super.setText(types.get(text));
+		}
+
     }    
     public class FeeList extends UpdatableMultiplicityComposite {
     	
-    	public static final String PLACEHOLDER_FEE = "placeholderFee";
-    	
         {
-            setAddItemLabel(getLabel(LUConstants.ADD_A_FEE));
-            setItemLabel(getLabel(LUConstants.FEE));
+        setAddItemLabel(getLabel(LUConstants.ADD_A_FEE));
+        setItemLabel(getLabel(LUConstants.FEE));
         }
         private final String parentPath;
 
-        public FeeList(String parentPath){
-            super(StyleType.TOP_LEVEL);
+        public FeeList(String parentPath, boolean readOnly){
+            super(StyleType.TOP_LEVEL, readOnly);
             this.parentPath = parentPath;
-            this.readOnly=true;
         }
        
         @Override
         public Widget createItem() {
-            String innerPath = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
-
-            final GroupSection variableSection = new GroupSection();
-            final GroupSection fixedSection= new GroupSection();
-            final GroupSection multipeSection= new GroupSection();
-            final GroupSection perCreditSection= new GroupSection();
-            
-
-            addField(variableSection, "feeType", getLabel(LUConstants.AMOUNT), innerPath );
-            addField(variableSection, "feeType", getLabel(LUConstants.TO), innerPath );
-            addField(fixedSection, "feeType", getLabel(LUConstants.AMOUNT), innerPath );
-            addField(multipeSection, "feeType", getLabel(LUConstants.AMOUNT), new MultipleFeeList("feeType"), innerPath );
-            addField(perCreditSection, "feeType", getLabel(LUConstants.AMOUNT), innerPath );
-
-            final GroupSection mainSection = new GroupSection();
-            final String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
-            addField(mainSection, "feeType", getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new FeeTypeList(),path );
-            final KSDropDown rateTypeDropDown = new RateTypeList();
-            addField(mainSection, "rateType",  getLabel(LUConstants.RATE_TYPE), rateTypeDropDown,path);
-            
-            rateTypeDropDown.selectItem("");// fake select
-            rateTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler(){
-                @Override
-                public void onSelectionChange(SelectionChangeEvent event) {
-                    mainSection.removeSection(variableSection);
-                    mainSection.removeSection(fixedSection);
-                    mainSection.removeSection(multipeSection);
-                    mainSection.removeSection(perCreditSection);
-                    if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.variableRateFee")){
-                        mainSection.addSection(variableSection);
-                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.fixedRateFee")){
-                        mainSection.addSection(fixedSection);
-                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.multipleRateFee")){
-                        mainSection.addSection(multipeSection);
-                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.perCreditFee")){
-                        mainSection.addSection(perCreditSection);
-                    }                    
-                }
-            });
-            return mainSection;
+        	// avoid collisions w/ existing fees in the model
+        	return new TransmogrifyingFeeRecordItem(parentPath, itemCount);
         }
 
+        public Widget createItem(int itemCount) {
+        	return new TransmogrifyingFeeRecordItem(parentPath, itemCount);
+        }
+        
+        @Override
+		public MultiplicityItem addItem() {
+        	return addItem(FeeInfoConstants.FIXED_RATE_FEE, 1000 - itemCount);
+        }
+        
+		public MultiplicityItem addItem(String rateType, int modelIdx) {
+			itemCount++;
+			visualItemCount++;
+		    //itemCount = itemsPanel.getWidgetCount();
+		    MultiplicityItem item = getItemDecorator(style);
+		    Widget itemWidget = createItem(itemCount);
+		    ((TransmogrifyingFeeRecordItem) itemWidget).setRateType(rateType, modelIdx);
+	    	
+		    if (item != null){
+			    item.setItemKey(new Integer(itemCount - 1));
+			    item.setItemWidget(itemWidget);
+			    item.setRemoveCallback(removeCallback);
+		    } else if (itemWidget instanceof MultiplicityItem){
+		    	item = (MultiplicityItem)itemWidget;
+		    	item.setItemKey(new Integer(itemCount -1));
+		    }
+		    items.add(item);
+		    item.redraw();
+		    itemsPanel.add(item);
+		    
+		    return item;
+		}
+		
+		public int getItemCount() {
+			return itemCount;
+		}
     }
+    
     public class MultipleFeeList extends UpdatableMultiplicityComposite {
-        {
-            setAddItemLabel(getLabel(LUConstants.ADD_ANOTHER_FEE));
-            setItemLabel(getLabel(LUConstants.FEE));
-        }
+
         private final String parentPath;
         public MultipleFeeList(String parentPath){
-            super(StyleType.TOP_LEVEL);
+            super(StyleType.TOP_LEVEL,true);
             this.parentPath = parentPath;
-            this.readOnly=true;
         }
         @Override
         public Widget createItem() {
@@ -673,38 +700,149 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         }
         
     }
+	public class FeeListBinding implements ModelWidgetBinding<FeeList> {
+		
+		@Override
+		public void setModelValue(FeeList widget, DataModel model, String path) {
+			// passthru; can't subclass
+			MultiplicityCompositeBinding.INSTANCE.setModelValue(widget, model, path);
+		}
+
+		/*
+		 * Yeah, duped this due to architectural issues. Technical debt, or
+		 * fodder for DOL simplification?
+		 */
+		@Override
+		public void setWidgetValue(FeeList widget, DataModel model, String path) {
+			
+			widget.clear();
+
+			
+	        QueryPath qPath = QueryPath.parse(path);
+	        Data data = null;
+	        if(model!=null){
+	        	data = model.get(qPath);
+	        }
+
+	        if (data != null) {
+	            Iterator<Property> itr = data.realPropertyIterator();
+	            if (itr.hasNext()) {
+	            	FeeInfoHelper feeHelper = FeeInfoHelper.wrap((Data) itr.next().getValue());
+	            	if (null != feeHelper.getFixedRateFee()) {
+	            		addRateTypeSpecificItems(feeHelper.getFixedRateFee().realPropertyIterator(), FeeInfoConstants.FIXED_RATE_FEE, widget, model, path);
+        			}
+	            	if (null != feeHelper.getVariableRateFee()) {
+	            		addRateTypeSpecificItems(feeHelper.getVariableRateFee().realPropertyIterator(), FeeInfoConstants.VARIABLE_RATE_FEE, widget, model, path);
+	            	}
+	            	if (null != feeHelper.getPerCreditFee()) {
+	            		addRateTypeSpecificItems(feeHelper.getPerCreditFee().realPropertyIterator(), FeeInfoConstants.PER_CREDIT_FEE, widget, model, path);
+	            	}
+	            	if (null != feeHelper.getMultipleRateFee()) {
+	            		addRateTypeSpecificItems(feeHelper.getMultipleRateFee().realPropertyIterator(), FeeInfoConstants.MULTIPLE_RATE_FEE, widget, model, path);
+	            	}
+            	}
+            }
+        }
+
+		private void addRateTypeSpecificItems(Iterator<Property> iterator, String rateType, FeeList widget, DataModel model, String path) {
+			while (iterator.hasNext()) {
+                Property p = (Property) iterator.next();
+
+                if (p.getKey() instanceof Integer) {
+                	// use the index the model has for this item (as it's model index, not item index)
+                    MultiplicityItem item = widget.addItem(rateType, ((Integer) p.getKey()).intValue());
+                    
+                    // FIXME: Is assumption correct that data passed to setValue() has already been persisted
+                    item.setCreated(false);
+                    MultiplicityItemBinding.INSTANCE.setWidgetValue(item, model, path);
+                }
+			}
+		}
+	}
+	
+    public class TransmogrifyingFeeRecordItem extends GroupSection {
+    	
+		private String parentPath;
+		private FeeTypeList feeTypeList = new FeeTypeList();
+		private RateTypeList rateTypeList = new RateTypeList();
+		private GroupSection dropDownSection;
+		private GroupSection fieldSection;
+        private String fixedPath = "0/" + FeeInfoConstants.FIXED_RATE_FEE + "/";
+        private String variablePath = "0/" + FeeInfoConstants.VARIABLE_RATE_FEE + "/";
+        private String multiplePath = "0/" + FeeInfoConstants.MULTIPLE_RATE_FEE + "/";
+        private String perCreditPath = "0/" + FeeInfoConstants.PER_CREDIT_FEE + "/";
+        private SelectionChangeHandler dropDownHandler;
+            
+		public TransmogrifyingFeeRecordItem(String parentPath, int itemCount) {
+			
+            final int itemNumber = itemCount;
+            this.parentPath = parentPath;
+
+
+		}
+
+		public void setRateType(String rateType, int modelIdx) {
+			clearSection();
+            buildRateSpecificDropDownSection(rateType, modelIdx);
+            addSection(dropDownSection);
+            buildRateSpecificFieldSection(rateType, modelIdx);
+            addSection(fieldSection);
+		}
+		
+		private void clearSection() {
+			if (null != dropDownSection) {
+				removeSection(dropDownSection);
+			}
+			if (null != fieldSection) {
+				removeSection(fieldSection);
+			}
+		}
+		
+    	private void buildRateSpecificDropDownSection(String rateType, int modelIdx) {
+    		dropDownSection = new GroupSection();
+    		
+    		if (FeeInfoConstants.FIXED_RATE_FEE.equals(rateType)) {
+	            ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, fixedPath + modelIdx + "/feeType", "Fee Type", feeTypeList, parentPath);
+	            ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, fixedPath + modelIdx + "/rateType", "Rate Type", rateTypeList, parentPath);
+    		} else if (FeeInfoConstants.MULTIPLE_RATE_FEE.equals(rateType)) {
+    			ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, multiplePath + modelIdx + "/feeType", "Fee Type", feeTypeList, parentPath);
+    			ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, multiplePath + modelIdx + "/rateType", "Rate Type", rateTypeList, parentPath);
+    		} else if (FeeInfoConstants.PER_CREDIT_FEE.equals(rateType)) {
+    			ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, perCreditPath + modelIdx + "/feeType", "Fee Type", feeTypeList, parentPath);
+    			ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, perCreditPath + modelIdx + "/rateType", "Rate Type", rateTypeList, parentPath);
+    		} else if (FeeInfoConstants.VARIABLE_RATE_FEE.equals(rateType)) {
+    			ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, variablePath + modelIdx + "/feeType", "Fee Type", feeTypeList, parentPath);
+    			ViewCourseProposalSummaryConfigurer.this.addField(dropDownSection, variablePath + modelIdx + "/rateType", "Rate Type", rateTypeList, parentPath);
+    		}
+            rateTypeList.setText(rateType);
+    	}
+    	
+    	private void buildRateSpecificFieldSection(String rateType, int modelIdx) {
+    		fieldSection = new GroupSection();
+    		if (FeeInfoConstants.FIXED_RATE_FEE.equals(rateType)) {
+    			ViewCourseProposalSummaryConfigurer.this.addField(fieldSection, fixedPath + modelIdx + "/amount", "Amount", parentPath );
+    		} else if (FeeInfoConstants.MULTIPLE_RATE_FEE.equals(rateType)) {
+    			ViewCourseProposalSummaryConfigurer.this.addField(fieldSection, multiplePath + modelIdx + "/amount", "Amount", new MultipleFeeList(parentPath + "/" + multiplePath), parentPath );
+    		} else if (FeeInfoConstants.PER_CREDIT_FEE.equals(rateType)) {
+    			ViewCourseProposalSummaryConfigurer.this.addField(fieldSection, perCreditPath + modelIdx + "/amount", "Amount (PerCredit)", parentPath );
+    		} else if (FeeInfoConstants.VARIABLE_RATE_FEE.equals(rateType)) {
+    			ViewCourseProposalSummaryConfigurer.this.addField(fieldSection, variablePath + modelIdx + "/minAmount", "Amount", parentPath );
+    			ViewCourseProposalSummaryConfigurer.this.addField(fieldSection, variablePath + modelIdx + "/maxAmount", "To", parentPath );
+    		}
+            rateTypeList.setText(rateType);
+    	}
+	}
+	
     // TODO -if the sleaze for forcing a single item to 100% is to stay longer than short-term, factor
     // common sleaziness up into a superclass
     public class FinancialInformationList extends UpdatableMultiplicityComposite {
-    	private Map<MultiplicityItem, Callback<MultiplicityItem>> removalCallbacks = new HashMap<MultiplicityItem, Callback<MultiplicityItem>>();
-    	private Callback<MultiplicityItem> oneHundredPercentCallback = new Callback<MultiplicityItem>() {
-            public void exec(MultiplicityItem itemToRemove) {
-                removalCallbacks.get(itemToRemove).exec(itemToRemove);
-                removalCallbacks.remove(itemToRemove);
-                if ((getItems().size() - getRemovedItems().size()) == 1) {
-                	MultiplicityItem currItem = null;
-                	for (int i = 0; i < getItems().size(); i++) {
-                		currItem = getItems().get(i);
-                		if ( ! currItem.isDeleted() ) break;
-                	}
-                	if (null == currItem || currItem.isDeleted()) {
-                		String errMsg = "Unable to find non-deleted item in FinancialInformationList's removal callback";
-                		GWT.log(errMsg, new RuntimeException(errMsg));
-                	}
-                	// So, how's this for sleazy? Even sleazier than the addItem() sleaziness below
-                	GroupSection gSection = (GroupSection) ((RemovableItemWithHeader) currItem).getItemWidget();
-                	((KSTextBox) gSection.getFields().get(1).getFieldWidget()).setValue("100");
-                }
-            }
-    	};
-    	
         {
             setAddItemLabel(getLabel(LUConstants.ADD_ANOTHER_ORGANIZATION));
             setItemLabel(getLabel(LUConstants.ORGANIZATION));
         }
         private final String parentPath;
-        public FinancialInformationList(String parentPath){
-            super(StyleType.TOP_LEVEL);
+        public FinancialInformationList(String parentPath, boolean readOnly){
+            super(StyleType.TOP_LEVEL, readOnly);
             this.parentPath = parentPath;
             this.readOnly=true;
         }
@@ -720,50 +858,16 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
             
             return ns;
         }
-        @Override
-        public MultiplicityItem addItem() {
-        	MultiplicityItem returnItem = super.addItem();
-        	// this is _so_ wrong, but Brian and I couldn't figure out a better way to
-        	// force single item to be 100%
-        	removalCallbacks.put(returnItem, returnItem.getRemoveCallback());
-        	returnItem.setRemoveCallback(oneHundredPercentCallback);
-        	if (getItems().size() == 1) {
-        		// needs to be 100% for a single revenue org
-        		Widget txtBox = ((GroupSection) returnItem.getItemWidget()).getFields().get(1).getFieldWidget();
-        		((KSTextBox) txtBox).setValue("100");
-        	}
-        	return returnItem;
-        }
     }
     public class ExpenditureList extends UpdatableMultiplicityComposite {
-    	private Map<MultiplicityItem, Callback<MultiplicityItem>> removalCallbacks = new HashMap<MultiplicityItem, Callback<MultiplicityItem>>();
-    	private Callback<MultiplicityItem> oneHundredPercentCallback = new Callback<MultiplicityItem>() {
-            public void exec(MultiplicityItem itemToRemove) {
-                removalCallbacks.get(itemToRemove).exec(itemToRemove);
-                removalCallbacks.remove(itemToRemove);
-                if ((getItems().size() - getRemovedItems().size()) == 1) {
-                	MultiplicityItem currItem = null;
-                	for (int i = 0; i < getItems().size(); i++) {
-                		currItem = getItems().get(i);
-                		if ( ! currItem.isDeleted() ) break;
-                	}
-                	if (null == currItem || currItem.isDeleted()) {
-                		String errMsg = "Unable to find non-deleted item in ExpenditureList's removal callback";
-                		GWT.log(errMsg, new RuntimeException(errMsg));
-                	}
-                	// So, how's this for sleazy?
-                	GroupSection gSection = (GroupSection) ((RemovableItemWithHeader) currItem).getItemWidget();
-                	((KSTextBox) gSection.getFields().get(1).getFieldWidget()).setValue("100");
-                }
-            }
-    	};
+
         {
             setAddItemLabel(getLabel(LUConstants.ADD_ANOTHER_ORGANIZATION));
             setItemLabel(getLabel(LUConstants.ORGANIZATION));
         }
         private final String parentPath;
-        public ExpenditureList(String parentPath){
-            super(StyleType.TOP_LEVEL);
+        public ExpenditureList(String parentPath, boolean readOnly){
+            super(StyleType.TOP_LEVEL, readOnly);
             this.parentPath = parentPath;
             this.readOnly=true;
         }
@@ -771,20 +875,19 @@ public class ViewCourseProposalSummaryConfigurer extends CourseConfigurer {
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, "expenditureOrg",  getLabel(LUConstants.EXPENDITURE),path );
-            addField(ns, "totalPercentage", getLabel(LUConstants.AMOUNT),path);
+            addField(ns, "expenditureOrg",  getLabel(LUConstants.EXPENDITURE),new KSLabel(),path );
+            addField(ns, "totalPercentage", getLabel(LUConstants.AMOUNT),new KSLabel(),path);
 
             return ns;
         }
         @Override
         public MultiplicityItem addItem() {
         	MultiplicityItem returnItem = super.addItem();
-        	removalCallbacks.put(returnItem, returnItem.getRemoveCallback());
-        	returnItem.setRemoveCallback(oneHundredPercentCallback);
+
         	if (getItems().size() == 1) {
         		// needs to be 100% for a single expenditure org
         		Widget txtBox = ((GroupSection) returnItem.getItemWidget()).getFields().get(1).getFieldWidget();
-        		((KSTextBox) txtBox).setValue("100");
+        		((KSLabel) txtBox).setText("100");
         	}
         	return returnItem;
         }
