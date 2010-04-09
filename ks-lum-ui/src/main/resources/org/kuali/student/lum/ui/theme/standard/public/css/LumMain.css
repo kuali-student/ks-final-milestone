@@ -354,3 +354,14 @@
 .defaultEnrollmentEstimate{}
 .orgId{}
 .personId{}
+.TableIndent-0{font-weight:bold;}
+.TableIndent-1{text-indent:10px;}
+.TableIndent-2{text-indent:20px;}
+.TableIndent-3{text-indent:30px;}
+.TableIndent-4{text-indent:40px;}
+.TableIndent-5{text-indent:50px;}
+.TableIndent-6{text-indent:60px;}
+.TableIndent-7{text-indent:70px;}
+.TableIndent-8{text-indent:80px;}
+.SummaryTable-EvenRow{background-color:  #FAFAFA;}
+.SummaryTable-OddRow{background-color: #F0F0F0;}
