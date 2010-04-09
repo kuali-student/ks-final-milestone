@@ -30,7 +30,10 @@ import org.kuali.student.core.entity.Type;
 @Table(name = "KSOR_ORG_PERS_RELTN_TYPE")
 @NamedQueries( {
 		@NamedQuery(name = "OrgPersonRelationType.getOrgPersonRelationTypesForOrgType", query = "SELECT oprt FROM OrgPersonRelationType oprt JOIN oprt.organizationTypes ot WHERE ot.id = :orgTypeKey"),
-		@NamedQuery(name = "OrgPersonRelationType.getPersonIdsForOrgByRelationType", query = "SELECT DISTINCT opr.personId FROM OrgPersonRelation opr JOIN opr.org o JOIN opr.orgPersonRelationType t WHERE o.id = :orgId AND t.id = :orgPersonRelationTypeKey"),
+		@NamedQuery(name = "OrgPersonRelationType.getPersonIdsForOrgByRelationType", query = "SELECT DISTINCT opr.personId FROM OrgPersonRelation opr JOIN opr.org o JOIN opr.orgPersonRelationType t " +
+				                                                                            "WHERE o.id = :orgId AND " +
+				                                                                            "t.id = :orgPersonRelationTypeKey AND" +
+				                                                                            "(opr.expirationDate IS NULL OR opr.expirationDate>=CURRENT_TIMESTAMP)"),
 		@NamedQuery(name = "OrgPersonRelationType.hasOrgPersonRelation", query = "SELECT COUNT(oprt) FROM OrgPersonRelationType oprt JOIN oprt.orgPersonRelations relations JOIN oprt.organizations orgs WHERE relations.personId = :personId AND orgs.id = :orgId AND oprt.id = :orgPersonRelationTypeKey") })
 public class OrgPersonRelationType extends Type<OrgPersonRelationTypeAttribute> {
     //implements AttributeOwner<OrgPersonRelationTypeAttribute> {
