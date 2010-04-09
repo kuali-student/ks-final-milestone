@@ -34,6 +34,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryH
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
+import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
@@ -168,22 +169,27 @@ public class CourseRequisiteView extends ViewComposite {
 
         if (rule == null) { //|| (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {
     		String ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";
-            //rulesText.clear();
     		rulesText.add(new KSLabel(ruleText));
-    	} else if (rule.getStatementVO().getReqComponentVOCount() > 0) {
-            //rulesText.clear();
-            requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(rule.getCluId(), rule.getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
-				public void onFailure(Throwable cause) {
-	            	GWT.log("Failed to get NL for " + rule.getCluId(), cause);
-	                Window.alert("Failed to get NL for " + rule.getCluId());
-				}
-				
-				public void onSuccess(final String statementNaturalLanguage) { 
-					rule.setNaturalLanguage(statementNaturalLanguage);
-			        rulesText.clear();
-					rulesText.add(new KSLabel(statementNaturalLanguage));
-				} 
-			}); 
+    	} else {
+    	    List<ReqComponentVO> allReqComponentVOs =
+    	        (rule == null || rule.getStatementVO() == null)? null :
+    	            rule.getStatementVO().getAllReqComponentVOs();
+    	    // if there are any rules in any node of the statementVO
+    	    // get the natural language for the statementVO
+    	    if (allReqComponentVOs != null && !allReqComponentVOs.isEmpty()) {
+    	        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(rule.getCluId(), rule.getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+    	            public void onFailure(Throwable cause) {
+    	                GWT.log("Failed to get NL for " + rule.getCluId(), cause);
+    	                Window.alert("Failed to get NL for " + rule.getCluId());
+    	            }
+
+    	            public void onSuccess(final String statementNaturalLanguage) { 
+    	                rule.setNaturalLanguage(statementNaturalLanguage);
+    	                rulesText.clear();
+    	                rulesText.add(new KSLabel(statementNaturalLanguage));
+    	            } 
+    	        }); 
+    	    }
     	}
     }
     

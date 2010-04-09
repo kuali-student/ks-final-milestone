@@ -375,7 +375,7 @@ public class ManageRulesView extends ViewComposite {
         
         btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-            	getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
+//            	getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
 
             	getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
                     @Override
