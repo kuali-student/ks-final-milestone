@@ -340,7 +340,7 @@
 		<property name="desc" value="Integer" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="9" />
 		<property name="validChars" value="regex:^(\+|-)?[0-9]+$" />
 		<property name="comments"
 			value="http://regexlib.com/REDetails.aspx?regexp_id=14" />
