@@ -122,7 +122,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
 	 */
 	@Override
 	public void setValue(List<OutlineNode<LOPicker>> value, boolean fireEvents) {
-		setValue(value, false);
+		setValue(value);
 	}
 	
     /**
