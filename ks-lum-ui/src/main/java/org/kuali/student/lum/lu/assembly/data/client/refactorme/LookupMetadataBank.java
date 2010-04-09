@@ -485,6 +485,7 @@ public class LookupMetadataBank
 		result.setKey ("lu.resultColumn.cluId");
 		result.setName ("Clu Id");
 		result.setDesc ("Identifier of a Clu");
+		result.setHidden(true);
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		
@@ -1378,6 +1379,7 @@ public class LookupMetadataBank
 		result.setKey ("proposal.resultColumn.proposalId");
 		result.setName ("Id");
 		result.setDesc ("Id for the proposal.");
+		result.setHidden(true);
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		
