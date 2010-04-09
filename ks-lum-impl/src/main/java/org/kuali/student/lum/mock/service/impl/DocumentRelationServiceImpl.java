@@ -17,96 +17,79 @@ import org.kuali.student.core.dto.RefDocRelationInfoMock;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.entity.Meta;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.mock.service.DocumentRelationService;
-import org.kuali.student.lum.lu.dao.LuDao;
-import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
-import org.kuali.student.lum.lu.entity.Clu;
-import org.kuali.student.lum.lu.entity.LuDocumentRelation;
-import org.kuali.student.lum.lu.entity.LuDocumentRelationAttribute;
-import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
-import org.kuali.student.lum.lu.entity.LuRichText;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.impl.LuServiceAssembler;
+import org.kuali.student.core.proposal.dao.ProposalDao;
+import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalDocRelation;
+import org.kuali.student.core.proposal.entity.ProposalDocRelationAttribute;
+import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
+import org.kuali.student.core.proposal.entity.ProposalRichText;
+import org.kuali.student.core.proposal.service.impl.ProposalAssembler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
-
 @WebService(endpointInterface = "org.kuali.student.core.mock.service.DocumentRelationService", serviceName = "DocumentRelationService", portName = "DocumentRelationService", targetNamespace = "http://student.kuali.org/wsdl/documentRelation")
 @Transactional(rollbackFor = {Throwable.class})
 public class DocumentRelationServiceImpl implements DocumentRelationService {
 
-    LuService service;
-    private LuDao luDao;
+    private ProposalDao proposalDao;
 
     public DocumentRelationServiceImpl() {
-
     }
 
     @Override
-    public void createRefDocRelation(String refId, String docId, RefDocRelationInfoMock relInfo) throws Exception {
-        LuDocRelationInfo info = new LuDocRelationInfo();
-        info.setCluId(refId);
-        info.setDocumentId(docId);
-        info.setTitle(relInfo.getTitle());
-        RichTextInfo text = new RichTextInfo();
-        info.setDesc(relInfo.getDesc());
+    public void createRefDocRelation(String refId, String docId, RefDocRelationInfoMock info) throws Exception {
 
-        createLuDocRelationForClu("luDocRelationType.doctype1", docId, refId, info);
+        Proposal proposal = proposalDao.fetch(Proposal.class, refId);
+        ProposalDocRelation proposalDocRelation = new ProposalDocRelation();
 
-    }
+        BeanUtils.copyProperties(info, proposalDocRelation, new String[]{"id", "desc", "type", "cluId", "attributes", "documentId", "metaInfo"});
 
-    public LuDocRelationInfo createLuDocRelationForClu(String luDocRelationType, String documentId, String cluId, LuDocRelationInfo luDocRelationInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        proposalDocRelation.setProposal(proposal);
+        ProposalDocRelationType relType = proposalDao.fetch(ProposalDocRelationType.class, "proposalDocRelationType.doctype1");// info.getType());
+        proposalDocRelation.setType(relType);
+        proposalDocRelation.setDocumentId(docId);
 
-        checkForMissingParameter(luDocRelationType, "luDocRelationType");
-        checkForMissingParameter(documentId, "documentId");
-        checkForMissingParameter(cluId, "cluId");
-        checkForMissingParameter(luDocRelationInfo, "luDocRelationInfo");
+        proposalDocRelation.setDescr(ProposalAssembler.toRichText(ProposalRichText.class, info.getDesc()));
+        proposalDocRelation.setAttributes(ProposalAssembler.toGenericAttributes(ProposalDocRelationAttribute.class, info.getAttributes(), proposalDocRelation, proposalDao));
 
-        LuDocumentRelation docRelation = new LuDocumentRelation();
-        Clu clu = luDao.fetch(Clu.class, cluId);
-        LuDocumentRelationType docRelationType = luDao.fetch(LuDocumentRelationType.class, luDocRelationType);
-
-        BeanUtils.copyProperties(luDocRelationInfo, docRelation, new String[]{"id", "desc", "type", "cluId", "attributes", "documentId", "metaInfo"});
-        docRelation.setClu(clu);
-        docRelation.setLuDocumentRelationType(docRelationType);
-        docRelation.setDescr(LuServiceAssembler.toRichText(LuRichText.class, luDocRelationInfo.getDesc()));
-        docRelation.setDocumentId(documentId);
-        docRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuDocumentRelationAttribute.class, luDocRelationInfo.getAttributes(), docRelation, luDao));
-
-        luDao.create(docRelation);
-
-        return LuServiceAssembler.toLuDocRelationInfo(docRelation);
+        proposalDao.create(proposalDocRelation);
     }
 
     @Override
     public List<RefDocRelationInfoMock> getRefDocIdsForRef(String id) throws Exception {
 
         List<RefDocRelationInfoMock> relationInfos = new ArrayList<RefDocRelationInfoMock>();
-        List<LuDocumentRelation> documentRelations = luDao.getLuDocRelationsByClu(id);
+        List<ProposalDocRelation> documentRelations = null; 
+        try {
+            documentRelations = proposalDao.getProposalDocRelationsByProposal(id);
+        } catch (DoesNotExistException e) {
+            return null;
+        }
 
-        for (LuDocumentRelation relation : documentRelations) {
+        for (ProposalDocRelation relation : documentRelations) {
             RefDocRelationInfoMock relationInfo = new RefDocRelationInfoMock();
-            relationInfo.setRefId(relation.getClu().getId());
-            relationInfo.setDocumentId(relation.getDocumentId());
+
+            BeanUtils.copyProperties(relation, relationInfo, new String[]{"descr", "type", "meta", "proposal", "attributes", "documentId", "metaInfo", "versionInd"});
+
+            relationInfo.setRefId(id);
             relationInfo.setId(relation.getId());
+
             MetaInfo metaInfo = new MetaInfo();
             Meta meta = relation.getMeta();
             metaInfo.setCreateId(meta.getCreateId());
             metaInfo.setCreateTime(meta.getCreateTime());
             metaInfo.setUpdateId(meta.getUpdateId());
             metaInfo.setUpdateTime(meta.getUpdateTime());
-            // FIXME: version indicator
-            metaInfo.setVersionInd("1");
+            metaInfo.setVersionInd(String.valueOf(relation.getVersionInd()));
             relationInfo.setMetaInfo(metaInfo);
-            relationInfo.setTitle(relation.getTitle());
+
             RichTextInfo richTextInfo = null;
-            LuRichText richText = relation.getDescr();
+            ProposalRichText richText = relation.getDescr();
             if (richText != null) {
                 richTextInfo = new RichTextInfo();
                 richTextInfo.setFormatted(richText.getFormatted());
@@ -124,9 +107,9 @@ public class DocumentRelationServiceImpl implements DocumentRelationService {
         return deleteLuDocRelation(id);
     }
 
-    public StatusInfo deleteLuDocRelation(String luDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkForMissingParameter(luDocRelationId, "luDocRelationId");
-        luDao.delete(LuDocumentRelation.class, luDocRelationId);
+    public StatusInfo deleteLuDocRelation(String docRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(docRelationId, "luDocRelationId");
+        proposalDao.delete(ProposalDocRelation.class, docRelationId);
 
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(true);
@@ -140,16 +123,8 @@ public class DocumentRelationServiceImpl implements DocumentRelationService {
         }
     }
 
-    public LuService getService() {
-        return service;
-    }
-
-    public void setService(LuService service) {
-        this.service = service;
-    }
-
-    public void setLuDao(LuDao luDao) {
-        this.luDao = luDao;
+    public void setProposalDao(ProposalDao proposalDao) {
+        this.proposalDao = proposalDao;
     }
 
 }

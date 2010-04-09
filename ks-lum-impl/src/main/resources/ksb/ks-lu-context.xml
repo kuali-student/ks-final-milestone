@@ -309,8 +309,7 @@
 
     <bean id="documentRelationServiceImpl"
         class="org.kuali.student.lum.mock.service.impl.DocumentRelationServiceImpl">
-        <property name="service" ref="luServiceImpl" />
-        <property name="luDao" ref="luDao" />
+        <property name="proposalDao" ref="proposalDao" />
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
