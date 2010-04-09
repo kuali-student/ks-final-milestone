@@ -1,0 +1,83 @@
+.KS-FormLayout-Label {
+	width: 90px;
+	text-align: left;
+	font-size: 11px;
+	padding-bottom: 20px;
+	vertical-align: middle;	
+}
+
+.KS-FormLayout-Field {
+	padding-bottom: 20px;
+}
+
+.KS-Course-Section-Header {
+	font-size: 20px;
+	margin-bottom: 30px;
+}
+
+.KS-Course-Save-Button{
+	margin-left: 100px;	
+}
+
+.KS-Course-Number {
+	width: 50px;
+}
+
+.cluInfo-officialIdentifier-longName{}
+.cluInfo-officialIdentifier-division{}
+.cluInfo-officialIdentifier-suffixCode{}
+.proposalInfo-proposerPerson{}
+.proposalInfo-todo{}
+.proposalInfo-todo{}
+.proposalInfo-metaInfo-createTime{}
+.proposalInfo-metaInfo-updateTime{}
+.cluInfo-desc-plain{}
+.proposalInfo-state{}
+.proposalInfo-name{}
+.proposalInfo-proposerPerson{}
+.rationalle{}
+.rules{}
+.cluInfo-effectiveDate{}
+.cluInfo-expirationDate{}
+.cluInfo-feeType{}
+.cluInfo-feeAmount{}
+.cluInfo-taxable{}
+.cluInfo-feeDesc{}
+.cluInfo-internalNotation{}
+.cluInfo-adminOrg{}
+.cluInfo-campusLocationList{}
+.cluInfo-primaryAdminOrg-orgId{}
+.cluInfo-alternateAdminOrgs{}
+.cluInfo-officialIdentifier-division{}
+.cluInfo-officialIdentifier-suffixCode{}
+.cluInfo-alternateIdentifiers{}
+.cluInfo-offeredJointly{}
+.cluInfo-alternateIdentifiers{}
+.cluInfo-officialIdentifier-longName{}
+.cluInfo-officialIdentifier-shortName{}
+.cluInfo-desc{}
+.cluInfo-marketingDesc{}
+.orgId{}
+.code{}
+.suffixCode{}
+.id{}
+.variation{}
+.shortName{}
+.cluInfo-primaryInstructor-personId{}
+.cluInfo-creditType{width: 40px;}
+.cluInfo-creditValue{}
+.cluInfo-maxCredits{width: 40px;}
+.cluInfo-evalType{}
+.cluInfo-offeredAtpTypes{}
+.cluInfo-stdDuration-timeQuantity{}
+.cluInfo-courseFormats{}
+.activities{}
+.type{}
+.creditInfo{}
+.evalType{}
+.term{}
+.stdDuration-timeQuantity{}
+.intensity-timeQuantity{}
+.defaultEnrollmentEstimate{}
+.orgId{}
+.personId{}
