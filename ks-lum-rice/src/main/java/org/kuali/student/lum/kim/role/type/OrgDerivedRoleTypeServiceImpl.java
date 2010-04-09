@@ -15,6 +15,7 @@
 package org.kuali.student.lum.kim.role.type;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -77,11 +78,16 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 				}
 			//Otherwise get all members of the organization except for the excluded
 			}else{
+			    //getCurrent Date
+			    Date now = new Date();
 				List<OrgPersonRelationInfo> relations = orgService.getAllOrgPersonRelationsByOrg(orgId);
 				for(OrgPersonRelationInfo relation:relations){
 					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getType())){
+					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.
+					    if(relation.getExpirationDate().compareTo(now)>=0){
 						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes);
 						members.add(member);
+					    }
 					}
 				}
 			}
