@@ -1217,13 +1217,13 @@ insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RE
 /
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('2', '28', 'KIM-2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.org.PersonRelation.AdminAssistant', 'Active', 1)
 /
-insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('3', '147', 'KIM-3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.org.PersonRelation.Coordinator', 'Active', 1)
+insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('3', '147', 'KIM-3', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'kuali.org.PersonRelation.Coordinator', 'Active', 1)
 /
-insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('4', '68', 'KIM-4', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Professor', 'Active', 1)
+insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('4', '68', 'KIM-4', {ts '2000-01-01 00:00:00.0'}, null,'kuali.org.PersonRelation.Professor', 'Active', 1)
 /
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('5', '53', 'KIM-1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Head', 'Active', 1)
 /
-insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('6', '68', 'KIM-1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Professor', 'Active', 1)
+insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('6', '68', 'KIM-1', {ts '2000-01-01 00:00:00.0'}, null,'kuali.org.PersonRelation.Professor', 'Active', 1)
 /
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('7', '31', 'user1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.AdministrativeOfficer', 'Active', 1)
 /
