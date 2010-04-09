@@ -37,7 +37,7 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -133,9 +133,9 @@ public class ViewCourseController extends TabbedSectionLayout {
                 requestModel(new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultContainer>>() {
+                        model.validate(new Callback<List<ValidationResultInfo>>() {
                             @Override
-                            public void exec(List<ValidationResultContainer> result) {
+                            public void exec(List<ValidationResultInfo> result) {
                                 ValidateResultEvent e = new ValidateResultEvent();
                                 e.setValidationResult(result);
                                 fireApplicationEvent(e);

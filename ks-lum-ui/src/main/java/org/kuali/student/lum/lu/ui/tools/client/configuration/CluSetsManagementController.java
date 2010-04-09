@@ -43,7 +43,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
@@ -222,9 +222,9 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                 requestModel(new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultContainer>>() {
+                        model.validate(new Callback<List<ValidationResultInfo>>() {
                             @Override
-                            public void exec(List<ValidationResultContainer> result) {
+                            public void exec(List<ValidationResultInfo> result) {
                                 ValidateResultEvent e = new ValidateResultEvent();
                                 e.setValidationResult(result);
                                 fireApplicationEvent(e);
@@ -359,9 +359,9 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
             clearData = false;
         }
 
-        modelToBeSaved.validate(new Callback<List<ValidationResultContainer>>() {
+        modelToBeSaved.validate(new Callback<List<ValidationResultInfo>>() {
             @Override
-            public void exec(List<ValidationResultContainer> result) {
+            public void exec(List<ValidationResultInfo> result) {
 
                 boolean save = true;
                 View v = getCurrentView();

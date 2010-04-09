@@ -20,8 +20,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 
@@ -82,7 +81,7 @@ public class CourseRequisitesSectionView extends SectionView {
 	}
 
 	@Override
-	public ErrorLevel processValidationResults(List<ValidationResultContainer> results) {
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
 		return ErrorLevel.OK;
 	}
 

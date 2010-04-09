@@ -56,7 +56,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.rice.authorization.PermissionType;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowToolbar;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
@@ -74,7 +74,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * Controller for course proposal screens 
  * 
  * @author Kuali Student Team
  *
@@ -156,9 +156,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 requestModel(new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultContainer>>() {
+                        model.validate(new Callback<List<ValidationResultInfo>>() {
                             @Override
-                            public void exec(List<ValidationResultContainer> result) {
+                            public void exec(List<ValidationResultInfo> result) {
                                 ValidateResultEvent e = new ValidateResultEvent();
                                 e.setValidationResult(result);
                                 fireApplicationEvent(e);
@@ -443,9 +443,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 	getStartSection().updateModel();
                 }
 
-            	model.validate(new Callback<List<ValidationResultContainer>>() {
+            	model.validate(new Callback<List<ValidationResultInfo>>() {
                     @Override
-                    public void exec(List<ValidationResultContainer> result) {
+                    public void exec(List<ValidationResultInfo> result) {
                     	
                     	boolean isSectionValid = isValid(result, true);
                     	
