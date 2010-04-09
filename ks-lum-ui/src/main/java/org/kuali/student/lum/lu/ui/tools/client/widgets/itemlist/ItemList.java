@@ -22,6 +22,7 @@ public class ItemList<V extends ItemValue<V>> extends Composite implements HasVa
     protected SimplePanel mainPanel = new SimplePanel();
     private List<ValueChangeHandler<List<V>>> valueChangeHandlers =
         new ArrayList<ValueChangeHandler<List<V>>>(3);
+    private boolean editable = true; // default to editable
     
     public ItemList() {
         super.initWidget(mainPanel);
@@ -72,6 +73,7 @@ public class ItemList<V extends ItemValue<V>> extends Composite implements HasVa
                         callHandlers();
                     }
                 });
+                val.setEditable(isEditable());
                 List<Widget> displayWidgets = val.generateDisplayWidgets();
                 if (displayWidgets != null) {
                     int column = 0;
@@ -99,4 +101,12 @@ public class ItemList<V extends ItemValue<V>> extends Composite implements HasVa
         }
     }
 
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+    
 }

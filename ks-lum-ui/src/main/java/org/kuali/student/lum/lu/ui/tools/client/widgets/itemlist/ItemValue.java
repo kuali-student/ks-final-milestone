@@ -13,4 +13,6 @@ public interface ItemValue<V> {
     public void setId(String id);
     public Callback<V> getDeleteCallback();
     public void setDeleteCallback(Callback<V> deleteCallback);
+    public void setEditable(boolean editable);
+    public boolean isEditable();
 }

@@ -19,6 +19,7 @@ public class CluItemValue implements ItemValue<CluItemValue> {
     private String id;
     private String name;
     private Callback<CluItemValue> deleteCallback;
+    private boolean editable;
 
     @Override
     public List<Widget> generateDisplayWidgets() {
@@ -28,15 +29,17 @@ public class CluItemValue implements ItemValue<CluItemValue> {
         // TODO set style color here
 //      itemLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
         displayWidgets.add(itemLabel);
-        displayWidgets.add(deleteButton);
-        
-        if (deleteCallback != null) {
-            deleteButton.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent event) {
-                    deleteCallback.exec(CluItemValue.this);
-                }
-            });
+        if (isEditable()) {
+            displayWidgets.add(deleteButton);
+
+            if (deleteCallback != null) {
+                deleteButton.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        deleteCallback.exec(CluItemValue.this);
+                    }
+                });
+            }
         }
         return displayWidgets;
     }
@@ -89,6 +92,16 @@ public class CluItemValue implements ItemValue<CluItemValue> {
         int hashCode = -1;
         hashCode = id.hashCode() + name.hashCode();
         return hashCode;
+    }
+
+    @Override
+    public boolean isEditable() {
+        return editable;
+    }
+
+    @Override
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
     
 }

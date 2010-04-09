@@ -233,6 +233,7 @@ public class CluSetsConfigurer {
 
         VerticalSection clusSection = initSection(null, WITH_DIVIDER);
         final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
+        cluItemList.setEditable(false);
         FieldDescriptor clusFieldDescriptor = addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, "CLUs", cluItemList);
         final CluItemListFieldBinding cluItemListFieldBinding = new CluItemListFieldBinding();
         clusFieldDescriptor.setWidgetBinding(cluItemListFieldBinding);
