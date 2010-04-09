@@ -394,6 +394,7 @@ public interface OrganizationService extends DictionaryService, SearchService {
 
     /** 
      * Retrieves the list of identifiers for people that have the specified type of relationship to this organization
+     * The list of person ids are fetched for PersonRelations that are still active meaning the expiration date is greater than the current date
      * @param orgId identifier of the organization that members are being found for
      * @param orgPersonRelationTypeKey type of organization person relationship that is being looked for
      * @return list of person identifiers that match supplied criteria
