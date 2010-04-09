@@ -1,4 +1,18 @@
 <sectionConfig>
+<sectionView viewName="BROWSE_TREE" tab="Browse">
+	<section sectionName="Browse" enum="BROWSE_TREE"></section>
+	<fields>
+		<field label="" key="orgSearchInfo/searchOrgs" widget="OrgLocateTree"></field> 
+
+	</fields>
+</sectionView>
+<sectionView viewName="SEARCH" tab="Search/Modify">
+	<section sectionName="Search" enum="SEARCH"></section>
+	<fields>
+		<field label="orgId" key="orgSearchInfo/searchOrgs"></field> 
+
+	</fields>
+</sectionView> 
 <sectionView viewName="ORG_INFO" tab="Organization">
 	<section sectionName="Organization" enum="ORG_INFO"></section>
 	<fields>
@@ -50,20 +64,8 @@
 	</fields>
 </sectionView>
 
-<sectionView viewName="SEARCH" tab="Search/Modify">
-	<section sectionName="Search" enum="SEARCH"></section>
-	<fields>
-		<field label="orgId" key="orgSearchInfo/searchOrgs"></field> 
 
-	</fields>
-</sectionView> 
-<sectionView viewName="BROWSE_TREE" tab="Browse">
-	<section sectionName="Browse" enum="BROWSE_TREE"></section>
-	<fields>
-		<field label="" key="orgSearchInfo/searchOrgs" widget="OrgLocateTree"></field> 
 
-	</fields>
-</sectionView>
 
 
 </sectionConfig>
