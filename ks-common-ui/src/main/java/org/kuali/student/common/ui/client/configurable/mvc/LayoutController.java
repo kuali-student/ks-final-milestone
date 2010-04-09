@@ -23,7 +23,7 @@ import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -38,13 +38,13 @@ public abstract class LayoutController extends Controller implements Configurabl
 		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
             @Override
             public void onValidateResult(ValidateResultEvent event) {
-               List<ValidationResultContainer> list = event.getValidationResult();
+               List<ValidationResultInfo> list = event.getValidationResult();
                LayoutController.this.processValidationResults(list);
             }
         });
     }
     
-    public void processValidationResults(List<ValidationResultContainer> list){
+    public void processValidationResults(List<ValidationResultInfo> list){
     	Collection<View> sections = sectionViewMap.values();
         for(View v: sections){
      	   if(v instanceof org.kuali.student.common.ui.client.configurable.mvc.views.SectionView){
@@ -53,10 +53,10 @@ public abstract class LayoutController extends Controller implements Configurabl
         }
     }
     
-    public ErrorLevel checkForErrors(List<ValidationResultContainer> list){
+    public ErrorLevel checkForErrors(List<ValidationResultInfo> list){
 		ErrorLevel errorLevel = ErrorLevel.OK;
 		
-		for(ValidationResultContainer vr: list){
+		for(ValidationResultInfo vr: list){
 			if(vr.getErrorLevel().getLevel() > errorLevel.getLevel()){
 				errorLevel = vr.getErrorLevel();
 			}
@@ -107,5 +107,5 @@ public abstract class LayoutController extends Controller implements Configurabl
 	 * @param checkCurrentSectionOnly true if errors should be checked on current section only, false if all sections should be checked 
 	 * @return true if the specified sections (all or current) has any validation errors
 	 */
-	public abstract boolean isValid(List<ValidationResultContainer> validationResults, boolean checkCurrentSectionOnly);
+	public abstract boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly);
 }

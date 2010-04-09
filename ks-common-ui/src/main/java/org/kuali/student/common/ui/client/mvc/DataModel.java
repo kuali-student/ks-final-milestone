@@ -33,6 +33,7 @@ import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallback;
 import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
 import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeType;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -226,8 +227,8 @@ public class DataModel implements Model {
         this.definition = definition;
     }
 
-    public void validate(final Callback<List<ValidationResultContainer>> callback) {
-        List<ValidationResultContainer> result = validator.validate(this);
+    public void validate(final Callback<List<ValidationResultInfo>> callback) {
+        List<ValidationResultInfo> result = validator.validate(this);
         callback.exec(result);
     }
 }

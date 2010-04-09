@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class ValidateResultEvent extends UncheckedApplicationEvent<ValidateResultHandler> {
     public static final Type<ValidateResultHandler> TYPE = new Type<ValidateResultHandler>();
-    private List<ValidationResultContainer> validationResultList = new ArrayList<ValidationResultContainer>();
+    private List<ValidationResultInfo> validationResultList = new ArrayList<ValidationResultInfo>();
     @Override
     protected void dispatch(ValidateResultHandler handler) {
         handler.onValidateResult(this);
@@ -33,14 +33,14 @@ public class ValidateResultEvent extends UncheckedApplicationEvent<ValidateResul
         return TYPE;
     }
 
-    public void setValidationResult(List<ValidationResultContainer> l){
+    public void setValidationResult(List<ValidationResultInfo> l){
         validationResultList = l;
     }
 
-    public void addValidationResult(List<ValidationResultContainer> l){
+    public void addValidationResult(List<ValidationResultInfo> l){
         validationResultList.addAll(l);
     }
-    public List<ValidationResultContainer> getValidationResult(){
+    public List<ValidationResultInfo> getValidationResult(){
         return validationResultList;
     }
 }

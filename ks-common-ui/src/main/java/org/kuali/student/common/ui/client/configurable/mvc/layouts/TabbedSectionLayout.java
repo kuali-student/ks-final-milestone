@@ -12,7 +12,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
@@ -26,7 +25,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -242,9 +241,10 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
             @Override
             public void onValidateResult(ValidateResultEvent event) {
-               List<ValidationResultContainer> list = event.getValidationResult();
+               List<ValidationResultInfo> list = event.getValidationResult();
                if(startSectionView!=null){
                    startSectionView.processValidationResults(list);
+                   
                }
             }
         });
@@ -513,7 +513,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	 * @param checkCurrentSectionOnly true if errors should be checked on current section only, false if all sections should be checked 
 	 * @return true if the specified sections (all or current) has any validation errors
 	 */
-	public boolean isValid(List<ValidationResultContainer> validationResults, boolean checkCurrentSectionOnly){
+	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly){
 		boolean isValid = true;
 		
 		if (checkCurrentSectionOnly){
@@ -548,7 +548,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		return isValid;
 	}
 		
-	private boolean isValid(List<ValidationResultContainer> validationResults, Section section){
+	private boolean isValid(List<ValidationResultInfo> validationResults, Section section){
 		section.setFieldHasHadFocusFlags(true);
 		ErrorLevel status = section.processValidationResults(validationResults);
 		

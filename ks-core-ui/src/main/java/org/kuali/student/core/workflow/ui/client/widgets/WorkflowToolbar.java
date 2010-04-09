@@ -36,7 +36,7 @@ import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPane
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -187,9 +187,9 @@ public class WorkflowToolbar extends Composite {
     				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
     			}else{
                     //Make sure the entire data model is valid before submit
-    				dataModel.validate(new Callback<List<ValidationResultContainer>>() {
+    				dataModel.validate(new Callback<List<ValidationResultInfo>>() {
                         @Override
-                        public void exec(List<ValidationResultContainer> result) {
+                        public void exec(List<ValidationResultInfo> result) {
                         	
                         	boolean isValid = ((LayoutController)myController).isValid(result, false);
                         	if(isValid){

@@ -6,9 +6,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-
-
-import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.PropertyBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBinding;
@@ -19,10 +18,8 @@ import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -85,38 +82,37 @@ public abstract class BaseSection extends Composite implements Section{
 			}
 			
 		}
-		public ErrorLevel processValidationResults(List<ValidationResultInfo> validationResults) {
+		
+		public ErrorLevel processValidationResult(ValidationResultInfo vr) {
 			
 			ErrorLevel status = ErrorLevel.OK;
-			for(ValidationResultInfo vr: validationResults){
-				KSLabel message;
-				if(fieldName != null){
-					message = new KSLabel(fieldName + " - " + vr.getMessage());
-				}
-				else{
-					message = new KSLabel(vr.getMessage());
-				}
-				
-	    		if(vr.getLevel() == ErrorLevel.ERROR){
-	    			message.addStyleName("ks-form-validation-label");
-	    			
-	    			this.valPanel.addMessage(message);
-	    			this.setErrorState(true);
-	    			if(status.getLevel() < ErrorLevel.ERROR.getLevel()){
-	    				status = vr.getLevel();
-	    			}
-	    			
-	    		}
-	    		else if(vr.getLevel() == ErrorLevel.WARN){
-	    			if(status.getLevel() < ErrorLevel.WARN.getLevel()){
-	    				status = vr.getLevel();
-	    			}
-	    			//message.addStyleName("KS-Validation-Warning-Message");
-	    		}
-	    		else{
-	    			//message.addStyleName("KS-Validation-Ok-Message");
-	    		}
-	        }
+			KSLabel message;
+			if(fieldName != null){
+				message = new KSLabel(fieldName + " - " + vr.getMessage());
+			}
+			else{
+				message = new KSLabel(vr.getMessage());
+			}
+			
+    		if(vr.getLevel() == ErrorLevel.ERROR){
+    			message.addStyleName("ks-form-validation-label");
+    			
+    			this.valPanel.addMessage(message);
+    			this.setErrorState(true);
+    			if(status.getLevel() < ErrorLevel.ERROR.getLevel()){
+    				status = vr.getLevel();
+    			}
+    			
+    		}
+    		else if(vr.getLevel() == ErrorLevel.WARN){
+    			if(status.getLevel() < ErrorLevel.WARN.getLevel()){
+    				status = vr.getLevel();
+    			}
+    			//message.addStyleName("KS-Validation-Warning-Message");
+    		}
+    		else{
+    			//message.addStyleName("KS-Validation-Ok-Message");
+    		}
 			
 			return status;
 		}
@@ -265,7 +261,7 @@ public abstract class BaseSection extends Composite implements Section{
 	}
 
 	@Override
-	public ErrorLevel processValidationResults(List<ValidationResultContainer> results) {
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
 		this.clearValidation();
 		ErrorLevel status = ErrorLevel.OK;
 
@@ -275,12 +271,12 @@ public abstract class BaseSection extends Composite implements Section{
 				
 				if(f.hasHadFocus()){
 					System.out.println("Processing field " + f.getFieldKey());
-					for(ValidationResultContainer vc: results){
-						if(vc.getElement().equals(f.getFieldKey())){
+					for(ValidationResultInfo vr: results){
+						if(vr.getElement().equals(f.getFieldKey())){
 							System.out.println("Checking validation on field " + f.getFieldKey());
 							FieldInfo info = pathFieldInfoMap.get(f.getFieldKey());
 							if (info != null){
-								ErrorLevel fieldStatus = info.processValidationResults(vc.getValidationResults());
+								ErrorLevel fieldStatus = info.processValidationResult(vr);
 								if(fieldStatus == ErrorLevel.ERROR){
 									System.out.println("Error: " + f.getFieldKey());
 								}

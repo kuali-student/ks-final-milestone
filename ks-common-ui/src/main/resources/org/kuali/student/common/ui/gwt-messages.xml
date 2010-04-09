@@ -83,7 +83,7 @@
    	<bean parent="enValidation" p:id="validation.required"		p:value="Required"/>
    	<bean parent="enValidation" p:id="validation.requiresField"		p:value="${field1} requires ${field2}"/>
    	<bean parent="enValidation" p:id="validation.validCharsFailed"		p:value="Invalid Characters"/>
-   	<bean parent="enValidation" p:id="validation.lengthOutOfRange"		p:value="Length out of range. Minimum Characters: ${minLength} Maximum Characters: ${maxLength} "/>
+   	<bean parent="enValidation" p:id="validation.lengthOutOfRange"		p:value="Length out of range. Minimum Characters: ${minValue} Maximum Characters: ${maxValue} "/>
    	<bean parent="enValidation" p:id="validation.maxLengthFailed"		p:value="Maximum Characters ${maxLength} allowed"/>
    	<bean parent="enValidation" p:id="validation.minLengthFailed"		p:value="Minimum Characters ${minLength} required"/>
    	<bean parent="enValidation" p:id="validation.outOfRange"		p:value="Value out of range. Minimum: ${minValue} Maximum ${maxValue}"/>

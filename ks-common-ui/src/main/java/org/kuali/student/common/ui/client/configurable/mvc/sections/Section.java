@@ -7,7 +7,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.HasLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -23,7 +23,7 @@ public interface Section extends HasLayoutController{
 	public void showMessage(boolean show);
 	public void clearValidation();
 	public void clearValidationMessage(String fieldPath);
-	public ErrorLevel processValidationResults(List<ValidationResultContainer> results);
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results);
 	public void setHighlight(SectionState state);
 	public void clearHighlight();
 	public void showValidationMessage(String fieldPath);

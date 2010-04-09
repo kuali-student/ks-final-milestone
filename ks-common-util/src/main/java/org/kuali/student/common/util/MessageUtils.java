@@ -57,7 +57,26 @@ public class MessageUtils {
         }
         return message;
     }
-
+    
+    /**
+     * Interpolates a message which requires only a single property replacement.
+     * 
+     * @param message
+     * @param parameter
+     * @param value
+     * @return the interpolated message
+     */
+    public static String interpolate(String message, String parameter, Object value){
+    	message = message.replaceAll("\\$\\{" + parameter + "\\}", "" + escape(value.toString()));
+    	return message;
+    }
+    
+    /**
+     * Adds an escape to all characters requiring an escape.
+     * 
+     * @param input
+     * @return the input string with characters escaped.
+     */
     private static String escape(String input) {
         char[] toEscape = {'\\', '$', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}'};
         for (char c : toEscape) {
@@ -65,6 +84,7 @@ public class MessageUtils {
         }
         return input;
     }
+    
     /**
      * Returns a Set<String> of all interpolation targets (fields) within a String.
      * 
