@@ -40,15 +40,15 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 	}
 	
     public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws Exception{
-    	return updateDocument(documentId, documentInfo);
+    	return service.updateDocument(documentId, documentInfo);
     }
 	
 	public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws Exception{
-		return addDocumentCategoryToDocument(documentId, documentCategoryKey);
+		return service.addDocumentCategoryToDocument(documentId, documentCategoryKey);
 	}
 	
     public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws Exception{
-    	return removeDocumentCategoryFromDocument(documentId, documentCategoryKey);
+    	return service.removeDocumentCategoryFromDocument(documentId, documentCategoryKey);
     }
 
 	@Override
