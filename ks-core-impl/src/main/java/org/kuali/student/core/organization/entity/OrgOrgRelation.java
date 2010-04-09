@@ -54,8 +54,8 @@ import org.kuali.student.core.entity.MetaEntity;
 				+ "   FROM OrgOrgRelation oor "
 				+ "  WHERE oor.org.id = :orgId "
 				+ "    AND oor.type.orgHierarchy.id = :orgHierarchyId " 
-                + "   AND oor.org.effectiveDate<=CURRENT_TIMESTAMP  "
-                + "   AND (oor.org.expirationDate IS NULL OR oor.org.expirationDate>=CURRENT_TIMESTAMP)"),
+                + "   AND oor.relatedOrg.effectiveDate<=CURRENT_TIMESTAMP  "
+                + "   AND (oor.relatedOrg.expirationDate IS NULL OR oor.relatedOrg.expirationDate>=CURRENT_TIMESTAMP)"),
 		@NamedQuery(name = "OrgOrgRelation.hasOrgOrgRelation", query = "SELECT COUNT(oor) "
 				+ "  FROM OrgOrgRelation oor "
 				+ " WHERE oor.org.id = :orgId "
