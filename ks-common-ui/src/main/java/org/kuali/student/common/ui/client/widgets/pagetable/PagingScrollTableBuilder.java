@@ -55,6 +55,7 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
     private boolean isPagable = false;
     private int numPageRows = 0;
     private int numPages = 0;
+    private SelectionPolicy selectionPolicy = SelectionPolicy.MULTI_ROW;
     private List<AbstractColumnDefinition<RowType, ?>> columnDefs;
     private List<Integer> columnPixelWidths = new ArrayList<Integer>();
 
@@ -117,7 +118,19 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
         this.columnDefs = columnDefs;
         return this;
     }
-
+    
+    /**
+     * This method sets row selection policy. Get this setting from the search definition when it is available.
+     * Default is MULTI_ROW
+     * Optional
+     * @since M5
+     * @param selectionPolicy
+     * @return builder
+     */
+    public PagingScrollTableBuilder<RowType> setSelectionPolicy(SelectionPolicy selectionPolicy){
+        this.selectionPolicy = selectionPolicy;
+        return this;
+    }
     /**
      * This method builds the table model. Call at the end of the builder method chain.
      * Required
@@ -146,8 +159,7 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
         pagingScrollTable.setPixelSize(tablePixelWidth,tablePixelHeight);//FIXME workaround for incubator bug
         pagingScrollTable.setEmptyTableWidget(new HTML("There is no data to display"));
 
-        // FIXME Get this setting from the search definition when it is available. For now just default to default value (multiple rows)
-        pagingScrollTable.getDataTable().setSelectionPolicy(SelectionPolicy.MULTI_ROW);
+        pagingScrollTable.getDataTable().setSelectionPolicy(selectionPolicy);
 
         return this.pagingScrollTable;
     }
