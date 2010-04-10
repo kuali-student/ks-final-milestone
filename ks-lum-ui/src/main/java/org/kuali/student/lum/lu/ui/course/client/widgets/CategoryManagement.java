@@ -16,6 +16,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 //import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
+//import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 //import org.kuali.student.lum.lo.dto.LoInfo;
@@ -106,6 +107,7 @@ public class CategoryManagement extends Composite {
                 accreditationCheckBox.setValue(false);
                 skillCheckBox.setValue(false);
                 subjectCheckBox.setValue(false);
+                wordsInCategoryTextBox.setText(null);
                 filterCategoryByType();
             }
         });
@@ -140,20 +142,14 @@ public class CategoryManagement extends Composite {
             @Override
             public void onSuccess(List<LoCategoryTypeInfo> results) {
                 categoryTypeList = results;
+                categoryManagementTable.loadTable();
             }
         });
 
         wordsInCategoryTextBox.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
-                String input = wordsInCategoryTextBox.getText();
-                List<LoCategoryInfo> bufferList = new ArrayList<LoCategoryInfo>();
-                for (LoCategoryInfo cate : categoryList) {
-                    if (cate.getName().startsWith(input)) {
-                        bufferList.add(cate);
-                    }
-                }
-                categoryManagementTable.loadTable(bufferList);
+                filterCategoryByType();
             }
 
         });
@@ -172,9 +168,6 @@ public class CategoryManagement extends Composite {
         accreditationCheckBox.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                //if(accreditationCheckBox){
-                    
-                //}
                 filterCategoryByType();
             }
         });
@@ -207,7 +200,7 @@ public class CategoryManagement extends Composite {
                 dialog.show();
             }
         });
-        categoryManagementTable.loadTable();
+
 
     }
     
@@ -267,35 +260,25 @@ public class CategoryManagement extends Composite {
 */    	
 	private void filterCategoryByType() {
       
-        List<LoCategoryInfo> bufferList = new ArrayList<LoCategoryInfo>();
+        List<ResultRow> bufferList = new ArrayList<ResultRow>();
             if(subjectCheckBox.getValue() == true){
-                bufferList.addAll(getLoCategoryInfoByType("subject"));
+                bufferList.addAll(categoryManagementTable.getRowsByType("subject"));
             }
             if(skillCheckBox.getValue() == true){
-                bufferList.addAll(getLoCategoryInfoByType("skill"));
+                bufferList.addAll(categoryManagementTable.getRowsByType("skill"));
             }
             if(accreditationCheckBox.getValue() == true){
-                bufferList.addAll(getLoCategoryInfoByType("accreditation"));
+                bufferList.addAll(categoryManagementTable.getRowsByType("accreditation"));
             }
             String input = wordsInCategoryTextBox.getText();
-            List<LoCategoryInfo> listAfterNameFilter = new ArrayList<LoCategoryInfo>();
-            for (LoCategoryInfo cate : bufferList) {
-                if (cate.getName().startsWith(input)) {
-                    listAfterNameFilter.add(cate);
-                }
+            if(input != null && (!input.isEmpty())){
+                List<ResultRow> tmpList = categoryManagementTable.getRowsLikeName(input);
+                bufferList.addAll(tmpList);
             }
-        categoryManagementTable.loadTable(listAfterNameFilter);
+        categoryManagementTable.redraw(bufferList);
 
     }
-    private List<LoCategoryInfo> getLoCategoryInfoByType(String type){
-        List<LoCategoryInfo> bufferList = new ArrayList<LoCategoryInfo>();
-        for (LoCategoryInfo cate : categoryList) {
-            if(cate.getType().indexOf(type) != -1){
-                bufferList.add(cate);
-            }
-        }
-        return bufferList;
-    }
+
     public void setDeleteButtonEnabled(boolean b) {
         deleteButton.setVisible(b);
     }
@@ -342,7 +325,7 @@ public class CategoryManagement extends Composite {
                         @Override
                         public void onSuccess(LoCategoryInfo updatedLo) {
                             categoryManagementTable.loadTable();
-                            categoryManagementTable.redraw();
+                            filterCategoryByType();
                         }
                     });
 
@@ -407,7 +390,7 @@ public class CategoryManagement extends Composite {
                         @Override
                         public void onSuccess(LoCategoryInfo result) {
                             categoryManagementTable.loadTable();
-                            categoryManagementTable.redraw();
+                            filterCategoryByType();
                         }
                     });
                     UpdateCategoryDialog.this.hide();
@@ -499,7 +482,7 @@ public class CategoryManagement extends Composite {
                         @Override
                         public void onSuccess(LoCategoryInfo result) {
                             categoryManagementTable.loadTable();
-                            categoryManagementTable.redraw();
+                            filterCategoryByType();
                         }
                     });
                     CreateCategoryDialog.this.hide();

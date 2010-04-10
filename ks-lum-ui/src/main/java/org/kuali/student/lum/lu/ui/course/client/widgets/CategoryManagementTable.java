@@ -35,6 +35,7 @@ import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 //import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -74,6 +75,15 @@ public class CategoryManagementTable extends Composite {
 
     public void redraw(){
         tableModel.setRows(resultRows);
+        pagingScrollTable = builder.build(tableModel);
+        pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
+        layout.clear();
+        layout.add(pagingScrollTable);
+        pagingScrollTable.fillWidth();
+    }
+    
+    public void redraw(List<ResultRow> filteredRows){
+        tableModel.setRows(filteredRows);
         pagingScrollTable = builder.build(tableModel);
         pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
         layout.clear();
@@ -140,9 +150,7 @@ public class CategoryManagementTable extends Composite {
         }
         return loCategoryInfo;
     }    
-    public void initializeTable() {
-        clearTable();
-        
+    public void initializeTable() {        
         builder = new PagingScrollTableBuilder<ResultRow>();
         builder.tablePixelSize(400, 300);
 
@@ -156,6 +164,7 @@ public class CategoryManagementTable extends Composite {
             columnDefs.get(0).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);
+        builder.setSelectionPolicy(SelectionPolicy.ONE_ROW);
     }
     
     private List<LoCategoryInfo> filterResults(List<LoCategoryInfo> result) {
@@ -199,20 +208,13 @@ public class CategoryManagementTable extends Composite {
             @Override
             public void onSuccess(List<LoCategoryInfo> results) {
                 List<LoCategoryInfo> filteredResults = filterResults(results);
-                for(LoCategoryInfo info : filteredResults) {
-                    resultRow = new ResultRow();
-                    resultRow.setValue(NAME_COLUMN_KEY, info.getName());
-                    resultRow.setValue(TYPE_COLUMN_KEY, info.getType());
-                    resultRow.setValue(STATE_COLUMN_KEY, info.getState());
-                    resultRows.add(resultRow);
-                }
-                redraw();
+                loadTable(filteredResults);
             }
         }); 
     }
     
     public void loadTable(List<LoCategoryInfo> loCategoryInfos) {
-
+        resultRows.clear();
         for(LoCategoryInfo info : loCategoryInfos) {
             ResultRow resultRow = new ResultRow();
             resultRow.setValue(NAME_COLUMN_KEY, info.getName());
@@ -223,4 +225,26 @@ public class CategoryManagementTable extends Composite {
         redraw();
     }    
 
+    public List<ResultRow> getRowsByType(String type){
+        List<ResultRow> bufferList = new ArrayList<ResultRow>();
+        for(ResultRow row : resultRows) {
+            if(row.getValue(TYPE_COLUMN_KEY).contains(type)){
+                bufferList.add(row);
+            }
+        }
+        return bufferList;
+    }
+    
+    public List<ResultRow> getRowsLikeName(String name){
+        List<ResultRow> bufferList = new ArrayList<ResultRow>();
+        for(ResultRow row : resultRows) {
+            String nameValue = row.getValue(NAME_COLUMN_KEY);
+            if(nameValue != null) {
+                if(nameValue.toUpperCase().startsWith(name.toUpperCase())){
+                    bufferList.add(row);
+                }
+            }
+        }
+        return bufferList;
+    }
 }
