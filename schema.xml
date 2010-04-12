@@ -603,6 +603,11 @@
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="FK573FBFF97A24137B">
             <reference foreign="TYPE_KEY" local="ORG_PERS_RELTN_TYPE"/>
         </foreign-key>
+        <unique name="SYS_C0058072">
+            <unique-column name="ORG_PERS_RELTN_TYPE"/>
+            <unique-column name="ORG"/>
+            <unique-column name="PERS_ID"/>
+        </unique>
     </table>
     <table name="KSOR_ORG_PERS_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
