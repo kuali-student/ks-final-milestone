@@ -90,7 +90,7 @@ public class MembersTable extends Composite{
             columnDefs.get(0).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);
-        
+        tableModel.setColumnDefs(columnDefs);
         redraw(); 
     }
     
