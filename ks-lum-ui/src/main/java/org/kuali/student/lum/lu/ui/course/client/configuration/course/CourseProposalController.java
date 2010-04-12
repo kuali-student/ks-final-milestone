@@ -365,6 +365,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
             @Override
             public void onSuccess(Data result) {
 				cluProposalModel.setRoot(result);
+		        setProposalHeaderTitle();
 		        callback.onModelReady(cluProposalModel);
 		        workCompleteCallback.exec(true);
 		        KSBlockingProgressIndicator.removeTask(loadDataTask);              
@@ -389,7 +390,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 			@Override
 			public void onSuccess(Data result) {
 				cluProposalModel.setRoot(result);
-		        callback.onModelReady(cluProposalModel);
+		        setProposalHeaderTitle();
+				callback.onModelReady(cluProposalModel);
 		        workCompleteCallback.exec(true);
 		        KSBlockingProgressIndicator.removeTask(loadDataTask);   
 			}
@@ -412,7 +414,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
             @Override
             public void onSuccess(Data result) {
                 cluProposalModel.setRoot(result);
-                getContainer().setTitle(getSectionTitle());
+		        setProposalHeaderTitle();
                 callback.onModelReady(cluProposalModel);
                 workCompleteCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);   
@@ -543,7 +545,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     } else {
                         saveWindow.hide();
                         saveActionEvent.doActionComplete();                        
-                    } 
+                    }
+    				setProposalHeaderTitle();
     				workflowToolbar.refresh();
                 }
             });
@@ -632,11 +635,26 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     protected  String getSectionTitle() {
         
         StringBuffer sb = new StringBuffer();
+        sb.append("Modify Course: ");
         sb.append(cluProposalModel.get("course/courseCode"));
         sb.append(" - ");
         sb.append(cluProposalModel.get("course/transcriptTitle"));
 
         return sb.toString();
-
+    } 
+    
+    protected void setProposalHeaderTitle(){
+    	StringBuffer sb = new StringBuffer();
+    	if (cluProposalModel.get("course/copyOfCourseId") != null){
+    		sb.append("Modify Course: ");
+    		sb.append(cluProposalModel.get("course/courseCode"));
+    		sb.append(" - ");
+    		sb.append(cluProposalModel.get("course/transcriptTitle"));
+    	} else {
+    		sb.append("New Course: ");
+    		sb.append(cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
+    	}
+    	
+    	getContainer().setTitle(sb.toString());
     }
 }
