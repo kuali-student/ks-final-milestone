@@ -19,14 +19,14 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 	/** the data dtd file */
 	private String dataDTD;
 
-    /** Fileset of XML schemas which represent our data models. */
-    protected List filesets = new ArrayList();	
+	/** Fileset of XML schemas which represent our data models. */
+	protected List filesets = new ArrayList();
 	/**
-	 * The target database(s) we are generating SQL for. Right now we can only
-	 * deal with a single target, but we will support multiple targets soon.
+	 * The target database(s) we are generating SQL for. Right now we can only deal with a single target, but we will
+	 * support multiple targets soon.
 	 */
 	private String targetDatabase;
-	
+
 	private File xmlFile;
 
 	/**
@@ -39,8 +39,7 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 	}
 
 	/**
-	 * Set the current target database. This is where generated java classes
-	 * will live.
+	 * Set the current target database. This is where generated java classes will live.
 	 * 
 	 * @param v
 	 *            The new TargetDatabase value
@@ -65,19 +64,19 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 	 *            The new DataDTD value
 	 */
 	public void setDataDTD(String dataDTD) {
-		this.dataDTD = getProject().resolveFile( dataDTD ).toString();
+		this.dataDTD = getProject().resolveFile(dataDTD).toString();
 	}
 
-    /**
-     * Adds a set of xml schema files (nested fileset attribute).
-     *
-     * @param set a Set of xml schema files
-     */
-    public void addFileset(FileSet set)
-    {
-        filesets.add(set);
-    }
-	
+	/**
+	 * Adds a set of xml schema files (nested fileset attribute).
+	 * 
+	 * @param set
+	 *            a Set of xml schema files
+	 */
+	public void addFileset(FileSet set) {
+		filesets.add(set);
+	}
+
 	/**
 	 * Set up the initial context for generating the SQL from the XML schema.
 	 * 
@@ -88,55 +87,54 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 	public Context initControlContext() throws Exception {
 		super.initControlContext();
 
-		if ( filesets.isEmpty() ) {
-			throw new BuildException( "You must specify a fileset of XML data files!" );
+		if (filesets.isEmpty()) {
+			throw new BuildException("You must specify a fileset of XML data files!");
 		}
 
 		// Transform the XML database schema into
-        // data model object.
-		KualiXmlToAppData xmlParser = new KualiXmlToAppData(getTargetDatabase(),
-                "");
-        db = xmlParser.parseFile(xmlFile.getAbsolutePath());
-        //ad.setFileName(grokName(xmlFile.getPath()));
-        
-		ArrayList<File> files = new ArrayList<File>( 300 );
+		// data model object.
+		KualiXmlToAppData xmlParser = new KualiXmlToAppData(getTargetDatabase(), "");
+		db = xmlParser.parseFile(xmlFile.getAbsolutePath());
+		// ad.setFileName(grokName(xmlFile.getPath()));
+
+		ArrayList<File> files = new ArrayList<File>(300);
 
 		// Deal with the filesets.
-		for ( int i = 0; i < filesets.size(); i++ ) {
-			FileSet fs = (FileSet)filesets.get( i );
-			DirectoryScanner ds = fs.getDirectoryScanner( getProject() );
-			File srcDir = fs.getDir( getProject() );
+		for (int i = 0; i < filesets.size(); i++) {
+			FileSet fs = (FileSet) filesets.get(i);
+			DirectoryScanner ds = fs.getDirectoryScanner(getProject());
+			File srcDir = fs.getDir(getProject());
 
 			String[] dataModelFiles = ds.getIncludedFiles();
 
 			// Make a transaction for each file
-			for ( int j = 0; j < dataModelFiles.length; j++ ) {
-				File f = new File( srcDir, dataModelFiles[j] );
-				files.add( f );
+			for (int j = 0; j < dataModelFiles.length; j++) {
+				File f = new File(srcDir, dataModelFiles[j]);
+				files.add(f);
 			}
 		}
-		
+
 		VelocityContext context = new VelocityContext();
-		
-		context.put( "xmlfiles", files );
-		context.put( "task", this );
-		
+
+		context.put("xmlfiles", files);
+		context.put("task", this);
+
 		// Place the target database in the context.
-		context.put( "targetDatabase", targetDatabase );
+		context.put("targetDatabase", targetDatabase);
 
 		return context;
 	}
-	
+
 	Database db;
 
-	public List getData( File f ) {
+	public List getData(File f) {
 		try {
-			XmlToData dataXmlParser = new XmlToData( db, dataDTD );
-			List newData = dataXmlParser.parseFile( f.toString() );
+			XmlToData dataXmlParser = new XmlToData(db, dataDTD);
+			List newData = dataXmlParser.parseFile(f.toString());
 			return newData;
-		} catch ( Exception se ) {
+		} catch (Exception se) {
 			se.printStackTrace();
-			throw new BuildException( se );
+			throw new BuildException(se);
 		}
 	}
 
@@ -147,5 +145,5 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 	public void setXmlFile(File xmlFile) {
 		this.xmlFile = xmlFile;
 	}
-	
+
 }
