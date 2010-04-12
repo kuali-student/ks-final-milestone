@@ -70,36 +70,22 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         password = (String)authentication.getCredentials();
         
         KimPrincipalInfo kimPrincipalInfo = null;
-        try {
-            kimPrincipalInfo = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
-            String userId;
-	        if (null != kimPrincipalInfo) {
-	            username = kimPrincipalInfo.getPrincipalName();
-	            userId = kimPrincipalInfo.getPrincipalId();
-	        } else {
-	        // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
-	        // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
-	        // to do this we need to throw a KimUserNotFoundException and not UsernameNotFoundException.
-	            System.out.println("kimPrincipalInfo is null ");
-	            throw new KimUserNotFoundException("Invalid username or password");  
-	        }
-	        ksuser = new KimAuthenticationProvider.UserWithId(username, password, enabled, true, true, nonlocked, authorities);
-	        ksuser.setUserId(userId);
-	        return ksuser;
-	        
-        } catch(KimUserNotFoundException knfe){
-            // we need to catch it and re-throw because of the catch all exception below, otherwise KNFE will never propagate
-            throw new KimUserNotFoundException("Invalid username");
-            
-        } 
         
-/*        catch(Exception rre){
-            //Added to handle the exception in case Rice service is not available. 
-            // This is implemented because in development environment if rice service is not up then 
-            // we deflect the authentication to DefaultUserDetailService.
-            return null;
-        }*/
-
+        kimPrincipalInfo = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
+        String userId;
+        if (null != kimPrincipalInfo) {
+            username = kimPrincipalInfo.getPrincipalName();
+            userId = kimPrincipalInfo.getPrincipalId();
+        } else {
+        // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
+        // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
+        // to do this we need to throw a AccountStatusException and not UsernameNotFoundException.
+            System.out.println("kimPrincipalInfo is null ");
+            throw new KimUserNotFoundException("Invalid username or password");  
+        }
+        ksuser = new KimAuthenticationProvider.UserWithId(username, password, enabled, true, true, nonlocked, authorities);
+        ksuser.setUserId(userId);
+        return ksuser;
     }
     
     public void setAuthorities(String[] roles) {
