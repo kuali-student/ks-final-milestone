@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getCluLoRelationsByClu" bindingOperationName="getCluLoRelationsByClu" type="Request-Response" outputName="getCluLoRelationsByCluResponse" inputName="getCluLoRelationsByClu" receivesAttachments="false" sendsAttachments="false" id="dbe1e546-0d22-4611-92cd-52bc69f32991" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
