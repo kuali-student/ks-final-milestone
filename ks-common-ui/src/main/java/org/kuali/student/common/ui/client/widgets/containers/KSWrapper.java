@@ -244,15 +244,19 @@ public class KSWrapper extends Composite{
     					lumAppUrl+"/index.html"))
     	);
     	items.add(new KSMenuItemData("My Action List",Theme.INSTANCE.getCommonImages().getApplicationIcon(),
+    			new WrapperNavigationHandler(
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+    			/*
     			new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						buildActionListPanel();
 						actionListDialog.show();						
 					}})
+				*/
     	);
 		items.add(new KSMenuItemData("Curriculum Management",Theme.INSTANCE.getCommonImages().getBookIcon(),
     			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"))
     	);
     	items.add(new KSMenuItemData("Organization Management", Theme.INSTANCE.getCommonImages().getPeopleIcon(),
     			new WrapperNavigationHandler(
