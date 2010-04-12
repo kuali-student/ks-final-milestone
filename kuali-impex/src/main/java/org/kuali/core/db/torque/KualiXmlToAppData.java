@@ -54,7 +54,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 	private static SAXParserFactory saxFactory;
 
 	/** remember all files we have already parsed to detect looping. */
-	private Vector alreadyReadFiles;
+	private Vector<String> alreadyReadFiles;
 
 	/** this is the stack to store parsing data */
 	private Stack parsingStack = new Stack();
@@ -97,40 +97,37 @@ public class KualiXmlToAppData extends DefaultHandler {
 	 * @return Database populated by <code>xmlFile</code>.
 	 */
 	public KualiDatabase parseFile(String xmlFile) throws EngineException {
+		// in case I am missing something, make it obvious
+		if (!firstPass) {
+			throw new Error("No more double pass");
+		}
+		// check to see if we alread have parsed the file
+		if ((alreadyReadFiles != null) && alreadyReadFiles.contains(xmlFile)) {
+			return database;
+		} else if (alreadyReadFiles == null) {
+			alreadyReadFiles = new Vector<String>(3, 1);
+		}
+
+		// remember the file to avoid looping
+		alreadyReadFiles.add(xmlFile);
+
+		currentXmlFile = xmlFile;
+
+		InputStream in = null;
 		try {
-			// in case I am missing something, make it obvious
-			if (!firstPass) {
-				throw new Error("No more double pass");
-			}
-			// check to see if we alread have parsed the file
-			if ((alreadyReadFiles != null) && alreadyReadFiles.contains(xmlFile)) {
-				return database;
-			} else if (alreadyReadFiles == null) {
-				alreadyReadFiles = new Vector(3, 1);
-			}
-
-			// remember the file to avoid looping
-			alreadyReadFiles.add(xmlFile);
-
-			currentXmlFile = xmlFile;
-
 			saxFactory.setValidating(false);
 			SAXParser parser = saxFactory.newSAXParser();
-
-			InputStream in = null;
-			try {
-				in = getInputStream(xmlFile);
-				log.info("Parsing file: '" + (new File(xmlFile)).getName() + "'");
-				InputSource is = new InputSource(in);
-				// is.setSystemId(xmlFile);
-				parser.parse(is, this);
-			} finally {
-				IOUtils.closeQuietly(in);
-			}
+			in = getInputStream(xmlFile);
+			log.info("Parsing file: '" + (new File(xmlFile)).getName() + "'");
+			InputSource is = new InputSource(in);
+			is.setSystemId(xmlFile);
+			parser.parse(is, this);
 		} catch (SAXParseException e) {
 			throw new EngineException("Sax error on line " + e.getLineNumber() + " column " + e.getColumnNumber() + " : " + e.getMessage(), e);
 		} catch (Exception e) {
 			throw new EngineException(e);
+		} finally {
+			IOUtils.closeQuietly(in);
 		}
 		if (!isExternalSchema) {
 			firstPass = false;
@@ -139,11 +136,17 @@ public class KualiXmlToAppData extends DefaultHandler {
 		return database;
 	}
 
+	/**
+	 * If they have passed in a file that exists in the file system open an InputStream to that file. Otherwise use
+	 * Spring resource loading to open an InputStream to the resource
+	 */
 	protected InputStream getInputStream(String xmlFile) throws FileNotFoundException, IOException {
+		// Check to see if this file exists
 		File file = new File(xmlFile);
 		if (file.exists()) {
 			return new FileInputStream(file);
 		}
+		// Otherwise use Spring resource loading to open an InputStream
 		ResourceLoader loader = new DefaultResourceLoader();
 		Resource resource = loader.getResource(xmlFile);
 		return resource.getInputStream();
