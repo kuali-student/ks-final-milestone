@@ -285,16 +285,6 @@
 		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/*</url-pattern>
 	</servlet-mapping>	
 
-	<servlet>
-		<servlet-name>index-servlet</servlet-name>
-		<servlet-class>org.kuali.student.common.ui.server.start.IndexPageServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>index-servlet</servlet-name>
-		<url-pattern>/index.html</url-pattern>
-	</servlet-mapping>
-
 	<session-config>
 		<session-timeout>60</session-timeout>
 	</session-config>
