@@ -150,22 +150,7 @@
         DESC_TXT="CluCreditCourse Searchable attribute"
         LBL="CluCreditCourse Searchable attribute"
         NM="CluCreditCourse.OrgSearchAttribute"
-        OBJ_ID="D6F96548-93FA-974F-8635-20D6090B9C2D"
-        RULE_ATTR_ID="1651" RULE_ATTR_TYP_CD="SearchableXmlAttribute"
+        OBJ_ID="E186958C-5553-87E3-E46D-67F5EC3AB225"
+        RULE_ATTR_ID="1645" RULE_ATTR_TYP_CD="SearchableXmlAttribute"
         VER_NBR="1" XML="&lt;searchingConfig>&#xd;&#xa;                &lt;fieldDef name=&quot;id&quot; title=&quot;Organization&quot;>&#xd;&#xa;                    &lt;display>&#xd;&#xa;                        &lt;type>select&lt;/type>&#xd;&#xa;                           &lt;values>kuali_values_finder_class(org.kuali.rice.student.lookup.keyvalues.OrgCocValuesFinder)&lt;/values>&#xd;&#xa;                    &lt;/display>&#xd;&#xa;                    &lt;fieldEvaluation>&#xd;&#xa;                        &lt;xpathexpression>wf:xstreamsafe('//cluProposalDocInfo/orgId')&lt;/xpathexpression>&#xd;&#xa;                    &lt;/fieldEvaluation>&#xd;&#xa;                &lt;/fieldDef>&#xd;&#xa;            &lt;/searchingConfig>"/>
-    <KREW_RULE_ATTR_T
-        CLS_NM="org.kuali.rice.kew.rule.PrincipalIdRoleAttribute"
-        DESC_TXT="Role to identify the user who is being requested as a collaborator"
-        LBL="Requested Collaborator Role Attribute"
-        NM="RequestedCollaboratorRoleAttribute"
-        OBJ_ID="E200BADB-8AA7-06E0-001B-DBE36A42DAF0"
-        RULE_ATTR_ID="1652" RULE_ATTR_TYP_CD="RuleXmlAttribute"
-        VER_NBR="1" XML="&lt;configuration>&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&lt;xmlElementLabel>recipientPrincipalId&lt;/xmlElementLabel>&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&lt;roleNameLabel>Requested Collaborator&lt;/roleNameLabel>&#xd;&#xa;&#x9;&#x9;&#x9;&lt;/configuration>"/>
-    <KREW_RULE_ATTR_T
-        CLS_NM="org.kuali.student.lum.workflow.CollaboratorRequestCustomActionListAttribute"
-        DESC_TXT="Collaborator Request Action List Attribute"
-        LBL="Collaborator Request Action List Attribute"
-        NM="CollaboratorRequestCustomActionListAttribute"
-        OBJ_ID="4E55C51F-430B-024C-0A3B-476939779D79"
-        RULE_ATTR_ID="1653" RULE_ATTR_TYP_CD="ActionListAttribute" VER_NBR="1"/>
 </dataset>
