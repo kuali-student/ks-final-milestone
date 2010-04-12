@@ -9,7 +9,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.torque.engine.database.model.Database;
-import org.apache.torque.engine.database.transform.XmlToAppData;
 import org.apache.torque.engine.database.transform.XmlToData;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
@@ -20,7 +19,7 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 	private String dataDTD;
 
 	/** Fileset of XML schemas which represent our data models. */
-	protected List filesets = new ArrayList();
+	protected List<FileSet> filesets = new ArrayList<FileSet>();
 	/**
 	 * The target database(s) we are generating SQL for. Right now we can only deal with a single target, but we will
 	 * support multiple targets soon.
@@ -127,10 +126,10 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 
 	Database db;
 
-	public List getData(File f) {
+	public List<?> getData(File f) {
 		try {
 			XmlToData dataXmlParser = new XmlToData(db, dataDTD);
-			List newData = dataXmlParser.parseFile(f.toString());
+			List<?> newData = dataXmlParser.parseFile(f.toString());
 			return newData;
 		} catch (Exception se) {
 			se.printStackTrace();
