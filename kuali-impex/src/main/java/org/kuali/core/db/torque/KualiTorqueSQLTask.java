@@ -17,8 +17,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.torque.engine.EngineException;
-import org.apache.torque.engine.database.model.Database;
-import org.apache.torque.engine.database.transform.XmlToAppData;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 
@@ -92,7 +90,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 			fis.close();
 		}
 
-		Iterator i = getDataModelDbMap().keySet().iterator();
+		Iterator<String> i = getDataModelDbMap().keySet().iterator();
 
 		while (i.hasNext()) {
 			String dataModelName = (String) i.next();
@@ -156,9 +154,9 @@ public class KualiTorqueSQLTask extends TexenTask {
 				}
 			}
 
-			Iterator i = dataModels.iterator();
-			databaseNames = new Hashtable();
-			dataModelDbMap = new Hashtable();
+			Iterator<KualiDatabase> i = dataModels.iterator();
+			databaseNames = new Hashtable<String, String>();
+			dataModelDbMap = new Hashtable<String, String>();
 
 			// Different datamodels may state the same database
 			// names, we just want the unique names of databases.
@@ -191,10 +189,10 @@ public class KualiTorqueSQLTask extends TexenTask {
 	protected String xmlFile;
 
 	/** Fileset of XML schemas which represent our data models. */
-	protected List filesets = new ArrayList();
+	protected List<FileSet> filesets = new ArrayList<FileSet>();
 
 	/** Data models that we collect. One from each XML schema file. */
-	protected List dataModels = new ArrayList();
+	protected List<KualiDatabase> dataModels = new ArrayList<KualiDatabase>();
 
 	/** Velocity context which exposes our objects in the templates. */
 	protected Context context;
@@ -203,12 +201,12 @@ public class KualiTorqueSQLTask extends TexenTask {
 	 * Map of data model name to database name. Should probably stick to the convention of them being the same but I
 	 * know right now in a lot of cases they won't be.
 	 */
-	protected Hashtable dataModelDbMap;
+	protected Hashtable<String, String> dataModelDbMap;
 
 	/**
 	 * Hashtable containing the names of all the databases in our collection of schemas.
 	 */
-	protected Hashtable databaseNames;
+	protected Hashtable<String, String> databaseNames;
 
 	// !! This is probably a crappy idea having the sql file -> db map
 	// here. I can't remember why I put it here at the moment ...
@@ -251,7 +249,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 	 * 
 	 * @return List data models
 	 */
-	public List getDataModels() {
+	public List<KualiDatabase> getDataModels() {
 		return dataModels;
 	}
 
@@ -260,7 +258,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 	 * 
 	 * @return Hashtable data model name to database name map.
 	 */
-	public Hashtable getDataModelDbMap() {
+	public Hashtable<String, String> getDataModelDbMap() {
 		return dataModelDbMap;
 	}
 
@@ -385,9 +383,9 @@ public class KualiTorqueSQLTask extends TexenTask {
 		super.setContextProperties(file);
 
 		// Map the torque.xxx elements from the env to the contextProperties
-		Hashtable env = super.getProject().getProperties();
-		for (Iterator i = env.entrySet().iterator(); i.hasNext();) {
-			Map.Entry entry = (Map.Entry) i.next();
+		Hashtable<?, ?> env = super.getProject().getProperties();
+		for (Iterator<?> i = env.entrySet().iterator(); i.hasNext();) {
+			Map.Entry<?, ?> entry = (Map.Entry<?, ?>) i.next();
 			String key = (String) entry.getKey();
 			if (key.startsWith("torque.")) {
 				String newKey = key.substring("torque.".length());
