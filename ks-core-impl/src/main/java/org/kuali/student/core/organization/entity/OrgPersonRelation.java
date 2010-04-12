@@ -29,13 +29,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSOR_ORG_PERS_RELTN")
+@Table(name = "KSOR_ORG_PERS_RELTN", uniqueConstraints={@UniqueConstraint(columnNames={"ORG_PERS_RELTN_TYPE","ORG","PERS_ID"})})
 @NamedQueries( {
 		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByOrg", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.org.id = :orgId"),
 		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByPerson", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.personId = :personId"),
