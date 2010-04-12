@@ -149,7 +149,7 @@ public class CategoryManagement extends Composite {
         wordsInCategoryTextBox.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
-                filterCategoryByType();
+                filterCategoryByWords();
             }
 
         });
@@ -183,21 +183,44 @@ public class CategoryManagement extends Composite {
         deleteButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                DeleteConfirmationDialog dialog = new DeleteConfirmationDialog();
-                LoCategoryInfo cate = categoryManagementTable.getSelectedLoCategoryInfo();
-                dialog.setCategory(cate);
-                dialog.show();
+                
+                String id = categoryManagementTable.getSelectedLoCategoryInfoId();
+                loRpcServiceAsync.getLoCategory(id, new AsyncCallback<LoCategoryInfo>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        GWT.log("getSelectedLoCategoryInfo failed", caught);
+                        Window.alert("Get Selected Lo Category failed");
+                    }
+
+                    @Override
+                    public void onSuccess(LoCategoryInfo result) {
+                        DeleteConfirmationDialog dialog = new DeleteConfirmationDialog();
+                        dialog.setCategory(result);
+                        dialog.show();
+                    }
+                });
+
             }
         });
         updateButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                LoCategoryInfo cate = categoryManagementTable.getSelectedLoCategoryInfo();
-                UpdateCategoryDialog dialog = new UpdateCategoryDialog();
-                dialog.setCategoryType(categoryTypeList);
+                String id = categoryManagementTable.getSelectedLoCategoryInfoId();
+                loRpcServiceAsync.getLoCategory(id, new AsyncCallback<LoCategoryInfo>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        GWT.log("getSelectedLoCategoryInfo failed", caught);
+                        Window.alert("Get Selected Lo Category failed");
+                    }
 
-                dialog.setCategory(cate);
-                dialog.show();
+                    @Override
+                    public void onSuccess(LoCategoryInfo result) {
+                        UpdateCategoryDialog dialog = new UpdateCategoryDialog();
+                        dialog.setCategory(result);
+                        dialog.setCategoryType(categoryTypeList);
+                        dialog.show();
+                    }
+                });
             }
         });
 
@@ -258,25 +281,33 @@ public class CategoryManagement extends Composite {
         categoryTable.setData(cats);
 	}
 */    	
-	private void filterCategoryByType() {
-      
+    private void filterCategoryByType() {
+
         List<ResultRow> bufferList = new ArrayList<ResultRow>();
-            if(subjectCheckBox.getValue() == true){
-                bufferList.addAll(categoryManagementTable.getRowsByType("subject"));
-            }
-            if(skillCheckBox.getValue() == true){
-                bufferList.addAll(categoryManagementTable.getRowsByType("skill"));
-            }
-            if(accreditationCheckBox.getValue() == true){
-                bufferList.addAll(categoryManagementTable.getRowsByType("accreditation"));
-            }
-            String input = wordsInCategoryTextBox.getText();
-            if(input != null && (!input.isEmpty())){
-                List<ResultRow> tmpList = categoryManagementTable.getRowsLikeName(input);
-                bufferList.addAll(tmpList);
-            }
+        if(subjectCheckBox.getValue() == true){
+            bufferList.addAll(categoryManagementTable.getRowsByType("subject"));
+        }
+        if(skillCheckBox.getValue() == true){
+            bufferList.addAll(categoryManagementTable.getRowsByType("skill"));
+        }
+        if(accreditationCheckBox.getValue() == true){
+            bufferList.addAll(categoryManagementTable.getRowsByType("accreditation"));
+        }
         categoryManagementTable.redraw(bufferList);
 
+    }
+    
+    private void filterCategoryByWords() {
+
+        List<ResultRow> bufferList = new ArrayList<ResultRow>();
+        String input = wordsInCategoryTextBox.getText();
+        if(input != null && (!input.isEmpty())){
+            List<ResultRow> tmpList = categoryManagementTable.getRowsLikeName(input);
+            bufferList.addAll(tmpList);
+            categoryManagementTable.redraw(bufferList);
+        } else {
+            filterCategoryByType();
+        }       
     }
 
     public void setDeleteButtonEnabled(boolean b) {

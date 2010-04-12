@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 //import java.util.ListIterator;
 import java.util.Set;
@@ -51,6 +52,7 @@ public class CategoryManagementTable extends Composite {
     static String NAME_COLUMN_HEADER = "Name";
     static String TYPE_COLUMN_HEADER = "Type";
     static String STATE_COLUMN_HEADER = "State";
+    static String ID_COLUMN_KEY = "id";
     static String NAME_COLUMN_KEY = "name";
     static String TYPE_COLUMN_KEY = "type";
     static String STATE_COLUMN_KEY = "state";
@@ -126,6 +128,7 @@ public class CategoryManagementTable extends Composite {
         for(Integer i: selectedRows){
             resultRow = pagingScrollTable.getRowValue(i);
             LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
+            loCategoryInfo.setId(resultRow.getValue(ID_COLUMN_KEY));
             loCategoryInfo.setName(resultRow.getValue(NAME_COLUMN_KEY));
             loCategoryInfo.setType(resultRow.getValue(TYPE_COLUMN_KEY));
             loCategoryInfo.setState(resultRow.getValue(STATE_COLUMN_KEY));
@@ -134,21 +137,26 @@ public class CategoryManagementTable extends Composite {
         return loCategoryInfos;
     }    
 
-    public LoCategoryInfo getSelectedLoCategoryInfo(){
+    public String getSelectedLoCategoryInfoId(){
         ResultRow resultRow = null;
-        LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
+        
         Set<Integer> selectedRows = pagingScrollTable.getDataTable().getSelectedRows();
         if(selectedRows.isEmpty()) {
-            return loCategoryInfo;
+            return null;
         }
+        String id = null;
         for(Integer i: selectedRows){
             resultRow = pagingScrollTable.getRowValue(i);
+            id = resultRow.getValue(ID_COLUMN_KEY);
+/*            loCategoryInfo.setId(resultRow.getValue(ID_COLUMN_KEY));
             loCategoryInfo.setName(resultRow.getValue(NAME_COLUMN_KEY));
             loCategoryInfo.setType(resultRow.getValue(TYPE_COLUMN_KEY));
             loCategoryInfo.setState(resultRow.getValue(STATE_COLUMN_KEY));
+*/
             break; // just get first one
         }
-        return loCategoryInfo;
+        return id;
+
     }    
     public void initializeTable() {        
         builder = new PagingScrollTableBuilder<ResultRow>();
@@ -215,12 +223,19 @@ public class CategoryManagementTable extends Composite {
     
     public void loadTable(List<LoCategoryInfo> loCategoryInfos) {
         resultRows.clear();
+        HashSet<String> hashSet = new HashSet<String>();
+        String id = null;
         for(LoCategoryInfo info : loCategoryInfos) {
             ResultRow resultRow = new ResultRow();
-            resultRow.setValue(NAME_COLUMN_KEY, info.getName());
-            resultRow.setValue(TYPE_COLUMN_KEY, info.getType());
-            resultRow.setValue(STATE_COLUMN_KEY, info.getState());
-            resultRows.add(resultRow);
+            id = info.getId();
+            if(!hashSet.contains(id)) {
+                hashSet.add(id);
+                resultRow.setValue(ID_COLUMN_KEY, id);
+                resultRow.setValue(NAME_COLUMN_KEY, info.getName());
+                resultRow.setValue(TYPE_COLUMN_KEY, info.getType());
+                resultRow.setValue(STATE_COLUMN_KEY, info.getState());
+                resultRows.add(resultRow);                
+            }
         }
         redraw();
     }    
