@@ -43,7 +43,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSWrapper extends Composite{
    
-    private final String ACTION_LIST_URL	= "ks.rice.actionList.serviceAddress";
     private final String LUM_APP_URL		= "lum.application.url";
     private final String APP_URL			= "application.url";
     private final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
@@ -75,12 +74,9 @@ public class KSWrapper extends Composite{
 	private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 	private SimplePanel content = new SimplePanel();
 	
-	private KSLightBox actionListDialog = new KSLightBox();
-	private Frame actionList = new Frame();;
 	private KSLightBox docSearchDialog = new KSLightBox();
 	private Frame docSearch;
 
-	private String actionListUrl = "";
     private String docSearchUrl = "";
     private String appUrl = "..";
     private String lumAppUrl = "..";
@@ -108,13 +104,11 @@ public class KSWrapper extends Composite{
 	public KSWrapper(){
 		this.initWidget(layout);						
 	}
-	
-	 
-	@SuppressWarnings("unchecked")
+		 
 	protected void onLoad() {
 		super.onLoad();
 		if (!loaded){
-			List<String> serverPropertyList = Arrays.asList(ACTION_LIST_URL, APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION);
+			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION);
 			
 	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
 	            public void onFailure(Throwable caught) { 
@@ -128,7 +122,6 @@ public class KSWrapper extends Composite{
 	                    appUrl 			= result.get(APP_URL);
 	                    docSearchUrl	= result.get(DOC_SEARCH_URL);
 	                    lumAppUrl 		= result.get(LUM_APP_URL);
-	                    actionListUrl 	= result.get(ACTION_LIST_URL);
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
@@ -169,13 +162,6 @@ public class KSWrapper extends Composite{
 		rightHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		rightHeader.add(headerBottomLinks);
 		headerContent.add(leftHeader);
-
-		//Put these in since dropdowns were blank, can remove later
-		//headerContent.add(buildActionListPanel());
-		//headerContent.add(buildDocSearchPanel());
-		//headerContent.add(buildLink("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
-		//headerContent.add(buildLink("Home", "Return to home page", GWT.getModuleBaseURL() + "../"));
-		//headerContent.add(buildLink("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"));
 		
 		headerContent.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		headerContent.add(rightHeader);
@@ -246,13 +232,6 @@ public class KSWrapper extends Composite{
     	items.add(new KSMenuItemData("My Action List",Theme.INSTANCE.getCommonImages().getApplicationIcon(),
     			new WrapperNavigationHandler(
     					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
-    			/*
-    			new ClickHandler(){
-					public void onClick(ClickEvent event) {
-						buildActionListPanel();
-						actionListDialog.show();						
-					}})
-				*/
     	);
 		items.add(new KSMenuItemData("Curriculum Management",Theme.INSTANCE.getCommonImages().getBookIcon(),
     			new WrapperNavigationHandler(
@@ -338,27 +317,7 @@ public class KSWrapper extends Composite{
         return link;
 
     }
-        
-    //Method to build the light box for the action list
-    private void buildActionListPanel(){                
-	    actionList.setSize("700px", "500px");
-	    actionList.setUrl(actionListUrl);
-	    
-	    VerticalPanel actionListPanel = new VerticalPanel();		    
-	    actionListPanel.add(actionList);
-	    
-	    KSButton closeActionButton = new KSButton("Close");
-	    closeActionButton.addClickHandler(new ClickHandler(){
-	        public void onClick(ClickEvent event) {
-	            actionListDialog.hide();
-	        }
-	    });
-	    
-	    actionListPanel.add(closeActionButton);		    
-	    actionListDialog.setWidget(actionListPanel);		    
-       
-    }
-    
+            
     //Method to build the light box for the doc search
     private void buildDocSearchPanel(){
     	if (docSearch == null){
