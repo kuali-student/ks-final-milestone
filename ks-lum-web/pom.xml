@@ -16,7 +16,6 @@
 	
 	<properties>
 		<ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
-		<ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>
 	</properties>
 	
 	<build>	
@@ -36,8 +35,6 @@
 				<configuration>
 					<modules>
 						<module>${ks.gwt.module.lum}</module>
-						<!-- <module>org.kuali.student.lum.ui.requirements.Requirements</module> -->
-						<module>${ks.gwt.module.collab}</module>
 					</modules>
 				</configuration>
 			</plugin>

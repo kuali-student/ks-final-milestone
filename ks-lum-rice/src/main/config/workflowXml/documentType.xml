@@ -42,52 +42,6 @@
     </documentType>
 -->
 <!-- END TEST DOCUMENT FOR HIERARCHY ROUTING -->
-<!-- BEGIN COLLABORATOR REQUEST DOCUMENTS -->
-    <documentType>
-      <name>CollaboratorRequestDocument</name>
-      <parent>KualiStudentDocument</parent>
-      <description>Document used to request to add a collaborator on a Kuali Student Document</description>
-      <label>Request Collaborator Document</label>
-      <postProcessorName>org.kuali.student.lum.workflow.CourseProposalCollaboratorPostProcessor</postProcessorName>
-      <active>true</active>
-      <policies>
-        <policy>
-          <name>ALLOW_UNREQUESTED_ACTION</name>
-          <value>false</value>
-        </policy>
-      </policies>
-      <routePaths>
-        <routePath>
-          <start name="PreRoute" nextNode="Accept Collaboration" />
-          <requests name="Accept Collaboration"/>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="PreRoute">
-          <activationType>P</activationType>
-          <mandatoryRoute>false</mandatoryRoute>
-          <finalApproval>false</finalApproval>
-        </start>
-        <requests name="Accept Collaboration">
-		  <activationType>P</activationType>
-		  <ruleTemplate>RequestedCollaboratorRoleTemplate</ruleTemplate>
-        </requests>
-      </routeNodes>
-    </documentType>
-    <documentType>
-      <name>CluCollaboratorDocument</name>
-      <parent>CollaboratorRequestDocument</parent>
-      <description>Sample Clu Collaborator Request Document</description>
-      <label>Sample Clu Collaborator Request Document</label>
-      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/CollaboratorRequest.html</docHandler>
-      <active>true</active>
-      <attributes>
-        <attribute>
-          <name>CollaboratorRequestCustomActionListAttribute</name>
-        </attribute>
-      </attributes>
-    </documentType>
-<!-- END COLLABORATOR REQUEST DOCUMENTS -->
 <!-- BEGIN CREDIT COURSE DOCUMENTS -->
     <documentType>
       <name>CluCreditCourseParentDocument</name>
