@@ -9,20 +9,6 @@
            http://www.springframework.org/schema/security 
            http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
-	<!--List of Custom Providers that can be registered with the default authentication manager -->
-	<!--If one returns null then the authentication control is passed onto the next	-->
-  	<bean id="daoAuthenticationProvider" 
-      	class="org.kuali.rice.kim.KimAuthenticationProvider">
-      	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
-    	<security:custom-authentication-provider />
-   	</bean>
-   	
-   	<bean id="daoAuthenticationProvider2" 
-      	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
-      	<property name="userDetailsService" ref="ksUserDetailsService"/>
-    	<security:custom-authentication-provider />
-   	</bean>
-    
 	<bean id="ksUserDetailsService" class="org.kuali.student.security.spring.KSDefaultUserDetailsService">
 		<!-- uncomment if you do not want to use the default roles of ROLE_KS_ADMIN, ROLE_KS_USER
 		<property name="authorities">
@@ -32,8 +18,7 @@
 		</property>
 		-->
 	</bean>
-
-
+	
 	<!--Enabling Kim identity service to authenticate the users	-->
 	<!--Using KSB client proxy to fetch the service	-->
 	<bean id="identityServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">

@@ -12,14 +12,14 @@
   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   	
-	<import resource="ksss-auth-provider.xml"/>
+	<import resource="ksss-auth-common.xml"/>
 	
 	
 	<bean id="propertyPlaceholder"
         class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 		
 	<security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" >
-    	<security:intercept-url pattern="/logout.html*" filters="none"/>
+    	<security:intercept-url pattern="/auth/*" filters="none"/>
     	<security:intercept-url pattern="/services/*" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
         <security:form-login />
@@ -47,7 +47,7 @@
 	<bean id="casProcessingFilter" class="org.springframework.security.ui.cas.CasProcessingFilter">
 		<security:custom-filter position="CAS_PROCESSING_FILTER"/>
 		<property name="authenticationManager" ref="authenticationManager"/>
-		<property name="authenticationFailureUrl" value="/logout.html"/>
+		<property name="authenticationFailureUrl" value="/auth/${ks.defualt.security.cas.authenticationFailureUrl}"/>
 		<property name="defaultTargetUrl" value="/"/>
 		<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage" />
         <property name="proxyReceptorUrl" value="/secure/receptor"/>
