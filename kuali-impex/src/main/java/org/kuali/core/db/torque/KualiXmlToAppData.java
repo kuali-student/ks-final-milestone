@@ -4,12 +4,15 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Stack;
 import java.util.Vector;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.torque.engine.EngineException;
@@ -20,6 +23,9 @@ import org.apache.torque.engine.database.model.Index;
 import org.apache.torque.engine.database.model.Table;
 import org.apache.torque.engine.database.model.Unique;
 import org.apache.torque.engine.database.transform.ImpexDTDResolver;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -111,20 +117,15 @@ public class KualiXmlToAppData extends DefaultHandler {
 			saxFactory.setValidating(false);
 			SAXParser parser = saxFactory.newSAXParser();
 
-			FileInputStream fileInputStream = null;
+			InputStream in = null;
 			try {
-				fileInputStream = new FileInputStream(xmlFile);
-			} catch (FileNotFoundException fnfe) {
-				throw new FileNotFoundException(new File(xmlFile).getAbsolutePath());
-			}
-			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-			try {
+				in = getInputStream(xmlFile);
 				log.info("Parsing file: '" + (new File(xmlFile)).getName() + "'");
-				InputSource is = new InputSource(bufferedInputStream);
-				is.setSystemId(xmlFile);
+				InputSource is = new InputSource(in);
+				// is.setSystemId(xmlFile);
 				parser.parse(is, this);
 			} finally {
-				bufferedInputStream.close();
+				IOUtils.closeQuietly(in);
 			}
 		} catch (SAXParseException e) {
 			throw new EngineException("Sax error on line " + e.getLineNumber() + " column " + e.getColumnNumber() + " : " + e.getMessage(), e);
@@ -136,6 +137,16 @@ public class KualiXmlToAppData extends DefaultHandler {
 		}
 		database.doFinalInitialization();
 		return database;
+	}
+
+	protected InputStream getInputStream(String xmlFile) throws FileNotFoundException, IOException {
+		File file = new File(xmlFile);
+		if (file.exists()) {
+			return new FileInputStream(file);
+		}
+		ResourceLoader loader = new DefaultResourceLoader();
+		Resource resource = loader.getResource(xmlFile);
+		return resource.getInputStream();
 	}
 
 	/**
