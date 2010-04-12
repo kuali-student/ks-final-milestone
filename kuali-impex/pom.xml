@@ -8,7 +8,7 @@
   <groupId>org.kuali.core.impex</groupId>
   <artifactId>kuali-impex</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>Kuali Impex Code</name>
   <description>
   </description>
@@ -152,8 +152,8 @@
     </pluginManagement>
   </build>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-impex-1.0.0</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-impex-1.0.0</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/tags/kuali-impex-1.0.0</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-impex</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-impex</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/kuali-impex</url>
   </scm>
 </project>
