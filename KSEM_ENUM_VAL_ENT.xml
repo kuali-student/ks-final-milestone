@@ -126,9 +126,55 @@
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="retired" CD="retired"
         EFF_DT="20000101000000" ENUM_KEY="kuali.state"
         EXPIR_DT="20000101000000" ID="46" SORT_KEY="46" VAL="Retired/No longer active"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Lab Fee"
+        CD="kuali.enum.type.feeTypes.labFee" EFF_DT="20100407000000"
+        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
+        ID="47" SORT_KEY="47" VAL="Laboratory Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Material Fee"
+        CD="kuali.enum.type.feeTypes.materialFee"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
+        EXPIR_DT="20110407000000" ID="48" SORT_KEY="48" VAL="Materials Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Studio Fee"
+        CD="kuali.enum.type.feeTypes.studioFee" EFF_DT="20100407000000"
+        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
+        ID="49" SORT_KEY="49" VAL="Studio Fee"/>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="ACCT" CD="ACCT"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
         EXPIR_DT="20000101000000" ID="5" SORT_KEY="5" VAL="Accounting"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Field Trip Fee"
+        CD="kuali.enum.type.feeTypes.fieldTripFee"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
+        EXPIR_DT="20110407000000" ID="50" SORT_KEY="50" VAL="Field Trip Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Field Study Fee"
+        CD="kuali.enum.type.feeTypes.fieldStudyFee"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
+        EXPIR_DT="20110407000000" ID="51" SORT_KEY="51" VAL="Field Study Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Admin Fee"
+        CD="kuali.enum.type.feeTypes.administrativeFee"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
+        EXPIR_DT="20110407000000" ID="52" SORT_KEY="52" VAL="Administrative Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Coop Fee"
+        CD="kuali.enum.type.feeTypes.coopFee" EFF_DT="20100407000000"
+        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
+        ID="53" SORT_KEY="53" VAL="Coop Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Greens Fee"
+        CD="kuali.enum.type.feeTypes.greensFee" EFF_DT="20100407000000"
+        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
+        ID="54" SORT_KEY="54" VAL="Greens Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Variable Rate Fee"
+        CD="variableRateFee" EFF_DT="20100407000000"
+        ENUM_KEY="kuali.lu.fee.rateType" EXPIR_DT="20110407000000"
+        ID="55" SORT_KEY="55" VAL="Variable Rate Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Fixed Rate Fee" CD="fixedRateFee"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType"
+        EXPIR_DT="20110407000000" ID="56" SORT_KEY="56" VAL="Fixed Rate Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Multiple Rate Fee"
+        CD="multipleRateFee" EFF_DT="20100407000000"
+        ENUM_KEY="kuali.lu.fee.rateType" EXPIR_DT="20110407000000"
+        ID="57" SORT_KEY="57" VAL="Multiple Rate Fee"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="Per Credit Fee" CD="perCreditFee"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType"
+        EXPIR_DT="20110407000000" ID="58" SORT_KEY="58" VAL="Per Credit Fee"/>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="ARTS" CD="ARTS"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
         EXPIR_DT="20000101000000" ID="6" SORT_KEY="6" VAL="FineArts"/>

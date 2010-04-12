@@ -127,29 +127,10 @@
         LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMENTHDMINREVIEWER00060ROLE" ROLE_ID="914"
         ROLE_NM="FYI Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="115"
-        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMENTFDMINREVIEWEEDC000ROLE" ROLE_ID="926"
-        DESC_TXT="Role to find users who have an Approve action request that had been active and is now complete."
-        ROLE_NM="Completed Approve Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="115"
-        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMENTGDMWSXEVIEWER0070ROLE" ROLE_ID="927"
-        DESC_TXT="Role to find users who have an Acknowledge action request that had been active and is now complete."
-        ROLE_NM="Completed Acknowledge Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="115"
-        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMENTHDMINQAZIEWER00060ROLE" ROLE_ID="928"
-        DESC_TXT="Role to find users who have an FYI action request that had been active and is now complete."
-        ROLE_NM="Completed FYI Request Recipient" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="110"
         LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMENTRDMINREVIEWER00800ROLE" ROLE_ID="915"
         ROLE_NM="Initiator or Reviewer" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="110"
-        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTQAZTRDMINREVIEWER00800ROLE" ROLE_ID="935"
-        ROLE_NM="Initiator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="110"
         LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPAQWEENTWDMINREVIEWER00900ROLE" ROLE_ID="916"
@@ -186,26 +167,25 @@
         LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTMEN832MINREVIEWER00300ROE" ROLE_ID="924"
         ROLE_NM="Adhoc FYI Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="116"
-        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMEN294DMI342VIEWQAZ50000RO" ROLE_ID="932"
-        DESC_TXT="Role to find users who have an Adhoc Approve action request that had been active and is now complete."
-        ROLE_NM="Completed Adhoc Approve Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="116"
-        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEP295ENRFVMINREVIEWER00040ROLE" ROLE_ID="933"
-        DESC_TXT="Role to find users who have an Adhoc Acknowledge action request that had been active and is now complete."
-        ROLE_NM="Completed Adhoc Acknowledge Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="116"
-        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPAWSXEN832MINREVIEWER00300ROE" ROLE_ID="934"
-        DESC_TXT="Role to find users who have an Adhoc FYI action request that had been active and is now complete."
-        ROLE_NM="Completed Adhoc FYI Request Recipient" VER_NBR="1"/>
-
     <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="114"
         LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
         OBJ_ID="1234RTMENTAD8INREVIEWER00000ROLE" ROLE_ID="925"
         ROLE_NM="Organization Role" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="Role to find users who have an Approve action request that had been active and is now complete."
+        KIM_TYP_ID="115" LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTFDMINREVIEWEEDC000ROLE" ROLE_ID="926"
+        ROLE_NM="Completed Approve Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="Role to find users who have an Acknowledge action request that had been active and is now complete."
+        KIM_TYP_ID="115" LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTGDMWSXEVIEWER0070ROLE" ROLE_ID="927"
+        ROLE_NM="Completed Acknowledge Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="Role to find users who have an FYI action request that had been active and is now complete."
+        KIM_TYP_ID="115" LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTHDMINQAZIEWER00060ROLE" ROLE_ID="928"
+        ROLE_NM="Completed FYI Request Recipient" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role is for use with adding adhoc permissions for those who can edit a document."
         KIM_TYP_ID="130" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS-SYS"
@@ -216,6 +196,25 @@
         KIM_TYP_ID="130" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARUUUNTADMINREVIEWER000001235" ROLE_ID="931"
         ROLE_NM="Adhoc Permissions: Comment on Document" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="Role to find users who have an Adhoc Approve action request that had been active and is now complete."
+        KIM_TYP_ID="116" LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMEN294DMI342VIEWQAZ50000RO" ROLE_ID="932"
+        ROLE_NM="Completed Adhoc Approve Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="Role to find users who have an Adhoc Acknowledge action request that had been active and is now complete."
+        KIM_TYP_ID="116" LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEP295ENRFVMINREVIEWER00040ROLE" ROLE_ID="933"
+        ROLE_NM="Completed Adhoc Acknowledge Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="Role to find users who have an Adhoc FYI action request that had been active and is now complete."
+        KIM_TYP_ID="116" LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPAWSXEN832MINREVIEWER00300ROE" ROLE_ID="934"
+        ROLE_NM="Completed Adhoc FYI Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="110"
+        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTQAZTRDMINREVIEWER00800ROLE" ROLE_ID="935"
+        ROLE_NM="Initiator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
         KIM_TYP_ID="66" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
