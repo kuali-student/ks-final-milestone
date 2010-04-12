@@ -446,16 +446,7 @@ import com.google.gwt.user.client.ui.Widget;
 	            GroupSection activity = new GroupSection();
 	            addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
 	            activity.nextLine();
-	
-	            /* CreditInfo is deprecated, needs to be replaced with learning results
-	            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-	            activity.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
-	            activity.nextLine();
-	            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-	            activity.addField(new FieldDescriptor("evalType", "Learning Result", Type.STRING));
-	            activity.nextLine();
-	            */
-	
+		
 	            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
 	            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
 	
@@ -468,46 +459,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        }
 	
 	    }
-	
-	    // FIXME uncomment and fix AlternateAdminOrgList and AlternateInstructorList
-	//    public class AlternateAdminOrgList extends MultiplicityCompositeWithLabels {
-	//        {
-	//            setAddItemLabel("Add an Alternate Admin Organization");
-	//            setItemLabel("Organization ID ");
-	//        }
-	//
-	//        @Override
-	//        public Widget createItem() {
-	//            MultiplicitySection multi = new MultiplicitySection("");
-	//
-	//            GroupSection ns = new GroupSection();
-	//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-	//            ns.addField(new FieldDescriptor("orgId", "Organization ID", Type.STRING, new OrgPicker() ));
-	//            multi.addSection(ns);
-	//
-	//            return multi;
-	//        }
-	//    }
-	//
-	//    public class AlternateInstructorList extends MultiplicityCompositeWithLabels {
-	//        {
-	//            setAddItemLabel("Add an Alternate Instructor.");
-	//            setItemLabel("Instructor ID");
-	//        }
-	//
-	//        @Override
-	//        public Widget createItem() {
-	//            MultiplicitySection multi = new MultiplicitySection("");
-	//
-	//            GroupSection ns = new GroupSection();
-	//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-	//            ns.addField(new FieldDescriptor("personId", "Instructor ID", Type.STRING /*, new InstructorPicker() */ ));
-	//            multi.addSection(ns);
-	//
-	//            return multi;
-	//        }
-	//    }
-	
+		
 	    public class PersonList extends KSDropDown {
 	        final SimpleListItems people = new SimpleListItems();
 	
