@@ -1944,7 +1944,9 @@
 			<list>
 				<ref bean="constraint.single" />
 				<ref bean="constraint.optional" />
-				<ref bean="constraint.multi.line.text" />
+				<bean parent="constraint.multi.line.text">
+					<property name="minLength" value="0" />
+				</bean>
 				<bean parent="constraint">
 					<property name="serverSide" value="false" />
 					<property name="maxLength" value="1000" />
@@ -3943,12 +3945,12 @@
 			<bean parent="lookup">
 				<property name="id" value="kuali.enumeration.management.search.subjectAreas" />	
 				<property name="name" value="Get enumerations" />
-				<property name="desc" value="Get enumerated lists of values given context" />						
+				<property name="desc" value="Get enumerated lists of values given context" />
 				<property name="searchTypeId" value="enumeration.management.search" />
 				<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
 				<property name="widget" value="SUGGEST_BOX"/>								
 				<property name="params">
-					<list>								
+					<list>
 						<bean parent="param">
 							<property name="key" value="enumeration.queryParam.enumerationType" />
 							<property name="name" value="Enumeration Type" />
@@ -3968,7 +3970,7 @@
 							<property name="usage" value="DEFAULT" />							
 							<property name="optional" value="true" />
 							<property name="caseSensitive" value="true" />
-						</bean>								
+						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="enumeration.resultColumn.code" />
@@ -4934,7 +4936,6 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
-				<ref bean="constraint.required" />
 				<bean parent="constraint">
 					<property name="serverSide" value="false" />
 					<property name="maxOccurs" value="20" />

@@ -14,6 +14,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -85,21 +86,23 @@ public class ExpenditureDataAssembler implements Assembler<Data, CluAccountingIn
 			Iterator<Property> revenueOrgIter = expenditureHelper.getExpenditureOrg().realPropertyIterator();
 			while (revenueOrgIter.hasNext()) {
 				AffiliatedOrgInfoHelper orgHelper = AffiliatedOrgInfoHelper.wrap((Data) revenueOrgIter.next().getValue());
-				AffiliatedOrgInfo orgInfo = new AffiliatedOrgInfo();
-				
-				orgInfo.setOrgId(orgHelper.getOrgId());
-				orgInfo.setPercentage(orgHelper.getPercentage());
-				if (null != orgHelper.getEffectiveDate()) {
-					// TODO - when/how should this be set?
-					try {
-						orgInfo.setEffectiveDate(DateFormat.getInstance().parse(orgHelper.getEffectiveDate()));
-					} catch (ParseException pe) {
-						throw new AssemblyException(pe);
+				if ( ! AssemblerUtils.isDeleted(orgHelper.getData()) ) {
+					AffiliatedOrgInfo orgInfo = new AffiliatedOrgInfo();
+					
+					orgInfo.setOrgId(orgHelper.getOrgId());
+					orgInfo.setPercentage(orgHelper.getPercentage());
+					if (null != orgHelper.getEffectiveDate()) {
+						// TODO - when/how should this be set?
+						try {
+							orgInfo.setEffectiveDate(DateFormat.getInstance().parse(orgHelper.getEffectiveDate()));
+						} catch (ParseException pe) {
+							throw new AssemblyException(pe);
+						}
 					}
+					orgInfos.add(orgInfo);
 				}
-				orgInfos.add(orgInfo);
 			}
-			if (orgInfos.size() > 0) {
+			if (orgInfos.size() > 0) { // no orgs, no accounting info
 				returnAccountingInfo.setAffiliatedOrgs(orgInfos);
 				return returnAccountingInfo;
 			}

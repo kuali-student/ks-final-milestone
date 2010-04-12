@@ -18,6 +18,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -172,8 +173,8 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 			Iterator<Property> feeIter = feeHelper.getFixedRateFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoFixedRateFeeHelper fixedHelper = FeeInfoFixedRateFeeHelper.wrap((Data) feeIter.next().getValue());
-				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
-				if (fixedHelper.getRateType().equals(FeeInfoConstants.FIXED_RATE_FEE)) {
+				if ( ( ! AssemblerUtils.isDeleted(fixedHelper.getData()) ) &&
+						fixedHelper.getRateType().equals(FeeInfoConstants.FIXED_RATE_FEE) ) {
 					CluFeeRecordInfo feeRecordInfo = new CluFeeRecordInfo();
 					
 					Map<String, String> feeRecordAttributes = new HashMap<String, String>();
@@ -193,8 +194,8 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 			Iterator<Property> feeIter = feeHelper.getMultipleRateFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoMultipleRateFeeHelper multipleHelper = FeeInfoMultipleRateFeeHelper.wrap((Data) feeIter.next().getValue());
-				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
-				if (multipleHelper.getRateType().equals(FeeInfoConstants.MULTIPLE_RATE_FEE)) {
+				if ( ( ! AssemblerUtils.isDeleted(multipleHelper.getData()) ) &&
+						multipleHelper.getRateType().equals(FeeInfoConstants.MULTIPLE_RATE_FEE) ) {
 					CluFeeRecordInfo feeRecordInfo = new CluFeeRecordInfo();
 					
 					Map<String, String> feeRecordAttributes = new HashMap<String, String>();
@@ -221,8 +222,8 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 			Iterator<Property> feeIter = feeHelper.getPerCreditFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoPerCreditFeeHelper perCreditHelper = FeeInfoPerCreditFeeHelper.wrap((Data) feeIter.next().getValue());
-				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
-				if (perCreditHelper.getRateType().equals(FeeInfoConstants.PER_CREDIT_FEE)) {
+				if ( ( ! AssemblerUtils.isDeleted(perCreditHelper.getData()) ) &&
+					 (perCreditHelper.getRateType().equals(FeeInfoConstants.PER_CREDIT_FEE)) ) {
 					CluFeeRecordInfo feeRecordInfo = new CluFeeRecordInfo();
 					
 					Map<String, String> feeRecordAttributes = new HashMap<String, String>();
@@ -242,8 +243,8 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 			Iterator<Property> feeIter = feeHelper.getVariableRateFee().realPropertyIterator();
 			while (feeIter.hasNext()) {
 				FeeInfoVariableRateFeeHelper variableHelper = FeeInfoVariableRateFeeHelper.wrap((Data) feeIter.next().getValue());
-				// TODO - 'Add Item" creates a multiplicity item with rateType == FIXED, which updates the model
-				if (variableHelper.getRateType().equals(FeeInfoConstants.VARIABLE_RATE_FEE)) {
+				if ( ( ! AssemblerUtils.isDeleted(variableHelper.getData()) ) &&
+					 (variableHelper.getRateType().equals(FeeInfoConstants.VARIABLE_RATE_FEE)) ) {
 					CluFeeRecordInfo feeRecordInfo = new CluFeeRecordInfo();
 					
 					Map<String, String> feeRecordAttributes = new HashMap<String, String>();
