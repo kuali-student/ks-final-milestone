@@ -30,7 +30,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.classpathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.HostedMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-war ${workspace_loc:ks-lum}/ks-lum-ui/target/ks-lum-ui-webapp -startupUrl org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp org.kuali.student.lum.lu.ui.main.LUMMain"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-war ${workspace_loc:ks-lum}/ks-lum-ui/target/ks-lum-ui-webapp -startupUrl index.html org.kuali.student.lum.lu.ui.main.LUMMain"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="ks-lum"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512M"/>
