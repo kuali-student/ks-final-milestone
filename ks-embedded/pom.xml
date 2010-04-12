@@ -19,7 +19,6 @@
 	<properties>
 		<ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
 		<ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
-		<ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>		
 	</properties>			
 		
 	<build>
@@ -46,7 +45,6 @@
 					<modules>
 						<module>${ks.gwt.module.org}</module>
 						<module>${ks.gwt.module.lum}</module>
-						<module>${ks.gwt.module.collab}</module>
 					</modules>
 					<style>PRETTY</style>
 				</configuration>
