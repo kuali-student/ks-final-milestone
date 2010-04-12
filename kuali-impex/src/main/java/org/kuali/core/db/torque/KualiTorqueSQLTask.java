@@ -75,7 +75,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 	 * @throws Exception
 	 */
 	private void createSqlDbMap() throws Exception {
-		if ( getSqlDbMap() == null ) {
+		if (getSqlDbMap() == null) {
 			return;
 		}
 
@@ -84,359 +84,322 @@ public class KualiTorqueSQLTask extends TexenTask {
 		Properties sqldbmap_c = new Properties();
 
 		// Check to see if the sqldbmap has already been created.
-		File file = new File( getSqlDbMap() );
+		File file = new File(getSqlDbMap());
 
-		if ( file.exists() ) {
-			FileInputStream fis = new FileInputStream( file );
-			sqldbmap.load( fis );
+		if (file.exists()) {
+			FileInputStream fis = new FileInputStream(file);
+			sqldbmap.load(fis);
 			fis.close();
 		}
 
 		Iterator i = getDataModelDbMap().keySet().iterator();
 
-		while ( i.hasNext() ) {
-			String dataModelName = (String)i.next();
+		while (i.hasNext()) {
+			String dataModelName = (String) i.next();
 
 			String databaseName;
 
-			if ( getDatabase() == null ) {
-				databaseName = (String)getDataModelDbMap().get( dataModelName );
+			if (getDatabase() == null) {
+				databaseName = (String) getDataModelDbMap().get(dataModelName);
 			} else {
 				databaseName = getDatabase();
 			}
 
 			String sqlFile = dataModelName + suffix + ".sql";
-			sqldbmap.setProperty( sqlFile, databaseName );
+			sqldbmap.setProperty(sqlFile, databaseName);
 			sqlFile = dataModelName + suffix + "-constraints.sql";
-			sqldbmap_c.setProperty( sqlFile, databaseName );
+			sqldbmap_c.setProperty(sqlFile, databaseName);
 		}
 
-		sqldbmap.store( new FileOutputStream( getSqlDbMap() ), "Sqlfile -> Database map" );
-		sqldbmap_c.store( new FileOutputStream( getSqlDbMap()+"-constraints" ), "Sqlfile -> Database map" );
+		sqldbmap.store(new FileOutputStream(getSqlDbMap()), "Sqlfile -> Database map");
+		sqldbmap_c.store(new FileOutputStream(getSqlDbMap() + "-constraints"), "Sqlfile -> Database map");
 	}
 
-    /**
-     * Set up the initial context for generating the SQL from the XML schema.
-     *
-     * @return the context
-     * @throws Exception
-     */
-    public Context initControlContext() throws Exception
-    {
-        KualiXmlToAppData xmlParser;
+	/**
+	 * Set up the initial context for generating the SQL from the XML schema.
+	 * 
+	 * @return the context
+	 * @throws Exception
+	 */
+	public Context initControlContext() throws Exception {
+		KualiXmlToAppData xmlParser;
 
-        if (xmlFile == null && filesets.isEmpty())
-        {
-            throw new BuildException("You must specify an XML schema or "
-                    + "fileset of XML schemas!");
-        }
+		if (xmlFile == null && filesets.isEmpty()) {
+			throw new BuildException("You must specify an XML schema or " + "fileset of XML schemas!");
+		}
 
-        try
-        {
-            if (xmlFile != null)
-            {
-                // Transform the XML database schema into
-                // data model object.
-                xmlParser = new KualiXmlToAppData(getTargetDatabase(), getTargetPackage());
-                KualiDatabase ad = xmlParser.parseFile(xmlFile);
-                ad.setFileName(grokName(xmlFile));
-                dataModels.add(ad);
-            }
-            else
-            {
-                // Deal with the filesets.
-                for (int i = 0; i < filesets.size(); i++)
-                {
-                    FileSet fs = (FileSet) filesets.get(i);
-                    DirectoryScanner ds = fs.getDirectoryScanner(getProject());
-                    File srcDir = fs.getDir(getProject());
+		try {
+			if (xmlFile != null) {
+				// Transform the XML database schema into
+				// data model object.
+				xmlParser = new KualiXmlToAppData(getTargetDatabase(), getTargetPackage());
+				KualiDatabase ad = xmlParser.parseFile(xmlFile);
+				ad.setFileName(grokName(xmlFile));
+				dataModels.add(ad);
+			} else {
+				// Deal with the filesets.
+				for (int i = 0; i < filesets.size(); i++) {
+					FileSet fs = (FileSet) filesets.get(i);
+					DirectoryScanner ds = fs.getDirectoryScanner(getProject());
+					File srcDir = fs.getDir(getProject());
 
-                    String[] dataModelFiles = ds.getIncludedFiles();
+					String[] dataModelFiles = ds.getIncludedFiles();
 
-                    // Make a transaction for each file
-                    for (int j = 0; j < dataModelFiles.length; j++)
-                    {
-                        File f = new File(srcDir, dataModelFiles[j]);
-                        xmlParser = new KualiXmlToAppData(getTargetDatabase(),
-                                getTargetPackage());
-                        KualiDatabase ad = xmlParser.parseFile(f.toString());
-                        ad.setFileName(grokName(f.toString()));
-                        dataModels.add(ad);
-                    }
-                }
-            }
+					// Make a transaction for each file
+					for (int j = 0; j < dataModelFiles.length; j++) {
+						File f = new File(srcDir, dataModelFiles[j]);
+						xmlParser = new KualiXmlToAppData(getTargetDatabase(), getTargetPackage());
+						KualiDatabase ad = xmlParser.parseFile(f.toString());
+						ad.setFileName(grokName(f.toString()));
+						dataModels.add(ad);
+					}
+				}
+			}
 
-            Iterator i = dataModels.iterator();
-            databaseNames = new Hashtable();
-            dataModelDbMap = new Hashtable();
+			Iterator i = dataModels.iterator();
+			databaseNames = new Hashtable();
+			dataModelDbMap = new Hashtable();
 
-            // Different datamodels may state the same database
-            // names, we just want the unique names of databases.
-            while (i.hasNext())
-            {
-            	KualiDatabase database = (KualiDatabase) i.next();
-                databaseNames.put(database.getName(), database.getName());
-                dataModelDbMap.put(database.getFileName(), database.getName());
-            }
-        }
-        catch (EngineException ee)
-        {
-            throw new BuildException(ee);
-        }
+			// Different datamodels may state the same database
+			// names, we just want the unique names of databases.
+			while (i.hasNext()) {
+				KualiDatabase database = (KualiDatabase) i.next();
+				databaseNames.put(database.getName(), database.getName());
+				dataModelDbMap.put(database.getFileName(), database.getName());
+			}
+		} catch (EngineException ee) {
+			throw new BuildException(ee);
+		}
 
-        context = new VelocityContext();
+		context = new VelocityContext();
 
-        // Place our set of data models into the context along
-        // with the names of the databases as a convenience for now.
-        context.put("dataModels", dataModels);
-        context.put("databaseNames", databaseNames);
-        context.put("targetDatabase", targetDatabase);
-        context.put("targetPackage", targetPackage);
+		// Place our set of data models into the context along
+		// with the names of the databases as a convenience for now.
+		context.put("dataModels", dataModels);
+		context.put("databaseNames", databaseNames);
+		context.put("targetDatabase", targetDatabase);
+		context.put("targetPackage", targetPackage);
 
 		createSqlDbMap();
-        
-        return context;
-    }
 
-    /**
-     * XML that describes the database model, this is transformed
-     * into the application model object.
-     */
-    protected String xmlFile;
+		return context;
+	}
 
-    /** Fileset of XML schemas which represent our data models. */
-    protected List filesets = new ArrayList();
+	/**
+	 * XML that describes the database model, this is transformed into the application model object.
+	 */
+	protected String xmlFile;
 
-    /** Data models that we collect. One from each XML schema file. */
-    protected List dataModels = new ArrayList();
+	/** Fileset of XML schemas which represent our data models. */
+	protected List filesets = new ArrayList();
 
-    /** Velocity context which exposes our objects in the templates. */
-    protected Context context;
+	/** Data models that we collect. One from each XML schema file. */
+	protected List dataModels = new ArrayList();
 
-    /**
-     * Map of data model name to database name.
-     * Should probably stick to the convention of them being the same but
-     * I know right now in a lot of cases they won't be.
-     */
-    protected Hashtable dataModelDbMap;
+	/** Velocity context which exposes our objects in the templates. */
+	protected Context context;
 
-    /**
-     * Hashtable containing the names of all the databases
-     * in our collection of schemas.
-     */
-    protected Hashtable databaseNames;
+	/**
+	 * Map of data model name to database name. Should probably stick to the convention of them being the same but I
+	 * know right now in a lot of cases they won't be.
+	 */
+	protected Hashtable dataModelDbMap;
 
-    //!! This is probably a crappy idea having the sql file -> db map
-    // here. I can't remember why I put it here at the moment ...
-    // maybe I was going to map something else. It can probably
-    // move into the SQL task.
+	/**
+	 * Hashtable containing the names of all the databases in our collection of schemas.
+	 */
+	protected Hashtable databaseNames;
 
-    /**
-     * Name of the properties file that maps an SQL file
-     * to a particular database.
-     */
-    protected String sqldbmap;
+	// !! This is probably a crappy idea having the sql file -> db map
+	// here. I can't remember why I put it here at the moment ...
+	// maybe I was going to map something else. It can probably
+	// move into the SQL task.
 
-    /** The target database(s) we are generating SQL for. */
-    private String targetDatabase;
+	/**
+	 * Name of the properties file that maps an SQL file to a particular database.
+	 */
+	protected String sqldbmap;
 
-    /** Target Java package to place the generated files in. */
-    private String targetPackage;
+	/** The target database(s) we are generating SQL for. */
+	private String targetDatabase;
 
+	/** Target Java package to place the generated files in. */
+	private String targetPackage;
 
-    /**
-     * Set the sqldbmap.
-     *
-     * @param sqldbmap th db map
-     */
-    public void setSqlDbMap(String sqldbmap)
-    {
-        //!! Make all these references files not strings.
-        this.sqldbmap = getProject().resolveFile(sqldbmap).toString();
-    }
+	/**
+	 * Set the sqldbmap.
+	 * 
+	 * @param sqldbmap
+	 *            th db map
+	 */
+	public void setSqlDbMap(String sqldbmap) {
+		// !! Make all these references files not strings.
+		this.sqldbmap = getProject().resolveFile(sqldbmap).toString();
+	}
 
-    /**
-     * Get the sqldbmap.
-     *
-     * @return String sqldbmap.
-     */
-    public String getSqlDbMap()
-    {
-        return sqldbmap;
-    }
+	/**
+	 * Get the sqldbmap.
+	 * 
+	 * @return String sqldbmap.
+	 */
+	public String getSqlDbMap() {
+		return sqldbmap;
+	}
 
-    /**
-     * Return the data models that have been processed.
-     *
-     * @return List data models
-     */
-    public List getDataModels()
-    {
-        return dataModels;
-    }
+	/**
+	 * Return the data models that have been processed.
+	 * 
+	 * @return List data models
+	 */
+	public List getDataModels() {
+		return dataModels;
+	}
 
-    /**
-     * Return the data model to database name map.
-     *
-     * @return Hashtable data model name to database name map.
-     */
-    public Hashtable getDataModelDbMap()
-    {
-        return dataModelDbMap;
-    }
+	/**
+	 * Return the data model to database name map.
+	 * 
+	 * @return Hashtable data model name to database name map.
+	 */
+	public Hashtable getDataModelDbMap() {
+		return dataModelDbMap;
+	}
 
-    /**
-     * Get the xml schema describing the application model.
-     *
-     * @return  String xml schema file.
-     */
-    public String getXmlFile()
-    {
-        return xmlFile;
-    }
+	/**
+	 * Get the xml schema describing the application model.
+	 * 
+	 * @return String xml schema file.
+	 */
+	public String getXmlFile() {
+		return xmlFile;
+	}
 
-    /**
-     * Set the xml schema describing the application model.
-     *
-     * @param xmlFile The new XmlFile value
-     */
-    public void setXmlFile(String xmlFile)
-    {
-        this.xmlFile = getProject().resolveFile(xmlFile).toString();
-    }
+	/**
+	 * Set the xml schema describing the application model.
+	 * 
+	 * @param xmlFile
+	 *            The new XmlFile value
+	 */
+	public void setXmlFile(String xmlFile) {
+		this.xmlFile = getProject().resolveFile(xmlFile).toString();
+	}
 
-    /**
-     * Adds a set of xml schema files (nested fileset attribute).
-     *
-     * @param set a Set of xml schema files
-     */
-    public void addFileset(FileSet set)
-    {
-        filesets.add(set);
-    }
+	/**
+	 * Adds a set of xml schema files (nested fileset attribute).
+	 * 
+	 * @param set
+	 *            a Set of xml schema files
+	 */
+	public void addFileset(FileSet set) {
+		filesets.add(set);
+	}
 
-    /**
-     * Get the current target database.
-     *
-     * @return String target database(s)
-     */
-    public String getTargetDatabase()
-    {
-        return targetDatabase;
-    }
+	/**
+	 * Get the current target database.
+	 * 
+	 * @return String target database(s)
+	 */
+	public String getTargetDatabase() {
+		return targetDatabase;
+	}
 
-    /**
-     * Set the current target database. (e.g. mysql, oracle, ..)
-     *
-     * @param v target database(s)
-     */
-    public void setTargetDatabase(String v)
-    {
-        targetDatabase = v;
-    }
+	/**
+	 * Set the current target database. (e.g. mysql, oracle, ..)
+	 * 
+	 * @param v
+	 *            target database(s)
+	 */
+	public void setTargetDatabase(String v) {
+		targetDatabase = v;
+	}
 
-    /**
-     * Get the current target package.
-     *
-     * @return return target java package.
-     */
-    public String getTargetPackage()
-    {
-        return targetPackage;
-    }
+	/**
+	 * Get the current target package.
+	 * 
+	 * @return return target java package.
+	 */
+	public String getTargetPackage() {
+		return targetPackage;
+	}
 
-    /**
-     * Set the current target package. This is where generated java classes will
-     * live.
-     *
-     * @param v target java package.
-     */
-    public void setTargetPackage(String v)
-    {
-        targetPackage = v;
-    }
-	
-    /**
-     * Change type of "now" to java.util.Date
-     *
-     * @see org.apache.velocity.texen.ant.TexenTask#populateInitialContext(org.apache.velocity.context.Context)
-     */
-    protected void populateInitialContext(Context context) throws Exception
-    {
-        super.populateInitialContext(context);
-        context.put("now", new Date());
-    }
+	/**
+	 * Set the current target package. This is where generated java classes will live.
+	 * 
+	 * @param v
+	 *            target java package.
+	 */
+	public void setTargetPackage(String v) {
+		targetPackage = v;
+	}
 
-    /**
-     * Gets a name to use for the application's data model.
-     *
-     * @param xmlFile The path to the XML file housing the data model.
-     * @return The name to use for the <code>AppData</code>.
-     */
-    private String grokName(String xmlFile)
-    {
-        // This can't be set from the file name as it is an unreliable
-        // method of naming the descriptor. Not everyone uses the same
-        // method as I do in the TDK. jvz.
+	/**
+	 * Change type of "now" to java.util.Date
+	 * 
+	 * @see org.apache.velocity.texen.ant.TexenTask#populateInitialContext(org.apache.velocity.context.Context)
+	 */
+	protected void populateInitialContext(Context context) throws Exception {
+		super.populateInitialContext(context);
+		context.put("now", new Date());
+	}
 
-        String name = "data-model";
-        int i = xmlFile.lastIndexOf(System.getProperty("file.separator"));
-        if (i != -1)
-        {
-            // Creep forward to the start of the file name.
-            i++;
+	/**
+	 * Gets a name to use for the application's data model.
+	 * 
+	 * @param xmlFile
+	 *            The path to the XML file housing the data model.
+	 * @return The name to use for the <code>AppData</code>.
+	 */
+	private String grokName(String xmlFile) {
+		// This can't be set from the file name as it is an unreliable
+		// method of naming the descriptor. Not everyone uses the same
+		// method as I do in the TDK. jvz.
 
-            int j = xmlFile.lastIndexOf('.');
-            if (i < j)
-            {
-                name = xmlFile.substring(i, j);
-            }
-            else
-            {
-                // Weirdo
-                name = xmlFile.substring(i);
-            }
-        }
-        return name;
-    }
+		String name = "data-model";
+		int i = xmlFile.lastIndexOf(System.getProperty("file.separator"));
+		if (i != -1) {
+			// Creep forward to the start of the file name.
+			i++;
 
-    /**
-     * Override Texen's context properties to map the
-     * torque.xxx properties (including defaults set by the
-     * org/apache/torque/defaults.properties) to just xxx.
-     *
-     * <p>
-     * Also, move xxx.yyy properties to xxxYyy as Velocity
-     * doesn't like the xxx.yyy syntax.
-     * </p>
-     *
-     * @param file the file to read the properties from
-     */
-    public void setContextProperties(String file)
-    {
-        super.setContextProperties(file);
+			int j = xmlFile.lastIndexOf('.');
+			if (i < j) {
+				name = xmlFile.substring(i, j);
+			} else {
+				// Weirdo
+				name = xmlFile.substring(i);
+			}
+		}
+		return name;
+	}
 
-        // Map the torque.xxx elements from the env to the contextProperties
-        Hashtable env = super.getProject().getProperties();
-        for (Iterator i = env.entrySet().iterator(); i.hasNext();)
-        {
-            Map.Entry entry = (Map.Entry) i.next();
-            String key = (String) entry.getKey();
-            if (key.startsWith("torque."))
-            {
-                String newKey = key.substring("torque.".length());
-                int j = newKey.indexOf(".");
-                while (j != -1)
-                {
-                    newKey =
-                        newKey.substring(0, j)
-                        +  StringUtils.capitalize(newKey.substring(j + 1));
-                    j = newKey.indexOf(".");
-                }
+	/**
+	 * Override Texen's context properties to map the torque.xxx properties (including defaults set by the
+	 * org/apache/torque/defaults.properties) to just xxx.
+	 * 
+	 * <p>
+	 * Also, move xxx.yyy properties to xxxYyy as Velocity doesn't like the xxx.yyy syntax.
+	 * </p>
+	 * 
+	 * @param file
+	 *            the file to read the properties from
+	 */
+	public void setContextProperties(String file) {
+		super.setContextProperties(file);
 
-                contextProperties.setProperty(newKey, entry.getValue());
-            }
-        }
-    }
+		// Map the torque.xxx elements from the env to the contextProperties
+		Hashtable env = super.getProject().getProperties();
+		for (Iterator i = env.entrySet().iterator(); i.hasNext();) {
+			Map.Entry entry = (Map.Entry) i.next();
+			String key = (String) entry.getKey();
+			if (key.startsWith("torque.")) {
+				String newKey = key.substring("torque.".length());
+				int j = newKey.indexOf(".");
+				while (j != -1) {
+					newKey = newKey.substring(0, j) + StringUtils.capitalize(newKey.substring(j + 1));
+					j = newKey.indexOf(".");
+				}
+
+				contextProperties.setProperty(newKey, entry.getValue());
+			}
+		}
+	}
 
 }
