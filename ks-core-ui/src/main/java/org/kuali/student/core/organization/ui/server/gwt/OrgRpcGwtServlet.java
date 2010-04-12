@@ -46,6 +46,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.assembly.OrgProposalAssembler;
@@ -611,7 +612,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 //    }
     
     @Override
-    public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException {
+    public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
 
         try {
             initAssemblers();
@@ -627,14 +628,14 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
                 return dsr;
             }
         } catch(Exception e){
-            e.printStackTrace();
+            throw new org.kuali.student.common.ui.client.service.exceptions.OperationFailedException("Unable to save");
+            
         }
-        return null;
      
     }
 
     @Override
-    public Metadata getOrgMetaData() {
+    public Metadata getOrgMetaData() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
         try {
             initAssemblers();
             //FIXME: where to get the ID?
@@ -642,14 +643,14 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         }
         catch(Exception e){
             e.printStackTrace();
-//            throw new OperationFailedException("Unable to retrieve metadata for org");
+            throw new org.kuali.student.common.ui.client.service.exceptions.OperationFailedException("Unable to retrieve metadata for org");
         }
         return null;
     }
 
 
     @Override
-    public SectionConfigInfo getSectionConfig() {
+    public SectionConfigInfo getSectionConfig() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
         // Move this into Common UI
         SectionConfigInfo sectionConfigInfo = new SectionConfigInfo();
         String packageName = SectionConfig.class.getPackage().getName();
@@ -716,6 +717,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             
         } catch (JAXBException e) {
             e.printStackTrace();
+            throw new org.kuali.student.common.ui.client.service.exceptions.OperationFailedException("Org Screen XML Cnfig file: recources/org_configure.xml parse exception");
         } 
 
         return sectionConfigInfo;
