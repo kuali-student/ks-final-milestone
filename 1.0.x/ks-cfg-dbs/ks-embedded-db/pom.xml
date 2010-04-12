@@ -23,37 +23,4 @@
   <version>1.0.0-m5</version>
   <packaging>jar</packaging>
   <name>Impex for ks-embedded-db</name>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.kuali.core.impex</groupId>
-        <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <configuration>
-          <importUsername>KSEMBEDDED</importUsername>
-          <importPassword>KSEMBEDDED</importPassword>
-          <importDatabaseType>oracle</importDatabaseType>
-          <importDriver>oracle.jdbc.OracleDriver</importDriver>
-          <importSchema>KSEMBEDDED</importSchema>
-          <importURL>jdbc:oracle:thin:@localhost:1521:XE</importURL>
-          <dependencies>
-            <dependency>
-              <groupId>com.oracle</groupId>
-              <artifactId>ojdbc14</artifactId>
-              <version>10.2.0.3.0</version>
-            </dependency>
-          </dependencies>
-        </configuration>
-        <executions>
-          <execution>
-            <id>convert-schema</id>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>convert-schema</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
