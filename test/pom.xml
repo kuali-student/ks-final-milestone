@@ -52,7 +52,7 @@
   <distributionManagement>
     <site>
       <id>ks.test.website</id>
-      <url>file://C:/site/test</url>
+      <url>svn:https://kuali.googlecode.com/svn/site</url>
     </site>
   </distributionManagement>
 </project>
