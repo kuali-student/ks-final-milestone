@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
