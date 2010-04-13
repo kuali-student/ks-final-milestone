@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -82,6 +83,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private KSLabel progressLabel = new KSLabel();
     private ProgressBar progressBar = new ProgressBar();
     private FlexTable fileProgressTable = new FlexTable();
+    private InfoMessage saveWarning = new InfoMessage("The document must be saved before Document files can be uploaded.", true);
     
     private OkGroup progressButtons = new OkGroup(new Callback<OkEnum>(){
 		@Override
@@ -255,7 +257,19 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 			@Override
             public void onSuccess(Boolean result) {
 				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
-				buttonPanel.setVisible(result);
+				if(referenceId != null && !(referenceId.isEmpty())){
+					//buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
+		        	saveWarning.setVisible(false);
+		        	buttonPanel.setVisible(result);
+					documentList.setVisible(true);
+					refreshDocuments();
+				}
+				else{
+					saveWarning.setVisible(true);
+					buttonPanel.setVisible(false);
+					documentList.setVisible(false);
+					//buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
+				}
             }
         	
 		});
@@ -263,6 +277,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	
 	@Override
 	protected Widget createWidget() {
+		layout.add(saveWarning);
+		saveWarning.setVisible(false);
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
 		
 		uploadList.add(new DocumentForm());		
@@ -283,7 +299,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		layout.add(documentList);
 		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
-		
+		documentList.setVisible(false);
+		buttonPanel.setVisible(false);
 		
 		progressPanel.add(progressLabel);
 		progressPanel.add(progressBar);
@@ -394,13 +411,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
-		if(referenceId != null && !(referenceId.isEmpty())){
-			buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
-		}
-		else{
-			buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
-		}
-        refreshDocuments();
+		isAuthorizedUploadDocuments();
+        
     }
 	
 	private void refreshDocuments(){

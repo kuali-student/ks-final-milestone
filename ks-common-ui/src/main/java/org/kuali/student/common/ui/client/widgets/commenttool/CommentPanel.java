@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
@@ -82,6 +83,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     private KSLabel seeComments = new KSLabel("See Comments from ");
     private KSLabel loadingComments = new KSLabel("Loading Comments");
     private KSDropDown commentTypes = new KSDropDown();
+    private InfoMessage saveWarning = new InfoMessage("The document must be saved before Comments can be added.", true);
     private boolean showingEditButtons = true;
     private List<String> types = new ArrayList<String>();
     
@@ -290,6 +292,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         commentEditor.addStyleName(KSStyles.KS_COMMENT_CREATE_EDITOR);
         
         layout.add(headerTitle);
+        layout.add(saveWarning);
+        saveWarning.setVisible(false);
         createPanel.add(createTitle);
         commentEditorPanel.setWidget(commentEditor);
         createPanel.add(commentEditorPanel);
@@ -299,12 +303,16 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         commentTypesPanel.add(seeComments);
         commentTypesPanel.add(commentTypes);
         createPanel.add(commentTypesPanel);
-
+        
         // TODO: is this needed or will the screen refresh at some point?
         isAuthorizedAddComment();
         layout.add(createPanel);
         layout.add(commentList);
+        createPanel.setVisible(false);
+		commentList.setVisible(false);
         //refreshCommentTypes();
+
+        
         return layout;
     }
 
@@ -322,7 +330,19 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 			@Override
             public void onSuccess(Boolean result) {
 				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
-				createPanel.setVisible(result);
+				if(referenceId != null && !(referenceId.isEmpty())){
+					//buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
+		        	saveWarning.setVisible(false);
+		        	createPanel.setVisible(result);
+					commentList.setVisible(true);
+					refreshComments();
+				}
+				else{
+					saveWarning.setVisible(true);
+					createPanel.setVisible(false);
+					commentList.setVisible(false);
+					//buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
+				}
             }
         	
 		});
@@ -354,13 +374,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
-        if(referenceId != null && !(referenceId.isEmpty())){
-			buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
-		}
-		else{
-			buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
-		}
-        refreshComments();
+        isAuthorizedAddComment();
+        
     }
     
 /*   public void refreshCommentTypes(){
