@@ -6,8 +6,6 @@ import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class AddOneAssembler implements Assembler<Integer,Integer>{
@@ -42,12 +40,6 @@ public class AddOneAssembler implements Assembler<Integer,Integer>{
 		SaveResult<Integer> result = new SaveResult<Integer>();
 		result.setValue(input + 1);
 		return result;
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

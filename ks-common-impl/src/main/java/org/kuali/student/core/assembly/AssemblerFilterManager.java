@@ -10,14 +10,11 @@ import org.kuali.student.core.assembly.AssemblerFilter.FilterParamWrapper;
 import org.kuali.student.core.assembly.AssemblerFilter.GetFilterChain;
 import org.kuali.student.core.assembly.AssemblerFilter.GetMetadataFilterChain;
 import org.kuali.student.core.assembly.AssemblerFilter.SaveFilterChain;
-import org.kuali.student.core.assembly.AssemblerFilter.SearchFilterChain;
 import org.kuali.student.core.assembly.AssemblerFilter.TypeStateFilterParamWrapper;
 import org.kuali.student.core.assembly.AssemblerFilter.ValidateFilterChain;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 
@@ -179,34 +176,6 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 				return self;
 			}
 		}.doSaveFilter(request, response);
-		
-		return response.getValue();
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		final Iterator<AssemblerFilter<TargetType, SourceType>> iterator = filters.iterator();
-		
-		FilterParamWrapper<SearchRequest> request  = new FilterParamWrapper<SearchRequest>();
-		request.setValue(searchRequest);
-		
-		FilterParamWrapper<SearchResult> response  = new FilterParamWrapper<SearchResult>();
-		
-		new SearchFilterChain<TargetType, SourceType>(){
-			@Override
-			public void doSearchFilter(FilterParamWrapper<SearchRequest> request,
-					FilterParamWrapper<SearchResult> response) {
-				if(iterator.hasNext()){
-					iterator.next().doSearchFilter(request, response, this);
-				}else{
-					response.setValue(target.search(request.getValue()));
-				}
-			}
-			@Override
-			public AssemblerFilterManager<TargetType, SourceType> getManager() {
-				return self;
-			}
-		}.doSearchFilter(request, response);
 		
 		return response.getValue();
 	}

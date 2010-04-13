@@ -34,8 +34,6 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -272,14 +270,6 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
         return org;
     }
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-
     
 	@Override
     protected String getDataType() {

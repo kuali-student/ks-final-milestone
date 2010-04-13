@@ -5,8 +5,6 @@ import java.util.List;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public interface AssemblerFilter<TargetType, SourceType> {
@@ -22,8 +20,6 @@ public interface AssemblerFilter<TargetType, SourceType> {
 	public void doGetFilter(FilterParamWrapper<String> id, FilterParamWrapper<TargetType> response, GetFilterChain<TargetType, SourceType> chain) throws AssemblyException;
 	
 	public void doValidateFilter(FilterParamWrapper<TargetType> request, FilterParamWrapper<List<ValidationResultInfo>> response,  ValidateFilterChain<TargetType, SourceType> chain) throws AssemblyException;
-	
-	public void doSearchFilter(FilterParamWrapper<SearchRequest> request, FilterParamWrapper<SearchResult> response, SearchFilterChain<TargetType, SourceType> chain);
 	
 	public interface AssemblerManagerAccessable <TargetType, SourceType>{
 		public AssemblerFilterManager<TargetType, SourceType> getManager();
@@ -47,10 +43,7 @@ public interface AssemblerFilter<TargetType, SourceType> {
 	public interface ValidateFilterChain<TargetType, SourceType> extends AssemblerManagerAccessable<TargetType, SourceType>{
 		public void doValidateFilter(FilterParamWrapper<TargetType> request, FilterParamWrapper<List<ValidationResultInfo>> response) throws AssemblyException;
 	}
-	public interface SearchFilterChain<TargetType, SourceType> extends AssemblerManagerAccessable<TargetType, SourceType>{
-		public void doSearchFilter(FilterParamWrapper<SearchRequest> request, FilterParamWrapper<SearchResult> response);
-	}
-	
+
 	public class FilterParamWrapper<T>{
 		T value;
 		public T getValue(){

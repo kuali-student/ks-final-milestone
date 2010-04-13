@@ -5,8 +5,6 @@ import java.util.List;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class PassThroughAssemblerFilter <TargetType, SourceType> implements AssemblerFilter<TargetType, SourceType> {
@@ -50,14 +48,6 @@ public class PassThroughAssemblerFilter <TargetType, SourceType> implements Asse
 			org.kuali.student.core.assembly.AssemblerFilter.SaveFilterChain<TargetType, SourceType> chain)
 			throws AssemblyException {
 		chain.doSaveFilter(request, response);
-	}
-
-	@Override
-	public void doSearchFilter(
-			org.kuali.student.core.assembly.AssemblerFilter.FilterParamWrapper<SearchRequest> request,
-			org.kuali.student.core.assembly.AssemblerFilter.FilterParamWrapper<SearchResult> response,
-			org.kuali.student.core.assembly.AssemblerFilter.SearchFilterChain<TargetType, SourceType> chain) {
-		chain.doSearchFilter(request, response);
 	}
 
 	@Override

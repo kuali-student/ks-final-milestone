@@ -22,15 +22,10 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgPersonHelper;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelper>{
@@ -216,11 +211,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-    @Override
-    public SearchResult search(SearchRequest searchRequest) {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+
 	@Override
 	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub

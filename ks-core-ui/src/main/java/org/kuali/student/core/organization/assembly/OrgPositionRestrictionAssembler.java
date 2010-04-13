@@ -26,8 +26,6 @@ import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgPositionHelper;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPositionHelper>{
@@ -86,12 +84,6 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         List<ValidationResultInfo> validationResults = validate(input);
         result.setValue(input);
         return result;
-    }
-
-    @Override
-    public SearchResult search(SearchRequest searchRequest) {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
     }
 
     @Override

@@ -5,8 +5,6 @@ import java.util.List;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 /*
  *	ASSEMBLERREVIEW
@@ -15,9 +13,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
  *  	- after working through some of it, it looks like most assemblers would do one or other other
  *  	- TargetType vs SourceType is odd looking for persistence only assembers, ends up being Assembler<Whatever, Void>
  *  
- *  2) Needs search/lookup operations based on LookupMetadata
- *  
- *  3) Need to come up with a clean way of copying properties that are passthrough without a lot of boilerplate code, but...
+ *  2) Need to come up with a clean way of copying properties that are passthrough without a lot of boilerplate code, but...
  *  	- many "passthrough" properties will still have a rename along the way, and possibly a transformation of their position within the graph, e.g.
  *  		cluInfo/officialIdentifier/shortName -> proposal/transcriptTitle  
  */
@@ -36,6 +32,5 @@ public interface Assembler<TargetType, SourceType> {
 	SourceType disassemble(TargetType input) throws AssemblyException;
 
 	List<ValidationResultInfo> validate(TargetType input) throws AssemblyException;
-	
-	SearchResult search(SearchRequest searchRequest);
+
 }
