@@ -6,8 +6,6 @@ import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 
 public class WorkflowAssembler extends BaseAssembler<Data, WorkflowInfo>{
 
@@ -57,12 +55,6 @@ public class WorkflowAssembler extends BaseAssembler<Data, WorkflowInfo>{
 
 	@Override
 	public SaveResult<Data> save(Data input) throws AssemblyException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}

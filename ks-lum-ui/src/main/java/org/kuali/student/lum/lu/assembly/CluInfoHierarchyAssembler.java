@@ -18,8 +18,6 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
@@ -247,12 +245,6 @@ import org.kuali.student.lum.lu.service.LuService;
 		// TODO validate against service
 		return null;
 	}
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	@Override
 	public Metadata getDefaultMetadata() throws AssemblyException {

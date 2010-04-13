@@ -11,19 +11,13 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemValue;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -285,9 +279,4 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 		return qualification;
 	}
 
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

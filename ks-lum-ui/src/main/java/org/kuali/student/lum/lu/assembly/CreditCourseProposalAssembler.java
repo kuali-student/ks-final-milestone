@@ -30,8 +30,6 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
@@ -341,15 +339,6 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         throw new UnsupportedOperationException("CreditCourseProposalAssember does not support disassembly to source type");
     }
 
-    @Override
-    public SearchResult search(SearchRequest searchRequest) {
-        //TODO Might want to be synchronized, or services should be dependency injected...
-        if(null == searchDispatcher){
-            searchDispatcher = new SearchDispatcherImpl(luService, loService, proposalService);
-        }
-        return searchDispatcher.dispatchSearch(searchRequest);
-    }   
-    
     public LuService getLuService() {
         return luService;
     }

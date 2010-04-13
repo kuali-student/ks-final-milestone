@@ -41,9 +41,6 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
@@ -109,8 +106,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	private LearningObjectiveService loService;
 	private OrganizationService orgService;
 	private AtpService atpService;
-
-	private SearchDispatcherImpl searchDispatcher;
 
 	@Override
 	public Data get(String id) throws AssemblyException {
@@ -229,15 +224,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	@Override
 	public CluInfoHierarchy disassemble(Data input) throws AssemblyException {
 		throw new UnsupportedOperationException("Data disassembly not supported");
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		//TODO Might want to be synchronized, or services should be dependency injected...
-		if(null == searchDispatcher){
-			searchDispatcher = new SearchDispatcherImpl(luService, loService);
-		}
-		return searchDispatcher.dispatchSearch(searchRequest);
 	}
 
 	private CluInfoHierarchy getCluInfoHierarchyFromId(String id) throws AssemblyException {
@@ -1308,10 +1294,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 	public void setLoService(LearningObjectiveService loService) {
 		this.loService = loService;
-	}
-
-	public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
-		this.searchDispatcher = searchDispatcher;
 	}
 
 	public OrganizationService getOrgService() {

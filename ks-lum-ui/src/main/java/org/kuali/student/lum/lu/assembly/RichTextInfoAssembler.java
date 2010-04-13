@@ -8,8 +8,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoMetadata;
@@ -60,11 +58,6 @@ public class RichTextInfoAssembler implements Assembler<Data, RichTextInfo>{
 	@Override
 	public List<ValidationResultInfo> validate(Data input)
 			throws AssemblyException {
-		return null;
-	}
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

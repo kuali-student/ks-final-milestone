@@ -15,8 +15,6 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluFeeInfoMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoHelper;
@@ -129,11 +127,6 @@ public class ExpenditureDataAssembler implements Assembler<Data, CluAccountingIn
 	@Override
 	public List<ValidationResultInfo> validate(Data input)
 			throws AssemblyException {
-		return null;
-	}
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
