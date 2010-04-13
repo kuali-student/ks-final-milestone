@@ -519,9 +519,10 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		ResultOptionInfo dto = new ResultOptionInfo();
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "resultUsageType" });
-		dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
+		BeanUtils.copyProperties(entity, dto, new String[] { "resultUsageType" });
+		if(entity.getResultUsageType() != null) {
+			dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
+		}
 
 		return dto;
 	}

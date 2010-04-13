@@ -100,6 +100,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	private final CluFeeInfoDataAssembler feeAssembler = new CluFeeInfoDataAssembler();
 	private final RevenueDataAssembler revenueAssembler = new RevenueDataAssembler();
 	private final ExpenditureDataAssembler expenditureAssembler = new ExpenditureDataAssembler();
+	private LearningResultAssembler lrAssembler;
 
 	private LuService luService;
 	private StatementService statementService;
@@ -121,6 +122,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 			luData.setData(course.getData());
 
+			result.setGradingOptions(getLearningResultAssembler().getGradingOptions(id));
+//			result.setGradingOptions(getLearningResultAssembler().get(id));
+			result.setOutcomeOptions(getLearningResultAssembler().getOutcomeOptions(id));
+
 			luData.setRuleInfos(getRules(id));
 			
 			//FIXME:  This is a hack to extract the rule info statements from LuData and put them
@@ -131,19 +136,15 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			// TODO - need a SingleUseLoListAssembler that calls SingleUseLoAssembler once for each LO
 			// associated with the course
 			result.setCourseSpecificLOs(getSingleUseLoAssembler().get(course.getId()));
-
 		} catch (Exception e) {
-			throw new AssemblyException(
-					"Could not assemble course", e);
+			throw new AssemblyException("Could not assemble course", e);
 		}
 
 		return result.getData();
 	}
 
-
-
 	@Override
-	public SaveResult<Data> save(Data input)     throws AssemblyException {
+	public SaveResult<Data> save(Data input) throws AssemblyException {
 
 		try {
 			SaveResult<Data> result = new SaveResult<Data>();
@@ -194,6 +195,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             	CluCluRelationInfo cluCluRelationInfo = new CluCluRelationInfo();
             	luService.createCluCluRelation(courseId, copyOfCourseId, COPY_OF_CLU_RELATION_TYPE, cluCluRelationInfo);
             }
+            
+            getLearningResultAssembler().saveGradingOptions(course.getData(), courseId);
+            getLearningResultAssembler().saveOutcomeOptions(course.getData(), courseId);
             
 			saveRules(courseId, (LuData)input);
 
@@ -1270,6 +1274,14 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			loAssembler.setLuService(luService);
 		}
 		return loAssembler;
+	}
+	
+	private LearningResultAssembler getLearningResultAssembler() {
+		if (lrAssembler == null) {
+			lrAssembler = new LearningResultAssembler();
+			lrAssembler.setLuService(luService);
+		}
+		return lrAssembler;
 	}
 
 	public LuService getLuService() {

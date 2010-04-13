@@ -94,7 +94,7 @@
 		<property name="sourceMap">
 			<map>
 		        <entry key="lrc.search.resultComponent">
-		            <value>SELECT rc.id, rc.name, rc.type FROM ResultComponent rc </value>
+		            <value>SELECT rc.id, rc.name, rc.type.id FROM ResultComponent rc </value>
 		        </entry>
         
 				<entry key="lrc.queryParam.resultComponent.id">

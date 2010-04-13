@@ -408,10 +408,8 @@ import com.google.gwt.user.client.ui.Widget;
 	    }
 	
 	    protected VerticalSection generateLearningResultsSection() {
-	    	VerticalSection lrSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
-	    	LRBuilder lrBuilder = new LRBuilder(type, state, groupName, modelDefinition);
-	    	addField(lrSection, CreditCourseConstants.OUTCOME_OPTIONS, null, lrBuilder, CreditCourseProposalConstants.COURSE);
-	    	return lrSection;
+	        LRBuilder lrBuilder = new LRBuilder(type, state, groupName, modelDefinition);
+	    	return lrBuilder.generateLearningResultsSection();
 	    }
 	    
 		public class CourseFormatList extends UpdatableMultiplicityComposite {

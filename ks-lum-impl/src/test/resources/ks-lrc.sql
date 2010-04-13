@@ -159,7 +159,7 @@ INSERT INTO KSLU_LRC_RESCOMP_JN_RESVALUE (COMPONENT_ID, RESULT_ID) VALUES('LRC-R
 
 INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, VALUE_TYPE) VALUES ('kuali.resultComponentType.grade.finalGrade', 'This records that a final grade is a result for this course', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Final Grade', NULL);
 INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, VALUE_TYPE) VALUES ('kuali.resultComponentType.credit.degree.fixed', 'This records a range of number of credits that can be awarded for this course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Fixed Number', NULL);
-INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, VALUE_TYPE) VALUES ('kuali.resultComponentType.credit.degree.range', 'This records a single fixed number of credits that are awarded if the student passes the course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Fixed Number', NULL);
+INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, VALUE_TYPE) VALUES ('kuali.resultComponentType.credit.degree.range', 'This records a single fixed number of credits that are awarded if the student passes the course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Range Number', NULL);
 
 INSERT INTO KSLU_LRC_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-LRC-RC-1' ,'<p>Pass or Fail</p>'                                        , 'Pass or Fail');                                        
 INSERT INTO KSLU_LRC_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-LRC-RC-2' ,'<p>A Letter used as a grade (e.g. A, B, C, D, F)</p>'       , 'A Letter used as a grade (e.g. A, B, C, D, F)');        

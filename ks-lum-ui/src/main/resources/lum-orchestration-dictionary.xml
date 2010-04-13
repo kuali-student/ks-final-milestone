@@ -3687,6 +3687,7 @@
 				<ref bean="outcomeOptions.outcomeType" />
 				<ref bean="outcomeOptions.outcomeCreditValue" />
 				<ref bean="outcomeOptions.outcomeMaxCredits" />
+				<ref bean="outcomeOptions._runtimeData" />
 			</list>
 		</property>
 	</bean>
@@ -3743,6 +3744,19 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="outcomeOptions._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+	
 
 	<bean id="course.duration" parent="dataFieldDescriptor">
 		<property name="name" value="duration" />
@@ -6337,7 +6351,6 @@
 	</bean>
 
 	<bean id="kuali.lu.lookup.feetypes" parent="lookup">
-
 		<property name="searchTypeId" value="enumeration.management.search" />
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -6446,8 +6459,8 @@
 		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
 		<property name="usage" value="DEFAULT" />
 	</bean>
+	
 	<bean id="kuali.lu.lookup.ratetypes" parent="lookup">
-
 		<property name="searchTypeId" value="enumeration.management.search" />
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -6566,7 +6579,7 @@
         <property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id" />
         <property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id" />
         <property name="resultDisplayKey" value="lrc.resultColumn.resultComponent.name" />
-        <property name="resultSortKey" value="lrc.resultColumn.resultComponent.name" />
+        <property name="resultSortKey" value="lrc.resultColumn.resultComponent.type" />
         <property name="params">
             <list>
                 <bean parent="param">
@@ -6611,6 +6624,13 @@
                     <property name="dataType" value="STRING" />
                     <property name="hidden" value="false" />
                 </bean>
+                <bean parent="result">
+                    <property name="key" value="lrc.resultColumn.resultComponent.type" />
+                    <property name="name" value="Outcome Type" />
+                    <property name="desc" value="Outcome Type" />
+                    <property name="dataType" value="STRING" />
+                    <property name="hidden" value="false" />
+                </bean>                
             </list>
         </property>
     </bean>
