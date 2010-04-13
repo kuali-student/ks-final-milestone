@@ -177,8 +177,9 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
     	}
 		
     	// now add the last top-level helper's data in
-		losData.add(currTopLevelLoRelationshipHelper.getData());
-		
+    	if (null != currTopLevelLoRelationshipHelper) {
+			losData.add(currTopLevelLoRelationshipHelper.getData());
+    	}
 		// and update the model
     	model.set(QueryPath.parse(path), losData);
     	
