@@ -168,12 +168,8 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByProposal("PROPOSAL-1");
         assertNotNull(docRelationInfos);
 
-        try {
-            client.getProposalDocRelationsByProposal("PROPOSAL-XXX");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
+        List<ProposalDocRelationInfo> infos = client.getProposalDocRelationsByProposal("PROPOSAL-XXX");
+        assertTrue(infos == null || infos.size() == 0);
     }
 
     @Test
