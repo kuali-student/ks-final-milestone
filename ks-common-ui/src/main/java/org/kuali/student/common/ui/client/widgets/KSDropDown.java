@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class KSDropDown extends KSSelectItemWidgetAbstract{ 
     
-    KSSelectItemWidgetAbstract dropDown = GWT.create(KSRadioButtonListImpl.class);
+    KSSelectItemWidgetAbstract dropDown = GWT.create(KSDropDownImpl.class);
     /**
      * This constructs a KSDropDown that wraps an impl
      * 
