@@ -2018,6 +2018,7 @@
 		</property>
 	</bean>
 	<bean id="fees" parent="fees-parent" />
+	
 	<bean id="fixedRateFee-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="fixedRateFee" />
 		<property name="fields">
@@ -2026,6 +2027,7 @@
 				<ref bean="fixedRateFee.rateType" />
 				<ref bean="fixedRateFee.amount" />
 				<ref bean="fixedRateFee.id" />
+				<ref bean="fixedRateFee._runtimeData" />
 			</list>
 		</property>
 	</bean>
@@ -2101,7 +2103,20 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="fixedRateFee._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
 	<bean id="fixedRateFee" parent="fixedRateFee-parent" />
+	
 	<bean id="variableRateFee-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="variableRateFee" />
 		<property name="fields">
@@ -2111,6 +2126,7 @@
 				<ref bean="variableRateFee.minAmount" />
 				<ref bean="variableRateFee.maxAmount" />
 				<ref bean="variableRateFee.id" />
+				<ref bean="variableRateFee._runtimeData" />
 			</list>
 		</property>
 	</bean>
@@ -2197,7 +2213,20 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="variableRateFee._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
 	<bean id="variableRateFee" parent="variableRateFee-parent" />
+	
 	<bean id="multipleRateFee-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="multipleRateFee" />
 		<property name="fields">
@@ -2206,6 +2235,7 @@
 				<ref bean="multipleRateFee.rateType" />
 				<ref bean="multipleRateFee.amount" />
 				<ref bean="multipleRateFee.id" />
+				<ref bean="multipleRateFee._runtimeData" />
 			</list>
 		</property>
 	</bean>
@@ -2284,7 +2314,20 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="multipleRateFee._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
 	<bean id="multipleRateFee" parent="multipleRateFee-parent" />
+	
 	<bean id="perCreditFee-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="perCreditFee" />
 		<property name="fields">
@@ -2293,6 +2336,7 @@
 				<ref bean="perCreditFee.rateType" />
 				<ref bean="perCreditFee.amount" />
 				<ref bean="perCreditFee.id" />
+				<ref bean="perCreditFee._runtimeData" />
 			</list>
 		</property>
 	</bean>
@@ -2371,7 +2415,20 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="perCreditFee._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
 	<bean id="perCreditFee" parent="perCreditFee-parent" />
+	
 	<bean id="expenditureOrg-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="expenditureOrg" />
 		<property name="fields">

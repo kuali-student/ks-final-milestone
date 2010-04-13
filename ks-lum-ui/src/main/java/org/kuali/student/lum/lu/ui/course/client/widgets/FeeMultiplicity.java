@@ -8,8 +8,9 @@ import java.util.Iterator;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityItemBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
@@ -25,6 +26,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.organization.assembly.data.client.RuntimeDataConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -37,10 +39,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class FeeMultiplicity extends UpdatableMultiplicityComposite {
     
-    {
-    setAddItemLabel(getLabel(LUConstants.ADD_A_FEE));
-    setItemLabel(getLabel(LUConstants.FEE));
-    }
     private final String parentPath;
 	private String groupName;
 	private String type;
@@ -53,6 +51,8 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
         this.groupName = groupName;
         this.type = type;
         this.state = state;
+	    setAddItemLabel(getLabel(LUConstants.ADD_A_FEE));
+	    setItemLabel(getLabel(LUConstants.FEE));
     }
        
     @Override
@@ -128,6 +128,7 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
         private String variablePath = "0/" + FeeInfoConstants.VARIABLE_RATE_FEE + "/";
         private String multiplePath = "0/" + FeeInfoConstants.MULTIPLE_RATE_FEE + "/";
         private String perCreditPath = "0/" + FeeInfoConstants.PER_CREDIT_FEE + "/";
+        private String currentModelPath;
         private SelectionChangeHandler dropDownHandler;
             
 		public TransmogrifyingFeeRecordItem(String parentPath, int itemCount) {
@@ -154,8 +155,25 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
             addSection(dropDownSection);
             buildRateSpecificFieldSection(rateType, modelIdx);
             addSection(fieldSection);
+            setCurrentModelPath(rateType, modelIdx);
 		}
 		
+		private void setCurrentModelPath(String rateType, int modelIdx) {
+    		if (FeeInfoConstants.FIXED_RATE_FEE.equals(rateType)) {
+	            currentModelPath = fixedPath + modelIdx;
+    		} else if (FeeInfoConstants.MULTIPLE_RATE_FEE.equals(rateType)) {
+	            currentModelPath = multiplePath + modelIdx;
+    		} else if (FeeInfoConstants.PER_CREDIT_FEE.equals(rateType)) {
+	            currentModelPath = perCreditPath + modelIdx;
+    		} else if (FeeInfoConstants.VARIABLE_RATE_FEE.equals(rateType)) {
+	            currentModelPath = variablePath + modelIdx;
+    		}
+		}
+		
+		public String getCurrentModelPath() {
+			return currentModelPath;
+		}
+
 		private void clearSection() {
 			if (null != dropDownSection) {
 				removeSection(dropDownSection);
@@ -200,12 +218,32 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
     	}
 	}
 		
-	static public class FeeMultiplicityBinding implements ModelWidgetBinding<FeeMultiplicity> {
+	static public class FeeMultiplicityBinding extends ModelWidgetBindingSupport<FeeMultiplicity> {
 
 		@Override
 		public void setModelValue(FeeMultiplicity widget, DataModel model, String path) {
-			// passthru; can't subclass
-			MultiplicityCompositeBinding.INSTANCE.setModelValue(widget, model, path);
+	        for (MultiplicityItem item : widget.getItems()) {
+				QueryPath qPath;
+				if (item.getItemWidget() instanceof TransmogrifyingFeeRecordItem) {
+					// set the runtimeData so delete works
+					String itemModelPath = ((TransmogrifyingFeeRecordItem) item.getItemWidget()).getCurrentModelPath();
+					
+					if (item.isCreated()) {
+						qPath = QueryPath.parse(path + QueryPath.getPathSeparator() + itemModelPath + QueryPath.getPathSeparator() + RUNTIME_ROOT + QueryPath.getPathSeparator() + RuntimeDataConstants.CREATED);
+					} else if (item.isDeleted()) {
+						qPath = QueryPath.parse(path + QueryPath.getPathSeparator() + itemModelPath + QueryPath.getPathSeparator() + RUNTIME_ROOT + QueryPath.getPathSeparator() + RuntimeDataConstants.DELETED);
+					} else {
+						qPath = QueryPath.parse(path + QueryPath.getPathSeparator() + itemModelPath + QueryPath.getPathSeparator() + RUNTIME_ROOT + QueryPath.getPathSeparator() + RuntimeDataConstants.UPDATED);
+					}
+					Boolean oldValue = model.get(qPath);
+					Boolean newValue = true;
+					if (!nullsafeEquals(oldValue, newValue)) {
+						model.set(qPath, newValue);
+						setDirtyFlag(model, qPath);
+					}
+				}
+				MultiplicityItemBinding.INSTANCE.setModelValue(item, model, path);
+	        }
 		}
 
 		/*
