@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.AbstractSimpleModel;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -62,6 +63,7 @@ public class CollaboratorTool extends Composite implements ToolView{
     private KSButton addButton = new KSButton("Add Person");
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
+    private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
     
     //Todo MESSAGES
     private final String VIEW = "View";
@@ -137,7 +139,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 				//createTableSection();
 			}
 		});
-		
+		layout.add(saveWarning);
 		layout.add(section);
 		layout.add(addButton);
 		addButton.addStyleName("ks-section-widget");
@@ -188,6 +190,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		saveWarning.setVisible(false);
 		if (!loaded){
 			init();
 		}
@@ -197,6 +200,10 @@ public class CollaboratorTool extends Composite implements ToolView{
 			@Override
 			public void onModelReady(CollaboratorModel model) {
 				if(model.getDataId() != null && !model.getDataId().equals("")){
+					section.setVisible(true);
+					tableSection.setVisible(true);
+					addButton.setVisible(true);
+					
 					dataId = model.getDataId();
 					if(workflowId == null){
 						cluProposalRpcServiceAsync.getWorkflowIdFromDataId(dataId, new AsyncCallback<String>(){
@@ -227,7 +234,11 @@ public class CollaboratorTool extends Composite implements ToolView{
 					
 				}
 				else{
-					//alter interface to reflect that they havent saved yet
+					saveWarning.setVisible(true);
+					section.setVisible(false);
+					addButton.setVisible(false);
+					tableSection.setVisible(false);
+					//section.setMessage("The document must be saved before Collaborators can be added" , true); 
 					onReadyCallback.exec(true);
 				}
 				
