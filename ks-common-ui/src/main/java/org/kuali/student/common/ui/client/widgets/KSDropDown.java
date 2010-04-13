@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -39,7 +40,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class KSDropDown extends KSSelectItemWidgetAbstract{ 
     
-    KSSelectItemWidgetAbstract dropDown = GWT.create(KSDropDownImpl.class);
+    KSSelectItemWidgetAbstract dropDown = GWT.create(KSRadioButtonListImpl.class);
     /**
      * This constructs a KSDropDown that wraps an impl
      * 
@@ -137,8 +138,11 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
     }
 
     public boolean isBlankFirstItem() {
-        //FIXME: This will break replacement via deferred binding. Anyway to do this w/o adding to KSSelectItemWidgetAbstract
-        return ((KSDropDownImpl)dropDown).isBlankFirstItem();
+    	if (dropDown instanceof KSDropDownImpl){
+    		return ((KSDropDownImpl)dropDown).isBlankFirstItem();
+    	} else {
+    		return false;
+    	}
     }
 
     /** 
@@ -147,8 +151,9 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
      * @param blankFirstItem
      */
     public void setBlankFirstItem(boolean blankFirstItem) {
-        //FIXME: This will break replacement via deferred binding. Anyway to do this w/o adding to KSSelectItemWidgetAbstract
-        ((KSDropDownImpl)dropDown).setBlankFirstItem(blankFirstItem);
+    	if (dropDown instanceof KSDropDownImpl){
+    		((KSDropDownImpl)dropDown).setBlankFirstItem(blankFirstItem);
+    	}
     }
 
     @Override
