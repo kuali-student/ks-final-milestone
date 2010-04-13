@@ -100,6 +100,11 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
 	</bean>  
 
+	<bean id="proposalClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
+	</bean>
+	  
 	<bean id="luServiceImpl"
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
 		<property name="luDao" ref="luDao" />
@@ -309,7 +314,7 @@
 
     <bean id="documentRelationServiceImpl"
         class="org.kuali.student.lum.mock.service.impl.DocumentRelationServiceImpl">
-        <property name="proposalDao" ref="proposalDao" />
+        <property name="proposalService" ref="proposalClient" />
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
