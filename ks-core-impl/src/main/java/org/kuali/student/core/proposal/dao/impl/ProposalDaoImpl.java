@@ -135,9 +135,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("proposalId", proposalId);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException(proposalId);
-        }
         return proposalDocRelations;
     }
 
