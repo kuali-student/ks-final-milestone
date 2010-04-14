@@ -8,6 +8,7 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
@@ -122,8 +123,6 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
             CluResultInfo cluResultInfo = new CluResultInfo();
             cluResultInfo.setCluId(cluId);
             cluResultInfo.setState(STATE);
-//            MetaInfo metaInfo = toMetaInfo(creditCourseHelper.getMetaInfo());
-//            cluResultInfo.setMetaInfo(metaInfo);
     
             // Grading options
             List<ResultOptionInfo> gradeResultOptions = new ArrayList<ResultOptionInfo>();
@@ -146,12 +145,14 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                     cluResultInfo.setResultOptions(gradeResultOptions);
                     luService.createCluResult(cluId, GRADE_RESULT_TYPE, cluResultInfo);
                 } else {
-                    CluResultInfo cri = cluResultList.get(0);
-                    cri = luService.getCluResult(cri.getId());
-                    cri.setResultOptions(gradeResultOptions);
-                    if(cri.getType().equals(GRADE_RESULT_TYPE)) {
-                        luService.updateCluResult(cri.getId(), cri);
-                    }
+                	// Should only be one CluResultInfo
+                	for(CluResultInfo cri : cluResultList) {
+	                    cri = luService.getCluResult(cri.getId());
+	                    cri.setResultOptions(gradeResultOptions);
+	                    if(cri.getType().equals(GRADE_RESULT_TYPE)) {
+	                        luService.updateCluResult(cri.getId(), cri);
+	                    }
+                	}
                 }
             }           
             return result;
@@ -219,34 +220,4 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
         return null;
     }
 
-    /*private MetaInfoHelper toMetaInfoHelper(MetaInfo metaInfo) {
-        MetaInfoHelper metaInfoHelper = null;
-        Data metaData = new Data();
-        if (metaInfo == null) return null;
-        metaInfoHelper = MetaInfoHelper.wrap(metaData);
-        metaInfoHelper.setCreateId(metaInfo.getCreateId());
-        metaInfoHelper.setCreateTime(metaInfo.getCreateTime());
-        metaInfoHelper.setUpdateId(metaInfo.getUpdateId());
-        metaInfoHelper.setUpdateTime(metaInfo.getUpdateTime());
-        metaInfoHelper.setVersionInd(metaInfo.getVersionInd());
-        return metaInfoHelper;
-    }
-    
-    public MetaInfo toMetaInfo(MetaInfoHelper metaInfoHelper) {
-        MetaInfo metaInfo = null;
-//        if (metaInfoHelper == null) return null;
-        metaInfo = new MetaInfo();
-//        metaInfo.setCreateId(metaInfoHelper.getCreateId());
-//        metaInfo.setCreateTime(metaInfoHelper.getCreateTime());
-//        metaInfo.setUpdateId(metaInfoHelper.getUpdateId());
-//        metaInfo.setUpdateTime(metaInfoHelper.getUpdateTime());
-//        metaInfo.setVersionInd(metaInfoHelper.getVersionInd());
-        metaInfo.setCreateId("XXX");
-        metaInfo.setCreateTime(new Date());
-        metaInfo.setUpdateId("XXX");
-        metaInfo.setUpdateTime(new Date());
-        metaInfo.setVersionInd("0");
-        return metaInfo;
-    }*/
-    
 }
