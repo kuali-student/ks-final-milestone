@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.core.assembly.Assembler;
@@ -9,8 +10,11 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningResultOutcomeHelper;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -67,28 +71,27 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
         return resultData;
     }
 
-    public Data getOutcomeOptions(String cluId) throws AssemblyException {
-        CreditCourseHelper result = CreditCourseHelper.wrap(new Data());
-        result.setGradingOptions(new Data());
-
+    public Data getOutcomeOptions(String cluId) throws AssemblyException {                 
+        Data outcomeData = new Data();
+        
         try {
             List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
-            if(cluResultList != null && !cluResultList.isEmpty()) {
-                //for(CluResultInfo cluResult : cluResultList) {
-                CluResultInfo cluResult = cluResultList.get(0);
-                    if(cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
-                        for(ResultOptionInfo option : cluResult.getResultOptions()) {
-                            String typeKey = option.getResultComponentId();
-                            result.getOutcomeOptions().add(typeKey);
-                        }
-                    }
-                //}
+            
+            for (CluResultInfo cluResult : cluResultList) {
+                if (cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
+                    for(ResultOptionInfo option : cluResult.getResultOptions()) {
+                        LearningResultOutcomeHelper outcome = LearningResultOutcomeHelper.wrap(new Data());
+                        outcome.setOutcomeType(option.getResultComponentId());
+                        outcomeData.add(outcome.getData());                        
+                    }                    
+                }
             }
+            
         } catch(Exception e) {
             throw new AssemblyException("Unable to load learning results for course", e);
-        }
+        }       
         
-        return result.getData();
+        return outcomeData;
     }
 
     @Override
@@ -107,7 +110,7 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
     public SaveResult<Data> save(Data input) throws AssemblyException {
         throw new UnsupportedOperationException("LearningResultAssembler#save(Data) is not implemented");
     }
-
+   
     public SaveResult<Data> saveGradingOptions(Data input, String cluId) throws AssemblyException {
         // Expect to get the following from the client:
         // Example: ResultComponent.type='kuali.resultComponentType.credit.degree.fixed',
@@ -133,29 +136,27 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                         String resultType = p.getValue();
                         ResultOptionInfo roi = new ResultOptionInfo();
                         roi.setResultComponentId(resultType);
-                        //roi.setResultUsageTypeKey("lrType.finalGrade");
                         roi.setState(STATE);
                         gradeResultOptions.add(roi);
                     }
                 }
                 
-                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
+                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);                                                           
                 if(cluResultList == null || cluResultList.isEmpty()) {
-	                // Create or update clu result
                     cluResultInfo.setResultOptions(gradeResultOptions);
                     luService.createCluResult(cluId, GRADE_RESULT_TYPE, cluResultInfo);
                 } else {
-                	// Should only be one CluResultInfo
-                	for(CluResultInfo cri : cluResultList) {
-	                    cri = luService.getCluResult(cri.getId());
-	                    cri.setResultOptions(gradeResultOptions);
-	                    if(cri.getType().equals(GRADE_RESULT_TYPE)) {
-	                        luService.updateCluResult(cri.getId(), cri);
-	                    }
-                	}
+                    CluResultInfo cri = cluResultList.get(0);
+                    cri = luService.getCluResult(cri.getId());
+                    cri.setResultOptions(gradeResultOptions);
+                    if(cri.getType().equals(GRADE_RESULT_TYPE)) {
+                        luService.updateCluResult(cri.getId(), cri);
+                    }
                 }
-            }           
+            }    
+            
             return result;
+            
         } catch(Exception e) {
             throw new AssemblyException("Unable to save learning result grades for course", e);
         }
@@ -167,46 +168,71 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
         //          ResultComponent.id='kuali.creditType.credit.degree.10'
 
         try {
+            List<ResultOptionInfo> outcomeTypeResultOptions = new ArrayList<ResultOptionInfo>();
             SaveResult<Data> result = new SaveResult<Data>();
             result.setValue(input);
             
             CreditCourseHelper creditCourseHelper = CreditCourseHelper.wrap(input);
             //String cluId = creditCourseHelper.getId();
 
-            CluResultInfo cluResultInfo = new CluResultInfo();
-            cluResultInfo.setCluId(cluId);
+
             //cluResultInfo.setEffectiveDate(effectiveDate);
             //cluResultInfo.setExpirationDate(expirationDate);
             //cluResultInfo.setMetaInfo(metaInfo);
-            cluResultInfo.setState(STATE);
+
 
             // Outcome options
             if(creditCourseHelper.getOutcomeOptions() != null) {
-                List<ResultOptionInfo> outcomeTypeResultOptions = new ArrayList<ResultOptionInfo>();
-                for (Data.Property p : creditCourseHelper.getOutcomeOptions()) {
+                
+                for (Data.Property p : creditCourseHelper.getOutcomeOptions()) {                    
                     if(!CreditCourseHelper.Properties._RUNTIME_DATA.equals(p.getKey())){
-                        String resultType = ((Data)p.getValue()).get("outcomeType");
-                        ResultOptionInfo roi = new ResultOptionInfo();
-                        roi.setResultComponentId(resultType);
-                        //roi.setResultUsageTypeKey("lrType.finalGrade");
-                        roi.setState(STATE);
-                        outcomeTypeResultOptions.add(roi);
-                    }
+                        
+                        if (AssemblerUtils.isCreated((Data)p.getValue())) {
+                            String resultType = ((Data)p.getValue()).get("outcomeType");
+                            ResultOptionInfo roi = new ResultOptionInfo();
+                            roi.setResultComponentId(resultType);
+                            roi.setState(STATE);                           
+                            roi.setEffectiveDate(new Date());
+                            outcomeTypeResultOptions.add(roi);                               
+                        } else if (AssemblerUtils.isDeleted((Data)p.getValue())) {
+                            continue;
+                        } else if (AssemblerUtils.isUpdated((Data)p.getValue())) {
+                            String resultType = ((Data)p.getValue()).get("outcomeType");
+                            ResultOptionInfo roi = new ResultOptionInfo();
+                            roi.setResultComponentId(resultType);
+                            roi.setState(STATE);
+                            roi.setEffectiveDate(new Date());                            
+                            outcomeTypeResultOptions.add(roi);    
+                        }                         
+                                                
+                    }                                                         
                 }
-                if(outcomeTypeResultOptions != null && !outcomeTypeResultOptions.isEmpty()) {
+                
+                boolean update = false;
+                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
+                for (CluResultInfo cluResult : cluResultList) {
+                    if(cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
+                        RichTextInfo desc = new RichTextInfo();
+                        desc.setPlain("Temporary description");
+                        cluResult.setDesc(desc);                  
+                        cluResult.setResultOptions(outcomeTypeResultOptions);                        
+                        luService.updateCluResult(cluResult.getId(), cluResult);
+                        update = true;
+                    }
+                }                
+                
+                if(update == false) {
+                    CluResultInfo cluResultInfo = new CluResultInfo();
+                    cluResultInfo.setCluId(cluId);       
+                    cluResultInfo.setState(STATE);
+                    RichTextInfo desc = new RichTextInfo();
+                    desc.setPlain("Temporary description");
+                    cluResultInfo.setDesc(desc);
                     cluResultInfo.setResultOptions(outcomeTypeResultOptions);
-                    // Create or update clu result
-                    List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
-                    if(cluResultList == null || cluResultList.isEmpty()) {
-                        luService.createCluResult(cluId, CREDIT_RESULT_TYPE, cluResultInfo);
-                    } else {
-                        CluResultInfo cri = cluResultList.get(0);
-                        if(cri.getType().equals(CREDIT_RESULT_TYPE)) {
-                            luService.updateCluResult(cri.getId(), cri);
-                        }
-                    }
-                }
-            }           
+                    luService.createCluResult(cluId, CREDIT_RESULT_TYPE, cluResultInfo);
+                }             
+            }
+            
             return result;
         } catch(Exception e) {
             throw new AssemblyException("Unable to save learning result outcomes for course", e);
