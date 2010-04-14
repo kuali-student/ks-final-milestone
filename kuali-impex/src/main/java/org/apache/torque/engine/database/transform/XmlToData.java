@@ -96,28 +96,28 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 	 * Handles opening elements of the xml file.
 	 */
 	public void startElement(String uri, String localName, String rawName, Attributes attributes) throws SAXException {
+		if (rawName.equals("dataset")) {
+			// ignore <dataset> for now.
+			return;
+		}
 		try {
-			if (rawName.equals("dataset")) {
-				// ignore <dataset> for now.
-			} else {
-				Table table = database.getTableByJavaName(rawName);
+			Table table = database.getTableByJavaName(rawName);
 
-				if (table == null) {
-					throw new SAXException("Table '" + rawName + "' unknown");
-				}
-				List<ColumnValue> columnValues = new ArrayList<ColumnValue>();
-				for (int i = 0; i < attributes.getLength(); i++) {
-					Column col = table.getColumnByJavaName(attributes.getQName(i));
-
-					if (col == null) {
-						throw new SAXException("Column " + attributes.getQName(i) + " in table " + rawName + " unknown.");
-					}
-
-					String value = attributes.getValue(i);
-					columnValues.add(new ColumnValue(col, value));
-				}
-				data.add(new DataRow(table, columnValues));
+			if (table == null) {
+				throw new SAXException("Table '" + rawName + "' unknown");
 			}
+			List<ColumnValue> columnValues = new ArrayList<ColumnValue>();
+			for (int i = 0; i < attributes.getLength(); i++) {
+				Column col = table.getColumnByJavaName(attributes.getQName(i));
+
+				if (col == null) {
+					throw new SAXException("Column " + attributes.getQName(i) + " in table " + rawName + " unknown.");
+				}
+
+				String value = attributes.getValue(i);
+				columnValues.add(new ColumnValue(col, value));
+			}
+			data.add(new DataRow(table, columnValues));
 		} catch (Exception e) {
 			throw new SAXException(e);
 		}
