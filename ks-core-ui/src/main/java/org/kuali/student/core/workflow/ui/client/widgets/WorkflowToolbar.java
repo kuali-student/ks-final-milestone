@@ -3,7 +3,7 @@
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- *
+ * 
  * http://www.osedu.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
@@ -116,7 +116,7 @@ public class WorkflowToolbar extends Composite {
 		
 		if(null==dataModel){
 			//Get the Model from the controller and register a model change handler when the workflow model is updated
-			myController.requestModel(modelName, new ModelRequestCallback<DataModel>(){
+			myController.requestModel(modelName, new ModelRequestCallback<DataModel>() {
 			
 				@Override
 				public void onRequestFail(Throwable cause) {
@@ -128,14 +128,6 @@ public class WorkflowToolbar extends Composite {
 					//After we get the model update immediately
 					dataModel = model;
 					updateWorkflow(dataModel);
-					 
-					/*
-					model.addModelChangeHandler(new ModelChangeHandler(){
-						public void onModelChange(ModelChangeEvent event) {
-							updateWorkflow(dataModel);							
-						}						
-					});
-					*/
 				}
 			});
 		}else{
@@ -176,7 +168,7 @@ public class WorkflowToolbar extends Composite {
 						dialog.hide();
 						dialog.getConfirmButton().setEnabled(true);
 						//Notify the user that the document was submitted
-						showSuccessDialog();
+						showSuccessDialog("Proposal has been routed to workflow");
 					}
 				});
 				
@@ -216,8 +208,9 @@ public class WorkflowToolbar extends Composite {
 							DataSaveResult result) {
 						//Update the model with the saved data
 						dataModel.setRoot(result.getValue());
-						Window.alert("Proposal was approved");
 						updateWorkflow(dataModel);
+						//Notify the user that the document was approved
+						showSuccessDialog("Proposal was approved");
 					}
 				});
 			}        
@@ -258,8 +251,9 @@ public class WorkflowToolbar extends Composite {
 					public void onSuccess(
 							Boolean result) {
 						if(result){
-							Window.alert("Proposal was acknowledged");
 							updateWorkflow(dataModel);
+							//Notify the user that the document was acknowledged
+							showSuccessDialog("Proposal was acknowledged");
 						}else{
 							Window.alert("Error acknowledging Proposal");
 						}
@@ -281,8 +275,9 @@ public class WorkflowToolbar extends Composite {
 					public void onSuccess(
 							Boolean result) {
 						if(result){
-							Window.alert("Proposal was FYIed");
 							updateWorkflow(dataModel);
+							//Notify the user that the document was FYIed
+							showSuccessDialog("Proposal was FYIed");
 						}else{
 							Window.alert("Error FYIing Proposal");
 						}
@@ -303,10 +298,11 @@ public class WorkflowToolbar extends Composite {
 					}
 					public void onSuccess(Boolean result) {
 						if(result){
-							Window.alert("Proposal will be Withdrawn");
 							updateWorkflow(dataModel);
 							items.clear();
 							workflowActionsDropDown.setItems(items);
+							//Notify the user that the document was Withdrawn
+							showSuccessDialog("Proposal was Withdrawn");
 						}else{
 							Window.alert("Error Withdrawing Proposal");
 						}
@@ -438,11 +434,11 @@ public class WorkflowToolbar extends Composite {
 		wfStatusLabel.setText("Workflow: " + statusTranslation);		
 	}
 	
-	private void showSuccessDialog() {
-		
+	private void showSuccessDialog(String successMessage) {
+	
 		final KSLightBox submitSuccessDialog = new KSLightBox();
 		VerticalPanel dialogPanel = new VerticalPanel();
-		KSLabel dialogLabel = new KSLabel("Proposal has been routed to workflow");
+		KSLabel dialogLabel = new KSLabel(successMessage);
 		dialogPanel.add(dialogLabel);
 
 		//Add an OK button that closes (hides) the dialog which will in turn call the onSubmitSuccessHandler
