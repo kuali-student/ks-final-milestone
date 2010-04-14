@@ -20,7 +20,7 @@
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-embedded-db</artifactId>
-  <version>1.0.0-m5</version>
+  <version>1.0.0-m5-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Impex for ks-embedded-db</name>
 </project>
