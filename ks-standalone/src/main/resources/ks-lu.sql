@@ -483,3 +483,7 @@ insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_r
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('521887e2-9ea3-49be-b7c0-cfcedb350b47', 'ID1', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'Active', '0c81b192-82aa-4342-a7ed-2f63739a7d04', 'luLuRelationType.contains', 'd4ebc2e0-6707-40f7-aa8e-182139da07bb' );
 
 update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'INSTR-3', FEE_ID = 'FEE-1', ATPDURATIONTYPEKEY = 'weeks', TIMEQUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
+
+// CluResultType
+INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.gradeCourseResult', 'Final learning result for an LU. A stereotypical usage is the final grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Grade')
+INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.creditCourseResult', 'Final learning result for an LU. A stereotypical usage is the course credits.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Credits')
