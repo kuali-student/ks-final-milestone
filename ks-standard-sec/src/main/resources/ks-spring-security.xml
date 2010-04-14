@@ -42,7 +42,7 @@
   	
   	<!--List of Custom Providers that can be registered with the default authentication manager -->
   	<bean id="daoAuthenticationProvider" 
-      	class="org.kuali.rice.kim.KimAuthenticationProvider">
+      	class="org.kuali.student.security.kim.KimAuthenticationProvider">
       	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
     	<security:custom-authentication-provider />
    	</bean>

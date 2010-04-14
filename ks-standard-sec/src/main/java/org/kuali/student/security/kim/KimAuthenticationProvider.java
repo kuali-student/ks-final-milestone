@@ -13,15 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.rice.kim;
+package org.kuali.student.security.kim;
 
 import org.kuali.student.security.spring.KSRiceDefaultUserDetailsService;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.Authentication;
 import org.springframework.security.AuthenticationException;
 import org.springframework.security.AuthenticationServiceException;
 import org.springframework.security.BadCredentialsException;
-import org.springframework.security.GrantedAuthority;
 import org.springframework.security.providers.AuthenticationProvider;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.providers.dao.AbstractUserDetailsAuthenticationProvider;
@@ -29,7 +27,6 @@ import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.security.providers.dao.SaltSource;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.security.providers.encoding.PlaintextPasswordEncoder;
-import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.util.Assert;
@@ -38,7 +35,7 @@ import org.springframework.util.Assert;
  * An {@link AuthenticationProvider} implementation that retrieves user details
  * from an {@link UserDetailsService}. Slightly modified from {@link DaoAuthenticationProvider}
  * 
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ * @author Kuali Student Team
  *
  */
 public class KimAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
@@ -147,35 +144,4 @@ public class KimAuthenticationProvider extends AbstractUserDetailsAuthentication
     protected boolean isIncludeDetailsObject() {
         return includeDetailsObject;
     }
-    
-    public static class UserWithId extends User{
-		private static final long serialVersionUID = 1L;
-		private String userId;
-		public UserWithId(String username, String password,
-				boolean enabled, boolean accountNonExpired,
-				boolean credentialsNonExpired, boolean accountNonLocked,
-				GrantedAuthority[] authorities) throws IllegalArgumentException {
-			super(username, password, enabled, accountNonExpired, credentialsNonExpired,
-					accountNonLocked, authorities);
-		}
-		public String getUserId() {
-			return userId;
-		}
-		public void setUserId(String userId) {
-			this.userId = userId;
-		}
-    }
-
-//	@Override
-//	protected Authentication createSuccessAuthentication(Object principal,
-//			Authentication authentication, UserDetails user) {
-//		UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(principal,
-//                authentication.getCredentials(), user.getAuthorities());
-//        result.setDetails(authentication.getDetails());
-//        //Add the userId back in here
-//		if(user instanceof UserWithId){
-//			result.setDetails(((UserWithId)user).getUserId());
-//		}
-//		return result;
-//	}
 }
