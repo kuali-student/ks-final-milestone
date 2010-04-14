@@ -136,6 +136,38 @@
                 </pluginRepository>
             </pluginRepositories>
         </profile>
+        <!-- License plugin -->
+		<!-- to run, use mvn -Pgenerate-ecl license:format -Dyear=2010 -->
+		<profile>
+			<id>generate-ecl</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+			            <groupId>com.mycila.maven-license-plugin</groupId>
+			            <artifactId>maven-license-plugin</artifactId>
+			            <configuration>
+			                <header>src/etc/ecl-header.txt</header>
+			            </configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>mc-release</id>
+					<name>Local Maven repository of releases</name>
+					<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
     </profiles>
 
     <build>
