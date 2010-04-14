@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.texen.ant.TexenTask;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.torque.engine.database.model.Database;
 import org.apache.torque.engine.database.transform.XmlToData;
 import org.apache.velocity.VelocityContext;
@@ -72,7 +73,13 @@ public class ConvertDataXMLToSQLTask extends TexenTask {
 
 		VelocityContext context = new VelocityContext();
 
-		log("Parsing data for " + getDataXMLCount() + " tables out of " + getTableCount() + " total", MVN_INFO);
+		int dataXMLCount = getDataXMLCount();
+		int tableCount = getTableCount();
+		if (dataXMLCount != tableCount) {
+			log("Table count=" + tableCount + " XML data count=" + dataXMLCount, Project.MSG_WARN);
+		}
+
+		log("Converting data for " + dataXMLCount + " tables", MVN_INFO);
 
 		// Place our data xml resources into the context
 		context.put("xmlfiles", getDataXMLResources());

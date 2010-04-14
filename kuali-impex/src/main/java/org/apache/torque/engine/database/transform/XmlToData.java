@@ -42,13 +42,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * A Class that is used to parse an input xml schema file and creates and AppData java structure.
  * 
- * @author <a href="mailto:leon@opticode.co.za">Leon Messerschmidt</a>
- * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @author <a href="mailto:mpoeschl@marmot.at">Martin Poeschl</a>
- * @author <a href="mailto:fedor.karpelevitch@home.com">Fedor Karpelevitch</a>
- * @version $Id: XmlToData.java,v 1.1 2007-10-21 07:57:26 abyrne Exp $
  */
 public class XmlToData extends DefaultHandler implements EntityResolver {
 	private Database database;
