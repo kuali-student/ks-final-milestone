@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.util.security;
 
-import org.kuali.rice.kim.KimAuthenticationProvider;
+import org.kuali.student.security.spring.UserWithId;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
@@ -26,9 +26,9 @@ public class SecurityUtils {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth!=null){
         	Object obj = auth.getPrincipal();
-        	if(obj instanceof KimAuthenticationProvider.UserWithId){
+        	if(obj instanceof UserWithId){
         		//This is actually the user Id
-        		username = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
+        		username = ((UserWithId)obj).getUserId();
         	}else if (obj instanceof UserDetails) {
             	username = ((UserDetails)obj).getUsername();
             } else {
