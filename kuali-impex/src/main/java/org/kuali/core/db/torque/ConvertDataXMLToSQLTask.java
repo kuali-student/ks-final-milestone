@@ -10,7 +10,10 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 import org.springframework.core.io.Resource;
 
-public class ConvertXMLDataToSQLTask extends TexenTask {
+/**
+ * Converts XML data files into SQL targeted for a database - eg Oracle, MySQL
+ */
+public class ConvertDataXMLToSQLTask extends TexenTask {
 	private static final int MVN_INFO = Integer.MAX_VALUE;
 
 	/**

@@ -20,7 +20,10 @@ import org.apache.torque.engine.EngineException;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 
-public class KualiTorqueSQLTask extends TexenTask {
+/**
+ * Converts schema.xml into schema.sql and schema-constraints.sql targeted for a database - eg Oracle, MySQL
+ */
+public class ConvertSchemaXMLToSQLTask extends TexenTask {
 	// if the database is set than all generated sql files
 	// will be placed in the specified database, the database
 	// will not be taken from the data model schema file.
@@ -123,7 +126,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 		GenerateDatabaseHandler xmlParser;
 
 		if (xmlFile == null && filesets.isEmpty()) {
-			throw new BuildException("You must specify an XML schema or " + "fileset of XML schemas!");
+			throw new BuildException("You must specify an XML schema or fileset of XML schemas!");
 		}
 
 		try {
