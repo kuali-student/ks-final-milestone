@@ -120,7 +120,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 	 * @throws Exception
 	 */
 	public Context initControlContext() throws Exception {
-		KualiXmlToAppData xmlParser;
+		GenerateDatabaseHandler xmlParser;
 
 		if (xmlFile == null && filesets.isEmpty()) {
 			throw new BuildException("You must specify an XML schema or " + "fileset of XML schemas!");
@@ -130,7 +130,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 			if (xmlFile != null) {
 				// Transform the XML database schema into
 				// data model object.
-				xmlParser = new KualiXmlToAppData(getTargetDatabase(), getTargetPackage());
+				xmlParser = new GenerateDatabaseHandler(getTargetDatabase(), getTargetPackage());
 				KualiDatabase ad = xmlParser.parseFile(xmlFile);
 				ad.setFileName(grokName(xmlFile));
 				dataModels.add(ad);
@@ -146,7 +146,7 @@ public class KualiTorqueSQLTask extends TexenTask {
 					// Make a transaction for each file
 					for (int j = 0; j < dataModelFiles.length; j++) {
 						File f = new File(srcDir, dataModelFiles[j]);
-						xmlParser = new KualiXmlToAppData(getTargetDatabase(), getTargetPackage());
+						xmlParser = new GenerateDatabaseHandler(getTargetDatabase(), getTargetPackage());
 						KualiDatabase ad = xmlParser.parseFile(f.toString());
 						ad.setFileName(grokName(f.toString()));
 						dataModels.add(ad);

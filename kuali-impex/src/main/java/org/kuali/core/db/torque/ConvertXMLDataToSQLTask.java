@@ -63,7 +63,7 @@ public class ConvertXMLDataToSQLTask extends TexenTask {
 		log("Target Database: " + getTargetDatabase(), MVN_INFO);
 
 		// Transform the XML database schema into data model object.
-		KualiXmlToAppData xmlParser = new KualiXmlToAppData(getTargetDatabase(), "");
+		GenerateDatabaseHandler xmlParser = new GenerateDatabaseHandler(getTargetDatabase(), "");
 		log("Parsing Schema: " + getSchemaXMLResource(), MVN_INFO);
 		db = xmlParser.parseFile(getSchemaXMLResource());
 

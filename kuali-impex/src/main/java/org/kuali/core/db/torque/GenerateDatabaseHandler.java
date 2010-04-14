@@ -32,9 +32,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class KualiXmlToAppData extends DefaultHandler {
+public class GenerateDatabaseHandler extends DefaultHandler {
 	/** Logging class from commons.logging */
-	private static Log log = LogFactory.getLog(KualiXmlToAppData.class);
+	private static Log log = LogFactory.getLog(GenerateDatabaseHandler.class);
 
 	private KualiDatabase database;
 	private Table currTable;
@@ -70,7 +70,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 	 * @param databaseType
 	 *            The type of database for the application.
 	 */
-	public KualiXmlToAppData(String databaseType) {
+	public GenerateDatabaseHandler(String databaseType) {
 		database = new KualiDatabase(databaseType);
 		firstPass = true;
 	}
@@ -83,7 +83,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 	 * @param defaultPackage
 	 *            the default java package used for the om
 	 */
-	public KualiXmlToAppData(String databaseType, String defaultPackage) {
+	public GenerateDatabaseHandler(String databaseType, String defaultPackage) {
 		database = new KualiDatabase(databaseType);
 		this.defaultPackage = defaultPackage;
 		firstPass = true;
@@ -137,7 +137,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 	}
 
 	/**
-	 * If they have passed in a file that exists in the file system open an InputStream to that file. Otherwise use
+	 * If they have passed in a file that exists on the file system open an InputStream to that file. Otherwise use
 	 * Spring resource loading to open an InputStream to the resource
 	 */
 	protected InputStream getInputStream(String xmlFile) throws FileNotFoundException, IOException {
@@ -334,7 +334,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 		 * 
 		 * @param parser
 		 */
-		public ParseStackElement(KualiXmlToAppData parser) {
+		public ParseStackElement(GenerateDatabaseHandler parser) {
 			// remember current state of parent object
 			isExternalSchema = parser.isExternalSchema;
 			currentPackage = parser.currentPackage;
@@ -350,7 +350,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 		 * 
 		 * @param parser
 		 */
-		public static void popState(KualiXmlToAppData parser) {
+		public static void popState(GenerateDatabaseHandler parser) {
 			if (!parser.parsingStack.isEmpty()) {
 				ParseStackElement elem = (ParseStackElement) parser.parsingStack.pop();
 
@@ -367,7 +367,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 		 * 
 		 * @param parser
 		 */
-		public static void pushState(KualiXmlToAppData parser) {
+		public static void pushState(GenerateDatabaseHandler parser) {
 			new ParseStackElement(parser);
 		}
 	}
