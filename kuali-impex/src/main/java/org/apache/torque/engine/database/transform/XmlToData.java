@@ -48,6 +48,7 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 	private Database database;
 	private List<DataRow> data;
 	private String dataDTDResource;
+	private String encoding;
 
 	private static SAXParserFactory saxFactory;
 
@@ -59,9 +60,10 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 	/**
 	 * Default custructor
 	 */
-	public XmlToData(Database database, String dataDTDResource) {
+	public XmlToData(Database database, String dataDTDResource, String encoding) {
 		this.database = database;
 		this.dataDTDResource = dataDTDResource;
+		this.encoding = encoding;
 	}
 
 	/**
@@ -76,7 +78,8 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 		try {
 			in = resource.getInputStream();
 			InputSource is = new InputSource(in);
-			is.setSystemId(ImpexDTDResolver.KS_EMBEDDED);
+			is.setSystemId(dataDTDResource);
+			is.setEncoding(encoding);
 			parser.parse(is, this);
 		} catch (Exception e) {
 			throw e;
@@ -123,7 +126,7 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 	 * @return an InputSource for the data file
 	 */
 	public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-		if (systemId.equals(ImpexDTDResolver.KS_EMBEDDED)) {
+		if (systemId.equals(dataDTDResource)) {
 			ResourceLoader loader = new DefaultResourceLoader();
 			Resource resource = loader.getResource(dataDTDResource);
 			InputStream in = resource.getInputStream();

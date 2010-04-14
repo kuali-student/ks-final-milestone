@@ -17,6 +17,8 @@ import org.springframework.core.io.Resource;
 public class ConvertDataXMLToSQLTask extends TexenTask {
 	private static final int MVN_INFO = Integer.MAX_VALUE;
 
+	private String encoding = "UTF-8";
+
 	/**
 	 * The data.dtd file
 	 */
@@ -95,7 +97,7 @@ public class ConvertDataXMLToSQLTask extends TexenTask {
 
 	public List<?> getData(Resource resource) {
 		try {
-			XmlToData dataXmlParser = new XmlToData(db, dataDTDResource);
+			XmlToData dataXmlParser = new XmlToData(db, dataDTDResource, encoding);
 			List<?> newData = dataXmlParser.parseFile(resource);
 			return newData;
 		} catch (Exception se) {
@@ -134,6 +136,14 @@ public class ConvertDataXMLToSQLTask extends TexenTask {
 
 	public void setDataXMLResources(List<Resource> dataXMLResources) {
 		this.dataXMLResources = dataXMLResources;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 }
