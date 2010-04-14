@@ -26,4 +26,8 @@
         DESC_TXT="Responsibility for Publication Review" NM="Review"
         NMSPC_CD="KS-LUM" OBJ_ID="PublicationReview000000000000RSP"
         RSP_ID="305" RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y" NM="Resolve Exception" NMSPC_CD="KR-SYS"
+        DESC_TXT="Responsibility for Kuali Rice Exception Routing"
+        OBJ_ID="5D8B0E3E613996A3E0404F8189D8468D" RSP_ID="93"
+        RSP_TMPL_ID="2" VER_NBR="1"/>
 </dataset>
