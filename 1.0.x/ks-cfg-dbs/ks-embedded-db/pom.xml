@@ -24,40 +24,49 @@
   <packaging>jar</packaging>
   <name>Impex for ks-embedded-db</name>
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
         <groupId>org.kuali.core.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <version>1.0-SNAPSHOT</version>
         <configuration>
-          <schema>KSEMBEDDED</schema>
-          <driver>oracle.jdbc.OracleDriver</driver>
-          <dataDTDResource>classpath:org/kuali/student/db/embedded/data.dtd</dataDTDResource>
-          <schemaXMLResource>classpath:org/kuali/student/db/embedded/schema.xml</schemaXMLResource>
+          <dataDTDResource>file:/${basedir}/src/main/resources/org/kuali/student/db/embedded/data.dtd</dataDTDResource>
+          <schemaXMLResource>file:/${basedir}/src/main/resources/org/kuali/student/db/embedded/schema.xml</schemaXMLResource>
           <database>
             <type>oracle</type>
-            <version>10g</version>
-            <qualifier>express</qualifier>
           </database>
         </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
-          </dependency>
-          <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.12</version>
-          </dependency>
-        </dependencies>
+        <executions>
+          <execution>
+            <id>convert-xml-to-sql</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>convert-schema</goal>
+              <goal>convert-data</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.2</version>
+        <executions>
+          <execution>
+            <id>copy-sql</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/classes/org/kuali/student/db/embedded/sql/oracle</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.build.directory}/generated-resources/sql</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
