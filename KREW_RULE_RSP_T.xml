@@ -33,8 +33,4 @@
     <KREW_RULE_RSP_T ACTN_RQST_CD="A" APPR_PLCY="F" NM="9997"
         OBJ_ID="B1FCE360-EA7A-C2B8-9D70-88C39A982094" PRIO="1"
         RSP_ID="2063" RULE_ID="1642" RULE_RSP_ID="2064" TYP="G" VER_NBR="1"/>
-    <KREW_RULE_RSP_T ACTN_RQST_CD="A" APPR_PLCY="F"
-        NM="org.kuali.rice.kew.rule.PrincipalIdRoleAttribute!principalId"
-        OBJ_ID="0892898D-535B-EC5F-37B3-9686723F71C0" PRIO="1"
-        RSP_ID="2065" RULE_ID="1650" RULE_RSP_ID="2066" TYP="R" VER_NBR="1"/>
 </dataset>

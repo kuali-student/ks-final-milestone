@@ -6,34 +6,9 @@
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10" NM="Namespace or Component"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4D77954E0404F8189D85002"
         SRVC_NM="namespaceOrComponentPermissionTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="101" NM="College Type"
-        NMSPC_CD="KS-LUM" OBJ_ID="COLLEGETYPE000000000000000000TYP"
-        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="102" NM="Department Type"
-        NMSPC_CD="KS-LUM" OBJ_ID="DEPARTMTYPE000000000000000000TYP"
-        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="103" NM="Division Type"
-        NMSPC_CD="KS-LUM" OBJ_ID="DIVISIONTYPE00000000000000000TYP"
-        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="107"
-        NM="Derived Role: Org Admin Type" NMSPC_CD="KS-SYS"
-        OBJ_ID="ORGADMINDERIVED00000000000000TYP"
-        SRVC_NM="ksOrgAdminRoleTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="108"
-        NM="Derived Role: Org Committee Type" NMSPC_CD="KS-SYS"
-        OBJ_ID="ORGCOMMITTEEDERIVED0000000000TYP"
-        SRVC_NM="ksOrgCommitteeRoleTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="109"
-        NM="Derived Role: KS Action Request Role Type" NMSPC_CD="KS-SYS"
-        OBJ_ID="ORGADMINDERIVED000000T0000000TYP"
-        SRVC_NM="ksActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="11" NM="Component Field"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4DC7954E0404F8189D85002"
         SRVC_NM="componentFieldPermissionTypeService" VER_NBR="1"/>
-    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="110"
-        NM="Derived Role: KS Route Log Role Type" NMSPC_CD="KS-SYS"
-        OBJ_ID="ORGCOMMITTEEDERIVED0000000T00TYP"
-        SRVC_NM="ksRouteLogDerivedRoleTypeServiceImpl" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="12" NM="Namespace or Action"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4E37954E0404F8189D85002"
         SRVC_NM="namespaceOrActionPermissionTypeService" VER_NBR="1"/>

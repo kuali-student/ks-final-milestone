@@ -10,18 +10,6 @@
         KIM_ATTR_DEFN_ID="10" NM="editMode" NMSPC_CD="KR-NS"
         OBJ_ID="5ADF18B6D4917954E0404F8189D85002" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="101" LBL="College" NM="college"
-        NMSPC_CD="KS-LUM" OBJ_ID="COLLEGETYPE00000000000000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="102" LBL="Department" NM="department"
-        NMSPC_CD="KS-LUM" OBJ_ID="DEPARTMTYPE00000000000000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="103" LBL="Division" NM="division"
-        NMSPC_CD="KS-LUM" OBJ_ID="DIVISIONTYPE0000000000000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y" APPL_URL="${application.url}"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="11" NM="parameterName" NMSPC_CD="KR-NS"
         OBJ_ID="5ADF18B6D4927954E0404F8189D85002" VER_NBR="1"/>

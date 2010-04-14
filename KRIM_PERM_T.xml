@@ -151,32 +151,11 @@
         NM="Full Unmask Field" NMSPC_CD="KR-SYS"
         OBJ_ID="5B4F0974496FEF33E0404F8189D84F24" PERM_ID="183"
         PERM_TMPL_ID="27" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Administer Routing for Document"
-        NMSPC_CD="KS-SYS" OBJ_ID="5A4F0974494BEAA3E0404F8189D84F24"
-        PERM_ID="2000" PERM_TMPL_ID="3" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Blanket Approve Document"
-        NMSPC_CD="KS-SYS" OBJ_ID="5B4F0974494CEF33E04AAF8189D84F24"
-        PERM_ID="2100" PERM_TMPL_ID="4" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Save Document" NMSPC_CD="KS-SYS"
-        OBJ_ID="5B4F0974494DEF33E0404F8189D8AA24" PERM_ID="2200"
-        PERM_TMPL_ID="15" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Ad Hoc Review Document"
-        NMSPC_CD="KS-SYS" OBJ_ID="5BRF0974494DEF33E0404F8189D8AA24"
-        PERM_ID="2300" PERM_TMPL_ID="9" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Initiate Document" NMSPC_CD="KS-SYS"
-        OBJ_ID="5B4F0974494BEF33E0404XX189D8AA24" PERM_ID="2400"
-        PERM_TMPL_ID="10" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Assign Role" NMSPC_CD="KS-SYS"
-        OBJ_ID="5B4F097X494BEF33E0404XX189D8AA24" PERM_ID="2500"
-        PERM_TMPL_ID="35" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Users who can add notes and attachments to any document answering to the Kuali Document parent document type."
         NM="Add Note / Attachment" NMSPC_CD="KUALI"
         OBJ_ID="606763510FC396D3E0404F8189D857A2" PERM_ID="259"
         PERM_TMPL_ID="45" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Grant Permission" NMSPC_CD="KS-SYS"
-        OBJ_ID="5B4F09XX494BEF33E0404XX189D8AA24" PERM_ID="2600"
-        PERM_TMPL_ID="36" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to view notes and attachments on documents answering to the KualiDocument parent document type."
         NM="View Note / Attachment" NMSPC_CD="KUALI"
@@ -192,12 +171,6 @@
         NM="Use Screen" NMSPC_CD="KR-WKFLW"
         OBJ_ID="606763510FF296D3E0404F8189D857A2" PERM_ID="265"
         PERM_TMPL_ID="29" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Grant Responsibility"
-        NMSPC_CD="KS-SYS" OBJ_ID="5B4F09744XXBEF33E0404XX189D8AA24"
-        PERM_ID="2700" PERM_TMPL_ID="37" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Populate Group" NMSPC_CD="KS-SYS"
-        OBJ_ID="5B4F0B74494BEF33XX404XX189D8AA24" PERM_ID="2800"
-        PERM_TMPL_ID="38" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Administer Pessimistic Locking"
         NM="Administer Pessimistic Locking" NMSPC_CD="KR-NS"
         OBJ_ID="611BE30E404E5818E0404F8189D801C2" PERM_ID="289"
@@ -206,9 +179,6 @@
         DESC_TXT="Users who can save RICE documents" NM="Save Document"
         NMSPC_CD="KR-SYS" OBJ_ID="5B4F09744961EF33E0404F8189D84F24"
         PERM_ID="290" PERM_TMPL_ID="15" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Open Document" NMSPC_CD="KS-LUM"
-        OBJ_ID="5B4F0974494BEF33E0R04TX189D8AA24" PERM_ID="2900"
-        PERM_TMPL_ID="60" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to access other users action lists via the Help Desk Action List Login."
         NM="View Other Action List" NMSPC_CD="KR-WKFLW"
@@ -219,9 +189,6 @@
         NM="Unrestricted Document Search" NMSPC_CD="KR-WKFLW"
         OBJ_ID="641E580969E51B49E0404F8189D86190" PERM_ID="299"
         PERM_TMPL_ID="1" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Comment on Document" NMSPC_CD="KS-LUM"
-        OBJ_ID="5B4F0974494BEF33E0R04RX189D8AA24" PERM_ID="3000"
-        PERM_TMPL_ID="61" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to view the entire Tax Identification Number on the Person document and inquiry."
         NM="Full Unmask Field" NMSPC_CD="KR-SYS"
@@ -232,9 +199,6 @@
         NM="Modify Entity" NMSPC_CD="KR-IDM"
         OBJ_ID="638DD46953F9BCD5E0404F8189D86240" PERM_ID="307"
         PERM_TMPL_ID="1" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Edit Document" NMSPC_CD="KS-LUM"
-        OBJ_ID="5B4F0974494BEF33E0R04EX189D8AA24" PERM_ID="3100"
-        PERM_TMPL_ID="62" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
         NM="Send Ad Hoc Request" NMSPC_CD="KR-SYS"
