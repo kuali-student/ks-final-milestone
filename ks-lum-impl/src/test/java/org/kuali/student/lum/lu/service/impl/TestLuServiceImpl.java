@@ -2444,11 +2444,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		dto.setDesc(desc);
 		dto.setCluId("CLU-1");
 		dto.setState("active");
-		dto.setType("cluResultType.finalGrade");
+		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
 		
-		CluResultInfo cluResult = client.createCluResult("CLU-1", "cluResultType.finalGrade", dto);
+		CluResultInfo cluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto);
 		
 		assertNotNull(cluResult.getDesc());
 		assertEquals(dto.getDesc().getPlain(), cluResult.getDesc().getPlain());
