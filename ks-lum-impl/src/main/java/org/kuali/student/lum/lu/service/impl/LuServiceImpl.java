@@ -1846,9 +1846,11 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(resOptInfo, opt, new String[] {
 					"resultUsageType", "desc" });
 
-			ResultUsageType resUsageType = luDao.fetch(ResultUsageType.class,
-					resOptInfo.getResultUsageTypeKey());
-			opt.setResultUsageType(resUsageType);
+			if(resOptInfo.getResultUsageTypeKey() != null && !resOptInfo.getResultUsageTypeKey().isEmpty()) {
+				ResultUsageType resUsageType = luDao.fetch(ResultUsageType.class,
+						resOptInfo.getResultUsageTypeKey());
+				opt.setResultUsageType(resUsageType);
+			}
 			opt.setDesc(LuServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDesc()));
 			result.getResultOptions().add(opt);
 		}

@@ -501,4 +501,5 @@ insert into KSLU_CLU_ACCT (id) values ('99e7dd0a-3634-4a73-a858-e708695ac3ea' );
 update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', FEE_ID = '99de7877-b443-4a47-bb18-1d668b73f583', EXP_FIRST_ATP = 'kuali.atp.season.Summer', ATPDURATIONTYPEKEY = 'kuali.atp.duration.Week', TIMEQUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
 
 // CluResultType
-INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('cluResultType.finalGrade', 'Final learning result for an LU. A stereotypical usage is the final grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Final Grade')
+INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.gradeCourseResult', 'Final learning result for an LU. A stereotypical usage is the final grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Grade')
+INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.creditCourseResult', 'Final learning result for an LU. A stereotypical usage is the course credits.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Credits')

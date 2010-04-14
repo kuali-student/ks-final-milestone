@@ -481,6 +481,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setCluId(entity.getClu().getId());
 		CluResultTypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
 		dto.setType(type.getId());
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}
@@ -523,6 +524,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		if(entity.getResultUsageType() != null) {
 			dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
 		}
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}
