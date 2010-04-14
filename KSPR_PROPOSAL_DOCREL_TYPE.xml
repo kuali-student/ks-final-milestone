@@ -3,5 +3,6 @@
 <dataset>
     <KSPR_PROPOSAL_DOCREL_TYPE
         DESCRIPTION="Default proposal document relation type"
-        EFF_DT="20000101000000" ID="proposalDocRelationType.doctype1" NAME="proposalDocRelationType.doctype1"/>
+        EFF_DT="20000101000000"
+        ID="kuali.proposal.docRelationType.attachment" NAME="kuali.proposal.docRelationType.attachment"/>
 </dataset>
