@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KRSB_MSG_QUE_T DT="20091023171252" IP_NBR="192.168.0.5"
         MSG_QUE_ID="5669" PRIO="3" RTRY_CNT="2" STAT_CD="E"

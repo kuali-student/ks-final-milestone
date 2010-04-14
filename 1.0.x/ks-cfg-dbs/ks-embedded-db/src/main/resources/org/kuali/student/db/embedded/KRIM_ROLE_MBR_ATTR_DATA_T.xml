@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KRIM_ROLE_MBR_ATTR_DATA_T ATTR_DATA_ID="2740" ATTR_VAL="BL"
         KIM_ATTR_DEFN_ID="12" KIM_TYP_ID="17"

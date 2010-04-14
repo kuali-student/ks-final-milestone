@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KR_POSTAL_CODE_T ACTV_IND="Y"
         OBJ_ID="691F6688D765DE59E0404F8189D875C9" POSTAL_CD="00501"

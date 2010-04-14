@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSLU_CLU_ATTR ATTR_NAME="CORE_CD" ATTR_VALUE="SH"
         ID="05d28aad-747d-46b3-acae-bf352afa6956" OWNER="99018f9d-e713-434f-8b91-037a9a617660"/>

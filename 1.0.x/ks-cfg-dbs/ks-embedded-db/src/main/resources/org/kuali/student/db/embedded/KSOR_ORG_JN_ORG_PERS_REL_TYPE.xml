@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSOR_ORG_JN_ORG_PERS_REL_TYPE ORG_ID="68" ORG_PERS_RELTN_TYPE_ID="kuali.org.PersonRelation.Head"/>
 </dataset>

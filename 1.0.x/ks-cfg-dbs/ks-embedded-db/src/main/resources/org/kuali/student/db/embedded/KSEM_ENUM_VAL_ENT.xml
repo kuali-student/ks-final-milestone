@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="ROBT" CD="ROBT"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"

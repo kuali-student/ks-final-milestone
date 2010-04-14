@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KREW_RTE_NODE_T ACTVN_TYP="S" DOC_TYP_ID="2011" FNL_APRVR_IND="0"
         GRP_ID="1" MNDTRY_RTE_IND="0" NM="placeholder"

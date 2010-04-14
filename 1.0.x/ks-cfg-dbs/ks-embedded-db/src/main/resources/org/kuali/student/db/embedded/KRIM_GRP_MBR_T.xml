@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KRIM_GRP_MBR_T GRP_ID="2001" GRP_MBR_ID="1100"
         LAST_UPDT_DT="20081208124957" MBR_ID="testuser1" MBR_TYP_CD="P"

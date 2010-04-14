@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KRIM_AFLTN_TYP_T ACTV_IND="Y" AFLTN_TYP_CD="AFLT"
         DISPLAY_SORT_CD="d" EMP_AFLTN_TYP_IND="N"

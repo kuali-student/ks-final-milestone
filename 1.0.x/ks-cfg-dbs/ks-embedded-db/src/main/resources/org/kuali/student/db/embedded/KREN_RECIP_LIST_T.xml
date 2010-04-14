@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KREN_RECIP_LIST_T CHNL_ID="4" RECIP_ID="testuser1"
         RECIP_LIST_ID="1" RECIP_TYP_CD="USER"/>

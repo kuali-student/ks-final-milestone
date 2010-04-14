@@ -19,24 +19,22 @@ package org.apache.torque.engine.database.transform;
  * under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.torque.engine.database.model.Column;
 import org.apache.torque.engine.database.model.Database;
 import org.apache.torque.engine.database.model.Table;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.xml.sax.Attributes;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -53,13 +51,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * @version $Id: XmlToData.java,v 1.1 2007-10-21 07:57:26 abyrne Exp $
  */
 public class XmlToData extends DefaultHandler implements EntityResolver {
-	/** Logging class from commons.logging */
-	private static Log log = LogFactory.getLog(XmlToData.class);
 	private Database database;
-	private List data;
-	private String dtdFileName;
-	private File dtdFile;
-	private InputSource dataDTD;
+	private List<DataRow> data;
+	private String dataDTDResource;
 
 	private static SAXParserFactory saxFactory;
 
@@ -71,29 +65,29 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 	/**
 	 * Default custructor
 	 */
-	public XmlToData(Database database, String dtdFilePath) throws MalformedURLException, IOException {
+	public XmlToData(Database database, String dataDTDResource) {
 		this.database = database;
-		dtdFile = new File(dtdFilePath);
-		this.dtdFileName = "file://" + dtdFile.getName();
-		dataDTD = new InputSource(dtdFile.toURL().openStream());
+		this.dataDTDResource = dataDTDResource;
 	}
 
 	/**
      *
      */
-	public List parseFile(String xmlFile) throws Exception {
-		data = new ArrayList();
+	public List<DataRow> parseFile(Resource resource) throws Exception {
+		data = new ArrayList<DataRow>();
 
 		SAXParser parser = saxFactory.newSAXParser();
 
-		FileReader fr = new FileReader(xmlFile);
-		BufferedReader br = new BufferedReader(fr);
+		InputStream in = null;
 		try {
-			InputSource is = new InputSource(br);
-			is.setSystemId(xmlFile);
+			in = resource.getInputStream();
+			InputSource is = new InputSource(in);
+			is.setSystemId(ImpexDTDResolver.KS_EMBEDDED);
 			parser.parse(is, this);
+		} catch (Exception e) {
+			throw e;
 		} finally {
-			br.close();
+			IOUtils.closeQuietly(in);
 		}
 		return data;
 	}
@@ -111,7 +105,7 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 				if (table == null) {
 					throw new SAXException("Table '" + rawName + "' unknown");
 				}
-				List columnValues = new ArrayList();
+				List<ColumnValue> columnValues = new ArrayList<ColumnValue>();
 				for (int i = 0; i < attributes.getLength(); i++) {
 					Column col = table.getColumnByJavaName(attributes.getQName(i));
 
@@ -132,32 +126,17 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 	/**
 	 * called by the XML parser
 	 * 
-	 * @return an InputSource for the database.dtd file
+	 * @return an InputSource for the data file
 	 */
-	public InputSource resolveEntity(String publicId, String systemId) throws SAXException {
-		try {
-			if (dataDTD != null && dtdFileName.equals(systemId)) {
-				log.info("Resolver: used " + dtdFile.getPath());
-				return dataDTD;
-			} else {
-				log.info("Resolver: used " + systemId);
-				return getInputSource(systemId);
-			}
-		} catch (IOException e) {
-			throw new SAXException(e);
+	public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
+		if (systemId.equals(ImpexDTDResolver.KS_EMBEDDED)) {
+			ResourceLoader loader = new DefaultResourceLoader();
+			Resource resource = loader.getResource(dataDTDResource);
+			InputStream in = resource.getInputStream();
+			return new InputSource(in);
+		} else {
+			return super.resolveEntity(publicId, systemId);
 		}
-	}
-
-	/**
-	 * get an InputSource for an URL String
-	 * 
-	 * @param urlString
-	 * @return an InputSource for the URL String
-	 */
-	public InputSource getInputSource(String urlString) throws IOException {
-		URL url = new URL(urlString);
-		InputSource src = new InputSource(url.openStream());
-		return src;
 	}
 
 	/**
@@ -165,9 +144,9 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
      */
 	public class DataRow {
 		private Table table;
-		private List columnValues;
+		private List<?> columnValues;
 
-		public DataRow(Table table, List columnValues) {
+		public DataRow(Table table, List<?> columnValues) {
 			this.table = table;
 			this.columnValues = columnValues;
 		}
@@ -176,7 +155,7 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 			return table;
 		}
 
-		public List getColumnValues() {
+		public List<?> getColumnValues() {
 			return columnValues;
 		}
 	}

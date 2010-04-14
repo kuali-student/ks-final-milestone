@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSLU_CLU_FEE_REC CURRENCY_QUANT="100" CURRENCY_TYPE="DOLLAR"
         FEE_TYPE="FEE-TYP-1" ID="FEE-REC-1" VERSIONIND="0"/>

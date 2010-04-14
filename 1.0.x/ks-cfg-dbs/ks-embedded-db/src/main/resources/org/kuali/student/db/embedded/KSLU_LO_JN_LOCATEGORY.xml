@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSLU_LO_JN_LOCATEGORY
         LOCATEGORY_ID="550e8400-e29b-41d4-a716-446655440000" LO_ID="81ABEA67-3BCC-4088-8348-E265F3670145"/>

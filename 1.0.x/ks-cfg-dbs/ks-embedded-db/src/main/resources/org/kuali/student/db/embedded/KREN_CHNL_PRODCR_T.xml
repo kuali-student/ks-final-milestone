@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KREN_CHNL_PRODCR_T CHNL_ID="1" PRODCR_ID="1"/>
     <KREN_CHNL_PRODCR_T CHNL_ID="2" PRODCR_ID="1"/>

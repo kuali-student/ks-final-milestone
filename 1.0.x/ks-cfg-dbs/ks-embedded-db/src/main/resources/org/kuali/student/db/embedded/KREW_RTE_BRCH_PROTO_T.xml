@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KREW_RTE_BRCH_PROTO_T BRCH_NM="True" RTE_BRCH_PROTO_ID="2982" VER_NBR="8"/>
     <KREW_RTE_BRCH_PROTO_T BRCH_NM="False" RTE_BRCH_PROTO_ID="2988" VER_NBR="2"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
         NAME="Four Years" TYPE_DESC="Four Year Program" TYPE_KEY="kuali.atp.duration.FourYears"/>

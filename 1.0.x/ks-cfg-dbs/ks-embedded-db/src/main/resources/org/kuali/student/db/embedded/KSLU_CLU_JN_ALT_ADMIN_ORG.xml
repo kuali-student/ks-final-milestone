@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSLU_CLU_JN_ALT_ADMIN_ORG ALT_ORG_ID="ADMIN-ORG-1" CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d"/>
     <KSLU_CLU_JN_ALT_ADMIN_ORG ALT_ORG_ID="ADMIN-ORG-2" CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d"/>

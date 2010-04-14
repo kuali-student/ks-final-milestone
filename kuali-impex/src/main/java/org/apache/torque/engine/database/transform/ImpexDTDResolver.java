@@ -20,6 +20,8 @@ public class ImpexDTDResolver extends DTDResolver {
 	public static final String DTD_NAME = "/database.dtd";
 	public static final String DTD_LOCATION = "http://www.kuali.org/dtd" + DTD_NAME;
 
+	public static final String KS_EMBEDDED = "http://www.kuali.org/dtd/ks-embedded-db-1.0.0-m5-SNAPSHOT.dtd";
+	
 	public ImpexDTDResolver() throws SAXException {
 		super();
 	}

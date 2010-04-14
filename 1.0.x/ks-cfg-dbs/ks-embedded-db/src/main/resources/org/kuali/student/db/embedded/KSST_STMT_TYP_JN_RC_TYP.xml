@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.courseList.all" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
 <dataset>
     <KSLU_CLU_INSTR ID="INSTR-1" ORG_ID="ORG-1" PERS_ID="PersonID"/>
     <KSLU_CLU_INSTR ID="INSTR-2" ORG_ID="ORG-2" PERS_ID="PersonID"/>
