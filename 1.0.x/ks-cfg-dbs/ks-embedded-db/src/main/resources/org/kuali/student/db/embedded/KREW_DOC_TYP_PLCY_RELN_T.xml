@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KREW_DOC_TYP_PLCY_RELN_T DOC_PLCY_NM="ALLOW_UNREQUESTED_ACTION"
         DOC_TYP_ID="3021" OBJ_ID="8D0F3B86-4DA4-AEAF-636A-09F4A55F56A8"

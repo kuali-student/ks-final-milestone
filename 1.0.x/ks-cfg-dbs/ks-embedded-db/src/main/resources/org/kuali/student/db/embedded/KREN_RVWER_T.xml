@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KREN_RVWER_T CHNL_ID="1" PRNCPL_ID="RiceTeam" RVWER_ID="1"
         TYP="GROUP" VER_NBR="1"/>

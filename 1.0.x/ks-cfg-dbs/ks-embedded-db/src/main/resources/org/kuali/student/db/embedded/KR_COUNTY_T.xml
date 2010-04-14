@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KR_COUNTY_T ACTV_IND="Y" COUNTY_CD="11" COUNTY_NM="Greenlee"
         OBJ_ID="5ACF22CFC5DF4AB0E0404F8189D87AB9" POSTAL_CNTRY_CD="US"

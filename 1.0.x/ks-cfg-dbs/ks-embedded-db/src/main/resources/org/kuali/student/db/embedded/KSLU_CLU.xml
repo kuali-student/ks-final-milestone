@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSLU_CLU CAN_CREATE_LUI="0" CREATETIME="20090507120533"
         DEF_ENRL_EST="0" DEF_MAX_ENRL="0" EFF_DT="20060801000000"

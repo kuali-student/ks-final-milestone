@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KRIM_ROLE_RSP_T ACTV_IND="Y"
         OBJ_ID="BC27A267EF607417E0404F8189DAA0A9" ROLE_ID="63"

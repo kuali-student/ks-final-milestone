@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSLU_CLUCLU_RELTN CLU_ID="0c81b192-82aa-4342-a7ed-2f63739a7d04"
         CLU_RELTN_REQ="1" CREATEID="ID1" CREATETIME="20100216100000"

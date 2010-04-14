@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KRNS_CAMPUS_T ACTV_IND="Y" CAMPUS_CD="BL" CAMPUS_NM="BLOOMINGTON"
         CAMPUS_SHRT_NM="BLOOMINGTON" CAMPUS_TYP_CD="B"

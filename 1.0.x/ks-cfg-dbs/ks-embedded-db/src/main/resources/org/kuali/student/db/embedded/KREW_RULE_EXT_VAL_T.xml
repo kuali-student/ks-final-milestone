@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KREW_RULE_EXT_VAL_T KEY_CD="destination" RULE_EXT_ID="1047"
         RULE_EXT_VAL_ID="1048" VAL="las vegas" VER_NBR="1"/>

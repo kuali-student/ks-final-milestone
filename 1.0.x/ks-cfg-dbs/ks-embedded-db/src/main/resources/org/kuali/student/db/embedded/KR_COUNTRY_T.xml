@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "${dataDTDResource}">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KR_COUNTRY_T ACTV_IND="Y" OBJ_ID="56908AA378FD661BE0404F8189D81F46"
         POSTAL_CNTRY_CD="AA" POSTAL_CNTRY_NM="ARUBA"

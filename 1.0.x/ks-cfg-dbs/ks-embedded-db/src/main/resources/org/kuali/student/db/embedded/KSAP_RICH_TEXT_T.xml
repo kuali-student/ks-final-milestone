@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.1" PLAIN="New Student Orientation"/>
     <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.10" PLAIN="Final Examinations"/>

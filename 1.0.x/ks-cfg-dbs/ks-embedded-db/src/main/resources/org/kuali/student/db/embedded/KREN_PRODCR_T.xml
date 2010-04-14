@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KREN_PRODCR_T CNTCT_INFO="kuali-ken-testing@cornell.edu"
         DESC_TXT="This producer represents messages sent from the general message sending forms."

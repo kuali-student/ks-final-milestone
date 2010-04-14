@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
         RTE_NODE_CFG_PARM_ID="2012" RTE_NODE_ID="2004" VAL="&lt;start name=&quot;placeholder&quot;>&lt;activationType>S&lt;/activationType>&lt;/start>"/>

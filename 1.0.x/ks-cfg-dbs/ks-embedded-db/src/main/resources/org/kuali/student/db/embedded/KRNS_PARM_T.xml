@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-IDM"
         OBJ_ID="2238b58e-8fb9-102c-9461-def224dad9b3"

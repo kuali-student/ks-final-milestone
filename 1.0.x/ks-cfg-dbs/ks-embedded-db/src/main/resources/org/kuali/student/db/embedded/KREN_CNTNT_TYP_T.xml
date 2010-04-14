@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KREN_CNTNT_TYP_T CNTNT_TYP_ID="1" CNTNT_TYP_VER_NBR="0" CUR_IND="T"
         DESC_TXT="Simple content type" NM="Simple"

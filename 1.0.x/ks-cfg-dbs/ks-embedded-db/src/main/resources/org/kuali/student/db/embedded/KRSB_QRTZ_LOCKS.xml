@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "http://www.kuali.org/dtd/${project.artifactId}-${project.version}.dtd">
+<!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KRSB_QRTZ_LOCKS LOCK_NAME="CALENDAR_ACCESS"/>
     <KRSB_QRTZ_LOCKS LOCK_NAME="JOB_ACCESS"/>
