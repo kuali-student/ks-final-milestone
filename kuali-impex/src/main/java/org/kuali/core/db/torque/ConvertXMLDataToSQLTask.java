@@ -10,7 +10,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 import org.springframework.core.io.Resource;
 
-public class KualiTorqueDataSQLTask extends TexenTask {
+public class ConvertXMLDataToSQLTask extends TexenTask {
 	private static final int MVN_INFO = Integer.MAX_VALUE;
 
 	/**
@@ -24,7 +24,7 @@ public class KualiTorqueDataSQLTask extends TexenTask {
 	private List<Resource> dataXMLResources;
 
 	/**
-	 * The target database(s) we are generating SQL for
+	 * The target database we are generating SQL for
 	 */
 	private String targetDatabase;
 
