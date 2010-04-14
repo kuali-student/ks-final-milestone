@@ -3,8 +3,8 @@ package org.kuali.student.psu.util;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
- * This advice tracks method calls. It captures the amount of time each method takes as well as the
- * sequence in which methods are invoked.
+ * This advice tracks method calls. It captures the amount of time each method takes as well as the sequence in which
+ * methods are invoked.
  */
 public class MethodTrackerAdvice {
 	Long sequence = new Long(0);
@@ -20,8 +20,7 @@ public class MethodTrackerAdvice {
 		// Time the method call
 		long start = System.currentTimeMillis();
 		Object result = call.proceed();
-		long stop = System.currentTimeMillis();
-		long elapsed = stop - start;
+		long elapsed = System.currentTimeMillis() - start;
 
 		// Invoke our listener
 		MethodEvent event = new MethodEvent(currentSequence, start, elapsed, result, call);
