@@ -1,6 +1,22 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        ID="LRC-RESCOMP-1" NAME="ResultComponent 1"
+        RT_DESCR_ID="RT-DESC-LCR-7" STATE="Active"
+        TYPE="resultComponentType.credential" VERSIONIND="0"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        ID="LRC-RESCOMP-2" NAME="ResultComponent 2"
+        RT_DESCR_ID="RT-DESC-LCR-8" STATE="Active"
+        TYPE="resultComponentType.credit" VERSIONIND="0"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        ID="LRC-RESCOMP-3" NAME="ResultComponent 3"
+        RT_DESCR_ID="RT-DESC-LCR-9" STATE="Active"
+        TYPE="resultComponentType.grade" VERSIONIND="0"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        ID="LRC-RESCOMP-4" NAME="ResultComponent 4"
+        RT_DESCR_ID="RT-DESC-LCR-9" STATE="Active"
+        TYPE="resultComponentType.grade" VERSIONIND="0"/>
     <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
         ID="kuali.creditType.credit.degree.0" NAME="0 Credit"
         RT_DESCR_ID="RICHTEXT-LRC-RC-3"

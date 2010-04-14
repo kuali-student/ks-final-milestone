@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Pass Fail&lt;/p>"
-        ID="RICHTEXT-LRC-RC-1" PLAIN="Pass Fail"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Pass or Fail&lt;/p>"
+        ID="RICHTEXT-LRC-RC-1" PLAIN="Pass or Fail"/>
     <KSLU_LRC_RICH_TEXT_T
         FORMATTED="&lt;p>7 units of academic credit&lt;/p>"
         ID="RICHTEXT-LRC-RC-10" PLAIN="7 units of academic credit"/>
@@ -113,4 +113,30 @@
         ID="RICHTEXT-LRC-RV-6" PLAIN="Final Grade of P"/>
     <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Final Grade of F&lt;/p>"
         ID="RICHTEXT-LRC-RV-7" PLAIN="Final Grade of F"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Credit 1&lt;/p>"
+        ID="RT-DESC-LCR-1" PLAIN="Credit 1"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Grade 1&lt;/p>"
+        ID="RT-DESC-LCR-10" PLAIN="Grade 1"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Grade 2&lt;/p>"
+        ID="RT-DESC-LCR-11" PLAIN="Grade 2"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Grade 3&lt;/p>"
+        ID="RT-DESC-LCR-12" PLAIN="Grade 3"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Scale 3&lt;/p>"
+        ID="RT-DESC-LCR-13" PLAIN="Scale 3"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Credit 2&lt;/p>"
+        ID="RT-DESC-LCR-2" PLAIN="Credit 2"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Credit 3&lt;/p>"
+        ID="RT-DESC-LCR-3" PLAIN="Credit 3"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Credential 1&lt;/p>"
+        ID="RT-DESC-LCR-4" PLAIN="Credential 1"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Credential 2&lt;/p>"
+        ID="RT-DESC-LCR-5" PLAIN="Credential 2"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Credential 3&lt;/p>"
+        ID="RT-DESC-LCR-6" PLAIN="Credential 3"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>ResultComponent 1&lt;/p>"
+        ID="RT-DESC-LCR-7" PLAIN="ResultComponent 1"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>ResultComponent 2&lt;/p>"
+        ID="RT-DESC-LCR-8" PLAIN="ResultComponent 2"/>
+    <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>ResultComponent 3&lt;/p>"
+        ID="RT-DESC-LCR-9" PLAIN="ResultComponent 3"/>
 </dataset>
