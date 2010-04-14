@@ -81,8 +81,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.psrg</groupId>
-			<artifactId>ks-psrg</artifactId>
+			<groupId>org.kuali.student.psu</groupId>
+			<artifactId>ks-psu</artifactId>
             <version>1.0.0-m5-SNAPSHOT</version>
 		</dependency>
 
