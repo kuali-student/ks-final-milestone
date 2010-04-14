@@ -147,7 +147,6 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
             if(creditCourseHelper.getGradingOptions() != null) {
                 for (Data.Property p : creditCourseHelper.getGradingOptions()) {
                     if(!CreditCourseHelper.Properties._RUNTIME_DATA.equals(p.getKey())){
-//                      CreditCourseHelper helper = CreditCourseHelper.wrap((Data)p.getValue());
                         String resultType = p.getValue();
                         ResultOptionInfo roi = new ResultOptionInfo();
                         roi.setResultComponentId(resultType);
@@ -156,17 +155,20 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                     }
                 }
                 
-                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);                                                           
+                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
                 if(cluResultList == null || cluResultList.isEmpty()) {
+	                // Create or update clu result
                     cluResultInfo.setResultOptions(gradeResultOptions);
                     luService.createCluResult(cluId, GRADE_RESULT_TYPE, cluResultInfo);
                 } else {
-                    CluResultInfo cri = cluResultList.get(0);
-                    cri = luService.getCluResult(cri.getId());
-                    cri.setResultOptions(gradeResultOptions);
-                    if(cri.getType().equals(GRADE_RESULT_TYPE)) {
-                        luService.updateCluResult(cri.getId(), cri);
-                    }
+                	// Should only be one CluResultInfo
+                	for(CluResultInfo cri : cluResultList) {
+	                    cri = luService.getCluResult(cri.getId());
+	                    cri.setResultOptions(gradeResultOptions);
+	                    if(cri.getType().equals(GRADE_RESULT_TYPE)) {
+	                        luService.updateCluResult(cri.getId(), cri);
+	                    }
+                	}
                 }
             }    
             
@@ -188,13 +190,6 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
             result.setValue(input);
             
             CreditCourseHelper creditCourseHelper = CreditCourseHelper.wrap(input);
-            //String cluId = creditCourseHelper.getId();
-
-
-            //cluResultInfo.setEffectiveDate(effectiveDate);
-            //cluResultInfo.setExpirationDate(expirationDate);
-            //cluResultInfo.setMetaInfo(metaInfo);
-
 
             // Outcome options
             if(creditCourseHelper.getOutcomeOptions() != null) {
