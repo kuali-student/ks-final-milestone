@@ -156,10 +156,10 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             ArrayList<String> idsMock =  new ArrayList<String>();
             idsMock.add("DOCREL-XX");
             idsMock.add("DOCREL-XX");
-            client.getProposalDocRelationsByIdList(idsMock);
-            assertTrue(false);
+            List<ProposalDocRelationInfo> result = client.getProposalDocRelationsByIdList(idsMock);
+            assertTrue(result==null);
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
     }
 
@@ -180,10 +180,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertNotNull(docRelationInfos);
 
         try {
-            client.getProposalDocRelationsByType("PROP-DOCREL-TYPEXXX");
-            assertTrue(false);
+            assertEquals(null,client.getProposalDocRelationsByType("PROP-DOCREL-TYPEXXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
     }
 
@@ -227,10 +226,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposals.size());
 
         try {
-            client.getProposalsByProposalType("proposalType.courseCorrection-XXX");
-            assertTrue(false);
+            assertEquals(null,client.getProposalsByProposalType("proposalType.courseCorrection-XXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -248,17 +246,15 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposals.size());
 
         try {
-            client.getProposalsByReference("REFTYPE-XXX", "REMOTEREF-1");
-            assertTrue(false);
+            assertEquals(null,client.getProposalsByReference("REFTYPE-XXX", "REMOTEREF-1"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
-            client.getProposalsByReference("REFTYPE-1","REMOTEREF-1XXX");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalsByReference("REFTYPE-1","REMOTEREF-1XXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -293,17 +289,15 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposalInfos.size());
 
         try {
-            client.getProposalsByState("activeXXX", "proposalType.courseCorrection");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalsByState("activeXXX", "proposalType.courseCorrection"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
-            client.getProposalsByState("active", "proposalType.courseCorrectionXXX");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalsByState("active", "proposalType.courseCorrectionXXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -328,10 +322,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposalTypeInfos.size());
 
         try {
-            client.getProposalTypesForReferenceType("REFTYPE-XXX");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalTypesForReferenceType("REFTYPE-XXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -582,9 +575,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(1,proposalDocRelationTypeKeyList.size());
         try {
             proposalDocRelationTypeKeyList = client.getAllowedProposalDocRelationTypesForProposalType("proposalType.newCourse");
-            assertTrue(false);
+            assertEquals(null, proposalDocRelationTypeKeyList);
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
     }
 }
