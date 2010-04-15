@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.impex</groupId>
     <artifactId>impex-parent</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1</version>
   </parent>
   <artifactId>torque-generator</artifactId>
   <version>3.3-kuali-01-SNAPSHOT</version>
