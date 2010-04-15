@@ -59,7 +59,7 @@ public class ModifyCreditCourseProposalManager{
 		Data data = creditCourseAssembler.get(cluId);
 		
 		//Clear out all ids in the data and set runtime data to created
-		clearIdsRecursively(data);
+		clearIdsRecursively(data, false);
 		
 		//Create the proposal and attach the course
 		LuData luData = new LuData();
@@ -81,7 +81,7 @@ public class ModifyCreditCourseProposalManager{
 		CreditCourseProposalInfoHelper proposal = CreditCourseProposalInfoHelper.wrap(new Data());
 		
 		// Can we have more than one course in a proposal? if yes how do we handle this here?
-		if(proposalList != null) {
+		if(proposalList != null && !proposalList.isEmpty()) {
 			proposal.setRationale(proposalList.get(0).getRationale());
 		}
 		
@@ -125,7 +125,7 @@ public class ModifyCreditCourseProposalManager{
 		
 	}
 
-	private void clearIdsRecursively(Data data){
+	private void clearIdsRecursively(Data data, boolean shouldSetCreated){
 		//Set runtime create to true
     	//AssemblerUtils.setCreated(data, true);
 		if(data==null) return;
@@ -138,7 +138,19 @@ public class ModifyCreditCourseProposalManager{
     		//recurse through any nested maps (don't recurse through runtime data since the setCreated call will create new Data children
     		//also don't recurse through lo categories
     		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())&&!"categories".equals(prop.getKey())){
-    			clearIdsRecursively((Data)prop.getValue());
+    			
+    			if(shouldSetCreated){
+    				//Set runtime data to created and clear out other runtime data(versions etc) 
+    				Data runtime = new Data();
+    	            data.set("_runtimeData", runtime);
+    	            runtime.set("created", true);
+    			}
+    			
+    			//From this point on its a format tree so set the runtime data to created (and clear out other runtime data)
+    			if("formats".equals(prop.getKey())){
+    				shouldSetCreated=true;
+    			}
+    			clearIdsRecursively((Data)prop.getValue(), shouldSetCreated);
     		}
     		
     		//Clear out any id fields
