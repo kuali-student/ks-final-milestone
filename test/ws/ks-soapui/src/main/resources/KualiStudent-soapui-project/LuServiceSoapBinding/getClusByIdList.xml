@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getClusByIdList" bindingOperationName="getClusByIdList" type="Request-Response" outputName="getClusByIdListResponse" inputName="getClusByIdList" receivesAttachments="false" sendsAttachments="false" id="2d9a0636-85b1-4d12-977a-9d66ecb20e38" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
