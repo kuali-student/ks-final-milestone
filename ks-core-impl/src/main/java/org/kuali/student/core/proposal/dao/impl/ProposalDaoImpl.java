@@ -61,9 +61,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("proposalTypeId", proposalTypeId);
         @SuppressWarnings("unchecked")
         List<Proposal> proposals = query.getResultList();
-        if (proposals == null || proposals.isEmpty()) {
-            throw new DoesNotExistException(proposalTypeId);
-        }
         return proposals;
     }
 
@@ -74,9 +71,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("referenceTypeId", referenceTypeId);
         @SuppressWarnings("unchecked")
         List<Proposal> proposals = query.getResultList();
-        if (proposals == null || proposals.isEmpty()) {
-            throw new DoesNotExistException(referenceId +":" + referenceTypeId);
-        }
         return proposals;
     }
 
@@ -87,9 +81,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("proposalTypeId", proposalTypeId);
         @SuppressWarnings("unchecked")
         List<Proposal> proposals = query.getResultList();
-        if (proposals == null || proposals.isEmpty()) {
-            throw new DoesNotExistException(proposalState +":" + proposalTypeId);
-        }
         return proposals;
     }
 
@@ -99,11 +90,7 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("referenceTypeId", referenceTypeId);
         @SuppressWarnings("unchecked")
         List<ProposalType> proposalTypes = query.getResultList();
-        if (proposalTypes == null || proposalTypes.isEmpty()) {
-            throw new DoesNotExistException(referenceTypeId);
-        }
         return proposalTypes;
-
     }
 
     @Override
@@ -112,9 +99,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("documentId", documentId);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException(documentId);
-        }
         return proposalDocRelations;
     }
 
@@ -124,9 +108,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("idList", idList);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException("For given list of ids");
-        }
         return proposalDocRelations;
     }
 
@@ -145,9 +126,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("proposalDocRelationTypeKey", proposalDocRelationTypeKey);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException(proposalDocRelationTypeKey);
-        }
         return proposalDocRelations;
     }
 
@@ -182,9 +160,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("proposalTypeKey", proposalTypeKey);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelationType> proposalDocRelationTypeList = query.getResultList();
-        if(proposalDocRelationTypeList==null||proposalDocRelationTypeList.isEmpty()){
-            throw new DoesNotExistException(proposalTypeKey);
-        }
         return proposalDocRelationTypeList;
     }
 }
