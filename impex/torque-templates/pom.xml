@@ -3,11 +3,9 @@
   <parent>
     <groupId>org.kuali.impex</groupId>
     <artifactId>impex-parent</artifactId>
-    <version>1</version>
+    <version>3.3.1-kuali-001-SNAPSHOT</version>
   </parent>
   <artifactId>torque-templates</artifactId>
-  <packaging>jar</packaging>
-  <version>3.3-kuali-02-SNAPSHOT</version>
   <name>Kuali Version of ASF Torque Templates</name>
   <url>http://www.kuali.org/</url>
   <repositories>
