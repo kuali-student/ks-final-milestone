@@ -32,6 +32,10 @@
       </snapshots>
     </repository>
   </repositories>
+  <modules>
+    <module>torque-generator</module>
+    <module>torque-templates</module>
+  </modules>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/impex</developerConnection>
