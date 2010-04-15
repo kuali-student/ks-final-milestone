@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.impex</groupId>
-    <artifactId>impex</artifactId>
+    <artifactId>impex-parent</artifactId>
     <version>3.3.1-kuali-001-SNAPSHOT</version>
   </parent>
   <artifactId>maven-impex-plugin</artifactId>
@@ -15,12 +15,12 @@
     <dependency>
       <groupId>org.kuali.impex</groupId>
       <artifactId>torque-generator</artifactId>
-      <version>${project.version}</version>
+      <version>3.3.1-kuali-001-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.impex</groupId>
       <artifactId>torque-templates</artifactId>
-      <version>${project.version}</version>
+      <version>3.3.1-kuali-001-SNAPSHOT</version>
     </dependency>
 
     <dependency>
