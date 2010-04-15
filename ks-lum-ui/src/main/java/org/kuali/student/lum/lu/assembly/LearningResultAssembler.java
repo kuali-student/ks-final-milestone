@@ -146,7 +146,7 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
             List<ResultOptionInfo> gradeResultOptions = new ArrayList<ResultOptionInfo>();
             if(creditCourseHelper.getGradingOptions() != null) {
                 for (Data.Property p : creditCourseHelper.getGradingOptions()) {
-                    if(!CreditCourseHelper.Properties._RUNTIME_DATA.equals(p.getKey())){
+                    if(!CreditCourseHelper.Properties._RUNTIME_DATA.getKey().equals(p.getKey())){
                         String resultType = p.getValue();
                         ResultOptionInfo roi = new ResultOptionInfo();
                         roi.setResultComponentId(resultType);
