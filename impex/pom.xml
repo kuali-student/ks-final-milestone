@@ -35,6 +35,7 @@
   <modules>
     <module>torque-generator</module>
     <module>torque-templates</module>
+    <module>maven-impex-plugin</module>
   </modules>
   <build>
     <pluginManagement>
