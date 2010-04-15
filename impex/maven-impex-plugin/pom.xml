@@ -11,6 +11,18 @@
   <name>Maven Impex Plugin</name>
   <description>Maven plugin for the Impex Generator</description>
   <dependencies>
+
+    <dependency>
+      <groupId>org.kuali.impex</groupId>
+      <artifactId>torque-generator</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.impex</groupId>
+      <artifactId>torque-templates</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
@@ -35,11 +47,6 @@
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
       <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.torque</groupId>
-      <artifactId>torque-generator</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
