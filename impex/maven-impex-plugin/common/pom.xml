@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
+
+<project 
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.torque</groupId>
+  <artifactId>torque</artifactId>
+  <packaging>pom</packaging>
+  <name>Torque</name>
+  <version>3.3.1-SNAPSHOT</version>
+  <description>Common project descriptor for the Torque project</description>
+  <url>http://db.apache.org/torque</url>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://issues.apache.org/jira/browse/TORQUE</url>
+  </issueManagement>
+
+  <!-- is this necessary/correct ? -->
+  <!--ciManagement>
+    <system>gump</system>
+    <url>http://vmgump.apache.org/</url>
+    <notifiers>
+      <notifier>
+        <type>email</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <configuration>
+          <gumpRepositoryId>db</gumpRepositoryId>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement-->
+
+  <inceptionYear>2000</inceptionYear>
+
+  <mailingLists>
+    <mailingList>
+      <name>Torque User List</name>
+      <subscribe>torque-user-subscribe@db.apache.org</subscribe>
+      <unsubscribe>torque-user-unsubscribe@db.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/db-torque-user/</archive>
+    </mailingList>
+    <mailingList>
+      <name>Torque Developer List</name>
+      <subscribe>torque-dev-subscribe@db.apache.org</subscribe>
+      <unsubscribe>torque-dev-unsubscribe@db.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/db-torque-dev/</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Jeffrey D. Brekke</name>
+      <id>brekke</id>
+      <email>brekke@apache.org</email>
+      <organization/>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Eric Dobbs</name>
+      <id>dobbs</id>
+      <email>dobbs@apache.org</email>
+      <organization/>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Scott Eade</name>
+      <id>seade</id>
+      <email>seade@backstagetech.com.au</email>
+      <organization>Backstage Technologies Pty. Ltd.</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>
+    <developer>
+      <name>Thomas Fischer</name>
+      <id>tfischer</id>
+      <email>fischer@seitenbau.de</email>
+      <organization>Seitenbau GmbH</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Stephen Haberman</name>
+      <id>stephenh</id>
+      <email>stephenh@chase3000.com</email>
+      <organization/>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Humberto Hernandez</name>
+      <id>hhernandez</id>
+      <email>hhernandez@itweb.com.mx</email>
+      <organization>Integrated Technology S.C.</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Fedor Karpelevitch</name>
+      <id>fedor</id>
+      <email>fedor@karpelevitch.net</email>
+      <organization/>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Quinton McCombs</name>
+      <id>quintonm</id>
+      <email>quintonm@bellsouth.net</email>
+      <organization>NEqualsOne</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>John McNally</name>
+      <id>jmcnally</id>
+      <email>jmcnally@collab.net</email>
+      <organization>CollabNet</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Greg Monroe</name>
+      <id>gmonroe</id>
+      <email>greg.monroe@dukece.com</email>
+      <organization>Duke Corporate Education</organization>
+      <timezone>-5</timezone>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Martin Poeschl</name>
+      <id>mpoeschl</id>
+      <email>mpoeschl@marmot.at</email>
+      <organization>Tucana.at</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+18</timezone>
+    </developer>
+    <developer>
+      <name>Daniel Rall</name>
+      <id>dlr</id>
+      <email>dlr@finemaltcoding.com</email>
+      <organization>CollabNet, Inc.</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Henning P. Schmiedehausen</name>
+      <id>henning</id>
+      <email>hps@intermeta.de</email>
+      <organization>INTERMETA - Gesellschaft fuer Mehrwertdienste mbH</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+    <developer>
+      <name>Kurt Schrader</name>
+      <id>kschrader</id>
+      <email>kschrader@karmalab.org</email>
+      <organization/>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Jon Scott Stevens</name>
+      <id>jon</id>
+      <email>jon@latchkey.com</email>
+      <organization>CollabNet, Inc.</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>James Taylor</name>
+      <id>jtaylor</id>
+      <email>james@jamestaylor.org</email>
+      <organization/>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Thomas Vandahl</name>
+      <id>tv</id>
+      <email>tv@apache.org</email>
+      <organization>TeWiSoft GmbH</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Patrick Carl</name>
+      <email>patrick.carl@coi.de</email>
+    </contributor>
+    <contributor>
+      <name>Roger A. Caron</name>
+      <email>roger.caron@pw.utc.com</email>
+    </contributor>
+    <contributor>
+      <name>Martin Goulet</name>
+      <email>martin.goulet@sungard.com</email>
+    </contributor>
+    <contributor>
+      <name>M. Sean Gilligan</name>
+      <email>Sean_Gilligan@catalla.com</email>
+    </contributor>
+    <contributor>
+      <name>James Hillyerd</name>
+      <email>james@hillyerd.com</email>
+    </contributor>
+    <contributor>
+      <name>Thierry Lach</name>
+      <email>thierry.lach@bbdodetroit.com</email>
+    </contributor>
+    <contributor>
+      <name>Johnny Macchione</name>
+      <email>johnnymac@tiscali.be</email>
+    </contributor>
+    <contributor>
+      <name>Markus M. May</name>
+      <email>mmay@javafreedom.org</email>
+    </contributor>
+    <contributor>
+      <name>Raphael Pieroni</name>
+      <email>rafale_at_codehaus.org</email>
+    </contributor>
+    <contributor>
+      <name>Jonathan Purvis</name>
+      <email>jon@reeltwo.com</email>
+    </contributor>
+    <contributor>
+      <name>Thoralf Rickert</name>
+      <email>thoralf.rickert@cadooz.de</email>
+    </contributor>
+    <contributor>
+      <name>J. Russell Smyth</name>
+      <email>drfish@cox.net</email>
+    </contributor>
+    <contributor>
+      <name>Tarlika Elisabeth Schmitz</name>
+      <email>tes@numerixtechnology.de</email>
+    </contributor>
+    <contributor>
+      <name>Hilco Wijbenga</name>
+      <email>hilco.wijbenga@elasticpath.com</email>
+    </contributor>
+    <contributor>
+      <name>Christoph Zenger</name>
+      <email>Christoph.Zenger@jentro.com</email>
+    </contributor>
+  </contributors>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>http://svn.apache.org/repos/asf/db/torque</connection>
+    <developerConnection>https://svn.apache.org/repos/asf/db/torque</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/db/torque</url>
+  </scm>
+
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org/</url>
+  </organization>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.4</source>
+          <target>1.4</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <modules>
+    <!--module>../runtime</module-->
+    <!--module>../generator</module-->
+    <!--module>../templates</module-->
+    <!--module>../maven2-plugin</module-->
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>apache-maven2</id>
+      <name>Apache Maven2 Repository</name>
+      <url>http://svn.apache.org/maven-snapshot-repository</url>
+    </repository>
+    <repository>
+      <id>apache-svn</id>
+      <name>Apache SVN Repository</name>
+      <url>http://svn.apache.org/repository</url>
+      <layout>legacy</layout>
+    </repository>
+    <repository>
+      <id>maven-snapshot</id>
+      <name>Maven snapshot Repository</name>
+      <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    </repository>
+  </repositories>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jdepend-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>common/turbine-checkstyle.xml</configLocation>
+          <headerLocation>common/checkstyle-license.txt</headerLocation>
+        </configuration>
+      </plugin>
+      <!-- the changelog plugin does not seem to work at the moment -->
+      <!-- plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changelog-plugin</artifactId>
+      </plugin-->
+      <!--report>maven-file-activity-plugin</report-->
+      <!--report>maven-developer-activity-plugin</report-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      <!--report>maven-simian-plugin</report-->
+      <!--report>maven-jcoverage-plugin</report-->
+      <!--report>maven-findbugs-plugin</report-->
+      <!--report>maven-linkcheck-plugin</report-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+  
+  <distributionManagement>
+    <repository>
+      <id>apache.releases</id>
+      <name>Apache Release Distribution Repository</name>
+      <url>scp://people.apache.org/www/people.apache.org/repo/m2-ibiblio-rsync-repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>apache.snapshots</id>
+      <name>Apache Development Snapshot Repository</name>
+      <url>scp://people.apache.org/www/people.apache.org/repo/m2-snapshot-repository</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
