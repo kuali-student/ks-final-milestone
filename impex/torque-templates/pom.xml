@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.kuali</groupId>
-    <artifactId>kuali-parent</artifactId>
-    <version>1</version>
+    <groupId>org.kuali.impex</groupId>
+    <artifactId>impex-parent</artifactId>
+    <version>1-SNAPSHOT</version>
   </parent>
-  <groupId>org.kuali.impex</groupId>
   <artifactId>torque-templates</artifactId>
   <packaging>jar</packaging>
   <version>3.3-kuali-01-SNAPSHOT</version>

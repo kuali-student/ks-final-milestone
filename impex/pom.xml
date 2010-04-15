@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali</groupId>
+    <artifactId>kuali-parent</artifactId>
+    <version>1</version>
+  </parent>
+  <groupId>org.kuali.impex</groupId>
+  <artifactId>impex-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1-SNAPSHOT</version>
+  <name>Impex</name>
+  <url>http://www.kuali.org/</url>
+  <repositories>
+    <!--
+      Once the Kuali Master POM has been approved and published to the
+      kuali.release repository, remove the kuali.release.lab repository entry
+      from this pom
+    -->
+    <repository>
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/impex</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex</url>
+  </scm>
+</project>
