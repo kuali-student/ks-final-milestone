@@ -16,11 +16,9 @@
   <parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-cfg-dbs</artifactId>
-    <version>1.0.0-m5</version>
+    <version>1.0.0-m5-SNAPSHOT</version>
   </parent>
-  <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-embedded-db</artifactId>
-  <version>1.0.0-m5-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Impex for ks-embedded-db</name>
   <build>
@@ -28,43 +26,14 @@
       <plugin>
         <groupId>org.kuali.core.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <configuration>
-          <dataDTDResource>file:/${basedir}/src/main/resources/org/kuali/student/db/embedded/data.dtd</dataDTDResource>
-          <schemaXMLResource>file:/${basedir}/src/main/resources/org/kuali/student/db/embedded/schema.xml</schemaXMLResource>
-          <database>
-            <type>oracle</type>
-          </database>
-        </configuration>
         <executions>
           <execution>
-            <id>convert-xml-to-sql</id>
+            <id>generate-sql</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>convert-schema</goal>
               <goal>convert-data</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.4.2</version>
-        <executions>
-          <execution>
-            <id>copy-sql</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/classes/org/kuali/student/db/embedded/sql/oracle</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.directory}/generated-resources/sql</directory>
-                </resource>
-              </resources>
-            </configuration>
           </execution>
         </executions>
       </plugin>
