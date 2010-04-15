@@ -6,7 +6,7 @@
     <version>1</version>
   </parent>
   <artifactId>torque-generator</artifactId>
-  <version>3.3-kuali-01-SNAPSHOT</version>
+  <version>3.3-kuali-01</version>
   <name>Kuali Version of ASF Torque Generator</name>
   <url>http://www.kuali.org/</url>
   <repositories>
@@ -162,8 +162,8 @@
     </pluginManagement>
   </build>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-generator</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/impex/torque/torque-generator</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-generator</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/torque-generator-3.3-kuali-01</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/impex/torque/torque-generator/tags/torque-generator-3.3-kuali-01</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/tags/torque-generator-3.3-kuali-01</url>
   </scm>
 </project>
