@@ -57,6 +57,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -78,7 +80,6 @@ public class RuleComponentEditorView extends ViewComposite {
     private static final String SIMPLE_RULE_RB_GROUP = "RuleTypesGroup";
     private static final String RULE_TYPES_OTHER = "Other:";
     private List<KSRadioButton> rbRuleType = new ArrayList<KSRadioButton>();
-    private FocusHandler ruleTypeSelectionHandler = null;
 
     private VerticalPanel mainPanel = new VerticalPanel();
     private VerticalPanel addEditRuleView = new VerticalPanel();
@@ -255,9 +256,29 @@ public class RuleComponentEditorView extends ViewComposite {
         VerticalPanel rbPanel = new VerticalPanel();
         int nofBasicRuleTypes = (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES ? NOF_BASIC_RULE_TYPES : reqCompTypeList.size());
         for (int i = 0; i < nofBasicRuleTypes; i++) {
-            KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, reqCompTypeList.get(i).getDescr());
+            final KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, reqCompTypeList.get(i).getDescr());
             rbRuleType.add(newButton);
-            newButton.addFocusHandler(ruleTypeSelectionHandler);
+            newButton.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+                @Override
+                public void onValueChange(ValueChangeEvent<Boolean> event) {
+                    if (compReqTypesList.getSelectedItem() != null) {
+                        compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
+                    }
+                    for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
+                        if (newButton.getText().trim().equals(reqCompTypeList.get(i).getDescr().trim())) {
+                            selectedReqType = reqCompTypeList.get(i);
+                            if (addNewReqComp) {
+                                setupNewEditedReqComp(selectedReqType);
+                            } else {
+                                editedReqComp.setRequiredComponentType(selectedReqType);
+                                editedReqComp.setType(selectedReqType.getId());
+                            }
+                            displayReqComponentDetails();
+                            return;
+                        }
+                    }
+                }
+            });
             if ((selectedReqType != null) && reqCompTypeList.get(i).getId().equals(selectedReqType.getId())) {
                 newButton.setValue(true);
             }
@@ -433,38 +454,9 @@ public class RuleComponentEditorView extends ViewComposite {
             }
         });
 
-        ruleTypeSelectionHandler = new FocusHandler() {
-            public void onFocus(FocusEvent event) {
-
-                addReqComp.setEnabled(true);
-                updateReqComp.setEnabled(true);
-
-                KSRadioButton btn = ((KSRadioButton) event.getSource());
-
-                //de-select a list of advanced requirement comp. types
-                if (compReqTypesList.getSelectedItem() != null) {
-                    compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
-                }
-
-                for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
-                    if (btn.getText().trim().equals(reqCompTypeList.get(i).getDescr().trim())) {
-                        selectedReqType = reqCompTypeList.get(i);
-                        if (addNewReqComp) {
-                            setupNewEditedReqComp(selectedReqType);
-                        } else {
-                        	editedReqComp.setRequiredComponentType(selectedReqType);
-                            editedReqComp.setType(selectedReqType.getId());
-                        }
-                        displayReqComponentDetails();
-                        return;
-                    }
-                }
-            }
-        };
-
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
 			@Override        
-             public void onSelectionChange(SelectionChangeEvent event) {
+            public void onSelectionChange(SelectionChangeEvent event) {
                  addReqComp.setEnabled(true);
                  updateReqComp.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
