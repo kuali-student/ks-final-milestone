@@ -393,21 +393,21 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			layout = new TabLayout();
 			tabLayoutMap.put(tabKey, layout);
 			tabPanel.addTab(tabKey, tabKey, tool.getImage(), layout, TabPosition.RIGHT);
+
+			tabPanel.addTabCustomCallback(tabKey, new Callback<String>(){
+
+				@Override
+				public void exec(String result) {
+					//layout.beforeShow();
+					showView(tool.getViewEnum(), NO_OP_CALLBACK);
+				}
+				
+			});		
 		}
 		else{
 			layout = tabLayoutMap.get(tabKey);
 		}
-		
-		tabPanel.addTabCustomCallback(tabKey, new Callback<String>(){
-
-			@Override
-			public void exec(String result) {
-				//layout.beforeShow();
-				showView(tool.getViewEnum(), NO_OP_CALLBACK);
-			}
 			
-		});
-		
 		//layout.renderView(tool);
 		sectionNameTabMap.put(tool.getName(), tabKey);
 		sectionViewMap.put(tool.getViewEnum().name(), tool);
