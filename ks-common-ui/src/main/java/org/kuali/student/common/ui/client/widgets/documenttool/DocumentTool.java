@@ -433,6 +433,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	
 					@Override
 					public void onSuccess(List<RefDocRelationInfoMock> result) {
+						documentList.clear();
 						if(result != null && !(result.isEmpty())){	
 							for(RefDocRelationInfoMock info: result){
 								documentList.add(new Document(info));
