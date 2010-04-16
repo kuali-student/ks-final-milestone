@@ -14,23 +14,23 @@
 --
 
 //TYPES
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.CorporateEntity', 'A legal corporate entity', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Corporate Entity')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Board', 'A Board of Directors', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Board')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Division', 'A Division', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Division')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.School', 'A School', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'School')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Program', 'A Program', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Program')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Center', 'A Center', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Center')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.College', 'A College', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'College')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Department', 'A Department', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Department')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Office', 'An Office', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Office')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Association', 'An Association', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Association')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.AdvisoryGroup', 'An Advisory Group', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Advisory Group')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.WorkGroup', 'A group organized for a particular purpose', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Work Group')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Section', 'A Section', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Section')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Senate', 'A Deliberative body', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Senate')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Committee', 'A Committee', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Committee')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.AdhocCommittee', 'An Adhoc Committee', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Adhoc Committee')
-insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.COC', 'A committee that approves curriculum', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'COC')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.CorporateEntity', 'A legal corporate entity', {ts '2000-01-01 00:00:00.0'}, null, 'Corporate Entity')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Board', 'A Board of Directors', {ts '2000-01-01 00:00:00.0'}, null, 'Board')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Division', 'A Division', {ts '2000-01-01 00:00:00.0'}, null, 'Division')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.School', 'A School', {ts '2000-01-01 00:00:00.0'},null, 'School')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Program', 'A Program', {ts '2000-01-01 00:00:00.0'}, null, 'Program')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Center', 'A Center', {ts '2000-01-01 00:00:00.0'},null, 'Center')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.College', 'A College', {ts '2000-01-01 00:00:00.0'},null, 'College')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Department', 'A Department', {ts '2000-01-01 00:00:00.0'}, null, 'Department')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Office', 'An Office', {ts '2000-01-01 00:00:00.0'}, null, 'Office')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Association', 'An Association', {ts '2000-01-01 00:00:00.0'}, null, 'Association')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.AdvisoryGroup', 'An Advisory Group', {ts '2000-01-01 00:00:00.0'}, null, 'Advisory Group')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.WorkGroup', 'A group organized for a particular purpose', {ts '2000-01-01 00:00:00.0'}, null, 'Work Group')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Section', 'A Section', {ts '2000-01-01 00:00:00.0'},null, 'Section')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Senate', 'A Deliberative body', {ts '2000-01-01 00:00:00.0'}, null, 'Senate')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.Committee', 'A Committee', {ts '2000-01-01 00:00:00.0'}, null, 'Committee')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.AdhocCommittee', 'An Adhoc Committee', {ts '2000-01-01 00:00:00.0'}, null, 'Adhoc Committee')
+insert into KSOR_ORG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.org.COC', 'A committee that approves curriculum', {ts '2000-01-01 00:00:00.0'}, null, 'COC')
 
 
 //ORGS
@@ -217,8 +217,8 @@ insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND
 insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('181', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Social Science Division', {ts '2000-01-01 00:00:00.0'}, null, 'Social Science Division', 'SocialScienceDivision', 'Active', 'kuali.org.Division')
 
 //ORG HIERARCHY
-insert into KSOR_ORG_HIRCHY (ID, DESCR, EFF_DT, EXPIR_DT, NAME, ROOT_ORG) values ('kuali.org.hierarchy.Curriculum', 'Hierarchy used to Manage Curriculum', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Curriculum', '141')
-insert into KSOR_ORG_HIRCHY (ID, DESCR, EFF_DT, EXPIR_DT, NAME, ROOT_ORG) values ('kuali.org.hierarchy.Main', 'Main Organizational Hierarchy', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Main', '4')
+insert into KSOR_ORG_HIRCHY (ID, DESCR, EFF_DT, EXPIR_DT, NAME, ROOT_ORG) values ('kuali.org.hierarchy.Curriculum', 'Hierarchy used to Manage Curriculum', {ts '2000-01-01 00:00:00.0'}, null, 'Curriculum', '141')
+insert into KSOR_ORG_HIRCHY (ID, DESCR, EFF_DT, EXPIR_DT, NAME, ROOT_ORG) values ('kuali.org.hierarchy.Main', 'Main Organizational Hierarchy', {ts '2000-01-01 00:00:00.0'}, null, 'Main', '4')
 
 
 //ORG ORG RELATION TYPE
@@ -229,7 +229,7 @@ insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME
 insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, REV_DESCR, REV_NAME, ORG_HIRCHY) values ('kuali.org.Collaborate', 'Peer Organizations Collaborating Together', {ts '2000-01-01 00:00:00.0'}, null, 'Collaborate', 'collaborates with', 'collaborates with', 'kuali.org.hierarchy.Main')
 insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, REV_DESCR, REV_NAME, ORG_HIRCHY) values ('kuali.org.HQ', 'The headquarters of an administrative office for a larger division', {ts '2000-01-01 00:00:00.0'}, null, 'Headquarters for', 'The administrative office for a larger division', 'has as its Headquarters', 'kuali.org.hierarchy.Main')
 insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, REV_DESCR, REV_NAME, ORG_HIRCHY) values ('kuali.org.Board', 'Indicates that one organization if the Board (of Trustees) of another organization', {ts '2000-01-01 00:00:00.0'}, null, 'is Board of', 'Indicates that one organization has at its Board (of Trustees) another organization', 'has Board of', 'kuali.org.hierarchy.Main')
-insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, REV_DESCR, REV_NAME, ORG_HIRCHY) values ('kuali.org.Advisory', 'Indicates that one organization provides advice to the leadership of another organization', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Advises', 'Indicates that this organization receives advice from the leadership of another organization', 'is Advised by', 'kuali.org.hierarchy.Main')
+insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, REV_DESCR, REV_NAME, ORG_HIRCHY) values ('kuali.org.Advisory', 'Indicates that one organization provides advice to the leadership of another organization', {ts '2000-01-01 00:00:00.0'}, null, 'Advises', 'Indicates that this organization receives advice from the leadership of another organization', 'is Advised by', 'kuali.org.hierarchy.Main')
 insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, REV_DESCR, REV_NAME, ORG_HIRCHY) values ('kuali.org.Supercommittee', 'Indicates this is organization has a subcommittee', {ts '2000-01-01 00:00:00.0'}, null, 'has Subcommittee of', 'Indicates that this organization is a subcommittee of another', 'is Subcommittee of', 'kuali.org.hierarchy.Main')
 insert into KSOR_ORG_ORG_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, REV_DESCR, REV_NAME, ORG_HIRCHY) values ('kuali.org.CurriculumParent', 'Indicates that one organization is the Parent of another organization in the Curriculum Hierarchy', {ts '2000-01-01 00:00:00.0'}, null, 'is Curriculum Parent of', 'Indicates that one organization is the Child of another organization in the Curriculum Hierarchy', 'is Curriculum Child of', 'kuali.org.hierarchy.Curriculum')
 
