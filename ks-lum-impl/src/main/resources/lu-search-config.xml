@@ -97,13 +97,12 @@
 		<search:name>Lu Full View</search:name>
 		<search:desc>Full view of clus</search:desc>
 		<search:resultColumns>
-			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluId" /> 
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
-			<ref bean="lu.resultColumn.luOptionalLevel"/>
-			<ref bean="lu.resultColumn.luOptionalDescr"/>
-			<ref bean="lu.resultColumn.luOptionalState"/>
-			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
+			<ref bean="lu.resultColumn.luOptionalLevel"/> 
+			<ref bean="lu.resultColumn.luOptionalDescr"/>				
+			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>			
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	
@@ -130,19 +129,13 @@
 		<search:name>Description</search:name>
 		<search:desc>Lu description.</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>
-	<search:resultColumn id="lu.resultColumn.luOptionalState" parent="lu.resultColumn.luOptionalState-parent"/>
-	<search:resultColumn id="lu.resultColumn.luOptionalState-parent"  abstract="true">
-		<search:name>State</search:name>
-		<search:desc>Lu state.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>
+	</search:resultColumn>		
 	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg" parent="lu.resultColumn.luOptionalPrimaryAdminOrg-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg-parent"  abstract="true">
 		<search:name>Primary Organization</search:name>
 		<search:desc>Lu primary organization</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>
+	</search:resultColumn>		
 	<search:resultColumn id="lu.resultColumn.luOptionalType" parent="lu.resultColumn.luOptionalType-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalType-parent"  abstract="true">
 		<search:name>Lu Type</search:name>
@@ -522,7 +515,6 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalCode" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalCode"/>
 		<search:joinResultMapping subSearchResultParam="org.resultColumn.orgOptionalLongName" subSearchKey="org" resultParam="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
 		<search:joinResultMapping subSearchResultParam="lu.queryParam.luOptionalType" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalType"/>
-		<search:joinResultMapping subSearchResultParam="lu.queryParam.luOptionalState" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalState"/>
 	</search:crossSearchType>
 
     <search:searchResultTypeInfo id="lu.result.cluGenericCrossSearch" parent="lu.result.cluGenericCrossSearch-parent"/>
@@ -534,8 +526,7 @@
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
 			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
-			<ref bean="lu.resultColumn.luOptionalType"/>
-			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.luOptionalType"/>				
         </search:resultColumns>
     </search:searchResultTypeInfo> 
     
@@ -567,7 +558,7 @@
 		            ORDER BY clu.officialIdentifier.code ASC</value>
 		        </entry>
 		        <entry key="lu.search.generic">
-		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.state, clu.primaryAdminOrg.orgId FROM Clu clu</value>
+		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId FROM Clu clu WHERE clu.state NOT IN ('draft')</value>
 		        </entry>    
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
@@ -596,9 +587,9 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalDescr">
 					<value>clu.descr.plain</value>
-				</entry>
+				</entry>							
 				<entry key="lu.queryParam.luOptionalState">
-					<value>clu.state IN (:lu_queryParam_luOptionalState)</value>
+					<value>clu.state = :lu_queryParam_luOptionalState</value>
 				</entry>
 				<entry key="cluset.queryParam.optionalId">
 					<value>cluset.id = :cluset_queryParam_optionalId</value>
@@ -624,7 +615,8 @@
 				<entry key="lu.queryParam.luOptionalLuTypeStartsWith">
 					<value>lut.id</value>
 				</entry>
-		</map>
+				
+            </map>
 		</property>
 	</bean>
 
