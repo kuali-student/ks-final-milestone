@@ -422,6 +422,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 						public void onSuccess(List<CommentInfo> result) {
 							if(result != null){
 								comments.clear();
+								commentList.clear();
 								types.clear();
 								Collections.sort(result, commentInfoComparator);
 								for(CommentInfo c: result){
@@ -455,6 +456,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 					public void onSuccess(List<CommentInfo> result) {
 						if(result != null){
 							comments.clear();
+							commentList.clear();
 							types.clear();
 							Collections.sort(result, commentInfoComparator);
 							for(CommentInfo c: result){
