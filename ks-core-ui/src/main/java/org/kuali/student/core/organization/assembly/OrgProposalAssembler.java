@@ -60,6 +60,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
     public static final String ORG_INFO_PATH                  = "orgInfo";
     public static final String QUALIFICATION_ORG_ID                 = "orgId";
+    public static final String PERM_DTO_NAME                 = "Organization";
     private Metadata metadata;
     private DataModel orgProposalModel = new DataModel();
     public OrgProposalAssembler(){
@@ -298,16 +299,20 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
     @Override
     protected String getDtoName() {
-        return "Organization";
+        return PERM_DTO_NAME;
     }
 
     @Override
     protected AttributeSet getQualification(String idType, String id) {
-        AttributeSet qualification = new AttributeSet();
+        AttributeSet qualification = null;
+        if(id!=null&&!id.isEmpty()){
+         qualification = new AttributeSet();
         /*String DOCUMENT_TYPE_NAME = "documentTypeName";
         //FIXME: should this be something like org.proposal?
         qualification.put(DOCUMENT_TYPE_NAME, "Organization");*/
         qualification.put(idType, id);
+        }
+        
         return qualification;
     }
    
