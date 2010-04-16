@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.lum</groupId>
+	<artifactId>ks-lum-api</artifactId>
+	<version>1.0.0-m5</version>
+	<packaging>jar</packaging>
+	<name>KS LUM API</name>
+	<description>KS Learning Unit Managment API</description>
+
+	<parent>
+		<groupId>org.kuali.student.lum</groupId>
+		<artifactId>ks-lum</artifactId>
+		<version>1.0.0-m5</version>
+	</parent>
+
+    <properties>
+      <ks.java2ws.phase>process-classes</ks.java2ws.phase>
+    </properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>${ks-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+			<version>${ks-brms.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>lo-wsdl</id>
+						<phase>${ks.java2ws.phase}</phase>
+						<configuration>
+							<className>
+								org.kuali.student.lum.lo.service.LearningObjectiveService
+							</className>
+							<serviceName>LoService</serviceName>
+							<targetNameSpace>http://student.kuali.org/wsdl/lo</targetNameSpace>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>lu-wsdl</id>
+						<phase>${ks.java2ws.phase}</phase>
+						<configuration>
+							<className>
+								org.kuali.student.lum.lu.service.LuService
+							</className>
+							<serviceName>LuService</serviceName>
+							<targetNameSpace>http://student.kuali.org/wsdl/lu</targetNameSpace>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
+                    <execution>
+                        <id>lrc-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>
+                                org.kuali.student.lum.lrc.service.LrcService
+                            </className>
+                            <serviceName>LrcService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/lrc</targetNameSpace>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
