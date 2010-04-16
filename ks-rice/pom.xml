@@ -133,6 +133,22 @@
             <version>2.4</version>
             <scope>test</scope>
         </dependency>
+         <dependency>
+            <groupId>org.kuali.student.security</groupId>
+            <artifactId>ks-standard-sec</artifactId>
+            <version>${ks-standard-security.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-util</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
+        <dependency>
+        	<artifactId>servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <version>2.5</version>
+            <scope>provided</scope>
+         </dependency>
 	</dependencies>
 
 </project>

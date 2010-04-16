@@ -28,7 +28,7 @@
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
-    
+    <param name="config.location">classpath:ks-security-config.xml</param>
     <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code">ks-rice</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
@@ -67,11 +67,13 @@
     <param name="keystore.password">r1c3pw</param>
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
+<!--
     <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
-
+-->
     <!-- additional config files -->
-    <param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
+    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml</param>
     
     <!-- Bus security -->
     <param name="ks.core.bus.security">false</param>
