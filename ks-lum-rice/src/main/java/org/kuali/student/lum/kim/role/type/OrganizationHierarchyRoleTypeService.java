@@ -36,6 +36,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.rice.kns.web.format.BooleanFormatter;
 
 /**
  * A Role Type Service that will enable an organization qualifier and parsing of the Organization Hierarchy
@@ -69,7 +70,9 @@ public class OrganizationHierarchyRoleTypeService extends KimRoleTypeServiceBase
 		List<AttributeSet> inputSets = new ArrayList<AttributeSet>();
         try {
 	        // if role member qualifier says to descend the hierarchy then add in all other org short names from hierarchy
-	        if (StringUtils.equals(DESCEND_HIERARCHY_TRUE_VALUE, roleMemberQualifier.get(KualiStudentKimAttributes.DESCEND_HIERARCHY))) {
+            BooleanFormatter format = new BooleanFormatter();
+            Boolean b = (Boolean)format.convertFromPresentationFormat(roleMemberQualifier.get(KualiStudentKimAttributes.DESCEND_HIERARCHY));
+	        if (b.booleanValue()) {
 	        	inputSets.addAll(getHierarchyOrgShortNames(inputOrgId));
 	        }
 	        // add in the original org short name
@@ -104,9 +107,11 @@ public class OrganizationHierarchyRoleTypeService extends KimRoleTypeServiceBase
 	protected List<AttributeSet> getOrgShortNamesForHierarchy(String inputOrgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<AttributeSet> returnSets = new ArrayList<AttributeSet>();
     	List<String> ids = getOrganizationService().getAllAncestors(inputOrgId, orgHierarchy);
-    	List<OrgInfo> orgs = getOrganizationService().getOrganizationsByIdList(ids);
-    	for (OrgInfo orgInfo : orgs) {
-            returnSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG,orgInfo.getShortName()));
+    	if (ids.size() > 0) {
+            List<OrgInfo> orgs = getOrganizationService().getOrganizationsByIdList(ids);
+            for (OrgInfo orgInfo : orgs) {
+                returnSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG, orgInfo.getShortName()));
+            }
         }
     	return returnSets;
 	}
