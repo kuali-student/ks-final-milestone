@@ -303,6 +303,7 @@
 			<ref bean="atp.resultColumn.atpDurType" />
 			<ref bean="atp.resultColumn.atpStartDate" />
 			<ref bean="atp.resultColumn.atpTypeName" />
+			<ref bean="atp.resultColumn.atpDescrPlain" />			
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -479,6 +480,15 @@
 		<search:name>Type Name</search:name>
 		<search:desc>Type of the ATP.</search:desc>
 		<search:dataType>string</search:dataType>
+	</search:resultColumn> 
+
+	<search:resultColumn id="atp.resultColumn.atpDescrPlain"
+		parent="atp.resultColumn.atpDescrPlain-parent" />
+	<search:resultColumn id="atp.resultColumn.atpDescrPlain-parent"
+		abstract="true">
+		<search:name>Plain Description</search:name>
+		<search:desc>Plain ATP description.</search:desc>
+		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
 	<search:resultColumn id="atp.resultColumn.atpStartDate"
@@ -516,6 +526,7 @@
 			<ref bean="atp.advancedAtpSearchParam.atpStartDate" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDate" />
 			<ref bean="atp.advancedAtpSearchParam.atpTypeName" />
+			<ref bean="atp.advancedAtpSearchParam.atpType" />					
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -597,9 +608,9 @@
 						atp.type.seasonalType.name,
 						atp.type.durationType.name,
 						atp.effectiveDate,
-						atp.type.name
-						FROM Atp atp
-                           </value>
+						atp.type.name,
+						atp.descr.plain
+						FROM Atp atp</value>
 				</entry>
 				<entry key="atp.search.atpByDate">
 					<value>SELECT
@@ -627,8 +638,11 @@
 				<entry key="atp.advancedAtpSearchParam.atpTypeName">
 					<value>atp.type.name</value>
 				</entry>
+				<entry key="atp.resultColumn.atpDescrPlain">
+					<value>atp.descr.plain</value>
+				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpType">
-					<value>atptype.id = :atp_advancedAtpSearchParam_atpType
+					<value>atp.type.id IN (:atp_advancedAtpSearchParam_atpType)
 					</value>
 				</entry>
 				<entry key="atp.search.atpDurationTypes">
