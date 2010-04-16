@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="Kuali Student" resourceRoot="" soapui-version="3.5" defaultScriptLanguage="Groovy" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:requirements/><con:properties><con:property><con:name>fff</con:name><con:value>eee</con:value></con:property></con:properties><con:wssContainer/><con:databaseConnectionContainer/></con:soapui-project>
