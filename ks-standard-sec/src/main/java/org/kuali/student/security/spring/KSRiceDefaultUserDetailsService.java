@@ -21,6 +21,7 @@ import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
@@ -48,7 +49,35 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         AuthorityUtils.commaSeparatedStringToAuthorityArray("ROLE_KS_ADMIN, ROLE_KS_USER");
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        if(username==null || username.equals("")){
+            throw new UsernameNotFoundException("Username cannot be null or empty");
+        }
+        
+        Config config = ConfigContext.getCurrentContextConfig();
+        String ksIgnoreRiceLogin = config.getProperty("ks.ignore.rice.login");
+        
+        // if property was not set in a config file then 
+        // it will be null and it falls through to the identityService code.
+        if(Boolean.valueOf(ksIgnoreRiceLogin) == true){
+            return new User(username, password, enabled, true, true, nonlocked, authorities);
+        }
+        
+        KimPrincipalInfo kimPrincipalInfo = null;
+        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+        
+        String userId;
+        if (null != kimPrincipalInfo) {
+            username = kimPrincipalInfo.getPrincipalName();
+            userId = kimPrincipalInfo.getPrincipalId();
+        } else {
+        // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
+        // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
+        // to do this we need to throw a AccountStatusException and not UsernameNotFoundException.
+            throw new KimUserNotFoundException("Invalid username or password");  
+        }
+        ksuser = new UserWithId(username, password, enabled, true, true, nonlocked, authorities);
+        ksuser.setUserId(userId);
+        return ksuser;
     }
     
     public UserDetails loadUserByUsernameAndToken(String username, UsernamePasswordAuthenticationToken authentication) throws UsernameNotFoundException {

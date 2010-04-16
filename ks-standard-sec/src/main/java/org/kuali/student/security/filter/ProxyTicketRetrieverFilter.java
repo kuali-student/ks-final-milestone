@@ -56,7 +56,7 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
             System.out.println("ProxyTicketRetrieverFilter : inside if");
             casAssertion = cat.getAssertion();
             if(casAssertion != null){
-                System.out.println("ProxyTicketRetrieverFilter : casAssertion is null");
+                System.out.println("ProxyTicketRetrieverFilter : casAssertion is not null");
                 if(useCasProxyMechanism){
                     proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
                 } else {
