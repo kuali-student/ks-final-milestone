@@ -92,13 +92,15 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
         try {
             List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
             
-            for (CluResultInfo cluResult : cluResultList) {
-                if (cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
-                    for(ResultOptionInfo option : cluResult.getResultOptions()) {
-                        LearningResultOutcomeHelper outcome = LearningResultOutcomeHelper.wrap(new Data());
-                        outcome.setOutcomeType(option.getResultComponentId());
-                        outcomeData.add(outcome.getData());                        
-                    }                    
+            if (cluResultList != null) {
+                for (CluResultInfo cluResult : cluResultList) {
+                    if (cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
+                        for(ResultOptionInfo option : cluResult.getResultOptions()) {
+                            LearningResultOutcomeHelper outcome = LearningResultOutcomeHelper.wrap(new Data());
+                            outcome.setOutcomeType(option.getResultComponentId());
+                            outcomeData.add(outcome.getData());                        
+                        }                    
+                    }
                 }
             }
             
