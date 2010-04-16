@@ -85,9 +85,15 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 				for(OrgPersonRelationInfo relation:relations){
 					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getType())){
 					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.
-					    if(relation.getExpirationDate().compareTo(now)>=0){
-						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes);
-						members.add(member);
+					    if(relation.getExpirationDate()!=null){
+					        if(relation.getExpirationDate().compareTo(now)>=0){
+					            RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes);
+					            members.add(member);
+					        }
+					    }
+					    else{
+                            RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes);
+                            members.add(member);
 					    }
 					}
 				}
