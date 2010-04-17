@@ -8,4 +8,28 @@
   <artifactId>ks-core-db</artifactId>
   <name>KS Core Database</name>
   <description>Kuali Student Core Database</description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.impex</groupId>
+        <artifactId>maven-impex-plugin</artifactId>
+        <version>3.3.1-kuali-1-SNAPSHOT</version>
+        <configuration>
+          <schema>KSEMBEDDED</schema>
+          <username>KSEMBEDDED</username>
+          <password>KSEMBEDDED</password>
+          <url>jdbc:oracle:thin:@localhost:1521/XE</url>
+          <driver>oracle.jdbc.OracleDriver</driver>
+          <targetDatabase>oracle</targetDatabase>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.3.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 </project>

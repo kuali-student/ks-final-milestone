@@ -11,16 +11,4 @@
   <packaging>pom</packaging>
   <name>KS Databases</name>
   <description>KS Databases</description>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.kuali.impex</groupId>
-        <artifactId>maven-impex-plugin</artifactId>
-        <version>3.3.1-kuali-1-SNAPSHOT</version>
-        <configuration>
-          <targetDatabase>oracle</targetDatabase>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
