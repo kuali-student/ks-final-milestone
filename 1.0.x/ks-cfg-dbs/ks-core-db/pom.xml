@@ -18,7 +18,7 @@
           <schema>KSEMBEDDED</schema>
           <username>KSEMBEDDED</username>
           <password>KSEMBEDDED</password>
-          <url>jdbc:oracle:thin:@localhost:1521/XE</url>
+          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
           <driver>oracle.jdbc.OracleDriver</driver>
           <targetDatabase>oracle</targetDatabase>
         </configuration>
