@@ -261,7 +261,9 @@ public class RuleComponentEditorView extends ViewComposite {
             newButton.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
                 @Override
                 public void onValueChange(ValueChangeEvent<Boolean> event) {
-                    if (compReqTypesList.getSelectedItem() != null) {
+                	addReqComp.setEnabled(true);
+                	updateReqComp.setEnabled(true);
+                	if (compReqTypesList.getSelectedItem() != null) {
                         compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
                     }
                     for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
