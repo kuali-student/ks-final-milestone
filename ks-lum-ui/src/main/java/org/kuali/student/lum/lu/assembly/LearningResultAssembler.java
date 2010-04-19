@@ -27,7 +27,6 @@ import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningResultOutcomeHelper;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
@@ -69,15 +68,14 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
         try {
             List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
             if(cluResultList != null && !cluResultList.isEmpty()) {
-                //for(CluResultInfo cluResult : cluResultList) {
-                CluResultInfo cluResult = cluResultList.get(0);
+                for(CluResultInfo cluResult : cluResultList) {
                     if(cluResult.getType().equals(GRADE_RESULT_TYPE)) {
                         for(ResultOptionInfo option : cluResult.getResultOptions()) {
                             String typeKey = option.getResultComponentId();
                             resultData.add(typeKey);
                         }
                     }
-                //}
+                }
             }
         } catch(Exception e) {
             throw new AssemblyException("Unable to load learning results for course", e);
