@@ -137,7 +137,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="60" />
-		<property name="validChars" value="regex:[A-Za-z0-9.-]*" />
+		<property name="validChars" value="regex:[A-Za-z0-9.\-]*" />
 	</bean>
 	<bean id="constraint.code.uppercase" parent="constraint">
 		<property name="id" value="code.uppercase" />
@@ -147,7 +147,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="60" />
-		<property name="validChars" value="regex:[A-Z0-9.-]*" />
+		<property name="validChars" value="regex:[A-Z0-9.\-]*" />
 	</bean>
 	<bean id="constraint.course.proposal.types" parent="constraint">
 		<property name="id" value="course.proposal.types" />
@@ -358,7 +358,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="9" />
-		<property name="validChars" value="regex:^(\+|-)?[0-9]+$" />
+		<property name="validChars" value="regex:^(\+|\-)?[0-9]+$" />
 		<property name="comments"
 			value="http://regexlib.com/REDetails.aspx?regexp_id=14" />
 	</bean>
@@ -399,7 +399,7 @@
 		<property name="maxLength" value="30" />
 		<property name="minOccurs" value="1" />
 		<property name="maxOccurs" value="1" />
-		<property name="validChars" value="regex:[A-Za-z0-9.-]*" />
+		<property name="validChars" value="regex:[A-Za-z0-9.\-]*" />
 	</bean>
 	<bean id="constraint.kuali.type" parent="constraint">
 		<property name="id" value="kuali.type" />
@@ -410,7 +410,7 @@
 		<property name="maxLength" value="60" />
 		<property name="minOccurs" value="1" />
 		<property name="maxOccurs" value="1" />
-		<property name="validChars" value="regex:[A-Za-z0-9.-]*" />
+		<property name="validChars" value="regex:[A-Za-z0-9.\-]*" />
 	</bean>
 	<bean id="constraint.letter" parent="constraint">
 		<property name="id" value="letter" />
@@ -519,7 +519,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="validChars"
-			value="regex:[A-Za-z0-9.-;:&#34;'&amp;%$#@!\n\r\t ]*" />
+			value="regex:[A-Za-z0-9()\?\[\];/\\\.•\-;,:&#34;'&amp;%$#@!\n\r\t ]*" />
 		<property name="comments"
 			value="old reg ex was [A-Za-z0-9.-;;'&amp;%$#@!\n\r\t]*" />
 	</bean>
@@ -698,7 +698,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="255" />
-		<property name="validChars" value="regex:[A-Za-z0-9.-;:&#34;'&amp;%$#@!\t ]*" />
+		<property name="validChars" value="regex:[A-Za-z0-9.\-;:&#34;'&amp;%$#@!\t ]*" />
 		<property name="comments"
 			value="old reg ex was &#34;[A-Za-z0-9.-;;'&amp;%$#@!]*" />
 	</bean>
