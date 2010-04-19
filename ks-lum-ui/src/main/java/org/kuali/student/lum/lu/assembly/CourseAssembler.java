@@ -684,8 +684,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 								.getCourseId(), JOINT_RELATION_TYPE, rel);
 						joint.setRelationId(result.getId());
 	
-					}
-					else if(isUpdated(joint.getData())){
+					} else if (isDeleted(joint.getData())){
+						String relationId = joint.getRelationId();
+						if (relationId!= null){
+							luService.deleteCluCluRelation(relationId);
+						}
+					} else if(isUpdated(joint.getData())){
 						String relationId = joint.getRelationId();
 						CluInfo clu = luService.getClu(joint.getCourseId());
 						if(!(clu.getOfficialIdentifier().getLongName().equals(joint.getCourseTitle()))){
@@ -697,7 +701,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	
 							luService.updateCluCluRelation(relationId, cluCluRelation);
 						}
-	
 					}
 				}
 			}
