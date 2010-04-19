@@ -417,7 +417,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
 			// if the cluclu realtion is of type jointCourses dont add as a child to the CluInfoHierarchy object
-				if(!rel.getType().equals(JOINT_RELATION_TYPE)){
+				if(rel.getType().equals(currentRel.getRelationshipType())){
 					CluInfo clu = luService.getClu(rel.getRelatedCluId());
 					CluInfoHierarchy c = new CluInfoHierarchy();
 					c.setParentRelationType(currentRel.getRelationshipType());
