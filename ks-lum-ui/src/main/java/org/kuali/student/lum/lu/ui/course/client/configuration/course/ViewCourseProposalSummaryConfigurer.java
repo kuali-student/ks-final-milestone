@@ -128,6 +128,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 		public void setWidgetValue(SummaryTable summaryTable, DataModel model,
 				String path) {
 			if(!summaryTable.isPopulated()){
+				
 				//Summary Brief
 				summaryTable.addField(getLabel(LUConstants.BRIEF_LABEL_KEY), 0);
 				summaryTable.addField(LUConstants.TITLE_LABEL_KEY, PROPOSAL + "/" + TITLE, model, 1);
@@ -176,10 +177,10 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField("First Expected Offering", COURSE + "/" + FIRST_EXPECTED_OFFERING, model, 1);
 				summaryTable.addField(LUConstants.START_DATE_LABEL_KEY, COURSE + "/" + CreditCourseConstants.EFFECTIVE_DATE, model, 1);
 				summaryTable.addField(LUConstants.END_DATE_LABEL_KEY, COURSE + "/" + EXPIRATION_DATE, model, 1);
-	        
+				
+				summaryTable.setPopulated(true);	        
 	        }
 
-			summaryTable.setPopulated(true);
 		}
 
 	}
@@ -385,7 +386,6 @@ public class ViewCourseProposalSummaryConfigurer implements
 				addField(labelKey, indent);
 				
 				//Parse through each value
-				//TODO handle repeating since the runtime data translation is different
 				Iterator<Data.Property> propIter = ((Data)value).iterator();
 				while(propIter.hasNext()){
 					Data.Property prop = propIter.next();
@@ -439,7 +439,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 		}
 
 		public void setPopulated(boolean populated) {
-			this.populated = populated;
+			SummaryTable.this.populated = populated;
 		}
 
 		public boolean isPopulated() {
@@ -448,7 +448,10 @@ public class ViewCourseProposalSummaryConfigurer implements
 
 		@Override
 		protected void onLoad() {
-			this.clear();
+			SummaryTable.this.clear();
+			while(SummaryTable.this.getRowCount()>0){
+				SummaryTable.this.removeRow(0);
+			}
 			populated=false;
 		}
 	
