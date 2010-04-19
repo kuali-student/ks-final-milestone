@@ -447,7 +447,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 		}
 
 		@Override
-		protected void onLoad() {
+		protected void onUnload() {
 			SummaryTable.this.clear();
 			while(SummaryTable.this.getRowCount()>0){
 				SummaryTable.this.removeRow(0);
