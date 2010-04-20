@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
@@ -249,9 +250,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     
     private void init(DataModelDefinition modelDefinition){
         
-        CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
+        Configurer cfg = GWT.create(CourseConfigurer.class);
         cfg.setModelDefinition(modelDefinition);
-        cfg.configureCourseProposal(this);
+        cfg.configure(this);
         
         //FIXME: This needs to be moved to the configurer
         workflowToolbar = new WorkflowToolbar(createOnWorkflowSubmitSuccessHandler());

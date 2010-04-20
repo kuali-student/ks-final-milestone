@@ -36,6 +36,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
@@ -98,7 +99,7 @@ import com.google.gwt.user.client.ui.Widget;
 	 *
 	 */
 	public class CourseConfigurer
-	 implements CreditCourseProposalConstants,
+	 implements Configurer, CreditCourseProposalConstants,
 	 CreditCourseProposalInfoConstants,
 	 CreditCourseConstants,
 	 CreditCourseFormatConstants,
@@ -139,7 +140,7 @@ import com.google.gwt.user.client.ui.Widget;
 	    	this.modelDefinition = modelDefinition;
 	    }
 	
-	    public void configureCourseProposal(ConfigurableLayout layout) {
+	    public void configure(ConfigurableLayout layout) {
 	    	groupName = LUConstants.COURSE_GROUP_NAME;
 	
 	        addCluStartSection(layout);
@@ -169,7 +170,7 @@ import com.google.gwt.user.client.ui.Widget;
 		
 	        //Tool Tabs
 	        layout.addTool(new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
-	        		getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+	        	getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
 	        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
 	        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
 	    }

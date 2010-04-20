@@ -97,7 +97,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 		this.modelDefinition = modelDefinition;
 	}
 
-	protected VerticalSectionView generateSummarySection(){
+	public VerticalSectionView generateSummarySection(){
     	
         VerticalSectionView summaryTableSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
         summaryTableSection.addStyleName(LUConstants.STYLE_SECTION);
