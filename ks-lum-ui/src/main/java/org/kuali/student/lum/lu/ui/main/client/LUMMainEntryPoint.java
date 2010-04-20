@@ -19,7 +19,6 @@ package org.kuali.student.lum.lu.ui.main.client;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.dictionary.DictionaryLoader;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
@@ -53,18 +52,11 @@ public class LUMMainEntryPoint implements EntryPoint{
 
         try {
             loadMessages(context);            
-            
-            //loadDictionary();          
-            
+                                 
             loadApp(context);
         } catch (Exception e) {
             e.printStackTrace();
         } 
-    }
-
-    private void loadDictionary() {
-        DictionaryLoader.loadDictionary("luTypes");
-        DictionaryLoader.loadDictionary("loTypes");
     }
 
     private void initScreen(){
