@@ -398,9 +398,11 @@ public class RuleComponentEditorView extends ViewComposite {
                     ((CourseReqManager)getController()).removeRule(model.getValue());                    
                     getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);                    
                 } else {                
-                    //revert changes to the existing Req. Component
-                    editedReqComp.setRequiredComponentType(originalReqType);
-                    editedReqComp.setType(originalReqType.getId());
+                    if (!addingNewReqComp) {
+                        //revert changes to the existing Req. Component
+                        editedReqComp.setRequiredComponentType(originalReqType);
+                        editedReqComp.setType(originalReqType.getId());
+                    }
                                   
                     //updateNLAndExit();
                     getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
