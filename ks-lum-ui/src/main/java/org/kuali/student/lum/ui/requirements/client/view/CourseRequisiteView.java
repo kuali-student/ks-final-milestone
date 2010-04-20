@@ -20,9 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -34,10 +32,8 @@ import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
-import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
@@ -55,12 +51,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequisiteView extends ViewComposite {
-    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-    
-//    private static final String KS_STATEMENT_TYPE_PREREQ = "kuali.luStatementType.prereqAcademicReadiness";
-//    private static final String KS_STATEMENT_TYPE_COREQ = "kuali.luStatementType.coreqAcademicReadiness";
-//    private static final String KS_STATEMENT_TYPE_ANTIREQ = "kuali.luStatementType.antireqAcademicReadiness";
-//    private static final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.luStatementType.enrollAcademicReadiness";    
+    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);   
     
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
@@ -143,7 +134,7 @@ public class CourseRequisiteView extends ViewComposite {
         rulesInfoPanel.add(rationalePanel3);
     	
     	RuleInfo rule = getRuleInfo(luStatementTypeKey);  
-    	if (rule == null)
+    	if (!ruleExist(rule))
     	{
             KSLabel reqText = new KSLabel("No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.");
             reqText.setStyleName("KS-ReqMgr-NoRuleText");
@@ -152,7 +143,7 @@ public class CourseRequisiteView extends ViewComposite {
             rulesText.add(reqText); 
     	}
     	
-        KSButton submitButton = new KSButton(rule == null ? "Add Rule" : "Manage rule");
+        KSButton submitButton = new KSButton(ruleExist(rule) ? "Manage Rule" : "Add rule");
         submitButtons.put(luStatementTypeKey, submitButton);
         submitButton.setTitle(luStatementTypeKey);
         submitButton.setStyleName("KS-Rules-Tight-Button");
@@ -168,7 +159,7 @@ public class CourseRequisiteView extends ViewComposite {
     	
         rulesText.clear();
 
-        if (rule == null) { //|| (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {
+        if (!ruleExist(rule)) {
     		String ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";
     		rulesText.add(new KSLabel(ruleText));
     	} else {
@@ -192,6 +183,10 @@ public class CourseRequisiteView extends ViewComposite {
     	        }); 
     	    }
     	}
+    }
+    
+    private boolean ruleExist(RuleInfo rule) {
+        return (rule != null);
     }
     
     private class ButtonEventHandler implements ClickHandler{
@@ -218,8 +213,8 @@ public class CourseRequisiteView extends ViewComposite {
             
             RuleInfo rule = getRuleInfo(title);
             //true if user is adding a new rule
-            if ((rule == null) || rule.getStatementVO() == null) {                
-                courseReqManager.addNewRule(statementType);
+            if (!ruleExist(rule)) {                
+                courseReqManager.addNewRule(statementType);                
                 courseReqManager.showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
             } else {
                 courseReqManager.showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);

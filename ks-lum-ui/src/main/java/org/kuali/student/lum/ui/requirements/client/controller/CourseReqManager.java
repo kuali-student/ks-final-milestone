@@ -208,6 +208,10 @@ public class CourseReqManager extends Controller {
         ruleInfo.add(newPrereqInfo);
     }
 
+    public void removeRule(RuleInfo rule) {
+        ruleInfo.remove(rule);
+    }
+    
     private void loadSearchBoxData() {        
         cluSetsData.put("CLUSET-NL-3", "CLUSET-NL-3");
         cluSetsData.put("CLUSET-NL-2", "CLUSET-NL-2");

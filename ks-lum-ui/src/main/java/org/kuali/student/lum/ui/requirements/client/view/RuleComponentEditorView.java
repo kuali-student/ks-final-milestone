@@ -55,8 +55,6 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
@@ -91,16 +89,18 @@ public class RuleComponentEditorView extends ViewComposite {
     private SimplePanel reqCompDesc = new SimplePanel();
     private KSLabel exampleText = new KSLabel();
 
-    //view's data
-    private boolean addNewReqComp;
-    private StatementVO editedStatementVO;						//edited rule
-    private ReqComponentVO editedReqCompVO;   					//edited req. component plus extra UI data
-    private ReqComponentInfo editedReqComp;						//edited req. component info
+    //rules data
+    private StatementVO editedStatementVO;						//rule being edited by the user
+    private ReqComponentVO editedReqCompVO;   					//Req. Component of the rule being edited by the user (plus extra UI data)
+    private ReqComponentInfo editedReqComp;						//Req. Component that user is editing or adding
     private ReqComponentTypeInfo selectedReqType;
+    private ReqComponentTypeInfo originalReqType;
+    private CollectionModel<RuleInfo> model;
+    
+    //view's data
+    private boolean addingNewReqComp;                           //adding (true) or editing (false) req. component
     private List<ReqCompFieldInfo> editedFields;
-    private String origReqCompType;
-
-    private List<ReqComponentTypeInfo> reqCompTypeList;     	//list of all Requirement Component Types
+    private List<ReqComponentTypeInfo> reqCompTypeList;     	//list of all Requirement Component Types based on selected Statement Type
     private ListItems listItemReqCompTypes;                 	//list of advanced Requirement Component Types
     private List<ReqComponentTypeInfo> advReqCompTypeList;     	//list of advanced Requirement Component Types
     private List<Object> reqCompWidgets = new ArrayList<Object>();
@@ -108,7 +108,6 @@ public class RuleComponentEditorView extends ViewComposite {
     private static int tempCounterID = 2000;
     private List<ReqCompPicker> valueWidgets = new ArrayList<ReqCompPicker>();    
     private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();  //contains definition of lookups
-    private CollectionModel<RuleInfo> model;
 
     public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -128,7 +127,8 @@ public class RuleComponentEditorView extends ViewComposite {
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        }); 
+        });
+        
         requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(getSelectedStatementType(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
             public void onFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + getSelectedStatementType(), cause);
@@ -153,11 +153,11 @@ public class RuleComponentEditorView extends ViewComposite {
                     compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
                 }            
                 
-                //true if we are editing existing rule
+                //true if we are editing an existing rule
                  if (editedReqCompVO != null) {                	
-                    addNewReqComp = false;
+                    addingNewReqComp = false;
                     editedReqComp = editedReqCompVO.getReqComponentInfo();
-                    origReqCompType = editedReqComp.getType();
+                    originalReqType = editedReqComp.getRequiredComponentType();
                     for (int i = 0; i < reqCompTypeList.size(); i++) {
                         if (editedReqComp.getType().equals(reqCompTypeList.get(i).getId())) {
                             selectedReqType = reqCompTypeList.get(i);
@@ -166,8 +166,8 @@ public class RuleComponentEditorView extends ViewComposite {
                     }
                 } else {
                     //create a basic structure for a new rule
-                	addNewReqComp = true;
-                	origReqCompType = null;
+                	addingNewReqComp = true;
+                	originalReqType = null;
                     setupNewEditedReqComp(null);
                     selectedReqType = null;
                 }
@@ -182,7 +182,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
         //1. show view HEADING
         SimplePanel headingPanel = new SimplePanel();
-        KSLabel heading = new KSLabel((addNewReqComp ? "Add " : "Edit ") + getRuleTypeName() + " Rule");
+        KSLabel heading = new KSLabel((addingNewReqComp ? "Add " : "Edit ") + getRuleTypeName() + " Rule");
         heading.setStyleName("KS-Rules-FullWidth");
         heading.setStyleName("KS-ReqMgr-Heading");
         headingPanel.add(heading);
@@ -218,15 +218,14 @@ public class RuleComponentEditorView extends ViewComposite {
         tempPanelButtons.setSpacing(0);
         tempPanelButtons.setStyleName("KS-ReqCompEditor-BottomButtons");
         btnCancelView.setStyleName("KS-Rules-Tight-Button");
-        if (addNewReqComp) {
+        if (addingNewReqComp) {
             tempPanelButtons.add(addReqComp);
             addReqComp.setStyleName("KS-Rules-Tight-Button");
-            if (selectedReqType == null) {
-                addReqComp.setEnabled(false);
-            }
+            addReqComp.setEnabled(false);            
         } else {
             tempPanelButtons.add(updateReqComp);
             updateReqComp.setStyleName("KS-Rules-Tight-Button");
+            updateReqComp.setEnabled(true);
             if (selectedReqType == null) {
                 updateReqComp.setEnabled(false);
             }
@@ -250,7 +249,7 @@ public class RuleComponentEditorView extends ViewComposite {
     //show basic and advanced requirement types
     private void displayReqComponentTypes(Panel container) {
 
-        //TODO list of basic and advanced types based on some configuration data
+        //TODO list basic and advanced types based on some configuration data
 
         //show radio button for each basic Requirement Component Type
         VerticalPanel rbPanel = new VerticalPanel();
@@ -269,7 +268,7 @@ public class RuleComponentEditorView extends ViewComposite {
                     for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
                         if (newButton.getText().trim().equals(reqCompTypeList.get(i).getDescr().trim())) {
                             selectedReqType = reqCompTypeList.get(i);
-                            if (addNewReqComp) {
+                            if (addingNewReqComp) {
                                 setupNewEditedReqComp(selectedReqType);
                             } else {
                                 editedReqComp.setRequiredComponentType(selectedReqType);
@@ -307,7 +306,7 @@ public class RuleComponentEditorView extends ViewComposite {
         }
         hodler.add(compReqTypesList);
 
-        //don't advanced req. component types list if we don't have any
+        //don't create advanced req. component types list if we don't have any
         if (advReqCompTypeList.size() > 0) {
             rbPanel.add(hodler);
         }
@@ -315,11 +314,8 @@ public class RuleComponentEditorView extends ViewComposite {
         container.add(rbPanel);
     }
 
-
+    //TODO generic function that will retrieve all data required to display details of this req. componenet type...
     private void displayReqComponentDetails() {
-
-        //TODO generic function that will retrieve all data required to display details of this req. componenet type...
-
         //true if no Requirement Component Type selected
         ruleDetailsPanel.clear();
         if (selectedReqType == null) {
@@ -327,21 +323,6 @@ public class RuleComponentEditorView extends ViewComposite {
         }
         displayReqComponentDetailsCont();
     }
-
-//    private String getTemplate(String nlUsageTypeKey) {
-//    	return getTemplate(nlUsageTypeKey, TEMLATE_LANGUAGE);
-//    }
-    
-//    private String getTemplate(String nlUsageTypeKey, String language) {
-        //FIXME: templates are no longer in ReqComponentType
-//    	for(ReqComponentTypeNLTemplateInfo template : editedReqComp.getRequiredComponentType().getNlUsageTemplates()) {
-//    		if(nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
-//    			return template.getTemplate();
-//    		}
-//    	}
-//    	return null;
-//        return null;
-//    }
     
     private void displayReqComponentDetailsCont() {
         //show heading
@@ -363,11 +344,10 @@ public class RuleComponentEditorView extends ViewComposite {
             }
 
             public void onSuccess(final String reqCompNaturalLanguage) {
-                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
-                editedReqCompVO.setCheckBoxOn(true);                
-                editedStatementVO.clearSelections();
+           //     editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
+           //     editedReqCompVO.setCheckBoxOn(true);                
+           //     editedStatementVO.clearSelections();
                 ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
-//                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
                 displayReqComponentText(reqCompNaturalLanguage, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
                 reqCompDetailsPanel.add(reqCompDesc);
             }
@@ -412,12 +392,19 @@ public class RuleComponentEditorView extends ViewComposite {
     private void setupHandlers() {
 
         btnCancelView.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                if (origReqCompType != null) {
-                    editedReqComp.setType(origReqCompType); //revert possible changes to type
+            public void onClick(ClickEvent event) {                
+                //if rule has not been created, cancel should return user back to initial rules summary screen
+                if (model.getValue().getNaturalLanguage() == null) {
+                    ((CourseReqManager)getController()).removeRule(model.getValue());                    
+                    getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);                    
+                } else {                
+                    //revert changes to the existing Req. Component
+                    editedReqComp.setRequiredComponentType(originalReqType);
+                    editedReqComp.setType(originalReqType.getId());
+                                  
+                    //updateNLAndExit();
+                    getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
                 }
-                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
-                updateNLAndExit();                    	                    	
             }
         });
 
@@ -448,7 +435,7 @@ public class RuleComponentEditorView extends ViewComposite {
                     return;
                 }
 
-            	//2. update req. component being edited
+            	//2. update req. component being edited (type was updated already)
                 editedReqComp.setReqCompFields(editedFields);
                 
                 //3. update rule
@@ -467,7 +454,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
                  List<String> ids = ((KSSelectItemWidgetAbstract)event.getWidget()).getSelectedItems();
                  selectedReqType = advReqCompTypeList.get(Integer.valueOf(ids.get(0)));
-                 if (addNewReqComp) {
+                 if (addingNewReqComp) {
                      setupNewEditedReqComp(selectedReqType);
                  } else {
                 	 editedReqComp.setRequiredComponentType(selectedReqType);
@@ -743,14 +730,15 @@ public class RuleComponentEditorView extends ViewComposite {
         return result;
     }
 
+    /* create a new Req. Component Type based on user selection or empty at first */
     private void setupNewEditedReqComp(ReqComponentTypeInfo reqCompTypeInfo) {
-        editedReqComp = new ReqComponentInfo();
         RichTextInfo desc = new RichTextInfo();
         desc.setPlain("");
         desc.setFormatted("");
-        editedReqComp.setDesc(desc);      							//will be set after user is finished with all changes
+        editedReqComp = new ReqComponentInfo();
+        editedReqComp.setDesc(desc);      						 //will be set after user is finished with all changes
         editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO
-        editedReqComp.setReqCompFields(null); //fieldList);                       
+        editedReqComp.setReqCompFields(null);                 
         editedReqComp.setRequiredComponentType(reqCompTypeInfo);
         if (reqCompTypeInfo != null) editedReqComp.setType(reqCompTypeInfo.getId());
         editedReqCompVO = new ReqComponentVO(editedReqComp);
@@ -835,8 +823,7 @@ public class RuleComponentEditorView extends ViewComposite {
 	        }
 	    };  
     }
-    
-    
+      
     private ReqCompPicker configureCourseSearch() { 
     	for (FieldDescriptor fieldMetadata : fieldsWithLookup) {
     		if (fieldMetadata.getMetadata().getName().equals("findCourse")) {

@@ -376,24 +376,17 @@ public class ManageRulesView extends ViewComposite {
         
         btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-//            	getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
-
             	getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel dataModel) {
-                    	RuleInfo managedRule = model.getValue();
-                    	managedRule.setNaturalLanguage(naturalLanguage);  
-                    	
-                    	/*
-                    	LuData luData = (LuData)dataModel.getRoot();                  	
-                    	List<RuleInfo> ruleInfos = luData.getRuleInfos();                   
-                        for (RuleInfo origRuleInfo : ruleInfos) {
-                            if (origRuleInfo.getLuStatementTypeKey().equals(managedRule.getLuStatementTypeKey())) {              	
-                                ruleInfos.remove(origRuleInfo);
-                                ruleInfos.add(managedRule);
-                            }                
-                        } */
+                    	RuleInfo managedRule = model.getValue();                    	
                         
+                    	if (managedRule.getStatementVO() == null) {
+                    	    ((CourseReqManager)getController()).removeRule(managedRule); 
+                    	} else {
+                            managedRule.setNaturalLanguage(naturalLanguage);                     	    
+                    	}
+                    	
                         //switch to first page
                         getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
                     }
