@@ -138,6 +138,7 @@
     <param name="lum.application.url" override="false">${application.url}</param>
     <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
     
+    <param name="ks.application.version">Kuali Student Version : 1.0.0-rc1</param>
     
     <!-- system params for derby network version -->
     <param name="derby.system.home" system="true" override="false">target</param>
