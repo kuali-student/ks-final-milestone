@@ -38,7 +38,7 @@ import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 
 /*
- * This Assembler has to do Data <-> List<CluFeeRecordInfo> because it has to
+ * This Assembler has to do Data <-> List<CluAccountingInfo> because it has to
  * sift thru the CluFeeRecordInfo's found in a course's CluFeeInfo to find
  * the "Revenue" one; perhaps in 1.1 we could have it outside the fees?
  * (that would probably require a service cahnge, thought)
@@ -60,6 +60,7 @@ public class ExpenditureDataAssembler implements Assembler<Data, CluAccountingIn
 		CreditCourseExpenditureInfoHelper expenditureHelper = CreditCourseExpenditureInfoHelper.wrap(new Data());
 		
 		expenditureHelper.setTotalPercentage("100.00");
+		expenditureHelper.setId(input.getId());
 		
 		Data affiliatedOrgData = new Data();
 		for (AffiliatedOrgInfo orgInfo : input.getAffiliatedOrgs()) {
