@@ -36,7 +36,9 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.data.Data.StringKey;
 import org.kuali.student.core.assembly.data.Data.Value;
+import org.quartz.utils.StringKeyDirtyFlagMap;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -237,6 +239,24 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         }
         DataValue result = new DataValue(data);
         return result;
+    }
+    
+    /**
+     * Returns all selected values along with their translations in the _runtime data.
+     * @return
+     */
+    public Value getValueWithTranslations(){
+        Data data = new Data();
+        Data _runtimeData = new Data();
+        for(SelectedValue v : selectedValues) {
+            data.add(v.getValue());
+            Data displayData = new Data();
+            displayData.set("id-translation", v.getDisplay());
+            _runtimeData.add(displayData);
+        }
+        data.set(new StringKey("_runtimeData"), _runtimeData);
+        DataValue result = new DataValue(data);
+        return result;    	
     }
 
     @Override

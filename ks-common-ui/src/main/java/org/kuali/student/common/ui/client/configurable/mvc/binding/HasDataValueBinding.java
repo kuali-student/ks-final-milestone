@@ -25,6 +25,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
@@ -59,7 +60,13 @@ public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>
             setDirtyFlag(model, qPath);
         }
         if(value != null){
-        	model.set(qPath, value);
+        	if (widget instanceof KSSelectedList ){
+        		//This gets a value with _runtimeData translations for all selected items,
+        		//otherwise translations get lost and KSSelectedList would have to lookup values via a search call.
+        		model.set(qPath, ((KSSelectedList)widget).getValueWithTranslations());
+        	} else {
+        		model.set(qPath, value);
+        	}
         }
 	}
 
