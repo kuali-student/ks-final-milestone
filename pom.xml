@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-core</artifactId>
-        <version>1.0.0-rc1</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <url>http://student.kuali.org/site/brms/${project.version}</url>
@@ -24,7 +24,7 @@
     <properties>
         <drools.version>5.0.1</drools.version>
         <mvel.dep.version>2.0.12</mvel.dep.version>
-        <ks-core.version>1.0.0-rc1</ks-core.version>
+        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
     </properties>
 
     <modules>
