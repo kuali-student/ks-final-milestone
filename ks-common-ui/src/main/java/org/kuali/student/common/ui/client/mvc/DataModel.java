@@ -40,7 +40,6 @@ import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallback;
 import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
 import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeType;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -73,7 +72,6 @@ public class DataModel implements Model {
     // do nothing
     }
 
-    @SuppressWarnings("deprecation")
     public DataModel(final ModelDefinition definition, final Data root) {
         this.definition = definition;
         this.root = root;
