@@ -355,6 +355,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey("");
 
 		OrgPositionRestrictionInfo created = client.addPositionRestrictionToOrg("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo);
+		OrgPositionRestrictionInfo created2 = client.addPositionRestrictionToOrg("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo);
 
 		//validate fields
 		assertEquals("Description For Position Restriction",created.getDesc());
@@ -394,7 +395,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void getPositionRestrictionsByOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<OrgPositionRestrictionInfo>  orgPositionRestrictionInfos = client.getPositionRestrictionsByOrg("19");
-		assertEquals(6, orgPositionRestrictionInfos.size());
+		assertEquals(2, orgPositionRestrictionInfos.size());
 
 		 orgPositionRestrictionInfos = client.getPositionRestrictionsByOrg("-1");
 		 assertTrue(orgPositionRestrictionInfos == null || orgPositionRestrictionInfos.size() == 0);
