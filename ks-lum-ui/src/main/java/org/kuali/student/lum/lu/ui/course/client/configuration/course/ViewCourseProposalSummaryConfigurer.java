@@ -15,6 +15,8 @@
 
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,11 +50,20 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoCons
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoChildSingleUseLosConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
+import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 
 /**
@@ -87,6 +98,12 @@ public class ViewCourseProposalSummaryConfigurer implements
     protected String state = "draft";
     protected String groupName;
     protected DataModelDefinition modelDefinition;
+    //Some of the lists in the course configurer are not proper enums so they must be hard oded lookups
+    protected HashMap<String,String> hardCodedTranslationMap;
+    protected HashMap<String,String> pathToLabelTranslationMap;
+    
+    private WorkflowToolRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
+    CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
     
     public ViewCourseProposalSummaryConfigurer(String type, String state,
 			String groupName, DataModelDefinition modelDefinition) {
@@ -95,6 +112,33 @@ public class ViewCourseProposalSummaryConfigurer implements
 		this.state = state;
 		this.groupName = groupName;
 		this.modelDefinition = modelDefinition;
+		
+    	hardCodedTranslationMap = new HashMap<String,String>();
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.labFee", getLabel(LUConstants.LAB_FEE));
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.materialFee",  getLabel(LUConstants.MATERIAL_FEE));
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.studioFee", getLabel(LUConstants.STUDIO_FEE));
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.fieldTripFee", getLabel(LUConstants.FIELD_TRIP_FEE));
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.fieldStudyFee", getLabel(LUConstants.FIELD_STUDY_FEE));
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.administrativeFee", getLabel(LUConstants.ADMINISTRATIVE_FEE));
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.coopFee", getLabel(LUConstants.COOP_FEE));
+    	hardCodedTranslationMap.put("kuali.enum.type.feeTypes.greensFee",  getLabel(LUConstants.GREENS_FEE));
+    	hardCodedTranslationMap.put("variableRateFee", getLabel(LUConstants.VARIABLE_RATE));
+    	hardCodedTranslationMap.put("fixedRateFee", getLabel(LUConstants.FIXED_RATE));
+    	hardCodedTranslationMap.put("multipleRateFee", getLabel(LUConstants.MULTIPLE_RATE));
+    	hardCodedTranslationMap.put("perCreditFee", getLabel(LUConstants.PER_CREDIT_RATE));
+
+    	pathToLabelTranslationMap = new HashMap<String,String>();
+    	pathToLabelTranslationMap.put("justification", getLabel(LUConstants.JUSTIFICATION_FEE));
+    	pathToLabelTranslationMap.put("variableRateFee", getLabel(LUConstants.VARIABLE_RATE));
+    	pathToLabelTranslationMap.put("fixedRateFee", getLabel(LUConstants.FIXED_RATE));
+    	pathToLabelTranslationMap.put("multipleRateFee", getLabel(LUConstants.MULTIPLE_RATE));
+    	pathToLabelTranslationMap.put("perCreditFee", getLabel(LUConstants.PER_CREDIT_RATE));
+    	pathToLabelTranslationMap.put("outcomeType", getLabel(LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY));
+    	pathToLabelTranslationMap.put("amount", getLabel(LUConstants.AMOUNT));
+    	pathToLabelTranslationMap.put("feeType", "Fee Type");
+    	pathToLabelTranslationMap.put("rateType", "Rate Type");
+    	pathToLabelTranslationMap.put("minAmount", "Amount");
+    	pathToLabelTranslationMap.put("maxAmount", "To");
 	}
 
 	public VerticalSectionView generateSummarySection(){
@@ -115,7 +159,12 @@ public class ViewCourseProposalSummaryConfigurer implements
     }
     
     protected String getLabel(String labelKey) {
-        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
+    	String label = Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
+    	//If this label ends up the same as the key (no label was found) try the translation map instead
+    	if(label!=null && label.equals(labelKey) && pathToLabelTranslationMap.containsKey(labelKey)){
+    		label = pathToLabelTranslationMap.get(labelKey);
+    	}
+    	return label;
     }
 
     
@@ -136,7 +185,11 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField(LUConstants.SUFFIX_CODE_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
 				summaryTable.addField(LUConstants.CREATED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, model, 1);
 				summaryTable.addField(LUConstants.LAST_CHANGED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + UPDATE_TIME, model, 1);
-				
+
+				//Authors and rationale
+				summaryTable.addField(LUConstants.PROPOSAL_TITLE_LABEL_KEY, PROPOSAL + "/" + TITLE, model, 1);
+				summaryTable.addField(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY, PROPOSAL + "/" + RATIONALE, model, 1);
+				summaryTable.addField(LUConstants.PROPOSAL_PERSON_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + CREATE_ID, model, 1);
 				
 				//Governance
 				summaryTable.addField(LUConstants.GOVERNANCE_LABEL_KEY, 0);
@@ -148,8 +201,12 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField(LUConstants.LOGISTICS_LABEL_KEY, 0);
 				summaryTable.addField(LUConstants.FIRST_OFFERING_KEY, COURSE + "/" + FIRST_EXPECTED_OFFERING, model, 1);
 				summaryTable.addField(LUConstants.INSTRUCTOR_LABEL_KEY, COURSE + "/" + PRIMARY_INSTRUCTOR, model, 1);
-		        summaryTable.addField(LUConstants.DURATION_LITERAL_LABEL_KEY, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, model, 1);
-		        summaryTable.addField(LUConstants.DURATION_TYPE_LABEL_KEY, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, model, 1);
+				summaryTable.addField(LUConstants.SCHEDULING_LABEL_KEY, 1);
+				summaryTable.addField(LUConstants.DURATION_LITERAL_LABEL_KEY, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, model, 2);
+		        summaryTable.addField(LUConstants.DURATION_TYPE_LABEL_KEY, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, model, 2);
+		        summaryTable.addField(LUConstants.LEARNING_RESULTS_LABEL_KEY, 1);
+		        summaryTable.addField(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY, COURSE + "/" + CreditCourseConstants.GRADING_OPTIONS, model, 2);
+		        summaryTable.addField(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY, COURSE + "/" + CreditCourseConstants.OUTCOME_OPTIONS, model, 2);
 		        summaryTable.addField(LUConstants.FORMATS_LABEL_KEY, 1);
 		        populateCourseFormats(model, summaryTable);
 
@@ -178,13 +235,62 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField(LUConstants.START_DATE_LABEL_KEY, COURSE + "/" + CreditCourseConstants.EFFECTIVE_DATE, model, 1);
 				summaryTable.addField(LUConstants.END_DATE_LABEL_KEY, COURSE + "/" + EXPIRATION_DATE, model, 1);
 				
+				//Financials
+				summaryTable.addField(LUConstants.FINANCIALS_LABEL_KEY, COURSE + "/" + FEES, model, 0);
+				summaryTable.addField(LUConstants.FINANCIAL_INFORMATION, 1);
+				populateFinancialRevenue(model, summaryTable, 2);
+				populateFinancialExpenditure(model, summaryTable, 2);
+				//summaryTable.addField(LUConstants.REVENUE, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, model, 2);
+				//summaryTable.addField(LUConstants.EXPENDITURE, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, model, 2);
+				
+				//People & Permissions
+				summaryTable.addField(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 0);
+				populatePeopleAndPermissions(model, summaryTable, 0);
+				
 				summaryTable.setPopulated(true);	        
 	        }
 
 		}
 
 	}
-	
+	private void populateFinancialExpenditure(DataModel model,
+			SummaryTable summaryTable, int indent) {
+		Data expenditureData = model.get(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG);
+        if(expenditureData!=null){
+        	Iterator<Data.Property> expenditureIter = expenditureData.realPropertyIterator();
+        	while(expenditureIter.hasNext()){
+        		Data.Property expenditureProp = expenditureIter.next();
+        		if(expenditureProp.getValue() != null && expenditureProp.getValue() instanceof Data && expenditureProp.getKey() instanceof Integer){
+        			
+        			summaryTable.addField(getLabel(LUConstants.EXPENDITURE) + " " + ((Integer)expenditureProp.getKey()+1), indent);
+              		
+        			String expenditurePath = COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG + "/" + expenditureProp.getKey().toString() + "/";
+        			
+        			summaryTable.addField(LUConstants.EXPENDITURE, expenditurePath + AffiliatedOrgInfoConstants.ORG_ID, model, indent + 1);
+        			summaryTable.addField(LUConstants.AMOUNT, expenditurePath + PERCENTAGE, model, indent + 1);
+        		}
+        	}
+        }
+	}
+	private void populateFinancialRevenue(DataModel model,
+			SummaryTable summaryTable, int indent) {
+		Data revenueData = model.get(COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG);
+        if(revenueData!=null){
+        	Iterator<Data.Property> revenueIter = revenueData.realPropertyIterator();
+        	while(revenueIter.hasNext()){
+        		Data.Property revenueProp = revenueIter.next();
+        		if(revenueProp.getValue() != null && revenueProp.getValue() instanceof Data && revenueProp.getKey() instanceof Integer){
+        			
+        			summaryTable.addField(getLabel(LUConstants.REVENUE) + " " + ((Integer)revenueProp.getKey()+1), indent);
+              		
+        			String revenuePath = COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG + "/" + revenueProp.getKey().toString() + "/";
+        			
+        			summaryTable.addField(LUConstants.REVENUE, revenuePath + AffiliatedOrgInfoConstants.ORG_ID, model, indent + 1);
+        			summaryTable.addField(LUConstants.AMOUNT, revenuePath + PERCENTAGE, model, indent + 1);
+        		}
+        	}
+        }
+	}	
     public void populateCourseRequisites(DataModel model,
 			SummaryTable summaryTable, int indent) {
 		LuData data = (LuData)model.getRoot();
@@ -220,17 +326,21 @@ public class ViewCourseProposalSummaryConfigurer implements
         	while(formatIter.hasNext()){
         		Data.Property formatProp = formatIter.next();
         		if(formatProp.getValue() != null && formatProp.getValue() instanceof Data){
-
-	        		summaryTable.addField(getLabel(LUConstants.FORMAT_LABEL_KEY) + " " + ((Integer)formatProp.getKey()+1), 2);
-	        		
+        			if(formatProp.getKey() instanceof Integer){
+        				summaryTable.addField(getLabel(LUConstants.FORMAT_LABEL_KEY) + " " + ((Integer)formatProp.getKey()+1), 2);
+        			}else{
+        				summaryTable.addField(getLabel(LUConstants.FORMAT_LABEL_KEY) + " " + formatProp.getKey(), 2);
+        			}
         			Data activitiesData = ((Data)formatProp.getValue()).get(ACTIVITIES);
         			if(activitiesData != null && activitiesData instanceof Data){
         				Iterator<Data.Property> activityIter = activitiesData.realPropertyIterator();
         				while(activityIter.hasNext()){
         					Data.Property activityProp = activityIter.next();
-        					
-        					summaryTable.addField(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY) + " " + ((Integer)activityProp.getKey()+1), 3);
-        					
+        					if(activityProp.getKey() instanceof Integer){
+        						summaryTable.addField(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY) + " " + ((Integer)activityProp.getKey()+1), 3);
+        					}else{
+        						summaryTable.addField(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY) + " " + activityProp.getKey(), 3);
+        					}
         					String activityPath = COURSE + "/" + FORMATS+ "/" + formatProp.getKey().toString() + "/" + ACTIVITIES + "/" + activityProp.getKey().toString() + "/";
         					
         					summaryTable.addField(LUConstants.ACTIVITY_TYPE_LABEL_KEY, activityPath + ACTIVITY_TYPE, model, 4);
@@ -332,6 +442,69 @@ public class ViewCourseProposalSummaryConfigurer implements
 	}
 
 
+	public void populatePeopleAndPermissions(DataModel model, final SummaryTable summaryTable, final int nestLevel){
+		String proposalId = model.get(PROPOSAL + "/" + "id");
+		if(proposalId!=null){
+			cluProposalRpcServiceAsync.getWorkflowIdFromDataId(proposalId, new AsyncCallback<String>(){
+				public void onFailure(Throwable caught) {
+					Window.alert("Getting Workflow Id failed");
+				}
+				public void onSuccess(String workflowId) {
+					workflowRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
+						public void onFailure(Throwable caught) {
+							Window.alert("Getting Collaborators failed");
+						}
+						public void onSuccess(List<WorkflowPersonInfo> result) {
+							for(WorkflowPersonInfo person: result){
+								String nameString = "";
+								if(person.getFirstName() != null && person.getLastName() != null){
+									nameString = person.getFirstName() + " " + person.getLastName();
+								}
+								else{
+									nameString = person.getPrincipalId();
+								}
+								
+								String permString = "";
+								int count = 0;
+								for(String perm: person.getPermList()){
+									if(perm != null){
+										if(count > 0){
+											permString = permString + ", " + perm;
+										}
+										else{
+											permString = permString + perm;
+										}
+										count++;
+									}
+								}
+								
+								String actionString = "";
+								count = 0;
+								for(String action: person.getActionList()){
+									if(action != null){
+										if(count > 0){
+											actionString = actionString + ", " + action;
+										}
+										else{
+											actionString = actionString + action;
+										}
+										count++;
+									}
+								}
+								
+								if(summaryTable!=null){
+									summaryTable.addField("Name",nameString, nestLevel+1);
+									summaryTable.addField("Permissions", permString, nestLevel+2);
+									summaryTable.addField("Workflow Action", actionString, nestLevel+2);
+								}
+							}
+						}
+					});
+				}
+			});
+		}
+	}
+	
 	public void populateCrossListed(DataModel model, SummaryTable summaryTable) {
 		summaryTable.addField(LUConstants.CROSS_LISTED_ALT_LABEL_KEY, 1);
 
@@ -378,27 +551,45 @@ public class ViewCourseProposalSummaryConfigurer implements
         	        String translation = model.get(translationPath.toString());
         	        if(translation != null){
         	        	stringValue = translation;
+        	        }else if(hardCodedTranslationMap.containsKey(stringValue)){
+        	        	stringValue=hardCodedTranslationMap.get(stringValue);
         	        }
 				}
 				addField(labelKey, stringValue, indent);
 			}else if(value instanceof Data){
 				//Add the header value 
-				addField(labelKey, indent);
+				if(labelKey!=null){
+					addField(labelKey, indent);
+				}else{
+					indent--;
+					if(indent<0){
+						indent=0;
+					}
+				}
 				
 				//Parse through each value
 				Iterator<Data.Property> propIter = ((Data)value).iterator();
 				while(propIter.hasNext()){
 					Data.Property prop = propIter.next();
-                    if(!"_runtimeData".equals(prop.getKey())){
+                    if(!"_runtimeData".equals(prop.getKey())&&!"id".equals(prop.getKey())){
 						String propertyPath = path+"/"+prop.getKey();
-						String propertyLabel;
+						String propertyLabel=null;
 						Metadata propertyMetadata = model.getMetadata(QueryPath.parse(propertyPath));
 						if(propertyMetadata != null){
 							propertyLabel = propertyMetadata.getName();
-						}else{
-							propertyLabel = prop.getKey().toString();
 						}
-						if(MetadataInterrogator.isRepeating(metadata)){
+						if(propertyLabel==null){
+							if(prop.getKey() instanceof Integer){
+								propertyLabel = null;//""+((Integer)prop.getKey() + 1);
+							}else{
+								propertyLabel = prop.getKey().toString();
+							}
+						}
+						if(MetadataInterrogator.isRepeating(metadata) && 
+								prop.getKey() instanceof Integer &&
+								(propertyMetadata==null||
+										(!Data.DataType.DATA.equals(propertyMetadata.getDataType())&&
+										!Data.DataType.LIST.equals(propertyMetadata.getDataType())))){
 		                    QueryPath translationPath = new QueryPath();
 		                    translationPath.add(new Data.StringKey(qPath.toString()));
 		                    translationPath.add(new Data.StringKey("_runtimeData"));
@@ -411,14 +602,20 @@ public class ViewCourseProposalSummaryConfigurer implements
 		        	        	stringValue = translation;
 		        	        }
 		    				addField(propertyLabel, stringValue, indent+1);
-						}else{
+						}else if(value instanceof Data){
+							addField(propertyLabel,propertyPath,model,indent+1);//added this in
+                    	}else{
 							addField(propertyLabel,propertyPath,model,indent+1);
 						}
                     }
 				}
 			}else{
 				if(value != null){
-					addField(labelKey, value.toString(), indent);
+					if(value instanceof Date){
+						addField(labelKey, DateTimeFormat.getShortDateFormat().format((Date) value), indent);
+					}else{
+						addField(labelKey, value.toString(), indent);
+					}
 				}else{
 					addField(labelKey, null, indent);
 				}

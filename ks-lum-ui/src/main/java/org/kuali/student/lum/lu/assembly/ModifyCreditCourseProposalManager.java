@@ -29,6 +29,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
@@ -140,14 +141,19 @@ public class ModifyCreditCourseProposalManager{
     		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())&&!"categories".equals(prop.getKey())){
     			
     			if(shouldSetCreated){
-    				//Set runtime data to created and clear out other runtime data(versions etc) 
-    				Data runtime = new Data();
-    	            data.set("_runtimeData", runtime);
+    				//Set runtime data to created and clear out other runtime data(versions etc)
+    	            Data runtime = data.get("_runtimeData");
+    	            if (runtime == null) {
+    	                runtime = new Data();
+    	                data.set("_runtimeData", runtime);
+    	            }else{
+    	            	runtime.remove(new Data.StringKey("versions"));	
+    	            }
     	            runtime.set("created", true);
     			}
     			
     			//From this point on its a format tree so set the runtime data to created (and clear out other runtime data)
-    			if("formats".equals(prop.getKey())){
+    			if("formats".equals(prop.getKey())||CreditCourseConstants.OUTCOME_OPTIONS.equals(prop.getKey())){
     				shouldSetCreated=true;
     			}
     			clearIdsRecursively((Data)prop.getValue(), shouldSetCreated);
