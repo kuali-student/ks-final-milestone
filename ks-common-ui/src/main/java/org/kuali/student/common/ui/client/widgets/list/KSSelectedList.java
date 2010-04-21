@@ -128,10 +128,11 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                 if (results.size() > 0) {
                     for(SelectedResults res : results) {
                         SelectedValue sv = new SelectedValue(res.getReturnKey(), res.getDisplayKey());
-                        addValue(sv);
-                        picker.clear();
-                        addItemButton.setEnabled(false);
+                        addValue(sv, false);
                     }
+                    picker.clear();
+                    addItemButton.setEnabled(false);
+                    selectionChanged();
                 }
             }
 
@@ -154,6 +155,9 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         };
     }
     public void addValue(final SelectedValue value) {
+       addValue(value, true);
+    }
+    public void addValue(final SelectedValue value, boolean fireChangeListeners) {
         if(removedValues.contains(value)) {
             removedValues.remove(value);
         }
@@ -161,7 +165,9 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             selectedValues.add(value);
         }
         valuesPanel.add(value);
-        selectionChanged();
+        if(fireChangeListeners) {
+            selectionChanged();
+        }
         if(config.canEdit) {
             value.setHighlighted(true);
             new Timer() {
@@ -172,7 +178,6 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             }.schedule(5000);
         }
     }
-    
     private void selectionChanged() {
         for(SelectionChangeHandler handler : selectionChangeHandlers) {
             handler.onSelectionChange(new SelectionChangeEvent(this));
