@@ -103,6 +103,7 @@
 			<ref bean="lu.resultColumn.luOptionalLevel"/> 
 			<ref bean="lu.resultColumn.luOptionalDescr"/>				
 			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>			
+			<ref bean="lu.resultColumn.luOptionalState"/>		
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	
@@ -135,7 +136,13 @@
 		<search:name>Primary Organization</search:name>
 		<search:desc>Lu primary organization</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>		
+	</search:resultColumn>			
+	<search:resultColumn id="lu.resultColumn.luOptionalState" parent="lu.resultColumn.luOptionalState-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalState-parent"  abstract="true">
+		<search:name>State</search:name>
+		<search:desc>Lu State</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
 	<search:resultColumn id="lu.resultColumn.luOptionalType" parent="lu.resultColumn.luOptionalType-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalType-parent"  abstract="true">
 		<search:name>Lu Type</search:name>
@@ -514,7 +521,8 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalLongName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalCode" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalCode"/>
 		<search:joinResultMapping subSearchResultParam="org.resultColumn.orgOptionalLongName" subSearchKey="org" resultParam="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
-		<search:joinResultMapping subSearchResultParam="lu.queryParam.luOptionalType" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalType"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalType" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalType"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalState" subSearchKey="clu" resultParam="lu.resultColumn.luOptionalState"/>
 	</search:crossSearchType>
 
     <search:searchResultTypeInfo id="lu.result.cluGenericCrossSearch" parent="lu.result.cluGenericCrossSearch-parent"/>
@@ -558,7 +566,7 @@
 		            ORDER BY clu.officialIdentifier.code ASC</value>
 		        </entry>
 		        <entry key="lu.search.generic">
-		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId FROM Clu clu WHERE clu.state NOT IN ('draft')</value>
+		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId, clu.state FROM Clu clu WHERE clu.state NOT IN ('draft')</value>
 		        </entry>    
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
