@@ -49,17 +49,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CluSetContentEditorSection extends BaseSection {
-    
+
     private VerticalPanel layout = new VerticalPanel();
     private CluSetEditOptionList cluSetEditOptions;
     private AddCluLightBox addApprovedCourseLightBox;
     private String modelId;
-    
-    
+
+
     public CluSetContentEditorSection(String modelId) {
         init(modelId);
     }
-    
+
     public CluSetContentEditorSection(SectionTitle title, String modelId) {
         this.sectionTitle = title;
         this.instructions.setVisible(false);
@@ -67,7 +67,7 @@ public class CluSetContentEditorSection extends BaseSection {
         layout.add(this.message);
         init(modelId);
     }
-    
+
     public CluSetContentEditorSection(SectionTitle title, String instructions, String modelId){
         this.sectionTitle = title;
         this.setInstructions(instructions);
@@ -75,7 +75,7 @@ public class CluSetContentEditorSection extends BaseSection {
         layout.add(this.message);
         init(modelId);
     }
-    
+
     private void init(String modelId) {
         this.modelId = modelId;
         layout.add(this.sectionTitle);
@@ -99,11 +99,11 @@ public class CluSetContentEditorSection extends BaseSection {
                                 final String path = f.getFieldKey();
                                 final QueryPath qPath = QueryPath.parse(path);
                                 Data valueData = dataModel.get(qPath);
-                                final List<?> items = 
-                                    ((ItemListFieldBinding<?>) 
+                                final List<?> items =
+                                    ((ItemListFieldBinding<?>)
                                             f.getModelWidgetBinding()).getItemList(valueData);
                                 // Warn the user if check box is being unchecked but there are items associated with
-                                // the edit option 
+                                // the edit option
                                 if (!cluSetEditOptions.getSelectedItems().contains(f.getFieldKey()) &&
                                         items != null && !items.isEmpty()) {
                                     if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
@@ -138,7 +138,7 @@ public class CluSetContentEditorSection extends BaseSection {
             }
         });
     }
-    
+
     @Override
     protected void addFieldToLayout(FieldDescriptor fieldDescriptor) {
         FieldElement field = new FieldElement(fieldDescriptor);
@@ -155,7 +155,7 @@ public class CluSetContentEditorSection extends BaseSection {
         fieldLayout.addStyleName("clearfix");
         fieldContainer.setStyleName("ks-form-module-fields");
     }
-    
+
     @Override
     protected void removeSectionFromLayout(BaseSection section) {
         layout.remove(section);
@@ -165,7 +165,7 @@ public class CluSetContentEditorSection extends BaseSection {
     protected void addSectionToLayout(BaseSection section) {
         layout.add(section);
     }
-    
+
     private void getModel(final Callback<DataModel> callback) {
         LayoutController controller = LayoutController.findParentLayout(this);
         if (controller != null) {
@@ -184,7 +184,7 @@ public class CluSetContentEditorSection extends BaseSection {
             });
         }
     }
-    
+
     @Override
     public void redraw() {
         getModel(new Callback<DataModel>() {
@@ -201,7 +201,7 @@ public class CluSetContentEditorSection extends BaseSection {
                     addSectionToLayout((BaseSection)ns);
                 }
                 layout.add(cluSetEditOptions);
-                
+
                 for(final FieldDescriptor f: fields){
                     // TODO distinguish between Approved CLUs and Proposed CLUs
                     // TODO implement course ranges
@@ -212,8 +212,8 @@ public class CluSetContentEditorSection extends BaseSection {
                         String path = f.getFieldKey();
                         final QueryPath qPath = QueryPath.parse(path);
                         Data valueData = dataModel.get(qPath);
-                        final List<?> items = 
-                            ((ItemListFieldBinding<?>) 
+                        final List<?> items =
+                            ((ItemListFieldBinding<?>)
                                     f.getModelWidgetBinding()).getItemList(valueData);
                         // field is being edited if there are data in this field
                         if (items != null && !items.isEmpty()) {
@@ -250,15 +250,15 @@ public class CluSetContentEditorSection extends BaseSection {
                 //Fire validation request here?
             }
         });
-        
+
     }
-    
+
     private boolean nullSafeEquals(String str1, String str2) {
         String tempStr1 = (str1 == null)? "" : str1;
         String tempStr2 = (str2 == null)? "" : str2;
         return (tempStr1.equals(tempStr2));
     }
-    
+
     private boolean isFieldBeingEdited(FieldDescriptor f, DataModel dataModel) {
         boolean result = false;
         List<String> selectedEditOptionIds = cluSetEditOptions.getSelectedItems();
@@ -272,22 +272,22 @@ public class CluSetContentEditorSection extends BaseSection {
         }
         return result;
     }
-    
+
     @Override
     public void clear() {
-        
+
     }
 
     @Override
     protected void addWidgetToLayout(Widget w) {
         layout.add(w);
     }
-    
+
     public class CluSetEditOptionList extends KSCheckBoxList{
         public CluSetEditOptionList(){
             SimpleListItems editOptions = new SimpleListItems();
 
-            editOptions.addItem(ToolsConstants.CLU_SET_CLUS_FIELD, "Approved Courses");
+            editOptions.addItem(ToolsConstants.CLU_SET_CLUS_FIELD, "Courses");
             // TODO distinguish between Approved CLUs and Proposed CLUs
             // TODO implement course ranges
 //            editOptions.addItem("ProposedCourses", "Proposed Courses");
@@ -297,9 +297,9 @@ public class CluSetContentEditorSection extends BaseSection {
             super.setListItems(editOptions);
         }
     }
-    
+
     public void setAddApprovedCourseWidget(AddCluLightBox addApprovedCourseLightBox) {
         this.addApprovedCourseLightBox = addApprovedCourseLightBox;
     }
-    
+
 }
