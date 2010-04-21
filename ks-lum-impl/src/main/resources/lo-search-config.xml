@@ -425,7 +425,7 @@
                     <value>cat.name like :lo_queryParam_loOptionalCategoryName  </value>
 				</entry>
 				<entry key="lo.search.loCategoriesByNameRepoTypeState">
-                    <value>SELECT cat.id FROM LoCategory cat WHERE cat.name = :lo_queryParam_loCategoryName AND cat.loRepository.id = :lo_queryParam_loCategoryRepo AND cat.loCategoryType.id = :lo_queryParam_loCategoryType AND cat.state = :lo_queryParam_loCategoryState</value>
+                    <value>SELECT cat.id FROM LoCategory cat WHERE LOWER(cat.name) = :lo_queryParam_loCategoryName AND cat.loRepository.id = :lo_queryParam_loCategoryRepo AND cat.loCategoryType.id = :lo_queryParam_loCategoryType AND cat.state = :lo_queryParam_loCategoryState</value>
 				</entry>
 				<!--  These native searches are temporary solutions to allow cross service searches in advance of the KS permanent 
 				      cross service search implementation  -->
