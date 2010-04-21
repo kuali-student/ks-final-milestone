@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-rc1</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
     
 	<modules>
@@ -26,9 +26,9 @@
     
     <properties>
         <derby.version>10.4.2.0</derby.version>
-        <ks-core.version>1.0.0-rc1</ks-core.version>
-        <ks-lum.version>1.0.0-rc1</ks-lum.version>
-        <ks-brms.version>1.0.0-rc1</ks-brms.version>
+        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
+        <ks-lum.version>1.0.0-SNAPSHOT</ks-lum.version>
+        <ks-brms.version>1.0.0-SNAPSHOT</ks-brms.version>
     </properties>
     
     <scm>
