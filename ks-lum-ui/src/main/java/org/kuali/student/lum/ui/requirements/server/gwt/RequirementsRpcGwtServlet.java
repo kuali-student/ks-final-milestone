@@ -171,14 +171,6 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         return cluCode;
     }     
           
-        
-    
-    /******************************************************************************************************************
-     * 
-     *                                                     GETTERS & SETTERS 
-     *
-     *******************************************************************************************************************/         
-
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }

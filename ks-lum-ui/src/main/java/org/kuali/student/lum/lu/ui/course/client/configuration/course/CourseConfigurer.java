@@ -246,6 +246,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        //Setting the section title after initializing the widget won't do anything
 	        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
 	        addField(section, SEARCH + "/" + "findCourse");
+            addField(section, SEARCH + "/" + "findCluSet");
 	        return section;
 	    }
 	

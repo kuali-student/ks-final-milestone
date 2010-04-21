@@ -65,8 +65,7 @@ public class CourseReqManager extends Controller {
     private ReqComponentVO componentToEdit;				//which component user chosen to edit	
     private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();
    
-    private String selectedLuStatementType = "unknown";             //type of rule that user selected to work on (add or edit)
-    private Map<String, String> cluSetsData = new HashMap<String, String>(); 
+    private String selectedLuStatementType = "";             //type of rule that user selected to work on (add or edit)
     
     public CourseReqManager(VerticalPanel displayPanel) {
         super(CourseReqManager.class.getName());       
@@ -79,7 +78,6 @@ public class CourseReqManager extends Controller {
         }
         
         this.ruleInfo = null;
-        loadSearchBoxData();
     }
     
     public void saveApplicationState() {
@@ -184,8 +182,7 @@ public class CourseReqManager extends Controller {
 	            return courseRequisiteView;
 	        case MANAGE_RULES:
                 return manageRulesView;
-            case RULE_COMPONENT_EDITOR:    
-                ruleCompEditorView.setCluSetsData(cluSetsData);                
+            case RULE_COMPONENT_EDITOR:                   
                 ruleCompEditorView.setEditedStatementVO(getRuleInfo(selectedLuStatementType).getStatementVO());
                 ruleCompEditorView.setEditedReqCompVO(componentToEdit);
                 ruleCompEditorView.setFieldsWithLookup(fieldsWithLookup);
@@ -210,12 +207,6 @@ public class CourseReqManager extends Controller {
 
     public void removeRule(RuleInfo rule) {
         ruleInfo.remove(rule);
-    }
-    
-    private void loadSearchBoxData() {        
-        cluSetsData.put("CLUSET-NL-3", "CLUSET-NL-3");
-        cluSetsData.put("CLUSET-NL-2", "CLUSET-NL-2");
-        cluSetsData.put("CLUSET-NL-1", "CLUSET-NL-1");              
     }
     
     public void saveEditHistory(StatementVO editedStatementVO) {
