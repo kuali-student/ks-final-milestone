@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class DisplayMultiplicityComposite extends MultiplicityComposite {
    
+    protected String itemLabel;
+
     public DisplayMultiplicityComposite(){
     	super(StyleType.SUB_LEVEL);
     }
@@ -36,12 +38,25 @@ public abstract class DisplayMultiplicityComposite extends MultiplicityComposite
      */
     @Override
     public MultiplicityItem getItemDecorator(StyleType style) {
-        return new DisplayItem(style);
+    	DisplayItem item = new DisplayItem(style);
+    	if (itemLabel != null) {
+          item.setItemLabel(itemLabel + " " + itemCount);
+    	}
+
+        return item;
     }
     
     @Override
     public Widget generateAddWidget() {
         return null;        
+    }
+    
+    public String getItemLabel() {
+        return itemLabel;
+    }
+
+    public void setItemLabel(String itemLabel) {
+        this.itemLabel = itemLabel;
     }
  
 }

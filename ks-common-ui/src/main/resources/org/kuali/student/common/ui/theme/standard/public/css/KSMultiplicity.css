@@ -40,7 +40,6 @@
 }
 
 .KS-Multiplicity-Display-Item{
-	text-align: left;
-	width: 100%;
-	
+    margin-left: 5px;
+	margin-bottom: 1px;
 }

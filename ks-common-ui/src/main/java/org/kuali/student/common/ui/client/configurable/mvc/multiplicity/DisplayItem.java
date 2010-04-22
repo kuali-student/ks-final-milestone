@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DisplayItem extends MultiplicityItem {
     private boolean loaded = false;
+	private KSLabel itemLabel;
 
     protected FlowPanel itemPanel = new FlowPanel();
     
@@ -64,9 +66,12 @@ public class DisplayItem extends MultiplicityItem {
         Widget item = getItemWidget();
         if (!loaded){
        
-            itemPanel.addStyleName("KS-Multiplicity-Display-Item");
-
+            if (itemLabel != null) {
+                itemPanel.add(itemLabel);
+             	itemLabel.addStyleName("KS-Multiplicity-Item-Header");
+            }
             itemPanel.add(item);
+            itemPanel.addStyleName("KS-Multiplicity-Display-Item");
             loaded = true;
         }
 
@@ -75,4 +80,9 @@ public class DisplayItem extends MultiplicityItem {
         }
     }
 
+	
+    public void setItemLabel(String itemLabel) {
+        this.itemLabel = new KSLabel(itemLabel);
+    }
+    
 }
