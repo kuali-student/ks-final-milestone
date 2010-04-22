@@ -541,7 +541,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			}
 			cluId.setDivision(course.getSubjectArea());
 			cluId.setShortName(course.getTranscriptTitle());
-
+			//Get the level as the first character in the number pluss "00"
+			if(course.getCourseNumberSuffix()!=null&&!course.getCourseNumberSuffix().isEmpty()){
+				cluId.setLevel(course.getCourseNumberSuffix().substring(0,1)+"00");
+			}
 			courseClu.setExpectedFirstAtp(course.getFirstExpectedOffering());
 
 			String instrId = course.getPrimaryInstructor();
