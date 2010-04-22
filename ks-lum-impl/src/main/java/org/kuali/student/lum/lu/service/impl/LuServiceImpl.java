@@ -1840,13 +1840,19 @@ public class LuServiceImpl implements LuService {
 		// remove from the list otherwise create a new entry
 		for (ResultOptionInfo resOptInfo : cluResultInfo.getResultOptions()) {
 			ResultOption opt = oldResultOptionMap.remove(resOptInfo.getId());
-			if (opt == null) {
+			if (opt == null) { 
+				// New result option
 				opt = new ResultOption();
+				// Copy properties
+				BeanUtils.copyProperties(resOptInfo, opt, new String[] {
+						"resultUsageType", "desc" });
+			} else { 
+				// Get existing result option
+				opt = luDao.fetch(ResultOption.class, resOptInfo.getId());
+				// Copy properties
+				BeanUtils.copyProperties(resOptInfo, opt, new String[] {
+						"id", "resultUsageType", "desc" });
 			}
-			// Do Copy
-			BeanUtils.copyProperties(resOptInfo, opt, new String[] {
-					"resultUsageType", "desc" });
-
 			if(resOptInfo.getResultUsageTypeKey() != null && !resOptInfo.getResultUsageTypeKey().isEmpty()) {
 				ResultUsageType resUsageType = luDao.fetch(ResultUsageType.class,
 						resOptInfo.getResultUsageTypeKey());
@@ -1865,6 +1871,8 @@ public class LuServiceImpl implements LuService {
 				"desc", "resultOptions" });
 
 		result.setDesc(LuServiceAssembler.toRichText(LuRichText.class, cluResultInfo.getDesc()));
+		CluResultType type = luDao.fetch(CluResultType.class, cluResultInfo.getType());
+		result.setCluResultType(type);
 
 		CluResult updated = luDao.update(result);
 

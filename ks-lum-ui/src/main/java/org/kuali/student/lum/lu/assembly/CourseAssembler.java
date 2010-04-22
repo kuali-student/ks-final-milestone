@@ -138,7 +138,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			luData.setData(course.getData());
 
 			result.setGradingOptions(getLearningResultAssembler().getGradingOptions(id));
-//			result.setGradingOptions(getLearningResultAssembler().get(id));
 			result.setOutcomeOptions(getLearningResultAssembler().getOutcomeOptions(id));
 
 			luData.setRuleInfos(getRules(id));

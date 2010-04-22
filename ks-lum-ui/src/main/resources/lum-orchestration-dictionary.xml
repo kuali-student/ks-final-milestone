@@ -3724,6 +3724,7 @@
 		<property name="name" value="outcomeOptions" />
 		<property name="fields">
 			<list>
+                <ref bean="outcomeOptions.outcomeId" />
 				<ref bean="outcomeOptions.outcomeType" />
 				<ref bean="outcomeOptions.outcomeCreditValue" />
 				<ref bean="outcomeOptions.outcomeMaxCredits" />
@@ -3731,8 +3732,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="outcomeOptions.outcomeType" parent="dataFieldDescriptor">
-		<property name="name" value="outcomeType" />
+	<bean id="outcomeOptions.outcomeId" parent="dataFieldDescriptor">
+		<property name="name" value="outcomeId" />
 		<property name="writeAccess" value="NEVER" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />		
@@ -3742,13 +3743,25 @@
 				<ref bean="constraint.single" />				
 			</list>
 		</property>
-		<property name="initialLookup" >
-			<ref bean="kuali.lookup.lrcoutcometypes" />
-		</property>
-		<property name="additionalLookups" >
-			<list />
-		</property>
 	</bean>
+    <bean id="outcomeOptions.outcomeType" parent="dataFieldDescriptor">
+        <property name="name" value="outcomeType" />
+        <property name="writeAccess" value="NEVER" />
+        <property name="onChangeRefreshMetadata" value="false" />
+        <property name="dataType" value="STRING" />     
+        <property name="constraints">
+            <list>
+                <ref bean="constraint.required" />
+                <ref bean="constraint.single" />                
+            </list>
+        </property>
+        <property name="initialLookup" >
+            <ref bean="kuali.lookup.lrcoutcometypes" />
+        </property>
+        <property name="additionalLookups" >
+            <list />
+        </property>
+    </bean>
 	<bean id="outcomeOptions.outcomeCreditValue" parent="dataFieldDescriptor">
 		<property name="name" value="outcomeCreditValue" />
 		<property name="writeAccess" value="NEVER" />

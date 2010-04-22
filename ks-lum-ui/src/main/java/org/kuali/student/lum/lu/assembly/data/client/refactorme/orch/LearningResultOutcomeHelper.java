@@ -26,7 +26,9 @@ public class LearningResultOutcomeHelper
 	
 	public enum Properties implements PropertyEnum
 	{
+		OUTCOME_ID ("outcomeId"),
 		OUTCOME_TYPE ("outcomeType"),
+		GRADE_TYPE ("gradeType"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -63,16 +65,6 @@ public class LearningResultOutcomeHelper
 		return data;
 	}		
 	
-	public void setOutcomeType (String value)
-	{
-		data.set (Properties.OUTCOME_TYPE.getKey (), value);
-	}	
-	
-	public String getOutcomeType ()
-	{
-		return data.get (Properties.OUTCOME_TYPE.getKey ());
-	}
-	
 	public void set_runtimeData (RuntimeDataHelper value)
 	{
 		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
@@ -83,5 +75,33 @@ public class LearningResultOutcomeHelper
 		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
-}
+	public void setOutcomeId (String value)
+	{
+		data.set (Properties.OUTCOME_ID.getKey (), value);
+	}	
+	
+	public String getOutcomeId ()
+	{
+		return data.get (Properties.OUTCOME_ID.getKey ());
+	}
 
+	public void setOutcomeType (String value)
+	{
+		data.set (Properties.OUTCOME_TYPE.getKey (), value);
+	}	
+	
+	public String getOutcomeType ()
+	{
+		return data.get (Properties.OUTCOME_TYPE.getKey ());
+	}
+	
+	public void setGradeType (String value)
+	{
+		data.set (Properties.GRADE_TYPE.getKey (), value);
+	}	
+	
+	public String getGradeType ()
+	{
+		return data.get (Properties.GRADE_TYPE.getKey ());
+	}
+}

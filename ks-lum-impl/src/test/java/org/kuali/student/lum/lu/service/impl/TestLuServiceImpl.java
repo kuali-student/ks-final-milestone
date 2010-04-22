@@ -2451,6 +2451,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		
 		CluResultInfo cluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto);
 		
+		assertNotNull(cluResult);
 		assertNotNull(cluResult.getDesc());
 		assertEquals(dto.getDesc().getPlain(), cluResult.getDesc().getPlain());
 		assertNotNull(cluResult.getId());
@@ -2460,6 +2461,116 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(dto.getType(), cluResult.getType());
 		assertEquals(dto.getEffectiveDate(), cluResult.getEffectiveDate());
 		assertEquals(dto.getExpirationDate(), cluResult.getExpirationDate());
+	}
+	
+	@Test
+	public void testUpdateCluResult() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
+		CluResultInfo dto = new CluResultInfo();
+		RichTextInfo desc1 = new RichTextInfo();
+		desc1.setPlain("Plain description");
+		dto.setDesc(desc1);
+		dto.setCluId("CLU-1");
+		dto.setState("inactive");
+		dto.setType("kuali.resultType.gradeCourseResult");
+		dto.setEffectiveDate(new Date());
+		dto.setExpirationDate(new Date());
+		
+        List<ResultOptionInfo> resultOptions = new ArrayList<ResultOptionInfo>();
+        ResultOptionInfo option = new ResultOptionInfo();
+		RichTextInfo desc2 = new RichTextInfo();
+		desc2.setPlain("Plain description");
+		option.setDesc(desc2);
+		option.setEffectiveDate(new Date());
+		option.setExpirationDate(new Date());
+		option.setResultComponentId("kuali.resultComponent.grade.letter");
+		option.setResultUsageTypeKey(null);
+		option.setState("inactive");
+		resultOptions.add(option);
+        
+        dto.setResultOptions(resultOptions);
+
+		CluResultInfo createCluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto);
+		createCluResult = client.getCluResult(createCluResult.getId());
+
+		assertNotNull(createCluResult);
+
+		createCluResult.setCluId("CLU-2");
+		RichTextInfo desc3 = new RichTextInfo();
+		desc3.setPlain("Plain description again");
+		createCluResult.setDesc(desc3);
+		createCluResult.setEffectiveDate(new Date());
+		createCluResult.setExpirationDate(new Date());
+		createCluResult.setState("active");
+		createCluResult.setType("kuali.resultType.creditCourseResult");
+
+		RichTextInfo desc4 = new RichTextInfo();
+		desc4.setPlain("Some more plain description");
+		createCluResult.getResultOptions().get(0).setDesc(desc4);
+		createCluResult.getResultOptions().get(0).setEffectiveDate(new Date());
+		createCluResult.getResultOptions().get(0).setExpirationDate(new Date());
+		createCluResult.getResultOptions().get(0).setResultComponentId("kuali.resultComponent.grade.passFail");
+		createCluResult.getResultOptions().get(0).setResultUsageTypeKey("lrType.finalGrade");
+		createCluResult.getResultOptions().get(0).setState("active");
+
+		CluResultInfo updateCluResult = client.updateCluResult(createCluResult.getId(), createCluResult);
+		updateCluResult = client.getCluResult(updateCluResult.getId());
+
+		assertNotNull(updateCluResult);
+		assertEquals(createCluResult.getId(), updateCluResult.getId());
+		assertEquals(createCluResult.getDesc().getPlain(), updateCluResult.getDesc().getPlain());
+		assertEquals(createCluResult.getEffectiveDate(), updateCluResult.getEffectiveDate());
+		assertEquals(createCluResult.getExpirationDate(), updateCluResult.getExpirationDate());
+		assertEquals(createCluResult.getState(), updateCluResult.getState());
+		assertEquals(createCluResult.getType(), updateCluResult.getType());
+		assertEquals(createCluResult.getResultOptions().get(0).getId(), updateCluResult.getResultOptions().get(0).getId());
+		assertEquals(createCluResult.getResultOptions().get(0).getDesc().getPlain(), updateCluResult.getResultOptions().get(0).getDesc().getPlain());
+		assertEquals(createCluResult.getResultOptions().get(0).getEffectiveDate(), updateCluResult.getResultOptions().get(0).getEffectiveDate());
+		assertEquals(createCluResult.getResultOptions().get(0).getExpirationDate(), updateCluResult.getResultOptions().get(0).getExpirationDate());
+		assertEquals(createCluResult.getResultOptions().get(0).getResultComponentId(), updateCluResult.getResultOptions().get(0).getResultComponentId());
+		assertEquals(createCluResult.getResultOptions().get(0).getResultUsageTypeKey(), updateCluResult.getResultOptions().get(0).getResultUsageTypeKey());
+		assertEquals(createCluResult.getResultOptions().get(0).getState(), updateCluResult.getResultOptions().get(0).getState());
+	}
+
+	@Test
+	public void testUpdateCluResult_RemoveAllCluResultOptions() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
+		CluResultInfo dto = new CluResultInfo();
+		RichTextInfo desc1 = new RichTextInfo();
+		desc1.setPlain("Plain description");
+		dto.setDesc(desc1);
+		dto.setCluId("CLU-1");
+		dto.setState("inactive");
+		dto.setType("kuali.resultType.gradeCourseResult");
+		dto.setEffectiveDate(new Date());
+		dto.setExpirationDate(new Date());
+		
+        List<ResultOptionInfo> resultOptions = new ArrayList<ResultOptionInfo>();
+        ResultOptionInfo option = new ResultOptionInfo();
+		RichTextInfo desc2 = new RichTextInfo();
+		desc2.setPlain("Plain description");
+		option.setDesc(desc2);
+		option.setEffectiveDate(new Date());
+		option.setExpirationDate(new Date());
+		option.setResultComponentId("kuali.resultComponent.grade.letter");
+		//option.setResultUsageTypeKey("lrType.finalGrade");
+		option.setState("inactive");
+		resultOptions.add(option);
+        
+        dto.setResultOptions(resultOptions);
+
+		CluResultInfo createCluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto);
+		createCluResult = client.getCluResult(createCluResult.getId());
+
+		assertNotNull(createCluResult);
+
+		// Clear all cluResultOptions
+		createCluResult.getResultOptions().clear();
+
+		CluResultInfo updateCluResult = client.updateCluResult(createCluResult.getId(), createCluResult);
+		updateCluResult = client.getCluResult(updateCluResult.getId());
+
+		assertNotNull(updateCluResult);
+		assertEquals(createCluResult.getId(), updateCluResult.getId());
+		assertEquals(createCluResult.getResultOptions().isEmpty(), updateCluResult.getResultOptions().isEmpty());
 	}
 	
 	private CluSetInfo createCluSetInfo() throws ParseException {

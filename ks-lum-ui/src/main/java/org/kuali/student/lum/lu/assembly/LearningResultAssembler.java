@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.core.assembly.Assembler;
@@ -63,7 +62,7 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
     }
     
     public Data getGradingOptions(String cluId) throws AssemblyException {
-        Data resultData = new Data();
+        Data outcomeData = new Data();
 
         try {
             List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
@@ -72,7 +71,7 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                     if(cluResult.getType().equals(GRADE_RESULT_TYPE)) {
                         for(ResultOptionInfo option : cluResult.getResultOptions()) {
                             String typeKey = option.getResultComponentId();
-                            resultData.add(typeKey);
+                            outcomeData.add(typeKey);
                         }
                     }
                 }
@@ -81,7 +80,7 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
             throw new AssemblyException("Unable to load learning results for course", e);
         }
         
-        return resultData;
+        return outcomeData;
     }
 
     public Data getOutcomeOptions(String cluId) throws AssemblyException {                 
@@ -95,13 +94,13 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                     if (cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
                         for(ResultOptionInfo option : cluResult.getResultOptions()) {
                             LearningResultOutcomeHelper outcome = LearningResultOutcomeHelper.wrap(new Data());
+                            outcome.setOutcomeId(option.getId());
                             outcome.setOutcomeType(option.getResultComponentId());
                             outcomeData.add(outcome.getData());                        
                         }                    
                     }
                 }
             }
-            
         } catch(Exception e) {
             throw new AssemblyException("Unable to load learning results for course", e);
         }       
@@ -127,10 +126,6 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
     }
    
     public SaveResult<Data> saveGradingOptions(Data input, String cluId) throws AssemblyException {
-        // Expect to get the following from the client:
-        // Example: ResultComponent.type='kuali.resultComponentType.credit.degree.fixed',
-        //          ResultComponent.id='kuali.creditType.credit.degree.10'
-
         try {
             SaveResult<Data> result = new SaveResult<Data>();
             result.setValue(input);
@@ -170,10 +165,9 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
 	                    }
                 	}
                 }
-            }    
+            }
             
             return result;
-            
         } catch(Exception e) {
             throw new AssemblyException("Unable to save learning result grades for course", e);
         }
@@ -193,28 +187,25 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
 
             // Outcome options
             if(creditCourseHelper.getOutcomeOptions() != null) {
-                
                 for (Data.Property p : creditCourseHelper.getOutcomeOptions()) {                    
                     if(!CreditCourseHelper.Properties._RUNTIME_DATA.equals(p.getKey())){
-                        
                         if (AssemblerUtils.isCreated((Data)p.getValue())) {
                             String resultType = ((Data)p.getValue()).get("outcomeType");
                             ResultOptionInfo roi = new ResultOptionInfo();
                             roi.setResultComponentId(resultType);
-                            roi.setState(STATE);                           
-                            roi.setEffectiveDate(new Date());
-                            outcomeTypeResultOptions.add(roi);                               
+                            roi.setState(STATE);
+                            outcomeTypeResultOptions.add(roi);
                         } else if (AssemblerUtils.isDeleted((Data)p.getValue())) {
                             continue;
                         } else if (AssemblerUtils.isUpdated((Data)p.getValue())) {
+                            String id = ((Data)p.getValue()).get("outcomeId");
                             String resultType = ((Data)p.getValue()).get("outcomeType");
                             ResultOptionInfo roi = new ResultOptionInfo();
+                            roi.setId(id);
                             roi.setResultComponentId(resultType);
                             roi.setState(STATE);
-                            roi.setEffectiveDate(new Date());                            
-                            outcomeTypeResultOptions.add(roi);    
+                            outcomeTypeResultOptions.add(roi);
                         }                         
-                                                
                     }                                                         
                 }
                 
@@ -242,7 +233,7 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                     luService.createCluResult(cluId, CREDIT_RESULT_TYPE, cluResultInfo);
                 }             
             }
-            
+
             return result;
         } catch(Exception e) {
             throw new AssemblyException("Unable to save learning result outcomes for course", e);

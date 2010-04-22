@@ -28,7 +28,7 @@ import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
-    LuService luService;
+    private LuService luService;
 
 	/**
 	 * <p>These common shared tokens are needed since velocity doesn't 
@@ -47,6 +47,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 	 * Constructor.
 	 */
 	public AbstractLuContext() {
+		this.luService = null;
 	}
 
 	/**
