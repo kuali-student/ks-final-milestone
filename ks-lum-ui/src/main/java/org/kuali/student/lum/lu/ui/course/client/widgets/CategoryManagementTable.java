@@ -62,7 +62,7 @@ public class CategoryManagementTable extends Composite {
     private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
     protected PagingScrollTable<ResultRow> pagingScrollTable;
     private VerticalPanel layout = new VerticalPanel();
-    private Boolean displayOnlyActiveCategories; // @TODO find where this belongs
+    private Boolean displayOnlyActiveCategories; 
 
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
     private ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
@@ -160,22 +160,25 @@ public class CategoryManagementTable extends Composite {
     }    
     public void initializeTable() {        
         builder = new PagingScrollTableBuilder<ResultRow>();
+        configureColumns();
         builder.tablePixelSize(400, 300);
-
+        builder.setSelectionPolicy(SelectionPolicy.ONE_ROW);
+    }
+    
+    private void createColumnDefs() {
         columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();        
         columnDefs.add(new SearchColumnDefinition(NAME_COLUMN_HEADER, NAME_COLUMN_KEY));
-        columnDefs.add(new SearchColumnDefinition(TYPE_COLUMN_HEADER, TYPE_COLUMN_KEY));
-        columnDefs.add(new SearchColumnDefinition(STATE_COLUMN_HEADER, STATE_COLUMN_KEY));
-
+        columnDefs.add(new SearchColumnDefinition(TYPE_COLUMN_HEADER, TYPE_COLUMN_KEY));            
+        if ((displayOnlyActiveCategories == null) || (!displayOnlyActiveCategories.booleanValue())) {
+            columnDefs.add(new SearchColumnDefinition(STATE_COLUMN_HEADER, STATE_COLUMN_KEY));            
+        }
         if(columnDefs.size() == 1){
             //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
             columnDefs.get(0).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);
-        builder.setSelectionPolicy(SelectionPolicy.ONE_ROW);
     }
-    
-    private List<LoCategoryInfo> filterResults(List<LoCategoryInfo> result) {
+    private void configureColumns() {
         if (null == displayOnlyActiveCategories) {
             serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
                 @Override
@@ -189,11 +192,32 @@ public class CategoryManagementTable extends Composite {
                     if (result != null) {
                         resultRows.clear();
                         displayOnlyActiveCategories = Boolean.parseBoolean(result);
+                        createColumnDefs();
+                    }
+                }
+            });
+        }  
+    }
+/*    private List<LoCategoryInfo> filterResults(List<LoCategoryInfo> result) {
+        if (null == displayOnlyActiveCategories) {
+            serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    GWT.log("get displayOnlyActiveLoCategories failed", caught);
+                    Window.alert("Failed to get displayOnlyActiveLoCategories setting");
+                }
+    
+                @Override
+                public void onSuccess(String result) {
+                    if (result != null) {
+                        resultRows.clear();
+                        displayOnlyActiveCategories = Boolean.parseBoolean(result);
+                        createColumnDefs();
                     }
                 }
             });
         }
-        if(displayOnlyActiveCategories != null && displayOnlyActiveCategories.booleanValue() == true) {
+*//*        if(displayOnlyActiveCategories != null && displayOnlyActiveCategories.booleanValue() == true) {
             List<LoCategoryInfo> filteredResult = new ArrayList<LoCategoryInfo>();
             for(LoCategoryInfo info : result) {
                 if (info.getState().equals("active") ) {
@@ -201,9 +225,9 @@ public class CategoryManagementTable extends Composite {
                 }
             }
             return filteredResult;
-        } 
+        } *//*
         return result;   
-    }
+    }*/
     
     public void loadTable() {
         loRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new AsyncCallback<List<LoCategoryInfo>>() {
@@ -215,13 +239,18 @@ public class CategoryManagementTable extends Composite {
 
             @Override
             public void onSuccess(List<LoCategoryInfo> results) {
+
+                //List<LoCategoryInfo> filteredResults = filterResults(results);
+                loadTable(results);
+                /*
                 List<LoCategoryInfo> filteredResults = filterResults(results);
                 loadTable(filteredResults);
+                */
             }
         }); 
     }
     
-    public void loadTable(List<LoCategoryInfo> loCategoryInfos) {
+    private void loadTable(List<LoCategoryInfo> loCategoryInfos) {
         resultRows.clear();
         HashSet<String> hashSet = new HashSet<String>();
         String id = null;
