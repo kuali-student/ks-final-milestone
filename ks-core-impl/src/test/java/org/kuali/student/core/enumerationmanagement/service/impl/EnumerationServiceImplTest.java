@@ -75,7 +75,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	searchRequest.getParams().add(searchParam);
     	SearchResult searchResult = enumService.search(searchRequest);
     	assertNotNull(searchResult);
-    	assertEquals(32,searchResult.getRows().size());
+    	assertEquals(34,searchResult.getRows().size());
     }
     
 	@Test
