@@ -46,6 +46,9 @@ insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, S
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('30', 'PUAD', 'PUAD', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 30, 'PubAdmin');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('31', 'SOCI', 'SOCI', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 31, 'Sociology');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('32', 'SOWK', 'SOWK', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 32, 'Social Work');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('59', 'AASP', 'AASP', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 59, 'African American Studies');
+insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('60', 'AAST', 'AAST', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 60, 'Asian American Studies');
+
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('33', 'North', 'NORTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 33, 'North County Campus');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('34', 'South', 'SOUTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 34, 'South County Campus');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('35', 'per day', 'kuali.atp.duration.day', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 35, 'per day');
@@ -73,6 +76,7 @@ insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, S
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('56', 'Fixed Rate Fee', 'fixedRateFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.rateType', {ts '2011-04-07 00:00:00.0'}, 56, 'Fixed Rate Fee');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('57', 'Multiple Rate Fee', 'multipleRateFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.rateType', {ts '2011-04-07 00:00:00.0'}, 57, 'Multiple Rate Fee');
 insert into KSEM_ENUM_VAL_ENT (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('58', 'Per Credit Fee', 'perCreditFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.rateType', {ts '2011-04-07 00:00:00.0'}, 58, 'Per Credit Fee');
+
 
 --Contexts
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('1', 'kuali.org.deptAbbrev', 'Robotics', '1');
@@ -107,6 +111,9 @@ insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('29', '
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('30', 'kuali.org.deptAbbrev', 'PubAdmin', '30');
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('31', 'kuali.org.deptAbbrev', 'Sociology', '31');
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('32', 'kuali.org.deptAbbrev', 'Social Work', '32');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('59', 'kuali.org.deptAbbrev', 'African American Studies', '59');
+insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('60', 'kuali.org.deptAbbrev', 'Asian American Studies', '60');
+
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('33', 'kuali.lu.campusLocation', 'North County Campus', '33');
 insert into KSEM_CTX_ENT (ID, CTX_KEY, CTX_VAL, ENUM_VAL_ENT_ID) values ('34', 'kuali.lu.campusLocation', 'South County Campus', '34');
 
