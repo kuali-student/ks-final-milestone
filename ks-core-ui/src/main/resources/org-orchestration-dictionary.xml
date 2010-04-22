@@ -92,6 +92,21 @@
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="1" />
 	</bean>
+	<bean id="constraint.default.today" parent="constraint">
+		<property name="id" value="default.today" />
+		<property name="desc"
+			value="Defaults to TODAY, when the object is created" />
+		<property name="serverSide" value="true" />
+		<property name="comments" value="Not sure how to implement defaults" />
+	</bean>
+	<bean id="constraint.cross.greaterthan.effective.date" parent="constraint">
+		<property name="id" value="cross.greaterthan.effective.date"/>
+		<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>
+		<property name="desc" value="Must be empty or a date greater than the entity's effective date"/>
+		
+		<!-- This is a hack, since we don't have a well defined way to handle cross field constraints. -->
+		<property name="minValue" value="../effectiveDate"/>
+	</bean>
 	<bean id="OrgProposal-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="OrgProposal" />
 		<property name="fields">
@@ -327,8 +342,9 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
 				<ref bean="constraint.date.time" />
-
+				<ref bean="constraint.cross.greaterthan.effective.date" />
 			</list>
 		</property>
 	</bean>
@@ -587,8 +603,9 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
 				<ref bean="constraint.date.time" />
-
+				<ref bean="constraint.cross.greaterthan.effective.date" />
 			</list>
 		</property>
 	</bean>
@@ -997,12 +1014,30 @@
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="DATE" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.default.today" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.date.time" />
+			</list>
+		</property>
+		
 	</bean>
 	<bean id="orgInfo.expirationDate" parent="dataFieldDescriptor">
 		<property name="name" value="expirationDate" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="DATE" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.date.time" />
+				<ref bean="constraint.cross.greaterthan.effective.date" />
+			</list>
+		</property>
 	</bean>
 	<bean id="orgInfo.longDesc" parent="dataFieldDescriptor">
 		<property name="name" value="longDesc" />
