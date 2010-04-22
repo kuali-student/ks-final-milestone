@@ -25,92 +25,52 @@ import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.common.ui.client.service.MetadataRpcService;
+import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
-import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.core.rice.authorization.PermissionType;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindCourseMetadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindProposalMetadata;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.home.client.view.CreateCreditCoursePanel.ButtonRow;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class FindPanel extends ViewComposite{
     public static final String SEARCH_TYPE_PROPOSALS = "Proposals";
     public static final String SEARCH_TYPE_COURSES = "Courses";
 
-    LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
-    ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
     CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
-
-    AdvancedSearchWindow courseSearchWindow;
-    AdvancedSearchWindow proposalSearchWindow;
-    // KSAdvancedSearchWindow proposalSearchWindow;
-
+    MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
+    
     private VerticalPanel mainPanel = new VerticalPanel();
 
     private boolean loaded = false;
 
     public FindPanel(Controller controller) {
-
         super(controller, "Find Course or Proposal");
+        mainPanel.addStyleName("KS-Picker-Border");
         this.initWidget(mainPanel);
     }
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
         if (!loaded){
-            //FIXME: This is a quick fix
-            KSButton findCourseButton = new KSButton("Find Course", new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                    if (courseSearchWindow == null){
-                        initCourseSearchWindow();
-                    }
-                    courseSearchWindow.show();
-                }
-            });
-
-            KSButton findProposalButton = new KSButton("Find Proposal", new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                    if (proposalSearchWindow == null){
-                        initProposalSearchWindow();
-                    }
-                    proposalSearchWindow.show();
-                }
-            });
-
-            ButtonRow findCourseRow = new ButtonRow(findCourseButton, "Find an existing course.");
-//            addIfPermitted(mainPanel, findCourseRow, "Lookup Course");
-            addIfPermitted(mainPanel, findCourseRow, PermissionType.SEARCH);
-
-            ButtonRow findProposalRow = new ButtonRow(findProposalButton, "Find an existing proposal.");
-//            addIfPermitted(mainPanel, findProposalRow, "Lookup Proposal");
-            addIfPermitted(mainPanel, findProposalRow, PermissionType.SEARCH);
-
+            addIfPermitted(PermissionType.SEARCH, "Courses");
+            addIfPermitted(PermissionType.SEARCH, "Proposals");
             loaded = true;
         }
         onReadyCallback.exec(true);
     }
-    private void addIfPermitted(final Panel container, final Widget element, PermissionType permType) {
-    	addIfPermitted(container, element, permType, new HashMap<String,String>());
+    private void addIfPermitted(PermissionType permType, String searchType) {
+    	addIfPermitted(permType, searchType, new HashMap<String,String>());
     }
 
-    private void addIfPermitted(final Panel container, final Widget element, PermissionType permType, Map<String,String> permissionAttributes) {
+    private void addIfPermitted(PermissionType permType, final String searchType, Map<String,String> permissionAttributes) {
         cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -118,80 +78,79 @@ public class FindPanel extends ViewComposite{
             }
             @Override
             public void onSuccess(Boolean result) {
+                //NOTE: quick hack; does not matter because this all goes away with new Curriculum Management home screen
                 if(result) {
-                    container.add(element);
-                }
+                    if (searchType.equals("Courses")) {
+                        addCourseSearchWindow(); 
+                    } else {
+                        addProposalSearchWindow();
+                    }
+                }                
             }
         });
     }
 
-    private void initCourseSearchWindow(){
-    	Metadata searchMetadata = new FindCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("courseId").getInitialLookup());
-        courseSearchWindow = new AdvancedSearchWindow("Find Course", searchPicker);
-        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
-            public void exec(List<SelectedResults> results) {
-                if (results.size() > 0){
-                	ViewContext viewContext = new ViewContext();
-                	viewContext.setId(results.get(0).getReturnKey());
-                	viewContext.setIdType(IdType.OBJECT_ID);
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_COURSE, viewContext));
-                    courseSearchWindow.hide();
-                }
+    private void addCourseSearchWindow(){
+        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
-        });
-
-    	/*FindCourseAssembler findCourseAssembler = new FindCourseAssembler();
-    	Metadata metadata = new Metadata();
-		try {
-			metadata = findCourseAssembler.getMetadata(CreditCourseProposalConstants.SEARCH + "/" + "findCourse", "", "");
-		} catch (AssemblyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-        courseSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-        courseSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
-            public void onValueChange(ValueChangeEvent<List<String>> event) {
-                List<String> selection = (List<String>)event.getValue();
-                if (selection.size() > 0){
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, selection));
-                    //courseSearchWindow.hide();
-                }
+            @Override
+            public void onSuccess(Metadata metadata) {
+                metadata = metadata.getProperties().get("findCourseTmp");  //TEMP until we have new home page screen where we have suggest box instead of a link
+                KSPicker courseSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+                courseSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+                    public void onValueChange(ValueChangeEvent<List<String>> event) {
+                        List<String> selection = (List<String>)event.getValue();
+                        ViewContext viewContext = new ViewContext();
+                        viewContext.setId(selection.get(0));
+                        viewContext.setIdType(IdType.OBJECT_ID);
+                        FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_COURSE, viewContext));
+                    }                    
+                }); 
+                mainPanel.add(courseSearchWindow);
             }
-        }); */
+        });         
     }
 
-    private void initProposalSearchWindow(){
-        Metadata searchMetadata = new FindProposalMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("proposalId").getInitialLookup());
-        proposalSearchWindow = new AdvancedSearchWindow("Find Proposal", searchPicker);
-        proposalSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
-            public void exec(List<SelectedResults> results) {
-                if (results.size() > 0){
-                    ViewContext viewContext = new ViewContext();
-                    viewContext.setId(results.get(0).getReturnKey());
-                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
-                    proposalSearchWindow.hide();
-                }
+    private void addProposalSearchWindow(){
+        
+        /*
+        Hyperlink advSearchLink = new Hyperlink("test", "temp");
+                
+        advSearchLink.addClickHandler(new ClickHandler(){
+            @Override
+            public void onClick(ClickEvent event) {
+                ViewContext viewContext = new ViewContext();
+                viewContext.setId("7b3867db-2852-486b-aa23-b74015180e80");
+                viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+                FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
             }
         });
- /*
-        proposalSearchWindow = new KSAdvancedSearchWindow(proposalServiceAsync, "proposal.search.generic", "proposal.resultColumn.proposalId", "Find Proposal");
-        proposalSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
-            //FIXME: This should take user to the course view screens
-            public void onSelection(SelectionEvent<List<String>> event) {
-                final List<String> selected = event.getSelectedItem();
-                if (selected.size() > 0){
-                	ViewContext viewContext = new ViewContext();
-                	viewContext.setId(selected.get(0));
-                	viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
-                    proposalSearchWindow.hide();
-                }
+
+        mainPanel.add(advSearchLink); */
+                        
+        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
-        });
- */
+            @Override
+            public void onSuccess(Metadata metadata) {
+                metadata = metadata.getProperties().get("findProposal");                
+                KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+                proposalSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+                    public void onValueChange(ValueChangeEvent<List<String>> event) {
+                        List<String> selection = (List<String>)event.getValue();
+                        ViewContext viewContext = new ViewContext();
+                        viewContext.setId(selection.get(0));
+                        viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+                        FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
+                    }                    
+                });
+                mainPanel.add(proposalSearchWindow);
+            }
+        });       
     }
 }

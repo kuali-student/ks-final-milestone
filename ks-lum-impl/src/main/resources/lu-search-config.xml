@@ -534,7 +534,8 @@
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
 			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
-			<ref bean="lu.resultColumn.luOptionalType"/>				
+			<ref bean="lu.resultColumn.luOptionalType"/>
+			<ref bean="lu.resultColumn.luOptionalState"/>							
         </search:resultColumns>
     </search:searchResultTypeInfo> 
     
@@ -565,8 +566,9 @@
 		            and clu.state = :lu_queryParam_cluState
 		            ORDER BY clu.officialIdentifier.code ASC</value>
 		        </entry>
+		       	<!-- search for courses but exclude 'Retired' courses -->
 		        <entry key="lu.search.generic">
-		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId, clu.state FROM Clu clu WHERE clu.state NOT IN ('draft')</value>
+		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId, clu.state FROM Clu clu WHERE clu.state NOT IN ('retired')</value>
 		        </entry>    
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
@@ -597,7 +599,7 @@
 					<value>clu.descr.plain</value>
 				</entry>							
 				<entry key="lu.queryParam.luOptionalState">
-					<value>clu.state = :lu_queryParam_luOptionalState</value>
+					<value>clu.state IN (:lu_queryParam_luOptionalState)</value>
 				</entry>
 				<entry key="cluset.queryParam.optionalId">
 					<value>cluset.id = :cluset_queryParam_optionalId</value>
