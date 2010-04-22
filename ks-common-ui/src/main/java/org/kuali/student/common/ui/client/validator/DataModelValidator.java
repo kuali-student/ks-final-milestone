@@ -417,7 +417,7 @@ public class DataModelValidator {
         for (Entry<QueryPath, Object> e : values.entrySet()) {
 			String element = e.getKey().toString();
 			Object o = e.getValue();
-			
+			path = QueryPath.parse(element);
 			if (o == null) {
 				if (isRequired(meta)) {
 					addError(results, element, REQUIRED);
