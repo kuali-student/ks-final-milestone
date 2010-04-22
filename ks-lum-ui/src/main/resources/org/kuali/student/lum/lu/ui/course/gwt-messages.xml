@@ -321,5 +321,6 @@
 	<bean parent="enCourse" p:id="cluFee"                               p:value="Fee"/>
 	<bean parent="enCourse" p:id="cluOrganization"                      p:value="Organization"/>
 	<bean parent="enCourse" p:id="cluAddAnotherOrganization"                      p:value="Add another Organization"/>
+	<bean parent="enCourse" p:id="cluPercentage"                      p:value="Percentage"/>
 
 </beans>

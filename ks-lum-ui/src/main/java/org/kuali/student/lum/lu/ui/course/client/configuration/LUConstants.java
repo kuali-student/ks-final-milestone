@@ -280,6 +280,7 @@ public class LUConstants {
     public static final String FEE = "cluFee";
     public static final String ORGANIZATION = "cluOrganization";
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
+    public static final String PERCENTAGE = "cluPercentage";
 
 }
 

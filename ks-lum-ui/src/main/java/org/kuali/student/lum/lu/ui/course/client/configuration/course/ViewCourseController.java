@@ -36,6 +36,8 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -75,7 +77,10 @@ public class ViewCourseController extends TabbedSectionLayout {
     private boolean initialized = false;
     CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
     
-    final KSLightBox progressWindow = new KSLightBox();
+//    final KSLightBox progressWindow = new KSLightBox();
+    
+	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
+	private BlockingTask initTask = new BlockingTask("Initializing....");
 
     private static KSTitleContainerImpl layoutTitle = new KSTitleContainerImpl("View Course");
     
@@ -162,22 +167,18 @@ public class ViewCourseController extends TabbedSectionLayout {
     }
    
     private void init(final Callback<Boolean> onReadyCallback) {
-        KSProgressIndicator progressInd = new KSProgressIndicator();
-        progressInd.setText("Loading");
-        progressInd.show();
-        progressWindow.setWidget(progressInd);
 
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
-            progressWindow.show();
+        	KSBlockingProgressIndicator.addTask(initTask);
             rpcServiceAsync.getMetadata("", "", 
                     new AsyncCallback<Metadata>(){
     
                         @Override
                         public void onFailure(Throwable caught) {
                             onReadyCallback.exec(false);
-                            progressWindow.hide();
+                        	KSBlockingProgressIndicator.removeTask(initTask);
                             throw new RuntimeException("Failed to get model definition.", caught);                        
                         }
     
@@ -188,7 +189,7 @@ public class ViewCourseController extends TabbedSectionLayout {
                             init(def);
                             initialized = true;
                             onReadyCallback.exec(true);
-                            progressWindow.hide();
+                        	KSBlockingProgressIndicator.removeTask(initTask);
                         }                
                 });
             
@@ -249,14 +250,15 @@ public class ViewCourseController extends TabbedSectionLayout {
        
     @SuppressWarnings("unchecked")    
     private void getCourseFromCluId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        progressWindow.show();
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
+
         rpcServiceAsync.getData(courseId, new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Error loading Course: "+caught.getMessage());
                 createNewCluModel(callback, workCompleteCallback);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
             }
 
             @Override
@@ -265,7 +267,7 @@ public class ViewCourseController extends TabbedSectionLayout {
                 getContainer().setTitle(getSectionTitle());
                 callback.onModelReady(cluModel);
                 workCompleteCallback.exec(true);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
             }
 
         });

@@ -15,9 +15,12 @@
 
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
+import java.util.Iterator;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -27,23 +30,36 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseLearningResultsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoFixedRateFeeConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -66,21 +82,22 @@ MetaInfoConstants,
 CreditCourseDurationConstants,
 FeeInfoConstants,
 LearningObjectiveConstants,
+CreditCourseCourseSpecificLOsConstants,
+SingleUseLoConstants,
 CreditCourseRevenueInfoConstants,
 CreditCourseExpenditureInfoConstants,
-AffiliatedOrgInfoConstants
+AffiliatedOrgInfoConstants,
+CreditCourseVersionsConstants,
+CreditCourseJointsConstants,
+RichTextInfoConstants,
+FeeInfoFixedRateFeeConstants,
+CreditCourseLearningResultsConstants
 {
 
     public static final String COURSE_MODEL	= "courseModel";
 
 	private static final String ID_TRANSLATION = "id-translation";
 	//FIXME: Temp paths waiting for DOL changes
-    private static final String VERSION_TITLE_PATH = "versionTitle";
-	private static final String VERSION_CODE_PATH = "versionCode";
-	private static final String VERSION_COURSE_NUMBER_SUFFIX_PATH = "courseNumberSuffix";
-	private static final String VERSION_SUBJECT_AREA_PATH = "subjectArea";
-    private static final String LO_DESCRIPTION_PATH = "includedSingleUseLo/description/plain";
-    private static final String ALTERNATE_ADMIN_ORG_ID_PATH = "orgId";
     private static final String STATEMENTS_PATH = "statements";
 
     //FIXME:  Initialize type and state from selected cluId
@@ -121,21 +138,23 @@ AffiliatedOrgInfoConstants
 		VerticalSection section = new VerticalSection();
 		
 		addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
-        addField(section, QueryPath.concat(DESCRIPTION, "plain").toString(), getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
+        addField(section, QueryPath.concat(CreditCourseConstants.DESCRIPTION, RichTextInfoConstants.PLAIN).toString(), getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
 
-        addField(section,  getTranslationKey(CreditCourseConstants.STATE), getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
+        addField(section, CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
         
-        addField(section, getTranslationKey(CreditCourseConstants.TYPE), getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
-        addField(section, getTranslationKey(DEPARTMENT), getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
+        addField(section, CreditCourseConstants.TYPE, getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
+        addField(section, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
 
-//FIXME        addField(section, CREDITS,  getLabel(LUConstants.CREDITS_LABEL_KEY), new KSLabel());
+        addField(section, OUTCOME_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), new OutcomesList(OUTCOME_OPTIONS));
+        addField(section, GRADING_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY), new TranslatedStringList(GRADING_OPTIONS));
+
         addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new KSLabelList(true));
         addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
 
-        addField(section, FEES , "Fees", new FeesList(FEES));
-        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList(CAMPUS_LOCATIONS));
+        addField(section, FEES , getLabel(LUConstants.COURSE_FEE_TITLE), new FeesList(FEES));
+        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new TranslatedStringList(CAMPUS_LOCATIONS));
 
-        addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
+        addField(section, PRIMARY_INSTRUCTOR, getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
         addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
         
         return section;
@@ -145,68 +164,48 @@ AffiliatedOrgInfoConstants
     	
   	    CollapsableSection section = new CollapsableSection("Click for Details");
 
-//FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
-//      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
-    //    addField(section, TERMS_OFFERED_PATH, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new KSLabel());
-        addField(section, getTranslationKey(FIRST_EXPECTED_OFFERING), getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
-        addField(section, QueryPath.concat(CreditCourseConstants.DURATION, getTranslationKey(TERM_TYPE)).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
+//        addField(section, TERMS_OFFERED, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new TermsOfferedList(TERMS_OFFERED));
+        addField(section, FIRST_EXPECTED_OFFERING, getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
+        addField(section, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
         addField(section, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
         addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
 
-        //FIXME  In M4 Only one primary admin org can be set so don't need a list here. Fix for M5
-//      addField(section, CreditCourseConstants.ALT_ADMIN_ORGS, null, new AlternateAdminOrgList(ALT_ADMIN_ORGS));
         addField(section,  VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
         addField(section,  JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
 
         addField(section, CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
         addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
 
-        addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList(ACADEMIC_SUBJECT_ORGS));
+        addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
         
-        String revenuePath=QueryPath.concat(REVENUE_INFO, REVENUE_ORG).toString();
-        addField(section, revenuePath  , getLabel(LUConstants.REVENUE), new RevenueInformationList(revenuePath));
-        String expenditurePath = QueryPath.concat(EXPENDITURE_INFO, EXPENDITURE_ORG).toString();
-        addField(section,  expenditurePath , "Expenditure Info", new ExpenditureInformationList(EXPENDITURE_INFO));
+        addFinancials(section);
 
-        addField(section, COURSE_SPECIFIC_LOS,  getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY),  new LearningObjectiveList(COURSE_SPECIFIC_LOS));
+    	addLearningObjectives(section);
         
         return section;
 
     }
 
-    private class AlternateAdminOrgList extends DisplayMultiplicityComposite{
+	private void addFinancials(CollapsableSection section) {
+		String revenuePath=QueryPath.concat(REVENUE_INFO, REVENUE_ORG).toString();
+        addField(section, revenuePath  , getLabel(LUConstants.REVENUE), new RevenueInformationList(revenuePath));
+        String expenditurePath = QueryPath.concat(EXPENDITURE_INFO, EXPENDITURE_ORG).toString();
+        addField(section,  expenditurePath , getLabel(LUConstants.EXPENDITURE), new ExpenditureInformationList(expenditurePath));
+	}
 
-        private final String parentPath;
-        public AlternateAdminOrgList(String parentPath){
-            this.parentPath = parentPath;
-        }
+	private void addLearningObjectives(CollapsableSection section) {
+		QueryPath loPath = QueryPath.concat(COURSE_SPECIFIC_LOS);
+    	Metadata meta = modelDefinition.getMetadata(loPath);
 
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            VerticalSection item = new VerticalSection();
-            addField(item, ALTERNATE_ADMIN_ORG_ID_PATH, null, new KSLabel(), path);
-            return item;
-        }
-    }
+    	FieldDescriptor fd = new FieldDescriptor(loPath.toString(), getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), meta);
+        fd.setWidgetBinding(new LoTableBinding());
+        fd.setFieldWidget(new LoTable());
+   		section.addField(fd);
+	}
 
-    private class AlternateInstructorList extends DisplayMultiplicityComposite{
-
-        private final String parentPath;
-        public AlternateInstructorList(String parentPath){
-            this.parentPath = parentPath;
-        }
-
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            VerticalSection item = new VerticalSection();
-            addField(item, "personId", null, new KSLabel(), path);
-            return item;
-        }
-    }
-
-    private class CampusLocationList extends DisplayMultiplicityComposite {
+    private class TranslatedStringList extends DisplayMultiplicityComposite {
 		private final String parentPath;
-        public CampusLocationList(String parentPath){
+        public TranslatedStringList(String parentPath){
             this.parentPath = parentPath;
         }
         @Override
@@ -224,6 +223,7 @@ AffiliatedOrgInfoConstants
         public CourseFormatList(String parentPath){
 //            super(StyleType.TOP_LEVEL);
             this.parentPath = parentPath;
+            this.setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));
         }
 
         public Widget createItem() {
@@ -240,20 +240,19 @@ AffiliatedOrgInfoConstants
         public CourseActivityList(String parentPath){
 //            super(StyleType.SUB_LEVEL);
             this.parentPath = parentPath;
+            this.setItemLabel(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY));
         }
 
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection activity = new GroupSection();
-            addField(activity, getTranslationKey(ACTIVITY_TYPE), null, new KSLabel(), path);
-//            activity.nextLine();
-//
-//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
-//
-//            activity.nextLine();
-//            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , new KSLabel(), path);
-//            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), new KSLabel(), path);
+
+            addField(activity, ACTIVITY_TYPE, null, new KSLabel(), path);
+            addField(activity, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.QUANTITY).toString(), getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), new KSLabel(), path);
+            addField(activity, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.TIME_UNIT).toString(), null, new KSLabel(), path);
+            addField(activity, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.HRS).toString(), getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY), new KSLabel(), path);
+            addField(activity, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.PER).toString(), null , new KSLabel(), path);
+            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), new KSLabel(), path);
 
             return activity;
         }
@@ -269,38 +268,23 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection group = new GroupSection();
-            addField(group, SUBJECT_AREA, null, new KSLabel(), path);
-            addField(group, COURSE_NUMBER_SUFFIX, null, new KSLabel(), path);
+            addField(group, CreditCourseVersionsConstants.SUBJECT_AREA, null, new KSLabel(), path);
+            addField(group, CreditCourseVersionsConstants.COURSE_NUMBER_SUFFIX, null, new KSLabel(), path);
 
             return group;
         }
     }
 
-    private class AcademicSubjectOrgList extends DisplayMultiplicityComposite {
+    private class OutcomesList extends DisplayMultiplicityComposite {
 		private final String parentPath;
-        public AcademicSubjectOrgList(String parentPath){
-            this.parentPath = parentPath;
-        }
-        @Override
-        public Widget createItem() {
-           String path = QueryPath.concat(parentPath, CreditCourseConstants._RUNTIME_DATA, String.valueOf(itemCount-1)).toString();
-           GroupSection ns = new GroupSection();
-           addField(ns, ID_TRANSLATION, null, new KSLabel(), path);
-
-            return ns;
-        }
-    }
-    
-    private class LearningObjectiveList extends DisplayMultiplicityComposite {
-		private final String parentPath;
-        public LearningObjectiveList(String parentPath){
+        public OutcomesList(String parentPath){
             this.parentPath = parentPath;
         }
         @Override
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, LO_DESCRIPTION_PATH, null, new KSLabel(), path);
+            addField(ns, OUTCOME_TYPE, null, new KSLabel(), path);
 
             return ns;
         }
@@ -316,11 +300,11 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, VERSION_SUBJECT_AREA_PATH,  null, new KSLabel(), path);
-            addField(ns, VERSION_COURSE_NUMBER_SUFFIX_PATH,  null, new KSLabel(), path);
-            addField(ns, VERSION_CODE_PATH,  null, new KSLabel(), path);
+            addField(ns, CreditCourseVersionsConstants.SUBJECT_AREA,  null, new KSLabel(), path);
+            addField(ns, CreditCourseVersionsConstants.COURSE_NUMBER_SUFFIX,  null, new KSLabel(), path);
+            addField(ns, CreditCourseVersionsConstants.VERSION_CODE,  null, new KSLabel(), path);
 
-            addField(ns, VERSION_TITLE_PATH, null, new KSLabel(), path);
+            addField(ns, CreditCourseVersionsConstants.VERSION_TITLE, null, new KSLabel(), path);
 
             return ns;
         }
@@ -337,9 +321,9 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
-            addField(groupSection, "subjectArea", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
-            addField(groupSection, "courseNumberSuffix", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
-            addField(groupSection, "courseTitle", getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, CreditCourseJointsConstants.SUBJECT_AREA, getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, CreditCourseJointsConstants.COURSE_NUMBER_SUFFIX, getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, CreditCourseJointsConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel(), path);
 
             return groupSection;
         }
@@ -387,9 +371,9 @@ AffiliatedOrgInfoConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
-            addField(groupSection,  getTranslationKey("rateType"),  null, new KSLabel(),path);
-            addField(groupSection,  "amount",  null, new KSLabel(),path);
-            addField(groupSection, getTranslationKey("feeType"), null, new KSLabel(),path );
+            addField(groupSection,  FeeInfoFixedRateFeeConstants.RATE_TYPE,  getLabel(LUConstants.RATE_TYPE), new KSLabel(),path);
+            addField(groupSection,  FeeInfoFixedRateFeeConstants.AMOUNT,  getLabel(LUConstants.FEE_AMOUNT_LABEL_KEY), new KSLabel(),path);
+            addField(groupSection, FeeInfoFixedRateFeeConstants.FEE_TYPE, getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
             return groupSection;
        	
         }
@@ -406,8 +390,8 @@ AffiliatedOrgInfoConstants
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, getTranslationKey(ORG_ID), null, new KSLabel(),  path );
-            addField(groupSection, PERCENTAGE, null, new KSLabel(),  path );
+            addField(groupSection, PERCENTAGE, getLabel(LUConstants.PERCENTAGE), new KSLabel(), path);
+            addField(groupSection, ORG_ID,  getLabel(LUConstants.ORGANIZATION),new KSLabel(), path );
             return groupSection;
         }
     }
@@ -421,11 +405,11 @@ AffiliatedOrgInfoConstants
 
         @Override
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, EXPENDITURE_INFO, String.valueOf(itemCount-1)).toString();
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, getTranslationKey("expenditureOrg"),  getLabel(LUConstants.EXPENDITURE),new KSLabel(), path );
-            addField(groupSection, "totalPercentage", getLabel(LUConstants.AMOUNT), new KSLabel(), path);
+            addField(groupSection, PERCENTAGE, getLabel(LUConstants.PERCENTAGE), new KSLabel(), path);
+            addField(groupSection, ORG_ID,  getLabel(LUConstants.ORGANIZATION),new KSLabel(), path );
 
             return groupSection;
         }
@@ -436,10 +420,6 @@ AffiliatedOrgInfoConstants
         section.addStyleName(LUConstants.STYLE_SECTION);
 
         return section;
-    }
-
-    private String getTranslationKey(String fieldKey) {
-    	return QueryPath.concat(CreditCourseConstants._RUNTIME_DATA, fieldKey ,  ID_TRANSLATION).toString();
     }
 
     protected String getTabKey() {
@@ -482,12 +462,115 @@ AffiliatedOrgInfoConstants
     private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
+        
+        String modelPath = getFieldPath(path.toString());
 
-        FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
+        FieldDescriptor fd = new FieldDescriptor(modelPath, fieldLabel, meta);
         if (widget != null) {
             fd.setFieldWidget(widget);
         }
         section.addField(fd);
     }
+    
+    /**
+     * Determine the field path based on whether this field has an initial lookup defined 
+     * in the orchestration dictionary. If no lookup defined just return the original field path
+     * 
+     * @param path
+     * @return
+     */
+    private String getFieldPath(String path) {
+    	 
+    	String result = path;
+    	
+    	QueryPath qPath = QueryPath.parse(path);
+    	Metadata metadata = modelDefinition.getMetadata(qPath);
 
+    	if(metadata!=null&&metadata.getInitialLookup()!=null){
+    		QueryPath translationPath = qPath.subPath(0, qPath.size()-1);
+    		if (metadata.getDataType().equals(DataType.STRING)) {
+    			translationPath.add(new Data.StringKey("_runtimeData"));
+    			translationPath.add(new Data.StringKey((String)qPath.get(qPath.size() - 1).get()));
+    			translationPath.add(new Data.StringKey("id-translation"));
+    			result = translationPath.toString();			   		
+    		}
+    	}
+    	return result;
+    }
+    
+    public class LoTable extends FlexTable{
+
+    	private int col = 0;
+    	private int row = 0;
+
+    	public void addLoDescription(String fieldValue){
+       		col = 0;
+    		// FIXME: add some proper styling
+    		setText(++row, col++, " - ");
+    		setText(row, col++, fieldValue);
+    		setText(row, col++, "  :");
+    		
+    	}
+
+    	public void addLoCategoryName(String fieldValue){
+
+    		setText(row, col++, fieldValue+ ",");
+    		// FIXME: add some proper styling
+    		//			getCellFormatter().setStyleName(rowCount, 0, "TableIndent-"+indent);
+    		//			if(rowCount%2==0){
+    		//				getRowFormatter().addStyleName(rowCount, "SummaryTable-EvenRow");
+    		//			}else{
+    		//				getRowFormatter().addStyleName(rowCount, "SummaryTable-OddRow");
+    		//			}
+    	}
+
+		private void initTable() {
+			LoTable.this.clear();
+			while(LoTable.this.getRowCount()>0){
+				LoTable.this.removeRow(0);
+			}
+			row=0;
+			col=0;
+		}
+
+    }
+
+    public class LoTableBinding implements ModelWidgetBinding<LoTable>{
+    	
+    	private final String loDescPath = QueryPath.concat(INCLUDED_SINGLE_USE_LO, SingleUseLoConstants.DESCRIPTION, PLAIN).toString();
+    	private final String categoryNamePath = QueryPath.concat(INCLUDED_SINGLE_USE_LO, CATEGORIES).toString();
+
+    	@Override
+    	public void setModelValue(LoTable table, DataModel model,
+    			String path) {
+    			// shouldn't ever need this
+    	}
+    	@Override
+    	public void setWidgetValue(LoTable table, DataModel model,
+    			String path) {
+    		
+    		table.initTable();
+    		Object value = model.getRoot().query(path);
+    		if (value != null && value instanceof Data){
+    	 		Iterator<Data.Property> iter1 = ((Data)value).iterator();
+    			// iterate through Los
+    			while(iter1.hasNext()){
+    				Data.Property prop = iter1.next();
+    				Data d = prop.getValue();
+    				if (d != null) {
+    					table.addLoDescription((String)d.query(loDescPath));
+
+    					Data categoryData = d.query(categoryNamePath);
+    					Iterator<Data.Property> iter2 = categoryData.iterator();
+    					// iterate through Los
+    					while(iter2.hasNext()){
+    	    				Data.Property prop2 = iter2.next();
+    	    				Data d2 = prop2.getValue();
+    						table.addLoCategoryName((String)d2.get(NAME));      				
+    					}			
+    				}
+    			}					 
+    		}
+    	}
+    }
 }
