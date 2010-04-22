@@ -1,11 +1,26 @@
-DELETE FROM KS_RICH_TEXT_T;
+--
+-- Copyright 2010 The Kuali Foundation Licensed under the
+-- Educational Community License, Version 2.0 (the "License"); you may
+-- not use this file except in compliance with the License. You may
+-- obtain a copy of the License at
+--
+-- http://www.osedu.org/licenses/ECL-2.0
+--
+-- Unless required by applicable law or agreed to in writing,
+-- software distributed under the License is distributed on an "AS IS"
+-- BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+-- or implied. See the License for the specific language governing
+-- permissions and limitations under the License.
+--
+
+DELETE FROM KSPR_RICH_TEXT_T;
 DELETE FROM KSPR_PROPOSAL_DOCREL;
 DELETE FROM KSPR_PROPOSAL_JN_REFERENCE;
 DELETE FROM KSPR_PROPOSAL_JN_PERSON;
 DELETE FROM KSPR_PROPOSAL;
 
-INSERT INTO KS_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-1', 'Document 1', '<p>Document 1</p>');
-INSERT INTO KS_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-2', 'Document type 1', '<p>Document type 1</p>');
+INSERT INTO KSPR_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-1', 'Document 1', '<p>Document 1</p>');
+INSERT INTO KSPR_RICH_TEXT_T (ID, PLAIN, FORMATTED) VALUES ('PROPOSAL-RT-2', 'Document type 1', '<p>Document type 1</p>');
 
 INSERT INTO KSPR_PROPOSAL_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('proposalType.courseCorrection', 'Course Correction', 'A proposed minor change to a course which would not result in the creation of a new cluId.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});
 INSERT INTO KSPR_PROPOSAL_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('proposalType.newCourse', 'New Course', 'A new Course proposal.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});
@@ -30,7 +45,7 @@ INSERT INTO KSPR_PROPOSAL_JN_REFERENCE (PROPOSAL_ID, REFERENCE_ID) VALUES ('PROP
 INSERT INTO KSPR_PROPOSAL_JN_REFERENCE (PROPOSAL_ID, REFERENCE_ID) VALUES ('PROPOSAL-2', 'OBJREF-1');
 INSERT INTO KSPR_PROPOSAL_JN_REFERENCE (PROPOSAL_ID, REFERENCE_ID) VALUES ('PROPOSAL-3', 'OBJREF-3');
 
-INSERT INTO KSPR_PROPOSAL_DOCREL_TYPE (ID, NAME, DESCRIPTION, EFF_DT, EXPIR_DT) VALUES ('PROP-DOCREL-TYPE1', 'Doc rel 1', 'PROPOSAL-RT-2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});
+INSERT INTO KSPR_PROPOSAL_DOCREL_TYPE (ID, NAME, DESCRIPTION, EFF_DT, EXPIR_DT) VALUES ('PROP-DOCREL-TYPE1', 'kuali.proposal.docRelationType.attachment', 'PROPOSAL-RT-2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});
 
 INSERT INTO KSPR_PROPOSAL_DOCREL (DOCREL_ID, PROPOSAL_ID, DOCUMENT_ID, TITLE, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VERSIONIND) VALUES ('DOCREL-1', 'PROPOSAL-1', 'DOC-ID-1', 'A Document 1', 'PROPOSAL-RT-1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'PROP-DOCREL-TYPE1', 'active', 1);
 INSERT INTO KSPR_PROPOSAL_DOCREL (DOCREL_ID, PROPOSAL_ID, DOCUMENT_ID, TITLE, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VERSIONIND) VALUES ('DOCREL-2', 'PROPOSAL-1', 'DOC-ID-1', 'A Document 2', 'PROPOSAL-RT-1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'PROP-DOCREL-TYPE1', 'active', 1);

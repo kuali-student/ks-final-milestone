@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.ui.client.view.searchwidget;
 
 import java.util.ArrayList;
@@ -20,12 +21,9 @@ import java.util.Set;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
-import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
+import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
@@ -35,7 +33,6 @@ import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.RowRenderer;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
-import com.google.gwt.gen2.table.client.TableDefinition.AbstractRowView;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -139,54 +136,54 @@ public class OrgSearchBackedTable extends Composite{
         this.redraw();
     }
     
-    public void performSearch(List<QueryParamValue> queryParamValues){
+    public void performSearch(List<SearchParam> queryParamValues){
         if(pagingScrollTable != null){
             pagingScrollTable.setEmptyTableWidget(new Label("Processing Search..."));
         }
-        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
-
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-                
-            }
-
-            @Override
-            public void onSuccess(List<Result> results) {
-                
-                if(results != null){
-                    for (Result r: results){
-                        ResultRow theRow = new ResultRow();
-                        for(ResultCell c: r.getResultCells()){
-                            if(c.getKey().equals(resultIdKey)){
-                                theRow.setId(c.getValue());
-                            }
-                            theRow.setValue(c.getKey(), c.getValue());
-                        }
-                        resultRows.add(theRow);
-                    }
-                    
-                }
-                redraw();
-                
-                /*tableModel.setRows(resultRows);
-                //tableModel = new GenericTableModel<ResultRow>(resultRows);
-                
-                pagingScrollTable = builder.build(tableModel);
-                pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
-                //pagingScrollTable.reloadPage();
-                //pagingScrollTable.redraw();
-                pagingOptions = createPagingOptions(pagingScrollTable);
-                layout.clear();
-                layout.add(pagingOptions);
-                layout.add(pagingScrollTable);
-                pagingScrollTable.fillWidth();*/
-                //pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
-                //pagingScrollTable.fillWidth();
-                //layout.remove(index)
-                //main.add(createTableAndSelectionPanel(createPagingOptions(pagingScrollTable)));
-            }
-        });
+//        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+//                
+//            }
+//
+//            @Override
+//            public void onSuccess(List<Result> results) {
+//                
+//                if(results != null){
+//                    for (Result r: results){
+//                        ResultRow theRow = new ResultRow();
+//                        for(ResultCell c: r.getResultCells()){
+//                            if(c.getKey().equals(resultIdKey)){
+//                                theRow.setId(c.getValue());
+//                            }
+//                            theRow.setValue(c.getKey(), c.getValue());
+//                        }
+//                        resultRows.add(theRow);
+//                    }
+//                    
+//                }
+//                redraw();
+//                
+//                /*tableModel.setRows(resultRows);
+//                //tableModel = new GenericTableModel<ResultRow>(resultRows);
+//                
+//                pagingScrollTable = builder.build(tableModel);
+//                pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
+//                //pagingScrollTable.reloadPage();
+//                //pagingScrollTable.redraw();
+//                pagingOptions = createPagingOptions(pagingScrollTable);
+//                layout.clear();
+//                layout.add(pagingOptions);
+//                layout.add(pagingScrollTable);
+//                pagingScrollTable.fillWidth();*/
+//                //pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
+//                //pagingScrollTable.fillWidth();
+//                //layout.remove(index)
+//                //main.add(createTableAndSelectionPanel(createPagingOptions(pagingScrollTable)));
+//            }
+//        });
         
         
     }

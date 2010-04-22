@@ -1,18 +1,38 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.widgets.containers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.NavigationHandler;
+import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,18 +46,28 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+
 public class KSWrapper extends Composite{
-    ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
-    
-	private VerticalFlowPanel layout = new VerticalFlowPanel();
+   
+    private final String LUM_APP_URL		= "lum.application.url";
+    private final String APP_URL			= "application.url";
+    private final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
+    private final String RICE_URL           = "ks.rice.url";
+    private final String RICE_LINK_LABEL	= "ks.rice.label";
+    private final String APP_VERSION		= "ks.application.version";
+
+    private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
+        
+    private VerticalPanel layout = new VerticalPanel();
 	private VerticalPanel leftHeader = new VerticalPanel();
 	private VerticalPanel rightHeader = new VerticalPanel();
 	private HorizontalPanel header = new HorizontalPanel();
@@ -45,10 +75,8 @@ public class KSWrapper extends Composite{
 	private HorizontalPanel footer = new HorizontalPanel();
 	private HorizontalPanel headerTopLinks = new HorizontalPanel();
 	private HorizontalPanel headerBottomLinks = new HorizontalPanel();
-	//TODO replace with custom drop down.  Is it hard coded OR from somewhere
-	private KSDropDown navDropdown = new KSDropDown();
-	//TODO replace with custom drop down.  Probably custom widget itself eventually.
-	private KSDropDown userDropdown = new KSDropDown();
+	private StylishDropDown navDropDown = new StylishDropDown("Home");
+	private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
 	
 	//TODO replace with raw link widget list
 	private List<KSLabel> headerLinkList = new ArrayList<KSLabel>();
@@ -61,18 +89,75 @@ public class KSWrapper extends Composite{
 	private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 	private SimplePanel content = new SimplePanel();
 	
-	
-    private  String actionListUrl;
-    private  String docSearchUrl;
+	private KSLightBox docSearchDialog = new KSLightBox();
+	private Frame docSearch;
+
+    private String docSearchUrl = "";
+    private String appUrl = "..";
+    private String lumAppUrl = "..";
+    private String riceURL ="..";
+    private String riceLinkLabel="Rice";
+    private String appVersion = "";
+    
+    private boolean loaded = false;
+            
+    public class WrapperNavigationHandler extends NavigationHandler{
+
+		public WrapperNavigationHandler(String url) {
+			super(url);
+		}
+
+		@Override
+		public void beforeNavigate(Callback<Boolean> callback) {
+			//FIXME notify current controller of the page change so it can perform an action
+			//FIXME before navigation event
+			callback.exec(true);
+		}
+    	
+    }
 	
 	public KSWrapper(){
-		
-		getDocSearchAndActionListUrls();
-		
+		this.initWidget(layout);						
+	}
+		 
+	protected void onLoad() {
+		super.onLoad();
+		if (!loaded){
+			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION);
+			
+	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
+	            public void onFailure(Throwable caught) { 
+	            	//ignoring, we'll use the default
+	            	init();
+	            }
+	            
+	            public void onSuccess(Map<String,String> result) {
+	                GWT.log("ServerProperties fetched: "+result.toString(), null);
+	                if(result != null){
+	                    appUrl 			= result.get(APP_URL);
+	                    docSearchUrl	= result.get(DOC_SEARCH_URL);
+	                    lumAppUrl 		= result.get(LUM_APP_URL);
+	                    riceURL         = result.get(RICE_URL);
+	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
+	                    appVersion		= result.get(APP_VERSION);
+	                }
+	                init();
+	            }
+	            
+	        });
+
+			loaded = false;
+		}
+	}
+
+
+	private void init(){
 		headerBottomLinks.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		//headerBottomLinks.add(userDropdown);//Todo, put in current user
-		headerBottomLinks.add(buildUserIdPanel());
+		createUserDropDown();
+		headerBottomLinks.add(userDropDown);//Todo, put in current user
+		//headerBottomLinks.add(buildUserIdPanel());
 		
+		createHelpInfo();
 		headerBottomLinks.add(helpLabel);
 		headerBottomLinks.add(helpImage);
 		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
@@ -81,20 +166,17 @@ public class KSWrapper extends Composite{
 			headerCustomWidget.addStyleName("KS-Wrapper-Header-Custom-Widget-Panel");
 		}
 		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		//leftHeader.add(navDropdown);//TODO Put back in with operations
+		createNavDropDown();
+		leftHeader.add(navDropDown);//TODO Put back in with operations
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+		List<KSLabel> topLinks = new ArrayList<KSLabel>();
+		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
+		setHeaderCustomLinks(topLinks);
 		rightHeader.add(headerTopLinks);
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		rightHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		rightHeader.add(headerBottomLinks);
 		headerContent.add(leftHeader);
-
-		//Put these in since dropdowns were blank, can remove later
-		headerContent.add(buildActionListPanel());
-		headerContent.add(buildDocSearchPanel());
-		headerContent.add(buildLink("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
-		headerContent.add(buildLink("Home", "Return to home page", GWT.getModuleBaseURL() + "../"));
-		headerContent.add(buildLink("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"));
 		
 		headerContent.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		headerContent.add(rightHeader);
@@ -103,7 +185,9 @@ public class KSWrapper extends Composite{
 		layout.add(header);
 		layout.add(content);
 		layout.add(footer);
-		this.initWidget(layout);
+
+		navDropDown.addStyleName("KS-Navigation-DropDown");
+		userDropDown.addStyleName("KS-Username-DropDown");
 		header.addStyleName("KS-Wrapper-Header");
 		headerContent.addStyleName("KS-Wrapper-Header-Content");
 		footer.addStyleName("KS-Wrapper-Footer");
@@ -112,9 +196,84 @@ public class KSWrapper extends Composite{
 		helpLabel.addStyleName("KS-Wrapper-Help-Label");
 		rightHeader.addStyleName("KS-Wrapper-Header-Right-Panel");
 		leftHeader.addStyleName("KS-Wrapper-Header-Left-Panel");
-		navDropdown.addStyleName("KS-Wrapper-Navigation-Dropdown");
-		userDropdown.addStyleName("KS-Wrapper-User-Dropdown");
-		footer.add(Theme.INSTANCE.getCommonImages().getSpacer());
+		footer.add(Theme.INSTANCE.getCommonImages().getFooterImage());		
+	}
+	
+	private void createHelpInfo(){
+	    helpImage.addClickHandler(new ClickHandler(){
+	        
+	           public void onClick(ClickEvent event) {
+	               final PopupPanel helpPopup = new PopupPanel(true);
+	               helpPopup.setWidget(new HTML("<br><h3>&nbsp;&nbsp; " + appVersion + "&nbsp;&nbsp;<h3>"));
+	               
+	               helpPopup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
+	                   public void setPosition(int offsetWidth, int offsetHeight) {
+	                     int left = (Window.getClientWidth() - offsetWidth);
+	                     int top = 0;
+	                     helpPopup.setPopupPosition(left, top);
+	                   }
+	               });
+	           }
+	    });
+	}
+	
+	private void createUserDropDown() {
+		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    	//TODO preferences real link here
+    	items.add(new KSMenuItemData("Settings",
+    			new ClickHandler(){
+					public void onClick(ClickEvent event) {
+						Window.alert("Settings not yet implemented");
+					}
+    			})
+    	);
+    	items.add(new KSMenuItemData("Logout",
+    			new WrapperNavigationHandler(
+    					"j_spring_security_logout"))
+    	);
+    	userDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
+    	userDropDown.setItems(items);
+	}
+
+	private void createNavDropDown() {
+		navDropDown.setImageLocation(MenuImageLocation.LEFT);
+		
+		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+	
+		items.add(new KSMenuItemData("Home",Theme.INSTANCE.getCommonImages().getSpacerIcon(),
+    			new WrapperNavigationHandler(
+    					lumAppUrl+"/index.html"))
+    	);
+    	items.add(new KSMenuItemData("My Action List",Theme.INSTANCE.getCommonImages().getApplicationIcon(),
+    			new WrapperNavigationHandler(
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+    	);
+		items.add(new KSMenuItemData("Curriculum Management",Theme.INSTANCE.getCommonImages().getBookIcon(),
+    			new WrapperNavigationHandler(
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"))
+    	);
+    	items.add(new KSMenuItemData("Organization Management", Theme.INSTANCE.getCommonImages().getPeopleIcon(),
+    			new WrapperNavigationHandler(
+    					lumAppUrl+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
+    	);
+    	items.add(new KSMenuItemData("Workflow Doc Search", Theme.INSTANCE.getCommonImages().getNodeIcon(),
+    			new ClickHandler(){
+
+					@Override
+					public void onClick(ClickEvent event) {
+						buildDocSearchPanel();
+						docSearchDialog.show();						
+					}})
+    	);
+    	items.add(new KSMenuItemData("Rice", Theme.INSTANCE.getCommonImages().getSpacerIcon(),
+    			new WrapperNavigationHandler(
+    					appUrl+"/portal.do?selectedTab=main"))
+    	);    	
+        
+		navDropDown.setShowSelectedItem(true);
+    	navDropDown.setItems(items);
+    	navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());        
+   
 	}
 	
 	public void setContent(Widget wrappedContent){
@@ -173,109 +332,28 @@ public class KSWrapper extends Composite{
         return link;
 
     }
-    
-    private Widget buildUserIdPanel(){
-        String userId = Application.getApplicationContext().getUserId();
-        KSLabel userLabel = new KSLabel("User: "+userId);
-        
-        userLabel.addStyleName("KS-Header-Link");        
-        
-        return userLabel;
-    }
-    
-    private Widget buildActionListPanel(){
-        final KSLightBox actionListDialog = new KSLightBox();
-        final Frame actionList = new Frame();
-
-        actionList.setSize("700px", "500px");
-        
-        VerticalPanel actionListPanel = new VerticalPanel();
-        
-        actionListPanel.add(actionList);
-        
-        KSButton closeActionButton = new KSButton("Close");
-        closeActionButton.addClickHandler(new ClickHandler(){
-            public void onClick(ClickEvent event) {
-                actionListDialog.hide();
-            }
-        });
-        
-        actionListPanel.add(closeActionButton);
-        
-        actionListDialog.setWidget(actionListPanel);
-        
-        //Create the button that opens the search dialog
-        Hyperlink actionListLink = new Hyperlink("Action List","Actionlist");
-        actionListLink.addClickHandler(new ClickHandler(){
-            public void onClick(ClickEvent event) {
-                actionList.setUrl(actionListUrl);
-                actionListDialog.show();
-            }
-        });
-        actionListLink.setStyleName("KS-Header-Hyperlink");
-        
-        return actionListLink;
-        
-    }
-    
-    //Method to build the light box for the doc search
-    private Widget buildDocSearchPanel(){
-        final KSLightBox docSearchDialog = new KSLightBox();
-        final Frame docSearch = new Frame();
-
-        docSearch.setSize("700px", "500px");
-        
-        VerticalPanel docSearchPanel = new VerticalPanel();
-        
-        docSearchPanel.add(docSearch);
-        
-        KSButton closeActionButton = new KSButton("Close");
-        closeActionButton.addClickHandler(new ClickHandler(){
-            public void onClick(ClickEvent event) {
-                docSearchDialog.hide();
-            }
-        });
-        
-        docSearchPanel.add(closeActionButton);
-        
-        docSearchDialog.setWidget(docSearchPanel);
-        
-        //Create the button that opens the search dialog
-        Hyperlink docSearchLink = new Hyperlink("Doc Search ","DocSearch");
-        docSearchLink.addClickHandler(new ClickHandler(){
-            public void onClick(ClickEvent event) {
-                docSearch.setUrl(docSearchUrl);
-                docSearchDialog.show();
-            }
-        });
-        docSearchLink.setStyleName("KS-Header-Hyperlink");
-        
-        return docSearchLink;
-        
-    }
-	
-	private void getDocSearchAndActionListUrls() {
-        // getting the rice action list url from server properties
-        serverProperties.get("ks.rice.actionList.serviceAddress", new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) { //ignoring, we'll use the default
-            }
-            public void onSuccess(String result) {
-                GWT.log("ServerProperties fetched for ks.rice.personLookup.serviceAddress: "+result, null);
-                if(result != null)
-                    actionListUrl = result;
-            }
-        });
-        
-        // getting the rice doc search url from server properties
-        serverProperties.get("ks.rice.docSearch.serviceAddress", new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) { //ignoring, we'll use the default
-            }
-            public void onSuccess(String result) {
-                GWT.log("ServerProperties fetched for ks.rice.docSearch.serviceAddress: "+result, null);
-                if(result != null)
-                    docSearchUrl = result;
-            }
             
-        });
-	}
+    //Method to build the light box for the doc search
+    private void buildDocSearchPanel(){
+    	if (docSearch == null){
+	        docSearch = new Frame();
+	    	docSearch.setSize("700px", "500px");
+	        docSearch.setUrl(docSearchUrl);
+	    	
+	        VerticalPanel docSearchPanel = new VerticalPanel();       
+	        docSearchPanel.add(docSearch);
+	        
+	        KSButton closeActionButton = new KSButton("Close");
+	        closeActionButton.addClickHandler(new ClickHandler(){
+	            public void onClick(ClickEvent event) {
+	                docSearchDialog.hide();
+	            }
+	        });
+	        
+	        docSearchPanel.add(closeActionButton);	       
+	        docSearchDialog.setWidget(docSearchPanel);
+    	}
+    }
+    
+	
 }

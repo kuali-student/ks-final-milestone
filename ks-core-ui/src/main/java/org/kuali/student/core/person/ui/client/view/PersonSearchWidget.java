@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.person.ui.client.view;
 
 import java.util.ArrayList;
@@ -28,8 +29,10 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.ui.client.service.PersonRpcService;
 import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -113,25 +116,26 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
     }
     
     protected void getSearchResults(){
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-        QueryParamValue qpv1 = new QueryParamValue();
-        qpv1 = new QueryParamValue();
+        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam qpv1 = new SearchParam();
         qpv1.setKey("person.queryParam.personGivenName");
         qpv1.setValue(personName.getText().replace('*', '%'));
         queryParamValues.add(qpv1);
         
-        personRpcService.searchForResults("person.search.personQuickViewByGivenName", 
-                queryParamValues, new AsyncCallback<List<Result>>(){
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setParams(queryParamValues);
+        searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
+        personRpcService.search(searchRequest, new AsyncCallback<SearchResult>(){
 
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());                        
                     }
 
-                    public void onSuccess(List<Result> result) {
-                        if (result == null || result.size() <=0 ){
+                    public void onSuccess(SearchResult result) {
+                        if (result == null || result.getRows().size() <=0 ){
                             resultPanel.setWidget(noResults);
                         } else {
-                        	personInfoList = new PersonInfoList(result);
+                        	personInfoList = new PersonInfoList(result.getRows());
                             resultTable = new KSSelectableTableList();
                             resultTable.setMultipleSelect(false);
                             resultTable.setListItems(personInfoList);
@@ -148,11 +152,11 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
     }       
         
     public class PersonInfoList implements ListItems{
-        Map<String, Result> personInfoMap = new HashMap<String, Result>();
+        Map<String, SearchResultRow> personInfoMap = new HashMap<String, SearchResultRow>();
                 
-        public PersonInfoList(List<Result> results){
-            for (Result r: results){
-                personInfoMap.put(r.getResultCells().get(0).getValue(), r);
+        public PersonInfoList(List<SearchResultRow> results){
+            for (SearchResultRow r: results){
+                personInfoMap.put(r.getCells().get(0).getValue(), r);
             }
         }
         
@@ -161,10 +165,10 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
         }
 
         public String getItemAttribute(String id, String attrkey) {
-            Result r = personInfoMap.get(id);
+        	SearchResultRow r = personInfoMap.get(id);
             
             if (attrkey.equals("Person Name")){
-                return r.getResultCells().get(1).getValue(); 
+                return r.getCells().get(1).getValue(); 
             }
             
             return null;
@@ -185,7 +189,7 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
         }
 
         public String getItemText(String id) {
-            return ((Result)personInfoMap.get(id)).getResultCells().get(1).getValue();
+            return personInfoMap.get(id).getCells().get(1).getValue();
         }
                 
     }

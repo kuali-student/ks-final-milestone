@@ -1,21 +1,23 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.impl.KSListBoxImpl;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -25,6 +27,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * KSListBox wraps gwt Listbox.  However, it adds functionality and limits the list box to only MULTI select.
@@ -142,5 +145,21 @@ public class KSListBox extends KSSelectItemWidgetAbstract{
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return dropDown.addBlurHandler(handler);
 	}
-    
+
+    public void addWidgetReadyCallback(Callback<Widget> callback) {
+        dropDown.addWidgetReadyCallback(callback);
+    }
+
+    public boolean isInitialized() {
+        return dropDown.isInitialized();
+    }
+
+    public void setInitialized(boolean initialized) {
+        dropDown.setInitialized(initialized);
+    }
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }    
 }

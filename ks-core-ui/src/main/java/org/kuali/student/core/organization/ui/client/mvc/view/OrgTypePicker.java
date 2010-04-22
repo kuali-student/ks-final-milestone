@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.ArrayList;
@@ -20,58 +35,61 @@ public class OrgTypePicker extends KSDropDown{
 	//How to tie in with model to select hierarchy?
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+	private boolean loaded=false;
 
 	@Override
 	public void onLoad() {
 		super.onLoad();
-		
-		orgRpcServiceAsync.getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>(){
-			public void onFailure(Throwable caught) {
-				
-			}
-			public void onSuccess(final List<OrgTypeInfo> orgTypes) {
-	               final Map<String, String> ids = new LinkedHashMap<String, String>();
-	                for (OrgTypeInfo orgTypeInfo : orgTypes) {
-	                    ids.put(orgTypeInfo.getId(), orgTypeInfo.getName());
-	                }
-	                ListItems list = new ListItems() {
+		if (!loaded) {
 
-	                    @Override
-	                    public List<String> getAttrKeys() {
-	                        return null; // apparently unused
-	                    }
+            orgRpcServiceAsync.getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>() {
+                public void onFailure(Throwable caught) {
 
-	                    @Override
-	                    public String getItemAttribute(String id, String attrkey) {
-	                        return null; // apparently unused
-	                    }
+                }
 
-	                    @Override
-	                    public int getItemCount() {
-	                        return orgTypes.size();
-	                    }
+                public void onSuccess(final List<OrgTypeInfo> orgTypes) {
+                    final Map<String, String> ids = new LinkedHashMap<String, String>();
+                    for (OrgTypeInfo orgTypeInfo : orgTypes) {
+                        ids.put(orgTypeInfo.getId(), orgTypeInfo.getName());
+                    }
+                    ListItems list = new ListItems() {
 
-	                    @Override
-	                    public List<String> getItemIds() {
-	                        return new ArrayList<String>(ids.keySet());
-	                    }
+                        @Override
+                        public List<String> getAttrKeys() {
+                            return null; // apparently unused
+                        }
 
-	                    @Override
-	                    public String getItemText(String id) {
-	                        return ids.get(id);
-	                    }
+                        @Override
+                        public String getItemAttribute(String id, String attrkey) {
+                            return null; // apparently unused
+                        }
 
-	                };
-	                
-	                setEnabled(true);
-	                setListItems(list);
-/*	                ListItems items = orgTypeDropDown.getListItems();
-	                
-	                if (items != null) {
-	                    orgTypeDropDown.selectItem(((SingleListItem) items).getItemIds().get(0));
-	                }*/
-			}
-		});
+                        @Override
+                        public int getItemCount() {
+                            return orgTypes.size();
+                        }
+
+                        @Override
+                        public List<String> getItemIds() {
+                            return new ArrayList<String>(ids.keySet());
+                        }
+
+                        @Override
+                        public String getItemText(String id) {
+                            return ids.get(id);
+                        }
+
+                    };
+
+                    setEnabled(true);
+                    setListItems(list);
+                    /*
+                     * ListItems items = orgTypeDropDown.getListItems(); if (items != null) {
+                     * orgTypeDropDown.selectItem(((SingleListItem) items).getItemIds().get(0)); }
+                     */
+                }
+            });
+        }
 	}
 	
 	

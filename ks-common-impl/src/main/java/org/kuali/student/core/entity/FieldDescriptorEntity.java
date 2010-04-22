@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.entity;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class FieldDescriptorEntity {
     @Column(name = "NAME", nullable = false)
     protected String name;
     @Column(name = "DESCR", nullable = false)
-    protected String desc;
+    protected String descr;
     @Column(name = "DATA_TYPE", nullable = false)
     protected String dataType;
     @Column(name="MIN_VALUE")
@@ -59,14 +60,14 @@ public class FieldDescriptorEntity {
     /**
      * @return the desc
      */
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
     /**
      * @param desc the desc to set
      */
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
     /**
      * @return the dataType

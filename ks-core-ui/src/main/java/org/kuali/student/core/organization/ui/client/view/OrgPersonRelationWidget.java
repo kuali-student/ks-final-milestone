@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.ArrayList;
@@ -38,18 +39,12 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.person.dto.PersonInfo;
-import org.kuali.student.core.person.ui.client.service.PersonRpcService;
-import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
-import org.kuali.student.core.person.ui.client.view.PersonSearchWidget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.Window;
@@ -140,19 +135,19 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
             public void onClick(ClickEvent event) {
                 final KSModalDialogPanel searchPopup = new KSModalDialogPanel();
                 
-                PersonSearchWidget personSearchWidget = new PersonSearchWidget();
-                personSearchWidget.addSelectionHandler(new SelectionHandler<PersonInfo>(){
-                    public void onSelection(SelectionEvent<PersonInfo> event) {
-                        PersonInfo o = event.getSelectedItem();
-                        orgPersonRelForm.setFieldValue("relPersonName", o.getPersonNameInfoList().get(0).getGivenName());
-                        orgPersonRelForm.setFieldValue("relPersonId", o.getId());
-                        searchPopup.hide();
-                    }
-                });
+//                PersonSearchWidget personSearchWidget = new PersonSearchWidget();
+//                personSearchWidget.addSelectionHandler(new SelectionHandler<PersonInfo>(){
+//                    public void onSelection(SelectionEvent<PersonInfo> event) {
+//                        PersonInfo o = event.getSelectedItem();
+//                        orgPersonRelForm.setFieldValue("relPersonName", o.getPersonNameInfoList().get(0).getGivenName());
+//                        orgPersonRelForm.setFieldValue("relPersonId", o.getId());
+//                        searchPopup.hide();
+//                    }
+//                });
                 
                 VerticalPanel popupContent = new VerticalPanel();
                 popupContent.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-                popupContent.add(personSearchWidget);
+//                popupContent.add(personSearchWidget);
                 popupContent.add(new KSButton("Cancel", new ClickHandler(){
                     public void onClick(ClickEvent event) {
                         searchPopup.hide();
@@ -254,17 +249,17 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                             orgPersonRelForm.setFieldValue("relPersonId",orgPersonRelationInfo.getPersonId());
                             final String orgPersonRelType = orgPersonRelationInfo.getType();
                             
-                            PersonRpcServiceAsync personRpcService = GWT.create(PersonRpcService.class);
-                            personRpcService.fetchPerson(orgPersonRelationInfo.getPersonId(), 
-                                    new AsyncCallback<PersonInfo>(){
-
-                                        public void onFailure(Throwable caught) {
-                                        }
-
-                                        public void onSuccess(PersonInfo personInfo) {
-                                            orgPersonRelForm.setFieldValue("relPersonName", personInfo.getPersonNameInfoList().get(0).getGivenName());                       
-                                        }            
-                            });
+//                            PersonRpcServiceAsync personRpcService = GWT.create(PersonRpcService.class);
+//                            personRpcService.fetchPerson(orgPersonRelationInfo.getPersonId(), 
+//                                    new AsyncCallback<PersonInfo>(){
+//
+//                                        public void onFailure(Throwable caught) {
+//                                        }
+//
+//                                        public void onSuccess(PersonInfo personInfo) {
+//                                            orgPersonRelForm.setFieldValue("relPersonName", personInfo.getPersonNameInfoList().get(0).getGivenName());                       
+//                                        }            
+//                            });
 
                             //Disable editing of rel org id and name
                             ((FocusWidget)orgPersonRelForm.getFieldWidget("relPersonId")).setEnabled(false);

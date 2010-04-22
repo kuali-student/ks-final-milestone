@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.proposal.service.impl;
 
 import java.util.List;
@@ -42,13 +43,11 @@ import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
@@ -446,7 +445,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return validateObject(objectTypeKey, stateKey, info);
+        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
     }
 
     /**
@@ -454,7 +453,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return validateStructureData(objectTypeKey, stateKey, info);
+        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
     }
 
     /**
@@ -524,20 +523,8 @@ public class ProposalServiceImpl implements ProposalService {
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-     */
-    @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        checkForMissingParameter(queryParamValues, "queryParamValues");
-
-        return searchManager.searchForResults(searchTypeKey, queryParamValues, proposalDao);
-    }
-
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+		return searchManager.search(searchRequest, proposalDao);
 	}
 }

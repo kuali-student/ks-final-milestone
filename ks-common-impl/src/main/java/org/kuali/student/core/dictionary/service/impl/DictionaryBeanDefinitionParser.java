@@ -1,21 +1,25 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.dictionary.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,6 +51,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+/**
+ * @author Daniel Epstein
+ *
+ */
 public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinitionParser{
     
     final Logger logger = Logger.getLogger(DictionaryBeanDefinitionParser.class);
@@ -121,7 +129,9 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
     	if(element.hasAttributes()){
     		for(int i = 0;i<element.getAttributes().getLength();i++){
         		Attr attr = (Attr) element.getAttributes().item(i);
-        		if(!"id".equals(attr.getName())&&!"parent".equals(attr.getName())){
+        		if("abstract".equals(attr.getName())){
+        			builder.setAbstract(true);
+        		}else if(!"id".equals(attr.getName())&&!"parent".equals(attr.getName())){
         			builder.addPropertyValue(attr.getName(), attr.getValue());
         		}
     		}
@@ -131,7 +141,7 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
     	HashSet<String> visitedNodes = new HashSet<String>();
         for(int i = 0;i<element.getChildNodes().getLength();i++){
             Node node = element.getChildNodes().item(i);
-        	
+
             //We are only interested in child elements that have not been visited
             if(Node.ELEMENT_NODE == node.getNodeType()){	              
 	            
@@ -150,11 +160,16 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                    	String fieldName=resolveFieldName(element.getLocalName(),localName);
 	                    	builder.addPropertyValue(fieldName,refList);
 	                    }
-	                    
+	                //Check if this is an attribute map
+	            	}else if("attributes".equals(node.getLocalName())){
+	            		Map<String,String> attributes = getAttributeMap((Element)node);
+	            		builder.addPropertyValue(node.getLocalName(), attributes);
 	                //Check if the child element is a Ref
 	                }else if(node.getLocalName().endsWith("Ref")){
 	                	if("objectStructureRef".equals(node.getLocalName())){
 	                		builder.addPropertyValue("objectStructureRef", ((Element)node).getAttribute("bean"));
+	                		//Add in the nested object too
+	                		builder.addPropertyReference("objectStructure", ((Element)node).getAttribute("bean"));
 	                	}else{
 	                		builder.addPropertyReference(localName, ((Element)node).getAttribute("bean"));
 	                	}
@@ -167,9 +182,21 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                        String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
 	                        builder.addPropertyValue(fieldName, childBean);
 	                    }else{
+	                    	
+	                    	
 	                   		//Set the text value
 	                		String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
-	                		builder.addPropertyValue(fieldName, node.getTextContent());
+
+	                		if(Node.ELEMENT_NODE == node.getNodeType()&&"date".equals(((Element)node).getSchemaTypeInfo().getTypeName())){
+	                			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	                			try {
+									builder.addPropertyValue(fieldName, df.parse(node.getTextContent()));
+								} catch (Exception e) {
+									logger.error("Cannot convert date, must be in format 'YYYY-MM-DD' :"+node.getTextContent(),e);
+								}
+	                		}else{
+	                			builder.addPropertyValue(fieldName, node.getTextContent());
+	                		}
 	                    }
 	                }
 	            }
@@ -177,8 +204,29 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
         }
     }
 
+    
+    /**
+     * Parses attribute map from 
+     * &lt;attributes&gt;
+     * 	&lt;attribute key="attr1" value="attr2"/&gt;
+     * &lt;/attributes&gt;
+     * @param element
+     * @return map of attributes
+     */
+    private Map<String, String> getAttributeMap(Element element) {
+    	Map<String, String> attributes = new HashMap<String, String>();
+    	for(int i = 0;i<element.getChildNodes().getLength();i++){
+    		Node node = element.getChildNodes().item(i);
+    		if(Node.ELEMENT_NODE == node.getNodeType() && "attribute".equals(node.getLocalName())){
+    			String key = ((Element)node).getAttribute("key");
+    			String value = ((Element)node).getAttribute("value");
+    			attributes.put(key, value);
+    		}
+    	}
+		return attributes;
+	}
 
-    //This builds up a list of the child nodes so that the spring parseListElement can be used
+	//This builds up a list of the child nodes so that the spring parseListElement can be used
     //it also translates <fooRef> elements into straight spring <ref> elements
     private Element getChildList(Element element, String localName) {
     	try{

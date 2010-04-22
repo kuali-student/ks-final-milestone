@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.dao;
 
 import static org.junit.Assert.assertEquals;
@@ -47,12 +48,10 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.newdto.SearchParam;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
-import org.kuali.student.core.search.newdto.SortDirection;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 
@@ -104,20 +103,25 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
 
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		SearchParam qpv1 = new SearchParam();
 		qpv1.setKey("org.queryParam.orgType");
 		qpv1.setValue("kuali.org.College");
 		queryParamValues.add(qpv1);
-		List<Result> results = sm.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues, dao);
-		assertEquals(6,results.size());
-		assertEquals(2,results.get(0).getResultCells().size());
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
+		searchRequest.setParams(queryParamValues);
+		SearchResult result = sm.search(searchRequest, dao);
+		assertEquals(6,result.getRows().size());
+		assertEquals(2,result.getRows().get(0).getCells().size());
 
 		qpv1.setKey("org.queryParam.orgId");
 		qpv1.setValue("31");
-		results = sm.searchForResults("org.search.hierarchiesOrgIsIn", queryParamValues, dao);
-		assertEquals(1, results.size());
-		assertEquals("kuali.org.hierarchy.Main", results.get(0).getResultCells().get(0).getValue());
+		searchRequest.setSearchKey("org.search.hierarchiesOrgIsIn");
+		result = sm.search(searchRequest, dao);
+		
+		assertEquals(1, result.getRows().size());
+		assertEquals("kuali.org.hierarchy.Main", result.getRows().get(0).getCells().get(0).getValue());
 	}
 
 	@Test
@@ -133,7 +137,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 
 		orgType.setId("kuali.org.CorporateEntity");
 		orgType.setName("Corporate Entity");
-		orgType.setDesc("A legal corporate entity");
+		orgType.setDescr("A legal corporate entity");
 
 		Org org = new Org();
 		org.setType(orgType);
@@ -144,7 +148,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.Main");
 		orgHierarchy.setName("Main");
-		orgHierarchy.setDesc("Main Organizational Hierarchy");
+		orgHierarchy.setDescr("Main Organizational Hierarchy");
 		orgHierarchy.setRootOrg(org);
 
 		dao.create(orgType);
@@ -175,7 +179,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgType orgType = new OrgType();
 		orgType.setId("kauli.org.TestOrgTypeKey1");
 		orgType.setName("Test OrgType 1");
-		orgType.setDesc("A test OrgType");
+		orgType.setDescr("A test OrgType");
 
 		Org org = new Org();
 		org.setType(orgType);
@@ -194,7 +198,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.TestOrgHierarchy1");
 		orgHierarchy.setName("TestOrgHeir1");
-		orgHierarchy.setDesc("Test Organizational Hierarchy 1");
+		orgHierarchy.setDescr("Test Organizational Hierarchy 1");
 		orgHierarchy.setRootOrg(org);
 
 		dao.create(orgType);
@@ -238,7 +242,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgType orgType = new OrgType();
 		orgType.setId("kauli.org.TestOrgTypeKey1");
 		orgType.setName("Test OrgType 1");
-		orgType.setDesc("A test OrgType");
+		orgType.setDescr("A test OrgType");
 
 		Org org = new Org();
 		org.setType(orgType);
@@ -257,7 +261,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.TestOrgHierarchy1");
 		orgHierarchy.setName("TestOrgHeir1");
-		orgHierarchy.setDesc("Test Organizational Hierarchy 1");
+		orgHierarchy.setDescr("Test Organizational Hierarchy 1");
 		orgHierarchy.setRootOrg(org);
 
 		dao.create(orgType);
@@ -436,11 +440,11 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 				return o1.getId().compareTo(o2.getId());
 			}});
 		assertEquals("68", orgPersonRelations.get(0).getOrg().getId());
-		assertEquals("Head", orgPersonRelations.get(0).getType().getDesc());
+		assertEquals("Head", orgPersonRelations.get(0).getType().getDescr());
 		assertEquals("KIM-1", orgPersonRelations.get(0).getPersonId());
 		assertEquals("147", orgPersonRelations.get(1).getOrg().getId());
 		assertEquals("KIM-3", orgPersonRelations.get(1).getPersonId());
-		assertEquals("Professor", orgPersonRelations.get(2).getType().getDesc());
+		assertEquals("Professor", orgPersonRelations.get(2).getType().getDescr());
 		assertEquals("KIM-1", orgPersonRelations.get(2).getPersonId());
 	}
 
@@ -448,8 +452,8 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	public void getOrgPersonRelationsByPerson() {
 		List<OrgPersonRelation> orgPersonRelations = dao.getOrgPersonRelationsByPerson("KIM-1", "68");
 		assertEquals(2, orgPersonRelations.size());
-		assertEquals("Head", orgPersonRelations.get(0).getType().getDesc());
-		assertEquals("Professor", orgPersonRelations.get(1).getType().getDesc());
+		assertEquals("Head", orgPersonRelations.get(0).getType().getDescr());
+		assertEquals("Professor", orgPersonRelations.get(1).getType().getDescr());
 	}
 
 	@Test

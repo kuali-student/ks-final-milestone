@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.ui.client.view.searchwidget;
 
 import java.text.SimpleDateFormat;
@@ -27,16 +28,13 @@ import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -47,7 +45,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.gen2.table.client.CellRenderer;
 import com.google.gwt.gen2.table.client.RowRenderer;
-import com.google.gwt.gen2.table.client.TableDefinition;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -164,14 +161,14 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
                     //TODO change this to use a message from messages, using the fd.getName() as the token
                     KSLabel paramLabel = new KSLabel(fd.getName());
 //                    paramLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PARAM_LABELS);
-                    searchParamTable.getColumnFormatter().addStyleName(0, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_COLUMN);
+                    //searchParamTable.getColumnFormatter().addStyleName(0, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_COLUMN);
 //                    searchParamTable.getCellFormatter().addStyleName(row, column, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_CELLS);
                     searchParamTable.setWidget(row, column, paramLabel);
                     column++;
                     
                     if (fd.getSearch()!=null && fd.getSearch().getKey() != null ){                                                
                         KSSelectItemWidgetAbstract dropDown = new KSDropDown();
-                        populateSearchEnumeration(dropDown, fd.getSearch().getKey());
+//                        populateSearchEnumeration(dropDown, fd.getSearch().getKey());
                         
                         dropDown.setName(q.getKey());
                         searchParamTable.setWidget(row, column, dropDown);
@@ -210,7 +207,7 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
                 searchResultList.setResultColumns(resultTypeInfo.getResultColumns());
 */
                 FlexTable resultTable = new FlexTable();
-                resultLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_LABEL);
+                //resultLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_LABEL);
                 resultTable.setWidget(0, 0, resultLabel);
 //                searchResultsTable.getElement().getStyle().setProperty("backgroundColor", "red");
                 resultTable.setWidget(1, 0, searchResultsTable);
@@ -256,11 +253,11 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
            
     private void executeSearch(){
         //Build query paramaters
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
         for (int row=0; row < searchParamTable.getRowCount()-1; row++ ){
             Widget w = searchParamTable.getWidget(row, 1);
             
-            QueryParamValue queryParamValue = new QueryParamValue();
+            SearchParam queryParamValue = new SearchParam();
             if (w instanceof HasName) {
                 queryParamValue.setKey(((HasName)w).getName());
             } else if (w instanceof KSDatePickerAbstract) {
@@ -314,22 +311,22 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
         });*/
     }
 
-    private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
-        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
-
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO: Handle this exception                
-            }
-
-            @Override
-            public void onSuccess(List<Result> results) {
-                selectField.setListItems(new SearchResultListItems(results));
-                selectField.redraw();
-            }
-            
-        });
-    } 
+//    private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
+//        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                // TODO: Handle this exception                
+//            }
+//
+//            @Override
+//            public void onSuccess(List<Result> results) {
+//                selectField.setListItems(new SearchResultListItems(results));
+//                selectField.redraw();
+//            }
+//            
+//        });
+//    } 
     
     private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, Enum enumInfo){
         //TODO: Call the enumeration managment service to get enum

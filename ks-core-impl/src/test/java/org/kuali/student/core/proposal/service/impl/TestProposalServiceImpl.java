@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.proposal.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -31,6 +32,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -46,10 +48,9 @@ import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 
 /**
  * Test the Proposal Service methods
@@ -65,8 +66,10 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        List<Result> results = client.searchForResults("proposal.search.courses", null);
-        assertEquals(3,results.size());
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setSearchKey("proposal.search.generic");
+    	SearchResult result = client.search(searchRequest);
+        assertEquals(3,result.getRows().size());
     }
 
     @Test
@@ -153,10 +156,10 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             ArrayList<String> idsMock =  new ArrayList<String>();
             idsMock.add("DOCREL-XX");
             idsMock.add("DOCREL-XX");
-            client.getProposalDocRelationsByIdList(idsMock);
-            assertTrue(false);
+            List<ProposalDocRelationInfo> result = client.getProposalDocRelationsByIdList(idsMock);
+            assertTrue(result==null);
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
     }
 
@@ -166,12 +169,8 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByProposal("PROPOSAL-1");
         assertNotNull(docRelationInfos);
 
-        try {
-            client.getProposalDocRelationsByProposal("PROPOSAL-XXX");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
+        List<ProposalDocRelationInfo> infos = client.getProposalDocRelationsByProposal("PROPOSAL-XXX");
+        assertTrue(infos == null || infos.size() == 0);
     }
 
     @Test
@@ -181,10 +180,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertNotNull(docRelationInfos);
 
         try {
-            client.getProposalDocRelationsByType("PROP-DOCREL-TYPEXXX");
-            assertTrue(false);
+            assertEquals(null,client.getProposalDocRelationsByType("PROP-DOCREL-TYPEXXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
     }
 
@@ -228,10 +226,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposals.size());
 
         try {
-            client.getProposalsByProposalType("proposalType.courseCorrection-XXX");
-            assertTrue(false);
+            assertEquals(null,client.getProposalsByProposalType("proposalType.courseCorrection-XXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -249,17 +246,15 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposals.size());
 
         try {
-            client.getProposalsByReference("REFTYPE-XXX", "REMOTEREF-1");
-            assertTrue(false);
+            assertEquals(null,client.getProposalsByReference("REFTYPE-XXX", "REMOTEREF-1"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
-            client.getProposalsByReference("REFTYPE-1","REMOTEREF-1XXX");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalsByReference("REFTYPE-1","REMOTEREF-1XXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -294,17 +289,15 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposalInfos.size());
 
         try {
-            client.getProposalsByState("activeXXX", "proposalType.courseCorrection");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalsByState("activeXXX", "proposalType.courseCorrection"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
-            client.getProposalsByState("active", "proposalType.courseCorrectionXXX");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalsByState("active", "proposalType.courseCorrectionXXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -329,10 +322,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposalTypeInfos.size());
 
         try {
-            client.getProposalTypesForReferenceType("REFTYPE-XXX");
-            assertTrue(false);
+        	assertEquals(null, client.getProposalTypesForReferenceType("REFTYPE-XXX"));
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
 
         try {
@@ -583,9 +575,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(1,proposalDocRelationTypeKeyList.size());
         try {
             proposalDocRelationTypeKeyList = client.getAllowedProposalDocRelationTypesForProposalType("proposalType.newCourse");
-            assertTrue(false);
+            assertEquals(null, proposalDocRelationTypeKeyList);
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertTrue(false);
         }
     }
 }

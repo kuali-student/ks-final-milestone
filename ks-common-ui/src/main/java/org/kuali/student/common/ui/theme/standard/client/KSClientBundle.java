@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.theme.standard.client;
 
 
@@ -6,7 +21,6 @@ import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.DataResource;
 import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
-import com.google.gwt.libideas.resources.client.ImmutableResourceBundle.Resource;
 
 public interface KSClientBundle extends ImmutableResourceBundle{
 	public static final KSClientBundle INSTANCE =  GWT.create(KSClientBundle.class);
@@ -85,8 +99,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public CssResource selectableTableListCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSAdvancedSearchWindow.css")
     public CssResource advancedSearchWindowCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSuggestBoxPicker.css")
-    public CssResource suggestBoxPickerCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSButtonLayout.css")
     public CssResource buttonLayoutCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSCustomFlowPanel.css")
@@ -111,11 +123,37 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource titleContainerCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSWrapper.css")
 	public CssResource wrapperCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSLandingPage.css")
+	public CssResource landingPageCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSActionItemList.css")
+	public CssResource actionItemListCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSearchBox.css")
+	public CssResource searchBoxCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/GwtDefault.css")
+	public CssResource gwtDefaultCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSection.css")
+	public CssResource sectionCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSPicker.css")
+	public CssResource pickerCss();
 	
-	 //Common Images***************************************************
+	//Reset Css
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/Reset.css")
+	public CssResource resetCss();
 	
-	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_logo2.gif")
+	//Font & Settings Css
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/InitFonts.css")
+	public CssResource fontCss();
+	
+	//Common Images***************************************************
+	
+	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_logo.png")
 	public ImageResource headerImage();
+	
+	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/powered_by_ks.png")
+	public ImageResource footerImage();
+	
+	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/gradcap-1.png")
+	public ImageResource curriculumManagementImage();
 	
 	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/spacer.gif")
 	public ImageResource spacer();
@@ -136,6 +174,9 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/messagebox_warning.png")
     public ImageResource warningIcon();
     
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/exclamation-diamond-frame.png")
+    public ImageResource warningDiamondIcon();
+
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/asterisk_orange.png")
     public ImageResource asterisk();
     
@@ -154,6 +195,15 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/fileclose.png")
     public ImageResource deleteComment();
     
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/dropdown_black.gif")
+    public ImageResource dropdownBlack();
+    
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/dropdown_white.gif")
+    public ImageResource dropdownWhite();
+    
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/dropdown_blue.gif")
+    public ImageResource dropdownCustom();
+    
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/magnifier-right.png")
     public ImageResource rightMagnifierIcon();
 
@@ -167,7 +217,7 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public ImageResource questionIcon();
 
     //Rich Text Editor Images***************************************************
-
+    
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/richTextEditor/bold.gif")
     public ImageResource bold();
 
@@ -225,5 +275,37 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/richTextEditor/popout.png")
     public ImageResource popout();
     
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/user-white.png")
+    public ImageResource personIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/documents-stack.png")
+    public ImageResource documentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/balloon.png")
+    public ImageResource commentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/flask.png")
+    public ImageResource analysisIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/application-list.png")
+    public ImageResource applicationIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/book-open.png")
+    public ImageResource bookIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/spacer_icon.png")
+    public ImageResource spacerIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/node.png")
+    public ImageResource nodeIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/users.png")
+    public ImageResource peopleIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/disclosure_triangle_opened.png")
+    public ImageResource disclosureOpenedIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/disclosure_triangle_closed.png")
+    public ImageResource disclosureClosedIcon();    
 
 }

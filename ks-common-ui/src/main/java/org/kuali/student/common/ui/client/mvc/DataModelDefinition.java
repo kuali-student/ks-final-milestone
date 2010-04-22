@@ -1,13 +1,28 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.mvc;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.ModelDefinition;
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.Data.DataType;
-import org.kuali.student.common.assembly.client.Data.Key;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.ModelDefinition;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataType;
+import org.kuali.student.core.assembly.data.Data.Key;
 
 public class DataModelDefinition implements ModelDefinition {
 	private Metadata metadata;
@@ -25,7 +40,11 @@ public class DataModelDefinition implements ModelDefinition {
 	
 	@Override
 	public void ensurePath(Data root, QueryPath path, boolean includeLeafNode) {
-		_ensurePath(root, metadata, path.iterator(), includeLeafNode);
+		try {
+			_ensurePath(root, metadata, path.iterator(), includeLeafNode);
+		} catch (RuntimeException e){
+			throw new RuntimeException("Invalid property path: " + path.toString(), e);
+		}
 	}
 	
 	private void _ensurePath(Data data, Metadata meta, Iterator<Data.Key> itr, boolean includeLeafNode) {
@@ -55,7 +74,10 @@ public class DataModelDefinition implements ModelDefinition {
 				}
 			
 			}
+			//commented out: this is a workaround for some reason runtime metadata was disappearing from time to time???
+			//if(!(key.toString().equals("_runtimeData"))){
 			_ensurePath((Data) data.get(key), currentMeta, itr, includeLeafNode);
+			//}
 		} else {
 			// we're at the leaf node
 			if (includeLeafNode) {

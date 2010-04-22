@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.theme.custom.client;
 
 
@@ -6,6 +21,7 @@ import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.DataResource;
 import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
+import com.google.gwt.libideas.resources.client.ImmutableResourceBundle.Resource;
 
 public interface KSClientBundle extends ImmutableResourceBundle{
 	public static final KSClientBundle INSTANCE =  GWT.create(KSClientBundle.class);
@@ -84,8 +100,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public CssResource selectableTableListCss();
     @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSAdvancedSearchWindow.css")
     public CssResource advancedSearchWindowCss();
-    @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSSuggestBoxPicker.css")
-    public CssResource suggestBoxPickerCss();
     @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSButtonLayout.css")
     public CssResource buttonLayoutCss();
     @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSCustomFlowPanel.css")
@@ -131,6 +145,9 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     // set the resource value to an image of a yellow triangle with exclamation point
     @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/messagebox_warning.png")
     public ImageResource warningIcon();
+    
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/exclamation-diamond-frame.png")
+    public ImageResource warningDiamondIcon();
     
     @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/asterisk_orange.png")
     public ImageResource asterisk();
@@ -207,5 +224,38 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/custom/public/images/richTextEditor/popout.png")
     public ImageResource popout();
     
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/user-white.png")
+    public ImageResource personIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/documents-stack.png")
+    public ImageResource documentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/balloon.png")
+    public ImageResource commentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/flask.png")
+    public ImageResource analysisIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/application-list.png")
+    public ImageResource applicationIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/book-open.png")
+    public ImageResource bookIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/spacer_icon.png")
+    public ImageResource spacerIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/node.png")
+    public ImageResource nodeIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/users.png")
+    public ImageResource peopleIcon();   
+    
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/disclosure_triangle_opened.png")
+    public ImageResource disclosureOpenedIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/disclosure_triangle_closed.png")
+    public ImageResource disclosureClosedIcon();    
+
 
 }

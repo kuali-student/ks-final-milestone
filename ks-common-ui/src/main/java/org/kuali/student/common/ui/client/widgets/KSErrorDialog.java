@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets;
 
 
@@ -49,12 +50,13 @@ public class KSErrorDialog {
     public static void bindUncaughtExceptionHandler() {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
             public void onUncaughtException(Throwable e) {
-                new KSErrorDialog().show(e);
+                GWT.log(e.getMessage(), e);
+            	KSErrorDialog.show(e);
             }
         });
     }
 
-    public void show(final Throwable error) {
+    public static void show(final Throwable error) {
         final KSLightBox lightbox = new KSLightBox();
         
         final VerticalPanel panel = new VerticalPanel();
@@ -73,7 +75,7 @@ public class KSErrorDialog {
         errorDescription.setText(getErrorDescription(error));
         errorDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
         errorDescription.setReadOnly(true);
-        errorDescription.setEnabled(false);
+        //errorDescription.setEnabled(false);
         errorDescriptionPanel.add(errorDescription);
 
         final KSLabel describeActionLabel = new KSLabel(context.getMessage(MessagesRequired.DESCRIBE_ACTION.toString()));
@@ -120,11 +122,12 @@ public class KSErrorDialog {
 
     }
 
-    private String getErrorDescription(Throwable error) {
+    private static String getErrorDescription(Throwable error) {
         // TODO maybe retrieve more error info
         return error.toString();
     }
-    private void sendReport(final Throwable error, final String actionDescription) {
+    
+    private static void sendReport(final Throwable error, final String actionDescription) {
         // TODO actually gather client context info, such as browser version, user id, etc
         Logger.getClientContextInfo().put("logType", "clientError");
         Logger.getClientContextInfo().put("actionDescription", actionDescription);
@@ -134,6 +137,5 @@ public class KSErrorDialog {
         // hack, clear out context info, should probably find a better way of doing this
         Logger.getClientContextInfo().clear();
     }
-
 
 }

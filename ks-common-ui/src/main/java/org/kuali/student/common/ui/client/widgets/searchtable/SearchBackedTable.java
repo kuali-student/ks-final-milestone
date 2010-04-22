@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.searchtable;
 
 import java.util.ArrayList;
@@ -21,10 +22,12 @@ import java.util.Set;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
@@ -119,11 +122,14 @@ public class SearchBackedTable extends Composite{
         this.redraw();
     }
     
-    public void performSearch(List<QueryParamValue> queryParamValues){
+    public void performSearch(List<SearchParam> params){
         if(pagingScrollTable != null){
             pagingScrollTable.setEmptyTableWidget(new Label("Processing Search..."));
         }
-        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
+        SearchRequest request = new SearchRequest();
+        request.setParams(params);
+        request.setSearchKey(searchTypeKey);
+        searchService.search(request, new AsyncCallback<SearchResult>(){
 
             @Override
             public void onFailure(Throwable caught) {
@@ -132,12 +138,12 @@ public class SearchBackedTable extends Composite{
             }
 
             @Override
-            public void onSuccess(List<Result> results) {
+            public void onSuccess(SearchResult result) {
                 
-                if(results != null){
-                    for (Result r: results){
+                if(result != null){
+                    for (SearchResultRow r: result.getRows()){
                         ResultRow theRow = new ResultRow();
-                        for(ResultCell c: r.getResultCells()){
+                        for(SearchResultCell c: r.getCells()){
                             if(c.getKey().equals(resultIdKey)){
                                 theRow.setId(c.getValue());
                             }

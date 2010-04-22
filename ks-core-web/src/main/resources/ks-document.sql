@@ -1,7 +1,22 @@
+--
+-- Copyright 2010 The Kuali Foundation Licensed under the
+-- Educational Community License, Version 2.0 (the "License"); you may
+-- not use this file except in compliance with the License. You may
+-- obtain a copy of the License at
+--
+-- http://www.osedu.org/licenses/ECL-2.0
+--
+-- Unless required by applicable law or agreed to in writing,
+-- software distributed under the License is distributed on an "AS IS"
+-- BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+-- or implied. See the License for the specific language governing
+-- permissions and limitations under the License.
+--
+
 // RichText
-INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-DOCUMENT-1', '', 'Documents attached to a proposal')
+INSERT INTO KSDO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-DOCUMENT-1', '', 'Documents attached to a proposal')
 /
-INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-DOCUMENT-2', '', 'Documents attached to a Course')
+INSERT INTO KSDO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-DOCUMENT-2', '', 'Documents attached to a Course')
 /
 
 INSERT INTO KSDO_DOCUMENT_CATEGORY(CATEGORY_ID,NAME,RT_DESCR_ID,EFF_DT,EXPIR_DT) VALUES ('documentCategory.proposal','Proposal Documents','RT-DESC-DOCUMENT-1',{ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'})

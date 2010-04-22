@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.atp.service.impl;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import org.kuali.student.core.atp.dto.DateRangeInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.atp.entity.Atp;
 import org.kuali.student.core.atp.entity.AtpAttribute;
+import org.kuali.student.core.atp.entity.AtpRichText;
 import org.kuali.student.core.atp.entity.AtpType;
 import org.kuali.student.core.atp.entity.DateRange;
 import org.kuali.student.core.atp.entity.DateRangeAttribute;
@@ -31,8 +33,6 @@ import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneAttribute;
 import org.kuali.student.core.atp.entity.MilestoneType;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
@@ -72,7 +72,7 @@ public class AtpAssembler extends BaseAssembler{
 		atp.setType(atpType);
 
 		//Copy RichText
-		atp.setDesc(toRichText(atpInfo.getDesc()));
+		atp.setDescr(toRichText(AtpRichText.class, atpInfo.getDesc()));
 		
 		return atp;
 	}
@@ -87,7 +87,7 @@ public class AtpAssembler extends BaseAssembler{
 		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
 		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionInd()));
 		atpInfo.setType(atp.getType().getId());
-		atpInfo.setDesc(toRichTextInfo(atp.getDesc()));
+		atpInfo.setDesc(toRichTextInfo(atp.getDescr()));
 		
 		return atpInfo;
 	}
@@ -170,7 +170,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		dateRange.setType(dateRangeType);
 
-		dateRange.setDesc(toRichText(dateRangeInfo.getDesc()));
+		dateRange.setDescr(toRichText(AtpRichText.class, dateRangeInfo.getDesc()));
 		
 		return dateRange;
 	}
@@ -189,7 +189,7 @@ public class AtpAssembler extends BaseAssembler{
 				.getVersionInd()));
 		dateRangeInfo.setType(dateRange.getType().getId());
 		dateRangeInfo.setAtpId(dateRange.getAtp().getId());
-		dateRangeInfo.setDesc(toRichTextInfo(dateRange.getDesc()));
+		dateRangeInfo.setDesc(toRichTextInfo(dateRange.getDescr()));
 		
 		return dateRangeInfo;
 	}
@@ -247,7 +247,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		milestone.setType(milestoneType);
 
-		milestone.setDesc(toRichText(milestoneInfo.getDesc()));
+		milestone.setDescr(toRichText(AtpRichText.class, milestoneInfo.getDesc()));
 		
 		return milestone;
 
@@ -267,7 +267,7 @@ public class AtpAssembler extends BaseAssembler{
 				.getVersionInd()));
 		milestoneInfo.setType(milestone.getType().getId());
 		milestoneInfo.setAtpId(milestone.getAtp().getId());
-		milestoneInfo.setDesc(toRichTextInfo(milestone.getDesc()));
+		milestoneInfo.setDesc(toRichTextInfo(milestone.getDescr()));
 		
 		return milestoneInfo;
 	}
@@ -281,22 +281,4 @@ public class AtpAssembler extends BaseAssembler{
 		return milestoneInfoList;
 	}
 	
-	public static RichTextInfo toRichTextInfo(RichText entity) {
-		if(entity==null){
-			return null;
-		}
-		
-		RichTextInfo dto = new RichTextInfo();
-		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-		return dto;
-	}
-	
-	public static RichText toRichText(RichTextInfo richTextInfo) {
-		if(richTextInfo == null){
-			return null;
-		}
-		RichText richText = new RichText();
-		BeanUtils.copyProperties(richTextInfo, richText);
-		return richText;
-	}
 }

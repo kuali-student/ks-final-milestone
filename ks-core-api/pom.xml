@@ -32,7 +32,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.role.QualifierHierarchyRoleTypeService
+								org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService
 							</className>
 							<serviceName>QHRoleTypeService</serviceName>
 						</configuration>

@@ -14,6 +14,10 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
+	<properties>
+		<ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
+	</properties>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -29,7 +33,7 @@
 				</executions>
 				<configuration>
 					<modules>
-						<module>org.kuali.student.core.organization.ui.OrgEntry</module>
+						<module>${ks.gwt.module.org}</module>
 					</modules>
 				</configuration>
 			</plugin>
@@ -158,6 +162,13 @@
 		<!--  Sources for GWT Compile -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-rice</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency> 			
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<classifier>sources</classifier>
 			<version>1.0.0-SNAPSHOT</version>
@@ -184,6 +195,14 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>	
+
 		
 		<dependency>
 			<groupId>net.sourceforge.htmlunit</groupId>

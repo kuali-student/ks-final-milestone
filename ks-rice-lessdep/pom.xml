@@ -127,11 +127,13 @@
         		<exclusion>
         			<groupId>bcel</groupId>
         			<artifactId>bcel</artifactId>
-        		</exclusion>       		
+        		</exclusion>   
+        		<!-- This is needed for bus security in ks-standalone     		
         		<exclusion>
         			<groupId>bouncycastle</groupId>
         			<artifactId>bcprov-jdk15</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
+        		-->       		        					                			
         		<exclusion>
         			<groupId>bsf</groupId>
         			<artifactId>bsf</artifactId>
@@ -212,22 +214,5 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-	
-	<distributionManagement>
-		<repository>
-			<id>kuali.release</id>
-			<name>Internal Release Repository</name>
-			<url>
-				dav:http://archiva.kuali.umd.edu/repository/release
-			</url>
-		</repository>
-		<snapshotRepository>
-			<id>kuali.snapshots</id>
-			<name>Internal Snapshot Repository</name>
-			<url>
-				dav:http://archiva.kuali.umd.edu/repository/snapshot
-			</url>
-		</snapshotRepository>
-	</distributionManagement>
 	
 </project>

@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.dictionary;
 
 /*
@@ -46,14 +47,17 @@ import com.google.gwt.core.client.GWT;
  * This singleton class is a repository for dictionary defs.   
  * This class holds a cache of dictionary defs loaded by an external process
  * 
+ * This class is being deprecated, the service dictionary should no longer be consumed directly
+ * by the ui.
+ * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
+@Deprecated
 public class DictionaryManager {
 
     private static final char DICT_KEY_SEPARATOR = ':';
 
-    private Validator validator = null;//FIXME! inject this somehow new Validator(); 
     private Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
 
 
@@ -171,14 +175,5 @@ public class DictionaryManager {
     public Set<String> getTypes() {
         return indexedFields.keySet();
     }
-    
-    public Validator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-    
-    
+            
 }

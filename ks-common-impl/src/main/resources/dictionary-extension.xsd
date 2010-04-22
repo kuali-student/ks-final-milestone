@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <xsd:schema xmlns="http://student.kuali.org/xsd/dictionary-extension"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
 	targetNamespace="http://student.kuali.org/xsd/dictionary-extension"
@@ -35,6 +52,7 @@
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="stateSelector">
@@ -59,6 +77,7 @@
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
 	</xsd:complexType>
 
 
@@ -72,17 +91,30 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="typeSelector">
-		<xsd:choice minOccurs="1" maxOccurs="unbounded">
-			<xsd:element name="state" type="stateSelector" minOccurs="0"
-				maxOccurs="unbounded">
-			</xsd:element>
-			<xsd:element name="stateRef" type="refSelector" minOccurs="0"
-				maxOccurs="unbounded">
-			</xsd:element>
-		</xsd:choice>
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:element name="desc" type="xsd:string" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:element name="effectiveDate" type="xsd:date" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:element name="expirationDate" type="xsd:date" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:element name="attributes" type="attributesType"  minOccurs="0" maxOccurs="1"/>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="state" type="stateSelector" minOccurs="0"
+					maxOccurs="unbounded">
+				</xsd:element>
+				<xsd:element name="stateRef" type="refSelector" minOccurs="0"
+					maxOccurs="unbounded">
+				</xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="modifiable" type="xsd:boolean" />	
 	</xsd:complexType>
 
 	<xsd:complexType name="objectStructure">
@@ -105,6 +137,7 @@
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="fieldDescriptor">
@@ -133,8 +166,8 @@
 			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="key" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
 	</xsd:complexType>
 
 
@@ -187,6 +220,7 @@
 		</xsd:choice>
 		<xsd:attribute name="parent" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
 	</xsd:complexType>
 
 
@@ -199,6 +233,13 @@
 	<xsd:element
 		xmlns="http://student.kuali.org/xsd/dictionary-extension"
 		name="field" type="fieldSelector" />
+	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension" 
+		name="type" type="typeSelector"/>
+	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension" 
+		name="state" type="stateSelector"/>
+	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension" 
+		name="constraintDescriptor" type="constraintDescriptor"/>		
+		
 	<xsd:element name="enum" type="enumSelector"></xsd:element>
 
 	<xsd:complexType name="constraintDescriptor">
@@ -210,9 +251,10 @@
 				minOccurs="0" maxOccurs="unbounded">
 			</xsd:element>
 		</xsd:choice>
-		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="key" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="constraintSelector">
@@ -235,6 +277,7 @@
 				<xsd:element name="validChars"
 					type="validCharsConstraint" minOccurs="0" maxOccurs="1">
 				</xsd:element>
+				<!--  This is to dependency requirement on other fields -->
 				<xsd:element name="require" type="requireConstraint"
 					minOccurs="0" maxOccurs="unbounded">
 				</xsd:element>
@@ -257,6 +300,8 @@
 		<xsd:attribute name="serverSide" type="xsd:boolean"></xsd:attribute>
 		<xsd:attribute name="locale" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="searchSelector">
@@ -340,6 +385,17 @@
 		<xsd:attribute name="type" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="state" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
-
-	<xsd:element name="constraint" type="constraintSelector"></xsd:element>
+    
+    <xsd:complexType name="attributesType">
+	    <xsd:sequence>
+	    	<xsd:element name="attribute" type="attributeType" maxOccurs="unbounded"/>
+	    </xsd:sequence>
+	</xsd:complexType>
+	
+   	<xsd:complexType name="attributeType">
+		<xsd:attribute name="key" type="xsd:string" use="required"/>
+		<xsd:attribute name="value" type="xsd:string" use="required"/>
+	</xsd:complexType>
+    
+	<xsd:element name="constraint" type="constraintSelector"/>
 </xsd:schema>

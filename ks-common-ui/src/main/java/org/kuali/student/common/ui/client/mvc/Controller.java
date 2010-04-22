@@ -1,25 +1,40 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
+import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
+import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,7 +44,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-public abstract class Controller extends Composite {
+public abstract class Controller extends Composite implements HistorySupport{
 	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
 		@Override
 		public void exec(Boolean result) {
@@ -37,12 +52,19 @@ public abstract class Controller extends Composite {
 		}
 	};
 	
+	private final String controllerId;
     private Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
+    private String defaultModelId = null;
+    private ViewContext context = new ViewContext();
+    private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
 
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
+    protected Controller(final String controllerId) {
+        this.controllerId = controllerId;
+    }
     
     /**
      * Directs the controller to display the specified view. The parameter must be an enum value, based on an enum defined in
@@ -69,12 +91,46 @@ public abstract class Controller extends Composite {
         	onReadyCallback.exec(false);
             throw new ControllerException("View not registered: " + viewType.toString());
         }
+
+        boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
+
+        if (requiresAuthz){
+        	ViewContext tempContext = view.getController().getViewContext();
+        	if (view instanceof DelegatingViewComposite) {
+        		tempContext = ((DelegatingViewComposite)view).getChildController().getViewContext();
+        	}
+        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
+        	if (permType != null) {
+        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
+            	//A callback is required if async rpc call is required for authz check
+	        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
+					public void isAuthorized() {
+						showView(view, viewType, onReadyCallback);
+					}
+
+					public void isNotAuthorized(String msg) {
+						Window.alert(msg);
+						onReadyCallback.exec(false);					
+					}        		
+	        	});
+        	}
+        	else {
+        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
+            	showView(view, viewType, onReadyCallback);
+        	}
+        } else {
+    		GWT.log("Not Requiring Auth.", null);
+        	showView(view, viewType, onReadyCallback);
+        }
+    }
+    
+    protected <V extends Enum<?>> void showView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
         if ((currentView == null) || currentView.beforeHide()) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override
 				public void exec(Boolean result) {
 					if (!result) {
-						GWT.log("showView: beforeShow yielded false " + viewType.toString(), null);
+						GWT.log("showView: beforeShow yielded false " + viewType, null);
 			        	onReadyCallback.exec(false);
 					} else {
 			        	if (currentView != null) {
@@ -87,15 +143,25 @@ public abstract class Controller extends Composite {
 			            GWT.log("renderView " + viewType.toString(), null);
 			            renderView(view);
 			        	onReadyCallback.exec(true);
+			        	fireNavigationEvent();
 					}
 				}
 			});
         } else {
         	onReadyCallback.exec(false);
             GWT.log("Current view canceled hide action", null);
-        }
+        }    	
     }
 
+    protected void fireNavigationEvent() {
+        DeferredCommand.addCommand(new Command() {
+            @Override
+            public void execute() {
+                fireApplicationEvent(new NavigationEvent(Controller.this));
+            }
+        });
+    }
+    
     /**
      * Returns the currently displayed view
      * 
@@ -174,21 +240,38 @@ public abstract class Controller extends Composite {
      * @param callback
      */
     @SuppressWarnings("unchecked")
-    public void requestModel(Class modelType, ModelRequestCallback callback) {
-        if (getParentController() != null) {
-            parentController.requestModel(modelType, callback);
-        } else {
-            callback.onRequestFail(new ModelNotFoundException("The requested model was not found", modelType));
-        }
+    public void requestModel(final Class modelType, final ModelRequestCallback callback) {
+        requestModel((modelType == null) ? null : modelType.getName(), callback);
     }
     
     @SuppressWarnings("unchecked")
-    public void requestModel(String modelId, ModelRequestCallback callback) {
-        if (getParentController() != null) {
+    public void requestModel(final String modelId, final ModelRequestCallback callback) {
+        String id = (modelId == null) ? defaultModelId : modelId;
+
+        ModelProvider<? extends Model> p = models.get(id);
+        if (p != null) {
+            p.requestModel(callback);
+        } else if (getParentController() != null) {
             parentController.requestModel(modelId, callback);
         } else {
             callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void requestModel(final ModelRequestCallback callback) {
+        requestModel((String)null, callback);
+    }
+    
+    public <T extends Model> void registerModel(String modelId, ModelProvider<T> provider) {
+        models.put(modelId, provider);
+    }
+    
+    public String getDefaultModelId() {
+        return defaultModelId;
+    }
+    protected void setDefaultModelId(String defaultModelId) {
+        this.defaultModelId = defaultModelId;
     }
     
     /**
@@ -254,5 +337,69 @@ public abstract class Controller extends Composite {
     public abstract void showDefaultView(Callback<Boolean> onReadyCallback);
 
     public abstract Class<? extends Enum<?>> getViewsEnum();
+    
+    public abstract Enum<?> getViewEnumValue(String enumValue);
+    
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        HistoryToken token = getHistoryToken();
+        frame.getTokens().put(token.getKey(), token);
+        if (currentView != null) {
+            currentView.collectHistory(frame);
+        }
+    }
+    
+    protected HistoryToken getHistoryToken() {
+        HistoryToken token = new HistoryToken(controllerId);
+        if (currentViewEnum != null) {
+            token.getParameters().put("view", currentViewEnum.toString());
+        }
+        return token;
+    }
 
+    @Override
+    public void onHistoryEvent(final HistoryStackFrame frame) {
+        HistoryToken token = frame.getTokens().get(controllerId);
+        if (token != null) {
+            String s = token.getParameters().get("view");
+            if (s != null) {
+                Enum<?> viewEnum = getViewEnumValue(s);
+                if (viewEnum != null) {
+                    if (currentViewEnum == null || !viewEnum.equals(currentViewEnum)) {
+                        showView(viewEnum, new Callback<Boolean>() {
+                            @Override
+                            public void exec(Boolean result) {
+                                if (result) {
+                                    currentView.onHistoryEvent(frame);
+                                }
+                            }
+                        });
+                    } else if (currentView != null) {
+                        currentView.onHistoryEvent(frame);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setViewContext(ViewContext viewContext){
+    	clear();
+    	this.context = viewContext;
+    }
+
+    public ViewContext getViewContext() {
+    	return this.context;
+    }
+
+    public void clear(){
+        this.context = new ViewContext();
+    }
+
+    public String getControllerId() {
+        return this.controllerId;
+    }
+    
+    public void reset(){
+    	currentView = null;
+    }        
 }

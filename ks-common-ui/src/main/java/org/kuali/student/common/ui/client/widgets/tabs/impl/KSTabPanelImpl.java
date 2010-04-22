@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.widgets.tabs.impl;
 
 import java.util.ArrayList;
@@ -6,8 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.ClickablePanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanelAbstract;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
 
@@ -19,21 +37,20 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSTabPanelImpl extends KSTabPanelAbstract{
 	
-	private VerticalPanel container = new VerticalPanel();
-	private HorizontalPanel tabRow = new HorizontalPanel();
-	private HorizontalPanel left = new HorizontalPanel();
-	private HorizontalPanel right = new HorizontalPanel();
+	private VerticalFlowPanel container = new VerticalFlowPanel();
+	private FlowPanel tabRow = new FlowPanel();
+	//private HorizontalPanel left = new HorizontalPanel();
+	//private HorizontalPanel right = new HorizontalPanel();
+	private KSListPanel left = new KSListPanel();
+	private KSListPanel right = new KSListPanel();
 	private SimplePanel content = new SimplePanel();
 	private Tab selectedTab;
 	private Map<String, Tab> tabMap = new HashMap<String, Tab>();
@@ -85,7 +102,7 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 	protected class Tab extends Composite{
 		private boolean selected = false;
 		private Widget tab;
-		private FocusPanel tabPanel = new FocusPanel();
+		private ClickablePanel tabPanel = new ClickablePanel();
 		private Widget displayContent;
 		private int labelIndex = -1;
 		private String tabKey = "";
@@ -159,36 +176,6 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 			tabPanel.addStyleName("KS-TabPanel-Tab");
 			this.initWidget(tabPanel);
 			this.displayContent = displayContent;
-			//FIXME: (fix maybe?) The following does NOT capture mouseover and mouseout 
-			//events on a simple panel, using focuspanel instead 
-/*			Event.addNativePreviewHandler(new Event.NativePreviewHandler() {
-				@Override
-				public void onPreviewNativeEvent(NativePreviewEvent event) {
-		    	    int type = event.getTypeInt();
-		    	    if (Element.is(event.getNativeEvent().getEventTarget())) {
-			    	     com.google.gwt.dom.client.Element e = Element.as(event.getNativeEvent().getEventTarget());
-			    	     if (Tab.this.tabPanel.getElement().isOrHasChild(e)) {
-			    	         switch(type)
-			    	         {
-			    	        	case Event.ONCLICK:
-			    	        		System.out.println(e.getClassName());
-			    	        		Tab.this.onSelect();
-			    	        		
-			    	        		break;
-			    	        	case Event.ONMOUSEOVER:
-			    	        		Tab.this.onMouseOver();
-			    	        		break;
-			    	        	case Event.ONMOUSEOUT:
-			    	        		Tab.this.onMouseOut();
-			    	        		break;
-			    	        	default:
-			    	        		break;
-			    	         }
-			    	     }
-		    	    
-		    	    }
-				}
-		    });*/
 		}
 		
 		public void addTabStyleName(String style){
@@ -258,9 +245,9 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 	}
 	
 	public KSTabPanelImpl(){
-		left.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		right.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		tabRow.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+		//left.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		//right.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		//tabRow.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		tabRow.add(left);
 		tabRow.add(right);
 		tabRow.addStyleName("KS-TabPanel-TabRow");
