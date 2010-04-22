@@ -96,7 +96,7 @@ public class PositionTable extends Composite{
             columnDefs.get(0).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);
-        
+        tableModel.setColumnDefs(columnDefs);
         redraw(); 
     }
     
@@ -129,6 +129,7 @@ public class PositionTable extends Composite{
                                 ResultRow theRow = new ResultRow();
                                 theRow.setValue("postion", positionRelation.getTitle());
                                 theRow.setValue("desc", positionRelation.getDesc());
+                                theRow.setValue("person", " ");
 //                                theRow.setValue("max", positionRelation.getMaxNumRelations());
 //                                theRow.setValue("min", positionRelation.getMinNumRelations().toString());
                                 resultRows.add(theRow);
