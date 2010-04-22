@@ -479,7 +479,10 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 				((KSSuggestBox) basicWidget).getTextBox().addBlurHandler(new BlurHandler(){
                     @Override
                     public void onBlur(BlurEvent event) {
-                        callback.exec(true);  
+                    	//Don't blur the widget if the suggestion list is showing
+                    	if(!((KSSuggestBox) basicWidget).isSuggestionListShowing()){
+                            callback.exec(true);  
+                    	}
                     }
 				});
 			} else if (basicWidget instanceof KSSelectItemWidgetAbstract) {
