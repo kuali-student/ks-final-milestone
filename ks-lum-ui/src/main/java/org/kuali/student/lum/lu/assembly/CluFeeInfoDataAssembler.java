@@ -99,7 +99,9 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 					Data amounts = new Data();
 					StringTokenizer amountTokens = new StringTokenizer(feeRecord.getAttributes().get(FeeInfoMultipleRateFeeConstants.AMOUNT), ",");
 					while (amountTokens.hasMoreTokens()) {
-						amounts.add(amountTokens.nextToken());
+						Data amountData = new Data();
+						amountData.set("amount", amountTokens.nextToken());
+						amounts.add(amountData);
 					}
 					feeHelper.setAmount(amounts);
 					feeHelper.setFeeType(feeRecord.getFeeType());
@@ -214,12 +216,18 @@ public class CluFeeInfoDataAssembler implements Assembler<Data, CluFeeInfo>{
 					Map<String, String> feeRecordAttributes = new HashMap<String, String>();
 					feeRecordAttributes.put(FeeSelectorConstants.RATE_TYPE, FeeInfoConstants.MULTIPLE_RATE_FEE);
 					// Note: not using feeRecordInfo.setFeeAmount(); see spec
+					// TODO: if we stick with Helper's for accessing data, we need a
+					// FeeInfoMultipleRateFeeAmountHelper to access the amount data structure
+					// (which contains an 'amount' and a '_runtimeData')
 					Data amountsData = multipleHelper.getAmount();
 					Iterator<Property> amountIter = amountsData.realPropertyIterator();
 					StringBuilder amountStrBuilder = new StringBuilder ();
 					while (amountIter.hasNext()) {
-						amountStrBuilder.append(amountIter.next().getValue());
-						amountStrBuilder.append(",");
+						Data amountData = (Data) amountIter.next().getValue();
+						if ( ! AssemblerUtils.isDeleted(amountData) ) {
+							amountStrBuilder.append(amountData.get("amount"));
+							amountStrBuilder.append(",");
+						}
 					}
 					feeRecordAttributes.put(FeeInfoMultipleRateFeeConstants.AMOUNT, amountStrBuilder.substring(0, amountStrBuilder.lastIndexOf(",")));
 					feeRecordInfo.setAttributes(feeRecordAttributes);

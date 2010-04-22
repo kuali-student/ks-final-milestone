@@ -2264,7 +2264,6 @@
 		<property name="defaultValuePath" value="FeeSelector.FeeType" />
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.single" />
 				<ref bean="constraint.optional" />
 				<ref bean="constraint.required" />
 				<ref bean="constraint.single" />
@@ -2290,9 +2289,6 @@
 				-->
 				<ref bean="constraint.rate.types" />
 				<ref bean="constraint.optional" />
-				<!--
-				<ref bean="constraint.repeating" />
-				-->
 			</list>
 		</property>
 		<property name="initialLookup">
@@ -2301,9 +2297,10 @@
 	</bean>
 	<bean id="multipleRateFee.amount" parent="dataFieldDescriptor">
 		<property name="name" value="amount" />
-		<property name="writeAccess" value="ALWAYS" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="dataObjectStructure" ref="multipleRateFeeAmount" />
+		<property name="dataType" value="DATA" />
 		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
@@ -2315,6 +2312,41 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="multipleRateFeeAmount-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="amount" />
+		<property name="fields">
+			<list>
+				<ref bean="multipleRateFeeAmount.amount" />
+				<ref bean="multipleRateFeeAmount._runtimeData" />
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFeeAmount.amount" parent="dataFieldDescriptor">
+		<property name="name" value="amount" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFeeAmount._runtimeData" parent="dataFieldDescriptor">
+		<property name="name" value="_runtimeData" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFeeAmount" parent="multipleRateFeeAmount-parent"/>
+	
 	<bean id="multipleRateFee.id" parent="dataFieldDescriptor">
 		<property name="name" value="id" />
 		<property name="writeAccess" value="NEVER" />

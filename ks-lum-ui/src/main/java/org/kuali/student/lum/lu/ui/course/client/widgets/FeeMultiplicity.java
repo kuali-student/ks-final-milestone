@@ -223,7 +223,7 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
     		if (FeeInfoConstants.FIXED_RATE_FEE.equals(rateType)) {
 	            FeeMultiplicity.this.addField(fieldSection, fixedPath + modelIdx + "/amount", "Amount", null, parentPath );
     		} else if (FeeInfoConstants.MULTIPLE_RATE_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(fieldSection, multiplePath + modelIdx + "/amount", "Amount", new MultipleFeeList(parentPath + "/" + multiplePath), parentPath );
+	            FeeMultiplicity.this.addField(fieldSection, multiplePath + modelIdx + "/amount", "Amount", new MultipleFeeList(parentPath + "/" + multiplePath + modelIdx + "/amount"), parentPath );
     		} else if (FeeInfoConstants.PER_CREDIT_FEE.equals(rateType)) {
 	            FeeMultiplicity.this.addField(fieldSection, perCreditPath + modelIdx + "/amount", "Amount (PerCredit)", null, parentPath );
     		} else if (FeeInfoConstants.VARIABLE_RATE_FEE.equals(rateType)) {
@@ -325,7 +325,7 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, "another Fee", getLabel(LUConstants.FEE), null, path );
+            addField(ns, "amount", getLabel(LUConstants.FEE), null, path );
             
             return ns;
         }
