@@ -2355,9 +2355,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet.getCluIds());
 
 		CluSetInfo getCluSet = client.getCluSetInfo(createdCluSet.getId());
+
 		assertNotNull(getCluSet);
-		assertNotNull(getCluSet.getCluIds());
+		assertNotNull(getCluSet.getMembershipQuery());
+		assertNotNull(getCluSet.getMembershipQuery().getId());
+		assertNotNull(getCluSet.getMembershipQuery().getSearchTypeKey());
+		assertEquals(query.getSearchTypeKey(), getCluSet.getMembershipQuery().getSearchTypeKey());
+		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValueList());
+		assertEquals(queryParamValues.size(), getCluSet.getMembershipQuery().getQueryParamValueList().size());
 		assertEquals(createdCluSet.getCluIds().size(), getCluSet.getCluIds().size());
+		assertNotNull(getCluSet.getCluIds());
+		assertEquals(10, getCluSet.getCluIds().size());
 	}
 
 	@Test
