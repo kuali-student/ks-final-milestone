@@ -23,6 +23,7 @@
           <url>jdbc:oracle:thin:@localhost:1521:XE</url>
           <driver>oracle.jdbc.OracleDriver</driver>
           <targetDatabase>oracle</targetDatabase>
+          <orderFile>ascending</orderFile>
         </configuration>
         <dependencies>
           <dependency>
