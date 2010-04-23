@@ -519,7 +519,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="validChars"
-			value="regex:[A-Za-z0-9()\?\[\];/\\\.�\-;,:&#34;'&amp;%$#@!\n\r\t ]*" />
+			value="regex:[A-Za-z0-9()\?\[\];/\\\â¢\-;,:&#34;'&amp;%$#@!\n\r\t ]*" />
 		<property name="comments"
 			value="old reg ex was [A-Za-z0-9.-;;'&amp;%$#@!\n\r\t]*" />
 	</bean>
