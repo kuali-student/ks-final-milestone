@@ -154,7 +154,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     }
 
     private static String[] getPathTokens(String fieldPath) {
-        return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split(".") : new String[]{fieldPath});
+        return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
 
     public boolean checkDocumentLevelPermissions() {
