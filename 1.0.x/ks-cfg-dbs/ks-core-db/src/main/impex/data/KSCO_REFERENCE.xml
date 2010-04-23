@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
 <dataset>
     <KSCO_REFERENCE ID="1234567ASDF" REFERENCE_ID="REF-1" REFERENCE_TYPE="referenceType.type1"/>
     <KSCO_REFERENCE ID="1234568ASDF" REFERENCE_ID="REF-2" REFERENCE_TYPE="referenceType.type1"/>

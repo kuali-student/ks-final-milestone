@@ -25,6 +25,12 @@
         <groupId>org.kuali.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <version>3.3.1-kuali-1-SNAPSHOT</version>
+        <configuration>
+          <runOnlyOnSchemaChange>true</runOnlyOnSchemaChange>
+          <targetDatabase>oracle</targetDatabase>
+          <orderFile>ascending</orderFile>
+          <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
+        </configuration>
         <executions>
           <execution>
             <id>generate-oracle-sql</id>
@@ -41,7 +47,7 @@
               <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
             </configuration>
             <goals>
-              <goal>sql</goal>
+              <goal>schemasql</goal>
               <goal>datadtd</goal>
               <goal>datasql</goal>
             </goals>
@@ -53,7 +59,7 @@
               <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
             </configuration>
             <goals>
-              <goal>sql</goal>
+              <goal>schemasql</goal>
               <goal>datadtd</goal>
               <goal>datasql</goal>
             </goals>

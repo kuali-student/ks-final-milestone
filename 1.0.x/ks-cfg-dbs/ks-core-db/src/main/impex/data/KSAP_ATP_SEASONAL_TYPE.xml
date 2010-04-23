@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
 <dataset>
     <KSAP_ATP_SEASONAL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="AY" TYPE_DESC="Academic Year" TYPE_KEY="kuali.atp.season.AY"/>
