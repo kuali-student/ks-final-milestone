@@ -35,6 +35,7 @@
           <url>jdbc:oracle:thin:@localhost:1521:XE</url>
           <driver>oracle.jdbc.OracleDriver</driver>
           <orderFile>ascending</orderFile>
+          <schemaXMLName>ks-core</schemaXMLName>
           <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
           <targetDatabase>oracle</targetDatabase>
         </configuration>
