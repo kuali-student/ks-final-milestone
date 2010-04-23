@@ -14,22 +14,24 @@
         <groupId>org.kuali.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <version>3.3.1-kuali-1-SNAPSHOT</version>
-        <configuration>
-          <delimiter>/</delimiter>
-          <delimiterType>row</delimiterType>
-          <schema>KSEMBEDDED</schema>
-          <username>KSEMBEDDED</username>
-          <password>KSEMBEDDED</password>
-          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
-          <driver>oracle.jdbc.OracleDriver</driver>
-          <targetDatabase>oracle</targetDatabase>
-          <orderFile>ascending</orderFile>
-        </configuration>
         <executions>
           <execution>
+            <configuration>
+              <delimiter>/</delimiter>
+              <delimiterType>row</delimiterType>
+              <schema>KSEMBEDDED</schema>
+              <username>KSEMBEDDED</username>
+              <password>KSEMBEDDED</password>
+              <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+              <driver>oracle.jdbc.OracleDriver</driver>
+              <targetDatabase>oracle</targetDatabase>
+              <orderFile>ascending</orderFile>
+              <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
+            </configuration>
             <id>generate-oracle-sql</id>
             <goals>
               <goal>sql</goal>
+              <goal>datadtd</goal>
               <goal>datasql</goal>
             </goals>
           </execution>
