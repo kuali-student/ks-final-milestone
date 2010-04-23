@@ -25,6 +25,15 @@
           <targetDatabase>oracle</targetDatabase>
           <orderFile>ascending</orderFile>
         </configuration>
+        <executions>
+          <execution>
+            <id>generate-oracle-sql</id>
+            <goals>
+              <goal>sql</goal>
+              <goal>datasql</goal>
+            </goals>
+          </execution>
+        </executions>
         <dependencies>
           <dependency>
             <groupId>com.oracle</groupId>
