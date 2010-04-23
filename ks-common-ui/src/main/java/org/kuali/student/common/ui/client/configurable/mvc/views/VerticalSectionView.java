@@ -118,10 +118,8 @@ public class VerticalSectionView extends SectionView{
 
 		            @Override
 		            public void onModelReady(DataModel m) {
-		                if(model!=m){
-		                    model = m;
-		                    redraw();
-		                }
+		                model = m;
+		                redraw();
 		                onReadyCallback.exec(true);
 		            }
 		            
