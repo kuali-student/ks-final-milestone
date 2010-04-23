@@ -5,7 +5,7 @@
         DESC_TXT="This role is for use with administrative privilege for Organization"
         KIM_TYP_ID="1" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
         OBJ_ID="27C403CC-3188-DF45-795D-2D6CC1DB0BDA" ROLE_ID="10000"
-        ROLE_NM="Kuali Student Organization Admin" VER_NBR="2"/>
+        ROLE_NM="Kuali Student Admin" VER_NBR="2"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role is for use with all access permission for Organization with attached qualifiers"
         KIM_TYP_ID="114" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
