@@ -27,6 +27,16 @@
         <version>1.0.0-SNAPSHOT</version>
         <configuration>
           <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
+          <delimiter>/</delimiter>
+          <delimiterType>row</delimiterType>
+          <schema>KSEMBEDDED</schema>
+          <username>KSEMBEDDED</username>
+          <password>KSEMBEDDED</password>
+          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <driver>oracle.jdbc.OracleDriver</driver>
+          <orderFile>ascending</orderFile>
+          <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
+          <targetDatabase>oracle</targetDatabase>
         </configuration>
         <executions>
           <execution>
