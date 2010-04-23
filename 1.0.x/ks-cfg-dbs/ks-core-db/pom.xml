@@ -9,6 +9,17 @@
   <name>KS Core Database</name>
   <description>Kuali Student Core Database</description>
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/impex/data</directory>
+      </resource>
+      <resource>
+        <directory>src/main/impex/schema</directory>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/generated-sql/impex</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.kuali.impex</groupId>
@@ -16,6 +27,7 @@
         <version>3.3.1-kuali-1-SNAPSHOT</version>
         <executions>
           <execution>
+            <id>generate-oracle-sql</id>
             <configuration>
               <delimiter>/</delimiter>
               <delimiterType>row</delimiterType>
@@ -28,7 +40,26 @@
               <orderFile>ascending</orderFile>
               <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
             </configuration>
-            <id>generate-oracle-sql</id>
+            <goals>
+              <goal>sql</goal>
+              <goal>datadtd</goal>
+              <goal>datasql</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-mysql-sql</id>
+            <configuration>
+              <delimiter>/</delimiter>
+              <delimiterType>row</delimiterType>
+              <schema>KSEMBEDDED</schema>
+              <username>KSEMBEDDED</username>
+              <password>KSEMBEDDED</password>
+              <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+              <driver>oracle.jdbc.OracleDriver</driver>
+              <targetDatabase>mysql</targetDatabase>
+              <orderFile>ascending</orderFile>
+              <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
+            </configuration>
             <goals>
               <goal>sql</goal>
               <goal>datadtd</goal>
