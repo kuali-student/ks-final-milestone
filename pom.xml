@@ -301,6 +301,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -324,14 +325,14 @@
                         <compilerArgument>-implicit:none</compilerArgument>
                     </configuration>
                 </plugin>
-    
+
                 <!--  the site plugin is both build and reporting -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>${site.plugin.version}</version>
                 </plugin>
-    
+
                 <!-- CXF Java2WS Default Configuration -->
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
@@ -356,7 +357,7 @@
                         <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
                     </configuration>
                 </plugin>
-    
+
                 <!--  Tomcat Plugin Configuration -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -367,7 +368,7 @@
                         <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
                     </configuration>
                 </plugin>
-    
+
                 <!-- War Plugin Configuration -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -377,7 +378,7 @@
                         <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                     </configuration>
                 </plugin>
-    
+
                 <!-- Codehaus GWT Maven Plugin Configuration-->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -390,7 +391,7 @@
                         <extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
                     </configuration>
                 </plugin>
-    
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
