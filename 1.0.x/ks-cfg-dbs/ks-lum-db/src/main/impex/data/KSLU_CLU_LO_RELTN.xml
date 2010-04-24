@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "ks-lum-data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLU_CLU_LO_RELTN CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d"
         CREATEID="CREATEID" CREATETIME="20091201090000"
