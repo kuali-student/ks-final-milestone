@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
@@ -39,6 +38,39 @@
       </snapshots>
     </repository>
   </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.impex</groupId>
+        <artifactId>maven-impex-plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <configuration>
+          <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
+          <delimiter>/</delimiter>
+          <delimiterType>row</delimiterType>
+          <username>KSEMBEDDED</username>
+          <password>KSEMBEDDED</password>
+          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <driver>oracle.jdbc.OracleDriver</driver>
+          <orderFile>ascending</orderFile>
+          <schemaXMLResources>classpath:ks-core-schema.xml</schemaXMLResources>
+          <targetDatabase>oracle</targetDatabase>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.kuali.student.db</groupId>
+            <artifactId>ks-core-db</artifactId>
+            <version>1.0.0-m5-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.3.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
