@@ -80,11 +80,12 @@
 	</build>
 
 	<dependencies>
+        <!-- 
 		<dependency>
 			<groupId>org.kuali.student.psu</groupId>
 			<artifactId>ks-psu</artifactId>
             <version>1.0.0-m5-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 
         <dependency>
             <groupId>org.springframework</groupId>
