@@ -53,13 +53,24 @@
           <url>jdbc:oracle:thin:@localhost:1521:XE</url>
           <driver>oracle.jdbc.OracleDriver</driver>
           <orderFile>ascending</orderFile>
-          <schemaXMLResources>classpath:ks-core-schema.xml</schemaXMLResources>
+          <keepFormat>true</keepFormat>
+          <schemaXMLResources>classpath:ks-core-db-schema.xml,classpath:ks-lum-db-schema.xml,classpath:ks-rice-db-schema.xml</schemaXMLResources>
           <targetDatabase>oracle</targetDatabase>
         </configuration>
         <dependencies>
           <dependency>
             <groupId>org.kuali.student.db</groupId>
             <artifactId>ks-core-db</artifactId>
+            <version>1.0.0-m5-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+            <groupId>org.kuali.student.db</groupId>
+            <artifactId>ks-lum-db</artifactId>
+            <version>1.0.0-m5-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+            <groupId>org.kuali.student.db</groupId>
+            <artifactId>ks-rice-db</artifactId>
             <version>1.0.0-m5-SNAPSHOT</version>
           </dependency>
           <dependency>
