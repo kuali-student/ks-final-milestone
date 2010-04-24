@@ -31,9 +31,6 @@
         <executions>
           <execution>
             <id>generate-datadtd</id>
-            <configuration>
-              <targetDatabase>oracle</targetDatabase>
-            </configuration>
             <goals>
               <goal>datadtd</goal>
             </goals>
