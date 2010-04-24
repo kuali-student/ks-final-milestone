@@ -10,7 +10,7 @@
   <version>1.0.0-m5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>KS Databases</name>
-  <description>KS Databases</description>
+  <description>Kuali Student Databases</description>
   <modules>
     <module>ks-core-db</module>
     <module>ks-lum-db</module>
