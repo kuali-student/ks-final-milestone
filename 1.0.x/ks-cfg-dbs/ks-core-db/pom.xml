@@ -24,13 +24,9 @@
       <plugin>
         <groupId>org.kuali.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <configuration>
-          <schemaXMLName>ks-core</schemaXMLName>
-          <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
-        </configuration>
         <executions>
           <execution>
-            <id>generate-datadtd</id>
+            <id>generate-data-dtd</id>
             <goals>
               <goal>datadtd</goal>
             </goals>
