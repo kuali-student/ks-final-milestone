@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
-<dataset>
-    <KSPR_PROPOSAL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="20001231000000" NAME="Create Course Proposal"
-        TYPE_DESC="A create course proposal type" TYPE_KEY="kuali.proposal.type.course.create"/>
-</dataset>
