@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
 <dataset>
     <KSAP_MLSTN ATP_ID="kuali.atp.AY2009-2010" CREATEID="SYSTEM"
         CREATETIME="20000101000000" ID="100" MLSTN_DT="20090101000000"

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
 <dataset>
     <KSOR_ORG_POS_RESTR ATPDURATIONTYPEKEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
 <dataset>
     <KSOR_ORG_ORG_RELTN CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" EXPIR_DT="20001231000000" ID="1" ORG="1"
