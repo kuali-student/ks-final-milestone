@@ -27,7 +27,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.torque.task.TorqueDataModelTask;
 
 /**
- * Generates DTD for the database tables (typically data.dtd) from a schema XML file
+ * Generates a DTD for the database tables from a schema XML file
  * 
  * @goal datadtd
  * @phase generate-sources
@@ -81,7 +81,8 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	/**
 	 * The name of the schema.xml file to process
 	 * 
-	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/schema/${project.artifactId}-schema.xml"
+	 * @parameter expression="${schemaXMLFile}"
+	 *            default-value="${basedir}/src/main/impex/schema/${project.artifactId}-schema.xml"
 	 * @required
 	 */
 	private String schemaXMLFile;
