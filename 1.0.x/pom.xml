@@ -34,11 +34,11 @@
     </repository>
   </repositories>
   <modules>
+    <module>ks-cfg-dbs</module>
     <module>ks-security</module>
     <module>ks-core</module>
     <module>brms</module>
     <module>ks-lum</module>
-    <!-- <module>ks-psu</module> -->
     <module>ks-web</module>
   </modules>
   <scm>
