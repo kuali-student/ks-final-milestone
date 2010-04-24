@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-data.dtd">
 <dataset>
     <KSST_STMT_JN_REQ_COM REQ_COM_ID="REQCOMP-1" STMT_ID="STMT-2"/>
     <KSST_STMT_JN_REQ_COM REQ_COM_ID="REQCOMP-2" STMT_ID="STMT-2"/>

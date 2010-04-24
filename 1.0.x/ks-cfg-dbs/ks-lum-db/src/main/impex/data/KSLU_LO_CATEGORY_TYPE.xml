@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-data.dtd">
 <dataset>
     <KSLU_LO_CATEGORY_TYPE DESCR="Accreditation" EFF_DT="20080101000000"
         EXPIR_DT="20100101000000" ID="loCategoryType.accreditation" NAME="Accreditation"/>

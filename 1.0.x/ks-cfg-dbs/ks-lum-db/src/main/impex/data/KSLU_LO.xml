@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-data.dtd">
 <dataset>
     <KSLU_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
         ID="7BCD7C0E-3E6B-4527-AC55-254C58CECC22"

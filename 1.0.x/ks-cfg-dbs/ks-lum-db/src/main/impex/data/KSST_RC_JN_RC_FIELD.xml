@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-data.dtd">
 <dataset>
     <KSST_RC_JN_RC_FIELD REQ_COM_FIELD_ID="FIELD-1" REQ_COM_ID="REQCOMP-NL-1"/>
     <KSST_RC_JN_RC_FIELD REQ_COM_FIELD_ID="FIELD-2" REQ_COM_ID="REQCOMP-NL-1"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-data.dtd">
 <dataset>
     <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.prerequisites"/>
 </dataset>

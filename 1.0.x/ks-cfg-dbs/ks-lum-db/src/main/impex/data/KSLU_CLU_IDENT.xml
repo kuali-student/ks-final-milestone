@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-data.dtd">
 <dataset>
     <KSLU_CLU_IDENT CD="AMSC674" DIV="AMSC"
         ID="0043840f-566b-40e6-a30a-b652b889c0af"
