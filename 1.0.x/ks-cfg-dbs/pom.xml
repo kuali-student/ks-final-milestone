@@ -15,4 +15,13 @@
     <module>ks-core-db</module>
     <module>ks-lum-db</module>
   </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.impex</groupId>
+        <artifactId>maven-impex-plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </plugin>
+    </plugins>
+  </build>
 </project>
