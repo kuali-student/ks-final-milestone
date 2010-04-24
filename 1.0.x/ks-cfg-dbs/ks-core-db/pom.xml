@@ -37,7 +37,7 @@
           <orderFile>ascending</orderFile>
           <schemaXMLName>ks-core</schemaXMLName>
           <schemaXMLFile>${basedir}/src/main/impex/schema/ks-core-schema.xml</schemaXMLFile>
-          <targetDatabase>mysql</targetDatabase>
+          <targetDatabase>oracle</targetDatabase>
         </configuration>
         <executions>
           <execution>
