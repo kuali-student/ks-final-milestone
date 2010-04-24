@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+
+<dataset>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Four Years" TYPE_DESC="Four Year Program" TYPE_KEY="kuali.atp.duration.FourYears"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Half  Semester" TYPE_DESC="Half semester (8 weeks)" TYPE_KEY="kuali.atp.duration.HalfSemester"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Mini-mester"
+        TYPE_DESC="Very Short 3 week mini-mester used for Grad in Summer" TYPE_KEY="kuali.atp.duration.Mini-mester"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Period"
+        TYPE_DESC="Short one month term used for Winter Activities" TYPE_KEY="kuali.atp.duration.Period"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Semester"
+        TYPE_DESC="Full 16 week semester used in fall and spring" TYPE_KEY="kuali.atp.duration.Semester"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Session" TYPE_DESC="Short 6 week sessions used in summer" TYPE_KEY="kuali.atp.duration.Session"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="TBD"
+        TYPE_DESC="Ad hoc period required for negotiated sessions" TYPE_KEY="kuali.atp.duration.TBD"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Term" TYPE_DESC="12 week term used in the summer" TYPE_KEY="kuali.atp.duration.Term"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Week" TYPE_DESC="1 week period" TYPE_KEY="kuali.atp.duration.Week"/>
+    <KSAP_ATP_DUR_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Year" TYPE_DESC="Full Year" TYPE_KEY="kuali.atp.duration.Year"/>
+</dataset>

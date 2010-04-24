@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<dataset>
+    <KSOR_ORG_JN_ORG_PERS_REL_TYPE ORG_ID="68" ORG_PERS_RELTN_TYPE_ID="kuali.org.PersonRelation.Head"/>
+</dataset>

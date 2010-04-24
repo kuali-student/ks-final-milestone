@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<dataset>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Robotics"
+        ENUM_VAL_ENT_ID="1" ID="1"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Botany"
+        ENUM_VAL_ENT_ID="10" ID="10"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Chemical"
+        ENUM_VAL_ENT_ID="11" ID="11"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Chemistry"
+        ENUM_VAL_ENT_ID="12" ID="12"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Civil"
+        ENUM_VAL_ENT_ID="13" ID="13"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="CompSci"
+        ENUM_VAL_ENT_ID="14" ID="14"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Education"
+        ENUM_VAL_ENT_ID="15" ID="15"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="English"
+        ENUM_VAL_ENT_ID="16" ID="16"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Finance"
+        ENUM_VAL_ENT_ID="17" ID="17"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="French"
+        ENUM_VAL_ENT_ID="18" ID="18"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Geography"
+        ENUM_VAL_ENT_ID="19" ID="19"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="CompSci"
+        ENUM_VAL_ENT_ID="2" ID="2"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Geology"
+        ENUM_VAL_ENT_ID="20" ID="20"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="History"
+        ENUM_VAL_ENT_ID="21" ID="21"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev"
+        CTX_VAL="InternationalBusiness" ENUM_VAL_ENT_ID="22" ID="22"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Linguistics"
+        ENUM_VAL_ENT_ID="23" ID="23"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Marketing "
+        ENUM_VAL_ENT_ID="24" ID="24"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Mechanical"
+        ENUM_VAL_ENT_ID="25" ID="25"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Music"
+        ENUM_VAL_ENT_ID="26" ID="26"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Philosophy"
+        ENUM_VAL_ENT_ID="27" ID="27"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="PolySci"
+        ENUM_VAL_ENT_ID="28" ID="28"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Psychology"
+        ENUM_VAL_ENT_ID="29" ID="29"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Mechanical"
+        ENUM_VAL_ENT_ID="3" ID="3"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="PubAdmin"
+        ENUM_VAL_ENT_ID="30" ID="30"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Sociology"
+        ENUM_VAL_ENT_ID="31" ID="31"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Social Work"
+        ENUM_VAL_ENT_ID="32" ID="32"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.lu.campusLocation"
+        CTX_VAL="North Campus" ENUM_VAL_ENT_ID="33" ID="33"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.lu.campusLocation"
+        CTX_VAL="South Campus" ENUM_VAL_ENT_ID="34" ID="34"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Architecture"
+        ENUM_VAL_ENT_ID="4" ID="4"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Accounting"
+        ENUM_VAL_ENT_ID="5" ID="5"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="FineArts"
+        ENUM_VAL_ENT_ID="6" ID="6"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Biomed"
+        ENUM_VAL_ENT_ID="7" ID="7"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Biochemistry"
+        ENUM_VAL_ENT_ID="8" ID="8"/>
+    <KSEM_CTX_ENT CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Biology"
+        ENUM_VAL_ENT_ID="9" ID="9"/>
+</dataset>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<dataset>
+    <KSCO_RICH_TEXT_T FORMATTED="&lt;p>Comment 1&lt;/p>"
+        ID="RT-DESC-COMMENT-1" PLAIN="Comment 1"/>
+</dataset>

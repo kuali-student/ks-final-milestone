@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<dataset>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Admissions Application Due Early Cycle"
+        TYPE_DESC="Early Admissions Application Due Date" TYPE_KEY="kuali.atp.Milestone.AdmissionsApplicationDueEarlyCycle"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Alumni Day" TYPE_DESC="Alumni Day" TYPE_KEY="kuali.atp.Milestone.AlumniDay"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Baccalaureate" TYPE_DESC="Baccalaureate" TYPE_KEY="kuali.atp.Milestone.Baccalaureate"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Begin Packaging" TYPE_DESC="Packaging Process Begin Date" TYPE_KEY="kuali.atp.Milestone.BeginPackaging"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Classes Begin" TYPE_DESC="Classes Begin Date" TYPE_KEY="kuali.atp.Milestone.ClassesBegin"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Classes End" TYPE_DESC="Classes End Date" TYPE_KEY="kuali.atp.Milestone.ClassesEnd"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Commencement" TYPE_DESC="Commencement" TYPE_KEY="kuali.atp.Milestone.Commencement"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Coordinators Kickoff Meeting"
+        TYPE_DESC="Coordinators Kickoff Meeting" TYPE_KEY="kuali.atp.Milestone.CoordinatorsKickoffMeeting"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Course Selection Period End"
+        TYPE_DESC="Course Selection Period ends" TYPE_KEY="kuali.atp.Milestone.CourseSelectionPeriodEnd"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Curriculum Committee Meeting"
+        TYPE_DESC="Curriculum Committee Meeting" TYPE_KEY="kuali.atp.Milestone.CurriculumCommitteeMeeting"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Disburse Funds" TYPE_DESC="Funds Disbursement Date" TYPE_KEY="kuali.atp.Milestone.DisburseFunds"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Drop Date" TYPE_DESC="Drop Period ends" TYPE_KEY="kuali.atp.Milestone.DropDate"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Drop Deadline Without Record"
+        TYPE_DESC="Deadline to drop w/o &quot;W&quot;" TYPE_KEY="kuali.atp.Milestone.DropDeadlineWithoutRecord"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Financial Aid Census"
+        TYPE_DESC="Financial Aid Census Date" TYPE_KEY="kuali.atp.Milestone.FinancialAidCensus"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Generate Bills" TYPE_DESC="Bills Generation Date" TYPE_KEY="kuali.atp.Milestone.GenerateBills"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Grades Due" TYPE_DESC="Grades Due " TYPE_KEY="kuali.atp.Milestone.GradesDue"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Graduation Application Deadline"
+        TYPE_DESC="Deadline to apply for Graduation" TYPE_KEY="kuali.atp.Milestone.GraduationApplicationDeadline"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Homecoming" TYPE_DESC="Homecoming" TYPE_KEY="kuali.atp.Milestone.Homecoming"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Independence Day Observed"
+        TYPE_DESC="Independence Day Observed" TYPE_KEY="kuali.atp.Milestone.IndependenceDayObserved"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Labor Day" TYPE_DESC="Labor Day" TYPE_KEY="kuali.atp.Milestone.LaborDay"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Last Minute Proposals Deadline"
+        TYPE_DESC="Deadline for Last Minute Proposals" TYPE_KEY="kuali.atp.Milestone.LastMinuteProposalsDeadline"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Leave of Absense Begin"
+        TYPE_DESC="Begin Leave of Absence option" TYPE_KEY="kuali.atp.Milestone.LeaveofAbsenseBegin"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="MLK Day Observed"
+        TYPE_DESC="Martin Luther King, Jr. Day Observed" TYPE_KEY="kuali.atp.Milestone.MLKDayObserved"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Mail Progress Reports"
+        TYPE_DESC="Satisfactory Progress Reports/Letters" TYPE_KEY="kuali.atp.Milestone.MailProgressReports"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Major Changes Deadline"
+        TYPE_DESC="Deadline for Proposals with Major Changes" TYPE_KEY="kuali.atp.Milestone.MajorChangesDeadline"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Memorial Day Observed" TYPE_DESC="Memorial Day Observed" TYPE_KEY="kuali.atp.Milestone.MemorialDayObserved"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Minor Changes Deadline"
+        TYPE_DESC="Deadline for Proposals with Minor Changes" TYPE_KEY="kuali.atp.Milestone.MinorChangesDeadline"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Move-in Date"
+        TYPE_DESC="Move-in Date for Some category of students" TYPE_KEY="kuali.atp.Milestone.Move-inDate"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="New Student Convocation"
+        TYPE_DESC="New Student Convocation and Opening Exercises" TYPE_KEY="kuali.atp.Milestone.NewStudentConvocation"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Payment Due" TYPE_DESC="Payment Due Date" TYPE_KEY="kuali.atp.Milestone.PaymentDue"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Post Grades" TYPE_DESC="Grades Posted" TYPE_KEY="kuali.atp.Milestone.PostGrades"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Post Grades Midterm" TYPE_DESC="Mid term Grades Posted" TYPE_KEY="kuali.atp.Milestone.PostGradesMidterm"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Process Refunds" TYPE_DESC="Refund Process Date" TYPE_KEY="kuali.atp.Milestone.ProcessRefunds"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Publish Changes On Line"
+        TYPE_DESC="Approved Course Changes Published On-Line" TYPE_KEY="kuali.atp.Milestone.PublishChangesOnLine"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Refund 100" TYPE_DESC="Cancel w/ 100% refund Date" TYPE_KEY="kuali.atp.Milestone.Refund100"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Refund 20" TYPE_DESC="Cancel w/ 20% refund Date" TYPE_KEY="kuali.atp.Milestone.Refund20"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Refund 40" TYPE_DESC="Cancel w/ 40% refund Date" TYPE_KEY="kuali.atp.Milestone.Refund40"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Refund 50" TYPE_DESC="Cancel w/ 50% refund Date" TYPE_KEY="kuali.atp.Milestone.Refund50"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Refund 60" TYPE_DESC="Cancel w/ 60% refund Date" TYPE_KEY="kuali.atp.Milestone.Refund60"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Refund 80" TYPE_DESC="Cancel w/ 80% refund Date" TYPE_KEY="kuali.atp.Milestone.Refund80"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Registration Begins" TYPE_DESC="Registration begins" TYPE_KEY="kuali.atp.Milestone.RegistrationBegins"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Registration Begins Non Degree"
+        TYPE_DESC="Registration for non-degree seeking students" TYPE_KEY="kuali.atp.Milestone.RegistrationBeginsNonDegree"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Registration Begins Transfer"
+        TYPE_DESC="Registration for Transfer Students" TYPE_KEY="kuali.atp.Milestone.RegistrationBeginsTransfer"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Registration Begins for MBA"
+        TYPE_DESC="MBA Registration begins" TYPE_KEY="kuali.atp.Milestone.RegistrationBeginsforMBA"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Room Scheduling Begin"
+        TYPE_DESC="Begin Room Scheduling for Next Year" TYPE_KEY="kuali.atp.Milestone.RoomSchedulingBegin"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Spring Break Begins" TYPE_DESC="Spring Break Begins" TYPE_KEY="kuali.atp.Milestone.SpringBreakBegins"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Spring Break Ends" TYPE_DESC="Spring Break Classes Resume" TYPE_KEY="kuali.atp.Milestone.SpringBreakEnds"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Thanksgiving Break Begin"
+        TYPE_DESC="Thanksgiving Break Begins" TYPE_KEY="kuali.atp.Milestone.ThanksgivingBreakBegin"/>
+    <KSAP_MLSTN_TYPE EFF_DT="20000101000000" EXPIR_DT="21000101000000"
+        NAME="Thanksgiving Break End"
+        TYPE_DESC="Thanksgiving Break ends" TYPE_KEY="kuali.atp.Milestone.ThanksgivingBreakEnd"/>
+</dataset>

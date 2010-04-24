@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-data.dtd">
+<dataset>
+    <KSDO_RICH_TEXT_T ID="RT-DESC-DOCUMENT-1" PLAIN="Documents attached to a proposal"/>
+    <KSDO_RICH_TEXT_T ID="RT-DESC-DOCUMENT-2" PLAIN="Documents attached to a Course"/>
+</dataset>
