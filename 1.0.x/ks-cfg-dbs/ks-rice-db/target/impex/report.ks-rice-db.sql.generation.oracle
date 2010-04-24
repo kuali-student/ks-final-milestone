@@ -1,0 +1,707 @@
+
+
+  
+  Platform used: org.apache.torque.engine.platform.PlatformOracleImpl
+
+      
+  SQL file to be created: ks-rice-db-schema.sql
+
+  Creating Tables:
+      Table: KREN_CHNL_PRODCR_T
+    
+      Table: KREN_CHNL_SUBSCRP_T
+    
+      Table: KREN_CHNL_T
+    
+      Table: KREN_CNTNT_TYP_T
+    
+      Table: KREN_MSG_DELIV_T
+    
+      Table: KREN_MSG_T
+    
+      Table: KREN_NTFCTN_MSG_DELIV_T
+    
+      Table: KREN_NTFCTN_T
+    
+      Table: KREN_PRIO_T
+    
+      Table: KREN_PRODCR_T
+    
+      Table: KREN_RECIP_DELIV_T
+    
+      Table: KREN_RECIP_LIST_T
+    
+      Table: KREN_RECIP_PREFS_T
+    
+      Table: KREN_RECIP_T
+    
+      Table: KREN_RVWER_T
+    
+      Table: KREN_SNDR_T
+    
+      Table: KREW_ACTN_ITM_T
+    
+      Table: KREW_ACTN_RQST_T
+    
+      Table: KREW_ACTN_TKN_T
+    
+      Table: KREW_ATT_T
+    
+      Table: KREW_DLGN_RSP_T
+    
+      Table: KREW_DOC_HDR_CNTNT_T
+    
+      Table: KREW_DOC_HDR_EXT_DT_T
+    
+      Table: KREW_DOC_HDR_EXT_FLT_T
+    
+      Table: KREW_DOC_HDR_EXT_LONG_T
+    
+      Table: KREW_DOC_HDR_EXT_T
+    
+      Table: KREW_DOC_HDR_T
+    
+      Table: KREW_DOC_NTE_T
+    
+      Table: KREW_DOC_TYP_ATTR_T
+    
+      Table: KREW_DOC_TYP_PLCY_RELN_T
+    
+      Table: KREW_DOC_TYP_PROC_T
+    
+      Table: KREW_DOC_TYP_T
+    
+      Table: KREW_EDL_ASSCTN_T
+    
+      Table: KREW_EDL_DEF_T
+    
+      Table: KREW_EDL_DMP_T
+    
+      Table: KREW_EDL_FLD_DMP_T
+    
+      Table: KREW_HLP_T
+    
+      Table: KREW_INIT_RTE_NODE_INSTN_T
+    
+      Table: KREW_OUT_BOX_ITM_T
+    
+      Table: KREW_RMV_RPLC_DOC_T
+    
+      Table: KREW_RMV_RPLC_GRP_T
+    
+      Table: KREW_RMV_RPLC_RULE_T
+    
+      Table: KREW_RTE_BRCH_PROTO_T
+    
+      Table: KREW_RTE_BRCH_ST_T
+    
+      Table: KREW_RTE_BRCH_T
+    
+      Table: KREW_RTE_NODE_CFG_PARM_T
+    
+      Table: KREW_RTE_NODE_INSTN_LNK_T
+    
+      Table: KREW_RTE_NODE_INSTN_ST_T
+    
+      Table: KREW_RTE_NODE_INSTN_T
+    
+      Table: KREW_RTE_NODE_LNK_T
+    
+      Table: KREW_RTE_NODE_T
+    
+      Table: KREW_RULE_ATTR_T
+    
+      Table: KREW_RULE_EXPR_T
+    
+      Table: KREW_RULE_EXT_T
+    
+      Table: KREW_RULE_EXT_VAL_T
+    
+      Table: KREW_RULE_RSP_T
+    
+      Table: KREW_RULE_T
+    
+      Table: KREW_RULE_TMPL_ATTR_T
+    
+      Table: KREW_RULE_TMPL_OPTN_T
+    
+      Table: KREW_RULE_TMPL_T
+    
+      Table: KREW_STYLE_T
+    
+      Table: KREW_USR_OPTN_T
+    
+      Table: KRIM_ADDR_TYP_T
+    
+      Table: KRIM_AFLTN_TYP_T
+    
+      Table: KRIM_ATTR_DEFN_T
+    
+      Table: KRIM_CTZNSHP_STAT_T
+    
+      Table: KRIM_DLGN_MBR_ATTR_DATA_T
+    
+      Table: KRIM_DLGN_MBR_T
+    
+      Table: KRIM_DLGN_T
+    
+      Table: KRIM_EMAIL_TYP_T
+    
+      Table: KRIM_EMP_STAT_T
+    
+      Table: KRIM_EMP_TYP_T
+    
+      Table: KRIM_ENTITY_ADDR_T
+    
+      Table: KRIM_ENTITY_AFLTN_T
+    
+      Table: KRIM_ENTITY_BIO_T
+    
+      Table: KRIM_ENTITY_CACHE_T
+    
+      Table: KRIM_ENTITY_CTZNSHP_T
+    
+      Table: KRIM_ENTITY_EMAIL_T
+    
+      Table: KRIM_ENTITY_EMP_INFO_T
+    
+      Table: KRIM_ENTITY_ENT_TYP_T
+    
+      Table: KRIM_ENTITY_ETHNIC_T
+    
+      Table: KRIM_ENTITY_EXT_ID_T
+    
+      Table: KRIM_ENTITY_NM_T
+    
+      Table: KRIM_ENTITY_PHONE_T
+    
+      Table: KRIM_ENTITY_PRIV_PREF_T
+    
+      Table: KRIM_ENTITY_RESIDENCY_T
+    
+      Table: KRIM_ENTITY_T
+    
+      Table: KRIM_ENTITY_VISA_T
+    
+      Table: KRIM_ENT_NM_TYP_T
+    
+      Table: KRIM_ENT_TYP_T
+    
+      Table: KRIM_EXT_ID_TYP_T
+    
+      Table: KRIM_GRP_ATTR_DATA_T
+    
+      Table: KRIM_GRP_DOCUMENT_T
+    
+      Table: KRIM_GRP_MBR_T
+    
+      Table: KRIM_GRP_T
+    
+      Table: KRIM_PERM_ATTR_DATA_T
+    
+      Table: KRIM_PERM_T
+    
+      Table: KRIM_PERM_TMPL_T
+    
+      Table: KRIM_PERSON_DOCUMENT_T
+    
+      Table: KRIM_PHONE_TYP_T
+    
+      Table: KRIM_PND_ADDR_MT
+    
+      Table: KRIM_PND_AFLTN_MT
+    
+      Table: KRIM_PND_CTZNSHP_MT
+    
+      Table: KRIM_PND_DLGN_MBR_ATTR_DATA_T
+    
+      Table: KRIM_PND_DLGN_MBR_T
+    
+      Table: KRIM_PND_DLGN_T
+    
+      Table: KRIM_PND_EMAIL_MT
+    
+      Table: KRIM_PND_EMP_INFO_MT
+    
+      Table: KRIM_PND_GRP_ATTR_DATA_T
+    
+      Table: KRIM_PND_GRP_MBR_T
+    
+      Table: KRIM_PND_GRP_PRNCPL_MT
+    
+      Table: KRIM_PND_NM_MT
+    
+      Table: KRIM_PND_PHONE_MT
+    
+      Table: KRIM_PND_PRIV_PREF_MT
+    
+      Table: KRIM_PND_ROLE_MBR_ATTR_DATA_MT
+    
+      Table: KRIM_PND_ROLE_MBR_MT
+    
+      Table: KRIM_PND_ROLE_MT
+    
+      Table: KRIM_PND_ROLE_PERM_T
+    
+      Table: KRIM_PND_ROLE_RSP_ACTN_MT
+    
+      Table: KRIM_PND_ROLE_RSP_T
+    
+      Table: KRIM_PRNCPL_T
+    
+      Table: KRIM_ROLE_DOCUMENT_T
+    
+      Table: KRIM_ROLE_MBR_ATTR_DATA_T
+    
+      Table: KRIM_ROLE_MBR_T
+    
+      Table: KRIM_ROLE_PERM_T
+    
+      Table: KRIM_ROLE_RSP_ACTN_T
+    
+      Table: KRIM_ROLE_RSP_T
+    
+      Table: KRIM_ROLE_T
+    
+      Table: KRIM_RSP_ATTR_DATA_T
+    
+      Table: KRIM_RSP_T
+    
+      Table: KRIM_RSP_TMPL_T
+    
+      Table: KRIM_TYP_ATTR_T
+    
+      Table: KRIM_TYP_T
+    
+      Table: KRNS_ADHOC_RTE_ACTN_RECIP_T
+    
+      Table: KRNS_ATT_T
+    
+      Table: KRNS_CAMPUS_T
+    
+      Table: KRNS_CMP_TYP_T
+    
+      Table: KRNS_DOC_HDR_T
+    
+      Table: KRNS_LOOKUP_RSLT_T
+    
+      Table: KRNS_LOOKUP_SEL_T
+    
+      Table: KRNS_MAINT_DOC_ATT_T
+    
+      Table: KRNS_MAINT_DOC_T
+    
+      Table: KRNS_MAINT_LOCK_T
+    
+      Table: KRNS_NMSPC_T
+    
+      Table: KRNS_NTE_T
+    
+      Table: KRNS_NTE_TYP_T
+    
+      Table: KRNS_PARM_DTL_TYP_T
+    
+      Table: KRNS_PARM_T
+    
+      Table: KRNS_PARM_TYP_T
+    
+      Table: KRNS_PESSIMISTIC_LOCK_T
+    
+      Table: KRNS_SESN_DOC_T
+    
+      Table: KRSB_BAM_PARM_T
+    
+      Table: KRSB_BAM_T
+    
+      Table: KRSB_MSG_PYLD_T
+    
+      Table: KRSB_MSG_QUE_T
+    
+      Table: KRSB_QRTZ_BLOB_TRIGGERS
+    
+      Table: KRSB_QRTZ_CALENDARS
+    
+      Table: KRSB_QRTZ_CRON_TRIGGERS
+    
+      Table: KRSB_QRTZ_FIRED_TRIGGERS
+    
+      Table: KRSB_QRTZ_JOB_DETAILS
+    
+      Table: KRSB_QRTZ_JOB_LISTENERS
+    
+      Table: KRSB_QRTZ_LOCKS
+    
+      Table: KRSB_QRTZ_PAUSED_TRIGGER_GRPS
+    
+      Table: KRSB_QRTZ_SCHEDULER_STATE
+    
+      Table: KRSB_QRTZ_SIMPLE_TRIGGERS
+    
+      Table: KRSB_QRTZ_TRIGGERS
+    
+      Table: KRSB_QRTZ_TRIGGER_LISTENERS
+    
+      Table: KRSB_SVC_DEF_T
+    
+      Table: KR_COUNTRY_T
+    
+      Table: KR_COUNTY_T
+    
+      Table: KR_POSTAL_CODE_T
+    
+      Table: KR_STATE_T
+    
+  
+  Creating Views
+
+  
+  Creating Sequences
+
+  
+  Creating Constraints File
+
+      	Constraints on Table: KREN_CHNL_PRODCR_T
+    
+    	Constraints on Table: KREN_CHNL_SUBSCRP_T
+    
+    	Constraints on Table: KREN_CHNL_T
+    
+    	Constraints on Table: KREN_CNTNT_TYP_T
+    
+    	Constraints on Table: KREN_MSG_DELIV_T
+    
+    	Constraints on Table: KREN_MSG_T
+    
+    	Constraints on Table: KREN_NTFCTN_MSG_DELIV_T
+    
+    	Constraints on Table: KREN_NTFCTN_T
+    
+    	Constraints on Table: KREN_PRIO_T
+    
+    	Constraints on Table: KREN_PRODCR_T
+    
+    	Constraints on Table: KREN_RECIP_DELIV_T
+    
+    	Constraints on Table: KREN_RECIP_LIST_T
+    
+    	Constraints on Table: KREN_RECIP_PREFS_T
+    
+    	Constraints on Table: KREN_RECIP_T
+    
+    	Constraints on Table: KREN_RVWER_T
+    
+    	Constraints on Table: KREN_SNDR_T
+    
+    	Constraints on Table: KREW_ACTN_ITM_T
+    
+    	Constraints on Table: KREW_ACTN_RQST_T
+    
+    	Constraints on Table: KREW_ACTN_TKN_T
+    
+    	Constraints on Table: KREW_ATT_T
+    
+    	Constraints on Table: KREW_DLGN_RSP_T
+    
+    	Constraints on Table: KREW_DOC_HDR_CNTNT_T
+    
+    	Constraints on Table: KREW_DOC_HDR_EXT_DT_T
+    
+    	Constraints on Table: KREW_DOC_HDR_EXT_FLT_T
+    
+    	Constraints on Table: KREW_DOC_HDR_EXT_LONG_T
+    
+    	Constraints on Table: KREW_DOC_HDR_EXT_T
+    
+    	Constraints on Table: KREW_DOC_HDR_T
+    
+    	Constraints on Table: KREW_DOC_NTE_T
+    
+    	Constraints on Table: KREW_DOC_TYP_ATTR_T
+    
+    	Constraints on Table: KREW_DOC_TYP_PLCY_RELN_T
+    
+    	Constraints on Table: KREW_DOC_TYP_PROC_T
+    
+    	Constraints on Table: KREW_DOC_TYP_T
+    
+    	Constraints on Table: KREW_EDL_ASSCTN_T
+    
+    	Constraints on Table: KREW_EDL_DEF_T
+    
+    	Constraints on Table: KREW_EDL_DMP_T
+    
+    	Constraints on Table: KREW_EDL_FLD_DMP_T
+    
+    	Constraints on Table: KREW_HLP_T
+    
+    	Constraints on Table: KREW_INIT_RTE_NODE_INSTN_T
+    
+    	Constraints on Table: KREW_OUT_BOX_ITM_T
+    
+    	Constraints on Table: KREW_RMV_RPLC_DOC_T
+    
+    	Constraints on Table: KREW_RMV_RPLC_GRP_T
+    
+    	Constraints on Table: KREW_RMV_RPLC_RULE_T
+    
+    	Constraints on Table: KREW_RTE_BRCH_PROTO_T
+    
+    	Constraints on Table: KREW_RTE_BRCH_ST_T
+    
+    	Constraints on Table: KREW_RTE_BRCH_T
+    
+    	Constraints on Table: KREW_RTE_NODE_CFG_PARM_T
+    
+    	Constraints on Table: KREW_RTE_NODE_INSTN_LNK_T
+    
+    	Constraints on Table: KREW_RTE_NODE_INSTN_ST_T
+    
+    	Constraints on Table: KREW_RTE_NODE_INSTN_T
+    
+    	Constraints on Table: KREW_RTE_NODE_LNK_T
+    
+    	Constraints on Table: KREW_RTE_NODE_T
+    
+    	Constraints on Table: KREW_RULE_ATTR_T
+    
+    	Constraints on Table: KREW_RULE_EXPR_T
+    
+    	Constraints on Table: KREW_RULE_EXT_T
+    
+    	Constraints on Table: KREW_RULE_EXT_VAL_T
+    
+    	Constraints on Table: KREW_RULE_RSP_T
+    
+    	Constraints on Table: KREW_RULE_T
+    
+    	Constraints on Table: KREW_RULE_TMPL_ATTR_T
+    
+    	Constraints on Table: KREW_RULE_TMPL_OPTN_T
+    
+    	Constraints on Table: KREW_RULE_TMPL_T
+    
+    	Constraints on Table: KREW_STYLE_T
+    
+    	Constraints on Table: KREW_USR_OPTN_T
+    
+    	Constraints on Table: KRIM_ADDR_TYP_T
+    
+    	Constraints on Table: KRIM_AFLTN_TYP_T
+    
+    	Constraints on Table: KRIM_ATTR_DEFN_T
+    
+    	Constraints on Table: KRIM_CTZNSHP_STAT_T
+    
+    	Constraints on Table: KRIM_DLGN_MBR_ATTR_DATA_T
+    
+    	Constraints on Table: KRIM_DLGN_MBR_T
+    
+    	Constraints on Table: KRIM_DLGN_T
+    
+    	Constraints on Table: KRIM_EMAIL_TYP_T
+    
+    	Constraints on Table: KRIM_EMP_STAT_T
+    
+    	Constraints on Table: KRIM_EMP_TYP_T
+    
+    	Constraints on Table: KRIM_ENTITY_ADDR_T
+    
+    	Constraints on Table: KRIM_ENTITY_AFLTN_T
+    
+    	Constraints on Table: KRIM_ENTITY_BIO_T
+    
+    	Constraints on Table: KRIM_ENTITY_CACHE_T
+    
+    	Constraints on Table: KRIM_ENTITY_CTZNSHP_T
+    
+    	Constraints on Table: KRIM_ENTITY_EMAIL_T
+    
+    	Constraints on Table: KRIM_ENTITY_EMP_INFO_T
+    
+    	Constraints on Table: KRIM_ENTITY_ENT_TYP_T
+    
+    	Constraints on Table: KRIM_ENTITY_ETHNIC_T
+    
+    	Constraints on Table: KRIM_ENTITY_EXT_ID_T
+    
+    	Constraints on Table: KRIM_ENTITY_NM_T
+    
+    	Constraints on Table: KRIM_ENTITY_PHONE_T
+    
+    	Constraints on Table: KRIM_ENTITY_PRIV_PREF_T
+    
+    	Constraints on Table: KRIM_ENTITY_RESIDENCY_T
+    
+    	Constraints on Table: KRIM_ENTITY_T
+    
+    	Constraints on Table: KRIM_ENTITY_VISA_T
+    
+    	Constraints on Table: KRIM_ENT_NM_TYP_T
+    
+    	Constraints on Table: KRIM_ENT_TYP_T
+    
+    	Constraints on Table: KRIM_EXT_ID_TYP_T
+    
+    	Constraints on Table: KRIM_GRP_ATTR_DATA_T
+    
+    	Constraints on Table: KRIM_GRP_DOCUMENT_T
+    
+    	Constraints on Table: KRIM_GRP_MBR_T
+    
+    	Constraints on Table: KRIM_GRP_T
+    
+    	Constraints on Table: KRIM_PERM_ATTR_DATA_T
+    
+    	Constraints on Table: KRIM_PERM_T
+    
+    	Constraints on Table: KRIM_PERM_TMPL_T
+    
+    	Constraints on Table: KRIM_PERSON_DOCUMENT_T
+    
+    	Constraints on Table: KRIM_PHONE_TYP_T
+    
+    	Constraints on Table: KRIM_PND_ADDR_MT
+    
+    	Constraints on Table: KRIM_PND_AFLTN_MT
+    
+    	Constraints on Table: KRIM_PND_CTZNSHP_MT
+    
+    	Constraints on Table: KRIM_PND_DLGN_MBR_ATTR_DATA_T
+    
+    	Constraints on Table: KRIM_PND_DLGN_MBR_T
+    
+    	Constraints on Table: KRIM_PND_DLGN_T
+    
+    	Constraints on Table: KRIM_PND_EMAIL_MT
+    
+    	Constraints on Table: KRIM_PND_EMP_INFO_MT
+    
+    	Constraints on Table: KRIM_PND_GRP_ATTR_DATA_T
+    
+    	Constraints on Table: KRIM_PND_GRP_MBR_T
+    
+    	Constraints on Table: KRIM_PND_GRP_PRNCPL_MT
+    
+    	Constraints on Table: KRIM_PND_NM_MT
+    
+    	Constraints on Table: KRIM_PND_PHONE_MT
+    
+    	Constraints on Table: KRIM_PND_PRIV_PREF_MT
+    
+    	Constraints on Table: KRIM_PND_ROLE_MBR_ATTR_DATA_MT
+    
+    	Constraints on Table: KRIM_PND_ROLE_MBR_MT
+    
+    	Constraints on Table: KRIM_PND_ROLE_MT
+    
+    	Constraints on Table: KRIM_PND_ROLE_PERM_T
+    
+    	Constraints on Table: KRIM_PND_ROLE_RSP_ACTN_MT
+    
+    	Constraints on Table: KRIM_PND_ROLE_RSP_T
+    
+    	Constraints on Table: KRIM_PRNCPL_T
+    
+    	Constraints on Table: KRIM_ROLE_DOCUMENT_T
+    
+    	Constraints on Table: KRIM_ROLE_MBR_ATTR_DATA_T
+    
+    	Constraints on Table: KRIM_ROLE_MBR_T
+    
+    	Constraints on Table: KRIM_ROLE_PERM_T
+    
+    	Constraints on Table: KRIM_ROLE_RSP_ACTN_T
+    
+    	Constraints on Table: KRIM_ROLE_RSP_T
+    
+    	Constraints on Table: KRIM_ROLE_T
+    
+    	Constraints on Table: KRIM_RSP_ATTR_DATA_T
+    
+    	Constraints on Table: KRIM_RSP_T
+    
+    	Constraints on Table: KRIM_RSP_TMPL_T
+    
+    	Constraints on Table: KRIM_TYP_ATTR_T
+    
+    	Constraints on Table: KRIM_TYP_T
+    
+    	Constraints on Table: KRNS_ADHOC_RTE_ACTN_RECIP_T
+    
+    	Constraints on Table: KRNS_ATT_T
+    
+    	Constraints on Table: KRNS_CAMPUS_T
+    
+    	Constraints on Table: KRNS_CMP_TYP_T
+    
+    	Constraints on Table: KRNS_DOC_HDR_T
+    
+    	Constraints on Table: KRNS_LOOKUP_RSLT_T
+    
+    	Constraints on Table: KRNS_LOOKUP_SEL_T
+    
+    	Constraints on Table: KRNS_MAINT_DOC_ATT_T
+    
+    	Constraints on Table: KRNS_MAINT_DOC_T
+    
+    	Constraints on Table: KRNS_MAINT_LOCK_T
+    
+    	Constraints on Table: KRNS_NMSPC_T
+    
+    	Constraints on Table: KRNS_NTE_T
+    
+    	Constraints on Table: KRNS_NTE_TYP_T
+    
+    	Constraints on Table: KRNS_PARM_DTL_TYP_T
+    
+    	Constraints on Table: KRNS_PARM_T
+    
+    	Constraints on Table: KRNS_PARM_TYP_T
+    
+    	Constraints on Table: KRNS_PESSIMISTIC_LOCK_T
+    
+    	Constraints on Table: KRNS_SESN_DOC_T
+    
+    	Constraints on Table: KRSB_BAM_PARM_T
+    
+    	Constraints on Table: KRSB_BAM_T
+    
+    	Constraints on Table: KRSB_MSG_PYLD_T
+    
+    	Constraints on Table: KRSB_MSG_QUE_T
+    
+    	Constraints on Table: KRSB_QRTZ_BLOB_TRIGGERS
+    
+    	Constraints on Table: KRSB_QRTZ_CALENDARS
+    
+    	Constraints on Table: KRSB_QRTZ_CRON_TRIGGERS
+    
+    	Constraints on Table: KRSB_QRTZ_FIRED_TRIGGERS
+    
+    	Constraints on Table: KRSB_QRTZ_JOB_DETAILS
+    
+    	Constraints on Table: KRSB_QRTZ_JOB_LISTENERS
+    
+    	Constraints on Table: KRSB_QRTZ_LOCKS
+    
+    	Constraints on Table: KRSB_QRTZ_PAUSED_TRIGGER_GRPS
+    
+    	Constraints on Table: KRSB_QRTZ_SCHEDULER_STATE
+    
+    	Constraints on Table: KRSB_QRTZ_SIMPLE_TRIGGERS
+    
+    	Constraints on Table: KRSB_QRTZ_TRIGGERS
+    
+    	Constraints on Table: KRSB_QRTZ_TRIGGER_LISTENERS
+    
+    	Constraints on Table: KRSB_SVC_DEF_T
+    
+    	Constraints on Table: KR_COUNTRY_T
+    
+    	Constraints on Table: KR_COUNTY_T
+    
+    	Constraints on Table: KR_POSTAL_CODE_T
+    
+    	Constraints on Table: KR_STATE_T
+    
+    

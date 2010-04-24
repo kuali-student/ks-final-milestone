@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
+<dataset>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.1" PLAIN="New Student Orientation"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.10" PLAIN="Final Examinations"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.11" PLAIN="Advance Registration for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.12" PLAIN="Advance Registration for Summer"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.13" PLAIN="Reading Days"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.14" PLAIN="Final Examinations"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.15" PLAIN="Advance Registration, Spring Term"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.16" PLAIN="Reading Days"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.17" PLAIN="Final Examinations"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.18" PLAIN="Advance Registration for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.19" PLAIN="Advance Registration for Summer"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.2" PLAIN="New Student Orientation"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.20" PLAIN="Reading Days"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.21" PLAIN="Final Examinations"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.22" PLAIN="Advance Registration, Spring Term"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.23" PLAIN="Reading Days"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.24" PLAIN="Final Examinations"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.25" PLAIN="Advance Registration for Summer Sessions"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.26" PLAIN="Advance Registration for Summer Sessions"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.27" PLAIN="Reading Days"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.28" PLAIN="Final Examinations"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.29" PLAIN="Family Weekend"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.3" PLAIN="New Student Orientation"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.30" PLAIN="Family Weekend"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.31" PLAIN="Family Weekend"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.32" PLAIN="Fall Break"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.33" PLAIN="Fall Break"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.34" PLAIN="Fall Break"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.4" PLAIN="Proposal Period for next Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.5" PLAIN="Review Period 1"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.6" PLAIN="Review Period 2 (Late Proposals)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.7" PLAIN="Review Period 3 (final)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.8" PLAIN="Advance Registration, Spring Term"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.DateRange.9" PLAIN="Reading Days"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.100" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.101" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.102" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.103" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.104" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.105" PLAIN="Deadline for Last Minute Proposals for the Upcoming Summer"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.106" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.107" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.108" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.109" PLAIN="Publish Changes for next Academic Year on-line"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.110" PLAIN="Publish changes for this Summer on-line"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.111" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.112" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.113" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.114" PLAIN="Begin Leave of Absence option for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.115" PLAIN="Begin Leave of Absence option for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.116" PLAIN="Begin Leave of Absence option for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.117" PLAIN="MBA Registration begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.118" PLAIN="Move-in and Registration for Transfer Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.119" PLAIN="Fall registration for non-degree seeking students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.120" PLAIN="First Day of Classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.121" PLAIN="Course Selection Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.122" PLAIN="Drop Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.123" PLAIN="Satisfactory Progress Reports/Letters"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.124" PLAIN="Mid term Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.125" PLAIN="Fall Term Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.126" PLAIN="Fall Semester ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.127" PLAIN="Fall Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.128" PLAIN="Winterterm Registration begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.129" PLAIN="Winter Term Begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.130" PLAIN="Spring Semester Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.131" PLAIN="Deadline to withdraw w/o &quot;W'"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.132" PLAIN="Winterterm ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.133" PLAIN="Course Selection Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.134" PLAIN="Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.135" PLAIN="Drop Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.136" PLAIN="Spring Term Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.137" PLAIN="Fall Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.138" PLAIN="12-Week Evening Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.139" PLAIN="First Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.140" PLAIN="Grad 6 week Block 1 mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.141" PLAIN="Grad 3-week Block 1a mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.142" PLAIN="Deadline to drop w/o &quot;W&quot;"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.143" PLAIN="Grad 3-week Block 1b mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.144" PLAIN="First session Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.145" PLAIN="Second Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.146" PLAIN="Summer Session 1 Grades Due "/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.147" PLAIN="Grad 6 week Block 2 mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.148" PLAIN="Grad 3-week Block 2c mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.149" PLAIN="Grad 3-week Block 2d mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.150" PLAIN="12-Week Evening Sessions Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.151" PLAIN="Second Session Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.152" PLAIN="MBA Registration begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.153" PLAIN="Move-in and Registration for Transfer Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.154" PLAIN="Fall registration for non-degree seeking students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.155" PLAIN="First Day of Classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.156" PLAIN="Course Selection Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.157" PLAIN="Drop Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.158" PLAIN="Satisfactory Progress Reports/Letters"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.159" PLAIN="Mid term Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.160" PLAIN="Fall Term Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.161" PLAIN="Fall Semester ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.162" PLAIN="Fall Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.163" PLAIN="Winterterm Registration begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.164" PLAIN="Winter Term Begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.165" PLAIN="Spring Semester Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.166" PLAIN="Deadline to withdraw w/o &quot;W'"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.167" PLAIN="Winterterm ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.168" PLAIN="Course Selection Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.169" PLAIN="Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.170" PLAIN="Drop Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.171" PLAIN="Spring Term Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.172" PLAIN="Fall Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.173" PLAIN="12-Week Evening Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.174" PLAIN="First Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.175" PLAIN="Grad 6 week Block 1 mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.176" PLAIN="Grad 3-week Block 1a mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.177" PLAIN="Deadline to drop w/o &quot;W&quot;"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.178" PLAIN="Grad 3-week Block 1b mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.179" PLAIN="First session Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.180" PLAIN="Second Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.181" PLAIN="Summer Session 1 Grades Due "/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.182" PLAIN="Grad 6 week Block 2 mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.183" PLAIN="Grad 3-week Block 2c mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.184" PLAIN="Grad 3-week Block 2d mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.185" PLAIN="12-Week Evening Sessions Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.186" PLAIN="Second Session Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.187" PLAIN="MBA Registration begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.188" PLAIN="Fall registration for non-degree seeking students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.189" PLAIN="Move-in and Registration for Transfer Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.190" PLAIN="First Day of Classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.191" PLAIN="Course Selection Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.192" PLAIN="Drop Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.193" PLAIN="Satisfactory Progress Reports/Letters"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.194" PLAIN="Mid term Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.195" PLAIN="Fall Term Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.196" PLAIN="Fall Semester ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.197" PLAIN="Fall Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.198" PLAIN="Winterterm Registration begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.199" PLAIN="Winter Term Begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.200" PLAIN="Spring Semester Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.201" PLAIN="Deadline to withdraw w/o &quot;W'"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.202" PLAIN="Winterterm ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.203" PLAIN="Course Selection Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.204" PLAIN="Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.205" PLAIN="Drop Period ends"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.206" PLAIN="Spring Term Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.207" PLAIN="Fall Grades Posted"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.208" PLAIN="12-Week Evening Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.209" PLAIN="First Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.210" PLAIN="Grad 6 week Block 1 mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.211" PLAIN="Grad 3-week Block 1a mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.212" PLAIN="Deadline to drop w/o &quot;W&quot;"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.213" PLAIN="Grad 3-week Block 1b mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.214" PLAIN="First session Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.215" PLAIN="Second Session Classes begin"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.216" PLAIN="Summer Session 1 Grades Due "/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.217" PLAIN="Grad 6 week Block 2 mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.218" PLAIN="Grad 3-week Block 2c mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.219" PLAIN="Grad 3-week Block 2d mini-mester begins"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.220" PLAIN="12-Week Evening Sessions Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.221" PLAIN="Second Session Classes end"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.222" PLAIN="Begin Room Scheduling for Fall 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.223" PLAIN="Begin Room Scheduling for Fall 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.224" PLAIN="Begin Room Scheduling for Fall 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.225" PLAIN="Homecoming"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.226" PLAIN="Homecoming"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.227" PLAIN="Homecoming"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.228" PLAIN="Deadline to apply for Graduation for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.229" PLAIN="Alumni Day"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.230" PLAIN="Baccalaureate"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.231" PLAIN="Commencement"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.232" PLAIN="Summer deadline to apply for graduation"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.233" PLAIN="Deadline to apply for Graduation for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.234" PLAIN="Alumni Day"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.235" PLAIN="Baccalaureate"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.236" PLAIN="Commencement"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.237" PLAIN="Summer deadline to apply for graduation"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.238" PLAIN="Deadline to apply for Graduation for Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.239" PLAIN="Alumni Day"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.240" PLAIN="Baccalaureate"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.241" PLAIN="Commencement"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.242" PLAIN="Summer deadline to apply for graduation"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.243" PLAIN="Labor Day"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.244" PLAIN="Thanksgiving Break Begins at close of classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.245" PLAIN="Thanksgiving Break ends 8 a.m."/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.246" PLAIN="Martin Luther King, Jr. Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.247" PLAIN="Spring Break Begins at close of classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.248" PLAIN="Classes Resume at 8 a.m."/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.249" PLAIN="Memorial Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.250" PLAIN="Independence Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.251" PLAIN="Labor Day"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.252" PLAIN="Thanksgiving Break Begins at close of classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.253" PLAIN="Thanksgiving Break ends 8 a.m."/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.254" PLAIN="Martin Luther King, Jr. Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.255" PLAIN="Spring Break Begins at close of classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.256" PLAIN="Classes Resume at 8 a.m."/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.257" PLAIN="Memorial Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.258" PLAIN="Independence Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.259" PLAIN="Labor Day"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.260" PLAIN="Thanksgiving Break Begins at close of classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.261" PLAIN="Thanksgiving Break ends 8 a.m."/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.262" PLAIN="Martin Luther King, Jr. Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.263" PLAIN="Spring Break Begins at close of classes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.264" PLAIN="Classes Resume at 8 a.m."/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.265" PLAIN="Memorial Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.266" PLAIN="Independence Day Observed (no classes)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.35" PLAIN="Early Admissions for next Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.36" PLAIN="Early Admissions for next Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.37" PLAIN="Early Admissions for next Fall"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.38" PLAIN="Move-in and Registration for Transfer Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.39" PLAIN="Move-in for First-Year Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.40" PLAIN="New Student Convocation and Opening Exercises"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.41" PLAIN="Move-in and Registration for Transfer Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.42" PLAIN="Move-in for First-Year Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.43" PLAIN="New Student Convocation and Opening Exercises"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.44" PLAIN="Move-in and Registration for Transfer Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.45" PLAIN="Move-in for First-Year Students"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.46" PLAIN="New Student Convocation and Opening Exercises"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.47" PLAIN="Fall Bills Generated"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.48" PLAIN="Funds Disburse to Students Account"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.49" PLAIN="Fall Refunds (13 days before the first day of class)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.50" PLAIN="Fall Payment due for students registered before July 25"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.51" PLAIN="Fall Bills Generated"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.52" PLAIN="Funds Disburse to Students Account"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.53" PLAIN="Fall Refunds (13 days before the first day of class)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.54" PLAIN="Fall Payment due for students registered before July 25"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.55" PLAIN="Fall Bills Generated"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.56" PLAIN="Funds Disburse to Students Account"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.57" PLAIN="Fall Refunds (13 days before the first day of class)"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.58" PLAIN="Fall Payment due for students registered before July 25"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.59" PLAIN="Financial Aid Census Date"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.60" PLAIN="Financial Aid Census Date"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.61" PLAIN="Financial Aid Census Date"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.62" PLAIN="Next Spring Packaging begins for financial aid"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.63" PLAIN="Next Spring Packaging begins for financial aid"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.64" PLAIN="Next Springl Packaging begins for financial aid"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.65" PLAIN="Last Day to Cancel Registration for Fall 2008 w 100% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.66" PLAIN="Withdraw with 80% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.67" PLAIN="Withdraw with 60% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.68" PLAIN="Withdraw with 40% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.69" PLAIN="Withdraw with 20% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.70" PLAIN="Deadline to Cancel w/100% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.71" PLAIN="Deadline to Cancel w/50% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.72" PLAIN="Last Day to Cancel Registration for Fall 2009 w 100% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.73" PLAIN="Withdraw with 80% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.74" PLAIN="Withdraw with 60% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.75" PLAIN="Withdraw with 40% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.76" PLAIN="Withdraw with 20% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.77" PLAIN="Deadline to Cancel w/100% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.78" PLAIN="Deadline to Cancel w/50% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.79" PLAIN="Last Day to Cancel Registration for Fall 2010 w 100% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.80" PLAIN="Withdraw with 80% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.81" PLAIN="Withdraw with 60% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.82" PLAIN="Withdraw with 40% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.83" PLAIN="Withdraw with 20% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.84" PLAIN="Deadline to Cancel w/100% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.85" PLAIN="Deadline to Cancel w/50% refund"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.86" PLAIN="Coordinators Kickoff Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.87" PLAIN="Deadline for Last Minute Proposals for the Upcoming Spring"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.88" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.89" PLAIN="Publish changes for this spring on-line"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.90" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.91" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.92" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.93" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.94" PLAIN="Deadline for Proposals with Major Changes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.95" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.96" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.97" PLAIN="Deadline for Proposals with Minor Changes"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.98" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.Milestone.99" PLAIN="Curriculum Committee Meeting"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.AY2008-2009" PLAIN="Academic Year 2008-2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.AY2009-2010" PLAIN="Academic Year 2009-2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.AY2010-2011" PLAIN="Academic Year 2010-2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.AY2011-2012" PLAIN="Academic Year 2011-2012"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009" PLAIN="Class of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y1" PLAIN="Class of 2009 Freshman Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y1T1" PLAIN="Class of 2009 1st Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y1T2" PLAIN="Class of 2009 2nd Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y2" PLAIN="Class of 2009 Sophomore Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y2T3" PLAIN="Class of 2009 1st Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y2T4" PLAIN="Class of 2009 2nd Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y2T5" PLAIN="Class of 2009 1st Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y2T6" PLAIN="Class of 2009 2nd Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y2T7" PLAIN="Class of 2009 1st Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y2T8" PLAIN="Class of 2009 2nd Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y3" PLAIN="Class of 2009 Junior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2009Y4" PLAIN="Class of 2009 Senior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010" PLAIN="Class of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y1" PLAIN="Class of 2010 Freshman Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y1T1" PLAIN="Class of 2010 1st Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y1T2" PLAIN="Class of 2010 2nd Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y2" PLAIN="Class of 2010 Sophomore Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y2T3" PLAIN="Class of 2010 1st Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y2T4" PLAIN="Class of 2010 2nd Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y2T5" PLAIN="Class of 2010 1st Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y2T6" PLAIN="Class of 2010 2nd Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y2T7" PLAIN="Class of 2010 1st Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y2T8" PLAIN="Class of 2010 2nd Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y3" PLAIN="Class of 2010 Junior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2010Y4" PLAIN="Class of 2010 Senior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011" PLAIN="Class of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y1" PLAIN="Class of 2011 Freshman Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y1T1" PLAIN="Class of 2011 1st Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y1T2" PLAIN="Class of 2011 2nd Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y2" PLAIN="Class of 2011 Sophomore Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y2T3" PLAIN="Class of 2011 1st Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y2T4" PLAIN="Class of 2011 2nd Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y2T5" PLAIN="Class of 2011 1st Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y2T6" PLAIN="Class of 2011 2nd Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y2T7" PLAIN="Class of 2011 1st Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y2T8" PLAIN="Class of 2011 2nd Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y3" PLAIN="Class of 2011 Junior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2011Y4" PLAIN="Class of 2011 Senior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012" PLAIN="Class of 2012"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y1" PLAIN="Class of 2012 Freshman Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y1T1" PLAIN="Class of 2012 1st Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y1T2" PLAIN="Class of 2012 2nd Term Freshman"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y2" PLAIN="Class of 2012 Sophomore Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y2T3" PLAIN="Class of 2012 1st Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y2T4" PLAIN="Class of 2012 2nd Term Sophomore"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y2T5" PLAIN="Class of 2012 1st Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y2T6" PLAIN="Class of 2012 2nd Term Junior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y2T7" PLAIN="Class of 2012 1st Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y2T8" PLAIN="Class of 2012 2nd Term Senior"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y3" PLAIN="Class of 2012 Junior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.CLASS2012Y4" PLAIN="Class of 2012 Senior Year"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2008-2009" PLAIN="Fall Semester of 2008"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2008-2009H1" PLAIN="Fall Semester of 2008 1st Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2008-2009H2" PLAIN="Fall Semester of 2008 2nd Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2009-2010" PLAIN="Fall Semester of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2009-2010H1" PLAIN="Fall Semester of 2009 1st Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2009-2010H2" PLAIN="Fall Semester of 2009 2nd Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2010-2011" PLAIN="Fall Semester of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2010-2011H1" PLAIN="Fall Semester of 2010 1st Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2010-2011H2" PLAIN="Fall Semester of 2010 2nd Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FA2011-2012" PLAIN="Fall Semester of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FY2008-2009" PLAIN="Fiscal Year 2008-2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FY2009-2010" PLAIN="Fiscal Year 2009-2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FY2010-2011" PLAIN="Fiscal Year 2010-2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.FY2011-2012" PLAIN="Fiscal Year 2011-2012"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2008-2009" PLAIN="Spring Semester of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2008-2009BR" PLAIN="Spring Break of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2008-2009H1" PLAIN="Spring Semester of 2009 1st Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2008-2009H2" PLAIN="Spring Semester of 2009 2nd Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2009-2010" PLAIN="Spring Semester of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2009-2010BR" PLAIN="Spring Break of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2009-2010H1" PLAIN="Spring Semester of 2010 1st Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2009-2010H2" PLAIN="Spring Semester of 2010 2nd Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2010-2011" PLAIN="Spring Semester of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2010-2011BR" PLAIN="Spring Break of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2010-2011H1" PLAIN="Spring Semester of 2011 1st Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SP2010-2011H2" PLAIN="Spring Semester of 2011 2nd Half"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009" PLAIN="Summer Term of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009EVE" PLAIN="Summer Evening Session of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009G1" PLAIN="Grad 6 week Block 1 mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009G1A" PLAIN="Grad 3-week Block 1a mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009G1B" PLAIN="Grad 3-week Block 1b mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009G2" PLAIN="Grad 6 week Block 2 mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009G2C" PLAIN="Grad 3-week Block 2c mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009G2D" PLAIN="Grad 3-week Block 2d mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009S1" PLAIN="First Summer Session of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2008-2009S2" PLAIN="Second Summer Session of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010" PLAIN="Summer Semester of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010EVE" PLAIN="Summer Evening Session of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010G1" PLAIN="Grad 6 week Block 1 mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010G1A" PLAIN="Grad 3-week Block 1a mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010G1B" PLAIN="Grad 3-week Block 1b mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010G2" PLAIN="Grad 6 week Block 2 mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010G2C" PLAIN="Grad 3-week Block 2c mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010G2D" PLAIN="Grad 3-week Block 2d mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010S1" PLAIN="First Summer Session of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2009-2010S2" PLAIN="Second Summer Session of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011" PLAIN="Summer Semester of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011EVE" PLAIN="Summer Evening Session of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011G1" PLAIN="Grad 6 week Block 1 mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011G1A" PLAIN="Grad 3-week Block 1a mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011G1B" PLAIN="Grad 3-week Block 1b mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011G2" PLAIN="Grad 6 week Block 2 mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011G2C" PLAIN="Grad 3-week Block 2c mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011G2D" PLAIN="Grad 3-week Block 2d mini-mester"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011S1" PLAIN="First Summer Session of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.SU2010-2011S2" PLAIN="Second Summer Session of 2011"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.WI2008-2009" PLAIN="Winter Semester of 2009"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.WI2009-2010" PLAIN="Winter Semester of 2010"/>
+    <KSAP_RICH_TEXT_T ID="kuali.atp.desc.WI2010-2011" PLAIN="Winter Semester of 2011"/>
+</dataset>

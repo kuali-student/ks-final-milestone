@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
+<dataset>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Administrative Assistant"
+        TYPE_DESC="Administrative Assistant" TYPE_KEY="kuali.org.PersonRelation.AdminAssistant"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Administrative Member"
+        TYPE_DESC="Administrative Member" TYPE_KEY="kuali.org.PersonRelation.AdminMember"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Administrative Officer"
+        TYPE_DESC="Administrative Officer" TYPE_KEY="kuali.org.PersonRelation.AdministrativeOfficer"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Associate Dean"
+        TYPE_DESC="Associate Dean" TYPE_KEY="kuali.org.PersonRelation.AssocDean"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Associate Provost"
+        TYPE_DESC="Associate Provost" TYPE_KEY="kuali.org.PersonRelation.AssocProvost"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Associate Registrar"
+        TYPE_DESC="Associate Registrar" TYPE_KEY="kuali.org.PersonRelation.AssocRegistrar"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Chair" TYPE_DESC="Chair" TYPE_KEY="kuali.org.PersonRelation.Chair"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Chancellor"
+        TYPE_DESC="Chancellor" TYPE_KEY="kuali.org.PersonRelation.Chancellor"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Co-Chair" TYPE_DESC="Co-Chair" TYPE_KEY="kuali.org.PersonRelation.Co-Chair"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Coordinator"
+        TYPE_DESC="Coordinator" TYPE_KEY="kuali.org.PersonRelation.Coordinator"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Dean" TYPE_DESC="Dean" TYPE_KEY="kuali.org.PersonRelation.Dean"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Director" TYPE_DESC="Director" TYPE_KEY="kuali.org.PersonRelation.Director"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000"
+        NAME="Executive Vice President and Provost"
+        TYPE_DESC="Executive VP and Provost" TYPE_KEY="kuali.org.PersonRelation.EVPP"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Ex-Officio Member"
+        TYPE_DESC="Ex-Officio Member" TYPE_KEY="kuali.org.PersonRelation.Ex-Officio"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Executive Officer"
+        TYPE_DESC="Executive Officer" TYPE_KEY="kuali.org.PersonRelation.ExecutiveOfficer"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Head" TYPE_DESC="Head" TYPE_KEY="kuali.org.PersonRelation.Head"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Member" TYPE_DESC="Member" TYPE_KEY="kuali.org.PersonRelation.Member"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Officer" TYPE_DESC="Officer" TYPE_KEY="kuali.org.PersonRelation.Officer"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="President" TYPE_DESC="President" TYPE_KEY="kuali.org.PersonRelation.President"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Professor" TYPE_DESC="Professor" TYPE_KEY="kuali.org.PersonRelation.Professor"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Registrar" TYPE_DESC="Registrar" TYPE_KEY="kuali.org.PersonRelation.Registrar"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Representative"
+        TYPE_DESC="Representative of a constituency" TYPE_KEY="kuali.org.PersonRelation.Rep"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Secretary" TYPE_DESC="Secretary" TYPE_KEY="kuali.org.PersonRelation.Secretary"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Treasurer" TYPE_DESC="Treasurer" TYPE_KEY="kuali.org.PersonRelation.Treasurer"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Vice Chancellor"
+        TYPE_DESC="Vice Chancellor" TYPE_KEY="kuali.org.PersonRelation.ViceChancellor"/>
+    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Vice President"
+        TYPE_DESC="Vice President" TYPE_KEY="kuali.org.PersonRelation.VicePresident"/>
+</dataset>
