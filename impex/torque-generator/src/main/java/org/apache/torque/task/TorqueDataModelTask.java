@@ -200,10 +200,10 @@ public class TorqueDataModelTask extends TexenTask {
 	 */
 	protected Database getDataModel(File file) throws EngineException {
 		// Get a handle to a parser
-		DatabaseParser fileParser = getDatabaseParser();
+		DatabaseParser databaseParser = getDatabaseParser();
 
 		// Parse the file into a database
-		Database database = fileParser.parseResource(file.toString());
+		Database database = databaseParser.parseResource(file.toString());
 
 		// Extract the filename
 		database.setFileName(grokName(file.toString()));
@@ -245,7 +245,7 @@ public class TorqueDataModelTask extends TexenTask {
 	}
 
 	/**
-	 * Parse schema.xml files into Database objects
+	 * Parse schema XML files into Database objects
 	 */
 	protected List<Database> getPopulatedDataModels() throws EngineException {
 		// Allocate some storage
@@ -261,7 +261,7 @@ public class TorqueDataModelTask extends TexenTask {
 			return databases;
 		}
 
-		// Get the list of schema.xml files to parse from our filesets
+		// Get the list of schema XML files to parse from our filesets
 		List<File> dataModelFiles = getDataModelFiles();
 		// Iterate through the list, parsing each schema.xml file into a database object
 		for (File dataModelFile : dataModelFiles) {
