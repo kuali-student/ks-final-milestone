@@ -130,7 +130,7 @@ public class KualiTorqueDataDumpTask extends Task {
 			}
 			// Get an xml parser for the schema XML
 			KualiXmlToAppData xmlParser = new KualiXmlToAppData(getDatabaseType(), "");
-			// Parse schema.xml into a database object
+			// Parse schema XML into a database object
 			Database database = xmlParser.parseFile(getSchemaXMLFile());
 			setDatabase(database);
 
