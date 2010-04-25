@@ -134,7 +134,7 @@ public class KualiTorqueDataDumpTask extends Task {
 				setDatabase(database);
 			} else {
 				log("Unable to locate " + getSchemaXMLFile(), Project.MSG_WARN);
-				log("Will proceed with dumping ALL tables" + getSchemaXMLFile(), Project.MSG_WARN);
+				log("Dumping ALL tables");
 			}
 
 			Class.forName(getDriver());

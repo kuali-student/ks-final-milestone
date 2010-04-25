@@ -41,7 +41,7 @@ public class DataDumpMojo extends AntTaskMojo {
 	/**
 	 * The directory where data XML files will be written
 	 * 
-	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/impex/data"
+	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/data/impex"
 	 * @required
 	 */
 	private File outputDir;
