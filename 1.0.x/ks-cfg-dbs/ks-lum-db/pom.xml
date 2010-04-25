@@ -24,6 +24,20 @@
       <plugin>
         <groupId>org.kuali.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
+        <configuration>
+          <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
+          <delimiter>/</delimiter>
+          <delimiterType>row</delimiterType>
+          <username>KSEMBEDDED</username>
+          <password>KSEMBEDDED</password>
+          <schema>KSEMBEDDED</schema>
+          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <driver>oracle.jdbc.OracleDriver</driver>
+          <orderFile>ascending</orderFile>
+          <keepFormat>true</keepFormat>
+          <schemaXMLName>ks-lum-db</schemaXMLName>
+          <targetDatabase>oracle</targetDatabase>
+        </configuration>
         <executions>
           <execution>
             <id>generate-datadtd</id>
@@ -52,6 +66,13 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.3.0</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
