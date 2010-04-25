@@ -19,12 +19,11 @@ package org.apache.torque.mojo;
  * under the License.
  */
 
-import java.io.File;
-
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.torque.task.TorqueDataModelTask;
+import org.kuali.core.db.torque.Utils;
 
 /**
  * Generates a DTD for the database tables from a schema XML file
@@ -112,9 +111,9 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	protected void configureTask() throws MojoExecutionException {
 		super.configureTask();
 		TorqueDataModelTask task = (TorqueDataModelTask) super.getGeneratorTask();
-		File file = new File(getSchemaXMLFile());
-		if (!file.exists()) {
-			throw new MojoExecutionException("Unable to find schema XML file: " + getSchemaXMLFile());
+		boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
+		if (!exists) {
+			throw new MojoExecutionException("Unable to locate: " + getSchemaXMLFile());
 		}
 		task.setXmlFile(getSchemaXMLFile());
 

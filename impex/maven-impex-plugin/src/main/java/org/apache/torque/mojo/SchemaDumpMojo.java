@@ -34,13 +34,13 @@ public class SchemaDumpMojo extends AntTaskMojo {
 	/**
 	 * The directory where the schema XML file is to be written
 	 * 
-	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/impex/data"
+	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/data/impex"
 	 * @required
 	 */
 	private File outputDir;
 
 	/**
-	 * The schema containing the tables to dump
+	 * The name of the database schema to generate metadata for
 	 * 
 	 * @parameter expression="${schema}"
 	 * @required
