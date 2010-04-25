@@ -28,7 +28,7 @@ public class DataDumpMojo extends AntTaskMojo {
 	 * @parameter expression="${encoding}" default-value= "${project.build.sourceEncoding}"
 	 * @since 1.1
 	 */
-	private String encoding = "";
+	private String encoding;
 
 	/**
 	 * The format to use for dates/timestamps
