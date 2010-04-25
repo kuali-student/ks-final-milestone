@@ -47,6 +47,18 @@
           <groupId>org.kuali.impex</groupId>
           <artifactId>maven-impex-plugin</artifactId>
           <version>1.0.0-SNAPSHOT</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>10.2.0.3.0</version>
+            </dependency>
+            <dependency>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
+              <version>5.1.12</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
