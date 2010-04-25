@@ -9,8 +9,6 @@
   <name>KS Embedded Database</name>
   <description>Kuali Student Embedded Database</description>
   <properties>
-    <ks.db.type>oracle</ks.db.type>
-    <ks.db.driver>oracle.jdbc.OracleDriver</ks.db.driver>
     <ks.embedded.url>jdbc:oracle:thin:@localhost:1521:XE</ks.embedded.url>
     <ks.embedded.schema>KSEMBEDDED</ks.embedded.schema>
     <ks.embedded.username>KSEMBEDDED</ks.embedded.username>
@@ -45,11 +43,6 @@
             <groupId>org.kuali.student.db</groupId>
             <artifactId>ks-rice-db</artifactId>
             <version>1.0.0-m5-SNAPSHOT</version>
-          </dependency>
-          <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
           </dependency>
         </dependencies>
       </plugin>
