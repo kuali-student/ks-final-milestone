@@ -29,7 +29,7 @@ public class SchemaDumpMojo extends AntTaskMojo {
 	 * @parameter expression="${encoding}" default-value= "${project.build.sourceEncoding}"
 	 * @since 1.1
 	 */
-	private String encoding = "UTF-8";
+	private String encoding;
 
 	/**
 	 * The directory where the schema XML file is to be written
