@@ -174,8 +174,8 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 
 		List<File> schemaFiles = getSchemaFiles();
 		for (File schemaFile : schemaFiles) {
-			getLog().info("schemaFile.lastModified=" + schemaFile.lastModified() + " " + schemaFile.getAbsolutePath());
-			getLog().info("report.lastModified=" + report.lastModified() + " " + report.getAbsolutePath());
+			getLog().debug("schemaFile.lastModified=" + schemaFile.lastModified() + " " + schemaFile.getAbsolutePath());
+			getLog().debug("report.lastModified=" + report.lastModified() + " " + report.getAbsolutePath());
 			if (schemaFile.lastModified() > report.lastModified()) {
 				return true;
 			}
