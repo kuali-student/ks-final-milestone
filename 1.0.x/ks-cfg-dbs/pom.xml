@@ -10,6 +10,10 @@
   <packaging>pom</packaging>
   <name>KS Databases</name>
   <description>Kuali Student Databases</description>
+  <properties>
+    <ks.db.type>oracle</ks.db.type>
+    <ks.db.driver>oracle.jdbc.OracleDriver</ks.db.driver>
+  </properties>
   <modules>
     <module>ks-core-db</module>
     <module>ks-lum-db</module>
