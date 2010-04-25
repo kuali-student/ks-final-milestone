@@ -37,7 +37,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -60,7 +59,7 @@ import org.apache.torque.engine.database.model.Table;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
-import org.kuali.core.db.torque.KualiXmlToAppData;
+import org.kuali.core.db.torque.Utils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -706,46 +705,17 @@ public class SqlExecMojo extends AbstractMojo {
 		}
 	}
 
-	protected List<Database> getDatabases() throws MojoExecutionException {
-		String[] locations = StringUtils.split(schemaXMLResources, ",");
-		if (locations == null) {
-			return null;
-		}
-		for (int i = 0; i < locations.length; i++) {
-			locations[i] = locations[i].trim();
-		}
-		DefaultResourceLoader loader = new DefaultResourceLoader();
-		for (String location : locations) {
-			Resource resource = loader.getResource(location);
-			if (!resource.exists()) {
-				throw new MojoExecutionException("Unable to locate " + location);
-			}
-		}
-
-		List<Database> databases = new ArrayList<Database>();
-		for (String location : locations) {
-			// Get an xml parser for schema.xml
-			KualiXmlToAppData xmlParser = new KualiXmlToAppData(getTargetDatabase(), "");
-
-			// Parse schema.xml into a database object
-			try {
-				getLog().info("Adding " + location);
-				Database database = xmlParser.parseFile(location);
-				databases.add(database);
-			} catch (Exception e) {
-				throw new MojoExecutionException("Error parsing: " + location, e);
-			}
-		}
-		return databases;
-	}
-
 	private void addSchemaXMLResourcesToTransactions() throws MojoExecutionException {
 		if (StringUtils.isEmpty(schemaXMLResources)) {
 			return;
 		}
-		List<Database> databases = getDatabases();
-		for (Database database : databases) {
-			handleDatabase(database);
+		try {
+			List<Database> databases = new Utils().getDatabases(getSchemaXMLResources(), getTargetDatabase());
+			for (Database database : databases) {
+				handleDatabase(database);
+			}
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error obtaining databases: " + e);
 		}
 	}
 

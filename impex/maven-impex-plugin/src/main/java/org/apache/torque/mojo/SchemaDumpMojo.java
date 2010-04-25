@@ -48,7 +48,7 @@ public class SchemaDumpMojo extends AntTaskMojo {
 	private String schema;
 
 	/**
-	 * The name that should end up in schema.xml this schema dump
+	 * The name that should end up in the schema XML for this schema dump (ks-core-db, ks-lum-db etc)
 	 * 
 	 * @parameter expression="${schemaXMLName}"
 	 */

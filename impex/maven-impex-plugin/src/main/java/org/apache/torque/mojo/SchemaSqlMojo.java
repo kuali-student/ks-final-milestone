@@ -3,7 +3,7 @@ package org.apache.torque.mojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Generates SQL from schema.xml files
+ * Generates SQL from schema XML files
  * 
  * @goal schemasql
  * @phase generate-sources
