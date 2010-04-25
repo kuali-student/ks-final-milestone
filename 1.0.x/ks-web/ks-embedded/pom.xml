@@ -20,6 +20,12 @@
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
     <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     <ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>
+    <ks.db.type>oracle</ks.db.type>
+    <ks.db.driver>oracle.jdbc.OracleDriver</ks.db.driver>
+    <ks.embedded.url>jdbc:oracle:thin:@localhost:1521:XE</ks.embedded.url>
+    <ks.embedded.schema>KSEMBEDDED</ks.embedded.schema>
+    <ks.embedded.username>KSEMBEDDED</ks.embedded.username>
+    <ks.embedded.password>KSEMBEDDED</ks.embedded.password>
   </properties>
 
   <build>
@@ -30,18 +36,13 @@
         <artifactId>maven-impex-plugin</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <configuration>
-          <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
-          <delimiter>/</delimiter>
-          <delimiterType>row</delimiterType>
-          <username>KSEMBEDDED</username>
-          <password>KSEMBEDDED</password>
-          <schema>KSEMBEDDED</schema>
-          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
-          <driver>oracle.jdbc.OracleDriver</driver>
-          <orderFile>ascending</orderFile>
-          <keepFormat>true</keepFormat>
+          <targetDatabase>${ks.db.type}</targetDatabase>
+          <driver>${ks.db.driver}</driver>
+          <url>${ks.embedded.url}</url>
+          <schema>${ks.embedded.schema}</schema>
+          <username>${ks.embedded.username}</username>
+          <password>${ks.embedded.password}</password>
           <schemaXMLResources>classpath:ks-core-db-schema.xml,classpath:ks-lum-db-schema.xml,classpath:ks-rice-db-schema.xml</schemaXMLResources>
-          <targetDatabase>oracle</targetDatabase>
         </configuration>
         <dependencies>
           <dependency>
