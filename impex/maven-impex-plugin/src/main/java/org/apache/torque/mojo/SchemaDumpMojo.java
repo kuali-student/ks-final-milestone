@@ -50,7 +50,7 @@ public class SchemaDumpMojo extends AntTaskMojo {
 	/**
 	 * The name that should end up in the schema XML for this schema dump (ks-core-db, ks-lum-db etc)
 	 * 
-	 * @parameter expression="${schemaXMLName}"
+	 * @parameter expression="${schemaXMLName}" default-value="${project.artifactId}"
 	 */
 	private String schemaXMLName;
 

@@ -3,6 +3,7 @@ package org.kuali.core.db.torque;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,32 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 public class Utils {
+	NumberFormat nf = NumberFormat.getInstance();
+	String padding = StringUtils.repeat(".", 60);
+
+	public Utils() {
+		super();
+		nf.setMaximumFractionDigits(3);
+		nf.setMinimumFractionDigits(3);
+		nf.setGroupingUsed(false);
+	}
+
+	public String getEncoding(String encoding) {
+		if (StringUtils.isEmpty(encoding)) {
+			return System.getProperty("file.encoding");
+		} else {
+			return encoding;
+		}
+	}
+
+	public String pad(String msg, long millis) {
+		return StringUtils.left(msg + " " + padding, 60) + " " + getElapsed(millis);
+	}
+
+	public String getElapsed(long millis) {
+		return "[" + nf.format(millis / 1000D) + "s]";
+	}
+
 	/**
 	 * Return true if this is a file on the file system OR a resource that Spring can locate
 	 */

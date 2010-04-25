@@ -276,9 +276,9 @@ public class SqlExecMojo extends AbstractMojo {
 	 * Set the delimiter that separates SQL statements.
 	 * 
 	 * @since 1.0
-	 * @parameter expression="${delimiter}" default-value=";"
+	 * @parameter expression="${delimiter}" default-value="/"
 	 */
-	private String delimiter = ";";
+	private String delimiter = "/";
 
 	/**
 	 * <p>
@@ -291,18 +291,18 @@ public class SqlExecMojo extends AbstractMojo {
 	 * </p>
 	 * 
 	 * @since 1.2
-	 * @parameter expression="${delimiterType}" default-value="normal"
+	 * @parameter expression="${delimiterType}" default-value="row"
 	 */
-	private String delimiterType = DelimiterType.NORMAL;
+	private String delimiterType = DelimiterType.ROW;
 
 	/**
 	 * Set the order in which the SQL files will be executed. Possible values are <code>ascending</code> and
 	 * <code>descending</code>. Any other value means that no sorting will be performed.
 	 * 
 	 * @since 1.1
-	 * @parameter expression="${orderFile}"
+	 * @parameter expression="${orderFile}" default-value="ascending"
 	 */
-	private String orderFile = null;
+	private String orderFile = "ascending";
 
 	/**
 	 * When <code>true</code>, the whole SQL content in <code>sqlCommand</code>, <code>srcFiles</code> and
@@ -320,9 +320,9 @@ public class SqlExecMojo extends AbstractMojo {
 	 * Keep the format of an SQL block.
 	 * 
 	 * @since 1.1
-	 * @parameter expression="${keepFormat}" default-value="false"
+	 * @parameter expression="${keepFormat}" default-value="true"
 	 */
-	private boolean keepFormat = false;
+	private boolean keepFormat = true;
 
 	// /////////////////////////////////////////////////////////////////////////////////////
 	/**

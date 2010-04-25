@@ -46,7 +46,7 @@ import static java.sql.Types.*;
  * This task dumps the tables specified by schema.xml to the file system. One table per XML file.
  */
 public class KualiTorqueDataDumpTask extends Task {
-	NumberFormat nf = NumberFormat.getInstance();
+	Utils utils = new Utils();
 	private static final String FS = System.getProperty("file.separator");
 
 	/**
@@ -113,15 +113,13 @@ public class KualiTorqueDataDumpTask extends Task {
 	 * Dump the data to XML files
 	 */
 	public void execute() throws BuildException {
-		nf.setMaximumFractionDigits(3);
-		nf.setMinimumFractionDigits(3);
-		nf.setGroupingUsed(false);
 
 		log("Impex - Starting Data Dump");
 		log("Driver: " + getDriver());
 		log("URL: " + getUrl());
 		log("Username: " + getUsername());
 		log("Schema: " + getSchema());
+		log("Encoding: " + utils.getEncoding(getEncoding()));
 
 		try {
 
@@ -311,11 +309,7 @@ public class KualiTorqueDataDumpTask extends Task {
 			processTable(tableName, platform, dbMetaData);
 		}
 		long elapsed = System.currentTimeMillis() - start;
-		log("Processed " + tableNames.size() + " tables " + getElapsed(elapsed));
-	}
-
-	protected String getElapsed(long millis) {
-		return "[" + nf.format(millis / 1000D) + "s]";
+		log(utils.pad("Processed " + tableNames.size() + " tables", elapsed));
 	}
 
 	protected void processTable(String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {
@@ -326,11 +320,11 @@ public class KualiTorqueDataDumpTask extends Task {
 		long ts1 = System.currentTimeMillis();
 		DocumentImpl doc = getDocument(tableName, platform, dbMetaData);
 		long ts2 = System.currentTimeMillis();
-		log("Extracting: " + tableName + " " + getElapsed(ts2 - ts1), Project.MSG_DEBUG);
+		log(utils.pad("Extracting: " + tableName + " ", ts2 - ts1), Project.MSG_DEBUG);
 		serialize(tableName, doc);
 		long ts3 = System.currentTimeMillis();
-		log("Serializing: " + tableName + " " + getElapsed(ts3 - ts2), Project.MSG_DEBUG);
-		log("Processed: " + tableName + " " + getElapsed(ts3 - ts1));
+		log(utils.pad("Serializing: " + tableName + " ", ts3 - ts2), Project.MSG_DEBUG);
+		log(utils.pad(tableName, (ts3 - ts1)));
 	}
 
 	protected Writer getWriter(String tableName) throws FileNotFoundException {
