@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.apache.xml.serialize.XMLSerializer;
 import org.w3c.dom.Element;
 
 public class KualiTorqueSchemaDumpTask extends Task {
+	NumberFormat nf = NumberFormat.getInstance();
 
 	// some flags for making it easier to debug
 	private final boolean processTables = true;
@@ -104,6 +106,10 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	 * @throws BuildException
 	 */
 	public void execute() throws BuildException {
+		nf.setMaximumFractionDigits(3);
+		nf.setMinimumFractionDigits(3);
+		nf.setGroupingUsed(false);
+
 		log("Impex - Schema Dump starting");
 		log("Your DB settings are: ");
 		log("Driver: " + driver);
@@ -126,6 +132,10 @@ public class KualiTorqueSchemaDumpTask extends Task {
 			throw new BuildException(e);
 		}
 		log("Impex - Schema Dump finished");
+	}
+
+	protected String getElapsed(long millis) {
+		return "[" + nf.format(millis / 1000D) + "s]";
 	}
 
 	/**
@@ -163,7 +173,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 				log("Found " + tableList.size() + " tables");
 
 				for (String curTable : tableList) {
-					log("Processing table: " + curTable);
+					long start = System.currentTimeMillis();
 
 					Element table = doc.createElement("table");
 					table.setAttribute("name", curTable);
@@ -289,6 +299,8 @@ public class KualiTorqueSchemaDumpTask extends Task {
 					}
 
 					databaseNode.appendChild(table);
+					long elapsed = System.currentTimeMillis() - start;
+					log("Processed table: " + curTable + " " + getElapsed(elapsed));
 				}
 			}
 			if (processViews) {
