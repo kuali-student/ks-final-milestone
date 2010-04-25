@@ -143,7 +143,7 @@ public class TorqueDataModelTask extends TexenTask {
 	 *            The new XmlFile value
 	 */
 	public void setXmlFile(String xmlFile) {
-		this.xmlFile = getProject().resolveFile(xmlFile).toString();
+		this.xmlFile = xmlFile;
 	}
 
 	/**
@@ -196,14 +196,14 @@ public class TorqueDataModelTask extends TexenTask {
 	}
 
 	/**
-	 * Parse a schema.xml File into a Database object
+	 * Parse a schema XML File into a Database object
 	 */
 	protected Database getDataModel(File file) throws EngineException {
 		// Get a handle to a parser
 		DatabaseParser fileParser = getDatabaseParser();
 
 		// Parse the file into a database
-		Database database = fileParser.parseFile(file.toString());
+		Database database = fileParser.parseResource(file.toString());
 
 		// Extract the filename
 		database.setFileName(grokName(file.toString()));
@@ -213,7 +213,7 @@ public class TorqueDataModelTask extends TexenTask {
 	}
 
 	/**
-	 * Get the list of schema.xml files from our filesets
+	 * Get the list of schema XML files from our filesets
 	 */
 	protected List<File> getDataModelFiles() {
 		// Allocate some storage

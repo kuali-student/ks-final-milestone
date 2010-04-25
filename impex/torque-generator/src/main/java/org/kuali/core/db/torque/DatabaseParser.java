@@ -8,6 +8,6 @@ import org.apache.torque.engine.database.model.Database;
  */
 public interface DatabaseParser {
 
-	public Database parseFile(String xmlFile) throws EngineException;
+	public Database parseResource(String location) throws EngineException;
 
 }

@@ -102,7 +102,7 @@ public class KualiTorqueDataSQLTask extends TorqueDataModelTask {
 		KualiXmlToAppData xmlParser = new KualiXmlToAppData(getTargetDatabase(), "");
 
 		// Parse schema.xml into a database object
-		Database database = xmlParser.parseFile(getXmlFile());
+		Database database = xmlParser.parseResource(getXmlFile());
 		setDatabase(database);
 
 		// Locate the DTD

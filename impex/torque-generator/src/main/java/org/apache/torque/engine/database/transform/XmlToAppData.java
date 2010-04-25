@@ -121,7 +121,7 @@ public class XmlToAppData extends DefaultHandler implements DatabaseParser
      * @param xmlFile The input file to parse.
      * @return Database populated by <code>xmlFile</code>.
      */
-    public Database parseFile(String xmlFile)
+    public Database parseResource(String xmlFile)
             throws EngineException
     {
         try
@@ -266,7 +266,7 @@ public class XmlToAppData extends DefaultHandler implements DatabaseParser
 
                 isExternalSchema = true;
 
-                parseFile(xmlFile);
+                parseResource(xmlFile);
                 // get the last state from the stack
                 ParseStackElement.popState(this);
             }

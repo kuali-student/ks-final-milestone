@@ -106,32 +106,32 @@ public class KualiXmlToAppData extends DefaultHandler implements DatabaseParser 
 	 *            The input file to parse.
 	 * @return Database populated by <code>xmlFile</code>.
 	 */
-	public KualiDatabase parseFile(String xmlFile) throws EngineException {
+	public KualiDatabase parseResource(String location) throws EngineException {
 		try {
 			// in case I am missing something, make it obvious
 			if (!firstPass) {
 				throw new Error("No more double pass");
 			}
 			// check to see if we alread have parsed the file
-			if ((alreadyReadFiles != null) && alreadyReadFiles.contains(xmlFile)) {
+			if ((alreadyReadFiles != null) && alreadyReadFiles.contains(location)) {
 				return database;
 			} else if (alreadyReadFiles == null) {
 				alreadyReadFiles = new Vector<String>(3, 1);
 			}
 
 			// remember the file to avoid looping
-			alreadyReadFiles.add(xmlFile);
+			alreadyReadFiles.add(location);
 
-			currentXmlFile = xmlFile;
+			currentXmlFile = location;
 
 			saxFactory.setValidating(false);
 			SAXParser parser = saxFactory.newSAXParser();
 
 			InputStream in = null;
 			try {
-				in = getInputStream(xmlFile);
+				in = getInputStream(location);
 				InputSource is = new InputSource(in);
-				is.setSystemId(xmlFile);
+				is.setSystemId(location);
 				parser.parse(is, this);
 			} finally {
 				in.close();
@@ -203,7 +203,7 @@ public class KualiXmlToAppData extends DefaultHandler implements DatabaseParser 
 
 				isExternalSchema = true;
 
-				parseFile(xmlFile);
+				parseResource(xmlFile);
 				// get the last state from the stack
 				ParseStackElement.popState(this);
 			} else if (rawName.equals("domain")) {

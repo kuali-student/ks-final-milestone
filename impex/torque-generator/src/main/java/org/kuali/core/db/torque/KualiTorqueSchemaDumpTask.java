@@ -119,6 +119,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 
 		try {
 			generateXML();
+			log("Encoding: " + getEncoding());
 			xmlSerializer = new XMLSerializer(new PrintWriter(new FileOutputStream(schemaXMLFile)), new OutputFormat(Method.XML, getEncoding(), true));
 			xmlSerializer.serialize(doc);
 		} catch (Exception e) {

@@ -124,15 +124,16 @@ public class KualiTorqueDataDumpTask extends Task {
 
 		try {
 
-			File file = new File(getSchemaXMLFile());
-			if (!file.exists()) {
-				throw new BuildException("Unable to locate: " + getSchemaXMLFile());
+			boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
+			if (exists) {
+				// Get an xml parser for the schema XML
+				KualiXmlToAppData xmlParser = new KualiXmlToAppData(getDatabaseType(), "");
+				// Parse schema XML into a database object
+				Database database = xmlParser.parseResource(getSchemaXMLFile());
+				setDatabase(database);
+			} else {
+				log("Unable to locate " + getSchemaXMLFile(), Project.MSG_WARN);
 			}
-			// Get an xml parser for the schema XML
-			KualiXmlToAppData xmlParser = new KualiXmlToAppData(getDatabaseType(), "");
-			// Parse schema XML into a database object
-			Database database = xmlParser.parseFile(getSchemaXMLFile());
-			setDatabase(database);
 
 			Class.forName(getDriver());
 			connection = DriverManager.getConnection(getUrl(), getUsername(), getPassword());
@@ -245,10 +246,10 @@ public class KualiTorqueDataDumpTask extends Task {
 	}
 
 	protected String getSystemId() {
-		if (getDatabase().getName() != null) {
+		if (getDatabase() != null && getDatabase().getName() != null) {
 			return getDatabase().getName() + "-data.dtd";
 		} else if (getSchema() != null) {
-			return getSchema() + "-data.dtd";
+			return getSchema().toLowerCase() + "-data.dtd";
 		} else {
 			return "data.dtd";
 		}
