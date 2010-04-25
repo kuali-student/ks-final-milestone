@@ -6,7 +6,6 @@
     <version>1.0.0-m5-SNAPSHOT</version>
   </parent>
   <artifactId>ks-embedded-db</artifactId>
-  <packaging>pom</packaging>
   <name>KS Embedded Database</name>
   <description>Kuali Student Embedded Database</description>
   <properties>
