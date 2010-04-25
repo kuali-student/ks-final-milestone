@@ -18,5 +18,6 @@
     <module>ks-core-db</module>
     <module>ks-lum-db</module>
     <module>ks-rice-db</module>
+    <module>ks-embedded-db</module>
   </modules>
 </project>
