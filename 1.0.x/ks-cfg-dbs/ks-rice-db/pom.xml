@@ -8,6 +8,12 @@
   <artifactId>ks-rice-db</artifactId>
   <name>KS Rice Database</name>
   <description>Kuali Student Rice Database</description>
+  <properties>
+    <ks.rice.url>jdbc:oracle:thin:@localhost:1521:XE</ks.rice.url>
+    <ks.rice.schema>KSRICE</ks.rice.schema>
+    <ks.rice.username>KSRICE</ks.rice.username>
+    <ks.rice.password>KSRICE</ks.rice.password>
+  </properties>
   <build>
     <resources>
       <resource>
@@ -21,6 +27,14 @@
       <plugin>
         <groupId>org.kuali.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
+        <configuration>
+          <targetDatabase>${ks.db.type}</targetDatabase>
+          <driver>${ks.db.driver}</driver>
+          <url>${ks.rice.url}</url>
+          <schema>${ks.rice.schema}</schema>
+          <username>${ks.rice.username}</username>
+          <password>${ks.rice.password}</password>
+        </configuration>
         <executions>
           <execution>
             <id>generate-datadtd</id>

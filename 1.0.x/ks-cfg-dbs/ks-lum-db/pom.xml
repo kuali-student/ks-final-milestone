@@ -8,6 +8,12 @@
   <artifactId>ks-lum-db</artifactId>
   <name>KS LUM Database</name>
   <description>Kuali Student Learning Unit Management Database</description>
+  <properties>
+    <ks.lum.url>jdbc:oracle:thin:@localhost:1521:XE</ks.lum.url>
+    <ks.lum.schema>KSLUM</ks.lum.schema>
+    <ks.lum.username>KSLUM</ks.lum.username>
+    <ks.lum.password>KSLUM</ks.lum.password>
+  </properties>
   <build>
     <resources>
       <resource>
@@ -22,18 +28,12 @@
         <groupId>org.kuali.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <configuration>
-          <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
-          <delimiter>/</delimiter>
-          <delimiterType>row</delimiterType>
-          <username>KSEMBEDDED</username>
-          <password>KSEMBEDDED</password>
-          <schema>KSEMBEDDED</schema>
-          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
-          <driver>oracle.jdbc.OracleDriver</driver>
-          <orderFile>ascending</orderFile>
-          <keepFormat>true</keepFormat>
-          <schemaXMLName>ks-lum-db</schemaXMLName>
-          <targetDatabase>oracle</targetDatabase>
+          <targetDatabase>${ks.db.type}</targetDatabase>
+          <driver>${ks.db.driver}</driver>
+          <url>${ks.lum.url}</url>
+          <schema>${ks.lum.schema}</schema>
+          <username>${ks.lum.username}</username>
+          <password>${ks.lum.password}</password>
         </configuration>
         <executions>
           <execution>
