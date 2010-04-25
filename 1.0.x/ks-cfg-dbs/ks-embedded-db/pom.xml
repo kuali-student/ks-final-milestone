@@ -5,9 +5,9 @@
     <artifactId>ks-cfg-dbs</artifactId>
     <version>1.0.0-m5-SNAPSHOT</version>
   </parent>
-  <artifactId>ks-core-db</artifactId>
-  <name>KS Core Database</name>
-  <description>Kuali Student Core Database</description>
+  <artifactId>ks-embedded-db</artifactId>
+  <name>KS Embedded Database</name>
+  <description>Kuali Student Embedded Database</description>
   <build>
     <resources>
       <resource>
