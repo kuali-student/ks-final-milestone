@@ -52,7 +52,28 @@
               <goal>datadtd</goal>
             </goals>
           </execution>
+          <execution>
+            <id>generate-oracle-sql</id>
+            <configuration>
+              <targetDatabase>oracle</targetDatabase>
+            </configuration>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datasql</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-mysql-sql</id>
+            <configuration>
+              <targetDatabase>mysql</targetDatabase>
+            </configuration>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datasql</goal>
+            </goals>
+          </execution>
         </executions>
+      </executions>
         <dependencies>
           <dependency>
             <groupId>org.kuali.student.db</groupId>
