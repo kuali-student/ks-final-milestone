@@ -69,6 +69,7 @@ import org.springframework.core.io.Resource;
  * @goal sqlexec
  */
 public class SqlExecMojo extends AbstractMojo {
+	Utils utils = new Utils();
 
 	/**
 	 * Call {@link #setOnError(String)} with this value to abort SQL command execution if an error is found.
@@ -838,7 +839,9 @@ public class SqlExecMojo extends AbstractMojo {
 	 * 
 	 */
 	private Connection getConnection() throws MojoExecutionException, SQLException {
-		getLog().debug("connecting to " + getUrl());
+		getLog().info("URL: " + getUrl());
+		getLog().info("Username: " + getUsername());
+		getLog().info("Driver: " + getDriver());
 		Properties info = new Properties();
 		info.put("user", getUsername());
 
@@ -1142,7 +1145,9 @@ public class SqlExecMojo extends AbstractMojo {
 		}
 
 		private void runResource(String resourceLocation, PrintStream out) throws IOException, SQLException {
-			getLog().info("Executing \"" + resourceLocation + "\"");
+			String msg = "[INFO] " + resourceLocation + " ";
+			System.out.print(msg);
+			long start = System.currentTimeMillis();
 			DefaultResourceLoader loader = new DefaultResourceLoader();
 			Resource resource = loader.getResource(resourceLocation);
 			Reader reader = null;
@@ -1158,6 +1163,11 @@ public class SqlExecMojo extends AbstractMojo {
 			} finally {
 				reader.close();
 			}
+			long millis = System.currentTimeMillis() - start;
+			String elapsed = utils.getElapsed(millis);
+			String padding = StringUtils.repeat(".", 74);
+			String right = padding + " " + elapsed;
+			System.out.println(StringUtils.right(right, 74 - msg.length()));
 		}
 
 		private void runFile(File file, PrintStream out) throws IOException, SQLException {

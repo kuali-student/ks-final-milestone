@@ -15,7 +15,8 @@ import org.springframework.core.io.ResourceLoader;
 
 public class Utils {
 	NumberFormat nf = NumberFormat.getInstance();
-	String padding = StringUtils.repeat(".", 60);
+	int length = 60;
+	String padding = StringUtils.repeat(".", length);
 
 	public Utils() {
 		super();
@@ -33,7 +34,7 @@ public class Utils {
 	}
 
 	public String pad(String msg, long millis) {
-		return StringUtils.left(msg + " " + padding, 60) + " " + getElapsed(millis);
+		return StringUtils.left(msg + " " + padding, length) + " " + getElapsed(millis);
 	}
 
 	public String getElapsed(long millis) {
