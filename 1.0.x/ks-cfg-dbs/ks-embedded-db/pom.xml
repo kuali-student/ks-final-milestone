@@ -26,9 +26,27 @@
         <artifactId>maven-impex-plugin</artifactId>
         <executions>
           <execution>
-            <id>generate-data-dtd</id>
+            <id>generate-core-data-dtd</id>
+            <configuration>
+              <schemaXMLFile>classpath:ks-core-db-schema.xml</schemaXMLFile>
+            </configuration>
+            <goals>
+              <goal>datadtd</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-lum-data-dtd</id>
             <configuration>
               <schemaXMLFile>classpath:ks-lum-db-schema.xml</schemaXMLFile>
+            </configuration>
+            <goals>
+              <goal>datadtd</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-rice-data-dtd</id>
+            <configuration>
+              <schemaXMLFile>classpath:ks-rice-db-schema.xml</schemaXMLFile>
             </configuration>
             <goals>
               <goal>datadtd</goal>
