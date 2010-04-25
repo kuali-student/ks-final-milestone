@@ -24,8 +24,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.Reader;
@@ -59,9 +59,11 @@ import org.apache.torque.engine.database.model.Table;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 /**
  * Executes SQL against a database.
@@ -1145,46 +1147,39 @@ public class SqlExecMojo extends AbstractMojo {
 		}
 
 		private void runResource(String resourceLocation, PrintStream out) throws IOException, SQLException {
-			String msg = "[INFO] " + resourceLocation + " ";
-			System.out.print(msg);
-			long start = System.currentTimeMillis();
-			DefaultResourceLoader loader = new DefaultResourceLoader();
+			PrettyPrint pp = new PrettyPrint("[INFO] " + resourceLocation + " ");
+			utils.left(pp);
+			ResourceLoader loader = new DefaultResourceLoader();
 			Resource resource = loader.getResource(resourceLocation);
 			Reader reader = null;
-
-			if (StringUtils.isEmpty(encoding)) {
-				reader = new InputStreamReader(resource.getInputStream());
-			} else {
-				reader = new InputStreamReader(resource.getInputStream(), encoding);
-			}
-
 			try {
+				reader = getReader(resource.getInputStream());
 				runStatements(reader, out);
 			} finally {
 				reader.close();
 			}
-			long millis = System.currentTimeMillis() - start;
-			String elapsed = utils.getElapsed(millis);
-			String padding = StringUtils.repeat(".", 74);
-			String right = padding + " " + elapsed;
-			System.out.println(StringUtils.right(right, 74 - msg.length()));
+			utils.right(pp);
 		}
 
 		private void runFile(File file, PrintStream out) throws IOException, SQLException {
-			getLog().info("Executing file: " + file.getName());
+			PrettyPrint pp = new PrettyPrint("[INFO] " + file.getName() + " ");
+			utils.left(pp);
 
 			Reader reader = null;
-
-			if (StringUtils.isEmpty(encoding)) {
-				reader = new FileReader(file);
-			} else {
-				reader = new InputStreamReader(new FileInputStream(file), encoding);
-			}
-
 			try {
+				reader = getReader(new FileInputStream(file));
 				runStatements(reader, out);
 			} finally {
 				reader.close();
+			}
+			utils.right(pp);
+		}
+
+		protected Reader getReader(InputStream in) throws IOException {
+			if (StringUtils.isEmpty(getEncoding())) {
+				return new InputStreamReader(in);
+			} else {
+				return new InputStreamReader(in, getEncoding());
 			}
 		}
 
@@ -1391,5 +1386,9 @@ public class SqlExecMojo extends AbstractMojo {
 
 	public void setSchemaXMLResources(String schemaXMLResources) {
 		this.schemaXMLResources = schemaXMLResources;
+	}
+
+	public String getEncoding() {
+		return encoding;
 	}
 }

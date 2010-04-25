@@ -25,6 +25,19 @@ public class Utils {
 		nf.setGroupingUsed(false);
 	}
 
+	public void right(PrettyPrint pp) {
+		long millis = System.currentTimeMillis() - pp.getStart();
+		String elapsed = getElapsed(millis);
+		String padding = StringUtils.repeat(".", 79);
+		String right = padding + " " + elapsed;
+		System.out.println(StringUtils.right(right, 79 - pp.getMsg().length()));
+	}
+	
+	public void left(PrettyPrint pp) {
+		System.out.print(pp.getMsg());
+		pp.setStart(System.currentTimeMillis());
+	}
+
 	public String getEncoding(String encoding) {
 		if (StringUtils.isEmpty(encoding)) {
 			return System.getProperty("file.encoding");
