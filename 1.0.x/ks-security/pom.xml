@@ -36,7 +36,7 @@
   </repositories>
   <properties>
     <atomikos.version>3.4.1</atomikos.version>
-    <cxf.version>2.2</cxf.version>
+    <cxf.version>2.2.6</cxf.version>
     <gwtVersion>1.6.4</gwtVersion>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
