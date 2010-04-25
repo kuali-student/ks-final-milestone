@@ -38,7 +38,7 @@ public class Utils {
 		int leftWidth = msg.length() + 1;
 		int rightWidth = elapsed.length() + 1;
 		int chop = leftWidth + rightWidth;
-		if ((leftWidth + rightWidth) > padding.length()) {
+		if (chop > padding.length()) {
 			return msg + " " + elapsed;
 		} else {
 			return msg + " " + padding.substring(chop) + " " + elapsed;
