@@ -123,9 +123,13 @@ public class KualiTorqueDataDumpTask extends Task {
 		log("Schema: " + getSchema());
 
 		try {
-			// Get an xml parser for schema.xml
-			KualiXmlToAppData xmlParser = new KualiXmlToAppData(getDatabaseType(), "");
 
+			File file = new File(getSchemaXMLFile());
+			if (!file.exists()) {
+				throw new BuildException("Unable to locate: " + getSchemaXMLFile());
+			}
+			// Get an xml parser for the schema XML
+			KualiXmlToAppData xmlParser = new KualiXmlToAppData(getDatabaseType(), "");
 			// Parse schema.xml into a database object
 			Database database = xmlParser.parseFile(getSchemaXMLFile());
 			setDatabase(database);
@@ -278,27 +282,28 @@ public class KualiTorqueDataDumpTask extends Task {
 		DatabaseMetaData dbMetaData = con.getMetaData();
 		Platform platform = PlatformFactory.getPlatformFor(getDatabaseType());
 		Set<String> jdbcTableNames = getSet(getJDBCTableNames(dbMetaData));
+		log("JDBC Table Count: " + jdbcTableNames.size());
 		Set<String> schemaXMLNames = getSet(getTableNamesFromTableObjects(getDatabase().getTables()));
-
 		Set<String> extraTables = SetUtils.difference(jdbcTableNames, schemaXMLNames);
 		Set<String> missingTables = SetUtils.difference(schemaXMLNames, jdbcTableNames);
 		Set<String> intersection = SetUtils.intersection(jdbcTableNames, schemaXMLNames);
-
-		log("JDBC Table Count: " + jdbcTableNames.size());
 		log("Schema XML Table Count: " + schemaXMLNames.size());
 		log("Tables present in both: " + intersection.size());
 		log("Tables in JDBC that will not be dumped: " + extraTables.size());
-
 		if (missingTables.size() > 0) {
 			throw new BuildException("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]");
 		}
+		processTables(intersection, platform, dbMetaData);
 
+	}
+
+	protected void processTables(Set<String> tableNames, Platform platform, DatabaseMetaData dbMetaData) throws IOException, SQLException {
 		long start = System.currentTimeMillis();
-		for (String tableName : schemaXMLNames) {
+		for (String tableName : tableNames) {
 			processTable(tableName, platform, dbMetaData);
 		}
 		long elapsed = System.currentTimeMillis() - start;
-		log("Processed " + schemaXMLNames.size() + " tables [" + getElapsed(elapsed) + " ms]");
+		log("Processed " + tableNames.size() + " tables [" + getElapsed(elapsed) + " ms]");
 	}
 
 	protected String getElapsed(long elapsed) {
