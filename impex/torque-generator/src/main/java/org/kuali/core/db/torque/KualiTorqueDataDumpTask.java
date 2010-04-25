@@ -113,8 +113,9 @@ public class KualiTorqueDataDumpTask extends Task {
 	 * Dump the data to XML files
 	 */
 	public void execute() throws BuildException {
-		nf.setMaximumFractionDigits(0);
-		nf.setMinimumFractionDigits(0);
+		nf.setMaximumFractionDigits(3);
+		nf.setMinimumFractionDigits(3);
+		nf.setGroupingUsed(false);
 
 		log("Impex - Starting Data Dump");
 		log("Driver: " + getDriver());
@@ -133,6 +134,7 @@ public class KualiTorqueDataDumpTask extends Task {
 				setDatabase(database);
 			} else {
 				log("Unable to locate " + getSchemaXMLFile(), Project.MSG_WARN);
+				log("Will proceed with dumping ALL tables" + getSchemaXMLFile(), Project.MSG_WARN);
 			}
 
 			Class.forName(getDriver());
@@ -284,17 +286,22 @@ public class KualiTorqueDataDumpTask extends Task {
 		Platform platform = PlatformFactory.getPlatformFor(getDatabaseType());
 		Set<String> jdbcTableNames = getSet(getJDBCTableNames(dbMetaData));
 		log("JDBC Table Count: " + jdbcTableNames.size());
-		Set<String> schemaXMLNames = getSet(getTableNamesFromTableObjects(getDatabase().getTables()));
-		Set<String> extraTables = SetUtils.difference(jdbcTableNames, schemaXMLNames);
-		Set<String> missingTables = SetUtils.difference(schemaXMLNames, jdbcTableNames);
-		Set<String> intersection = SetUtils.intersection(jdbcTableNames, schemaXMLNames);
-		log("Schema XML Table Count: " + schemaXMLNames.size());
-		log("Tables present in both: " + intersection.size());
-		log("Tables in JDBC that will not be dumped: " + extraTables.size());
-		if (missingTables.size() > 0) {
-			throw new BuildException("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]");
+		boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
+		if (exists) {
+			Set<String> schemaXMLNames = getSet(getTableNamesFromTableObjects(getDatabase().getTables()));
+			Set<String> extraTables = SetUtils.difference(jdbcTableNames, schemaXMLNames);
+			Set<String> missingTables = SetUtils.difference(schemaXMLNames, jdbcTableNames);
+			Set<String> intersection = SetUtils.intersection(jdbcTableNames, schemaXMLNames);
+			log("Schema XML Table Count: " + schemaXMLNames.size());
+			log("Tables present in both: " + intersection.size());
+			log("Tables in JDBC that will not be dumped: " + extraTables.size());
+			if (missingTables.size() > 0) {
+				throw new BuildException("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]");
+			}
+			processTables(intersection, platform, dbMetaData);
+		} else {
+			processTables(jdbcTableNames, platform, dbMetaData);
 		}
-		processTables(intersection, platform, dbMetaData);
 
 	}
 
@@ -304,11 +311,11 @@ public class KualiTorqueDataDumpTask extends Task {
 			processTable(tableName, platform, dbMetaData);
 		}
 		long elapsed = System.currentTimeMillis() - start;
-		log("Processed " + tableNames.size() + " tables [" + getElapsed(elapsed) + " ms]");
+		log("Processed " + tableNames.size() + " tables " + getElapsed(elapsed));
 	}
 
-	protected String getElapsed(long elapsed) {
-		return nf.format(elapsed);
+	protected String getElapsed(long millis) {
+		return "[" + nf.format(millis / 1000D) + "s]";
 	}
 
 	protected void processTable(String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {
@@ -319,11 +326,11 @@ public class KualiTorqueDataDumpTask extends Task {
 		long ts1 = System.currentTimeMillis();
 		DocumentImpl doc = getDocument(tableName, platform, dbMetaData);
 		long ts2 = System.currentTimeMillis();
-		log("Extracting: " + tableName + " [" + getElapsed(ts2 - ts1) + " ms]", Project.MSG_DEBUG);
+		log("Extracting: " + tableName + " " + getElapsed(ts2 - ts1), Project.MSG_DEBUG);
 		serialize(tableName, doc);
 		long ts3 = System.currentTimeMillis();
-		log("Serializing: " + tableName + " [" + getElapsed(ts3 - ts2) + " ms]", Project.MSG_DEBUG);
-		log("Processed: " + tableName + " [" + getElapsed(ts3 - ts1) + " ms]");
+		log("Serializing: " + tableName + " " + getElapsed(ts3 - ts2), Project.MSG_DEBUG);
+		log("Processed: " + tableName + " " + getElapsed(ts3 - ts1));
 	}
 
 	protected Writer getWriter(String tableName) throws FileNotFoundException {
