@@ -112,7 +112,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		log("Username: " + username);
 		log("Schema: " + schema);
 		log("Schema XML Name: " + schemaXMLName);
-		log("Dumping to: " + schemaXMLFile.getName());
+		log("Dumping to: " + schemaXMLFile.getAbsolutePath());
 
 		DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
 		doc = new DocumentImpl(docType);
