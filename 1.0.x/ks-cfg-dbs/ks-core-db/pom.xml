@@ -8,6 +8,12 @@
   <artifactId>ks-core-db</artifactId>
   <name>KS Core Database</name>
   <description>Kuali Student Core Database</description>
+  <properties>
+    <ks.core.url>jdbc:oracle:thin:@localhost:1521:XE</ks.core.url>
+    <ks.core.schema>KSCORE</ks.core.schema>
+    <ks.core.username>KSCORE</ks.core.username>
+    <ks.core.password>KSCORE</ks.core.password>
+  </properties>
   <build>
     <resources>
       <resource>
@@ -24,6 +30,14 @@
       <plugin>
         <groupId>org.kuali.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
+        <configuration>
+          <targetDatabase>${ks.db.type}</targetDatabase>
+          <driver>${ks.db.driver}</driver>
+          <url>${ks.core.url}</url>
+          <schema>${ks.core.schema}</schema>
+          <username>${ks.core.username}</username>
+          <password>${ks.core.password}</password>
+        </configuration>
         <executions>
           <execution>
             <id>generate-data-dtd</id>
