@@ -18,6 +18,7 @@
 #set ( $purgefname= "sql/load/${targetDatabase}/purge.vm" )
 $xmlfiles
 #foreach ( $f in $xmlfiles )
+    ${task.onBeforeGenerate($f)}
 	#set ( $data = ${task.getData( $f )} )
 	#if ( ${data.size()} > 0 ) 	
 		#set ( $currTable = ${data.get(0).Table.Name} )
@@ -26,5 +27,6 @@ $xmlfiles
 			$generator.parse($fname,"${currTable}.sql","row",$r)
 		#end
 	#end
+    ${task.onAfterGenerate($f)}
 ##	##$generator.shutdown()
 #end

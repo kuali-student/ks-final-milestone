@@ -2,7 +2,9 @@ package org.kuali.core.db.torque;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -23,6 +25,8 @@ import org.springframework.util.StringUtils;
  * data XML file
  */
 public class KualiTorqueDataSQLTask extends TorqueDataModelTask {
+	Utils utils = new Utils();
+	Map<Thread, PrettyPrint> currentThread = new HashMap<Thread, PrettyPrint>();
 
 	/**
 	 * The directory for the DTD
@@ -137,16 +141,23 @@ public class KualiTorqueDataSQLTask extends TorqueDataModelTask {
 		return context;
 	}
 
+	public void onBeforeGenerate(File file) {
+		PrettyPrint pp = new PrettyPrint("[INFO] Generating: " + getTargetDatabase() + "/" + StringUtils.replace(file.getName(), ".xml", ".sql"));
+		utils.left(pp);
+		currentThread.put(Thread.currentThread(), pp);
+	}
+
+	public void onAfterGenerate(File file) {
+		utils.right(currentThread.remove(Thread.currentThread()));
+	}
+
 	/**
 	 * Parse a data XML file. This method gets invoked from the Velocity template - sql/load/Control.vm
 	 */
 	public List<?> getData(File file) {
 		try {
-			long start = System.currentTimeMillis();
 			XmlToData dataXmlParser = new XmlToData(getDatabase(), getDataDTD().getAbsolutePath());
 			List<?> newData = dataXmlParser.parseFile(file.getAbsolutePath());
-			long elapsed = System.currentTimeMillis() - start;
-			log("Generating: " + getTargetDatabase() + "/" + StringUtils.replace(file.getName(), ".xml", ".sql") + " [" + elapsed + " ms]");
 			return newData;
 		} catch (Exception e) {
 			throw new BuildException(e);
