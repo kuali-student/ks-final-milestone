@@ -3,7 +3,9 @@ package org.kuali.core.db.torque;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.torque.task.TorqueDataModelTask;
@@ -13,6 +15,8 @@ import org.apache.velocity.context.Context;
  * Generate schema.sql and schema-constraints.sql from schema.xml files
  */
 public class KualiTorqueSQLTask extends TorqueDataModelTask {
+	Utils utils = new Utils();
+	Map<Thread, PrettyPrint> currentThread = new HashMap<Thread, PrettyPrint>();
 
 	private String database;
 
@@ -104,6 +108,16 @@ public class KualiTorqueSQLTask extends TorqueDataModelTask {
 
 		sqldbmap.store(new FileOutputStream(getSqlDbMap()), "Sqlfile -> Database map");
 		sqldbmap_c.store(new FileOutputStream(getSqlDbMap() + "-constraints"), "Sqlfile -> Database map");
+	}
+
+	public void onBeforeGenerate() {
+		PrettyPrint pp = new PrettyPrint("[INFO] Generating schema SQL ");
+		currentThread.put(Thread.currentThread(), pp);
+		utils.left(pp);
+	}
+
+	public void onAfterGenerate() {
+		utils.right(currentThread.remove(Thread.currentThread()));
 	}
 
 	/**
