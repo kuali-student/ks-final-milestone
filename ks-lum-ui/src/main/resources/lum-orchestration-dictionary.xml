@@ -3747,7 +3747,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
-                <ref bean="constraint.optional" />
+                <ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -3772,7 +3772,7 @@
 		<property name="dataType" value="STRING" />		
 		<property name="constraints">
 			<list>
-                <ref bean="constraint.optional" />
+                <ref bean="constraint.required" />
 				<ref bean="constraint.single" />				
 			</list>
 		</property>
@@ -3784,7 +3784,7 @@
 		<property name="dataType" value="STRING" />		
 		<property name="constraints">
 			<list>
-                <ref bean="constraint.optional" />
+                <ref bean="constraint.required" />
 				<ref bean="constraint.single" />				
 			</list>
 		</property>
