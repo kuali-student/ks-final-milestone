@@ -1372,7 +1372,7 @@ public class LuServiceImpl implements LuService {
 							luDao));
 
 		} else if (clu.getAccounting() != null) {
-			luDao.delete(clu.getAccounting());
+			clu.setAccounting(null);
 		}
 
 		clu.setAttributes(LuServiceAssembler.toGenericAttributes(
