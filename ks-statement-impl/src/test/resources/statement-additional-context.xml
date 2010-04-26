@@ -95,6 +95,9 @@
                 <entry key="kuali.reqCompType.courseList.nof">
                     <ref local="courseListContext"/>
                 </entry>
+                <entry key="kuali.reqCompType.courseList.1of1">
+                    <ref local="courseListContext"/>
+                </entry>
                 <entry key="kuali.reqCompType.courseList.1of2">
                     <ref local="courseListContext"/>
                 </entry>

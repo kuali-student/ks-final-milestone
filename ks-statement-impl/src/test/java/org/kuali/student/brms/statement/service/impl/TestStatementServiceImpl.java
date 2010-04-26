@@ -160,9 +160,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testGetNaturalLanguageForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	public void testGetNaturalLanguageForReqComponent_1ofN() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
     	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
+    }
+
+	@Test
+	public void testGetNaturalLanguageForReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.CATALOG", "en");
+    	assertEquals("Student must have completed MATH 180", nl);
     }
 
 	@Test
@@ -409,17 +415,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	assertTrue(containsId(stmtList, "STMT-106"));
     }
     
-    private StatementInfo getStatement(List<StatementInfo> stmtList, String id) {
-        for(StatementInfo stmt : stmtList) {
-            if(id.equals(stmt.getId())) {
-                return stmt;
-            }
-        }
-        return null;
-    }
-
-    // getStatements (note: the pural from) is no longer supported in
-    // StatementService service specification
     private List<StatementInfo> getStatements(List<String> statementIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<StatementInfo> stmtList = null;
         
@@ -432,8 +427,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         return stmtList;
     }
     
-    // getReqComponents (note: the pural from) is no longer supported in
-    // StatementService service specification
     private List<ReqComponentInfo> getReqComponents(List<String> reqComponentIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentInfo> reqCompList = null;
         
@@ -543,29 +536,25 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertTrue(stmtIds.contains("STMT-2"));
     }
 
+    private ReqComponentTypeInfo getReqComponentTypeInfo(List<ReqComponentTypeInfo> reqCompTypeInfoList, String id) {
+    	for(ReqComponentTypeInfo reqCompType : reqCompTypeInfoList) {
+    		if(reqCompType.getId().equals(id)) {
+    			return reqCompType;
+    		}
+    	}
+    	return null;
+    }
+    
     @Test
     public void testGetReqComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypes();
 
         assertNotNull(reqCompTypeInfoList);
-        assertEquals(8, reqCompTypeInfoList.size());
+        assertEquals(9, reqCompTypeInfoList.size());
 
-        ReqComponentTypeInfo rqt = null;
+        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqCompType.courseList.all");
 
-        if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(0).getId())) {
-            rqt = reqCompTypeInfoList.get(0);
-        } else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(1).getId())) {
-            rqt = reqCompTypeInfoList.get(1);
-        } else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(2).getId())) {
-            rqt = reqCompTypeInfoList.get(2);
-        }else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(2).getId())) {
-            rqt = reqCompTypeInfoList.get(3);
-        }else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(2).getId())) {
-            rqt = reqCompTypeInfoList.get(4);
-        } else {
-            assertTrue(false);
-        }
-
+        assertNotNull(rqt);
         assertEquals(rqt.getName(), "All of required courses");
     }
 
@@ -605,24 +594,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypesForStatementType("kuali.luStatementType.prereqAcademicReadiness");
 
         assertNotNull(reqCompTypeInfoList);
-        assertEquals(5, reqCompTypeInfoList.size());
+        assertEquals(6, reqCompTypeInfoList.size());
 
-        ReqComponentTypeInfo rqt = null;
+        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqCompType.gradecheck");
 
-        if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(0).getId())) {
-            rqt = reqCompTypeInfoList.get(0);
-        } else if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(1).getId())) {
-            rqt = reqCompTypeInfoList.get(1);
-        } else if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(2).getId())) {
-            rqt = reqCompTypeInfoList.get(2);
-        } else if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(3).getId())) {
-            rqt = reqCompTypeInfoList.get(3);
-        } else if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(4).getId())) {
-            rqt = reqCompTypeInfoList.get(4);
-        } else {
-            assertTrue(false);
-        }
-
+        assertNotNull(rqt);
         assertEquals(rqt.getDescr(), "Student needs a minimum GPA of <reqCompFieldType.gpa>");
         assertEquals(rqt.getName(), "Minimum overall GPA");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
