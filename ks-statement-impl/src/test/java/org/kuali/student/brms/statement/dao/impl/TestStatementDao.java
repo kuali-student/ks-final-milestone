@@ -194,7 +194,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         List<ReqComponentType> reqCompTypeList = dao.find(ReqComponentType.class);
         
         assertNotNull(reqCompTypeList);
-        assertEquals(8, reqCompTypeList.size());
+        assertEquals(9, reqCompTypeList.size());
     }
     
     @Test
