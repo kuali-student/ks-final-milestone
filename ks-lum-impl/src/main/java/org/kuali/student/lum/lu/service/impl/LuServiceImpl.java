@@ -1763,7 +1763,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluResult
 		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
 		if(null != val && val.size() > 0) {
-			//FIXME: uncomment this: throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!");
 		}
 		
 		cluResultInfo.setType(cluResultTypeKey);

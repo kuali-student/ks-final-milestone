@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.core.assembly.Assembler;
@@ -131,40 +132,48 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
             result.setValue(input);
             
             CreditCourseHelper creditCourseHelper = CreditCourseHelper.wrap(input);
-            //String cluId = creditCourseHelper.getId();
             
-            CluResultInfo cluResultInfo = new CluResultInfo();
-            cluResultInfo.setCluId(cluId);
-            cluResultInfo.setState(STATE);
-    
             // Grading options
             List<ResultOptionInfo> gradeResultOptions = new ArrayList<ResultOptionInfo>();
-            if(creditCourseHelper.getGradingOptions() != null) {
+            if(creditCourseHelper.getGradingOptions() != null && creditCourseHelper.getGradingOptions().size() > 0) {
                 for (Data.Property p : creditCourseHelper.getGradingOptions()) {
                     if(!CreditCourseHelper.Properties._RUNTIME_DATA.getKey().equals(p.getKey())){
                         String resultType = p.getValue();
                         ResultOptionInfo roi = new ResultOptionInfo();
                         roi.setResultComponentId(resultType);
                         roi.setState(STATE);
+                        roi.setDesc(getDesc("Grade outcome option created"));
+                        roi.setEffectiveDate(new Date());
                         gradeResultOptions.add(roi);
                     }
                 }
-                
-                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
-                if(cluResultList == null || cluResultList.isEmpty()) {
-	                // Create or update clu result
-                    cluResultInfo.setResultOptions(gradeResultOptions);
-                    luService.createCluResult(cluId, GRADE_RESULT_TYPE, cluResultInfo);
-                } else {
-                	// Should only be one CluResultInfo
-                	for(CluResultInfo cri : cluResultList) {
-	                    cri = luService.getCluResult(cri.getId());
-	                    cri.setResultOptions(gradeResultOptions);
-	                    if(cri.getType().equals(GRADE_RESULT_TYPE)) {
-	                        luService.updateCluResult(cri.getId(), cri);
+            }
+
+            List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
+            boolean update = false;
+            if(cluResultList != null) {
+                for (CluResultInfo cluResult : cluResultList) {
+                    if(cluResult.getType().equals(GRADE_RESULT_TYPE)) {
+	                    if(cluResult.getType().equals(GRADE_RESULT_TYPE)) {
+	                    	cluResult.setDesc(getDesc("Grade outcome options updated"));
+	                    	cluResult.setResultOptions(gradeResultOptions);
+	                        luService.updateCluResult(cluResult.getId(), cluResult);
+	                        update = true;
 	                    }
-                	}
+                    }
                 }
+            }
+            
+            if(update == false && !gradeResultOptions.isEmpty()) {
+            	// Should only be one CluResultInfo
+                // Create clu result
+                CluResultInfo cluResultInfo = new CluResultInfo();
+                cluResultInfo.setCluId(cluId);
+                cluResultInfo.setState(STATE);
+                cluResultInfo.setDesc(getDesc("Grade outcome options created"));
+                cluResultInfo.setEffectiveDate(new Date());
+                cluResultInfo.setResultOptions(gradeResultOptions);
+                luService.createCluResult(cluId, GRADE_RESULT_TYPE, cluResultInfo);
             }
             
             return result;
@@ -186,7 +195,8 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
             CreditCourseHelper creditCourseHelper = CreditCourseHelper.wrap(input);
 
             // Outcome options
-            if(creditCourseHelper.getOutcomeOptions() != null) {
+            boolean createUpdateDelete = false;
+            if(creditCourseHelper.getOutcomeOptions() != null && creditCourseHelper.getOutcomeOptions().size() > 0) {
                 for (Data.Property p : creditCourseHelper.getOutcomeOptions()) {                    
                     if(!CreditCourseHelper.Properties._RUNTIME_DATA.equals(p.getKey())){
                         if (AssemblerUtils.isCreated((Data)p.getValue())) {
@@ -194,9 +204,12 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                             ResultOptionInfo roi = new ResultOptionInfo();
                             roi.setResultComponentId(resultType);
                             roi.setState(STATE);
+                            roi.setDesc(getDesc("Credit outcome option created"));
+                            roi.setEffectiveDate(new Date());
                             outcomeTypeResultOptions.add(roi);
+                            createUpdateDelete = true;
                         } else if (AssemblerUtils.isDeleted((Data)p.getValue())) {
-                            continue;
+                            createUpdateDelete = true;
                         } else if (AssemblerUtils.isUpdated((Data)p.getValue())) {
                             String id = ((Data)p.getValue()).get("outcomeId");
                             String resultType = ((Data)p.getValue()).get("outcomeType");
@@ -204,42 +217,50 @@ public class LearningResultAssembler implements Assembler<Data, Void> {
                             roi.setId(id);
                             roi.setResultComponentId(resultType);
                             roi.setState(STATE);
+                            roi.setDesc(getDesc("Credit outcome option updated"));
                             outcomeTypeResultOptions.add(roi);
+                            createUpdateDelete = true;
                         }                         
                     }                                                         
                 }
                 
-                boolean update = false;
-                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
-                for (CluResultInfo cluResult : cluResultList) {
-                    if(cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
-                        RichTextInfo desc = new RichTextInfo();
-                        desc.setPlain("Temporary description");
-                        cluResult.setDesc(desc);                  
-                        cluResult.setResultOptions(outcomeTypeResultOptions);                        
-                        luService.updateCluResult(cluResult.getId(), cluResult);
-                        update = true;
-                    }
-                }                
-                
-                if(update == false) {
-                    CluResultInfo cluResultInfo = new CluResultInfo();
-                    cluResultInfo.setCluId(cluId);       
-                    cluResultInfo.setState(STATE);
-                    RichTextInfo desc = new RichTextInfo();
-                    desc.setPlain("Temporary description");
-                    cluResultInfo.setDesc(desc);
-                    cluResultInfo.setResultOptions(outcomeTypeResultOptions);
-                    luService.createCluResult(cluId, CREDIT_RESULT_TYPE, cluResultInfo);
-                }             
+                if(createUpdateDelete) {
+	                boolean update = false;
+	                List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
+	                if(cluResultList != null) {
+		                for (CluResultInfo cluResult : cluResultList) {
+		                    if(cluResult.getType().equals(CREDIT_RESULT_TYPE)) {
+	                        	cluResult.setDesc(getDesc("Credit outcome options updated"));
+		                        cluResult.setResultOptions(outcomeTypeResultOptions);
+		                        luService.updateCluResult(cluResult.getId(), cluResult);
+		                        update = true;
+		                    }
+		                }
+	                }
+	                
+	                if(update == false && !outcomeTypeResultOptions.isEmpty()) {
+	                    CluResultInfo cluResultInfo = new CluResultInfo();
+	                    cluResultInfo.setCluId(cluId);       
+	                    cluResultInfo.setState(STATE);
+	                    cluResultInfo.setDesc(getDesc("Credit outcome options created"));
+	                    cluResultInfo.setEffectiveDate(new Date());
+	                    cluResultInfo.setResultOptions(outcomeTypeResultOptions);
+	                    luService.createCluResult(cluId, CREDIT_RESULT_TYPE, cluResultInfo);
+	                }             
+	            }
             }
-
             return result;
         } catch(Exception e) {
             throw new AssemblyException("Unable to save learning result outcomes for course", e);
         }
     }
 
+    private RichTextInfo getDesc(String text) {
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain(text);
+        return desc;
+    }
+    
     @Override
     public List<ValidationResultInfo> validate(Data input)
             throws AssemblyException {

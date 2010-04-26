@@ -3747,6 +3747,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
+                <ref bean="constraint.optional" />
 			</list>
 		</property>
 	</bean>
@@ -3771,7 +3772,7 @@
 		<property name="dataType" value="STRING" />		
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.required" />
+                <ref bean="constraint.optional" />
 				<ref bean="constraint.single" />				
 			</list>
 		</property>
@@ -3783,7 +3784,7 @@
 		<property name="dataType" value="STRING" />		
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.required" />
+                <ref bean="constraint.optional" />
 				<ref bean="constraint.single" />				
 			</list>
 		</property>
@@ -3811,7 +3812,7 @@
 					<property name="minValue" value="0" />
 					<property name="maxValue" value="40" />
 				</bean>
-				<ref bean="constraint.required" />
+                <ref bean="constraint.optional" />
 				<ref bean="constraint.decimal" />
 			</list>
 		</property>
@@ -3841,7 +3842,6 @@
 			</list>
 		</property>
 	</bean>
-	
 
 	<bean id="course.duration" parent="dataFieldDescriptor">
 		<property name="name" value="duration" />
