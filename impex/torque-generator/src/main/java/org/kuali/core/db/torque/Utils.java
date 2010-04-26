@@ -32,7 +32,7 @@ public class Utils {
 		String right = padding + " " + elapsed;
 		System.out.println(StringUtils.right(right, 79 - pp.getMsg().length()));
 	}
-	
+
 	public void left(PrettyPrint pp) {
 		System.out.print(pp.getMsg());
 		pp.setStart(System.currentTimeMillis());
@@ -79,10 +79,7 @@ public class Utils {
 
 	}
 
-	public void verifyExists(String[] locations) throws FileNotFoundException {
-		for (int i = 0; i < locations.length; i++) {
-			locations[i] = locations[i].trim();
-		}
+	public void verifyExists(List<String> locations) throws FileNotFoundException {
 		ResourceLoader loader = new DefaultResourceLoader();
 		for (String location : locations) {
 			Resource resource = loader.getResource(location);
@@ -92,16 +89,15 @@ public class Utils {
 		}
 	}
 
-	public List<Database> getDatabases(String schemaXMLResources, String targetDatabase) throws IOException {
+	public List<Database> getDatabases(List<String> schemaXMLResources, String targetDatabase) throws IOException {
 		List<Database> databases = new ArrayList<Database>();
 		if (schemaXMLResources == null) {
 			return databases;
 		}
-		String[] locations = StringUtils.split(schemaXMLResources, ",");
 
-		verifyExists(locations);
+		verifyExists(schemaXMLResources);
 
-		for (String location : locations) {
+		for (String location : schemaXMLResources) {
 			// Get an xml parser for schema.xml
 			KualiXmlToAppData xmlParser = new KualiXmlToAppData(targetDatabase, "");
 

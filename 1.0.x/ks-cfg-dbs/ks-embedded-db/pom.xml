@@ -26,7 +26,11 @@
           <schema>${ks.embedded.schema}</schema>
           <username>${ks.embedded.username}</username>
           <password>${ks.embedded.password}</password>
-          <schemaXMLResources>classpath:ks-core-db-schema.xml,classpath:ks-lum-db-schema.xml,classpath:ks-rice-db-schema.xml</schemaXMLResources>
+          <schemaXMLResources>
+            <param>classpath:ks-core-db-schema.xml</param>
+            <param>classpath:ks-lum-db-schema.xml</param>
+            <param>classpath:ks-rice-db-schema.xml</param>
+          </schemaXMLResources>
         </configuration>
         <dependencies>
           <dependency>

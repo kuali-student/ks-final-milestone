@@ -102,11 +102,11 @@ public class SqlExecMojo extends AbstractMojo {
 	// ////////////////////////// User Info ///////////////////////////////////
 
 	/**
-	 * Spring style resource entries that point to one or more schema XML files. Separate multiple entries with a comma
+	 * Spring style resource entries that point to one or more schema XML files
 	 * 
 	 * @parameter expression="${schemaXMLResources}"
 	 */
-	private String schemaXMLResources;
+	private List<String> schemaXMLResources;
 
 	/**
 	 * The type of database we are targeting eg oracle, mysql etc
@@ -709,7 +709,7 @@ public class SqlExecMojo extends AbstractMojo {
 	}
 
 	private void addSchemaXMLResourcesToTransactions() throws MojoExecutionException {
-		if (StringUtils.isEmpty(schemaXMLResources)) {
+		if (getSchemaXMLResources() == null) {
 			return;
 		}
 		try {
@@ -1380,11 +1380,11 @@ public class SqlExecMojo extends AbstractMojo {
 		this.targetDatabase = targetDatabase;
 	}
 
-	public String getSchemaXMLResources() {
+	public List<String> getSchemaXMLResources() {
 		return schemaXMLResources;
 	}
 
-	public void setSchemaXMLResources(String schemaXMLResources) {
+	public void setSchemaXMLResources(List<String> schemaXMLResources) {
 		this.schemaXMLResources = schemaXMLResources;
 	}
 
