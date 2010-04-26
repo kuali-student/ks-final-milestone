@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CategoryManagementTable;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.view.ActionListView;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
@@ -91,7 +92,7 @@ public class LUMApplicationManager extends Controller {
 					Window.Location.assign("/j_spring_security_logout");
 				}
 			});
-
+			CategoryManagementTable.setDisplayOnlyActiveCategories();
 			loaded = true;
 		}
 	}

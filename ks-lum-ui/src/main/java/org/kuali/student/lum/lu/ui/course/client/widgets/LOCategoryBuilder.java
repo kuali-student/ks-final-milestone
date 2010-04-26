@@ -116,7 +116,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final CategoryManagement categoryManagement = new CategoryManagement();
+                final CategoryManagement categoryManagement = new CategoryManagement(true);
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);

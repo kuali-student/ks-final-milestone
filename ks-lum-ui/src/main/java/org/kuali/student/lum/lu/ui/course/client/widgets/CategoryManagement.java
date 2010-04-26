@@ -80,7 +80,6 @@ public class CategoryManagement extends Composite {
     static LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
 //    static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
     
-    //CategoryTable categoryTable = new CategoryTable();
     CategoryManagementTable categoryManagementTable = null;
 
     VerticalPanel mainPanel = new VerticalPanel();
@@ -88,7 +87,7 @@ public class CategoryManagement extends Composite {
     
     List<LoCategoryInfo> categoryList;
     List<LoCategoryTypeInfo> categoryTypeList;
-    public CategoryManagement() {
+    private void initCategoryManagement() {
         super.initWidget(mainPanel);
         mainPanel.addStyleName("KSLOCategoryManagementMainPanel");
         accreditationCheckBox.setValue(true);
@@ -142,7 +141,9 @@ public class CategoryManagement extends Composite {
         mainPanel.add(buttonPanel);
         HorizontalPanel filterTablePanel = new HorizontalPanel();
         filterTablePanel.add(filterPanel);
-        categoryManagementTable = new CategoryManagementTable();
+        if(this.categoryManagementTable == null) {
+            categoryManagementTable = new CategoryManagementTable();
+        }
         filterTablePanel.add(categoryManagementTable);
         mainPanel.add(filterTablePanel);
         
@@ -238,10 +239,15 @@ public class CategoryManagement extends Composite {
                 });
             }
         });
-
-
+    }
+    public CategoryManagement() {
+        initCategoryManagement();
     }
     
+    public CategoryManagement(boolean hideInactiveCategories) {
+        this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories);
+        initCategoryManagement();
+    }
     public List<LoCategoryInfo> getSelectedCategoryList(){
         return categoryManagementTable.getSelectedLoCategoryInfos();
     }

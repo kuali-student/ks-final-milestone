@@ -62,19 +62,83 @@ public class CategoryManagementTable extends Composite {
     private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
     protected PagingScrollTable<ResultRow> pagingScrollTable;
     private VerticalPanel layout = new VerticalPanel();
-    private Boolean displayOnlyActiveCategories; 
+    private static Boolean displayOnlyActiveCategories; // static global
+    private boolean hideInactiveCategories = false;
 
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
-    private ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
+    private static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
     protected ResultRow resultRow;
 
-    public CategoryManagementTable(){
-        super();                
+    /**
+     * This method should be called before constructor so config flag is pre-set
+     * only needs to be called once. It's a static flag that only changes when the 
+     * server is started
+     * 
+     */
+    public static void setDisplayOnlyActiveCategories() {
+        if (null == displayOnlyActiveCategories) {
+            serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    GWT.log("get displayOnlyActiveLoCategories failed", caught);
+                    Window.alert("Failed to get displayOnlyActiveLoCategories setting");
+                }
+    
+                @Override
+                public void onSuccess(String result) {
+                    if (result != null) {
+                        displayOnlyActiveCategories = Boolean.parseBoolean(result);
+                    }
+                }
+            });
+        }  
+    }
+    
+    private void initCategoryManagementTable(){
         layout.setWidth("100%");
         initWidget(layout);
-        initializeTable();
+        builder = new PagingScrollTableBuilder<ResultRow>();
+        createColumnDefs();
+        builder.tablePixelSize(400, 300);
+        builder.setSelectionPolicy(SelectionPolicy.ONE_ROW);
     }
-
+    public CategoryManagementTable() {
+        super();
+        initCategoryManagementTable();
+    }
+    /**
+     * This constructs a CategoryManagementTable with an instance option
+     * 
+     * @param hideInactiveCategories
+     */
+    public CategoryManagementTable(boolean hideInactiveCategories) {
+        super();
+        this.hideInactiveCategories = hideInactiveCategories;
+        initCategoryManagementTable();
+    }
+    /**
+     * Two flags control whether to show rows with inactive categories and the state column.
+     * hideInactiveCategories can be set per table instance
+     * displayOnlyActiveCategories is set at Lum startup
+     * hideInactiveCategories overrides displayOnlyActiveCategories
+     * @return true to show all rows and State column
+     */
+    public boolean isHideInactiveCategories() {
+        if(hideInactiveCategories){
+            return true;
+        } 
+        if((displayOnlyActiveCategories == null)||( displayOnlyActiveCategories.booleanValue() == false)){
+            return false;
+        }else {
+            return true;
+        }
+    }
+    /**
+     * @param show or hide inactive rows and State column 
+     */
+    public void setHideInactiveCategories(boolean show) {
+        this.hideInactiveCategories = show;
+    }
     public void redraw(){
         tableModel.setRows(resultRows);
         pagingScrollTable = builder.build(tableModel);
@@ -157,19 +221,13 @@ public class CategoryManagementTable extends Composite {
         }
         return id;
 
-    }    
-    public void initializeTable() {        
-        builder = new PagingScrollTableBuilder<ResultRow>();
-        configureColumns();
-        builder.tablePixelSize(400, 300);
-        builder.setSelectionPolicy(SelectionPolicy.ONE_ROW);
-    }
+    }   
     
     private void createColumnDefs() {
         columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();        
         columnDefs.add(new SearchColumnDefinition(NAME_COLUMN_HEADER, NAME_COLUMN_KEY));
         columnDefs.add(new SearchColumnDefinition(TYPE_COLUMN_HEADER, TYPE_COLUMN_KEY));            
-        if ((displayOnlyActiveCategories == null) || (!displayOnlyActiveCategories.booleanValue())) {
+        if (!isHideInactiveCategories()) {
             columnDefs.add(new SearchColumnDefinition(STATE_COLUMN_HEADER, STATE_COLUMN_KEY));            
         }
         if(columnDefs.size() == 1){
@@ -178,46 +236,12 @@ public class CategoryManagementTable extends Composite {
         }
         builder.columnDefinitions(columnDefs);
     }
-    private void configureColumns() {
-        if (null == displayOnlyActiveCategories) {
-            serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
-                @Override
-                public void onFailure(Throwable caught) {
-                    GWT.log("get displayOnlyActiveLoCategories failed", caught);
-                    Window.alert("Failed to get displayOnlyActiveLoCategories setting");
-                }
     
-                @Override
-                public void onSuccess(String result) {
-                    if (result != null) {
-                        resultRows.clear();
-                        displayOnlyActiveCategories = Boolean.parseBoolean(result);
-                        createColumnDefs();
-                    }
-                }
-            });
-        }  
-    }
-/*    private List<LoCategoryInfo> filterResults(List<LoCategoryInfo> result) {
-        if (null == displayOnlyActiveCategories) {
-            serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
-                @Override
-                public void onFailure(Throwable caught) {
-                    GWT.log("get displayOnlyActiveLoCategories failed", caught);
-                    Window.alert("Failed to get displayOnlyActiveLoCategories setting");
-                }
+
     
-                @Override
-                public void onSuccess(String result) {
-                    if (result != null) {
-                        resultRows.clear();
-                        displayOnlyActiveCategories = Boolean.parseBoolean(result);
-                        createColumnDefs();
-                    }
-                }
-            });
-        }
-*//*        if(displayOnlyActiveCategories != null && displayOnlyActiveCategories.booleanValue() == true) {
+    private List<LoCategoryInfo> filterResults(List<LoCategoryInfo> result) {
+
+       if(isHideInactiveCategories()) {
             List<LoCategoryInfo> filteredResult = new ArrayList<LoCategoryInfo>();
             for(LoCategoryInfo info : result) {
                 if (info.getState().equals("active") ) {
@@ -225,9 +249,9 @@ public class CategoryManagementTable extends Composite {
                 }
             }
             return filteredResult;
-        } *//*
+        } 
         return result;   
-    }*/
+    }
     
     public void loadTable() {
         loRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new AsyncCallback<List<LoCategoryInfo>>() {
@@ -240,8 +264,8 @@ public class CategoryManagementTable extends Composite {
             @Override
             public void onSuccess(List<LoCategoryInfo> results) {
 
-                //List<LoCategoryInfo> filteredResults = filterResults(results);
-                loadTable(results);
+                List<LoCategoryInfo> filteredResults = filterResults(results);
+                loadTable(filteredResults);
                 /*
                 List<LoCategoryInfo> filteredResults = filterResults(results);
                 loadTable(filteredResults);
