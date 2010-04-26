@@ -587,7 +587,7 @@ public class SqlExecMojo extends AbstractMojo {
 		}
 
 		getLog().info("------------------------------------------------------------------------");
-		getLog().info("Executing SQL");
+		getLog().info("Executing " + getTargetDatabase() + " SQL");
 		getLog().info("------------------------------------------------------------------------");
 
 		if (schemaXMLResources != null) {
