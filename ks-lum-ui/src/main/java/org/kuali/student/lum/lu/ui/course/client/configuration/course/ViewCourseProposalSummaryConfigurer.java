@@ -291,33 +291,37 @@ public class ViewCourseProposalSummaryConfigurer implements
         	}
         }
 	}	
-    public void populateCourseRequisites(DataModel model,
-			SummaryTable summaryTable, int indent) {
+    public void populateCourseRequisites(DataModel model, SummaryTable summaryTable, int indent) {
 		LuData data = (LuData)model.getRoot();
 		List<RuleInfo> ruleInfos = data.getRuleInfos();
+		RuleInfo ruleInfo;
 		
-		if(ruleInfos!=null){
-			//For every rule info, look up the type and corresponding statement, then add labels to the rootPanel
-			int statementIndex = 0;
-			for(RuleInfo ruleInfo:ruleInfos){
-				String type = ruleInfo.getSelectedStatementType();
-				String typeDisplay="";
-				if(RuleConstants.KS_STATEMENT_TYPE_PREREQ.equals(type)){
-					typeDisplay=LUConstants.PREQS_LABEL_KEY;
-				}else if(RuleConstants.KS_STATEMENT_TYPE_COREQ.equals(type)){
-					typeDisplay=LUConstants.CREQS_LABEL_KEY;
-				}else if(RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ.equals(type)){
-					typeDisplay=LUConstants.EREQS_LABEL_KEY;
-				}else if(RuleConstants.KS_STATEMENT_TYPE_ANTIREQ.equals(type)){
-					typeDisplay=LUConstants.AREQS_LABEL_KEY;
-				}
-				String statement = data.query(COURSE+"/"+STATEMENTS+"/"+statementIndex);
-				summaryTable.addField(typeDisplay, statement, indent);
-				statementIndex++;
-			}
+		//ensure sequence of rule types based on rule summary screen
+		if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ)) != null) {
+		    summaryTable.addField(LUConstants.EREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
 		}
-		
+        if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_PREREQ)) != null) {
+            summaryTable.addField(LUConstants.PREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+        }
+        if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_COREQ)) != null) {
+            summaryTable.addField(LUConstants.CREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+        }
+        if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_ANTIREQ)) != null) {
+            summaryTable.addField(LUConstants.AREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+        }        				
 	}
+    
+    private RuleInfo getRuleInfo(List<RuleInfo> ruleInfos, String luStatementTypeKey) {   
+        if ((ruleInfos != null) && !ruleInfos.isEmpty()) {
+            for (RuleInfo ruleInfo : ruleInfos) {
+                if (ruleInfo.getSelectedStatementType() != null &&
+                        ruleInfo.getSelectedStatementType().equals(luStatementTypeKey)) {                
+                    return ruleInfo;
+                }                
+            }
+        }     
+        return null;
+    }
 	
 	public void populateCourseFormats(DataModel model, SummaryTable summaryTable) {
         Data formatsData = model.get(COURSE + "/" + FORMATS);

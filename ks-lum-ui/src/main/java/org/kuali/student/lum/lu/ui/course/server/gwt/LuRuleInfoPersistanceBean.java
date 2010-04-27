@@ -30,6 +30,7 @@ import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
+import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 public class LuRuleInfoPersistanceBean {
@@ -141,6 +142,9 @@ public class LuRuleInfoPersistanceBean {
 			        editHistory.save(statementVO);
 			        ruleInfo.setEditHistory(editHistory);
 					
+			        String naturalLanguage = getNaturalLanguageForStatementVO(cluId, statementVO,  "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE);
+			        ruleInfo.setNaturalLanguage(naturalLanguage);
+			        			        
 					ruleInfos.add(ruleInfo);
 				}
 			}
@@ -225,4 +229,30 @@ public class LuRuleInfoPersistanceBean {
         }
         return result;
 	}	 
+	
+    private String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, String language) throws Exception {
+        StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
+        
+        // first translate StatementVO to StatementTreeViewInfo object
+        String error = statementVO.composeStatementTreeViewInfo(statementVO, statementTreeViewInfo);
+        if (error.isEmpty() == false) {
+            throw new  RuntimeException(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);
+        }
+
+        // cluId can't be empty
+        if ((cluId != null) && cluId.isEmpty()) {
+            cluId = null;
+        }
+        
+        // then get natural language for the statement
+        String nlStatement = "";
+        try {
+            nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new  RuntimeException("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
+        }
+        
+        return nlStatement;
+    }	
 }
