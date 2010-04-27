@@ -16,10 +16,9 @@
 package org.kuali.student.lum.ui.requirements.client.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -28,7 +27,6 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -80,8 +78,10 @@ public class CourseReqManager extends Controller {
         this.ruleInfo = null;
     }
     
-    public void saveApplicationState() {
-        courseRequisiteView.saveApplicationState();
+    public void saveApplicationState(DataModel model) {
+        LuData luData = (LuData)model.getRoot();
+        luData.setRuleInfos(new ArrayList(ruleInfo.getValues()));
+        courseRequisiteView.saveApplicationState(model);
     }
    
     @Override
@@ -103,20 +103,14 @@ public class CourseReqManager extends Controller {
 	                    	LuData luData = (LuData)dataModel.getRoot();
 	                    	
 	                		if (ruleInfo == null) {	                     			                    	
-		                    	List<RuleInfo> rules = luData.getRuleInfos();
+		                    	cluId = (String)dataModel.get("course/id");
 		                    	ruleInfo = new CollectionModel<RuleInfo>();
+                                List<RuleInfo> rules = luData.getRuleInfos();
 		                    	for (RuleInfo oneRule : rules) {
 		                    		oneRule.setId(Integer.toString(id++));
+		                    		oneRule.setCluId(cluId); 
 		                    		ruleInfo.add(oneRule);
-		                    	}
-		                    	cluId = dataModel.get("course/id");
-		                    	
-		                    	//make sure each rule info has set course id
-		                    	if (rules != null) {
-			                        for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
-			                            oneRuleInfo.setCluId(cluId);            		                            
-			                        }		     
-		                    	}	                    	
+		                    	}		     	                    	
 	                		} else {
 	                			luData.setRuleInfos(new ArrayList(ruleInfo.getValues()));
 	                		}

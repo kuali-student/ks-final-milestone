@@ -166,21 +166,9 @@ public class CourseRequisiteView extends ViewComposite {
     	    List<ReqComponentVO> allReqComponentVOs =
     	        (rule == null || rule.getStatementVO() == null)? null :
     	            rule.getStatementVO().getAllReqComponentVOs();
-    	    // if there are any rules in any node of the statementVO
-    	    // get the natural language for the statementVO
     	    if (allReqComponentVOs != null && !allReqComponentVOs.isEmpty()) {
-    	        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(rule.getCluId(), rule.getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
-    	            public void onFailure(Throwable cause) {
-    	                GWT.log("Failed to get NL for " + rule.getCluId(), cause);
-    	                Window.alert("Failed to get NL for " + rule.getCluId());
-    	            }
-
-    	            public void onSuccess(final String statementNaturalLanguage) { 
-    	                rule.setNaturalLanguage(statementNaturalLanguage);
-    	                rulesText.clear();
-    	                rulesText.add(new KSLabel(statementNaturalLanguage));
-    	            } 
-    	        }); 
+                rulesText.clear();
+                rulesText.add(new KSLabel(rule.getNaturalLanguage()));
     	    }
     	}
     }
@@ -214,7 +202,8 @@ public class CourseRequisiteView extends ViewComposite {
             RuleInfo rule = getRuleInfo(title);
             //true if user is adding a new rule
             if (!ruleExist(rule)) {                
-                courseReqManager.addNewRule(statementType);                
+                courseReqManager.addNewRule(statementType);
+                courseReqManager.setComponentToEdit(null);
                 courseReqManager.showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
             } else {
                 courseReqManager.showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
@@ -304,31 +293,20 @@ public class CourseRequisiteView extends ViewComposite {
         return;
     }
             
-    public void saveApplicationState() {
-        getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
-            @Override
-            public void onModelReady(DataModel model) {
-            	LuData luData = (LuData)model.getRoot();
-                luData.putApplicationState(
-                		RuleConstants.KS_STATEMENT_TYPE_PREREQ_RATIONALE, 
-                        getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_PREREQ).getText());
-                luData.putApplicationState(
-                		RuleConstants.KS_STATEMENT_TYPE_COREQ_RATIONALE, 
-                        getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_COREQ).getText());
-                luData.putApplicationState(
-                		RuleConstants.KS_STATEMENT_TYPE_ANTIREQ_RATIONALE, 
-                        getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_ANTIREQ).getText());
-                luData.putApplicationState(
-                		RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ_RATIONALE, 
-                        getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ).getText());
-            }
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-            	GWT.log("Failed to get LuData DataModel", cause);
-                Window.alert("Failed to get LuData DataModel");
-            }
-        });
+    public void saveApplicationState(DataModel model) {
+    	LuData luData = (LuData)model.getRoot();
+        luData.putApplicationState(
+        		RuleConstants.KS_STATEMENT_TYPE_PREREQ_RATIONALE, 
+                getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_PREREQ).getText());
+        luData.putApplicationState(
+        		RuleConstants.KS_STATEMENT_TYPE_COREQ_RATIONALE, 
+                getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_COREQ).getText());
+        luData.putApplicationState(
+        		RuleConstants.KS_STATEMENT_TYPE_ANTIREQ_RATIONALE, 
+                getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_ANTIREQ).getText());
+        luData.putApplicationState(
+        		RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ_RATIONALE, 
+                getRationaleTextArea(RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ).getText());
     }
     
     private VerticalPanel getRulesInfoPanel(String luStatementTypeKey) {

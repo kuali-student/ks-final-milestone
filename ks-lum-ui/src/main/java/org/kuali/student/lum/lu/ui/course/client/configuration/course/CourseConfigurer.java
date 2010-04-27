@@ -242,7 +242,7 @@ import com.google.gwt.user.client.ui.Widget;
 	     * @return
 	     */
 	    protected SectionView generateCourseRequisitesSection() {
-	        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
+	        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CLU_PROPOSAL_MODEL);
 	        //Setting the section title after initializing the widget won't do anything
 	        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
 	        addField(section, SEARCH + "/" + "findCourse");

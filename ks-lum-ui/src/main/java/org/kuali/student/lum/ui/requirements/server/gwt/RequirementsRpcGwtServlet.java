@@ -72,7 +72,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
             cluId = null;
         }
         
-        // the get natural language for the statement
+        // then get natural language for the statement
         String nlStatement = "";
         try {
             nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
