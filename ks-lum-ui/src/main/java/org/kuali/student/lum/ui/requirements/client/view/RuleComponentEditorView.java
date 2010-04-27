@@ -16,12 +16,9 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
@@ -44,7 +41,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
@@ -786,7 +782,7 @@ public class RuleComponentEditorView extends ViewComposite {
     public static class ReqCompPicker extends KSPicker {
 
         private String name;
-        private Boolean validEntry = false;     //only when user enters existing clu, cluset etc. this is true
+        private Boolean validEntry = true;     //only when user enters existing clu, cluset etc. this is true
         private String fieldName;
 
         public ReqCompPicker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata, String fieldName) {
@@ -797,7 +793,7 @@ public class RuleComponentEditorView extends ViewComposite {
             this.addBasicSelectionTextChangeCallback(new Callback<String>() {
                 @Override
                 public void exec(String result) {
-                    validEntry = false;
+                    //validEntry = false;
                 }
             });
             
