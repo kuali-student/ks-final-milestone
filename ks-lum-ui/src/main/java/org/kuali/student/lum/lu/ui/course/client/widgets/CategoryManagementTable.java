@@ -308,8 +308,12 @@ public class CategoryManagementTable extends Composite {
         for(ResultRow row : resultRows) {
             String nameValue = row.getValue(NAME_COLUMN_KEY);
             if(nameValue != null) {
-                if(nameValue.toUpperCase().startsWith(name.toUpperCase())){
-                    bufferList.add(row);
+                String[] words = nameValue.split("\\W");
+                for(String word : words){
+                    if(word.toUpperCase().startsWith(name.toUpperCase())){
+                        bufferList.add(row);
+                        break;
+                    }                    
                 }
             }
         }
