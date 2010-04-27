@@ -64,11 +64,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 /**
- * This is the configuration factory class for creating a proposal.
- *
- * TODO: The following is a list of items that need to be fixed.
- *  1) All hardcoded drop downs need to be replaced with one populated via an enumeration lookup
- *  2) Any pickers (eg. org, course, needs to be replaced wtih proper lookup based search pickers
+ * This is the configuration factory class for viewing a courss.
  *  
  * @author Kuali Student Team
  *
@@ -123,7 +119,7 @@ CreditCourseLearningResultsConstants
     }
     
     private SectionView generateDetails() {
-        VerticalSectionView section = initSectionView(Sections.BASIC_INFO, LUConstants.COURSE_DETAILS_LABEL_KEY);
+        VerticalSectionView section = initSectionView(Sections.BASIC_INFO, LUConstants.COURSE_INFORMATION_LABEL_KEY);
         section.enableValidation(false);
                
         section.addSection(generateBasicSection());
@@ -135,26 +131,15 @@ CreditCourseLearningResultsConstants
 
 	private BaseSection generateBasicSection() {
 		
-		VerticalSection section = new VerticalSection();
+		VerticalSection section = initSection(null, false);
 		
+        addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
 		addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
         addField(section, QueryPath.concat(CreditCourseConstants.DESCRIPTION, RichTextInfoConstants.PLAIN).toString(), getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
-
-        addField(section, CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
-        
+        addField(section, CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());        
         addField(section, CreditCourseConstants.TYPE, getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
-        addField(section, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
-
-        addField(section, OUTCOME_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), new OutcomesList(OUTCOME_OPTIONS));
-        addField(section, GRADING_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY), new TranslatedStringList(GRADING_OPTIONS));
-
-        addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new KSLabelList(true));
-        addField(section,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
-
-        addField(section, FEES , getLabel(LUConstants.COURSE_FEE_TITLE), new FeesList(FEES));
-        addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new TranslatedStringList(CAMPUS_LOCATIONS));
-
-        addField(section, PRIMARY_INSTRUCTOR, getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
+        addField(section,  VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
+        addField(section,  JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
         addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
         
         return section;
@@ -162,44 +147,64 @@ CreditCourseLearningResultsConstants
 
     private CollapsableSection generateComprehensiveSection() {
     	
-  	    CollapsableSection section = new CollapsableSection("Click for Details");
+  	    CollapsableSection section = new CollapsableSection(null, getLabel(LUConstants.DISCLOSURE_PANEL_LABEL_KEY), false, true);
 
-//        addField(section, TERMS_OFFERED, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new TermsOfferedList(TERMS_OFFERED));
-        addField(section, FIRST_EXPECTED_OFFERING, getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
-        addField(section, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
-        addField(section, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
-        addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
+		VerticalSection logistics = initSection(getH3Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)), true);
+		logistics.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+        addField(logistics, PRIMARY_INSTRUCTOR, getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
+        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
+        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
+        addField(logistics, GRADING_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY), new TranslatedStringList(GRADING_OPTIONS));
+        addField(logistics, OUTCOME_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), new OutcomesList(OUTCOME_OPTIONS));
+        addField(logistics,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
 
-        addField(section,  VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
-        addField(section,  JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
-
-        addField(section, CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
-        addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
-
-        addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
+		VerticalSection learningObjectives = initSection(getH3Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)), true);
+    	addLearningObjectives(learningObjectives);
+    	
+		VerticalSection governance = initSection(getH3Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)), true);
+        addField(governance, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
+        addField(governance, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new TranslatedStringList(CAMPUS_LOCATIONS));        
+        addField(governance, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
+ 
+		VerticalSection scheduling = initSection(getH3Title(getLabel(LUConstants.SCHEDULING_LABEL_KEY)), true);
+        addField(scheduling, CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
+        addField(scheduling, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
+        addField(scheduling, FIRST_EXPECTED_OFFERING, getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
         
-        addFinancials(section);
+		VerticalSection financials = initSection(getH3Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)), true);
+        addFinancials(financials);       
+ 
+		VerticalSection requisites = initSection(getH3Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)), true);
+        addField(requisites, STATEMENTS_PATH, null, new KSLabelList(true));
 
-    	addLearningObjectives(section);
+    	section.addSection(logistics);
+        section.addSection(learningObjectives);
+        section.addSection(requisites);
+        section.addSection(governance);
+        section.addSection(scheduling);
+        section.addSection(financials);
         
         return section;
 
     }
 
-	private void addFinancials(CollapsableSection section) {
+	private void addFinancials(Section section) {
+		
+        addField(section, FEES , getLabel(LUConstants.COURSE_FEE_TITLE), new FeesList(FEES));
 		String revenuePath=QueryPath.concat(REVENUE_INFO, REVENUE_ORG).toString();
         addField(section, revenuePath  , getLabel(LUConstants.REVENUE), new RevenueInformationList(revenuePath));
         String expenditurePath = QueryPath.concat(EXPENDITURE_INFO, EXPENDITURE_ORG).toString();
         addField(section,  expenditurePath , getLabel(LUConstants.EXPENDITURE), new ExpenditureInformationList(expenditurePath));
+
 	}
 
-	private void addLearningObjectives(CollapsableSection section) {
+	private void addLearningObjectives(Section section) {
 		QueryPath loPath = QueryPath.concat(COURSE_SPECIFIC_LOS);
     	Metadata meta = modelDefinition.getMetadata(loPath);
 
-    	FieldDescriptor fd = new FieldDescriptor(loPath.toString(), getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), meta);
+    	FieldDescriptor fd = new FieldDescriptor(loPath.toString(), null, meta);
         fd.setWidgetBinding(new LoTableBinding());
-        fd.setFieldWidget(new LoTable());
+        fd.setFieldWidget(new ViewTable());
    		section.addField(fd);
 	}
 
@@ -421,6 +426,20 @@ CreditCourseLearningResultsConstants
 
         return section;
     }
+    
+    protected VerticalSection initSection(SectionTitle title, boolean withDivider) {
+        VerticalSection section;
+    	if(title!=null){
+        	section = new VerticalSection(title);
+        	section.getSectionTitle().addStyleName("ks-heading-page-section");
+        }else{
+        	section = new VerticalSection();
+        }
+        section.addStyleName(LUConstants.STYLE_SECTION);
+        if (withDivider)
+            section.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        return section;
+    }
 
     protected String getTabKey() {
     	return getLabel(LUConstants.CURRENT_VIEW_LABEL_KEY);
@@ -498,79 +517,98 @@ CreditCourseLearningResultsConstants
     	return result;
     }
     
-    public class LoTable extends FlexTable{
+    //FIXME:  Make this more generic and reusable for other fields
+    public class ViewTable extends FlexTable{
 
     	private int col = 0;
     	private int row = 0;
-
-    	public void addLoDescription(String fieldValue){
-       		col = 0;
-    		// FIXME: add some proper styling
-    		setText(++row, col++, " - ");
-    		setText(row, col++, fieldValue);
-    		setText(row, col++, "  :");
-    		
+    	
+		{
+			setStyleName("KS-ViewCourseFlexTable");
+		}
+    	   	
+    	public void nextRow() {
+    		row++;
+    		col=0;
+    	}
+    	
+    	public void addHeaderField(String fieldValue){
+    		setCellText(row, col, fieldValue);
+			getCellFormatter().addStyleName(row, col++, "KS-ViewCourseFlexTableHeaderCell");  			
+    	}
+    	
+    	public void addField( String fieldValue){
+    		setCellText(row, col++, fieldValue);
     	}
 
-    	public void addLoCategoryName(String fieldValue){
-
-    		setText(row, col++, fieldValue+ ",");
-    		// FIXME: add some proper styling
-    		//			getCellFormatter().setStyleName(rowCount, 0, "TableIndent-"+indent);
-    		//			if(rowCount%2==0){
-    		//				getRowFormatter().addStyleName(rowCount, "SummaryTable-EvenRow");
-    		//			}else{
-    		//				getRowFormatter().addStyleName(rowCount, "SummaryTable-OddRow");
-    		//			}
-    	}
-
+		private void setCellText(int row, int cell, String fieldValue) {
+			setText(row, cell, fieldValue);
+    		getCellFormatter().addStyleName(row, cell, "KS-ViewCourseFlexTableCell");
+		}
+    	    	
 		private void initTable() {
-			LoTable.this.clear();
-			while(LoTable.this.getRowCount()>0){
-				LoTable.this.removeRow(0);
+			clear();
+			while(getRowCount()>0){
+				removeRow(0);
 			}
 			row=0;
 			col=0;
 		}
-
     }
 
-    public class LoTableBinding implements ModelWidgetBinding<LoTable>{
+    //FIXME:  Make this more generic and reusable for other fields
+    public class LoTableBinding implements ModelWidgetBinding<ViewTable>{
     	
     	private final String loDescPath = QueryPath.concat(INCLUDED_SINGLE_USE_LO, SingleUseLoConstants.DESCRIPTION, PLAIN).toString();
-    	private final String categoryNamePath = QueryPath.concat(INCLUDED_SINGLE_USE_LO, CATEGORIES).toString();
+    	private final String loCategoriesPath = QueryPath.concat(INCLUDED_SINGLE_USE_LO, CATEGORIES).toString();
 
     	@Override
-    	public void setModelValue(LoTable table, DataModel model,
+    	public void setModelValue(ViewTable table, DataModel model,
     			String path) {
     			// shouldn't ever need this
     	}
     	@Override
-    	public void setWidgetValue(LoTable table, DataModel model,
+    	public void setWidgetValue(ViewTable table, DataModel model,
     			String path) {
-    		
+
     		table.initTable();
     		Object value = model.getRoot().query(path);
     		if (value != null && value instanceof Data){
-    	 		Iterator<Data.Property> iter1 = ((Data)value).iterator();
-    			// iterate through Los
-    			while(iter1.hasNext()){
-    				Data.Property prop = iter1.next();
-    				Data d = prop.getValue();
-    				if (d != null) {
-    					table.addLoDescription((String)d.query(loDescPath));
+    			Iterator<Data.Property> iter1 = ((Data)value).iterator();
+    			if (iter1.hasNext()) {
+    				table.addHeaderField(" ");
+    				table.addHeaderField("Categories");
+    				table.nextRow();
 
-    					Data categoryData = d.query(categoryNamePath);
-    					Iterator<Data.Property> iter2 = categoryData.iterator();
-    					// iterate through Los
-    					while(iter2.hasNext()){
-    	    				Data.Property prop2 = iter2.next();
-    	    				Data d2 = prop2.getValue();
-    						table.addLoCategoryName((String)d2.get(NAME));      				
-    					}			
-    				}
+    				// iterate through Los
+    				while(iter1.hasNext()){
+    					Data.Property prop = iter1.next();
+    					Data loData = prop.getValue();
+    					if (loData != null) {
+    						table.addField(loData.query(loDescPath).toString().trim());
+    						Data categoryData = loData.query(loCategoriesPath);
+    						table.addField(buildLOCategories(categoryData));  
+    						table.nextRow();
+    					}
+    				}   
     			}					 
     		}
+    	}
+    	
+    	private String buildLOCategories(Data categoryData) {
+
+    		StringBuilder sb = new StringBuilder();
+
+    		if(categoryData!=null && categoryData.size()>0){
+    			Iterator<Data.Property> iter = categoryData.iterator();
+    			while(iter.hasNext()){
+    				Data.Property p = iter.next();
+    				Data d = p.getValue();
+    				sb.append(d.get(NAME)).append(", ");
+    			}
+    			sb.deleteCharAt(sb.lastIndexOf(", "));
+    		}
+    		return sb.toString();
     	}
     }
 }
