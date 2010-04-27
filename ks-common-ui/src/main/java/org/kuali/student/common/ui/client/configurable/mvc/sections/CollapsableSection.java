@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 
@@ -30,32 +31,36 @@ public class CollapsableSection extends BaseSection{
 	private String showLabel = "Details";
 
 	public CollapsableSection(){
-		initialize(null, showLabel, false);		
+		initialize(null, showLabel, false, false);		
 	}
 
 	public CollapsableSection(String showLabel){
-		initialize(null, showLabel, false);		
+		initialize(null, showLabel, false, false);		
 	}
 
 	public CollapsableSection(SectionTitle title){
-		initialize(title, showLabel, false);	
+		initialize(title, showLabel, false, false);	
 	}
 
+	public CollapsableSection(SectionTitle title, String showLabel, boolean isOpen, boolean withImages){
+		initialize(title, showLabel, isOpen, withImages);
+	}
+	
 	public CollapsableSection(SectionTitle title, String showLabel, boolean isOpen){
-		initialize(title, showLabel, isOpen);
+		initialize(title, showLabel, isOpen, false);
 	}
 
-	private void initialize(SectionTitle title, String showLabel, boolean isOpen) {
+	private void initialize(SectionTitle title, String showLabel, boolean isOpen, boolean withImages) {
 		if (title != null) {
   		    this.sectionTitle = title;
 	    	layout.add(this.sectionTitle);			
 		}
 		this.showLabel = showLabel;
 		layout.add(this.message);
-		collapsablePanel = new CollapsablePanel(showLabel, layout, isOpen);
+		collapsablePanel = new CollapsablePanel(showLabel, layout, isOpen, withImages);
 		this.initWidget(collapsablePanel);
 		layout.setStyleName("ks-form-module");
-		sectionTitle.addStyleName("ks-heading-page-section");		
+		sectionTitle.addStyleName("ks-heading-page-section");	
 	}
 	
 	@Override

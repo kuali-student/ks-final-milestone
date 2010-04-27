@@ -16,3 +16,7 @@
 .KS-Image{
 	margin: 2px;
 }
+
+.ks-image-middle-alignment {
+   vertical-align: middle;
+}
