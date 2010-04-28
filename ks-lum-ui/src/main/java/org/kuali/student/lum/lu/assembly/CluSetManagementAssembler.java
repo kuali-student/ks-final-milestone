@@ -28,9 +28,7 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
@@ -180,19 +178,10 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         if (cluSetInfo != null) {
 //          result.setClus
             if (cluSetInfo.getCluIds() != null) {
-                Data clusData = null;
+                result.setClus(new Data());
                 for (String cluId : cluSetInfo.getCluIds()) {
-                    CluInfo cluInfo = null;
-                    CluHelper cluHelper = CluHelper.wrap(new Data());
-                    cluInfo = luService.getClu(cluId);
-                    if (cluInfo != null) {
-                        cluHelper.setId(cluInfo.getId());
-                        cluHelper.setName(cluInfo.getOfficialIdentifier().getCode());
-                    }
-                    clusData = (clusData == null)? new Data() : clusData;
-                    clusData.add(cluHelper.getData());
+                    result.getClus().add(cluId);
                 }
-                result.setClus(clusData);
             }
             result.setDescription(richTextToString(cluSetInfo.getDescr()));
             result.setEffectiveDate(cluSetInfo.getEffectiveDate());
@@ -213,13 +202,15 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         List<String> cluIds = null;
         
         cluSetInfo.setId(cluSetHelper.getId());
-        for (Data.Property p : clusData) {
-        	if(!"_runtimeData".equals(p.getKey())){
-	            CluHelper cluHelper = CluHelper.wrap((Data)p.getValue());
-	            cluIds = (cluIds == null)? new ArrayList<String>(3) :
-	                cluIds;
-	            cluIds.add(cluHelper.getId());
-        	}
+        if (clusData != null) {
+            for (Data.Property p : clusData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluId = p.getValue();
+                    cluIds = (cluIds == null)? new ArrayList<String>(3) :
+                        cluIds;
+                    cluIds.add(cluId);
+                }
+            }
         }
         if (cluIds != null) {
             cluSetInfo.setCluIds(cluIds);

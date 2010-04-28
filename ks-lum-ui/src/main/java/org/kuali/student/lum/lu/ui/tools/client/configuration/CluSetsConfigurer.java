@@ -40,14 +40,8 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.AddCluLightBox;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemListFieldBinding;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluItemValue;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CluSetsConfigurer {
@@ -83,61 +77,15 @@ public class CluSetsConfigurer {
 
     private void addClusetDetailsSections(SectionView parentView, final String modelId) {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), WITH_DIVIDER);
-        CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title("Content"), !WITH_DIVIDER, modelId);
-        AddCluLightBox addCourseLightBox = new AddCluLightBox(configureSearch(ToolsConstants.SEARCH_COURSE));
-        clusetDetails.setAddApprovedCourseWidget(addCourseLightBox);
+        final CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title("Content"), !WITH_DIVIDER, modelId);
+//        AddCluLightBox addCourseLightBox = new AddCluLightBox(configureSearch(ToolsConstants.SEARCH_COURSE));
+//        clusetDetails.setAddApprovedCourseWidget(addCourseLightBox);
+//
+//        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
 
-        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
-        final FieldDescriptor clusFieldDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, "COURSES", cluItemList);
-        final CluItemListFieldBinding cluItemListFieldBinding = new CluItemListFieldBinding();
-        clusFieldDescriptor.setWidgetBinding(cluItemListFieldBinding);
-        // updates model when the list of cluItem is changed
-        // this handles the deletion of the items.  When the user deletes the items
-        // the event will be triggered.  The model that corresponds to the list is updated.
-        cluItemList.addValueChangeHandler(new ValueChangeHandler<List<CluItemValue>>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<List<CluItemValue>> event) {
-                final LayoutController parent = LayoutController.findParentLayout(cluItemList);
-                if(parent != null){
-                    parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
-                        @Override
-                        public void onModelReady(DataModel model) {
-                            cluItemListFieldBinding.setModelValue(cluItemList, model, clusFieldDescriptor.getFieldKey());
-                        }
-
-                        @Override
-                        public void onRequestFail(Throwable cause) {
-                            GWT.log("Unable to retrieve model" + clusFieldDescriptor.getFieldKey(), null);
-                        }
-
-                    });
-                }
-            }
-        });
-
-        // updates the widget "cluItemList" when the user finishes selected clus from the addCourseLightBox
-        addCourseLightBox.addSelectionCompleteCallback(
-                new Callback<List<CluItemValue>>() {
-                    @Override
-                    public void exec(List<CluItemValue> result) {
-                        List<CluItemValue> cluItems = cluItemList.getValue();
-                        if (result != null) {
-                            if (cluItems == null || cluItems.isEmpty()) {
-                                cluItemList.setValue(result);
-//                              // this causes cluItemList to be redrawn with new data
-//                                f.getFieldWidget()
-                            } else {
-                                for (CluItemValue selectedCluItem: result) {
-                                    if (!cluItems.contains(selectedCluItem)) {
-                                        cluItems.add(selectedCluItem);
-                                    }
-                                }
-                                // this causes cluItemList to be redrawn with new data
-                                cluItemList.setValue(cluItems);
-                            }
-                        }
-                    }
-                });
+        // ****** Add Clus *******
+        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, getLabel("Courses"));
+        // END OF items related to Add Clus
 
         addField(defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, getLabel(ToolsConstants.ORGANIZATION));
         addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, getLabel(ToolsConstants.TITLE));
@@ -232,13 +180,13 @@ public class CluSetsConfigurer {
         addField(expirationDateSection, ToolsConstants.CLU_SET_EXP_DATE_FIELD, getLabel(ToolsConstants.EFFECTIVE_DATE), new KSLabel());
         sectionView.addSection(expirationDateSection);
 
-        VerticalSection clusSection = initSection(null, WITH_DIVIDER);
-        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
-        cluItemList.setEditable(false);
-        FieldDescriptor clusFieldDescriptor = addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, "CLUs", cluItemList);
-        final CluItemListFieldBinding cluItemListFieldBinding = new CluItemListFieldBinding();
-        clusFieldDescriptor.setWidgetBinding(cluItemListFieldBinding);
-        sectionView.addSection(clusSection);
+//        VerticalSection clusSection = initSection(null, WITH_DIVIDER);
+//        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
+//        cluItemList.setEditable(false);
+//        FieldDescriptor clusFieldDescriptor = addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, "CLUs", cluItemList);
+//        final CluItemListFieldBinding cluItemListFieldBinding = new CluItemListFieldBinding();
+//        clusFieldDescriptor.setWidgetBinding(cluItemListFieldBinding);
+//        sectionView.addSection(clusSection);
         return sectionView;
     }
 

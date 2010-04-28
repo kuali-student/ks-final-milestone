@@ -325,8 +325,17 @@
 	</bean>
 
 	<bean id="CluSetManagementRpcGwtServlet" class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
-		<property name="assembler" ref="cluSetManagementAssembler" />
+		<property name="assembler" ref="CluSetManagementFilterManager" />
 		<property name="permissionService" ref="permissionServiceClient" />
+	</bean>
+
+	<bean id="CluSetManagementFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+		<constructor-arg ref="cluSetManagementAssembler"/>
+		<property name="filters">
+			<list>
+				<ref bean="idTranslatorAssemblerFilter" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="cluSetManagementAssembler" class="org.kuali.student.lum.lu.assembly.CluSetManagementAssembler" parent="baseAssembler">
