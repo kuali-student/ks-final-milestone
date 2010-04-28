@@ -141,6 +141,11 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			result.setOutcomeOptions(getLearningResultAssembler().getOutcomeOptions(id));
 
 			luData.setRuleInfos(getRules(id));
+			
+			//FIXME:  This is a hack to extract the rule info statements from LuData and put them
+			//  into the cluModel for use by View Course. Once Rule Info switches to using the DOL this method 
+			//  call can be removed 
+			extractStatements(luData);
 
 			// TODO - need a SingleUseLoListAssembler that calls SingleUseLoAssembler once for each LO
 			// associated with the course
@@ -1258,6 +1263,19 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		ruleInfoBean.setLuService(luService);
 		ruleInfoBean.setStatementService(statementService);
 		return ruleInfoBean.fetchRules(courseId);
+	}
+
+	//FIXME:  This is a hack to extract the rule info statements from LuData and put them
+	//  into the cluModel. Once Rule Info is using the correct DOL paths this method can be removed 
+	private void extractStatements(Data data) {
+		LuData luData = (LuData)data;
+		if (luData.getRuleInfos() != null && !luData.getRuleInfos().isEmpty()) {
+			Data statements = new Data();
+			for (RuleInfo r : luData.getRuleInfos()) {
+			   statements.add(r.getNaturalLanguage());	
+			}
+			data.set("statements",statements);
+		}
 	}
 
 	private RichTextInfo getRichText(RichTextInfoHelper hlp) throws AssemblyException {
