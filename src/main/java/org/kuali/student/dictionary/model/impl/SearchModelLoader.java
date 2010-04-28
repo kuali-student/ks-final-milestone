@@ -148,6 +148,14 @@ public class SearchModelLoader implements SearchModel
   row.setCaseSensitive (getFixup (worksheetReader, "Case?"));
   row.setOptional (getFixup (worksheetReader, "Optional"));
   row.setDefaultValue (getFixup (worksheetReader, "Default", "DefaultValue"));
+  if (worksheetReader.getIndex ("Service") != -1)
+  {
+   row.setService (getFixup (worksheetReader, "Service"));
+  }
+  else
+  {
+   row.setService ("");
+  }
   // default for spreadsheet that does not have these fields
   if (worksheetReader.getIndex ("WriteAccess") == -1)
   {
@@ -156,7 +164,6 @@ public class SearchModelLoader implements SearchModel
    row.setHidden ("");
    row.setUsage ("");
    row.setWidget ("");
-   row.setService (""); // TODO: set this based on the name of the file somehow
   }
   else
   {
@@ -165,7 +172,6 @@ public class SearchModelLoader implements SearchModel
    row.setHidden (getFixup (worksheetReader, "Hidden"));
    row.setUsage (getFixup (worksheetReader, "Usage"));
    row.setWidget (getFixup (worksheetReader, "Widget"));
-   row.setService (getFixup (worksheetReader, "Service"));
   }
  }
 
