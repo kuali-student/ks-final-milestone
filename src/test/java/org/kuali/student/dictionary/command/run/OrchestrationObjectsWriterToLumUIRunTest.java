@@ -63,7 +63,7 @@ public class OrchestrationObjectsWriterToLumUIRunTest
  {
   System.out.println ("main");
   String[] args = null;
-  OrchestrationObjectsWriterToLumUIRun.main (args);
+//  OrchestrationObjectsWriterToLumUIRun.main (args);
  }
 
 }

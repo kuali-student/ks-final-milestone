@@ -57,11 +57,11 @@ public class PageHelperTest implements RunConstants
  public void testGetDocument_URL_String ()
  {
   System.out.println ("getDocument");
-  URL url = new UrlHelper (ATP_CONTRACT_PATH_ON_WIKI).getUrl ();
-  String jSessionId = JSESSIONID;
-  PageHelper instance = new PageHelper ();
-  instance.setTrimmer (new BodyOnlyPageTrimmer ());
-  Document result = instance.getDocument (url, jSessionId);
+//  URL url = new UrlHelper (ATP_CONTRACT_PATH_ON_WIKI).getUrl ();
+//  String jSessionId = JSESSIONID;
+//  PageHelper instance = new PageHelper ();
+//  instance.setTrimmer (new BodyOnlyPageTrimmer ());
+//  Document result = instance.getDocument (url, jSessionId);
  }
 
  /**

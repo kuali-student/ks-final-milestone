@@ -63,7 +63,7 @@ public class ServicesWriterToComponentSandboxRunTest
  {
   System.out.println ("main");
   String[] args = null;
-  ServicesWriterToComponentSandboxRun.main (args);
+//  ServicesWriterToComponentSandboxRun.main (args);
  }
 
 }

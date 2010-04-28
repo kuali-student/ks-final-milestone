@@ -80,14 +80,14 @@ public class ServiceRepositoryPageReaderTest implements RunConstants
  public void testGetServices ()
  {
   System.out.println ("getServices");
-  ServiceRepositoryPageReader instance =
-   new ServiceRepositoryPageReader (SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
-  List<Service> list = instance.getServices ();
-  for (Service service : list)
-  {
-   System.out.println (service.getKey () + "=" + service.getName () + "(" + service.
-    getVersion () + ") " + service.getUrl ());
-  }
+//  ServiceRepositoryPageReader instance =
+//   new ServiceRepositoryPageReader (SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
+//  List<Service> list = instance.getServices ();
+//  for (Service service : list)
+//  {
+//   System.out.println (service.getKey () + "=" + service.getName () + "(" + service.
+//    getVersion () + ") " + service.getUrl ());
+//  }
  }
 
  

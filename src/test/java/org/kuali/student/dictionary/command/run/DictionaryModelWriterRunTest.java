@@ -63,7 +63,7 @@ public class DictionaryModelWriterRunTest
  {
   System.out.println ("main");
   String[] args = null;
-  DictionaryModelWriterRun.main (args);
+//  DictionaryModelWriterRun.main (args);
  }
 
 }

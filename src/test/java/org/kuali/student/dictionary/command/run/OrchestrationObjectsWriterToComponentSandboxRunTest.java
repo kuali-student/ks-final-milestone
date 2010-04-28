@@ -63,7 +63,7 @@ public class OrchestrationObjectsWriterToComponentSandboxRunTest
  {
   System.out.println ("main");
   String[] args = null;
-  OrchestrationObjectsWriterToComponentSandboxRun.main (args);
+//  OrchestrationObjectsWriterToComponentSandboxRun.main (args);
  }
 
 }
