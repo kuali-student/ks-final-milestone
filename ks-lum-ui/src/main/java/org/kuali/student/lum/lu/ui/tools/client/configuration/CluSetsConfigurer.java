@@ -87,6 +87,7 @@ public class CluSetsConfigurer {
         addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, getLabel("Courses"));
         // END OF items related to Add Clus
 
+        addField(defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD);
         addField(defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, getLabel(ToolsConstants.ORGANIZATION));
         addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, getLabel(ToolsConstants.TITLE));
         addField(defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, getLabel(ToolsConstants.DESCRIPTION), new KSTextArea());

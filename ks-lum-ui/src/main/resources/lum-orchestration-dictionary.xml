@@ -5530,6 +5530,7 @@
 				<ref bean="cluset.expirationDate" />
 				<ref bean="cluset.clus"/>
 				<ref bean="cluset.clusets"/>
+				<ref bean="cluset.type"/>
 			</list>
 		</property>
 	</bean>
@@ -5787,6 +5788,13 @@
 				<ref bean="constraint.repeating" />
 			</list>
 		</property>
+	</bean>
+	<bean id="cluset.type" parent="dataFieldDescriptor">
+		<property name="name" value="type" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="canView" value="false" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
 	</bean>
 	<bean id="cluset.search" parent="dataFieldDescriptor">
 		<property name="name" value="search" />
