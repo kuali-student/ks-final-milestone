@@ -45,7 +45,8 @@ public class ServiceMessageStructureTypeCalculator
   if (type.equalsIgnoreCase ("attributeInfoList"))
   {
    importsAdd (writer, Map.class.getName ());
-   return "Map<String,String>";
+//   return "Map<String,String>";
+   return "String";
   }
 
   if (type.endsWith ("List"))

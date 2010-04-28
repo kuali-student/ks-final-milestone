@@ -47,8 +47,8 @@ public class DateUtility
   }
   String[] formats =
   {
-   "MM/dd/yyyy",
-   "yyyy-MM-dd"
+   "yyyy-MM-dd",
+   "MM/dd/yyyy"
   };
   ParseException pe = null;
   for (int i = 0; i < formats.length; i ++)

@@ -57,7 +57,7 @@ public class WikiServiceContractModelImplRun implements RunConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "94FAB190ACB01FE9227A98A50590479A.Kuali3_1Engine";
+  "452588DE694E226763B940A1CC94C149.Kuali3_1Engine";
 
  public WikiServiceContractModelImplRun ()
  {
