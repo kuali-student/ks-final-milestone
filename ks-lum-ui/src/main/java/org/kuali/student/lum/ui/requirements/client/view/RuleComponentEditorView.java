@@ -391,7 +391,7 @@ public class RuleComponentEditorView extends ViewComposite {
         btnCancelView.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {                
                 //if rule has not been created, cancel should return user back to initial rules summary screen
-                if (model.getValue().getNaturalLanguage() == null) {
+                if (editedStatementVO.getReqComponentVOs().size() == 0) {
                     ((CourseReqManager)getController()).removeRule(model.getValue());                    
                     getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);                    
                 } else {                
