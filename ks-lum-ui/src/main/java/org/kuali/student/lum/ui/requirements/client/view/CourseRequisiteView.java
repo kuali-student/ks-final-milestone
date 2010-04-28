@@ -34,14 +34,11 @@ import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -51,7 +48,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequisiteView extends ViewComposite {
-    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);   
     
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
@@ -80,6 +76,11 @@ public class CourseRequisiteView extends ViewComposite {
         super(controller, "Course Requisites");
         super.initWidget(mainPanel);   
         
+        this.prereqRationaleTextArea.setVisible(false);
+        this.coreqRationaleTextArea.setVisible(false);
+        this.antireqRationaleTextArea.setVisible(false);
+        this.enrollRationaleTextArea.setVisible(false);
+
         applicableLuStatementTypes.add(RuleConstants.KS_STATEMENT_TYPE_PREREQ);
         applicableLuStatementTypes.add(RuleConstants.KS_STATEMENT_TYPE_COREQ);
         applicableLuStatementTypes.add(RuleConstants.KS_STATEMENT_TYPE_ANTIREQ);
@@ -118,7 +119,7 @@ public class CourseRequisiteView extends ViewComposite {
 
         for (String luStatementType : applicableLuStatementTypes) {
         	setupRuleType(luStatementType);
-        }         
+        }
     }
     
     private void setupRuleType(String luStatementTypeKey) {
@@ -260,7 +261,7 @@ public class CourseRequisiteView extends ViewComposite {
         rulesInfoPanel.add(heading);
         
         //BODY: rules RATIONALE
-        KSTextArea rantionale = getRationaleTextArea(luStatementTypeKey);
+        /*KSTextArea rantionale = getRationaleTextArea(luStatementTypeKey);
         HorizontalPanel rationalePanel = new HorizontalPanel();
         SimplePanel tempHolder = new SimplePanel();
         KSLabel rationale = new KSLabel("Rationale");
@@ -273,7 +274,7 @@ public class CourseRequisiteView extends ViewComposite {
         note.setStyleName("KS-ReqMgr-Note");         
         tempHolder4.add(note);      
         rationalePanel.add(tempHolder4);
-        rulesInfoPanel.add(rationalePanel);
+        rulesInfoPanel.add(rationalePanel);*/
                
         //BODY: rules        
         HorizontalPanel rationalePanel2 = new HorizontalPanel();
