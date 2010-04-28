@@ -94,27 +94,27 @@ public class CategoryManagementTable extends Composite {
         }  
     }
     
-    private void initCategoryManagementTable(){
+    private void initCategoryManagementTable(SelectionPolicy selectionPolicy){
         layout.setWidth("100%");
         initWidget(layout);
         builder = new PagingScrollTableBuilder<ResultRow>();
         createColumnDefs();
         builder.tablePixelSize(400, 300);
-        builder.setSelectionPolicy(SelectionPolicy.ONE_ROW);
+        builder.setSelectionPolicy(selectionPolicy);
     }
     public CategoryManagementTable() {
         super();
-        initCategoryManagementTable();
+        initCategoryManagementTable(SelectionPolicy.ONE_ROW);
     }
     /**
      * This constructs a CategoryManagementTable with an instance option
      * 
      * @param hideInactiveCategories
      */
-    public CategoryManagementTable(boolean hideInactiveCategories) {
+    public CategoryManagementTable(boolean hideInactiveCategories, SelectionPolicy selectionPolicy) {
         super();
         this.hideInactiveCategories = hideInactiveCategories;
-        initCategoryManagementTable();
+        initCategoryManagementTable(selectionPolicy);
     }
     /**
      * Two flags control whether to show rows with inactive categories and the state column.

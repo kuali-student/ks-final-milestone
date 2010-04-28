@@ -50,6 +50,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -116,7 +117,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final CategoryManagement categoryManagement = new CategoryManagement(true);
+                final CategoryManagement categoryManagement = new CategoryManagement(true,SelectionPolicy.MULTI_ROW);
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);
@@ -386,22 +387,11 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
          }
 
          private void init () {
-
              focus.addWidget(suggestBox);
-
              loSearchOracle.setTextWidget(suggestBox.getTextBox());
-//           final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-//           QueryParamValue luStateParam = new QueryParamValue();
-//           luStateParam.setKey("lu.queryParam.cluState");     
-//           luStateParam.setValue(STATE_ACTIVATED);
-//           params.add(luStateParam);
-//           luSearchOracle.setAdditionalQueryParams(params);
-
              main.add(suggestBox);
              initWidget(main);
          }
-
-
 
          @Override
          public String getValue() {
