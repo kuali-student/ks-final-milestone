@@ -52,6 +52,8 @@
 			<ref bean="lu.queryParam.luOptionalLevel"/>
 			<ref bean="lu.queryParam.luOptionalDescr"/>
 			<ref bean="lu.queryParam.luOptionalState"/>
+			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
+			<ref bean="lu.queryParam.luOptionalCrsNoRange"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -90,6 +92,14 @@
 	<search:queryParam id="lu.queryParam.luOptionalState" parent="lu.queryParam.luOptionalState-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalState-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.state.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalFreeFormState" parent="lu.queryParam.luOptionalFreeFormState-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalFreeFormState-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.state.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange" parent="lu.queryParam.luOptionalCrsNoRange-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange-parent"  optional="true" abstract="true">
+	    <ref bean="field.cluInfo.officialIdentifier.level.fd"/>
 	</search:queryParam>
 
 	<search:searchResultTypeInfo id="lu.result.generic" parent="lu.result.generic-parent"/>
@@ -510,6 +520,7 @@
         	<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDescr" subSearchParam="lu.queryParam.luOptionalDescr"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalFreeFormState" subSearchParam="lu.queryParam.luOptionalFreeFormState"/>
         </search:subSearch>	        
 		<search:joinCriteria type="AND">
 			<search:comparison type="EQUALS">
@@ -568,7 +579,16 @@
 		        </entry>
 		       	<!-- search for courses but exclude 'Retired' courses -->
 		        <entry key="lu.search.generic">
+<!--
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId, clu.state FROM Clu clu WHERE clu.state NOT IN ('retired')</value>
+ -->
+                    <value>SELECT clu.id, officialIdentifier.longName,
+                    officialIdentifier.code, officialIdentifier.level,
+                    cludesc.plain, primaryAdminOrg.orgId, clu.state
+                    FROM Clu clu
+                    LEFT JOIN clu.officialIdentifier officialIdentifier
+                    LEFT JOIN clu.descr cludesc
+                    LEFT JOIN clu.primaryAdminOrg primaryAdminOrg</value>
 		        </entry>    
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
@@ -625,7 +645,12 @@
 				<entry key="lu.queryParam.luOptionalLuTypeStartsWith">
 					<value>lut.id</value>
 				</entry>
-				
+				<entry key="lu.queryParam.luOptionalFreeFormState">
+				    <value>!!</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalCrsNoRange">
+				    <value>!!NUMBER_RANGE clu.officialIdentifier.level</value>
+				</entry>
             </map>
 		</property>
 	</bean>

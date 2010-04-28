@@ -146,7 +146,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             try {
                 //FIXME should user be specifying the type
                 //TODO remove when done testing
-                cluSetInfo.setType("Test type");
+                cluSetInfo.setType("kuali.cluSet.type.creditCourse");
                 // end of test code
                 updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
             } catch (Exception e) {
