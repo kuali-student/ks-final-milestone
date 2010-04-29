@@ -17,6 +17,7 @@ copy ..\..\..\..\*.xml .
 del schema.xml
 cd ..\schema
 copy ..\..\..\..\schema.xml .
+rename schema.xml %DATABASE%-schema.xml
 cd ..\..\..\..
 rmdir /q/s doc
 del *.* /q
