@@ -1,0 +1,59 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+@eval PRIMARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_1;
+@eval PRIMARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_2;
+@eval SECONDARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_1;
+@eval SECONDARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_2;
+.KSAccordion{
+	
+}
+.KS-Accordion-Titlebar{
+
+	width: 200;
+	height: 20;
+		
+	border-left: 1px solid PRIMARYCOLOR1;
+	border-right: 2px solid PRIMARYCOLOR2;
+	border-bottom: 2px solid PRIMARYCOLOR2;
+	border-top: 1px solid PRIMARYCOLOR1;
+	margin: 2px;
+
+	background-color: PRIMARYCOLOR1;	
+}
+
+.KS-Accordion-Titlebar-Hover{
+	background-color: PRIMARYCOLOR1;
+	border-left: 1px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	border-top: 1px solid black;
+
+	cursor:pointer;
+}
+
+.KS-Accordion-Titlebar-Focus{
+	background-color: PRIMARYCOLOR1;
+}
+.KS-Accordion-Titlebar-Open{
+
+	background-color: SECONDARYCOLOR1;
+	border: 2px solid black;
+}
+
+.KS-Accordion-Titlebar-Label{
+	font-weight: bold;
+	font-size: 80%;
+}
