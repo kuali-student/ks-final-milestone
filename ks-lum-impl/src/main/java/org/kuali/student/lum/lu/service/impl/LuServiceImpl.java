@@ -2131,7 +2131,7 @@ public class LuServiceImpl implements LuService {
 	
 	@Override
 	// TODO: Fix return CluSetInfo's meta version, version doesn't seem to 
-	// increment until method getCluSetInfo is called
+	// increment until method getCluSetInfo is called (in TestLuServiceImpl)
 	public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2165,6 +2165,7 @@ public class LuServiceImpl implements LuService {
 		}
 
 		// update the cluIds
+		cluSet.setClus(null);
 		if(!cluSetInfo.getCluIds().isEmpty()) {
 			Set<String> newCluIds = new HashSet<String>(cluSetInfo.getCluIds());
 			for (Iterator<Clu> i = cluSet.getClus().iterator(); i.hasNext();) {
@@ -2172,24 +2173,27 @@ public class LuServiceImpl implements LuService {
 					i.remove();
 				}
 			}
-			this.addClusToCluSet(new ArrayList<String>(newCluIds), cluSet.getId());
+			List<Clu> cluList = luDao.getClusByIdList(new ArrayList<String>(newCluIds));
+			cluSet.setClus(cluList);
 		}
+
 		// update the cluSetIds
-		else if(!cluSetInfo.getCluSetIds().isEmpty()) {
+		cluSet.setCluSets(null);
+		if(!cluSetInfo.getCluSetIds().isEmpty()) {
 			Set<String> newCluSetIds = new HashSet<String>(cluSetInfo.getCluSetIds());
 			for (Iterator<CluSet> i = cluSet.getCluSets().iterator(); i.hasNext();) {
 				if (!newCluSetIds.remove(i.next().getId())) {
 					i.remove();
 				}
 			}
-			this.addCluSetsToCluSet(cluSet.getId(), new ArrayList<String>(newCluSetIds));
+			List<CluSet> cluSetList = luDao.getCluSetInfoByIdList(new ArrayList<String>(newCluSetIds));
+			cluSet.setCluSets(cluSetList);
 		}
-
+		
 		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "descr",
 				"attributes", "metaInfo", "membershipQuery" });
 		cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet,
-				luDao));
+				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
 		cluSet.setDescr(LuServiceAssembler.toRichText(LuRichText.class, cluSetInfo.getDescr()));
 		
 		MembershipQuery mq = LuServiceAssembler.toMembershipQueryEntity(cluSetInfo.getMembershipQuery());
