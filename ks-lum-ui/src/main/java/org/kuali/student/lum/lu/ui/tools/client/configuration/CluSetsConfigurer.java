@@ -78,21 +78,22 @@ public class CluSetsConfigurer {
     private void addClusetDetailsSections(SectionView parentView, final String modelId) {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), WITH_DIVIDER);
         final CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title("Content"), !WITH_DIVIDER, modelId);
+        ModelIdPlaceHolder modelIdObj = new ModelIdPlaceHolder(modelId);
 //        AddCluLightBox addCourseLightBox = new AddCluLightBox(configureSearch(ToolsConstants.SEARCH_COURSE));
 //        clusetDetails.setAddApprovedCourseWidget(addCourseLightBox);
 //
 //        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
 
         // ****** Add Clus *******
-        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, getLabel("Courses"));
+        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, getLabel("Courses")).setModelId(modelId);
         // END OF items related to Add Clus
 
-        addField(defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD);
-        addField(defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, getLabel(ToolsConstants.ORGANIZATION));
-        addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, getLabel(ToolsConstants.TITLE));
-        addField(defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, getLabel(ToolsConstants.DESCRIPTION), new KSTextArea());
-        addField(defineCluSet, ToolsConstants.CLU_SET_EFF_DATE_FIELD, getLabel(ToolsConstants.EFFECTIVE_DATE), new KSDatePicker());
-        addField(defineCluSet, ToolsConstants.CLU_SET_EXP_DATE_FIELD, getLabel(ToolsConstants.EXPIRATION_DATE), new KSDatePicker());
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD);
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, getLabel(ToolsConstants.ORGANIZATION));
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, getLabel(ToolsConstants.TITLE));
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, getLabel(ToolsConstants.DESCRIPTION), new KSTextArea());
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EFF_DATE_FIELD, getLabel(ToolsConstants.EFFECTIVE_DATE), new KSDatePicker());
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EXP_DATE_FIELD, getLabel(ToolsConstants.EXPIRATION_DATE), new KSDatePicker());
 
         parentView.addSection(clusetDetails);
         parentView.addSection(defineCluSet);
@@ -306,25 +307,40 @@ public class CluSetsConfigurer {
 
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
+    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey) {
+    	return addField(modelIdObj, section, fieldKey, null, null, null);
+    }
+    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, String fieldLabel) {
+    	return addField(modelIdObj, section, fieldKey, fieldLabel, null, null);
+    }
+    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, String fieldLabel, Widget widget) {
+    	return addField(modelIdObj, section, fieldKey, fieldLabel, widget, null);
+    }
+    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, String fieldLabel, String parentPath) {
+        return addField(modelIdObj, section, fieldKey, fieldLabel, null, parentPath);
+    }
     private FieldDescriptor addField(Section section, String fieldKey) {
-    	return addField(section, fieldKey, null, null, null);
+    	return addField(null, section, fieldKey, null, null, null);
     }
     private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel) {
-    	return addField(section, fieldKey, fieldLabel, null, null);
+    	return addField(null, section, fieldKey, fieldLabel, null, null);
     }
     private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
-    	return addField(section, fieldKey, fieldLabel, widget, null);
+    	return addField(null, section, fieldKey, fieldLabel, widget, null);
     }
     private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
-        return addField(section, fieldKey, fieldLabel, null, parentPath);
+        return addField(null, section, fieldKey, fieldLabel, null, parentPath);
     }
-    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
+    private FieldDescriptor addField(ModelIdPlaceHolder modelId, Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
     	Metadata meta = modelDefinition.getMetadata(path);
 
     	FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
     	if (widget != null) {
     		fd.setFieldWidget(widget);
+    	}
+    	if (modelId != null) {
+    		fd.setModelId(modelId.getModelId());
     	}
     	section.addField(fd);
     	return fd;
@@ -344,6 +360,22 @@ public class CluSetsConfigurer {
 
     public void setViewSearchCluSetId(String viewSearchCluSetId) {
         this.viewSearchCluSetId = viewSearchCluSetId;
+    }
+    
+    class ModelIdPlaceHolder {
+    	private String modelId;
+    	
+    	public ModelIdPlaceHolder(String modelId) {
+    		setModelId(modelId);
+    	}
+    	
+		public String getModelId() {
+			return modelId;
+		}
+
+		public void setModelId(String modelId) {
+			this.modelId = modelId;
+		}
     }
 
 }

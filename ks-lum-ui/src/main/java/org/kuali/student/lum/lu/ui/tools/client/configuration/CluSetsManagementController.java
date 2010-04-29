@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -220,28 +221,52 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 
             @Override
             public void onValidateRequest(ValidateRequestEvent event) {
-                requestModel(new ModelRequestCallback<DataModel>() {
-                    @Override
-                    public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultInfo>>() {
-                            @Override
-                            public void exec(List<ValidationResultInfo> result) {
-                                ValidateResultEvent e = new ValidateResultEvent();
-                                e.setValidationResult(result);
-                                fireApplicationEvent(e);
-                            }
-                        });
-                    }
+            	FieldDescriptor originatingField = event.getFieldDescriptor();
+            	String modelId = null;
+            	if (originatingField != null) {
+            		modelId = originatingField.getModelId();
+            	}
+            	if (modelId == null) {
+            		requestModel(new ModelRequestCallback<DataModel>() {
+            			@Override
+            			public void onModelReady(DataModel model) {
+            				validateModel(model);
+            			}
 
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        GWT.log("Unable to retrieve model for validation", cause);
-                    }
+            			@Override
+            			public void onRequestFail(Throwable cause) {
+            				GWT.log("Unable to retrieve model for validation", cause);
+            			}
 
-                });
+            		});
+            	} else {
+            		requestModel(modelId, new ModelRequestCallback<DataModel>() {
+            			@Override
+            			public void onModelReady(DataModel model) {
+            				validateModel(model);
+            			}
+
+            			@Override
+            			public void onRequestFail(Throwable cause) {
+            				GWT.log("Unable to retrieve model for validation", cause);
+            			}
+
+            		});
+            	}
             }
 
         });
+    }
+    
+    private void validateModel(DataModel model) {
+		model.validate(new Callback<List<ValidationResultInfo>>() {
+			@Override
+			public void exec(List<ValidationResultInfo> result) {
+				ValidateResultEvent e = new ValidateResultEvent();
+				e.setValidationResult(result);
+				fireApplicationEvent(e);
+			}
+		});
     }
 
     private KSButton getQuitButton(){
