@@ -20,7 +20,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.0.0-m5-SNAPSHOT</version>
+  <version>1.0.0-rc1</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <repositories>
