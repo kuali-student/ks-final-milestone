@@ -1,5 +1,5 @@
 set QUALIFIER=tags
-set VERSION=1.0.0-m5
+set VERSION=1.0.0-rc1.1
 
 set MODULE=ks-core-db
 call removeThenCopyDb %MODULE% %QUALIFIER% %VERSION%
