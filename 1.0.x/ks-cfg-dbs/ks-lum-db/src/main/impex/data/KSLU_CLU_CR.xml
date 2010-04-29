@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLU_CLU_CR ID="CR-1" INSTR_UNIT="0"
         MAX_ALOW_INACV_ATP="ATP-INACT-1" MAX_ALOW_INACV_TMQ="0"

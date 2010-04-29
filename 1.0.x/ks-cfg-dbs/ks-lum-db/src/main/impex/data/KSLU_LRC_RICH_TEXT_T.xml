@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLU_LRC_RICH_TEXT_T FORMATTED="&lt;p>Pass or Fail&lt;/p>"
         ID="RICHTEXT-LRC-RC-1" PLAIN="Pass or Fail"/>
