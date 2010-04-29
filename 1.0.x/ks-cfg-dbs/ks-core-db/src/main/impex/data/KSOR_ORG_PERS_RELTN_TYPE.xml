@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
 <dataset>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
         NAME="Administrative Assistant"
