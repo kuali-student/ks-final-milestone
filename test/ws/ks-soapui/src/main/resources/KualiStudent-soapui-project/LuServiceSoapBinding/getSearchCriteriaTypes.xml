@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getSearchCriteriaTypes" bindingOperationName="getSearchCriteriaTypes" type="Request-Response" outputName="getSearchCriteriaTypesResponse" inputName="getSearchCriteriaTypes" receivesAttachments="false" sendsAttachments="false" id="48de5fc3-b797-44e8-91e9-3dc3ee0d38d7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
