@@ -308,7 +308,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
             @Override
             public void onSuccess(SearchResult results) {
                 IdableSuggestion theSuggestion = null;
-                if(results != null){
+                if(results != null && !results.getRows().isEmpty()){
                 	SearchResultRow r = results.getRows().get(0);
                     theSuggestion = new IdableSuggestion();
                     for(SearchResultCell c: r.getCells()){
