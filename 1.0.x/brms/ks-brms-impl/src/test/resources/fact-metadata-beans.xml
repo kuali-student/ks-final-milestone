@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="factDataSupport"
+		class="org.kuali.student.brms.factfinder.util.FactDataSupport">
+		<property name="factTypeInfoList">
+			<list>
+				<ref bean="factType1"/>
+				<ref bean="factType2"/>
+			</list>
+		</property>
+	</bean>		
+	
+	<bean id="factType1" 
+		class="org.kuali.student.brms.factfinder.dto.FactTypeInfo">
+		<property name="id" value="fact.earned_credit_list"/>
+		<property name="name" value="fact.earned_credit_list"/>
+		<property name="descr" value="List of credits earned by a student"/>
+		<property name="factResultTypeInfo" ref="factResultType1"/>
+		<property name="factCriteriaTypeInfo" ref="factCriteriaType1"/>
+	</bean>
+
+	<bean id="factType2" 
+		class="org.kuali.student.brms.factfinder.dto.FactTypeInfo">
+		<property name="id" value="fact.completed_course_list"/>
+		<property name="name" value="fact.completed_course_list"/>
+		<property name="descr" value="List of courses completed by a student"/>
+		<property name="factResultTypeInfo" ref="factResultType2"/>
+		<property name="factCriteriaTypeInfo" ref="factCriteriaType2"/>
+	</bean>
+
+	<bean id="factResultType1"
+		class="org.kuali.student.brms.factfinder.dto.FactResultTypeInfo">
+		<property name="id" value="result.courseCreditInfo"/>
+		<property name="name" value="result.courseCreditInfo"/>
+		<property name="descr" value="Persons course credit information"/>
+		<property name="resultColumnsMap">
+			<map>
+                <entry>
+                    <key><value>resultColumn.cluId</value></key>
+                    <bean class="org.kuali.student.brms.factfinder.dto.FactResultColumnInfo">
+                        <property name="key" value="resultColumn.cluId"/>
+                        <property name="name" value="resultColumn.cluId"/>
+                        <property name="description" value="Course Name"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
+                <entry>
+                    <key><value>resultColumn.description</value></key>
+                    <bean class="org.kuali.student.brms.factfinder.dto.FactResultColumnInfo">
+                        <property name="key" value="resultColumn.description"/>
+                        <property name="name" value="resultColumn.description"/>
+                        <property name="description" value="CLU Description"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
+                <entry>
+                    <key><value>resultColumn.credit</value></key>
+                    <bean class="org.kuali.student.brms.factfinder.dto.FactResultColumnInfo">
+                        <property name="key" value="resultColumn.credit"/>
+                        <property name="name" value="resultColumn.credit"/>
+                        <property name="description" value="Credits"/>
+                        <property name="dataType" value="java.lang.Number"/>                                                
+                    </bean>
+                </entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="factResultType2"
+		class="org.kuali.student.brms.factfinder.dto.FactResultTypeInfo">
+		<property name="id" value="result.completedCourseInfo"/>
+		<property name="name" value="result.completedCourseInfo"/>
+		<property name="descr" value="Course completed by a person"/>
+		<property name="resultColumnsMap">
+			<map>
+				<entry>
+					<key><value>resultColumn.cluId</value></key>
+					<bean class="org.kuali.student.brms.factfinder.dto.FactResultColumnInfo">
+						<property name="key" value="resultColumn.cluId"/>
+						<property name="name" value="resultColumn.cluId"/>
+						<property name="description" value="Course Name"/>
+						<property name="dataType" value="java.lang.String"/>												
+					</bean>
+				</entry>
+                <entry>
+                    <key><value>resultColumn.description</value></key>
+                    <bean class="org.kuali.student.brms.factfinder.dto.FactResultColumnInfo">
+                        <property name="key" value="resultColumn.description"/>
+                        <property name="name" value="resultColumn.description"/>
+                        <property name="description" value="CLU Description"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
+			</map>
+		</property>
+	</bean>
+		
+	<bean id="factCriteriaType1"
+		class="org.kuali.student.brms.factfinder.dto.FactCriteriaTypeInfo">
+		<property name="id" value="criteria.courseCreditInfo"/>
+		<property name="name" value="criteria.courseCreditInfo"/>
+		<property name="descr" value="Criteria for retrieving credits"/>
+		<property name="factParamMap">
+			<map>
+				<entry>
+					<key><value>factParam.studentId</value></key>
+					<bean class="org.kuali.student.brms.factfinder.dto.FactParamInfo">
+						<property name="key" value="factParam.studentId"/>
+						<property name="name" value="factParam.studentId"/>
+						<property name="description" value="Student "/>
+						<property name="dataType" value="java.lang.String"/>
+						<property name="minLength" value="1"/>
+						<property name="maxLength" value="10"/>
+						<property name="minOccurs" value="1"/>
+						<property name="maxOccurs" value="1"/>
+						<property name="validCharacters" value="ABCDEF0123456789"/>
+						<property name="defTime" value="KUALI_FACT_EXECUTION_TIME_KEY"/>																																										
+					</bean>
+				</entry>
+				<entry>
+					<key><value>factParam.clusetId</value></key>
+					<bean class="org.kuali.student.brms.factfinder.dto.FactParamInfo">
+						<property name="key" value="factParam.clusetId"/>
+						<property name="name" value="factParam.clusetId"/>
+						<property name="description" value="Cluset for which the credits are required"/>
+						<property name="dataType" value="java.lang.String"/>
+						<property name="minLength" value="1"/>
+						<property name="maxLength" value="99999"/>
+						<property name="minOccurs" value="1"/>
+						<property name="maxOccurs" value="1"/>
+						<property name="validCharacters" value="ABCDEF0123456789,"/>
+						<property name="defTime" value="KUALI_FACT_DEFINITION_TIME_KEY"/>																																										
+					</bean>
+				</entry>
+				<entry>
+					<key><value>factParam.excludeCluSet</value></key>
+					<bean class="org.kuali.student.brms.factfinder.dto.FactParamInfo">
+						<property name="key" value="factParam.excludeCluSet"/>
+						<property name="name" value="factParam.excludeCluSet"/>
+						<property name="description" value="Cluset that needs to be excluded from the calculation"/>
+						<property name="dataType" value="java.lang.String"/>
+						<property name="minLength" value="0"/>
+						<property name="maxLength" value="99999"/>
+						<property name="minOccurs" value="0"/>
+						<property name="maxOccurs" value="1"/>
+						<property name="validCharacters" value="ABCDEF0123456789,"/>
+						<property name="defTime" value="KUALI_FACT_DEFINITION_TIME_KEY"/>																																										
+					</bean>
+				</entry>
+			</map>		
+		</property>		
+	</bean>
+	
+	<bean id="factCriteriaType2"
+		class="org.kuali.student.brms.factfinder.dto.FactCriteriaTypeInfo">
+		<property name="id" value="criteria.completedCourseInfo"/>
+		<property name="name" value="criteria.completedCourseInfo"/>
+		<property name="descr" value="Criteria for retrieving courses completed by a student"/>
+		<property name="factParamMap">
+			<map>
+				<entry>
+					<key><value>factParam.studentId</value></key>
+					<bean class="org.kuali.student.brms.factfinder.dto.FactParamInfo">
+						<property name="key" value="factParam.studentId"/>
+						<property name="name" value="factParam.studentId"/>
+						<property name="description" value="Student Id"/>
+						<property name="dataType" value="java.lang.String"/>
+						<property name="minLength" value="1"/>
+						<property name="maxLength" value="10"/>
+						<property name="minOccurs" value="1"/>
+						<property name="maxOccurs" value="1"/>
+						<property name="validCharacters" value="ABCDEF0123456789"/>
+						<property name="defTime" value="KUALI_FACT_EXECUTION_TIME_KEY"/>																																										
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>		
+</beans>
