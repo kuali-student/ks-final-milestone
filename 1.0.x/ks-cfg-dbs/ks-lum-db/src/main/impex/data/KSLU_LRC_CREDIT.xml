@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
+<dataset>
+    <KSLU_LRC_CREDIT ID="LRC-RESULT_VALUE-CREDIT-1" TYPE="lrcType.credit.1"/>
+    <KSLU_LRC_CREDIT ID="LRC-RESULT_VALUE-CREDIT-2" TYPE="lrcType.credit.2"/>
+    <KSLU_LRC_CREDIT ID="LRC-RESULT_VALUE-CREDIT-3" TYPE="lrcType.credit.3"/>
+    <KSLU_LRC_CREDIT ID="LRC-RESULT_VALUE-CREDIT-4" TYPE="lrcType.credit.3"/>
+</dataset>
