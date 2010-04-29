@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KREW_STYLE_T ACTV_IND="1" NM="widgets"
         OBJ_ID="6166CBA1BC06644DE0404F8189D86C09" STYLE_ID="2004"

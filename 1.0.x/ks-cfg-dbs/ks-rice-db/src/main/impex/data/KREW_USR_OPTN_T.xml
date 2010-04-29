@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KREW_USR_OPTN_T PRNCPL_ID="admin"
         PRSN_OPTN_ID="ACTION_LIST_SIZE_NEW" VAL="10" VER_NBR="2"/>

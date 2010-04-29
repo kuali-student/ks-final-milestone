@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KRIM_ENTITY_EXT_ID_T ENTITY_EXT_ID_ID="4298" ENTITY_ID="1100"
         EXT_ID="XBy8HbA0p2kc3lalnjPKpA==" EXT_ID_TYP_CD="TAX"

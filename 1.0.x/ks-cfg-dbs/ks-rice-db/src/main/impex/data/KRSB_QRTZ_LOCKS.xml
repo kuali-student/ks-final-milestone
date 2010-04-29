@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KRSB_QRTZ_LOCKS LOCK_NAME="CALENDAR_ACCESS"/>
     <KRSB_QRTZ_LOCKS LOCK_NAME="JOB_ACCESS"/>
