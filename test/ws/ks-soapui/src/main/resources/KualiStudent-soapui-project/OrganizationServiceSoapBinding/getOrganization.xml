@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getOrganization" bindingOperationName="getOrganization" type="Request-Response" outputName="getOrganizationResponse" inputName="getOrganization" receivesAttachments="false" sendsAttachments="false" anonymous="optional" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:call name="getOrganization51"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/OrganizationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:org="http://student.kuali.org/wsdl/organization">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <org:getOrganization>
+         <!--Optional:-->
+         
+      <orgId>51</orgId></org:getOrganization>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/organization/OrganizationService/getOrganization"/><con:wsrmConfig version="1.2"/></con:call></con:operation>
