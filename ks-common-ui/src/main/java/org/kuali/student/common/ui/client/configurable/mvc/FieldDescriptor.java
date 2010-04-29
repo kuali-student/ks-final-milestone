@@ -54,6 +54,7 @@ public class FieldDescriptor {
     private RequiredEnum requiredState = RequiredEnum.NOT_MARKED;
     private boolean dirty = false;
     private boolean hasHadFocus = false;
+    private String modelId; 
     
     
    
@@ -270,6 +271,11 @@ public class FieldDescriptor {
 	public void setFieldWidget(Widget fieldWidget) {
 		this.fieldWidget = fieldWidget;
 	}
-    
+	public String getModelId() {
+		return modelId;
+	}
+	public void setModelId(String modelId) {
+		this.modelId = modelId;
+	}
     
 }

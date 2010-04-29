@@ -159,26 +159,37 @@ public abstract class BaseSection extends Composite implements Section{
             	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
             	    if (mwb != null) {
             	        final Widget w = fieldDescriptor.getFieldWidget();
+            	        final String modelId = fieldDescriptor.getModelId();
                         final LayoutController parent = LayoutController.findParentLayout(w);
                         if(parent != null){
-                            parent.requestModel(new ModelRequestCallback<DataModel>() {
+                        	if (modelId == null) {
+                        		parent.requestModel(new ModelRequestCallback<DataModel>() {
 
-                                @Override
-                                public void onModelReady(DataModel model) {
-                                	if(fieldDescriptor.getFieldKey() != null){
-	                                    mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
-	                                    ValidateRequestEvent e = new ValidateRequestEvent();
-	                                    e.setFieldDescriptor(fieldDescriptor);
-	                                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
-                                	}
-                                }
+                        			@Override
+                        			public void onModelReady(DataModel model) {
+                        				validateField(fieldDescriptor, model);
+                        			}
 
-                                @Override
-                                public void onRequestFail(Throwable cause) {
-                                    GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
-                                }
-                                
-                            });
+                        			@Override
+                        			public void onRequestFail(Throwable cause) {
+                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+                        			}
+
+                        		});
+                        	} else {
+                        		parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+
+                        			@Override
+                        			public void onModelReady(DataModel model) {
+                        				validateField(fieldDescriptor, model);
+                        			}
+
+                        			@Override
+                        			public void onRequestFail(Throwable cause) {
+                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+                        			}
+
+                        		});                        	}
             	    	}
                     } else {
                         GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
@@ -188,6 +199,18 @@ public abstract class BaseSection extends Composite implements Section{
         }
         binding.bind(fieldDescriptor);
 		
+	}
+	
+	private void validateField( 
+			final FieldDescriptor fieldDescriptor, final DataModel model) {
+		Widget w = fieldDescriptor.getFieldWidget();
+		ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
+		if(fieldDescriptor.getFieldKey() != null){
+			mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
+			ValidateRequestEvent e = new ValidateRequestEvent();
+			e.setFieldDescriptor(fieldDescriptor);
+			LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
+		}
 	}
 	
 	@Override
