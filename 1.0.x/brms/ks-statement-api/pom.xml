@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.brms.statement</groupId>
+	<artifactId>ks-statement-api</artifactId>
+	<version>1.0.0-rc1</version>
+	<packaging>jar</packaging>
+	<name>KS BRMS Statement API</name>
+	<description>KS BRMS Statement API</description>
+
+    <parent>
+        <groupId>org.kuali.student.brms</groupId>
+        <artifactId>ks-brms</artifactId>
+        <version>1.0.0-rc1</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>statement-wsdl</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<className>
+								org.kuali.student.brms.statement.service.StatementService
+							</className>
+							<serviceName>StatementService</serviceName>
+							<targetNameSpace>http://student.kuali.org/wsdl/brms/statement</targetNameSpace>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
