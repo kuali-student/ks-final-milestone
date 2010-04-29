@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+
+  	<inherits name="org.kuali.student.common.ui.CommonUI"/>
+	<inherits name='org.kuali.student.lum.lu.typekey.Typekey'/>
+	<inherits name='org.kuali.student.core.proposal.Proposal'/>
+    <inherits name='org.kuali.student.lum.lu.Lu'/>
+    <inherits name='org.kuali.student.lum.lo.Lo'/>
+	<inherits name='org.kuali.student.core.Core'/>  
+	<inherits name='org.kuali.student.core.search.Search'/>  
+	<inherits name='org.kuali.student.core.workflow.ui.WorkflowUI'/>
+	<inherits name='org.kuali.student.core.atp.Atp'/>
+	<inherits name='org.kuali.student.lum.ui.requirements.Requirements'/>
+
+	 
+	<!-- <inherits name='org.kuali.student.common.assembly.Assembly'/>
+	<inherits name='org.kuali.student.lum.lu.assembly.data.LuData' />
+	 --><replace-with
+                class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplDefault">
+                <when-type-is
+                        class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplDefault" />
+        </replace-with>
+
+        <replace-with
+                class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplOpera">
+                <when-type-is
+                        class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplDefault" />
+                <any>
+                        <when-property-is name="user.agent" value="opera" />
+                </any>
+        </replace-with>
+
+        <replace-with
+                class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.export.download.ExportDownloaderDefault">
+                <when-type-is
+                        class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.export.download.ExportDownloader" />
+        </replace-with>
+                
+
+        <replace-with
+                class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.export.download.ExportDownloaderIEOpera">
+                <when-type-is
+                        class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.export.download.ExportDownloader" />
+                <any>
+                        <when-property-is name="user.agent" value="ie6" />
+                        <when-property-is name="user.agent" value="ie8" />
+                        <when-property-is name="user.agent" value="opera" />
+                </any>
+        </replace-with>
+        <!-- 
+        <generate-with class="com.johnsoncs.gwt.widgets.server.rebind.ClassReferenceGenerator">
+                <when-type-assignable class="org.kuali.student.lum.lu.ui.course.client.widgets.a.rebind.ClassReferences"/>
+        </generate-with>
+	  -->
+</module>

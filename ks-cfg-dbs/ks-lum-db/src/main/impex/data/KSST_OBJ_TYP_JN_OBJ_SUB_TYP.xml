@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
-<dataset>
-    <KSST_OBJ_TYP_JN_OBJ_SUB_TYP OBJ_SUB_TYPE_ID="course" OBJ_TYPE_ID="clu"/>
-    <KSST_OBJ_TYP_JN_OBJ_SUB_TYP OBJ_SUB_TYPE_ID="program" OBJ_TYPE_ID="clu"/>
-</dataset>
