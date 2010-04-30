@@ -1,0 +1,11 @@
+rule "init"
+    salience -1
+    no-loop true
+    dialect "mvel"
+    when
+        message : Message()
+        email : Email()
+    then
+        message.setValid( true );
+        message.setMessage( "Valid Email Address: " + email.getEmailAddress() );
+end

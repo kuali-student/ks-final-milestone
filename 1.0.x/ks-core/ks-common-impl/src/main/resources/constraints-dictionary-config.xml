@@ -1,0 +1,1469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+	<dict:constraint key="required" id="constraint.required" serverSide="false">
+		<!-- Required -->
+		<dict:minOccurs>1</dict:minOccurs>
+		</dict:constraint>
+
+	<dict:constraint key="optional" id="constraint.optional" serverSide="false">
+		<!-- Optional -->
+		<!-- Used to override a previous required constraint.  Also implied by the absence of a required constraint -->
+		<dict:minOccurs>0</dict:minOccurs>
+		</dict:constraint>
+
+	<dict:constraint key="not.used" id="constraint.not.used" serverSide="false">
+		<!-- Not Used -->
+		<dict:minOccurs>0</dict:minOccurs>
+		<dict:maxOccurs>0</dict:maxOccurs>
+		</dict:constraint>
+
+	<dict:constraint key="repeating" id="constraint.repeating" serverSide="false">
+		<!-- Repeating -->
+		<!-- Nine 9's get translated as "(unbounded)" -->
+		<dict:maxOccurs>(unbounded)</dict:maxOccurs>
+		</dict:constraint>
+
+	<dict:constraint key="single" id="constraint.single" serverSide="false">
+		<!-- Single valued (non-repeating) -->
+		<!-- Used to override a repeating constraint -->
+		<dict:maxOccurs>1</dict:maxOccurs>
+		</dict:constraint>
+
+	<dict:constraint key="hidden" id="constraint.hidden" serverSide="false">
+		<!-- Hidden (not normally displayed) -->
+		<!-- Hidden isn't really a constraint but is captured here to help people think aobut the data and eventualy to help feed the configurable UI. -->
+		</dict:constraint>
+
+	<dict:constraint key="read.only" id="constraint.read.only" serverSide="false">
+		<!-- Read Only -->
+		<!-- Read-only isn't really a constraint on the data but is a constraint on the UI. It is here so it can be easily flagged as an attribute so thait can eventually feed the UI. -->
+		</dict:constraint>
+
+	<dict:constraint key="code" id="constraint.code" serverSide="false">
+		<!-- Alphanumeric code, hypen and period. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="code.uppercase" id="constraint.code.uppercase" serverSide="false">
+		<!-- uppercase alphanumeric code, hypen and period. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="code.lowercase" id="constraint.code.lowercase" serverSide="false">
+		<!-- lowercase alphanumeric code, hypen and period. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[a-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="single.line.text" id="constraint.single.line.text" serverSide="false">
+		<!-- A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
+		<!-- old reg ex was "[A-Za-z0-9.-;;'&%$#@!]* -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>255</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-;:&quot;&apos;&amp;%$#@!\t ]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="letter" id="constraint.letter" serverSide="false">
+		<!-- letters only -->
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="size.one" id="constraint.size.one" serverSide="false">
+		<!-- Only one character -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>1</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="size.two" id="constraint.size.two" serverSide="false">
+		<!-- Two characters both must be filled out. -->
+		<dict:minLength>2</dict:minLength>
+		<dict:maxLength>2</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="size.up.to.two" id="constraint.size.up.to.two" serverSide="false">
+		<!-- Up to 2 characters long -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>2</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="no.linefeeds" id="constraint.no.linefeeds" serverSide="false">
+		<!-- Any character EXCEPT carraige returns and line feeds -->
+		<dict:validChars>
+		<dict:value>regex:[^\n\r]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="no.tabs" id="constraint.no.tabs" serverSide="false">
+		<!-- Any character EXCEPT a tab -->
+		<dict:validChars>
+		<dict:value>regex:[^\t]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="multi.line.text" id="constraint.multi.line.text" serverSide="false">
+		<!-- Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+		<!-- old reg ex was [A-Za-z0-9.-;;'&%$#@!\n\r\t]* -->
+		<dict:minLength>1</dict:minLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-;:&quot;&apos;&amp;%$#@!\n\r\t ]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="rich.text" id="constraint.rich.text" serverSide="false">
+		<!-- Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+		<!-- Not sure if characterset for rich text is the same for regular text but just interpretted differently.  I.e. html is plain text interpreted differently. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-;:&quot;&apos;&amp;%$#@!\n\r\t ]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="date" id="constraint.date" serverSide="false">
+		<!-- Date -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=760 (but not sure) -->
+		<dict:minLength>10</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="date.time" id="constraint.date.time" serverSide="false">
+		<!-- Date-Time -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=1966 (but not sure) -->
+		<dict:minLength>19</dict:minLength>
+		<dict:maxLength>19</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="integer" id="constraint.integer" serverSide="false">
+		<!-- Integer -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=14 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:^(\+|-)?[0-9]+$</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="non-negative.integer" id="constraint.non-negative.integer" serverSide="false">
+		<!-- Non-Negative Integer -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=13 -->
+		<dict:minValue>0</dict:minValue>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:^[0-9]+$</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="decimal" id="constraint.decimal" serverSide="false">
+		<!-- decimal number -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=117 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:^[-+]?[0-9]+(\.[0-9]+)?$</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="non.negative.decimal" id="constraint.non.negative.decimal" serverSide="false">
+		<!-- non-negative decimal number -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=117 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:^[-+]?[0-9]+(\.[0-9]+)?$</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="amount" id="constraint.amount" serverSide="false">
+		<!-- Amount field -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=131 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:^\$?[0-9]+(\.([0-9]{2}))?$</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="url" id="constraint.url" serverSide="false">
+		<!-- Uniform Resource Locator -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=96 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>2083</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:(http|ftp|https):\/\/[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="boolean" id="constraint.boolean" serverSide="false">
+		<!-- True or False -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=905 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>5</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[Ff]+(alse)?|[Tt]+(rue)</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="kuali.id" id="constraint.kuali.id" className="org.kuali.student.core.validation.KualiIdValidator" serverSide="true">
+		<!-- Kuali ID; calculated by service on add, then read-only. -->
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="kuali.key" id="constraint.kuali.key" className="org.kuali.student.core.validation.KualiTypeValidator" serverSide="true">
+		<!-- Kuali KEY; structured like a type but unique like and ID, used to identify configured objects. -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="kuali.type" id="constraint.kuali.type" serverSide="true">
+		<!-- Kuali TYPE: required on add, then read-only -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="kuali.state" id="constraint.kuali.state" serverSide="true">
+		<!-- Kuali STATE -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="kuali.meta.data" id="constraint.kuali.meta.data" className="org.kuali.student.core.validation.KualiMetaDataValidator" serverSide="true">
+		<!-- Kuali Meta Data: calculated by service, read-only -->
+		<dict:maxOccurs>1</dict:maxOccurs>
+		</dict:constraint>
+
+	<dict:constraint key="related.cluId" id="constraint.related.cluId" className="org.kuali.student.lum.lu.validation.CluIdExistsValidator" serverSide="true">
+		<!-- Id of an existing CLU -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.clu.set.id" id="constraint.related.clu.set.id" className="org.kuali.student.lum.lu.validation.CluSetIdExistsValidator" serverSide="true">
+		<!-- Id of an existing CLU Set Id -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.orgId" id="constraint.related.orgId" className="org.kuali.student.core.org.validation.OrgIdExistsValidator" serverSide="true">
+		<!-- Id of an existing ORG -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.principalId" id="constraint.related.principalId" className="org.kuali.student.core.auth.validation.PrincipaldExistsValidator" serverSide="true">
+		<!-- Id of an existing PRINCIPAL -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.personId" id="constraint.related.personId" className="org.kuali.student.core.person.validation.PersonIddExistsValidator" serverSide="true">
+		<!-- Id of an existing PERSON -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.resultValueId" id="constraint.related.resultValueId" className="org.kuali.student.lum.lrc.validation.ResultValueObjectExistsValidator" serverSide="true">
+		<!-- Id of an existing CREDIT, CREDENTIAL, or GRADE -->
+		<!-- Requires special logic to check that the Id supplied actuall exists -->
+		</dict:constraint>
+
+	<dict:constraint key="related.resultComponentId" id="constraint.related.resultComponentId" className="org.kuali.student.lum.lrc.validation.ResultComponentExistsValidator" serverSide="true">
+		<!-- Id of an exisitn resultComponent -->
+		<!-- Requires special logic to check that the Id supplied actuall exists -->
+		</dict:constraint>
+
+	<dict:constraint key="related.gradekey" id="constraint.related.gradekey" className="org.kuali.student.lum.lrc.validation.GradeExistsValidator" serverSide="true">
+		<!-- Key of an existing Grade -->
+		<!-- Requires special logic to check that the key supplied actuall exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="related.creditkey" id="constraint.related.creditkey" className="org.kuali.student.lum.lrc.validation.CreditExistsValidator" serverSide="true">
+		<!-- Key of an existing Credit -->
+		<!-- Requires special logic to check that the key supplied actuall exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="related.credentialkey" id="constraint.related.credentialkey" className="org.kuali.student.lum.lrc.validation.credentialExistsValidator" serverSide="true">
+		<!-- Key of an existin Credential -->
+		<!-- Requires special logic to check that the key supplied actuall exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="related.proposal" id="constraint.related.proposal" className="org.kuali.student.core.proposal.validation.ProposalIdExistsValidator" serverSide="true">
+		<!-- Id of an existing PROPOSAL -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.document" id="constraint.related.document" className="org.kuali.student.core.document.validation.DocumentIdExistsValidator" serverSide="true">
+		<!-- Id of an existing DOCUMENT -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="lu.types" id="constraint.lu.types" serverSide="false">
+		<!-- In list of configured learning unit types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.identifier.types" id="constraint.lu.identifier.types" serverSide="false">
+		<!-- In list of configured clu identifier types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.identifier.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.activity.types" id="constraint.lu.activity.types" serverSide="false">
+		<!-- In a list of configured activity LuTypes -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.activity.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="duration.types" id="constraint.duration.types" serverSide="false">
+		<!-- In list of configured duration types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.durationTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="instructional.format.types" id="constraint.instructional.format.types" serverSide="false">
+		<!-- In list of configured instructional formats -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.instructionalFormatTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="season.types" id="constraint.season.types" serverSide="false">
+		<!-- In list of configured seasons -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.seasonTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="atp.types" id="constraint.atp.types" serverSide="false">
+		<!-- In list of configured  time period types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.atpTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="milestone.types" id="constraint.milestone.types" serverSide="false">
+		<!-- In list of configured  time period milestone types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.atpMilestoneTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="daterange.types" id="constraint.daterange.types" serverSide="false">
+		<!-- In list of configured  time period daterange types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.atpDateRangeTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="dynamic.field.types" id="constraint.dynamic.field.types" serverSide="false">
+		<!-- In list of configured dynamic field types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.dynamicFieldTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.lo.relation.types" id="constraint.lu.lo.relation.types" serverSide="false">
+		<!-- In list of configured lu-lo relation types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.lo.relation.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.lu.relation.types" id="constraint.lu.lu.relation.types" serverSide="false">
+		<!-- In list of configured lul-lu relation types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.lu.relation.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.code.types" id="constraint.lu.code.types" serverSide="false">
+		<!-- In list of configured classification codes used for LU -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.code.type">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="currency.types" id="constraint.currency.types" serverSide="false">
+		<!-- In list of configured currency types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.currency.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lo.category.types" id="constraint.lo.category.types" serverSide="false">
+		<!-- In list of lo category types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.category.type">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lo.types" id="constraint.lo.types" serverSide="false">
+		<!-- In list of confured lo types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lo.lo.relation.types" id="constraint.lo.lo.relation.types" serverSide="false">
+		<!-- In list of configured lo-lo relationship types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.lo.relation.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lo.repositories" id="constraint.lo.repositories" serverSide="false">
+		<!-- In list of configured lo repositories -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.repositories">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="cluResult.types" id="constraint.cluResult.types" serverSide="false">
+		<!-- In list of configured cluResultTypes -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.cluResult.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="resultUsage.types" id="constraint.resultUsage.types" serverSide="false">
+		<!-- In list of confured resultUsage types -->
+		<!-- TO DO: add to Simple Spec -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.resultUsage.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="proposal.types" id="constraint.proposal.types" serverSide="false">
+		<!-- In a list of configured proposal types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.proposal.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="course.proposal.types" id="constraint.course.proposal.types" serverSide="false">
+		<!-- In a list of configured course proposal types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.course.proposal.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="program.proposal.types" id="constraint.program.proposal.types" serverSide="false">
+		<!-- In a list of configured program proposal types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.program.proposal.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lo.hierarchy.types" id="constraint.lo.hierarchy.types" serverSide="false">
+		<!-- In a list of configured program lo hierarchy types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.hierarchy.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="rate.types" id="constraint.rate.types" serverSide="false">
+		<!-- In a list of configured rate types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.feeRateTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="reference.types" id="constraint.reference.types" serverSide="false">
+		<!-- In a list of configured reference types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.reference.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.states" id="constraint.lu.states" serverSide="false">
+		<!-- In list of configured learning unit states -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.states">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.identifier.states" id="constraint.lu.identifier.states" serverSide="false">
+		<!-- In list of configured clu identifier states -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.identifier.states">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="subject.areas" id="constraint.subject.areas" serverSide="false">
+		<!-- In list of configured subject areas -->
+		<dict:minLength>4</dict:minLength>
+		<dict:maxLength>4</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Z]*</dict:value>
+		</dict:validChars>
+		<dict:lookup search="kuali.enum.type.subjectArea">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="available.course.numbers" id="constraint.available.course.numbers" serverSide="false">
+		<!-- In list of configured available course numbers -->
+		<dict:minLength>3</dict:minLength>
+		<dict:maxLength>3</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[0-9]*</dict:value>
+		</dict:validChars>
+		<dict:lookup search="kuali.enum.type.availableNumbers">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="offering.campuses" id="constraint.offering.campuses" serverSide="false">
+		<!-- In list of configured offering campuses -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.offeringCampuses">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="unit.types" id="constraint.unit.types" serverSide="false">
+		<!-- In list of configured unit types -->
+		<!-- Although called a type, this is not a formal type in kuali student like an lu type, for example it may be changeable after being added. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.validUnitTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="eye.colors" id="constraint.eye.colors" serverSide="false">
+		<!-- In a list of configured eye colors -->
+		<!-- Blue, Brown, Green, Hazel, etc -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.validEyeColors">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="grade.scales" id="constraint.grade.scales" serverSide="false">
+		<!-- In a list of configured grading scales -->
+		<dict:lookup search="kuali.enum.type.grade.scales">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="effective.date.atps" id="constraint.effective.date.atps" serverSide="false">
+		<!-- In a list of configured ATPs -->
+		<!-- Not entirely sure what to call this. There is also a kuali.enum.type.EffectiveDateATPs defined for the which is backed by this enumeration (its further constrained) but I don't know that it needs to be represented that way. -->
+		<dict:lookup search="kuali.enum.type.ATPsByDate">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.credit.course" id="constraint.hard.coded.type.credit.course" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourse</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.credit.course.format.shell" id="constraint.hard.coded.type.credit.course.format.shell" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourseFormatShell" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourseFormatShell</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.program" id="constraint.hard.coded.type.program" serverSide="true">
+		<!-- Must be "kuali.lu.type.Program" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.Program</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.program.level" id="constraint.hard.coded.type.program.level" serverSide="true">
+		<!-- Must be "kuali.lu.type.ProgramLevel" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.ProgramLevel</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.program.type" id="constraint.hard.coded.type.program.type" serverSide="true">
+		<!-- Must be "kuali.lu.type.ProgramType" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.ProgramType</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.degree.level" id="constraint.hard.coded.type.degree.level" serverSide="true">
+		<!-- Must be "kuali.lu.type.DegreeLevel" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.DegreeLevel</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.degree.type" id="constraint.hard.coded.type.degree.type" serverSide="true">
+		<!-- Must be "kuali.lu.type.DegreeType" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.DegreeType</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.major" id="constraint.hard.coded.type.major" serverSide="true">
+		<!-- Must be "kuali.lu.type.Major" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.Major</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.minor" id="constraint.hard.coded.type.minor" serverSide="true">
+		<!-- Must be "kuali.lu.type.Minor" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.Minor</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.general.ed" id="constraint.hard.coded.type.general.ed" serverSide="true">
+		<!-- Must be "kuali.lu.type.GeneralEd" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.GeneralEd</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.honors" id="constraint.hard.coded.type.honors" serverSide="true">
+		<!-- Must be "kuali.lu.type.Honors" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.Honors</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.official" id="constraint.hard.coded.official" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.identifier.official" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.official</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.active" id="constraint.hard.coded.active" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "active" -->
+		<dict:validChars>
+		<dict:value>regex:active</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.cross-listed" id="constraint.hard.coded.cross-listed" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.identifier.cross-listed" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.cross-listed</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.co-located" id="constraint.hard.coded.co-located" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.relation.type.co-located" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.relation\.type\.co-located</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.lulurelation.courseformat" id="constraint.hard.coded.lulurelation.courseformat" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.lu.relation.type.hasCourseFormat" -->
+		<dict:validChars>
+		<dict:value>regex:kulai\.lu\.lu\.relation\.type\.hasCourseFormat</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.lulurelation.programlevel" id="constraint.hard.coded.lulurelation.programlevel" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.lu.relation.type.hasProgramLevel" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.lu\.relation\.type\.hasProgramLevel</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.lulurelation.programtype" id="constraint.hard.coded.lulurelation.programtype" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.lu.relation.type.hasProgramType" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.lu\.relation\.type\.hasProgramType</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.version" id="constraint.hard.coded.version" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.identifier.version" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.version</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.zero" id="constraint.hard.coded.zero" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be 0 -->
+		<dict:validChars>
+		<dict:value>regex:0</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.one" id="constraint.hard.coded.one" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be 1 -->
+		<dict:validChars>
+		<dict:value>regex:1</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.true" id="constraint.hard.coded.true" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be TRUE -->
+		<dict:validChars>
+		<dict:value>regex:true</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.false" id="constraint.hard.coded.false" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be FALSE -->
+		<dict:validChars>
+		<dict:value>regex:false</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.eye.color" id="constraint.hard.coded.eye.color" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.eye.color" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.eye\.color</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.left.handed" id="constraint.hard.coded.left.handed" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.left.handed" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.left\.handed</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.rate.type" id="constraint.hard.coded.rate.type" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.rate.type" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.rate\.type</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.singleUse.lo" id="constraint.hard.coded.singleUse.lo" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- must be "kuali.lo.type.singleUse" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lo\.type\.singleUse</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.singleUse.lo.sequence" id="constraint.hard.coded.singleUse.lo.sequence" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- must be "kuali.lo.type.SingleUse.dynamic.sequence" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lo\.type\.singleUse\.dynamic\.sequence</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.unclassified.lo.category" id="constraint.hard.coded.unclassified.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- must be "kuali.lo.category.type.unclassified" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lo\.category\.type\.unclassified</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.accreditation.lo.category" id="constraint.hard.coded.accreditation.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- must be "kuali.lo.category.type.accreditation" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lo\.category\.type\.accreditation</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.skill.lo.category" id="constraint.hard.coded.skill.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- must be "kuali.lo.category.type.skill" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lo\.category\.type\.skill</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.subject.lo.category" id="constraint.hard.coded.subject.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- must be "kuali.lo.category.type.subject" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.lo\.category\.type\.subject</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.lulorealtion.includes" id="constraint.hard.coded.lulorealtion.includes" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lu.lo.relation.type.includes" -->
+		<dict:validChars>
+		<dict:value>regex:kulai\.lu\.lo\.relation\.type\.includes</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.lolorealtion.includes" id="constraint.hard.coded.lolorealtion.includes" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.lo.lo.relation.type.includes" -->
+		<dict:validChars>
+		<dict:value>regex:kulai\.lo\.lo\.relation\.type\.includes</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.singleUse.lo.repository" id="constraint.hard.coded.singleUse.lo.repository" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.loRepository.key.single.use" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.loRepository\.key\.singleUse</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.credit.awarded.resultUsage" id="constraint.hard.coded.credit.awarded.resultUsage" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- must be "Kuali.resultUsageType.CreditAwarded" -->
+		<dict:validChars>
+		<dict:value>regex:Kuali\.resultUsageType\.CreditAwarded</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.fixed.credit" id="constraint.hard.coded.fixed.credit" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.resultComponentType.credit.degree.fixed" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.fixed</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.variable.credit" id="constraint.hard.coded.variable.credit" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.resultComponentType.credit.degree.range" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.range</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.grade" id="constraint.hard.coded.final.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.resultComponentType.finalGrade" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.resultComponentType\.finalGrade</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.academic.credit" id="constraint.hard.coded.academic.credit" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.creditType.credit.degree" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.creditType\.credit\.degree</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.qualitative.result.Usage" id="constraint.hard.coded.final.qualitative.result.Usage" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.resultComponentType.finalQualitative" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.resultComponentType\.finalQualitative</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.grad.awarded.resultUsage" id="constraint.hard.coded.final.grad.awarded.resultUsage" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "Must be "kuali.resultUsageType.finalGradeAwarded"" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.resultUsageType\.finalGradeAwarded</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.letter.grade" id="constraint.hard.coded.letter.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.gradeType.Letter" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.gradeType\.Letter</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.pass-fail.grade" id="constraint.hard.coded.pass-fail.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.gradeType.Pass-Fail" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.gradeType\.Pass-Fail</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.qualitative" id="constraint.hard.coded.final.qualitative" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.resultComponentType.finalQualitative" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.resultComponentType\.finalQualitative</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.referenceType.CLU" id="constraint.hard.coded.referenceType.CLU" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.referenceType.CLU" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.referenceType\.CLU</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.referenceType.Proposal" id="constraint.hard.coded.referenceType.Proposal" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.referenceType.proposal" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.referenceType\.proposal</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.group.proposal" id="constraint.hard.coded.group.proposal" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "kuali.proposal.type.group" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.proposal\.type\.group</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.syllabus" id="constraint.hard.coded.syllabus" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.proposal.ProposalDocRelationType.syllabus" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.proposal\.ProposalDocRelationType\.syllabus</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.other.document" id="constraint.hard.coded.other.document" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.proposal.ProposalDocRelationType.other" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.proposal\.ProposalDocRelationType\.other</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.file" id="constraint.hard.coded.file" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.document.type.file" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.document\.type\.file</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.course.proposal.doc.category" id="constraint.hard.coded.course.proposal.doc.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.document.category.courseProposal.Doc.Category" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.document\.category\.courseProposal\.Doc\.Category</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.rateType.fixedRate" id="constraint.hard.coded.rateType.fixedRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "Fixed Rate" -->
+		<dict:validChars>
+		<dict:value>regex:Fixed Rate</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.rateType.variableRate" id="constraint.hard.coded.rateType.variableRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "Variable Rate" -->
+		<dict:validChars>
+		<dict:value>regex:Variable Rate</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.rateType.multipleRate" id="constraint.hard.coded.rateType.multipleRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "Multiple Rate" -->
+		<dict:validChars>
+		<dict:value>regex:Multiple Rate</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.rateType.perCreditRate" id="constraint.hard.coded.rateType.perCreditRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "Per Credit Rate" -->
+		<dict:validChars>
+		<dict:value>regex:Per Credit Rate</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.feeType.Revenue" id="constraint.hard.coded.feeType.Revenue" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be "Revenue" -->
+		<dict:validChars>
+		<dict:value>regex:Revenue</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="calc.course.no" id="constraint.calc.course.no" className="org.kuali.student.lum.lu.calculation.CourseNoCalculator" serverSide="true">
+		<!-- Calculates the course number from it's various parts by concatenating them together. For KRU this calculation is: code = division + suffixCode + version -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.copy.course.official.subjectArea" id="constraint.calc.copy.course.official.subjectArea" className="org.kuali.student.lum.lu.calculation.CopyOfficialCourseSubjectAreaCalculator" serverSide="true">
+		<!-- Same value as the value of the course.official.subjectArea field -->
+		<!-- Not sure how to implement this copy operation or invoke it every time the official course no gets updated -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.copy.course.official.numberPart" id="constraint.calc.copy.course.official.numberPart" className="org.kuali.student.lum.lu.calculation.CopyOfficialCourseNumberPartCalculator" serverSide="true">
+		<!-- Same value as the value of the course.official.numberPart field -->
+		<!-- Not sure how to implement this copy operation or invoke it every time the official course no gets updated -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.program.no" id="constraint.calc.program.no" className="org.kuali.student.lum.lu.calculation.ProgramNoCalculator" serverSide="true">
+		<!-- Not sure of the form for program just yet -->
+		<!-- Don't know all the details yet -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.meta.versionInd" id="constraint.calc.meta.versionInd" className="org.kuali.student.core.calculationVersionIndCalculator" serverSide="true">
+		<!-- Calculates the version indicator that is used for optimistic locking -->
+		<!-- This could be as simple as a nano-second date-time stamp of the last update or a sequence number of the object that gets incremented on each update or some other more complex computation. -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.now" id="constraint.calc.now" className="org.kuali.student.core.calculation.NowCalculator" serverSide="true">
+		<!-- Sets a field to the current time -->
+		<!-- Worry about timezone issues -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.today" id="constraint.calc.today" className="org.kuali.student.core.calculation.TodayCalculator" serverSide="true">
+		<!-- Sets a field to system date -->
+		<!-- Worry about timezone issues -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.authenicated.principalId" id="constraint.calc.authenicated.principalId" className="org.kuali.student.core.auth.calculation.AuthenticatedPrincipalCalculator" serverSide="true">
+		<!-- Sets a field to the currently authenticated user -->
+		<!-- How do we know who the real user is when a service calls another service? -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.plain.text" id="constraint.calc.plain.text" className="org.kuali.student.core.calculation.PlainTextCalculator" serverSide="true">
+		<!-- Strips the formatting out of the formatted version of the rich text field and stores it in this plain text field -->
+		</dict:constraint>
+
+	<dict:constraint key="has.course.format.relation.lu.types" id="constraint.has.course.format.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of the clu referenced by cluCluRelationInfo.cluID for a Has Course Format relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup search="kuali.enum.type.validLuTypesForLuLuRelationType">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="is.course.format.relation.lu.types" id="constraint.is.course.format.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of clu referenced by cluCluRelationInfo.relatedCluId for a has course format relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup search="kuali.enum.type.validRelatedLuTypesForLuLuRelationType">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="contains.relation.lu.types" id="constraint.contains.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of the clu referenced by cluCluRelationInfo.cluID for a "Contains" relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup search="kuali.enum.type.validLuTypesForLuLuRelationType">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="contained.by.relation.lu.types" id="constraint.contained.by.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of the clu referenced by cluCluRelationInfo.relatedCluID for a "Contain" relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup search="kuali.enum.type.validRelatedLuTypesForLuLuRelationType">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="valid.duration.types" id="constraint.valid.duration.types" serverSide="false">
+		<!-- In a list of duration types configured by LuType -->
+		<dict:lookup search="kuali.enum.type.ValidDurationTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="valid.atp.types" id="constraint.valid.atp.types">
+		<!-- In a list of atp types configured by LuType -->
+		<!-- TO DO: add this enumeration to the simples -->
+		<dict:lookup search="kuali.enum.type.validAtpTypes">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="cross.greaterthan.effective.date" id="constraint.cross.greaterthan.effective.date" serverSide="false">
+		<!-- Must be empty or a date greater than the entity's effective date -->
+		<!-- Not sure if this is how it should be handled - a calc seems like it should be server side, but we don't want this to be server side. In general, it is not clear how to document cross-field constraints -->
+		</dict:constraint>
+
+	<dict:constraint key="default.now" id="constraint.default.now" serverSide="true">
+		<!-- Defaults to NOW, when the object is created -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.today" id="constraint.default.today" serverSide="true">
+		<!-- Defaults to TODAY, when the object is created -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.true" id="constraint.default.true" serverSide="true">
+		<!-- Defaults a boolean to TRUE -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.active" id="constraint.default.active" serverSide="true">
+		<!-- Defaults to "active" -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.false" id="constraint.default.false" serverSide="true">
+		<!-- Defaults a boolean to FALSE -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.zero" id="constraint.default.zero" serverSide="true">
+		<!-- Defaults number to zero, 0 -->
+		<!-- May be applied to strings that hold numbers as well as numeric fields proper -->
+		</dict:constraint>
+
+	<dict:constraint key="default.one" id="constraint.default.one" serverSide="true">
+		<!-- Defaults number to a one, 1 -->
+		<!-- May be applied to strings that hold numbers as well as numeric fields proper -->
+		</dict:constraint>
+
+	<dict:constraint key="default.authenicated.principalId" id="constraint.default.authenicated.principalId" serverSide="true">
+		<!-- Defaults to the currently authenticated user -->
+		<!-- How do we know who the real user is when a service calls another service? -->
+		</dict:constraint>
+
+	<dict:constraint key="default.to.proposal.proposerOrg" id="constraint.default.to.proposal.proposerOrg" serverSide="true">
+		<!-- Defaults to the value to the proposer org from the related prposal -->
+		<!-- Not sure how to implement this -->
+		</dict:constraint>
+
+	<dict:constraint key="statement.operators" id="constraint.statement.operators" serverSide="false">
+		<!-- In list of configured statement operators (AND and OR) -->
+		<!-- Hard coded to be AND or OR -->
+		<dict:lookup search="kuali.enum.type.lu.statement.operators">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="statement.types" id="constraint.statement.types" serverSide="false">
+		<!-- In list of valid statement types -->
+		<!-- See LuStatementInfo types defined on the Types tab -->
+		<dict:lookup search="kuali.enum.type.lu.statement.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="statement.states" id="constraint.statement.states" serverSide="false">
+		<!-- In list of valid statement states -->
+		<!-- See LuStatementInfo states defined on the States tab -->
+		<dict:lookup search="kuali.enum.type.lu.statement.states">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="related.Statementd" id="constraint.related.Statementd" className="org.kuali.student.lum.lu.validation.LuStatementIdExistsValidator" serverSide="true">
+		<!-- Id of an existing Statement -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.requirementComponentId" id="constraint.related.requirementComponentId" className="org.kuali.student.lum.lu.validation.RequirementComponentIdExistsValidator" serverSide="true">
+		<!-- Id of an existing requirement component -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="lu.requirement.component.types" id="constraint.lu.requirement.component.types" serverSide="false">
+		<!-- In list of valid lu requirement component types -->
+		<!-- See reqComponentInfo types defined on the Types tab -->
+		<dict:lookup search="kuali.enum.type.lu.requirement.component.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="dictionary.field.descriptor.field.types" id="constraint.dictionary.field.descriptor.field.types" serverSide="false">
+		<!-- In list of valid data types fof fields that are supported by the validator -->
+		<!-- Valid values are: complex, string, date, dateTime, boolean, integer, & long -->
+		<dict:lookup search="kuali.enum.type.dictionary.field.descriptor.field.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="dictionary.enumeration.keys" id="constraint.dictionary.enumeration.keys" serverSide="false">
+		<!-- In list of the keys for all valid enumerations known to the system -->
+		<!-- See the lookup column of this spreadsheet!!!!! -->
+		<dict:lookup search="kuali.enum.type.dictionary.enumeration.type.keys">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="dictionary.enumeration.context.keys" id="constraint.dictionary.enumeration.context.keys" serverSide="false">
+		<!-- In list of the keys for all valid enumeration contexts known to the system -->
+		<!-- See the lookupContext column of this spreadsheet!!!!! -->
+		<dict:lookup search="kuali.enum.type.dictionary.enumeration.context.type.keys">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.requirement.component.states" id="constraint.lu.requirement.component.states" serverSide="false">
+		<!-- In list of valid lu requirement component states -->
+		<!-- See reqComponentInfo states defined on the States tab -->
+		<dict:lookup search="kuali.enum.type.lu.requirement.component.states">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.requirement.component.field.keys" id="constraint.lu.requirement.component.field.keys" serverSide="false">
+		<!-- In list of valid lu requirement component field keys -->
+		<!-- See the reqCompFieldTypeInfo keys defined on the Types tab -->
+		<dict:lookup search="kuali.enum.type.lu.requirement.component.field.keys">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="search.types" id="constraint.search.types" serverSide="false">
+		<!-- In list of valid search types -->
+		<!-- See all the searches defined in the simple specs -->
+		<dict:lookup search="kuali.enum.type.search.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="query.param.value.types" id="constraint.query.param.value.types" serverSide="false">
+		<!-- In list of valid query parameter types for searches -->
+		<!-- See all the searches defined in the simple specs -->
+		<dict:lookup search="kuali.enum.type.query.param.value.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lrd.types" id="constraint.lrd.types" serverSide="false">
+		<!-- In list of valid learning result definition types -->
+		<!-- See the lrd types defined in this spreadsheet -->
+		<dict:lookup search="kuali.enum.type.lrc.lrd.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="learning.result.scale.types" id="constraint.learning.result.scale.types" serverSide="false">
+		<!-- In list of valid learning result scale types -->
+		<!-- See the scale types defined in this spreadsheet -->
+		<dict:lookup search="kuali.enum.type.lrc.scale.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lrd.operators" id="constraint.lrd.operators" serverSide="false">
+		<!-- In list of configured learning result definition operators (=, >, < etc) -->
+		<!-- Hard coded to be equal_to, not_equal_to, greater_than, less_than, greater_than_or_equal_to, less_than_or_equal_to -->
+		<dict:lookup search="kuali.enum.type.lrd.operators">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="related.lrd.Id" id="constraint.related.lrd.Id" className="org.kuali.student.lum.lrd.validation.LearningResultDefinitionIdExistsValidator" serverSide="true">
+		<!-- Id of an existing learning result definition -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.credit.course.clu" id="constraint.hard.coded.credit.course.clu" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType.credit.course" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.credit\.course</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.credit.course.clu.set" id="constraint.hard.coded.credit.course.clu.set" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType.credit.course.set" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.credit\.course\.set</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.required.count" id="constraint.hard.coded.required.count" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType.requiredCount" -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.requiredCount</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.lrd.credit.course.final.grade" id="constraint.hard.coded.lrd.credit.course.final.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.lrd\.credit\.course\.final\.grade</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.overall.gpa" id="constraint.hard.coded.overall.gpa" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.overall\.gpa</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.overall.totalCredits" id="constraint.hard.coded.overall.totalCredits" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.overall\.totalCredits</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.operator" id="constraint.hard.coded.operator" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.operator</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="atp.in.future" id="constraint.atp.in.future" className="org.kuali.student.core.atp.validation.FutureATPValidatorValidator" serverSide="true">
+		<!-- The ATP must start in the future -->
+		</dict:constraint>
+
+	<dict:constraint key="course.variation.code.unique" id="constraint.course.variation.code.unique" className="org.kuali.student.lum.lu.validation.UniqueVariationValidatorValidator" serverSide="true">
+		<!-- The variation codes must be unique -->
+		</dict:constraint>
+
+	<dict:constraint key="hard.coded.countType" id="constraint.hard.coded.countType" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<dict:validChars>
+		<dict:value>regex:kuali\.reqCompFieldType\.countType</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="clu.set.types" id="constraint.clu.set.types" serverSide="false">
+		<!-- In list of valid clu set types -->
+		<!-- See cluSetInfo states defined on the Types tab -->
+		<dict:lookup search="kuali.enum.type.lu.clu.set.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="clu.set.states" id="constraint.clu.set.states" serverSide="false">
+		<!-- In list of valid clu set states -->
+		<!-- See cluSetInfo states defined on the States tab -->
+		<dict:lookup search="kuali.enum.type.lu.clu.set.states">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="valid.credit.course.clu.set.search.types" id="constraint.valid.credit.course.clu.set.search.types" serverSide="false">
+		<!-- In list of search times that return credit courses or clu sets of credit courses -->
+		<!-- Has just one value for now and that is "kuali.lu.searchTypes.CoursesForDynamicCLUSet" but that will expand in the future. -->
+		<dict:lookup search="kuali.enum.search.type.credit.course">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+</beans>
