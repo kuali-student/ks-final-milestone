@@ -304,8 +304,8 @@ import com.google.gwt.user.client.ui.Widget;
 	        GroupSection courseNumber = new GroupSection(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY));
 	        courseNumber.addStyleName(LUConstants.STYLE_SECTION);
 	        courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-	        addField(courseNumber, COURSE + "/" + SUBJECT_AREA, null);
-	        addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, null);
+	        addField(courseNumber, COURSE + "/" + SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
+	        addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
 	
 	        // TODO - hide cross-listed, offered jointly and version codes initially, with
 	        // clickable label to disclose them
