@@ -224,11 +224,17 @@ public class CategoryManagementTable extends Composite {
     }   
     
     private void createColumnDefs() {
-        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();        
-        columnDefs.add(new SearchColumnDefinition(NAME_COLUMN_HEADER, NAME_COLUMN_KEY));
-        columnDefs.add(new SearchColumnDefinition(TYPE_COLUMN_HEADER, TYPE_COLUMN_KEY));            
+        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();   
+        SearchColumnDefinition columnDef = new SearchColumnDefinition(NAME_COLUMN_HEADER, NAME_COLUMN_KEY);
+        columnDef.setColumnSortable(false);
+        columnDefs.add(columnDef);
+        columnDef = new SearchColumnDefinition(TYPE_COLUMN_HEADER, TYPE_COLUMN_KEY);
+        columnDef.setColumnSortable(false);
+        columnDefs.add(columnDef);            
         if (!isHideInactiveCategories()) {
-            columnDefs.add(new SearchColumnDefinition(STATE_COLUMN_HEADER, STATE_COLUMN_KEY));            
+            columnDef = new SearchColumnDefinition(STATE_COLUMN_HEADER, STATE_COLUMN_KEY);
+            columnDef.setColumnSortable(false);
+            columnDefs.add(columnDef);            
         }
         if(columnDefs.size() == 1){
             //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
