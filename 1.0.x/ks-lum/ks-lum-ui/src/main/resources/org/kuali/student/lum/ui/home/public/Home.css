@@ -1,0 +1,90 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+.Course-Home-Menu-Label{
+	font-weight: bold;
+	font-size: 10pt;
+	color: black;
+	margin-left:10px;
+	margin-left:5px;
+}
+
+.Course-Home-Menu-Label-Selected{
+	color: white;
+}
+
+.Course-Home-Menu-Item-Hover{
+	cursor: pointer;
+}
+
+.Course-Home-Menu-Panel{
+	width: 165px;
+	height: 100%;
+}
+
+.Course-Home-Content-Panel{
+	width: 410px;
+	height: 100%;
+}
+
+.Course-Home-Main-Panel{
+	width: 555px;
+	height: 320px;
+	border: 1px solid #808080;
+}
+
+.Home-Description-Label{
+	font-size: 8pt;
+	width: 200px;
+}
+
+.Home-Standard-Button{
+	color: black;
+	font-size:10pt;
+	width:250px;
+	white-space: normal;
+}
+
+.Home-Button-Row{
+	height: 50px;
+	width: 100%;
+}
+
+.Content-Left-Margin{
+	margin-left: 25px;
+}
+
+.Home-Horizontal-Break{
+	width: 100%;
+	margin-left: 10px;
+}
+
+.Home-Small-Hyperlink{
+	font-size: 8pt;
+}
+
+.Home-Category-Label{
+	font-weight: bold;
+}
+
+.Home-Search-Textbox{
+	width: 250px;
+}
+
+.Home-Blue-Button{
+	color: white;
+	background: url("images/Home-selected-button.jpg") repeat-x;
+	font-weight: bold;
+}
