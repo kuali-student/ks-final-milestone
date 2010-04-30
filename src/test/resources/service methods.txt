@@ -1,1 +1,157 @@
 Service	Key	ShortName	LongName	Description	url
+workflow	Method	getOutputTypes			null
+workflow	Description	Retrieves the list of all Output Types (Actions) known by this service. Ex: Approved, Rejected	
+workflow	Parameters	None	None	No Parameters	null
+workflow	Return	outputTypeInfoList	list of Output Types		/confluence/display/KULSTU/outputTypeInfoList+Structure
+workflow	Errors	OPERATION_FAILED	unable to complete request		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getOutputTypesForStep			null
+workflow	Description	Retrieves a list of OutputTypes(Actions) that are valid for a Step (node in a Process)	
+workflow	Parameters	stepKey	stepKey	stepId	/confluence/display/KULSTU/stepDefinitionKey+Structure
+workflow	Return	outputTypeInfoList	List of Output Types		/confluence/display/KULSTU/outputTypeInfoList+Structure
+workflow	Errors	DOES_NOT_EXIST	stepId not found		
+workflow		INVALID_PARAMETER	invalid stepId		
+workflow		MISSING_PARAMETER	stepId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getProcesses			null
+workflow	Description	Retrieves the list of Processes known by this service	
+workflow	Parameters	None	None	No Parameters	null
+workflow	Return	processDefinitionInfoList	list of Processes		/confluence/display/KULSTU/processDefinitionInfoList+Structure
+workflow	Errors	OPERATION_FAILED	unable to complete request		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getWork			null
+workflow	Description	Retrieves a single instance of Work	
+workflow	Parameters	workId	workId	workId	/confluence/display/KULSTU/workId+Structure
+workflow	Return	workInfo	work		/confluence/display/KULSTU/workInfo+Structure
+workflow	Errors	DOES_NOT_EXIST	workId not found		
+workflow		INVALID_PARAMETER	invalid workId		
+workflow		MISSING_PARAMETER	workId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getAllWorkInProcess			null
+workflow	Description	Retrieves a list of current Work in a Process	
+workflow	Parameters	processDefinitionKey	processDefinitionKey	processDefinitionKey	/confluence/display/KULSTU/processDefinitionKey+Structure
+workflow	Return	workInfoList	List of Work		/confluence/display/KULSTU/workInfoList+Structure
+workflow	Errors	DOES_NOT_EXIST	processId not found		
+workflow		INVALID_PARAMETER	invalid processDefinitionKey		
+workflow		MISSING_PARAMETER	processId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getAllWorkInStep			null
+workflow	Description	Retrieves a list of current Work in a Step	
+workflow	Parameters	stepDefinitionKey	stepDefinitionKey	stepDefinitionKey	/confluence/display/KULSTU/stepDefinitionKey+Structure
+workflow	Return	workInfoList	List of Work		/confluence/display/KULSTU/workInfoList+Structure
+workflow	Errors	DOES_NOT_EXIST	stepDefinitionKey not found		
+workflow		INVALID_PARAMETER	invalid stepDefinitionKey		
+workflow		MISSING_PARAMETER	stepDefinitionKey not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getMyWork			null
+workflow	Description	Retrieves a list of current Work for a Person (Principal)	
+workflow	Parameters	principalId	principalId	principalId	/confluence/display/KULSTU/principalId+Structure
+workflow	Return	workInfoList	List of Work		/confluence/display/KULSTU/workInfoList+Structure
+workflow	Errors	DOES_NOT_EXIST	principalId not found		
+workflow		INVALID_PARAMETER	invalid principalId		
+workflow		MISSING_PARAMETER	principalId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getMyWorkInQueue			null
+workflow	Description	Retrieves a list of current Work for a Person (Principal) that's in a particular queue	
+workflow	Parameters	principalId	principalId	principalId	/confluence/display/KULSTU/principalId+Structure
+workflow		queueId	queueId	queueId	/confluence/display/KULSTU/queueId+Structure
+workflow	Return	workInfoList	List of Work		/confluence/display/KULSTU/workInfoList+Structure
+workflow	Errors	DOES_NOT_EXIST	queueId or PrincipalId not found		
+workflow		INVALID_PARAMETER	invalid queueId or PrincipalId		
+workflow		MISSING_PARAMETER	queueId or PrincipalId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getMyWorkInProcess			null
+workflow	Description	Retrieves a list of current Work for a Person (Principal) that's in a particular process	
+workflow	Parameters	principalId	principalId	principalId	/confluence/display/KULSTU/principalId+Structure
+workflow		processDefinitionKey	processDefinitionKey	processDefinitionKey	/confluence/display/KULSTU/processDefinitionKey+Structure
+workflow	Return	workInfoList	List of Work		/confluence/display/KULSTU/workInfoList+Structure
+workflow	Errors	DOES_NOT_EXIST	processDefinitionKey or PrincipalId not found		
+workflow		INVALID_PARAMETER	invalid processDefinitionKey or PrincipalId		
+workflow		MISSING_PARAMETER	processDefinitionKey or PrincipalId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	getStepsForProcess			null
+workflow	Description	Retrieves a list of Steps in a Process	
+workflow	Parameters	processDefinitionKey	processDefinitionKey	processDefinitionKey	/confluence/display/KULSTU/processDefinitionKey+Structure
+workflow	Return	stepDefinitionInfoList	List of Step Information		/confluence/display/KULSTU/stepDefinitionInfoList+Structure
+workflow	Errors	DOES_NOT_EXIST	processDefinitionKey not found		
+workflow		INVALID_PARAMETER	invalid processDefinitionKey		
+workflow		MISSING_PARAMETER	processDefinitionKey not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	createWork			null
+workflow	Description	Creates a new instance of work, that will follow a process.	
+workflow	Parameters	processDefinitionKey	processDefinitionKey	processDefinitionKey	/confluence/display/KULSTU/processDefinitionKey+Structure
+workflow		workInfo	workInfo	work	/confluence/display/KULSTU/workInfo+Structure
+workflow	Return	workInfo	work		/confluence/display/KULSTU/workInfo+Structure
+workflow	Errors	DOES_NOT_EXIST	processDefinitionKey or prinicipal not found		
+workflow		INVALID_PARAMETER	invalid processDefinitionKey or prinicipal or work		
+workflow		MISSING_PARAMETER	processDefinitionKey or prinicipal or work not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	deleteWork			null
+workflow	Description	Deletes an instance of work, that was in a process.	
+workflow	Parameters	workId	workId	workId	/confluence/display/KULSTU/workId+Structure
+workflow	Return	statusInfo	status		/confluence/display/KULSTU/statusInfo+Structure
+workflow	Errors	DOES_NOT_EXIST	principalId, processDefinitionKey or workId not found		
+workflow		INVALID_PARAMETER	invalid principalId, processDefinitionKey or workId		
+workflow		MISSING_PARAMETER	principalId, processDefinitionKey or workId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				
+workflow	Method	registerState			null
+workflow	Description	Registers that an instance of Work completed a Step with an OutputType.	
+workflow	Parameters	principalId	principalId	principalId	/confluence/display/KULSTU/principalId+Structure
+workflow		processDefinitionKey	processDefinitionKey	processDefinitionKey	/confluence/display/KULSTU/processDefinitionKey+Structure
+workflow		stepDefinitionKey	stepDefinitionKey	stepDefinitionKey	/confluence/display/KULSTU/stepDefinitionKey+Structure
+workflow		outputTypeKey	outputTypeKey	outputTypeKey	/confluence/display/KULSTU/outputTypeKey+Structure
+workflow		workId	workId	workId	/confluence/display/KULSTU/workId+Structure
+workflow		string	comment	comment	/confluence/display/KULSTU/string+Structure
+workflow	Return	statusInfo	status		/confluence/display/KULSTU/statusInfo+Structure
+workflow	Errors	DOES_NOT_EXIST	principalId, processDefinitionKey, stepDefinitionKey, or workId not found		
+workflow		INVALID_PARAMETER	invalid principalId, processDefinitionKey, stepDefinitionKey, or workId		
+workflow		MISSING_PARAMETER	principalId, processId, processDefinitionKey, or workId not specified		
+workflow		OPERATION_FAILED	unable to complete request		
+workflow		PERMISSION_DENIED	authorization failure		
+workflow	Capabilities				
+workflow	Use Cases				
+workflow	Comments/Feedback				

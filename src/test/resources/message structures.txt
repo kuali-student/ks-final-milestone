@@ -1,1 +1,52 @@
 id	Action	xmlObject	ShortName	Name	Type	Description	Required	Cardinality	XMLAttribute	Status	Feedback
+null		workInfo	name	Work Name	string	Friendly name for instance of work.	Yes	One	No		
+null		workInfo	desc	Work Description	string	Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.	No	One	No		
+null		workInfo	processKey	Process Key	processDefinitionKey	The Process this instance of work belongs to. This is immutable once set.	Yes	One	No		
+null		workInfo	qualifierKey	Qualifier Key	string	The string representing the information that may govern the routing of this work. Example OrgCode. This is immutable once set.	Yes	One	No		
+null		workInfo	referenceId	Reference Id	string	The Identifier of the object that this work represents. For example cluId. This is immutable once set.	Yes	One	No		
+null		workInfo	batchId	Batch Id	string	The Identifier of the Batch of work that this this work is part of. This is to support cases where work cannot proceed to the next step before all related work items are to this stage. Example, Grades can't be published till all students have been graded. This is immutable once set.	No	One	No		
+null		workInfo	CurrentSteps	CurrentSteps	stepDefinitionInfoList	This is the list of steps that this work is currently in. There are more than one for cases of parallel workflows. This is a read only structure. Setting the current step is done by the workflow service as a result of a registerWork operation.	No	One	No		
+null		workInfo	workStepResults	Work Step Results	workStepResultInfoList	One the work object is created, this information can only be updated through the registerState operation.	No	One	No		
+null		workInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		workInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		workInfo	workId	work Id	workId	This is optional, due to the identifier being set at the time of creation. Once the work has been created, this should be seen as required.	No	One	Yes		
+null		statusInfo	success	Success Indicator	boolean	Indicates the success or failure of the operation	Yes	One	No		
+null		outputTypeInfoList	outputTypeInfo	outputTypeInfo	outputTypeInfo	Information about a output type.	No	Many	No		
+null		stepDefinitionInfoList	stepDefinitionInfo	Step Definition Info	stepDefinitionInfo	Detailed information about a workflow process step.	No	Many	No		
+null		workInfoList	workInfo	workInfo	workInfo	Detailed information about work.	No	Many	No		
+null		processDefinitionInfoList	processInfo	processInfo	processInfo	Detailed information about a workflow process.	No	Many	No		
+null		outputTypeInfo	name	output Type Name	string	Friendly name of the output type	Yes	One	No		
+null		outputTypeInfo	desc	output Type Description	string	Narrative description of the output type	No	One	No		
+null		outputTypeInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		outputTypeInfo	key	output Type Key	outputTypeKey	Unique identifier for a output type. Examples might be Approved, rejected etc	Yes	One	Yes		
+null		attributeInfoList	attribute	Dynamic attribute	attributeInfo	Key/value pair, typically used for information which may vary from the common set of information provided about an object.	No	Many	No		
+null		stepDefinitionInfo	name	Work Name	string	Friendly name for this step.	Yes	One	No		
+null		stepDefinitionInfo	desc	Step Description	string	Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.	No	One	No		
+null		stepDefinitionInfo	processKey	processKey		The Process this instance of work belongs to. This is immutable once set.	Yes	One	No		
+null		stepDefinitionInfo	outputTypeKeyList	outputTypeKeyList	outputTypeKeyList	This is the set of outputs that is allowed for this step	Yes	One	No		
+null		stepDefinitionInfo	roleKey	roleKey	roleKey	This is the role key of who should be doing this step. It helps determine what queue work in this step ends up in. This is immutable once set.	Yes	One	No		
+null		stepDefinitionInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		stepDefinitionInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		stepDefinitionInfo	key	Step Key		This is optional, due to the identifier being set at the time of creation. Once the step has been created, this should be seen as required.	No	One	Yes		
+null		workStepResultInfoList	workStepResultInfo	workStepResultInfo	workStepResultInfo	Detailed information about the result of a step in a process for a particular instance of work.	No	Many	No		
+null		processDefinitionInfo	name	Process Name	string	Friendly name for the process.	Yes	One	No		
+null		processDefinitionInfo	desc	Process Description	string	Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.	No	One	No		
+null		processDefinitionInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		processDefinitionInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		processDefinitionInfo	processKey	processKey	processDefinitionKey	This is immutable once set.	Yes	One	Yes		
+null		metaInfo	versionInd	Version Indicator	string	An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.	Yes	One	No		
+null		metaInfo	createTime	Date/Time Created	dateTime	The date and time the thing being described with this meta information was created	Yes	One	No		
+null		metaInfo	createId	Created By Identifier	principalId	The principal who created the thing being described with this meta information	Yes	One	No		
+null		metaInfo	updateTime	Date/Time Last Updated	dateTime	The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.	Yes	One	No		
+null		metaInfo	updateId	Updated By Identifier	principalId	The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.	Yes	One	No		
+null		attributeInfo	value	Attribute Value	string	The value for this dynamic attribute.	Yes	One	No		
+null		attributeInfo	key	Attribute Type Identifier	string	The identifier for this attribute.	Yes	One	Yes		
+null		workStepResultInfo	outputTypeKey	Output Type Key	string	The unique identifier for the output that resulted from this step for this piece of work	Yes	One	No		
+null		workStepResultInfo	comment	Comment	string	Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.	No	One	No		
+null		workStepResultInfo	processKey	Process Key	processDefinitionKey	The Process this instance of work belongs to. This is immutable once set.	Yes	One	No		
+null		workStepResultInfo	principalId	principalId	principalId	This is immutable once set.	Yes	One	No		
+null		workStepResultInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		workStepResultInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		workStepResultInfo	workId	workId	workId	This is optional, due to the identifier being set at the time of creation. Once the work step result has been created, this should be seen as required.	No	One	Yes		
+null		workStepResultInfo	stepKey	stepKey	stepDefinitionKey	This is optional, due to the identifier being set at the time of creation. Once the work step result has been created, this should be seen as required.	No	One	Yes		
+null		outputTypeKeyList	outputTypeKey	Output Type	outputTypeKey	Unique identifier for a output type. Examples might be Approved, rejected etc	No	Many	No		

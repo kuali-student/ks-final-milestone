@@ -1,1 +1,26 @@
 name	desc	primitive	hasOwnType	hasOwnState	hasOwnCreateUpdate	Service	examples	javaPackage	comments
+stepDefinitionKey	Unique key for a workflow step.	Mapped String	false	false	false	null	null	null	null
+workId	Unique identifier for a work record.	Mapped String	false	false	false	null	null	null	null
+string	Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.	Primitive	false	false	false	null	null	null	null
+workInfo	Detailed information about work.	Complex	false	false	false	null	null	null	null
+statusInfo	Contains information about the results of an operation.	Complex	false	false	false	null	null	null	null
+outputTypeInfoList	List of output Type information results.	Complex	false	false	false	null	null	null	null
+processDefinitionKey	Unique key for a process.	Mapped String	false	false	false	null	null	null	null
+outputTypeKey	Unique identifier for a output type. Examples might be Approved, rejected etc	Mapped String	false	false	false	null	null	null	null
+stepDefinitionInfoList	List of steps.	Complex	false	false	false	null	null	null	null
+workInfoList	List of work.	Complex	false	false	false	null	null	null	null
+principalId	Unique identifier for a principal. This may be closer to the concept of a key instead of an id, as it might be a	Mapped String	false	false	false	null	null	null	null
+processDefinitionInfoList	List of workflow Processes.	Complex	false	false	false	null	null	null	null
+queueId	Unique identifier for a workflow queue.	Mapped String	false	false	false	null	null	null	null
+outputTypeInfo	Information about a output type.	Complex	false	false	false	null	null	null	null
+attributeInfoList	List of key/value pairs, typically used for	Complex	false	false	false	null	null	null	null
+stepDefinitionInfo	Detailed information about a workflow process step.	Complex	false	false	false	null	null	null	null
+workStepResultInfoList	List of work step results.	Complex	false	false	false	null	null	null	null
+boolean	Value is either true or false.	Primitive	false	false	false	null	null	null	null
+processDefinitionInfo	Detailed information about a workflow process.	Complex	false	false	false	null	null	null	null
+metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	Complex	false	false	false	null	null	null	null
+attributeInfo	Key/value pair, typically used for information which may vary from the common set of information provided about an object.	Complex	false	false	false	null	null	null	null
+workStepResultInfo	Detailed information about the result of a step in a process for a particular instance of work.	Complex	false	false	false	null	null	null	null
+outputTypeKeyList	List of LU to LU relation type keys.	Complex	false	false	false	null	null	null	null
+roleKey	Unique identifier for a role.	Mapped String	false	false	false	null	null	null	null
+dateTime	Specifies a date and a time.	Primitive	false	false	false	null	null	null	null
