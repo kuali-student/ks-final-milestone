@@ -329,7 +329,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.credit.course.set.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.single.line.text"/>
+<!-- 	<dict:constraintRef bean="constraint.single.line.text.override"/> -->
+<!-- 	<dict:constraint key="in-line.single.line.text" id="constraint.single.line.text" serverSide="false">
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>255</dict:maxLength>
+		<dict:validChars>
+		<dict:value>regex:[A-Za-z0-9.-;:&quot;&apos;&amp;%$#@!,\t ]*</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+		 -->
 	<dict:constraint key="in-line.constraint.for.dictionary.credit.course.set.name">
 		<dict:maxLength>100</dict:maxLength>
 		</dict:constraint>
@@ -462,7 +470,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.related.cluId"/>
-	<dict:constraintRef bean="constraint.kuali.type"/>
+<!-- <dict:constraintRef bean="constraint.kuali.type"/>  -->
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="cluIds" id="dict.credit.course.set.credit.course.ids.cd" parent="dict.credit.course.set.credit.course.ids.cd.abstract"/>
 

@@ -133,10 +133,17 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         CluSetInfo cluSetInfo = toCluSetInfo(cluSetHelper);
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
+        CluSetInfo origCluSetInfo = null;
         Data resultData = null;
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
+            	origCluSetInfo = luService.getCluSetInfo(cluSetInfo.getId());
+            	if (origCluSetInfo != null && origCluSetInfo.getMetaInfo() != null            			) {
+            		cluSetInfo.getMetaInfo().setVersionInd(
+            				origCluSetInfo.getMetaInfo().getVersionInd());
+            	}
                 updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
+                updatedCluSetInfo = luService.getCluSetInfo(cluSetInfo.getId());
             } catch (Exception e) {
                 System.out.println("Failed to update cluset");
                 e.printStackTrace();
