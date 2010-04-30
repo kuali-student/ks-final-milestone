@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getLuiIdsByCluId" bindingOperationName="getLuiIdsByCluId" type="Request-Response" outputName="getLuiIdsByCluIdResponse" inputName="getLuiIdsByCluId" receivesAttachments="false" sendsAttachments="false" id="293871f1-245f-4f18-bc36-e19729b850a2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
