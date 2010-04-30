@@ -1,0 +1,88 @@
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<!--
+    This is the standalone default settings config file.  It is always loaded to read default settings.
+    Parameter replacement is performed in both config files and their parents (at runtime), and the
+    Spring config file (through a PropertyPlaceholderConfigurer).
+    Variable syntax:
+    ${varname}
+    ${institution}
+-->
+<config>
+
+    <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
+
+    <!-- BEGIN KUALI STUDENT SETTINGS -->
+    <param name="config.location">classpath:ks-security-config.xml</param>
+    <param name="appserver.url">http://localhost:8081</param>
+    <param name="app.code">ks-rice</param>
+    <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
+    <param name="rice.logging.configure">true</param>
+    
+    <param name="lum.application.url">http://localhost:8080/ks-standalone</param>
+    
+    <!-- KSB -->
+    <param name="Routing.ImmediateExceptionRouting">true</param>
+    <!-- END KUALI STUDENT SETTINGS -->
+
+    <!-- BEGIN KUALI STUDENT SETTINGS OVERRIDES -->
+    <!-- KEW -->
+    <param name="xml.pipeline.lifecycle.enabled">true</param>
+    <param name="email.reminder.lifecycle.enabled">true</param>
+    <param name="plugin.registry.enabled">false</param>
+    <param name="notification.quartz.autostartup">false</param>
+    <param name="notification.concurrent.jobs">false</param>
+    
+    <param name="simpleDocumentActionsService.security">false</param>
+    <param name="secure.workflowutility.soapservice.endpoint">false</param>
+
+    <!-- KIM -->
+    <param name="kim.soapExposedService.jaxws.security">false</param>
+    <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
+
+    <!-- Datasource Configuration -->
+    <param name="datasource.ojb.platform">Oracle9i</param>
+    <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+    <param name="datasource.username">KSRICE</param>
+    <param name="datasource.password">KSRICE</param>
+
+    <!-- Keystore Configuration -->
+    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.alias">rice</param>
+    <param name="keystore.password">r1c3pw</param>
+
+    <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
+<!--
+    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+-->
+    <!-- additional config files -->
+    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml</param>
+    
+    <!-- Bus security -->
+    <param name="ks.core.bus.security">false</param>
+    
+    <!-- default config files -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-config.xml</param>
+    <param name="config.location">${additional.config.locations}</param>
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+		
+	<!-- Set all services to /services instead of /remoting -->
+	<param name="serviceServletUrl">${application.url}/remoting/</param>
+</config>
