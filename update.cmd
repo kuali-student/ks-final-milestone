@@ -1,3 +1,4 @@
+@echo off
 call security
 call core
 call brms
