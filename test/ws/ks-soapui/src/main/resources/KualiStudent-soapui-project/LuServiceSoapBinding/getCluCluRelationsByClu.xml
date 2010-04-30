@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getCluCluRelationsByClu" bindingOperationName="getCluCluRelationsByClu" type="Request-Response" outputName="getCluCluRelationsByCluResponse" inputName="getCluCluRelationsByClu" receivesAttachments="false" sendsAttachments="false" id="eb8282f1-3fa0-4250-8f09-f1463187f3bc" anonymous="optional" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:call name="getCreditCourseRelations"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:getCluCluRelationsByClu>
+         
+      <cluId>43656063-a0c7-48af-949d-2cb881ad8cb9</cluId></lu:getCluCluRelationsByClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getCluCluRelationsByClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="getCreditCourseFormatShellRelations"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:getCluCluRelationsByClu>
+         <cluId>4e06fa7c-f8db-4c00-824d-250031baf2da</cluId>
+      </lu:getCluCluRelationsByClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getCluCluRelationsByClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="getActivityLectureRelations"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:getCluCluRelationsByClu>
+         <cluId>1aa51209-dad7-43bc-8c8d-b754c2a67a1f</cluId>
+      </lu:getCluCluRelationsByClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getCluCluRelationsByClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="getCluCluRelationsByClu"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:getCluCluRelationsByClu>
+         
+      <cluId>451ab5eb-f7bd-4dab-a8e0-f31aad0bd5aa</cluId></lu:getCluCluRelationsByClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getCluCluRelationsByClu"/><con:wsrmConfig version="1.2"/></con:call></con:operation>
