@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
-<dataset>
-    <KSLU_CLU_FEE_ATTR ATTR_NAME="justification" ATTR_VALUE="because"
-        ID="99b8a2eb-1cc5-432c-b41d-4bc864700f4e" OWNER="99de7877-b443-4a47-bb18-1d668b73f583"/>
-</dataset>
