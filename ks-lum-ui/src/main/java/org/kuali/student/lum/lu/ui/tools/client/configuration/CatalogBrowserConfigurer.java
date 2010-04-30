@@ -74,20 +74,20 @@ public class CatalogBrowserConfigurer
 // addStartSection(layout);
   layout.addSection (new String[]
    {
-    "Browse by Subject Area",
-    getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_LABEL_KEY)
+    "Browse by Subject Area"
+//    getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_LABEL_KEY)
    }, createBrowseBySubjectAreaSection ());
   layout.addSection (new String[]
    {
-    "Browse by School",
-    getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_LABEL_KEY)
+    "Browse by School"
+//    getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL_LABEL_KEY)
    }, createBrowseBySchoolSection ());
  }
 
  private SectionView createBrowseBySubjectAreaSection ()
  {
-  NestedSectionView nestedSectionView =
-      new NestedSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
+  CatalogBrowserNestedSectionView nestedSectionView =
+      new CatalogBrowserNestedSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
                           getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA),
                           CATALOG_BROWSER_MODEL);
   nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
@@ -101,8 +101,8 @@ public class CatalogBrowserConfigurer
 
  private SectionView createBrowseBySchoolSection ()
  {
-  NestedSectionView nestedSectionView =
-   new NestedSectionView (Sections.BROWSE_BY_SCHOOL,
+  CatalogBrowserNestedSectionView nestedSectionView =
+   new CatalogBrowserNestedSectionView (Sections.BROWSE_BY_SCHOOL,
                           getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL),
                           CATALOG_BROWSER_MODEL);
   nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);

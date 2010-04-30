@@ -28,6 +28,8 @@ import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 
+import com.google.gwt.user.client.Window;
+
 
 public class LookupMetadataBank
 {
@@ -444,7 +446,7 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
-  param = new LookupParamMetadata ();
+        param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalDivision");
 		param.setName ("Division");
 		param.setDesc ("Division or Subject Area");
@@ -456,6 +458,18 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
+        param = new LookupParamMetadata ();
+		param.setKey ("lu.queryParam.luOptionalPrimaryAdminOrgId");
+		param.setName ("Primary Admin Org Id");
+		param.setDesc ("Primary Admin Org Id");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
 		param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalLevel");
 		param.setName ("Level");
@@ -1449,7 +1463,7 @@ public class LookupMetadataBank
 		result.setName ("Code");
 		result.setDesc ("The internal code of the enumeration value");
 		result.setDataType (Data.DataType.STRING);
-  result.setHidden (true);
+        result.setHidden (true);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
@@ -1471,7 +1485,7 @@ public class LookupMetadataBank
 		result.setName ("Effective date");
 		result.setDesc ("The date the enumeration became effective");
 		result.setDataType (Data.DataType.TRUNCATED_DATE);
-  result.setHidden (true);
+        result.setHidden (true);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
@@ -1479,15 +1493,15 @@ public class LookupMetadataBank
 		result.setName ("Expiration date");
 		result.setDesc ("The date the enumeration became non-effective");
 		result.setDataType (Data.DataType.TRUNCATED_DATE);
-  result.setHidden (true);
+        result.setHidden (true);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
 		result.setKey ("enumeration.resultColumn.sortKey");
 		result.setName ("Key used to sort the results");
 		result.setDesc ("The description of the type");
-		result.setDataType (Data.DataType.STRING);
-//  result.setHidden (true);
+		result.setDataType (Data.DataType.STRING);		
+        result.setHidden (true);
 		lookup.getResults ().add (result);
 		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
 		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
@@ -1537,7 +1551,7 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
-  param = new LookupParamMetadata ();
+        param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalDivision");
 		param.setName ("Division");
 		param.setDesc ("Division or Subject Area");
@@ -1549,6 +1563,19 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
+
+        param = new LookupParamMetadata ();
+		param.setKey ("lu.queryParam.luOptionalPrimaryAdminOrgId");
+		param.setName ("Primary Admin Org Id");
+		param.setDesc ("Primary Admin Org Id");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
 		param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalCode");
 		param.setName ("Code");
@@ -1561,7 +1588,7 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
-  param = new LookupParamMetadata ();
+        param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalDivision");
 		param.setName ("Division");
 		param.setDesc ("Division or Subject Area");
@@ -1573,6 +1600,17 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
+        param = new LookupParamMetadata ();
+		param.setKey ("lu.queryParam.luOptionalPrimaryAdminOrgId");
+		param.setName ("Primary Admin Org Id");
+		param.setDesc ("Primary Admin Org Id");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);	
 
 		param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalLevel");
@@ -1604,7 +1642,7 @@ public class LookupMetadataBank
 		result.setName ("Clu Id");
 		result.setDesc ("Identifier of a Clu");
 		result.setDataType (Data.DataType.STRING);
-  result.setHidden (true);
+        result.setHidden (true);
 		lookup.getResults ().add (result);
 
 		result = new LookupResultMetadata ();
@@ -1688,9 +1726,9 @@ public class LookupMetadataBank
 		param.setOptional (true);
 //		param.setDefaultValueString ("kuali.org.College,kuali.org.School");
 // 	param.setDefaultValueString ("kuali.org.School");
-  ArrayList<String> list = new ArrayList ();
-  list.add ("kuali.org.College");
-  list.add ("kuali.org.School");
+        ArrayList<String> list = new ArrayList ();
+        list.add ("kuali.org.College");
+        list.add ("kuali.org.School");
 		param.setDefaultValueList (list);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
@@ -1700,7 +1738,7 @@ public class LookupMetadataBank
 		result.setName ("Organization Identifier");
 		result.setDesc ("Identifier for the organization");
 		result.setDataType (Data.DataType.STRING);
-  result.setHidden (true);
+        result.setHidden (true);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
@@ -1722,6 +1760,7 @@ public class LookupMetadataBank
 		result.setName ("Organization Type");
 		result.setDesc ("Organization Type");
 		result.setDataType (Data.DataType.STRING);
+		result.setHidden(true);
 		lookup.getResults ().add (result);
 		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
 		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
@@ -1730,37 +1769,37 @@ public class LookupMetadataBank
 		// new lookup metadata
 		lookup = new LookupMetadata ();
 		lookup.setId ("kuali.lu.browse.departments.in.school");
-		lookup.setSearchTypeId ("org.search.within.hierarchy");
+		lookup.setSearchTypeId ("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
 		lookup.setName ("Search using a heirarchy");
 		lookup.setDesc ("Finds children of an org");
-		lookup.setResultReturnKey ("org.resultColumn.orgShortName");
+		lookup.setResultReturnKey ("org.resultColumn.orgId");
 		lookup.setResultDisplayKey ("org.resultColumn.orgOptionalLongName");
 		lookup.setResultSortKey ("org.resultColumn.orgOptionalLongName");
 		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
 		
 		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.orgRelationOrgId1");
-		param.setName ("First Id of an org-org relation");
-		param.setDesc ("Unique identifier for an organization on an org-org relaiton");
+		param.setKey ("org.queryParam.relationType");
+		param.setName ("Relation type");
+		param.setDesc ("relation type to follow");
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setDefaultValueString ("kuali.org.Contain");
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("org.queryParam.orgId");
+		param.setName ("parent id");
+		param.setDesc ("parent org id");
+		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setWidget (LookupParamMetadata.Widget.PICKER);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
 		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.orgOrgRelationType");
-		param.setName ("Org-Org Relation Type");
-		param.setDesc ("The relation type to use when searching the heirarchy");
-		param.setWriteAccess (Metadata.WriteAccess.NEVER);
-		param.setDataType (Data.DataType.STRING);
-		param.setDefaultValueString ("kuali.org.Part");
-		param.setCaseSensitive (true);
-		lookup.getParams ().add (param);
-		
-		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.orgOptionalType");
-		param.setName ("Org Type");
+		param.setKey ("org.queryParam.relatedOrgType");
+		param.setName ("related Org Type");
 		param.setDesc ("Type of an organization.");
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
@@ -1773,6 +1812,7 @@ public class LookupMetadataBank
 		result.setName ("Organization Identifier");
 		result.setDesc ("Identifier for the organization");
 		result.setDataType (Data.DataType.STRING);
+		result.setHidden(true);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
@@ -1781,28 +1821,14 @@ public class LookupMetadataBank
 		result.setDesc ("Short name for the organization, recorded as the default listing");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgOptionalLongName");
-		result.setName ("Name");
-		result.setDesc ("Long name for the organization, recorded as the default listing.");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgType");
-		result.setName ("Organization Type");
-		result.setDesc ("Organization Type");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
 		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
 		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setId ("kuali.lu.browseCourseCatalogBySchoolOrCollege");
-  lookup.setSearchTypeId ("lu.search.generic");
+		lookup.setId ("kuali.lu.browse.CourseCatalogBySchoolOrCollege");
+        lookup.setSearchTypeId ("lu.search.generic");
 		lookup.setName ("Basic and Advanced Search");
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("lu.resultColumn.cluId");
@@ -1855,7 +1881,7 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
-  param = new LookupParamMetadata ();
+        param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalDivision");
 		param.setName ("Division");
 		param.setDesc ("Division or Subject Area");
@@ -1867,6 +1893,18 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
+        param = new LookupParamMetadata ();
+		param.setKey ("lu.queryParam.luOptionalPrimaryAdminOrgId");
+		param.setName ("Primary Admin Org Id");
+		param.setDesc ("Primary Admin Org Id");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
 		param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalLevel");
 		param.setName ("Level");
@@ -1897,6 +1935,7 @@ public class LookupMetadataBank
 		result.setName ("Clu Id");
 		result.setDesc ("Identifier of a Clu");
 		result.setDataType (Data.DataType.STRING);
+		result.setHidden(true);
 		lookup.getResults ().add (result);
 
 		result = new LookupResultMetadata ();
@@ -2037,29 +2076,28 @@ public class LookupMetadataBank
 		lookup = LOOKUP_BANK.get ("lo.search.categories".toLowerCase ());
 		param.setChildLookup (lookup);
 		
+		
+		// this is for the catalog browse by subject area
 		// set childLookup enumeration.management.search
 		// on kuali.lu.browse.CourseCatalogBySubjectArea.lu.queryparam.luOptionalDivision
 		param = findParam ("kuali.lu.browse.CourseCatalogBySubjectArea", "lu.queryParam.luOptionalDivision");
 		lookup = LOOKUP_BANK.get ("kuali.lu.browse.AllSubjectAreas".toLowerCase ());
 		param.setChildLookup (lookup);
 		
+		
+		// this is for teh catalog browse by school then dept
 		// set childLookup 
 		// on kuali.lu.browse.departments.in.school.org.queryParam.orgRelationOrgId1
-		param = findParam ("kuali.lu.browse.departments.in.school", "org.queryParam.orgRelationOrgId1");
+		param = findParam ("kuali.lu.browse.departments.in.school", "org.queryParam.orgId");
 		lookup = LOOKUP_BANK.get ("kuali.lu.browse.schoolsAndColleges".toLowerCase ());
 		param.setChildLookup (lookup);
 		
-		// set childLookup enumeration.management.search
-		// on kuali.lu.browseCourseCatalogBySchoolOrCollege.llu.queryParam.luOptionalDivision
-		param = findParam ("kuali.lu.browseCourseCatalogBySchoolOrCollege", "lu.queryParam.luOptionalDivision");
-		lookup = LOOKUP_BANK.get ("kuali.lu.browse.subjectAreasByDept".toLowerCase ());
-		param.setChildLookup (lookup);
-		
-		// set childLookup org.search.within.hierarchy
-		// on kuali.lu.browse.subjectAreasByDept.enumeration.queryParam.contextValue
-		param = findParam ("kuali.lu.browse.subjectAreasByDept", "enumeration.queryParam.contextValue");
+		// 
+		// on kuali.lu.browseCourseCatalogBySchoolOrCollege
+		param = findParam ("kuali.lu.browse.CourseCatalogBySchoolOrCollege", "lu.queryParam.luOptionalPrimaryAdminOrgId");
 		lookup = LOOKUP_BANK.get ("kuali.lu.browse.departments.in.school".toLowerCase ());
 		param.setChildLookup (lookup);
+		
 	}
 	
 	private static Date asDate (String value)
@@ -2077,7 +2115,12 @@ public class LookupMetadataBank
 	
 	private static LookupParamMetadata findParam (String lookupKey, String paramKey)
 	{
-		return findParam (LOOKUP_BANK.get (lookupKey.toLowerCase()), paramKey);
+		LookupMetadata lookup = LOOKUP_BANK.get (lookupKey.toLowerCase());
+		if (lookup == null)
+		{
+			Window.alert ("Could not find lookupKey=" + lookupKey);
+		}
+		return findParam (lookup, paramKey);
 	}
 	
 	private static LookupParamMetadata findParam (LookupMetadata lookup, String paramKey)
@@ -2089,6 +2132,7 @@ public class LookupMetadataBank
 				return param;
 			}
 		}
+		Window.alert ("Could not find paramKey=" + paramKey + " in lookup=" + lookup.getId());
 		return null;
 	}
 	

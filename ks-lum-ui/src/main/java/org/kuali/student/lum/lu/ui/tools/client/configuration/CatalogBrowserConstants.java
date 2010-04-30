@@ -28,10 +28,11 @@ import java.util.Map;
  */
 public class CatalogBrowserConstants
 {
-
  // Message keys for top-level section label lookup
  public static final String BROWSE_BY_SUBJECT_AREA_LABEL_KEY =
-  "browseBySubjectAreaInformation";
+  "browseBySubjectArea";
+ public static final String BROWSE_BY_SCHOOL_LABEL_KEY =
+	  "browseBySchool"; 
  public static final String BROWSE_BY_SUBJECT_AREA =
   "Browse Catalog by Subject Area";
  public static final String BROWSE_BY_SUBJECT_AREA_INFO =

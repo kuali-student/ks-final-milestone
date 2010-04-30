@@ -59,7 +59,7 @@ public class BrowseCourseCatalogBySchoolOrCollegeMetadata
 		mainMeta.getProperties ().put (Properties.COURSE_ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		LookupMetadataBank.setLookups (childMeta, "kuali.lu.browseCourseCatalogBySchoolOrCollege");
+		LookupMetadataBank.setLookups (childMeta, "kuali.lu.browse.CourseCatalogBySchoolOrCollege");
 		childMeta.setLookupContextPath (null);
 		listMeta = new Metadata ();
 		listMeta.setDataType (Data.DataType.STRING);

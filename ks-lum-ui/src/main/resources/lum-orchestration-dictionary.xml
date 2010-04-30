@@ -7162,4 +7162,614 @@
             </list>
         </property>
     </bean>
+      <!-- define childlookups -->
+
+ <bean id="kuali.lu.browse.schoolsAndColleges" parent="lookup">
+  <property name="id" value="kuali.lu.browse.schoolsAndColleges" />
+  <property name="searchTypeId" value="org.search.generic" />
+  <property name="name" value="Organization search" />
+  <property name="desc"
+            value="Search for administrative department organization" />
+  <property name="widget" value="SUGGEST_BOX" />
+  <property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+  <property name="params">
+   <list>
+    <bean parent="param">
+     <property name="key" value="org.queryParam.orgOptionalLongName" />
+     <property name="name" value="Organization Name" />
+     <property name="desc" value="Long organization name." />
+     <property name="writeAccess" value="NEVER" />
+     <property name="usage" value="DEFAULT" />
+    </bean>
+    <bean parent="param">   <!-- limit search to department organizations for this UI context -->
+     <property name="key" value="org.queryParam.orgOptionalType" />
+     <property name="name" value="Org Type" />
+     <property name="desc" value="Type of an organization." />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>kuali.org.College</value>
+       <value>kuali.org.School</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
+  <property name="resultReturnKey" value="org.resultColumn.orgId" />
+  <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgId" />
+     <property name="name" value="Organization Identifier" />
+     <property name="desc" value="Identifier for the organization" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="true" />
+    </bean>
+
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgShortName" />
+     <property name="name" value="School or College Abbreviation" />
+     <property name="desc" value="Abbreviation or code used to refer to the organization" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgOptionalLongName" />
+     <property name="name" value="Name" />
+     <property name="desc"
+               value="Long name for the organization, recorded as the default listing." />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="false" />
+    </bean>
+
+    <bean parent="result">
+     <property name="key" value="org.resultColumn.orgType" />
+     <property name="name" value="Type" />
+     <property name="desc" value="Type of the organization" />
+     <property name="dataType" value="STRING" />
+     <property name="hidden" value="true" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+
+
+
+ <bean id="kuali.lu.browse.departments.in.school" parent="lookup">
+  <property name="id" value="kuali.lu.browse.departments.in.school" />
+  <property name="searchTypeId" value="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" />
+  <property name="name" value="Search using a heirarchy" />
+  <property name="desc"
+            value="Finds children of an org" />
+  <property name="searchParamIdKey" value="org.queryParam.orgId" />
+  <property name="widget" value="NO_WIDGET" />
+  <property name="params">
+   <list>
+    <bean parent="param">
+     <property name="key" value="org.queryParam.relationType" />
+     <property name="name" value="Relation type" />
+     <property name="desc" value="relation type to follow" />
+     <property name="writeAccess" value="ALWAYS" />
+     <property name="dataType" value="STRING" />
+     <property name="defaultValueString" value="kuali.org.Contain" />
+     <property name="optional" value="false" />
+     <property name="caseSensitive" value="true" />
+    </bean>
+    <bean parent="param">
+     <property name="key" value="org.queryParam.orgId" />
+     <property name="name" value="parent id" />
+     <property name="desc" value="parent org id" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="dataType" value="STRING" />
+     <property name="childLookup" ref="kuali.lu.browse.schoolsAndColleges" />
+     <property name="optional" value="false" />
+     <property name="caseSensitive" value="true" />
+    </bean>
+    <bean parent="param">
+     <property name="key"
+               value="org.queryParam.relatedOrgType" />
+     <property name="name" value="related Org Type" />
+     <property name="desc" value="Type of an organization." />
+     <property name="writeAccess" value="NEVER" />
+     <property name="dataType" value="STRING" />
+     <property name="optional" value="false" />
+     <property name="defaultValueString" value="kuali.org.Department" />
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
+  <property name="resultReturnKey" value="org.resultColumn.orgId" />
+  <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc"
+               value="Identifier for the organization" />
+     <property name="hidden" value="true" />
+     <property name="key" value="org.resultColumn.orgId" />
+     <property name="name" value="Organization Identifier" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc"
+               value="Short name for the organization, recorded as the default listing" />
+     <property name="hidden" value="false" />
+     <property name="key" value="org.resultColumn.orgShortName" />
+     <property name="name" value="Dept. Abbreviation" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+
+ <bean id="kuali.lu.browse.AllSubjectAreas" parent="lookup">
+  <property name="id" value="kuali.lu.browse.AllSubjectAreas" />
+  <property name="searchTypeId" value="enumeration.management.search" />
+  <property name="name" value="Get enumerations" />
+  <property name="desc"
+            value="Get enumerated lists of values given context" />
+  <property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+  <property name="widget" value="SUGGEST_BOX" />
+  <property name="params">
+   <list>
+    <bean parent="param">
+     <property name="key" value="enumeration.queryParam.enumerationType" />
+     <property name="name" value="Enumeration Type" />
+     <property name="desc" value="The type of the enumeration to search" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="dataType" value="STRING" />
+     <property name="optional" value="true" />
+     <property name="defaultValueString" value="kuali.lu.subjectArea" />
+     <property name="caseSensitive" value="true" />
+    </bean>
+    <bean parent="param">
+     <property name="key"
+               value="enumeration.queryParam.enumerationOptionalCode" />
+     <property name="name" value="Context Value" />
+     <property name="desc" value="The enumeration code to lookup" />
+     <property name="writeAccess" value="ALWAYS" />
+     <property name="dataType" value="STRING" />
+     <property name="optional" value="true" />
+     <property name="usage" value="DEFAULT" />
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
+  <property name="resultReturnKey" value="enumeration.resultColumn.code" />
+  <property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
+  <property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+  <property name="results">
+   <list>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc"
+               value="The internal code of the enumeration value" />
+     <property name="hidden" value="true" />
+     <property name="key" value="enumeration.resultColumn.code" />
+     <property name="name" value="Code" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc"
+               value="An abbreviation of the enumeration value" />
+     <property name="hidden" value="false" />
+     <property name="key" value="enumeration.resultColumn.abbrevValue" />
+     <property name="name" value="Abbreviation of the code" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc"
+               value="The description of the enumeration value" />
+     <property name="hidden" value="false" />
+     <property name="key" value="enumeration.resultColumn.value" />
+     <property name="name" value="Description of the code" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="TRUNCATED_DATE" />
+     <property name="desc"
+               value="The date the enumeration became effective" />
+     <property name="hidden" value="true" />
+     <property name="key" value="enumeration.resultColumn.effectiveDate" />
+     <property name="name" value="Effective date" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="TRUNCATED_DATE" />
+     <property name="desc"
+               value="The date the enumeration became non-effective" />
+     <property name="hidden" value="true" />
+     <property name="key" value="enumeration.resultColumn.expirationDate" />
+     <property name="name" value="Expiration date" />
+    </bean>
+    <bean parent="result">
+     <property name="dataType" value="STRING" />
+     <property name="desc" value="The description of the type" />
+     <property name="hidden" value="true" />
+     <property name="key" value="enumeration.resultColumn.sortKey" />
+     <property name="name" value="Key used to sort the results" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+
+ <bean id="BrowseCourseCatalog-parent" abstract="true"
+       parent="dataObjectStructure">
+  <property name="name" value="BrowseCourseCatalog" />
+  <property name="fields">
+   <list>
+    <ref bean="BrowseCourseCatalog.bySubjectArea" />
+    <ref bean="BrowseCourseCatalog.bySchoolOrCollege" />
+   </list>
+  </property>
+ </bean>
+ <bean id="BrowseCourseCatalog" parent="BrowseCourseCatalog-parent" />
+ <bean id="BrowseCourseCatalog.bySubjectArea" parent="dataFieldDescriptor">
+  <property name="name" value="bySubjectArea" />
+  <property name="writeAccess" value="ALWAYS" />
+  <property name="onChangeRefreshMetadata" value="false" />
+  <property name="dataObjectStructure" ref="bySubjectArea" />
+  <property name="dataType" value="DATA" />
+  <property name="constraints">
+   <list>
+    <ref bean="constraint.single" />
+   </list>
+  </property>
+ </bean>
+ <bean id="BrowseCourseCatalog.bySchoolOrCollege" parent="dataFieldDescriptor">
+  <property name="name" value="bySchoolOrCollege" />
+  <property name="writeAccess" value="ALWAYS" />
+  <property name="onChangeRefreshMetadata" value="false" />
+  <property name="dataObjectStructure" ref="bySchoolOrCollege" />
+  <property name="dataType" value="DATA" />
+  <property name="constraints">
+   <list>
+    <ref bean="constraint.single" />
+   </list>
+  </property>
+ </bean>
+ <bean id="bySchoolOrCollege-parent" abstract="true" parent="dataObjectStructure">
+  <property name="name" value="bySchoolOrCollege" />
+  <property name="fields">
+   <list>
+    <ref bean="bySchoolOrCollege.courseId" />
+   </list>
+  </property>
+ </bean>
+ <bean id="bySchoolOrCollege" parent="bySchoolOrCollege-parent" />
+ <bean id="bySchoolOrCollege.courseId" parent="dataFieldDescriptor">
+  <property name="name" value="courseId" />
+  <property name="writeAccess" value="ALWAYS" />
+  <property name="onChangeRefreshMetadata" value="false" />
+  <property name="dataType" value="STRING" />
+  <property name="initialLookup">
+   <bean parent="lookup">
+    <property name="id"
+              value="kuali.lu.browse.CourseCatalogBySchoolOrCollege" />
+    <property name="searchTypeId" value="lu.search.generic" />
+    <property name="name" value="Basic and Advanced Search" />
+    <property name="desc"
+              value="Query with multiple optional elements to satisfy most advanced pickers" />
+    <property name="params">
+     <list>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalId" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Id" />
+       <property name="desc" value="Unique identifier for a lu." />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="CUSTOM" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalLongName" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Name" />
+       <property name="desc" value="Long name" />
+       <property name="caseSensitive" value="false" />
+       <property name="usage" value="DEFAULT" />
+       <property name="widget" value="SUGGEST_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalType" />
+       <property name="writeAccess" value="NEVER" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
+       <property name="name" value="Type" />
+       <property name="desc" value="Lu type (course, program etc.)" />
+       <property name="caseSensitive" value="true" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalCode" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Code" />
+       <property name="desc" value="Lu code" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalDivision" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Division" />
+       <property name="desc" value="Division or Subject Area" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalPrimaryAdminOrgId" />
+       <property name="childLookup" ref="kuali.lu.browse.departments.in.school" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Primary Admin Org Id" />
+       <property name="desc" value="Primary Admin Org Id" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalLevel" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Level" />
+       <property name="desc" value="Lu level grad/undergrad" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalState" />
+       <property name="writeAccess" value="NEVER" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="defaultValueString" value="activated" />
+       <property name="name" value="State" />
+       <property name="desc" value="Lu State" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+     </list>
+    </property>
+    <property name="results">
+     <list>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc" value="Identifier of a Clu" />
+       <property name="hidden" value="true" />
+       <property name="key" value="lu.resultColumn.cluId" />
+       <property name="name" value="Clu Id" />
+      </bean>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc"
+                 value="Long name for the lu, recorded as the default listing." />
+       <property name="hidden" value="false" />
+       <property name="key" value="lu.resultColumn.luOptionalLongName" />
+       <property name="name" value="Name" />
+      </bean>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc" value="Lu code" />
+       <property name="hidden" value="false" />
+       <property name="key" value="lu.resultColumn.luOptionalCode" />
+       <property name="name" value="Code" />
+      </bean>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc" value="Level of Lu" />
+       <property name="hidden" value="false" />
+       <property name="key" value="lu.resultColumn.luOptionalLevel" />
+       <property name="name" value="Level" />
+      </bean>
+     </list>
+    </property>
+    <property name="resultReturnKey" value="lu.resultColumn.cluId" />
+    <property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
+    <property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+    <property name="usage" value="DEFAULT" />
+   </bean>
+  </property>
+  <property name="additionalLookups">
+   <list />
+  </property>
+ </bean>
+ <bean id="bySubjectArea-parent" abstract="true" parent="dataObjectStructure">
+  <property name="name" value="bySubjectArea" />
+  <property name="fields">
+   <list>
+    <ref bean="bySubjectArea.courseId" />
+   </list>
+  </property>
+ </bean>
+ <bean id="bySubjectArea" parent="bySubjectArea-parent" />
+ <bean id="bySubjectArea.courseId" parent="dataFieldDescriptor">
+  <property name="name" value="courseId" />
+  <property name="writeAccess" value="ALWAYS" />
+  <property name="onChangeRefreshMetadata" value="false" />
+  <property name="dataType" value="STRING" />
+  <property name="initialLookup">
+   <bean parent="lookup">
+    <property name="id" value="kuali.lu.browse.CourseCatalogBySubjectArea" />
+    <property name="searchTypeId" value="lu.search.generic" />
+    <property name="name" value="Basic and Advanced Search" />
+    <property name="desc"
+              value="Query with multiple optional elements to satisfy most advanced pickers" />
+    <property name="params">
+     <list>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalId" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Id" />
+       <property name="desc" value="Unique identifier for a lu." />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="CUSTOM" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalLongName" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Name" />
+       <property name="desc" value="Long name" />
+       <property name="caseSensitive" value="false" />
+       <property name="usage" value="DEFAULT" />
+       <property name="widget" value="SUGGEST_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalType" />
+       <property name="writeAccess" value="NEVER" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
+       <property name="name" value="Type" />
+       <property name="desc" value="Lu type (course, program etc.)" />
+       <property name="caseSensitive" value="true" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalDivision" />
+       <property name="childLookup" ref="kuali.lu.browse.AllSubjectAreas" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Division" />
+       <property name="desc" value="Division or Subject Area" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key"
+                 value="lu.queryParam.luOptionalPrimaryAdminOrgId" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Primary Admin Org Id" />
+       <property name="desc" value="Primary Admin Org Id" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalCode" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Code" />
+       <property name="desc" value="Lu code" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalDivision" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Division" />
+       <property name="desc" value="Division or Subject Area" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key"
+                 value="lu.queryParam.luOptionalPrimaryAdminOrgId" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Primary Admin Org Id" />
+       <property name="desc" value="Primary Admin Org Id" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalLevel" />
+       <property name="writeAccess" value="ALWAYS" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="name" value="Level" />
+       <property name="desc" value="Lu level grad/undergrad" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+      <bean parent="param">
+       <property name="key" value="lu.queryParam.luOptionalState" />
+       <property name="writeAccess" value="NEVER" />
+       <property name="dataType" value="STRING" />
+       <property name="optional" value="true" />
+       <property name="defaultValueString" value="activated" />
+       <property name="name" value="State" />
+       <property name="desc" value="Lu State" />
+       <property name="caseSensitive" value="true" />
+       <property name="usage" value="ADVANCED" />
+       <property name="widget" value="TEXT_BOX" />
+      </bean>
+     </list>
+    </property>
+    <property name="results">
+     <list>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc" value="Identifier of a Clu" />
+       <property name="hidden" value="true" />
+       <property name="key" value="lu.resultColumn.cluId" />
+       <property name="name" value="Clu Id" />
+      </bean>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc"
+                 value="Long name for the lu, recorded as the default listing." />
+       <property name="hidden" value="false" />
+       <property name="key" value="lu.resultColumn.luOptionalLongName" />
+       <property name="name" value="Name" />
+      </bean>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc" value="Lu code" />
+       <property name="hidden" value="false" />
+       <property name="key" value="lu.resultColumn.luOptionalCode" />
+       <property name="name" value="Code" />
+      </bean>
+      <bean parent="result">
+       <property name="dataType" value="STRING" />
+       <property name="desc" value="Level of Lu" />
+       <property name="hidden" value="false" />
+       <property name="key" value="lu.resultColumn.luOptionalLevel" />
+       <property name="name" value="Level" />
+      </bean>
+     </list>
+    </property>
+    <property name="resultReturnKey" value="lu.resultColumn.cluId" />
+    <property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
+    <property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+    <property name="usage" value="DEFAULT" />
+   </bean>
+  </property>
+  <property name="additionalLookups">
+   <list />
+  </property>
+ </bean>
+
 </beans>

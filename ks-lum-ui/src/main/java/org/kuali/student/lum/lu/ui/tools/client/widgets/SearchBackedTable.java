@@ -33,7 +33,6 @@ import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
@@ -55,18 +54,18 @@ public class SearchBackedTable extends Composite
  private String resultIdColumnKey;
  protected PagingScrollTable<ResultRow> pagingScrollTable;
  private VerticalPanel layout = new VerticalPanel ();
- private PagingOptions pagingOptions;
+// private PagingOptions pagingOptions;
  private SearchRpcServiceAsync searchRpcServiceAsync =
   GWT.create (SearchRpcService.class);
 
- private PagingOptions createPagingOptions (
-  PagingScrollTable<ResultRow> pagingScrollTable)
- {
-  PagingOptions po = new PagingOptions (pagingScrollTable);
-  po.setPixelSize (pagingScrollTable.getOffsetWidth (), po.
-   getOffsetHeight ());
-  return po;
- }
+// private PagingOptions createPagingOptions (
+//  PagingScrollTable<ResultRow> pagingScrollTable)
+// {
+//  PagingOptions po = new PagingOptions (pagingScrollTable);
+//  po.setPixelSize (pagingScrollTable.getOffsetWidth (), po.
+//   getOffsetHeight ());
+//  return po;
+// }
 
  public SearchBackedTable ()
  {
@@ -181,9 +180,9 @@ public class SearchBackedTable extends Composite
   tableModel.setRows (resultRows);
   pagingScrollTable = builder.build (tableModel); // FIXME do we really need to recreate the table for every refresh?
   pagingScrollTable.setResizePolicy (ResizePolicy.FILL_WIDTH);
-  pagingOptions = createPagingOptions (pagingScrollTable);
+//  pagingOptions = createPagingOptions (pagingScrollTable);
   layout.clear ();
-  layout.add (pagingOptions);
+//  layout.add (pagingOptions);
   layout.add (pagingScrollTable);
   pagingScrollTable.fillWidth ();
  }

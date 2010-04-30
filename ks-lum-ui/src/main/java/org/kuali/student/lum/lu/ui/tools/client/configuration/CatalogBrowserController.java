@@ -15,6 +15,8 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -25,26 +27,29 @@ import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
+import org.kuali.student.common.ui.client.service.MetadataRpcService;
+import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogMetadata;
+
 
 public class CatalogBrowserController extends TabbedSectionLayout
 {
-
+ private MetadataRpcServiceAsync metadataService = GWT.create(MetadataRpcService.class);
  private final DataModel dataModel = new DataModel ();
  private WorkQueue modelRequestQueue;
  private boolean initialized = false;
  final KSLightBox progressWindow = new KSLightBox ();
  private Controller controller;
-
+ private static KSTitleContainerImpl container = new KSTitleContainerImpl("Catalog Browser");
 
  public CatalogBrowserController (Controller controller)
  {
-  super (CatalogBrowserController.class.getName ());
+  super (CatalogBrowserController.class.getName (), container);
   this.controller = controller;
 //  Window.alert ("about to initialize controller");
   initialize ();
@@ -101,38 +106,38 @@ public class CatalogBrowserController extends TabbedSectionLayout
    progressWindow.show ();
 
    // TODO: replace this with some sort of asynch call like below
-   Metadata result =
+//   Metadata result =
     new BrowseCourseCatalogMetadata ().getMetadata ("", "");
-   DataModelDefinition def = new DataModelDefinition (result);
-   dataModel.setDefinition (def);
-   init (def);
-   initialized = true;
-   onReadyCallback.exec (true);
-   progressWindow.hide ();
+//   DataModelDefinition def = new DataModelDefinition (result);
+//   dataModel.setDefinition (def);
+//   init (def);
+//   initialized = true;
+//   onReadyCallback.exec (true);
+//   progressWindow.hide ();
 
-//   cluSetManagementRpcServiceAsync.getMetadata ("", "", new AsyncCallback<Metadata> ()
-//   {
-//
-//    @Override
-//    public void onFailure (Throwable caught)
-//    {
-//     onReadyCallback.exec (false);
-//     progressWindow.hide ();
-//     throw new RuntimeException ("Failed to get model definition.", caught);
-//    }
-//
-//    @Override
-//    public void onSuccess (Metadata result)
-//    {
-//     DataModelDefinition def = new DataModelDefinition (result);
-//     dataModel.setDefinition (def);
-//     init (def);
-//     initialized = true;
-//     onReadyCallback.exec (true);
-//     progressWindow.hide ();
-//    }
-//
-//   });
+   metadataService.getMetadata ("BrowseCourseCatalog", "default", "default", new AsyncCallback<Metadata> ()
+   {
+
+    @Override
+    public void onFailure (Throwable caught)
+    {
+     onReadyCallback.exec (false);
+     progressWindow.hide ();
+     throw new RuntimeException ("Failed to get model definition.", caught);
+    }
+
+    @Override
+    public void onSuccess (Metadata result)
+    {
+     DataModelDefinition def = new DataModelDefinition (result);
+     dataModel.setDefinition (def);
+     init (def);
+     initialized = true;
+     onReadyCallback.exec (true);
+     progressWindow.hide ();
+    }
+
+   });
   }
  }
 
