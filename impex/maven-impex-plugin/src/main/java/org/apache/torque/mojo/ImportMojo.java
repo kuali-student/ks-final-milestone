@@ -276,6 +276,30 @@ public class ImportMojo extends AbstractMojo {
 	// //////////////////////////// Parser Configuration ////////////////////
 
 	/**
+	 * Set to false to skip importing data
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${importData}" default-value="true"
+	 */
+	private boolean importData;
+
+	/**
+	 * Set to false to skip importing the schema
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${importSchema}" default-value="true"
+	 */
+	private boolean importSchema;
+
+	/**
+	 * Set to false to skip importing the schema constraints
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${importSchemaConstraints}" default-value="true"
+	 */
+	private boolean importSchemaConstraints;
+
+	/**
 	 * Set the delimiter that separates SQL statements.
 	 * 
 	 * @since 1.0
@@ -714,6 +738,9 @@ public class ImportMojo extends AbstractMojo {
 		}
 		try {
 			List<Database> databases = new Utils().getDatabases(getSchemaXMLResources(), getTargetDatabase());
+			for (String schemaXMLResource : getSchemaXMLResources()) {
+				getLog().info("Adding " + schemaXMLResource);
+			}
 			for (Database database : databases) {
 				handleDatabase(database);
 			}
@@ -725,22 +752,27 @@ public class ImportMojo extends AbstractMojo {
 	protected void handleDatabase(Database database) {
 		DefaultResourceLoader loader = new DefaultResourceLoader();
 
-		List<?> tables = database.getTables();
-		for (Object object : tables) {
-			Table table = (Table) object;
-			String location = "classpath:" + getTargetDatabase() + "/" + table.getName() + ".sql";
-			Resource resource = loader.getResource(location);
-			if (!resource.exists()) {
-				getLog().debug("Skipping " + location + " because it does not exist");
-				continue;
+		if (isImportData()) {
+			List<?> tables = database.getTables();
+			for (Object object : tables) {
+				Table table = (Table) object;
+				String location = "classpath:" + getTargetDatabase() + "/" + table.getName() + ".sql";
+				Resource resource = loader.getResource(location);
+				if (!resource.exists()) {
+					getLog().debug("Skipping " + location + " because it does not exist");
+					continue;
+				}
+				createTransaction().setSrc(location);
 			}
-			createTransaction().setSrc(location);
 		}
-		String schemaSQL = "classpath:" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
-		createTransaction().setSrc(schemaSQL);
-		String schemaConstraintsSQL = "classpath:" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
-		createTransaction().setSrc(schemaConstraintsSQL);
-
+		if (isImportSchema()) {
+			String schemaSQL = "classpath:" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
+			createTransaction().setSrc(schemaSQL);
+		}
+		if (isImportSchemaConstraints()) {
+			String schemaConstraintsSQL = "classpath:" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
+			createTransaction().setSrc(schemaConstraintsSQL);
+		}
 	}
 
 	/**
@@ -1390,5 +1422,29 @@ public class ImportMojo extends AbstractMojo {
 
 	public String getEncoding() {
 		return encoding;
+	}
+
+	public boolean isImportData() {
+		return importData;
+	}
+
+	public void setImportData(boolean importData) {
+		this.importData = importData;
+	}
+
+	public boolean isImportSchema() {
+		return importSchema;
+	}
+
+	public void setImportSchema(boolean importSchema) {
+		this.importSchema = importSchema;
+	}
+
+	public boolean isImportSchemaConstraints() {
+		return importSchemaConstraints;
+	}
+
+	public void setImportSchemaConstraints(boolean importSchemaConstraints) {
+		this.importSchemaConstraints = importSchemaConstraints;
 	}
 }

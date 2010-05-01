@@ -89,7 +89,7 @@ public class ExportDataMojo extends AntTaskMojo {
 	 * schemaIncludes and schemaExcludes
 	 * 
 	 * @parameter expression="${schemaXMLFile}"
-	 *            default-value="${basedir}/src/main/resources/impex/schema/${project.artifactId}-schema.xml"
+	 *            default-value="${basedir}/src/main/impex/${project.artifactId}-schema.xml"
 	 * @required
 	 */
 	private String schemaXMLFile;

@@ -54,7 +54,8 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The schema.xml file describing the database
 	 * 
-	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/resources/impex/schema/${project.artifactId}-schema.xml"
+	 * @parameter expression="${schemaXMLFile}"
+	 *            default-value="${basedir}/src/main/impex/${project.artifactId}-schema.xml"
 	 * @required
 	 */
 	private File schemaXMLFile;
@@ -62,7 +63,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The directory containing data XML files
 	 * 
-	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/resources/impex/data"
+	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/impex/data"
 	 * @required
 	 */
 	private File dataXMLDir;
@@ -113,6 +114,9 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		super.execute();
 	}
 
+	/**
+	 * Return true if any of the data XML files have changed of if the schema XML file has changed
+	 */
 	protected boolean isChanged() {
 		if (isDataChanged()) {
 			return true;
