@@ -105,14 +105,14 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	 * @throws BuildException
 	 */
 	public void execute() throws BuildException {
-		log("Impex - Schema Dump starting");
+		log("Impex - Schema Export starting");
 		log("Your DB settings are: ");
 		log("Driver: " + driver);
 		log("URL: " + url);
 		log("Username: " + username);
 		log("Schema: " + schema);
 		log("Schema XML Name: " + schemaXMLName);
-		log("Dumping to: " + schemaXMLFile.getAbsolutePath());
+		log("Exporting to: " + schemaXMLFile.getAbsolutePath());
 
 		DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
 		doc = new DocumentImpl(docType);
@@ -130,7 +130,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		} catch (Exception e) {
 			throw new BuildException(e);
 		}
-		log("Impex - Schema Dump finished");
+		log("Impex - Schema Export finished");
 	}
 
 	/**
