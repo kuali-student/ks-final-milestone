@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KREN_CHNL_T CHNL_ID="1"
         DESC_TXT="This channel is used for sending out information about the Kuali Rice effort."

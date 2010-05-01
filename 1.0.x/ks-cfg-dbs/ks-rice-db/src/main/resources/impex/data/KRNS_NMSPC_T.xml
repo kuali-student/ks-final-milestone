@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KRNS_NMSPC_T ACTV_IND="Y" APPL_NMSPC_CD="RICE" NM="Service Bus"
         NMSPC_CD="KR-BUS" OBJ_ID="5B960CFDBB370FDFE0404F8189D83CBD" VER_NBR="1"/>

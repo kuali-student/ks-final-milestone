@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KREW_DOC_TYP_PLCY_RELN_T DOC_PLCY_NM="DEFAULT_APPROVE"
         DOC_TYP_ID="2024" OBJ_ID="61BA2DCF3BE658EEE0404F8189D80CAE"

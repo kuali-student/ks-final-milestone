@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KREW_RTE_NODE_LNK_T FROM_RTE_NODE_ID="2041" TO_RTE_NODE_ID="2042"/>
     <KREW_RTE_NODE_LNK_T FROM_RTE_NODE_ID="2042" TO_RTE_NODE_ID="2043"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KREW_RULE_EXT_T RULE_EXT_ID="1045" RULE_ID="1044"
         RULE_TMPL_ATTR_ID="1024" VER_NBR="1"/>

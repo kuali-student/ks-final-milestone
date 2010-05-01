@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-rice-db-data.dtd">
 <dataset>
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="1000"
         ATTR_VAL="KualiStudentDocument" KIM_ATTR_DEFN_ID="13"
