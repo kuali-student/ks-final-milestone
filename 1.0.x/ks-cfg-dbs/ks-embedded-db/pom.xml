@@ -31,10 +31,8 @@
           <importSchemaConstraints>true</importSchemaConstraints>
           <schemaXMLResources>
             <param>classpath:ks-core-db-schema.xml</param>
-            <!-- 
-            <param>classpath:impex/schema/ks-lum-db-schema.xml</param>
-            <param>classpath:impex/schema/ks-rice-db-schema.xml</param>
-             -->
+            <param>classpath:ks-lum-db-schema.xml</param>
+            <param>classpath:ks-rice-db-schema.xml</param>
           </schemaXMLResources>
         </configuration>
         <dependencies>
