@@ -17,12 +17,6 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/impex/data</directory>
-      </resource>
-      <resource>
-        <directory>src/main/impex/schema</directory>
-      </resource>
-      <resource>
         <directory>${project.build.directory}/generated-sql/impex</directory>
       </resource>
     </resources>
