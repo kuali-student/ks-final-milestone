@@ -409,8 +409,8 @@ public class KualiTorqueDataDumpTask extends Task {
 		}
 		long elapsed = System.currentTimeMillis() - start;
 		log(utils.pad("Processed " + tableNames.size() + " tables", elapsed));
-		log("Exported " + exportCount + " tables that had data to XML");
-		log("Skipped  " + skipCount + " tables that had no data");
+		log("Exported data from " + exportCount + " tables to XML");
+		log("Skipped " + skipCount + " tables that had zero rows");
 	}
 
 	/**
