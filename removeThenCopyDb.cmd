@@ -5,8 +5,8 @@ set MODULE=%1
 set QUALIFIER=%2
 set VERSION=%3
 set DIR=https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x/ks-cfg-dbs/%MODULE%
-set SCHEMA=%DIR%/src/main/impex/schema
-set DATA=%DIR%/src/main/impex/data
+set SCHEMA=%DIR%/src/main/resources/impex/schema
+set DATA=%DIR%/src/main/resources/impex/data
 set DEV=https://test.kuali.org/svn/student/ks-cfg-dbs/%MODULE%/%QUALIFIER%
 rem set DEV=https://test.kuali.org/svn/student/deploymentlab/%QUALIFIER%/ks-cfg-dbs-%VERSION%/%MODULE%
 svn delete -m "Removing %MODULE%" %DIR%/src
