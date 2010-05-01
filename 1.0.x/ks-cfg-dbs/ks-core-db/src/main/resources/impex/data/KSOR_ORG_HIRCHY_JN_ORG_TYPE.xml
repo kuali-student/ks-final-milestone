@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
 <dataset>
     <KSOR_ORG_HIRCHY_JN_ORG_TYPE
         ORG_HIRCHY_ID="kuali.org.hierarchy.Main" ORG_TYPE_ID="kuali.org.CorporateEntity"/>
