@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLU_CLU_SET CREATEID="CREATEID" CREATETIME="20000101000000"
         CRIT_SET="0" EFF_DT="20030101000000" EXPIR_DT="20040101000000"

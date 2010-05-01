@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLU_CLU_SET_JN_CLU_SET CLU_SET_CHILD_ID="CLUSET-3" CLU_SET_PARENT_ID="CLUSET-2"/>
     <KSLU_CLU_SET_JN_CLU_SET CLU_SET_CHILD_ID="CLUSET-2" CLU_SET_PARENT_ID="CLUSET-1"/>

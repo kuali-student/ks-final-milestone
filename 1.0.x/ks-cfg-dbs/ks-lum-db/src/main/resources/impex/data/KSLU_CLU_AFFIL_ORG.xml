@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLU_CLU_AFFIL_ORG CREATEID="admin" CREATETIME="20100407100000"
         ID="990dfd0f-0565-407f-b667-84976e549a0b" ORG_ID="54"

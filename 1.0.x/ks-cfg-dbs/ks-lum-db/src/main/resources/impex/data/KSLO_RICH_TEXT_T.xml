@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLO_RICH_TEXT_T
         FORMATTED="&lt;p>Learning objectives defined by faculty that are specific to a course&lt;/p>"

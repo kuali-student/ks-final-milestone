@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
 <dataset>
     <KSLU_LRC_GRADE ID="LRC-RESULT_VALUE-GRADE-1" RANK="Rank 1"
         SCALE_KEY="LRC-SCALE-1" TYPE="lrcType.grade.1"/>
