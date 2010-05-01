@@ -22,7 +22,7 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	/**
 	 * The path to the directory where the schema XML files are located
 	 * 
-	 * @parameter expression="${schemaDir}" default-value="${basedir}/src/main/impex/schema"
+	 * @parameter expression="${schemaDir}" default-value="${basedir}/src/main/resources/impex/schema"
 	 * @required
 	 */
 	private String schemaDir;

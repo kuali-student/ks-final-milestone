@@ -5,15 +5,16 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.kuali.core.db.torque.KualiTorqueDataDumpTask;
+import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 
 /**
- * Reads the content of tables from the database and stores the data in XML files.
+ * Export the schema to an XML file
  * 
- * @goal datadump
+ * @goal exportschema
  * @phase generate-sources
  */
-public class DataDumpMojo extends AntTaskMojo {
+public class ExportSchemaMojo extends AntTaskMojo {
+	private static final String FS = System.getProperty("file.separator");
 
 	/**
 	 * Database type (oracle, mysql etc)
@@ -23,7 +24,7 @@ public class DataDumpMojo extends AntTaskMojo {
 	private String targetDatabase;
 
 	/**
-	 * Encoding to use when reading SQL statements from a file.
+	 * The encoding to use when creating the schema XML file
 	 * 
 	 * @parameter expression="${encoding}" default-value= "${project.build.sourceEncoding}"
 	 * @since 1.1
@@ -31,15 +32,7 @@ public class DataDumpMojo extends AntTaskMojo {
 	private String encoding;
 
 	/**
-	 * The format to use for dates/timestamps
-	 * 
-	 * @parameter expression="${dateFormat}" default-value="yyyyMMddHHmmss"
-	 * @required
-	 */
-	private String dateFormat;
-
-	/**
-	 * The directory where data XML files will be written
+	 * The directory where the schema XML file is to be written
 	 * 
 	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/data/impex"
 	 * @required
@@ -47,12 +40,19 @@ public class DataDumpMojo extends AntTaskMojo {
 	private File outputDir;
 
 	/**
-	 * The schema containing the tables to dump
+	 * The name of the database schema to generate metadata for
 	 * 
 	 * @parameter expression="${schema}"
 	 * @required
 	 */
 	private String schema;
+
+	/**
+	 * The name that should end up in the schema XML for this schema dump (ks-core-db, ks-lum-db etc)
+	 * 
+	 * @parameter expression="${schemaXMLName}" default-value="${project.artifactId}"
+	 */
+	private String schemaXMLName;
 
 	/**
 	 * The fully qualified class name of the database driver.
@@ -85,20 +85,10 @@ public class DataDumpMojo extends AntTaskMojo {
 	private String password;
 
 	/**
-	 * The name of the xml file to process. Only one xml file can be processed at a time. Overrides the settings
-	 * schemaIncludes and schemaExcludes
-	 * 
-	 * @parameter expression="${schemaXMLFile}"
-	 *            default-value="${basedir}/src/main/impex/schema/${project.artifactId}-schema.xml"
-	 * @required
-	 */
-	private String schemaXMLFile;
-
-	/**
 	 * Creates a new SQLMojo object.
 	 */
-	public DataDumpMojo() {
-		super(new KualiTorqueDataDumpTask());
+	public ExportSchemaMojo() {
+		super(new KualiTorqueSchemaDumpTask());
 	}
 
 	/**
@@ -106,18 +96,17 @@ public class DataDumpMojo extends AntTaskMojo {
 	 */
 	protected void configureTask() throws MojoExecutionException {
 		super.configureTask();
-		KualiTorqueDataDumpTask task = (KualiTorqueDataDumpTask) super.getAntTask();
+		KualiTorqueSchemaDumpTask task = (KualiTorqueSchemaDumpTask) super.getAntTask();
 		task.setDriver(getDriver());
 		task.setUrl(getUrl());
 		task.setUsername(getUsername());
 		task.setPassword(getPassword());
 		task.setSchema(getSchema());
 		makeOutputDir();
-		task.setOutputDirectory(getOutputDir());
-		task.setDateFormat(getDateFormat());
-		task.setSchemaXMLFile(getSchemaXMLFile());
 		task.setEncoding(getEncoding());
-		task.setDatabaseType(getTargetDatabase());
+		task.setTargetDatabase(getTargetDatabase());
+		task.setSchemaXMLName(getSchemaXMLName());
+		task.setSchemaXMLFile(new File(getOutputDir() + FS + getSchemaXMLName() + "-schema.xml"));
 	}
 
 	protected void makeOutputDir() throws MojoExecutionException {
@@ -186,25 +175,6 @@ public class DataDumpMojo extends AntTaskMojo {
 		this.url = url;
 	}
 
-	/**
-	 * Returns the name of the xml file to process.
-	 * 
-	 * @return the name of the xml file to process.
-	 */
-	public String getSchemaXMLFile() {
-		return schemaXMLFile;
-	}
-
-	/**
-	 * Sets the name of the xml file to process.
-	 * 
-	 * @param project
-	 *            the name of the xml file to process.
-	 */
-	public void setSchemaXMLFile(String xmlFile) {
-		this.schemaXMLFile = xmlFile;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -229,14 +199,6 @@ public class DataDumpMojo extends AntTaskMojo {
 		this.outputDir = outputDir;
 	}
 
-	public String getDateFormat() {
-		return dateFormat;
-	}
-
-	public void setDateFormat(String dateFormat) {
-		this.dateFormat = dateFormat;
-	}
-
 	public String getEncoding() {
 		return encoding;
 	}
@@ -251,5 +213,13 @@ public class DataDumpMojo extends AntTaskMojo {
 
 	public void setTargetDatabase(String targetDatabase) {
 		this.targetDatabase = targetDatabase;
+	}
+
+	public String getSchemaXMLName() {
+		return schemaXMLName;
+	}
+
+	public void setSchemaXMLName(String schemaXMLName) {
+		this.schemaXMLName = schemaXMLName;
 	}
 }

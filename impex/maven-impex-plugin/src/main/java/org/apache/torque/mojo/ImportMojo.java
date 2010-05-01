@@ -68,9 +68,9 @@ import org.springframework.core.io.ResourceLoader;
 /**
  * Executes SQL against a database.
  * 
- * @goal sqlexec
+ * @goal import
  */
-public class SqlExecMojo extends AbstractMojo {
+public class ImportMojo extends AbstractMojo {
 	Utils utils = new Utils();
 
 	/**

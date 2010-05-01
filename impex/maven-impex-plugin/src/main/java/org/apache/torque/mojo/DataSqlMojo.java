@@ -54,7 +54,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The schema.xml file describing the database
 	 * 
-	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/schema/${project.artifactId}-schema.xml"
+	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/resources/impex/schema/${project.artifactId}-schema.xml"
 	 * @required
 	 */
 	private File schemaXMLFile;
@@ -62,7 +62,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The directory containing data XML files
 	 * 
-	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/impex/data"
+	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/resources/impex/data"
 	 * @required
 	 */
 	private File dataXMLDir;

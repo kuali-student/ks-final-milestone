@@ -62,7 +62,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * The name of the schema.xml file to process
 	 * 
 	 * @parameter expression="${schemaXMLFile}"
-	 *            default-value="${basedir}/src/main/impex/schema/${project.artifactId}-schema.xml"
+	 *            default-value="${basedir}/src/main/resources/impex/schema/${project.artifactId}-schema.xml"
 	 * @required
 	 */
 	private String schemaXMLFile;

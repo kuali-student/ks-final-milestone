@@ -114,7 +114,7 @@ public class KualiTorqueDataDumpTask extends Task {
 	 */
 	public void execute() throws BuildException {
 
-		log("Impex - Starting Data Dump");
+		log("Impex - Starting Data Export");
 		log("Driver: " + getDriver());
 		log("URL: " + getUrl());
 		log("Username: " + getUsername());
@@ -231,10 +231,16 @@ public class KualiTorqueDataDumpTask extends Task {
 			rs = stmt.executeQuery(query);
 			ResultSetMetaData md = rs.getMetaData();
 			Column[] columns = getColumns(md);
+			int count = 0;
 			while (rs.next()) {
+				count++;
 				log("processing row of " + tableName, Project.MSG_DEBUG);
 				Element row = getRow(document, tableName, md, rs, columns);
 				datasetNode.appendChild(row);
+			}
+			if (count == 0) {
+				log("No data found in table " + tableName, Project.MSG_DEBUG);
+				return null;
 			}
 		} catch (Exception e) {
 			throw new SQLException(e);
@@ -260,6 +266,9 @@ public class KualiTorqueDataDumpTask extends Task {
 		DocumentTypeImpl docType = new DocumentTypeImpl(null, "dataset", null, getSystemId());
 		DocumentImpl doc = new DocumentImpl(docType);
 		Element datasetNode = getDatasetNode(doc, platform, dbMetaData, tableName);
+		if (datasetNode == null) {
+			return null;
+		}
 		doc.appendChild(datasetNode);
 		return doc;
 	}
@@ -305,14 +314,23 @@ public class KualiTorqueDataDumpTask extends Task {
 
 	protected void processTables(Set<String> tableNames, Platform platform, DatabaseMetaData dbMetaData) throws IOException, SQLException {
 		long start = System.currentTimeMillis();
+		int exportCount = 0;
+		int skipCount = 0;
 		for (String tableName : tableNames) {
-			processTable(tableName, platform, dbMetaData);
+			boolean exported = processTable(tableName, platform, dbMetaData);
+			if (exported) {
+				exportCount++;
+			} else {
+				skipCount++;
+			}
 		}
 		long elapsed = System.currentTimeMillis() - start;
 		log(utils.pad("Processed " + tableNames.size() + " tables", elapsed));
+		log("Exported " + exportCount + " tables to XML");
+		log("Skipped " + skipCount + " tables that had no data");
 	}
 
-	protected void processTable(String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {
+	protected boolean processTable(String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(1);
 		nf.setMinimumFractionDigits(1);
@@ -321,10 +339,15 @@ public class KualiTorqueDataDumpTask extends Task {
 		DocumentImpl doc = getDocument(tableName, platform, dbMetaData);
 		long ts2 = System.currentTimeMillis();
 		log(utils.pad("Extracting: " + tableName + " ", ts2 - ts1), Project.MSG_DEBUG);
-		serialize(tableName, doc);
+		boolean exported = false;
+		if (doc != null) {
+			serialize(tableName, doc);
+			exported = true;
+		}
 		long ts3 = System.currentTimeMillis();
 		log(utils.pad("Serializing: " + tableName + " ", ts3 - ts2), Project.MSG_DEBUG);
 		log(utils.pad(tableName, (ts3 - ts1)));
+		return exported;
 	}
 
 	protected Writer getWriter(String tableName) throws FileNotFoundException {
