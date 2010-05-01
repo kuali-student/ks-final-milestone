@@ -43,14 +43,14 @@ import org.w3c.dom.Element;
 import static java.sql.Types.*;
 
 /**
- * This task dumps the tables specified by schema.xml to the file system. One table per XML file.
+ * This task exports the tables specified by schema.xml to the file system. One table per XML file.
  */
 public class KualiTorqueDataDumpTask extends Task {
 	Utils utils = new Utils();
 	private static final String FS = System.getProperty("file.separator");
 
 	/**
-	 * Database we are dumping
+	 * Database we are exporting
 	 */
 	Database database;
 
@@ -95,7 +95,7 @@ public class KualiTorqueDataDumpTask extends Task {
 	private String databaseType;
 
 	/**
-	 * The database connection used to retrieve the data to dump.
+	 * The database connection used to retrieve the data to export
 	 */
 	private Connection connection;
 
@@ -130,9 +130,10 @@ public class KualiTorqueDataDumpTask extends Task {
 				// Parse schema XML into a database object
 				Database database = xmlParser.parseResource(getSchemaXMLFile());
 				setDatabase(database);
+				log("Schema XML: " + utils.getFilename(getSchemaXMLFile()));
 			} else {
 				log("Unable to locate " + getSchemaXMLFile(), Project.MSG_WARN);
-				log("Dumping ALL tables");
+				log("Exporting ALL tables");
 			}
 
 			Class.forName(getDriver());
@@ -301,7 +302,7 @@ public class KualiTorqueDataDumpTask extends Task {
 			Set<String> intersection = SetUtils.intersection(jdbcTableNames, schemaXMLNames);
 			log("Schema XML Table Count: " + schemaXMLNames.size());
 			log("Tables present in both: " + intersection.size());
-			log("Tables in JDBC that will not be dumped: " + extraTables.size());
+			log("Tables in JDBC that will not be exported: " + extraTables.size());
 			if (missingTables.size() > 0) {
 				throw new BuildException("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]");
 			}
@@ -326,8 +327,8 @@ public class KualiTorqueDataDumpTask extends Task {
 		}
 		long elapsed = System.currentTimeMillis() - start;
 		log(utils.pad("Processed " + tableNames.size() + " tables", elapsed));
-		log("Exported " + exportCount + " tables to XML");
-		log("Skipped " + skipCount + " tables that had no data");
+		log("Exported " + exportCount + " tables that had data to XML");
+		log("Skipped  " + skipCount + " tables that had no data");
 	}
 
 	protected boolean processTable(String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {

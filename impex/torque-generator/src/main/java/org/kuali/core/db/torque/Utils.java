@@ -25,6 +25,19 @@ public class Utils {
 		nf.setGroupingUsed(false);
 	}
 
+	public String getFilename(String fileOrResource) {
+		if (!isFileOrResource(fileOrResource)) {
+			return null;
+		}
+		File f = new File(fileOrResource);
+		if (f.exists()) {
+			return f.getName();
+		}
+		ResourceLoader loader = new DefaultResourceLoader();
+		Resource resource = loader.getResource(fileOrResource);
+		return resource.getFilename();
+	}
+
 	public void right(PrettyPrint pp) {
 		long millis = System.currentTimeMillis() - pp.getStart();
 		String elapsed = getElapsed(millis);
