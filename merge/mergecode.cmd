@@ -1,3 +1,6 @@
+@echo off
+if "%1"=="" goto oops
+
 set REVISION=%1
 set BASE=..\..\..\..\1.0.x
 
@@ -21,4 +24,12 @@ cd ks-web
 svn merge -r %LAST_MERGE_REVISION%:HEAD https://test.kuali.org/svn/student/ks-web/branches/ks-lum-web
 cd ..
 
+goto end
+:oops
+
+echo -----------------------------------------------------------
+echo Error!!! You must supply a revision number: mergecode 12857
+echo -----------------------------------------------------------
+
+:end
 cd ..\test\driver\trunk
