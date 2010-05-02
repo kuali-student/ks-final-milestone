@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <!--*****************************************-->
+    <!--*        Rule Engine Repository         *-->
+    <!--*****************************************-->
+
+    <bean id="droolsRepository"
+        class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+        <constructor-arg type="org.drools.repository.RulesRepository"
+            ref="rulesRepository" />
+    </bean>
+
+    <bean id="defaultDroolsRepository"
+        class="org.kuali.student.brms.repository.drools.DefaultDroolsRepository"
+        init-method="clearData"
+        destroy-method="shutdownRepository">
+        <constructor-arg type="java.lang.String"
+            value="/drools-repository" />
+    </bean>
+
+    <bean id="rulesRepository"
+        factory-bean="defaultDroolsRepository"
+        factory-method="getRepository" />
+
+    <bean id="droolsTranslator"
+        class="org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl">
+        <property name="ruleSetValidator" ref="ruleSetValidator"/>
+    </bean>
+
+    <bean id="ruleSetValidator"
+        class="org.kuali.student.brms.translators.drools.RuleSetValidatorDroolsImpl">
+    </bean>
+
+    <!--*****************************************-->
+    <!--*          Web Service Clients          *-->
+    <!--*****************************************-->
+
+    <bean id="ruleRepositoryClient"
+        class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+        <property name="wsdlLocation"
+            value="classpath:wsdl/RuleRepositoryService.wsdl" />
+        <property name="serviceEndpointInterface"
+            value="org.kuali.student.brms.repository.service.RuleRepositoryService" />
+        <property name="serviceQNameString"
+            value="{http://student.kuali.org/wsdl/brms/RuleRepository}RuleRepositoryService" />
+        <property name="address"
+            value="${ks.servicelocation.RuleRepositoryService}" />
+    </bean>
+
+    <!--*****************************************-->
+    <!--*      Web Service Implementations      *-->
+    <!--*****************************************-->
+
+	<bean id="ruleRepository" class="org.kuali.student.brms.repository.runtime.RuleRepositoryImpl">
+	   <property name="ruleEngineRepository" ref="droolsRepository"/>
+       <property name="ruleSetTranslator" ref="droolsTranslator"/>
+	</bean>
+
+    <bean id="ruleRepositoryServiceImpl"
+        class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
+            <property name="ruleRepository" ref="ruleRepository"/>
+    </bean>
+
+</beans>
