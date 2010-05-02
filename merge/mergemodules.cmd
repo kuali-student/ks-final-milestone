@@ -22,8 +22,8 @@ goto end
 
 :oops
 
-echo -----------------------------------------------------------
-echo Error!!! You must supply a revision number: mergecode 12857
-echo -----------------------------------------------------------
+echo --------------------------------------------------------------
+echo Error!!! You must supply a revision number: mergemodules 12857
+echo --------------------------------------------------------------
 
 :end
