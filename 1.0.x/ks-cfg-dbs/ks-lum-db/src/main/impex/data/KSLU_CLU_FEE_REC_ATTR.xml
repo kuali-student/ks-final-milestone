@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
+<dataset>
+    <KSLU_CLU_FEE_REC_ATTR ATTR_NAME="amount" ATTR_VALUE="50"
+        ID="994b14a0-8251-4345-bc19-716473ae6b4e" OWNER="99cac9bc-4eae-4e35-b105-8fb0778cf1cc"/>
+    <KSLU_CLU_FEE_REC_ATTR ATTR_NAME="rateType"
+        ATTR_VALUE="perCreditFee"
+        ID="996b50ac-c09f-4915-b3ad-7e77b940fcf2" OWNER="99756442-3855-4e56-b617-cd4e7e18f3be"/>
+    <KSLU_CLU_FEE_REC_ATTR ATTR_NAME="rateType"
+        ATTR_VALUE="fixedRateFee"
+        ID="99cb8847-d418-4ddc-8ed1-dc9a7e93b46a" OWNER="99cac9bc-4eae-4e35-b105-8fb0778cf1cc"/>
+    <KSLU_CLU_FEE_REC_ATTR ATTR_NAME="amount" ATTR_VALUE="20"
+        ID="99fed894-fe4b-4b8d-9926-2ea166b84a66" OWNER="99756442-3855-4e56-b617-cd4e7e18f3be"/>
+</dataset>
