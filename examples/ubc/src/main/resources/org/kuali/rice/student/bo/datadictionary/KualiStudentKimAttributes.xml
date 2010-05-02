@@ -1,0 +1,75 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="KualiStudentKimAttributes" parent="KualiStudentKimAttributes-parentBean" />
+
+  <bean id="KualiStudentKimAttributes-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        p:objectLabel="Kuali Student KIM Attributes">
+    <property name="attributes">
+      <list>
+        <ref bean="KualiStudentKimAttributes-department" />
+        <ref bean="KualiStudentKimAttributes-college" />
+        <ref bean="KualiStudentKimAttributes-division" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-department" parent="KualiStudentKimAttributes-department-parentBean" />
+  <bean id="KualiStudentKimAttributes-department-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="department"
+        p:forceUppercase="false"
+        p:label="Department"
+        p:shortLabel="Dept"
+        p:maxLength="40"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentCocValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-college" parent="KualiStudentKimAttributes-college-parentBean" />
+  <bean id="KualiStudentKimAttributes-college-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="college"
+        p:forceUppercase="false"
+        p:label="College"
+        p:shortLabel="College"
+        p:maxLength="40"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeCocValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="KualiStudentKimAttributes-division" parent="KualiStudentKimAttributes-division-parentBean" />
+  <bean id="KualiStudentKimAttributes-division-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="division"
+        p:forceUppercase="false"
+        p:label="Division"
+        p:shortLabel="Division"
+        p:maxLength="40"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DivisionCocValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+
+</beans>  
