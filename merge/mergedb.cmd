@@ -1,5 +1,5 @@
 set MODULE=%1
-set REVISION=%2C
+set REVISION=%2
 
 echo Merging %MODULE%
 
