@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
+<dataset>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="One of two required courses"
+        TYPE_DESC="Student must take one of two specified courses" TYPE_KEY="kuali.reqCompType.courseList.1of2"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="All of required courses"
+        TYPE_DESC="Student must have completed all of the specified courses" TYPE_KEY="kuali.reqCompType.courseList.all"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="All of required courses"
+        TYPE_DESC="Student must be enrolled in all of the following courses" TYPE_KEY="kuali.reqCompType.courseList.coreq.all"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="One of required courses"
+        TYPE_DESC="Student must be enrolled in one of the following courses" TYPE_KEY="kuali.reqCompType.courseList.coreq.oneof"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="N of required courses"
+        TYPE_DESC="Student must take &lt;n> courses from the specified courses" TYPE_KEY="kuali.reqCompType.courseList.nof"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="None of required courses"
+        TYPE_DESC="Student must have completed none of the specified courses" TYPE_KEY="kuali.reqCompType.courseList.none"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20011130000000"
+        NAME="Minimum overall GPA"
+        TYPE_DESC="Student needs to have attained a minimum specified GPA" TYPE_KEY="kuali.reqCompType.gradecheck"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Course completed with minimum specified grade"
+        TYPE_DESC="Student must take &lt;n> credits from the specified courses" TYPE_KEY="kuali.reqCompType.grdCondCourseList"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="None of required programs"
+        TYPE_DESC="Enrollment is not available to students in the following programs" TYPE_KEY="kuali.reqCompType.programList.enroll.none"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="One of required programs"
+        TYPE_DESC="Enrollment is limited to students in the following programs" TYPE_KEY="kuali.reqCompType.programList.enroll.oneof"/>
+</dataset>

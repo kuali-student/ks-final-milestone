@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
+<dataset>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Academic Readiness Anti Reqs"
+        TYPE_DESC="Anti req used in the evaluation of a person's academic readiness for enrollment in an LU." TYPE_KEY="kuali.luStatementType.antireqAcademicReadiness"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Academic Readiness Co Reqs"
+        TYPE_DESC="Co req used in the evaluation of a person's academic readiness for enrollment in an LU." TYPE_KEY="kuali.luStatementType.coreqAcademicReadiness"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Overall Academic Readiness Rules"
+        TYPE_DESC="Rules used in the evaluation of a person's academic readiness for enrollment in an LU." TYPE_KEY="kuali.luStatementType.createCourseAcademicReadiness"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Academic Readiness Enroll Reqs"
+        TYPE_DESC="Enrollment req used in the evaluation of a person's academic readiness for enrollment in an LU." TYPE_KEY="kuali.luStatementType.enrollAcademicReadiness"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Academic Readiness Pre Reqs"
+        TYPE_DESC="Pre req rules used in the evaluation of a person's academic readiness for enrollment in an LU." TYPE_KEY="kuali.luStatementType.prereqAcademicReadiness"/>
+</dataset>

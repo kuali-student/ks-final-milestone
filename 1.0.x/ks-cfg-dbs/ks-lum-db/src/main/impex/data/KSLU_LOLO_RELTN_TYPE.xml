@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-lum-db-data.dtd">
+<dataset>
+    <KSLU_LOLO_RELTN_TYPE EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        ID="kuali.lo.relation.type.inSupportOf" NAME="inSupportOf" REV_NAME="supports"/>
+    <KSLU_LOLO_RELTN_TYPE
+        DESCR="Parent-child relationship between a parent LO and sub LO. Currently used in the context of LOs that are related within a single CLU."
+        EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="kuali.lo.relation.type.includes" NAME="includes"
+        REV_DESCR="Child-parent relationship between a child LO and an LO that includes the child.  Currently used in the context of LOs that are related within a single CLU." REV_NAME="is-included-by"/>
+</dataset>
