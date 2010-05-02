@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.security</groupId>
+	<artifactId>ks-standard-sec</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>KS Standard Security</name>
+	<description>KS Standard Security - out of the box</description>
+
+	<parent>
+		<groupId>org.kuali.student.security</groupId>
+		<artifactId>ks-security</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+    
+    <scm>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev/ks-standard-sec</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev/ks-standard-sec</developerConnection>
+    </scm>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<!--
+			This jar is only needed if you are using CAS with Spring Security
+		-->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opensaml</groupId>
+			<artifactId>opensaml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-databinding-aegis</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-api</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>SamlIssuerService-wsdl</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<className>org.kuali.student.security.saml.service.SamlIssuerService</className>
+							<serviceName>SamlIssuerService</serviceName>
+							<targetNameSpace>http://org.kuali.student/security/saml</targetNameSpace>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
