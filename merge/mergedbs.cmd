@@ -3,8 +3,8 @@ if "%1"=="" goto oops
 
 set REVISION=%1
 
-set MODULE=ks-core-db
 echo -----------------------------------------------------
+set MODULE=ks-core-db
 call mergedb %MODULE% %REVISION%
 
 set MODULE=ks-lum-db
