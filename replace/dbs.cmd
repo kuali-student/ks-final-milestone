@@ -1,5 +1,4 @@
 @echo off
-rem Dev settings
 set QUALIFIER=trunk
 set VERSION=
 
