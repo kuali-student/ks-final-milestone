@@ -1,0 +1,31 @@
+<config>
+    <!-- BEGIN KUALI STUDENT SETTINGS -->
+
+    <param name="appserver.url">http://localhost:8080</param>
+    <param name="app.context.name">cdm-embedded</param>
+
+    <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
+
+    <!-- Datasource Configuration -->
+    <!-- <param name="datasource.ojb.platform">Oracle9i</param> -->
+    <param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:xe</param>
+    <param name="datasource.username">kualidba</param>
+    <param name="datasource.password">kualidba</param>
+
+    <param name="ks.lum.datasource.url">${datasource.url}</param>
+    <param name="ks.lum.datasource.username">${datasource.username}</param>
+    <param name="ks.lum.datasource.password">${datasource.password}</param>
+
+    <param name="ks.core.datasource.url">${datasource.url}</param>
+    <param name="ks.core.datasource.username">${datasource.username}</param>
+    <param name="ks.core.datasource.password">${datasource.password}</param>
+	
+    <!-- Keystore Configuration -->
+    <param name="keystore.file">/apps/apache-tomcat-6.0.20/webapps/cdm-embedded/WEB-INF/classes/rice.keystore</param>
+
+    <!-- additional config files -->
+    <!--Set the came of the context file in order to load the particular project        -->
+	<param name="ks.institutional.context">classpath:CdmSpringBeans.xml</param>
+	<param name="ks.lum.MainEntryPoint" override="false">http://localhost:8080/cdm-embedded/ca.ubc.student.kuali.lum.lu.ui.main.CDMLUMMain/LUMMain.jsp</param>
+	<param name="cdm.sis.service.course.url">http://ksdevl2.adm.ubc.ca:8085/course/course?wsdl"</param>
+</config>
