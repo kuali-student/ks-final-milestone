@@ -3,8 +3,8 @@ if "%1"=="" goto oops
 
 set REVISION=%1
 echo -----------------------------------------------------
-call mergemodules %1
-call mergedbs %1
+call mergemodules %REVISION%
+call mergedbs %REVISION%
 echo -----------------------------------------------------
 
 goto end
