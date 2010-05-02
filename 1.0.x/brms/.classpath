@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources" />
+  <classpathentry kind="src" path="ks-statement-api/src/main/java" />
+  <classpathentry kind="src" path="ks-statement-api/src/main/resources" />
+  <classpathentry kind="src" path="ks-statement-impl/src/main/java" />
+  <classpathentry kind="src" path="ks-statement-impl/src/main/resources" />
+  <classpathentry kind="src" path="ks-statement-impl/src/test/resources" />
+  <classpathentry kind="src" path="ks-statement-impl/src/test/java" />
+  <classpathentry kind="src" output="ks-brms-api/target/classes" path="ks-brms-api/src/main/java" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-api/target/classes" path="ks-brms-api/src/main/resources" />
+  <classpathentry kind="src" output="ks-brms-api/target/test-classes" path="ks-brms-api/src/test/java" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-api/target/test-classes" path="ks-brms-api/src/test/resources" />
+  <classpathentry kind="src" output="ks-brms-impl/target/classes" path="ks-brms-impl/src/main/java" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-impl/target/classes" path="ks-brms-impl/src/main/resources" />
+  <classpathentry kind="src" output="ks-brms-impl/target/test-classes" path="ks-brms-impl/src/test/java" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-impl/target/test-classes" path="ks-brms-impl/src/test/resources" />
+  <classpathentry kind="src" output="ks-brms-execution-api/target/classes" path="ks-brms-execution-api/src/main/java" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-execution-api/target/classes" path="ks-brms-execution-api/src/main/resources" />
+  <classpathentry kind="src" output="ks-brms-execution-impl/target/classes" path="ks-brms-execution-impl/src/main/java" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-execution-impl/target/classes" path="ks-brms-execution-impl/src/main/resources" />
+  <classpathentry kind="src" output="ks-brms-execution-impl/target/test-classes" path="ks-brms-execution-impl/src/test/java" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-execution-impl/target/test-classes" path="ks-brms-execution-impl/src/test/resources" />
+  <classpathentry excluding="**" kind="src" output="ks-brms-web/target/classes" path="ks-brms-web/src/main/resources" />
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6" />
+  <classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER" />
+  <classpathentry kind="output" path="target/classes" />
+</classpath>

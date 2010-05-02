@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "ks-core-db-data.dtd">
+<dataset>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000" NAME="Administers"
+        ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="Indicates that this organization is administered by another"
+        REV_NAME="is Administered by"
+        TYPE_DESC="Describes where one organization is administratively responsible for another organization that is not simply &quot;part&quot; of that organization and where the relationship cannot be said to be so strong that there is a &quot;reporting&quot; relationship" TYPE_KEY="kuali.org.Administer"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Advises"
+        ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="Indicates that this organization receives advice from the leadership of another organization"
+        REV_NAME="is Advised by"
+        TYPE_DESC="Indicates that one organization provides advice to the leadership of another organization" TYPE_KEY="kuali.org.Advisory"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000" NAME="is Board of"
+        ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="Indicates that one organization has at its Board (of Trustees) another organization"
+        REV_NAME="has Board of"
+        TYPE_DESC="Indicates that one organization if the Board (of Trustees) of another organization" TYPE_KEY="kuali.org.Board"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000" NAME="Chartered"
+        ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="Indicates that this organization exists because it is chartered or sponsored by another organization"
+        REV_NAME="is Chartered by"
+        TYPE_DESC="Indicates that this organization chartered or sponsored another organization" TYPE_KEY="kuali.org.Charter"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000" NAME="Collaborate"
+        ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="collaborates with" REV_NAME="collaborates with"
+        TYPE_DESC="Peer Organizations Collaborating Together" TYPE_KEY="kuali.org.Collaborate"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000" NAME="Contains"
+        ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="Indicates that one organization is part of another organization"
+        REV_NAME="is Part of"
+        TYPE_DESC="Indicates that this organization contains another organization" TYPE_KEY="kuali.org.Contain"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
+        NAME="is Curriculum Parent of"
+        ORG_HIRCHY="kuali.org.hierarchy.Curriculum"
+        REV_DESCR="Indicates that one organization is the Child of another organization in the Curriculum Hierarchy"
+        REV_NAME="is Curriculum Child of"
+        TYPE_DESC="Indicates that one organization is the Parent of another organization in the Curriculum Hierarchy" TYPE_KEY="kuali.org.CurriculumParent"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
+        NAME="Headquarters for" ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="The administrative office for a larger division"
+        REV_NAME="has as its Headquarters"
+        TYPE_DESC="The headquarters of an administrative office for a larger division" TYPE_KEY="kuali.org.HQ"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
+        NAME="has Subcommittee of" ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="Indicates that this organization is a subcommittee of another"
+        REV_NAME="is Subcommittee of"
+        TYPE_DESC="Indicates this is organization has a subcommittee" TYPE_KEY="kuali.org.Supercommittee"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000" NAME="Supervises"
+        ORG_HIRCHY="kuali.org.hierarchy.Main"
+        REV_DESCR="Indicates that the head of one organization is supervised by the head of another organization"
+        REV_NAME="is Supervised by"
+        TYPE_DESC="Indicates that the head of one organization has direct supervisory responsibility for the head of another organization" TYPE_KEY="kuali.org.Supervise"/>
+</dataset>
