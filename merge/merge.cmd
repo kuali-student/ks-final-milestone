@@ -2,9 +2,10 @@
 if "%1"=="" goto oops
 
 set REVISION=%1
-
+echo -----------------------------------------------------
 call mergemodules %1
 call mergedbs %1
+echo -----------------------------------------------------
 
 goto end
 

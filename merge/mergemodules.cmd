@@ -3,7 +3,6 @@ if "%1"=="" goto oops
 
 set REVISION=%1
 
-echo -----------------------------------------------------------
 set MODULE=ks-security
 call mergemodule %MODULE% %REVISION%
 
@@ -18,7 +17,6 @@ call mergemodule %MODULE% %REVISION%
 
 set MODULE=brms
 call mergemodule %MODULE% %REVISION%
-echo -----------------------------------------------------------
 
 goto end
 
