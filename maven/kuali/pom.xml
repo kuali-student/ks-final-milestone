@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>1-SNAPSHOT</version>
+  <version>1</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -89,9 +89,9 @@
       a master pom, this should be changed to
       https://test.kuali.org/svn/maven/trunk/kuali
     -->
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-1</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-1</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-1</url>
   </scm>
   <build>
     <extensions>
