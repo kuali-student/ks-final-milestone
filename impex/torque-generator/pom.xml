@@ -7,16 +7,6 @@
   </parent>
   <artifactId>torque-generator</artifactId>
   <name>Kuali Version of ASF Torque Generator</name>
-  <url>http://www.kuali.org/</url>
-  <repositories>
-    <repository>
-      <id>kuali.central</id>
-      <url>http://kuali.googlecode.com/svn/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>ant</groupId>
