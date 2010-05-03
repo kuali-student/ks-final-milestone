@@ -15,6 +15,8 @@
 
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
+import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +30,6 @@ import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefini
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
-import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
@@ -43,6 +44,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MembersTable extends Composite{
+    private static final String POSITION = "position";
+    private static final String LNAME = "lname";
+    private static final String FNAME = "fname";
+
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();
     private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
@@ -55,50 +60,50 @@ public class MembersTable extends Composite{
     private HashMap<String,String> positionTypes;
     private List<String> personIds;
     private List<MembershipInfo> members;
-    
+
     private OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
-    
-    
+
+
     private PagingOptions createPagingOptions(PagingScrollTable<ResultRow> pagingScrollTable) {
-        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable); 
+        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable);
         pagingOptions.setPixelSize(pagingScrollTable.getOffsetWidth(), pagingOptions.getOffsetHeight());
         return pagingOptions;
     }
-    
+
     public MembersTable(){
-        super();                
-        redraw();               
+        super();
+        redraw();
         layout.setWidth("100%");
         layout.addStyleName("KS-Org-MemberTable");
         initWidget(layout);
         initializeTable();
 
     }
-    
-    
-    
+
+
+
     public void clearTable(){
         resultRows.clear();
-        this.redraw();        
+        this.redraw();
     }
-    
+
     public void removeSelected(){
         for(ResultRow r: getSelectedRows()){
             resultRows.remove(r);
         }
         this.redraw();
     }
-    
+
     public void initializeTable() {
         clearTable();
-        
+
         builder = new PagingScrollTableBuilder<ResultRow>();
         builder.tablePixelSize(1100, 100);
 
-        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();        
-        columnDefs.add(new SearchColumnDefinition("First Name", "fname"));
-        columnDefs.add(new SearchColumnDefinition("Last Name", "lname"));
-        columnDefs.add(new SearchColumnDefinition("Position Name", "position"));
+        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
+        columnDefs.add(new SearchColumnDefinition(getLabel("orgMembersTableFirstName"), FNAME));
+        columnDefs.add(new SearchColumnDefinition(getLabel("orgMembersTableLastName"), LNAME));
+        columnDefs.add(new SearchColumnDefinition(getLabel("orgMembersTablePoistionName"), POSITION));
 
         if(columnDefs.size() == 1){
             //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
@@ -106,11 +111,11 @@ public class MembersTable extends Composite{
         }
         builder.columnDefinitions(columnDefs);
         tableModel.setColumnDefs(columnDefs);
-        redraw(); 
+        redraw();
     }
-    
 
-    
+
+
     public void addSelectionHandler(RowSelectionHandler selectionHandler){
         pagingScrollTable.getDataTable().addRowSelectionHandler(selectionHandler);
     }
@@ -124,7 +129,7 @@ public class MembersTable extends Composite{
         layout.add(pagingScrollTable);
         pagingScrollTable.fillWidth();
     }
-    
+
     public List<ResultRow> getSelectedRows(){
         List<ResultRow> rows = new ArrayList<ResultRow>();
         Set<Integer> selectedRows = pagingScrollTable.getDataTable().getSelectedRows();
@@ -133,7 +138,7 @@ public class MembersTable extends Composite{
         }
         return rows;
     }
-    
+
     public List<String> getSelectedIds(){
         List<String> ids = new ArrayList<String>();
         Set<Integer> selectedRows = pagingScrollTable.getDataTable().getSelectedRows();
@@ -142,7 +147,7 @@ public class MembersTable extends Composite{
         }
         return ids;
     }
-    
+
     public List<String> getAllIds(){
         List<String> ids = new ArrayList<String>();
         for(ResultRow r: resultRows){
@@ -150,7 +155,7 @@ public class MembersTable extends Composite{
         }
         return ids;
     }
-    
+
     public List<ResultRow> getAllRows(){
         List<ResultRow> rows = new ArrayList<ResultRow>();
         for(ResultRow r: resultRows){
@@ -158,23 +163,23 @@ public class MembersTable extends Composite{
         }
         return rows;
     }
-    
+
     public String getOrgId(){
         return this.orgId;
     }
-    
+
     public void setOrgId(String orgId){
         this.orgId=orgId;
     }
-    
-    
+
+
     public void fetchMemberTable(){
         if(orgId!=null){
             orgProposalRpcServiceAsync.getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    
+
                 }
                 @Override
                 public void onSuccess(List<OrgPersonRelationTypeInfo> result) {
@@ -183,23 +188,23 @@ public class MembersTable extends Composite{
                         positionTypes.put(positionType.getId(), positionType.getName());
                     }
                     fetchOrgPersonRelations();
-                    
+
                 }
-                
+
             });
-            
+
         }
-        
+
     }
-    
+
     public void fetchOrgPersonRelations(){
         if(orgId!=null){
             orgProposalRpcServiceAsync.getOrgPersonRelationsByOrg(orgId, new AsyncCallback<List<OrgPersonRelationInfo>>(){
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    
-                    
+
+
                 }
 
                 @Override
@@ -214,14 +219,14 @@ public class MembersTable extends Composite{
                         personIds.add(relation.getPersonId());
                         members.add(member);
                     }
-                    
+
                     fetchPersonInfo();
                 }
-                
+
             });
         }
     }
-    
+
     private void fetchPersonInfo(){
         if (personIds.size() > 0) {
             orgProposalRpcServiceAsync.getNamesForPersonIds(personIds, new AsyncCallback<Map<String, MembershipInfo>>() {
@@ -240,9 +245,9 @@ public class MembersTable extends Composite{
                         member.setFirstName(retrievedMember.getFirstName());
                         member.setLastName(retrievedMember.getLastName());
 
-                        theRow.setValue("fname", member.getFirstName());
-                        theRow.setValue("lname", member.getLastName());
-                        theRow.setValue("position", member.getPositionName());
+                        theRow.setValue(FNAME, member.getFirstName());
+                        theRow.setValue(LNAME, member.getLastName());
+                        theRow.setValue(POSITION, member.getPositionName());
                         resultRows.add(theRow);
                     }
                     redraw();
@@ -251,11 +256,8 @@ public class MembersTable extends Composite{
             });
         }
     }
-    
+
     private void drawMembershipTable(){
-        
+
     }
-    
-    
-    
 }

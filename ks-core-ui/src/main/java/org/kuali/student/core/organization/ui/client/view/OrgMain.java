@@ -18,14 +18,16 @@ package org.kuali.student.core.organization.ui.client.view;
 
 
 
+import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
- * 
+ * This is a description of what this class does - Will Gomes don't forget to fill this in.
+ *
  * @author Kuali Student Team
  *
  */
@@ -34,18 +36,18 @@ public class OrgMain extends Composite {
     SimplePanel workPanel = new SimplePanel();
 
     boolean loaded = false;
-    
+
     public OrgMain() {
         super.initWidget(vPanel);
     }
-    
+
     public void onLoad(){
         vPanel.setStyleName("ks-main");
-        
-        Label pageTitle = new Label("Organization Management");
+
+        Label pageTitle = new Label(getLabel("orgTitleOrg"));
         pageTitle.setStyleName("page-title");
         vPanel.add(pageTitle);
         vPanel.add(workPanel);
-        
+
     }
 }

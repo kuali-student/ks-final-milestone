@@ -14,6 +14,7 @@
  */
 
 package org.kuali.student.core.organization.ui.client.mvc.view;
+import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class PositionTable extends Composite{
+    private static final String DESC = "desc";
+    private static final String POSITION = "position";
+    private static final String PERSON = "person";
+
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();
     private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
@@ -47,47 +52,47 @@ public class PositionTable extends Composite{
     private VerticalPanel layout = new VerticalPanel();
     private PagingOptions pagingOptions;
     private String orgId;
-    
+
     private OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
-    
-    
+
+
     private PagingOptions createPagingOptions(PagingScrollTable<ResultRow> pagingScrollTable) {
-        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable); 
+        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable);
         pagingOptions.setPixelSize(pagingScrollTable.getOffsetWidth(), pagingOptions.getOffsetHeight());
         return pagingOptions;
     }
-    
+
     public PositionTable(){
-        super();                
-        redraw();               
+        super();
+        redraw();
         layout.setWidth("100%");
         initWidget(layout);
         initializeTable();
         fetchPosition();
     }
-    
+
     public void clearTable(){
         resultRows.clear();
-        this.redraw();        
+        this.redraw();
     }
-    
+
     public void removeSelected(){
         for(ResultRow r: getSelectedRows()){
             resultRows.remove(r);
         }
         this.redraw();
     }
-    
+
     public void initializeTable() {
         clearTable();
-        
+
         builder = new PagingScrollTableBuilder<ResultRow>();
         builder.tablePixelSize(1100, 100);
 
-        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();        
-        columnDefs.add(new SearchColumnDefinition("Person ID", "person"));
-        columnDefs.add(new SearchColumnDefinition("Position Name", "postion"));
-        columnDefs.add(new SearchColumnDefinition("Position Description", "desc"));
+        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
+        columnDefs.add(new SearchColumnDefinition(getLabel("orgPositionTablePersonId"), PERSON));
+        columnDefs.add(new SearchColumnDefinition(getLabel("orgPositionTablePositionName"), POSITION));
+        columnDefs.add(new SearchColumnDefinition(getLabel("orgPositionTablePositionDesc"), DESC));
 //        columnDefs.add(new SearchColumnDefinition("Maximum No.", "max"));
 //        columnDefs.add(new SearchColumnDefinition("Minimum No.", "min"));
 
@@ -97,9 +102,9 @@ public class PositionTable extends Composite{
         }
         builder.columnDefinitions(columnDefs);
         tableModel.setColumnDefs(columnDefs);
-        redraw(); 
+        redraw();
     }
-    
+
     public void fetchPosition(){
         if (orgId != null) {
             orgProposalRpcServiceAsync.getOrgPositionPersonRelation(orgId, new AsyncCallback<List<OrgPositionPersonRelationInfo>>() {
@@ -118,18 +123,18 @@ public class PositionTable extends Composite{
                             if (positionRelation.getPersonId().size() > 0) {
                                 for (Object personId : positionRelation.getPersonId()) {
                                     ResultRow theRow = new ResultRow();
-                                    theRow.setValue("postion", positionRelation.getTitle());
-                                    theRow.setValue("desc", positionRelation.getDesc());
+                                    theRow.setValue(POSITION, positionRelation.getTitle());
+                                    theRow.setValue(DESC, positionRelation.getDesc());
 //                                    theRow.setValue("max", positionRelation.getMaxNumRelations());
 //                                    theRow.setValue("min", positionRelation.getMinNumRelations().toString());
-                                    theRow.setValue("person", (String) personId);
+                                    theRow.setValue(PERSON, (String) personId);
                                     resultRows.add(theRow);
                                 }
                             } else {
                                 ResultRow theRow = new ResultRow();
-                                theRow.setValue("postion", positionRelation.getTitle());
-                                theRow.setValue("desc", positionRelation.getDesc());
-                                theRow.setValue("person", " ");
+                                theRow.setValue(POSITION, positionRelation.getTitle());
+                                theRow.setValue(DESC, positionRelation.getDesc());
+                                theRow.setValue(PERSON, " ");
 //                                theRow.setValue("max", positionRelation.getMaxNumRelations());
 //                                theRow.setValue("min", positionRelation.getMinNumRelations().toString());
                                 resultRows.add(theRow);
@@ -144,7 +149,7 @@ public class PositionTable extends Composite{
 
         }
     }
-    
+
     public void addSelectionHandler(RowSelectionHandler selectionHandler){
         pagingScrollTable.getDataTable().addRowSelectionHandler(selectionHandler);
     }
@@ -158,7 +163,7 @@ public class PositionTable extends Composite{
         layout.add(pagingScrollTable);
         pagingScrollTable.fillWidth();
     }
-    
+
     public List<ResultRow> getSelectedRows(){
         List<ResultRow> rows = new ArrayList<ResultRow>();
         Set<Integer> selectedRows = pagingScrollTable.getDataTable().getSelectedRows();
@@ -167,7 +172,7 @@ public class PositionTable extends Composite{
         }
         return rows;
     }
-    
+
     public List<String> getSelectedIds(){
         List<String> ids = new ArrayList<String>();
         Set<Integer> selectedRows = pagingScrollTable.getDataTable().getSelectedRows();
@@ -176,7 +181,7 @@ public class PositionTable extends Composite{
         }
         return ids;
     }
-    
+
     public List<String> getAllIds(){
         List<String> ids = new ArrayList<String>();
         for(ResultRow r: resultRows){
@@ -184,7 +189,7 @@ public class PositionTable extends Composite{
         }
         return ids;
     }
-    
+
     public List<ResultRow> getAllRows(){
         List<ResultRow> rows = new ArrayList<ResultRow>();
         for(ResultRow r: resultRows){
@@ -192,13 +197,13 @@ public class PositionTable extends Composite{
         }
         return rows;
     }
-    
+
     public String getOrgId(){
         return this.orgId;
     }
-    
+
     public void setOrgId(String orgId){
         this.orgId=orgId;
     }
-    
+
 }

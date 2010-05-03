@@ -45,8 +45,22 @@
    	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
    	<bean parent="enCommon" p:id="describeAction"     	p:value="Enter a brief description of what you were doing at the time of the error."/>
 
+    <bean parent="enCommon" p:id="invalidLookupConfig"         p:value="Invalid lookup configuration: missing initial lookup metadata."/>
+
    	 <!--  CommentPanel Messages -->
    	<bean parent="enCommon" p:id="allComments"     	p:value="All"/>
+
+    <!-- WrapperPanel Messages -->
+    <bean parent="enCommon" p:id="wrapperPanelHelp"      p:value="Help"/>
+    <bean parent="enCommon" p:id="wrapperPanelSettings"     p:value="Settings" />
+    <bean parent="enCommon" p:id="wrapperPanelLogout"     p:value="Logout" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleHome"     p:value="Home" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleCurriculumManagement"      p:value="Curriculum Management" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleMyActionList"      p:value="My Action List" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleWorkflowDocSearch"      p:value="Workflow Doc Search" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleRice"     p:value="Rice" />
+    <bean parent="enCommon" p:id="wrapperPanelClose"     p:value="Close" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleOrg"      p:value="Organization Management" />
 
    	<!-- CreditCourse readable states -->
    	<bean parent="enCommon" p:id="kuali.lu.type.CreditCourse.draft"     	p:value="Proposal"/>

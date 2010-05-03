@@ -51,7 +51,7 @@ public class CommonConfigurer {
     private String modelName;
     private DataModelDefinition modelDefinition;
     private SectionConfigInfo sectionConfigInfo;
-    private static String groupName;
+    private static final String groupName = "org";
     private boolean WITH_DIVIDER = true;
     private boolean NO_DIVIDER = false;
     public static final String ORG_PROPOSAL_MODEL = "orgProposalModel";
@@ -63,28 +63,28 @@ public class CommonConfigurer {
     public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
     public static final String PERSON_PATH                  = "orgPersonRelationInfo";
     public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
-    
+
     public enum SectionsEnum {
         ORG_INFO, ORG_RELATIONS, POSITIONS, PERSON_RELATIONS,BROWSE_TREE,BROWSE_LIST,BROWSE_CHART,BROWSE_NAME,SEARCH
     }
-    
+
     public void setModelDefinition(DataModelDefinition modelDefinition){
         this.modelDefinition = modelDefinition;
     }
-    
+
     public void setSectionConfigInfo(SectionConfigInfo sectionConfigInfo){
         this.sectionConfigInfo=sectionConfigInfo;
     }
-    
+
     public void setOrgId(String orgId){
         this.orgId=orgId;
-    
+
     }
-    
+
     public String getOrgId(){
         return orgId;
     }
-    
+
     /**
      * The method will create all the sections as defined in the screen config XML
      * @param layout
@@ -96,10 +96,10 @@ public class CommonConfigurer {
           layout.addSection(new String[] {sectionViewInfo.getTab(),sectionViewInfo.getMenu()}, generateSection(sectionViewInfo));
 //          layout.addStartSection(generateSection(sectionViewInfo));
         }
-        
+
 //        layout.addSection(new String[] {"Create", "Create"}, generateOrgCreateSection());
     }
-    
+
     /**
      * The method will parse through the section parent tag and read all the field declarations.
      * @param sectionViewInfo
@@ -110,9 +110,9 @@ public class CommonConfigurer {
         String tempTestEnum = sectionViewInfo.getSectionEnum();
         VerticalSectionView section = initSectionView(SectionsEnum.valueOf(sectionViewInfo.getSectionEnum()), sectionViewInfo.getSectionName());
 //        VerticalSectionView section = initSectionView(SectionsEnum.ORG_INFO, sectionViewInfo.getSectionName());
-        VerticalSection orgInfo = initSection(getH3Title(sectionViewInfo.getSectionName()), WITH_DIVIDER);   
+        VerticalSection orgInfo = initSection(getH3Title(sectionViewInfo.getSectionName()), WITH_DIVIDER);
         orgInfo.setSectionTitle(getH3Title(""));
-        groupName="org";
+
         List<FieldInfo> fieldList = sectionViewInfo.getfields();
         if (fieldList != null) {
                 for (FieldInfo field : fieldList) {
@@ -133,7 +133,7 @@ public class CommonConfigurer {
                             if (field.getWidget().equals("PositionTable")) {
                                 positionTable = new PositionTable();
                                 DOM.setElementAttribute(positionTable.getElement(), "id", "orgPositionsTable");
-                                widget = positionTable; 
+                                widget = positionTable;
                             }
 
                         }
@@ -142,20 +142,20 @@ public class CommonConfigurer {
                 }
             }
 //        for(MultipleField multipleField: fieldList){
-//            
+//
 //        }
         orgInfo.addStyleName("KS-CORE-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
         //section.addSection(orgInfo);
-        return section; 
+        return section;
         }
         catch(Exception e){
             e.printStackTrace();
         }
         return null;
     }
-    
+
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
         VerticalSection section = new VerticalSection();
         if (title !=  null) {
@@ -166,7 +166,7 @@ public class CommonConfigurer {
             section.addStyleName("KS-CORE-Section-Divider");
         return section;
     }
-    
+
     private static VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, labelKey, ORG_PROPOSAL_MODEL);
         section.addStyleName("KS-CORE-Section");
@@ -175,15 +175,15 @@ public class CommonConfigurer {
     }
     private static SectionTitle getH1Title(String labelKey) {
         return SectionTitle.generateH1Title(getLabel(labelKey));
-    } 
+    }
     private static SectionTitle getH3Title(String labelKey) {
         return SectionTitle.generateH3Title(getLabel(labelKey));
-    } 
-    private static String getLabel(String labelKey) {
+    }
+    public static String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, "org", "draft", labelKey);
     }
-    
-    
+
+
     private void addField(Section section, String fieldKey, String fieldLabel) {
         addField(section, fieldKey, fieldLabel, null);
     }
@@ -193,18 +193,18 @@ public class CommonConfigurer {
     private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
-        
+
         FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
         if (widget != null) {
             fd.setFieldWidget(widget);
         }
         section.addField(fd);
     }
-    
+
     /**
-     * 
+     *
      * This class will define the common implementation for adding a multiplicity widget.
-     * It initializes a list of fieldInfo that is read from the screen config xml. 
+     * It initializes a list of fieldInfo that is read from the screen config xml.
      * The parent query path is also passed.
      * @author Kuali Student Team
      *
@@ -212,7 +212,7 @@ public class CommonConfigurer {
     public class CommonMultiplicityList extends UpdatableMultiplicityComposite {
         private  List<FieldInfo> fieldList;
         private String parentPath;
-        
+
         public CommonMultiplicityList(String addItemLabel, String itemLabel,List<FieldInfo> fieldList,String parentPath)
         {
         	super(StyleType.TOP_LEVEL);
@@ -225,8 +225,8 @@ public class CommonConfigurer {
         @Override
         public MultiplicityItem getItemDecorator(StyleType style) {
             RemovableItemWithHeader item = new RemovableItemWithHeader(style);
-            item.setItemLabel(itemLabel);            
-            
+            item.setItemLabel(itemLabel);
+
             if(parentPath.equals(POSITION_PATH)){
                 QueryPath qPath = QueryPath.concat(null, POSITION_PATH);
                 Metadata meta = modelDefinition.getMetadata(qPath);
@@ -259,7 +259,7 @@ public class CommonConfigurer {
             }
             return item;
         }
-        
+
         public Widget generateAddWidget() {
             //Label addWidget =  new Label(addItemLabel);
             //addWidget.addStyleName("KS-Multiplicity-Link-Label");
@@ -273,9 +273,9 @@ public class CommonConfigurer {
             addWidget.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     addItem();
-                }            
+                }
             });
-            
+
             if(parentPath.equals(POSITION_PATH)){
                 QueryPath qPath = QueryPath.concat(null, POSITION_PATH);
                 Metadata meta = modelDefinition.getMetadata(qPath);
@@ -320,7 +320,7 @@ public class CommonConfigurer {
             GroupSection ns = new GroupSection();
             //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             for (FieldInfo field : fieldList) {
-                
+
 //                if(path.equals("orgPersonRelationInfo" + "/" + String.valueOf(itemCount-1).toString())){
 //                    if(field.getKey().equals("type")){
 //                        QueryPath metaPath = QueryPath.concat(null, "orgPersonRelationInfo" + "/" + "*" + "/" + "type");
@@ -351,18 +351,18 @@ public class CommonConfigurer {
 //                                    public void exec(Widget widget) {
 //                                        final ListItems searchResults = picker.getListItems();
 //                                        String value =searchResults.getItemText("REV_kuali.org.CurriculumChild");
-//                                        
-//                                    }      
+//
+//                                    }
 //                                });
-//                                
+//
 //                            }
                             widget = new KSLabel();
                         }
-                        
+
                     }
-                    
+
                     if (field.getWidget().equals("OrgPositionTypePicker")) {
-                        
+
                         widget = new OrgPositionTypePicker();
                     }
                     if (field.getWidget().equals("OrgPersonRelationTypePicker")) {
@@ -374,16 +374,16 @@ public class CommonConfigurer {
                         else{
                             widget = new KSLabel();
                         }
-                        
+
                     }
-                       
-                        
+
+
                 }
-                addField(ns, field.getKey(), getLabel(field.getLabel()),widget,path);    
+                addField(ns, field.getKey(), getLabel(field.getLabel()),widget,path);
             }
             return ns;
         }
     }
-    
-    
+
+
 }
