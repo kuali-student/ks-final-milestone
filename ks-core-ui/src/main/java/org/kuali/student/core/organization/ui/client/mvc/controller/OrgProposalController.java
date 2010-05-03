@@ -19,8 +19,10 @@ package org.kuali.student.core.organization.ui.client.mvc.controller;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ModifyActionEvent;
 import org.kuali.student.common.ui.client.event.ModifyActionHandler;
@@ -45,16 +47,19 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.StringValue;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory;
+import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.SectionsEnum;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -63,6 +68,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class OrgProposalController extends TabbedSectionLayout{
 
@@ -167,8 +173,22 @@ public class OrgProposalController extends TabbedSectionLayout{
     private KSButton getModifyButton(){
         return new KSButton("Modify", new ClickHandler(){
                     public void onClick(ClickEvent event) {
-                        getCurrentView().updateModel();
-                        fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
+                        Value val = null;
+                        View view = getView(SectionsEnum.SEARCH);
+                        if(view instanceof SectionView){
+                            List<FieldDescriptor> lfd = ((SectionView)view).getFields();
+                            for(FieldDescriptor fd : lfd){
+                                Widget widget = fd.getFieldWidget();
+                                if(widget instanceof KSPicker){
+                                    val = ((KSPicker)widget).getValue();
+                                }
+                            }
+                        }
+                        String strval = ((StringValue)val).get();
+                        if( !strval.equals("") && strval != null ){
+                            getCurrentView().updateModel();
+                            fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
+                        }
                     }
                 });
     }
