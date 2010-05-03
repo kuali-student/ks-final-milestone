@@ -19,7 +19,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student-parent</artifactId>
-  <version>1-SNAPSHOT</version>
+  <version>1</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <description>
@@ -44,9 +44,9 @@
     </repository>
   </repositories>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/student</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/student</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven/student</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/student-parent-1</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/student-parent-1</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/student-parent-1</url>
   </scm>
   <build>
     <pluginManagement>
