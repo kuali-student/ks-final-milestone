@@ -10,15 +10,6 @@
   <packaging>maven-plugin</packaging>
   <name>Maven Impex Plugin</name>
   <description>Maven plugin for the Impex Generator</description>
-  <repositories>
-    <repository>
-      <id>kuali.central</id>
-      <url>http://kuali.googlecode.com/svn/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.kuali.impex</groupId>
