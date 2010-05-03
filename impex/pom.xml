@@ -46,4 +46,10 @@
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</developerConnection>
     <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex</url>
   </scm>
+  <distributionManagement>
+    <site>
+      <id>kuali.site</id>
+      <url>svn:http://kuali.googlecode.com/svn/site/${project.artifactId}/${project.version}</url>
+    </site>
+  </distributionManagement>
 </project>
