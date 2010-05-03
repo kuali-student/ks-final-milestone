@@ -3,7 +3,6 @@
     Copyright 2009 The Kuali Foundation Licensed under the Educational Community
     License, Version 2.0 (the "License"); you may not use this file except in
     compliance with the License. You may obtain a copy of the License at
-
     http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
     agreed to in writing, software distributed under the License is distributed
     on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
@@ -13,36 +12,56 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.kuali.student</groupId>
-    <artifactId>student-parent</artifactId>
-    <version>1</version>
-    <relativePath>../maven/student/pom.xml</relativePath>
+    <groupId>org.kuali</groupId>
+    <artifactId>kuali-parent</artifactId>
+    <version>3</version>
   </parent>
   <groupId>org.kuali.student</groupId>
-  <artifactId>student</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <artifactId>student-parent</artifactId>
+  <version>2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
+  <description>
+    Kuali Student is a next-generation student system.
+    Kuali Student offers a flexible, scalable, cost-effective system that can be configured to meet the business 
+    requirements of any higher education institution.  The student-centric design will help students, faculty, 
+    and institutions deal with the dynamic learning environment.
+  </description>
+  <organization>
+    <name>Kuali Student</name>
+    <url>http://student.kuali.org/</url>
+  </organization>
+  <url>http://student.kuali.org/</url>
+  <inceptionYear>2006</inceptionYear>
   <repositories>
     <repository>
-      <id>kuali.release.lab</id>
-      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <id>kuali.central</id>
+      <url>http://kuali.googlecode.com/svn/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
   </repositories>
-  <modules>
-    <module>ks-cfg-dbs</module>
-    <module>ks-security</module>
-    <module>ks-core</module>
-    <module>brms</module>
-    <module>ks-lum</module>
-    <module>ks-web</module>
-  </modules>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/1.0.x</url>
+  </scm>
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.0.2</version>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <!-- Don't compile sources that are in jars -->
+            <compilerArgument>-implicit:none</compilerArgument>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.kuali.impex</groupId>
           <artifactId>maven-impex-plugin</artifactId>
@@ -63,9 +82,12 @@
       </plugins>
     </pluginManagement>
   </build>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/1.0.x</url>
-  </scm>
+  <modules>
+    <module>ks-cfg-dbs</module>
+    <module>ks-security</module>
+    <module>ks-core</module>
+    <module>brms</module>
+    <module>ks-lum</module>
+    <module>ks-web</module>
+  </modules>
 </project>
