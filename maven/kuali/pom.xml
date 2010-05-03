@@ -65,6 +65,13 @@
         <enabled>false</enabled>
       </releases>
     </repository>
+    <repository>
+      <id>m2repo.googlecode</id>
+      <url>http://m2repo.googlecode.com/svn/repo</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   <distributionManagement>
     <!-- site is intentionally omitted. Each project must define its own website -->
