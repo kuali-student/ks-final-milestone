@@ -20,7 +20,8 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.logging.Logger;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.buttongroups.SendCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.SendCancelEnum;
 
 import com.google.gwt.core.client.GWT;
@@ -78,7 +79,7 @@ public class KSErrorDialog {
         //errorDescription.setEnabled(false);
         errorDescriptionPanel.add(errorDescription);
 
-        final KSLabel describeActionLabel = new KSLabel(context.getMessage(MessagesRequired.DESCRIBE_ACTION.toString()));
+/*        final KSLabel describeActionLabel = new KSLabel(context.getMessage(MessagesRequired.DESCRIBE_ACTION.toString()));
         describeActionLabel.addStyleName(KSStyles.KS_ERROR_DIALOG_LABEL);
         
         final SimplePanel actionDescriptionPanel = new SimplePanel();
@@ -87,22 +88,19 @@ public class KSErrorDialog {
         final KSTextArea actionDescription = new KSTextArea();
         actionDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
         actionDescriptionPanel.add(actionDescription);
-
-        final SendCancelGroup buttonPanel = new SendCancelGroup(new Callback<SendCancelEnum>(){
+*/
+        final OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
             @Override
-            public void exec(SendCancelEnum result) {
+            public void exec(OkEnum result) {
                 switch(result){
-                    case SEND:
+                    case Ok:
                         DeferredCommand.addCommand(new Command() {
                             public void execute() {
-                                sendReport(error, actionDescription.getText());
+                                sendReport(error/*, actionDescription.getText()*/);
                                 lightbox.hide();
                             }
                         });
-                        break;
-                    case CANCEL:
-                        lightbox.hide();
                         break;
                 }
             }
@@ -111,8 +109,8 @@ public class KSErrorDialog {
         panel.add(title);
         panel.add(errorDescriptionLabel);
         panel.add(errorDescriptionPanel);
-        panel.add(describeActionLabel);
-        panel.add(actionDescriptionPanel);
+//        panel.add(describeActionLabel);
+//        panel.add(actionDescriptionPanel);
         panel.add(buttonPanel);
         
         panel.setSize("100", "100");
@@ -124,13 +122,13 @@ public class KSErrorDialog {
 
     private static String getErrorDescription(Throwable error) {
         // TODO maybe retrieve more error info
-        return error.toString();
+        return error.getMessage();
     }
     
-    private static void sendReport(final Throwable error, final String actionDescription) {
+    private static void sendReport(final Throwable error/*, final String actionDescription*/) {
         // TODO actually gather client context info, such as browser version, user id, etc
         Logger.getClientContextInfo().put("logType", "clientError");
-        Logger.getClientContextInfo().put("actionDescription", actionDescription);
+//        Logger.getClientContextInfo().put("actionDescription", actionDescription);
         Logger.error("Uncaught exception", error);
         Logger.sendLogs();
 
