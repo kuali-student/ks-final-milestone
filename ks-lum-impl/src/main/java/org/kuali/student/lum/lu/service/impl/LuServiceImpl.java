@@ -28,6 +28,7 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
+import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
@@ -2071,17 +2072,22 @@ public class LuServiceImpl implements LuService {
 			throw new DataValidationErrorException("Validation error!");
 		}
 
+		List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
+		
 		CluSet cluSet = null;
 		try {
 			cluSet = LuServiceAssembler.toCluSetEntity(cluSetInfo, this.luDao);
 		} catch (DoesNotExistException e) {
 			throw new DataValidationErrorException("Creating CluSet entity failed. Clu or CluSet does not exist: " + e.getMessage());
 		}
+
 		cluSet = luDao.create(cluSet);
 
 		CluSetInfo newCluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);
 
-		setMembershipQuerySearchResult(newCluSetInfo);
+		if(cluIdList != null) {
+			newCluSetInfo.getCluIds().addAll(cluIdList);
+		}
 
 		return newCluSetInfo;
 	}
@@ -2095,6 +2101,9 @@ public class LuServiceImpl implements LuService {
 	}
 
 	private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException {
+		if(query == null) {
+			return null;
+		}
 		SearchRequest sr = new SearchRequest();
 		sr.setSearchKey(query.getSearchTypeKey());
 		sr.setParams(query.getQueryParamValueList());
@@ -2122,7 +2131,7 @@ public class LuServiceImpl implements LuService {
 		}
 		else if(mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty() && 
 				(cluSetInfo.getCluIds().size() > 0 || cluSetInfo.getCluSetIds().size() > 0)) {
-			throw new UnsupportedActionException("Dynamic CluSet cannot contain Clus or CluSets. CluSet id="+cluSetInfo.getId());
+			throw new UnsupportedActionException("Dynamic CluSet cannot contain Clus and/or CluSets. CluSet id="+cluSetInfo.getId());
 		}
 		else if (cluSetInfo.getCluIds().size() > 0 && cluSetInfo.getCluSetIds().size() > 0) {
 			throw new UnsupportedActionException("CluSet cannot contain both Clus and CluSets. CluSet id="+cluSetInfo.getId());
@@ -2130,14 +2139,13 @@ public class LuServiceImpl implements LuService {
 	}
 	
 	@Override
-	// TODO: Fix return CluSetInfo's meta version, version doesn't seem to 
-	// increment until method getCluSetInfo is called (in TestLuServiceImpl)
 	public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException, CircularRelationshipException,
 			UnsupportedActionException {
+
 		// Check Missing params
 		checkForMissingParameter(cluSetId, "cluSetId");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
@@ -2151,6 +2159,8 @@ public class LuServiceImpl implements LuService {
 		cluSetInfo.setId(cluSetId);
 		
 		validateCluSet(cluSetInfo);
+
+		List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
 		
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
@@ -2161,7 +2171,10 @@ public class LuServiceImpl implements LuService {
 		if (!String.valueOf(cluSet.getVersionInd()).equals(
 				cluSetInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
-					"CluSet to be updated is not the current version. CluSet id="+cluSetId);
+					"CluSet (id=" + cluSetId +
+					") to be updated is not the current version " +
+					"(version=" + cluSetInfo.getMetaInfo().getVersionInd() +
+					"), current version="+cluSet.getVersionInd());
 		}
 
 		// update the cluIds
@@ -2203,7 +2216,9 @@ public class LuServiceImpl implements LuService {
 
 		CluSetInfo updatedCluSetInfo = LuServiceAssembler.toCluSetInfo(updated);
 
-		setMembershipQuerySearchResult(updatedCluSetInfo);
+		if(cluIdList != null) {
+			updatedCluSetInfo.getCluIds().addAll(cluIdList);
+		}
 
 		return updatedCluSetInfo;
 	}

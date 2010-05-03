@@ -353,10 +353,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdSet1.getMetaInfo().getUpdateTime());
 		assertNotNull(createdSet1.getId());
 
-		// createCluSet and updateCluSet don't seem to return the correct 
-		// updated the version so we have to do a getCluSetInfo to get the correct version
-		createdSet1 = client.getCluSetInfo(createdSet1.getId());
-
 		createdSet1.setAdminOrg("uuid-1234-5678");
 		createdSet1.getDescr().setFormatted("UP<p>Formatted Desc</p>");
 		createdSet1.getDescr().setPlain("UPplain");
@@ -2396,11 +2392,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		//Update clu set
 		MembershipQueryInfo query2 = getMembershipQueryInfo();
 
-		// Somehow createdCluSet.getMetaInfo().getVersionInd() does not 
-		// return the new version of a newly create CluSet
-		// so have to do a client.getCluSetInfo to get the correct version
-		createdCluSet = client.getCluSetInfo(createdCluSet.getId());
-
 		createdCluSet.setMembershipQuery(query2);
 
 		// Dynamic CluSet so we can't have any CluSet ids or Clu ids
@@ -2419,15 +2410,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createCluSet = createCluSetInfo();
 
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSet);
-		// Get the correct CluSet version
-		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 		createdCluSet1.getCluSetIds().add("CLUSET-1");
 		createdCluSet1.getCluSetIds().add("CLUSET-2");
 
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1);
-
-		CluSetInfo getCluSet1 = client.getCluSetInfo(updatedCluSet1.getId());
-		assertEquals(2, getCluSet1.getCluSetIds().size());
+		assertEquals(2, updatedCluSet1.getCluSetIds().size());
 
 		try {
 			client.updateCluSet(updatedCluSet1.getId(), createdCluSet1);
@@ -2447,8 +2434,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSet);
 		assertEquals(3, createdCluSet1.getCluSetIds().size());
 
-		// Get the correct CluSet version
-		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 		createdCluSet1.getCluSetIds().clear();
 
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1);
@@ -2465,8 +2450,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSet);
 		assertEquals(0, createdCluSet1.getCluSetIds().size());
 
-		// Get the correct CluSet version
-		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 		createdCluSet1.getCluSetIds().add("CLUSET-1");
 		createdCluSet1.getCluSetIds().add("CLUSET-2");
 
@@ -2489,8 +2472,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSet);
 		assertEquals(3, createdCluSet1.getCluSetIds().size());
 
-		// Get the correct CluSet version
-		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 		createdCluSet1.getCluSetIds().remove("CLUSET-2");
 
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1);
@@ -2512,9 +2493,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSet);
 		assertEquals(2, createdCluSet1.getCluIds().size());
 
-		// Get the correct CluSet version
-		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
-		
 		assertNotNull(createdCluSet1);
 		assertNotNull(createdCluSet1.getCluIds());
 		assertEquals(2, createdCluSet1.getCluIds().size());
@@ -2545,8 +2523,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSet);
 		assertEquals(2, createdCluSet1.getCluIds().size());
 
-		// Get the correct CluSet version
-		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 		createdCluSet1.getCluIds().add("CLU-3");
 		
 		assertNotNull(createdCluSet1);
@@ -2576,8 +2552,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSet);
 		assertEquals(2, createdCluSet1.getCluIds().size());
 
-		// Get the correct CluSet version
-		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 		createdCluSet1.getCluIds().remove("CLU-1");
 		
 		assertNotNull(createdCluSet1);

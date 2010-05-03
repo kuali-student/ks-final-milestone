@@ -66,19 +66,20 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
+	// TODO: remove criteriaSet since it is not being used
 	@Column(name = "CRIT_SET")
 	private boolean criteriaSet;
 	
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
-	private List<CluSet> cluSets;
+	private List<CluSet> cluSets = new ArrayList<CluSet>();
 
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
-	private List<Clu> clus;
+	private List<Clu> clus = new ArrayList<Clu>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<CluSetAttribute> attributes;
+	private List<CluSetAttribute> attributes = new ArrayList<CluSetAttribute>();
 
 	@Column(name="TYPE")
 	private String type;
@@ -107,8 +108,8 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<Clu> getClus() {
-		if(clus==null){
-			clus=new ArrayList<Clu>();
+		if(clus == null){
+			return new ArrayList<Clu>();
 		}
 		return clus;
 	}
@@ -151,7 +152,7 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 
 	public List<CluSet> getCluSets() {
 		if (cluSets == null) {
-			cluSets = new ArrayList<CluSet>();
+			return new ArrayList<CluSet>();
 		}
 		return cluSets;
 	}
@@ -162,7 +163,7 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 
 	public List<CluSetAttribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<CluSetAttribute>();
+			return new ArrayList<CluSetAttribute>();
 		}
 		return attributes;
 	}
@@ -170,15 +171,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	public void setAttributes(List<CluSetAttribute> attributes) {
 		this.attributes = attributes;
 	}
-
-//	public boolean isCriteriaSet() {
-//		return criteriaSet;
-//		return (membershipQuery != null);
-//	}
-
-//	public void setCriteriaSet(boolean criteriaSet) {
-//		this.criteriaSet = criteriaSet;
-//	}
 
 	public String getType() {
 		return type;
@@ -211,5 +203,4 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	public void setMembershipQuery(MembershipQuery membershipQuery) {
 		this.membershipQuery = membershipQuery;
 	}
-
 }
