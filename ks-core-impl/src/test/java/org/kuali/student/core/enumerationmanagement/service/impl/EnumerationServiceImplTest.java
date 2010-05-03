@@ -136,16 +136,24 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity4.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
-        contextEntity1.setEnumeratedValueEntity(entity1);
+        ArrayList<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
+        entityList1.add(entity1);
+        contextEntity1.setEnumeratedValueEntityList(entityList1);
         
         entity2.getContextEntityList().add(contextEntity3);
-        contextEntity3.setEnumeratedValueEntity(entity2);
+        ArrayList<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
+        entityList2.add(entity2);
+        contextEntity3.setEnumeratedValueEntityList(entityList2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        contextEntity2.setEnumeratedValueEntity(entity3);
+        ArrayList<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
+        entityList3.add(entity3);
+        contextEntity2.setEnumeratedValueEntityList(entityList3);
      
         entity4.getContextEntityList().add(contextEntity4);
-        contextEntity4.setEnumeratedValueEntity(entity4);
+        ArrayList<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
+        entityList4.add(entity4);
+        contextEntity4.setEnumeratedValueEntityList(entityList4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
@@ -302,16 +310,24 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity4.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
-        contextEntity1.setEnumeratedValueEntity(entity1);
+        ArrayList<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
+        entityList1.add(entity1);
+        contextEntity1.setEnumeratedValueEntityList(entityList1);
         
         entity2.getContextEntityList().add(contextEntity3);
-        contextEntity3.setEnumeratedValueEntity(entity2);
+        ArrayList<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
+        entityList2.add(entity2);
+        contextEntity3.setEnumeratedValueEntityList(entityList2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        contextEntity2.setEnumeratedValueEntity(entity3);
+        ArrayList<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
+        entityList3.add(entity3);
+        contextEntity2.setEnumeratedValueEntityList(entityList3);
      
         entity4.getContextEntityList().add(contextEntity4);
-        contextEntity4.setEnumeratedValueEntity(entity4);
+        ArrayList<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
+        entityList4.add(entity4);
+        contextEntity4.setEnumeratedValueEntityList(entityList4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);

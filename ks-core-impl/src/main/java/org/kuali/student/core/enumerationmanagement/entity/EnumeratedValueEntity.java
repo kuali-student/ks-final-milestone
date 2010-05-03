@@ -25,7 +25,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,7 +35,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name="KSEM_ENUM_VAL_ENT")
+@Table(name="KSEM_ENUM_VAL_T")
 public class EnumeratedValueEntity {
     @Id
     @Column(name="ID")
@@ -60,10 +61,14 @@ public class EnumeratedValueEntity {
     @Column(name="SORT_KEY")
     int sortKey;
     
-    //@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @OneToMany(/*mappedBy="enumeratedValueEntityList",*/fetch = FetchType.LAZY,cascade={CascadeType.ALL})
-    @JoinColumn(name="ENUM_VAL_ENT_ID")
-    List<ContextEntity> contextEntityList =new ArrayList<ContextEntity>();
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name="KSEM_CTX_JN_ENUM_VAL_T",
+      joinColumns=
+            @JoinColumn(name="ENUM_VAL_ID", referencedColumnName="ID"),
+      inverseJoinColumns=
+            @JoinColumn(name="CTX_ID", referencedColumnName="ID")
+    )
+    List<ContextEntity> contextEntityList = new ArrayList<ContextEntity>();
 
     /**
      * AutoGenerate the id

@@ -15,13 +15,14 @@
 
 package org.kuali.student.core.enumerationmanagement.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -29,7 +30,7 @@ import javax.persistence.UniqueConstraint;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name="KSEM_CTX_ENT", uniqueConstraints={@UniqueConstraint(columnNames={"ENUM_VAL_ENT_ID", "CTX_KEY", "CTX_VAL"})})
+@Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})
 public class ContextEntity {
     @Id
     @Column(name="ID")
@@ -41,9 +42,9 @@ public class ContextEntity {
     @Column(name="CTX_VAL")
     String contextValue;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name="ENUM_VAL_ENT_ID")
-    EnumeratedValueEntity enumeratedValueEntityList =new EnumeratedValueEntity();
+    @ManyToMany(mappedBy="contextEntityList", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    List<EnumeratedValueEntity> enumeratedValueEntityList;
+    
     /**
      * AutoGenerate the id
      */
@@ -75,11 +76,12 @@ public class ContextEntity {
         this.contextValue = value;
     }
     
-    public EnumeratedValueEntity getEnumeratedValueEntity() {
-        return enumeratedValueEntityList;
-    }
-    public void setEnumeratedValueEntity(EnumeratedValueEntity enumeratedValueEntityList) {
-        this.enumeratedValueEntityList = enumeratedValueEntityList;
-    }
+	public List<EnumeratedValueEntity> getEnumeratedValueEntityList() {
+		return enumeratedValueEntityList;
+	}
+	public void setEnumeratedValueEntityList(
+			List<EnumeratedValueEntity> enumeratedValueEntityList) {
+		this.enumeratedValueEntityList = enumeratedValueEntityList;
+	}
     
 }

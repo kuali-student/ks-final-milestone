@@ -266,7 +266,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
     	
 		try{
 	        Query query = em.createQuery(
-	                "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " 
+	                "select e from EnumeratedValueEntity e, IN(e.contextEntityList) c " 
 	                + "where e.effectiveDate <= :contextDate and " +
 	                "(e.expirationDate is null or e.expirationDate >= :contextDate) and " + 
 	                "c.contextValue = :contextValue and " + 
