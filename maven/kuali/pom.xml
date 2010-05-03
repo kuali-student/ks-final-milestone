@@ -49,22 +49,18 @@
     <extraReleaseArguments />
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
-    <kuali.central.url>https://test.kuali.org/maven</kuali.central.url>
-    <kuali.snapshots.url>http://archiva.kuali.umd.edu/repository/snapshot</kuali.snapshots.url>
-    <distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</distributionManagement.repository.url>
-    <distributionManagement.snapshotRepository.url>dav:http://archiva.kuali.umd.edu/repository/snapshot</distributionManagement.snapshotRepository.url>
   </properties>
   <repositories>
     <repository>
       <id>kuali.central</id>
-      <url>${kuali.central.url}</url>
+      <url>http://kuali.googlecode.com/svn/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
       <id>kuali.snapshots</id>
-      <url>${kuali.snapshots.url}</url>
+      <url>http://kuali.googlecode.com/svn/snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -75,20 +71,15 @@
     <repository>
       <id>kuali.central</id>
       <name>Internal Release Repository</name>
-      <url>${distributionManagement.repository.url}</url>
+      <url>svn:https://kuali.googlecode.com/svn/repository</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
       <name>Internal Snapshot Repository</name>
-      <url>${distributionManagement.snapshotRepository.url}</url>
+      <url>svn:https://kuali.googlecode.com/svn/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <!--
-      NOTE: After approval from Kuali Foundation on the concept and location of
-      a master pom, this should be changed to
-      https://test.kuali.org/svn/maven/trunk/kuali
-    -->
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</url>
@@ -103,10 +94,7 @@
     </extensions>
     <pluginManagement>
       <plugins>
-        <!--
-          set versions of common plugins for reproducibility, ordered
-          alphabetically
-        -->
+        <!-- set versions of common plugins for reproducibility, ordered alphabetically -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
@@ -285,10 +273,7 @@
               </execution>
             </executions>
           </plugin>
-          <!--
-            TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars,
-            etc)
-          -->
+          <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
           <plugin>
             <inherited>true</inherited>
             <groupId>org.apache.maven.plugins</groupId>
