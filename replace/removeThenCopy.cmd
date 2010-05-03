@@ -8,4 +8,4 @@ echo From: %DEV%
 echo To  : %CM%
 echo ----------------------------------------------
 svn delete -m "Removing %MODULE%" %CM%
-svn copy -m "Copying %MODULE%/%QUALIFIER%/%MODULE%-%VERSION% from development svn" --username jcaddel --password gw570229 %DEV% %CM%
+svn copy -m "Copying %MODULE%/%QUALIFIER%/%MODULE%-%VERSION% from development svn" %DEV% %CM%

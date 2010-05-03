@@ -11,7 +11,7 @@ set DEV=https://test.kuali.org/svn/student/ks-cfg-dbs/%MODULE%/%QUALIFIER%
 rem set DEV=https://test.kuali.org/svn/student/deploymentlab/%QUALIFIER%/ks-cfg-dbs-%VERSION%/%MODULE%
 svn delete -m "Removing %MODULE%" %DIR%/src
 svn mkdir --parents -m "Creating schema dir" %SCHEMA%
-svn copy -m "Copying ks-cfg-dbs/%MODULE%/%QUALIFIER%/%MODULE%-%VERSION% from development svn" --username jcaddel --password gw570229 %DEV% %DATA%
+svn copy -m "Copying ks-cfg-dbs/%MODULE%/%QUALIFIER%/%MODULE%-%VERSION% from development svn" %DEV% %DATA%
 svn delete -m "Cleaning up %MODULE%" %DATA%/doc
 svn delete -m "Cleaning up %MODULE%" %DATA%/.project
 svn delete -m "Cleaning up %MODULE%" %DATA%/data.dtd
