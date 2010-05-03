@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>3-SNAPSHOT</version>
+  <version>3</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -87,9 +87,9 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-3</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-3</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/kuali-parent-3</url>
   </scm>
   <build>
     <extensions>
