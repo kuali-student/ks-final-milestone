@@ -49,7 +49,7 @@
   <distributionManagement>
     <site>
       <id>kuali.site</id>
-      <url>svn:http://kuali.googlecode.com/svn/site/${project.artifactId}/${project.version}</url>
+      <url>svn:https://kuali.googlecode.com/svn/site/${project.artifactId}/${project.version}</url>
     </site>
   </distributionManagement>
 </project>
