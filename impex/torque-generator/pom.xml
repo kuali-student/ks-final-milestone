@@ -9,21 +9,9 @@
   <name>Kuali Version of ASF Torque Generator</name>
   <url>http://www.kuali.org/</url>
   <repositories>
-    <!--
-      Once the Kuali Master POM has been approved and published to the
-      kuali.release repository, remove the kuali.release.lab repository
-      entry from this pom
-    -->
     <repository>
-      <id>kuali.release.lab</id>
-      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
+      <id>kuali.central</id>
+      <url>http://kuali.googlecode.com/svn/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
