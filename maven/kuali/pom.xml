@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>2-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -46,55 +46,41 @@
   </organization>
   <url>http://www.kuali.org/</url>
   <properties>
-    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
     <extraReleaseArguments />
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
+    <kuali.central.url>https://test.kuali.org/maven</kuali.central.url>
+    <kuali.snapshots.url>http://archiva.kuali.umd.edu/repository/snapshot</kuali.snapshots.url>
+    <distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</distributionManagement.repository.url>
+    <distributionManagement.snapshotRepository.url>dav:http://archiva.kuali.umd.edu/repository/snapshot</distributionManagement.snapshotRepository.url>
   </properties>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
+      <id>kuali.central</id>
+      <url>${kuali.central.url}</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
-      <id>kuali.snapshot</id>
-      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <id>kuali.snapshots</id>
+      <url>${kuali.snapshots.url}</url>
       <releases>
         <enabled>false</enabled>
       </releases>
     </repository>
-    <!--
-      NOTE: This is a temporary repository pending approval from Kuali
-      Foundation on the concept of a master pom and the publishing of the master
-      pom to the main Maven2 repository. Once that has been approved and the
-      master pom's have been published to the main Maven2 repository this
-      temporary repository entry can be removed.
-    -->
-    <repository>
-      <id>kuali.release.lab</id>
-      <url>https://test.kuali.org/svn/student/deploymentlab/repository
-      </url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
   </repositories>
   <distributionManagement>
-    <!--
-      site is intentionally omitted. Each project must define its own website
-    -->
+    <!-- site is intentionally omitted. Each project must define its own website -->
     <repository>
-      <id>kuali.release</id>
+      <id>kuali.central</id>
       <name>Internal Release Repository</name>
-      <url>${project.distributionManagement.repository.url}</url>
+      <url>${distributionManagement.repository.url}</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
       <name>Internal Snapshot Repository</name>
-      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <url>${distributionManagement.snapshotRepository.url}</url>
     </snapshotRepository>
   </distributionManagement>
   <scm>
@@ -181,10 +167,8 @@
           <configuration>
             <archive>
               <manifest>
-                <addDefaultSpecificationEntries>true
-                </addDefaultSpecificationEntries>
-                <addDefaultImplementationEntries>true
-                </addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true </addDefaultSpecificationEntries>
+                <addDefaultImplementationEntries>true </addDefaultImplementationEntries>
               </manifest>
             </archive>
           </configuration>
@@ -207,8 +191,7 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <arguments>-Pkuali-release ${extraReleaseArguments}
-            </arguments>
+            <arguments>-Pkuali-release ${extraReleaseArguments} </arguments>
           </configuration>
         </plugin>
         <plugin>
@@ -295,8 +278,7 @@
                 <configuration>
                   <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
                   <descriptorRefs>
-                    <descriptorRef>${sourceReleaseAssemblyDescriptor}
-                    </descriptorRef>
+                    <descriptorRef>${sourceReleaseAssemblyDescriptor} </descriptorRef>
                   </descriptorRefs>
                   <tarLongFileFormat>gnu</tarLongFileFormat>
                 </configuration>
