@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-ui</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-rc2</version>
 	<packaging>jar</packaging>
 	<name>KS Core UI</name>
 	<description>KS Core UI</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rc2</version>
 	</parent>
 			
 	<build>
@@ -125,31 +125,31 @@
 		<dependency>		
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>1.0.0-SNAPSHOT</version>			
+			<version>1.0.0-rc2</version>			
 		</dependency>		
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency> 			

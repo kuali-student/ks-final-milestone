@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-common-impl</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-rc2</version>
 	<packaging>jar</packaging>
 	<name>KS Common Impl</name>
 	<description>KS Common Impl</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rc2</version>
 	</parent>
 
 	<build>
@@ -35,17 +35,17 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<scope>test</scope>
 		</dependency>
         
