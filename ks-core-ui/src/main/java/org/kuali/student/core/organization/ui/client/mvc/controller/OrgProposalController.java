@@ -17,11 +17,15 @@ package org.kuali.student.core.organization.ui.client.mvc.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection.FieldInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ModifyActionEvent;
@@ -173,21 +177,40 @@ public class OrgProposalController extends TabbedSectionLayout{
     private KSButton getModifyButton(){
         return new KSButton("Modify", new ClickHandler(){
                     public void onClick(ClickEvent event) {
+                        List<Section> sections = null;
+                        String fieldKey = null;
                         Value val = null;
                         View view = getView(SectionsEnum.SEARCH);
+                        
+                        
                         if(view instanceof SectionView){
                             List<FieldDescriptor> lfd = ((SectionView)view).getFields();
                             for(FieldDescriptor fd : lfd){
                                 Widget widget = fd.getFieldWidget();
                                 if(widget instanceof KSPicker){
                                     val = ((KSPicker)widget).getValue();
+                                    fieldKey = fd.getFieldKey();
                                 }
                             }
+                            sections = ((SectionView)view).getSections();
                         }
+                        
                         String strval = ((StringValue)val).get();
                         if( !strval.equals("") && strval != null ){
                             getCurrentView().updateModel();
                             fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
+                        } else{
+                            // display error message
+                            for(Section section : sections){
+                                if(section instanceof BaseSection){
+                                    Map<String, FieldInfo> pathFieldInfoMap = ((BaseSection)section).getPathFieldInfoMap();
+                                    FieldInfo info = pathFieldInfoMap.get(fieldKey);
+                                    
+                                    ValidationResultInfo vr = new ValidationResultInfo();
+                                    vr.setError("Field value cannot be empty");
+                                    info.processValidationResult(vr);
+                                }
+                            }
                         }
                     }
                 });

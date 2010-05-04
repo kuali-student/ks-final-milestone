@@ -505,7 +505,14 @@ public abstract class BaseSection extends Composite implements Section{
 
     }
     
-	@Override
+	public Map<String, FieldInfo> getPathFieldInfoMap() {
+        return pathFieldInfoMap;
+    }
+    public void setPathFieldInfoMap(Map<String, FieldInfo> pathFieldInfoMap) {
+        this.pathFieldInfoMap = pathFieldInfoMap;
+    }
+    
+    @Override
 	public void setSectionValidationPanel(ValidationMessagePanel validationPanel) {
 		//DOESNT WORK
 /*		pathValidationPanelMap = new HashMap<String, ValidationMessagePanel>();
