@@ -1,2 +1,0 @@
-Execute this command inside dbVisualizer, in the SQL Commander.
-@run C:\change-to-your-path-to-workspace\AuthZ\src\test\resources\college_dept_crs.sql
