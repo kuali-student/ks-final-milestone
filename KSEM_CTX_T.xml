@@ -1,42 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Robotics" ID="1"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Botany" ID="10"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Chemical" ID="11"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Chemistry" ID="12"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Civil" ID="13"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Education" ID="15"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="English" ID="16"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Finance" ID="17"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="French" ID="18"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Geography" ID="19"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="CompSci" ID="2"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Geology" ID="20"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="History" ID="21"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev"
-        CTX_VAL="InternationalBusiness" ID="22"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Linguistics" ID="23"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Marketing " ID="24"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Music" ID="26"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Philosophy" ID="27"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="PolySci" ID="28"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Psychology" ID="29"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Mechanical" ID="3"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="PubAdmin" ID="30"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Sociology" ID="31"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Social Work" ID="32"/>
-    <KSEM_CTX_T CTX_KEY="kuali.lu.campusLocation" CTX_VAL="North Campus" ID="33"/>
-    <KSEM_CTX_T CTX_KEY="kuali.lu.campusLocation" CTX_VAL="South Campus" ID="34"/>
-    <KSEM_CTX_T CTX_KEY="kuali.object" CTX_VAL="cluInfo" ID="38"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Architecture" ID="4"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Accounting" ID="5"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev"
-        CTX_VAL="African American Studies" ID="59"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="FineArts" ID="6"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev"
-        CTX_VAL="Asian American Studies" ID="60"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Biomed" ID="7"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Biochemistry" ID="8"/>
-    <KSEM_CTX_T CTX_KEY="kuali.org.deptAbbrev" CTX_VAL="Biology" ID="9"/>
+    <KSEM_CTX_T CTX_KEY="kuali.lu.subjectArea" CTX_VAL="default" ID="1"/>
+    <KSEM_CTX_T CTX_KEY="kuali.lu.campusLocation" CTX_VAL="default" ID="2"/>
+    <KSEM_CTX_T CTX_KEY="kuali.atptype.duration" CTX_VAL="default" ID="3"/>
+    <KSEM_CTX_T CTX_KEY="kuali.state" CTX_VAL="default" ID="4"/>
+    <KSEM_CTX_T CTX_KEY="kuali.lu.fee.feeType" CTX_VAL="default" ID="5"/>
+    <KSEM_CTX_T CTX_KEY="kuali.lu.fee.rateType" CTX_VAL="default" ID="6"/>
 </dataset>
