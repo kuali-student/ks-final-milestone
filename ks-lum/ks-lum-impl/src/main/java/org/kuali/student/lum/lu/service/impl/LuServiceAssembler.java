@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.service.impl;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.kuali.student.core.entity.TimeAmount;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
@@ -61,6 +63,7 @@ import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.entity.AffiliatedOrg;
@@ -84,6 +87,7 @@ import org.kuali.student.lum.lu.entity.CluLoRelationType;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
+import org.kuali.student.lum.lu.entity.CluSetAttribute;
 import org.kuali.student.lum.lu.entity.CluSetType;
 import org.kuali.student.lum.lu.entity.DeliveryMethodType;
 import org.kuali.student.lum.lu.entity.InstructionalFormatType;
@@ -93,12 +97,16 @@ import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.entity.LuPublicationType;
+import org.kuali.student.lum.lu.entity.LuRichText;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiAttribute;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
+import org.kuali.student.lum.lu.entity.MembershipQuery;
 import org.kuali.student.lum.lu.entity.ResultOption;
 import org.kuali.student.lum.lu.entity.ResultUsageType;
+import org.kuali.student.lum.lu.entity.SearchParameter;
+import org.kuali.student.lum.lu.entity.SearchParameterValue;
 import org.springframework.beans.BeanUtils;
 
 public class LuServiceAssembler extends BaseAssembler {
@@ -276,6 +284,28 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	}
 
+	public static CluSet toCluSetEntity(CluSetInfo cluSetInfo, LuDao luDao) throws InvalidParameterException, DoesNotExistException {
+		CluSet cluSet = new CluSet();
+
+		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id",
+				"descr", "attributes", "metaInfo", "membershipQuery" });
+		cluSet.setAttributes(toGenericAttributes(
+				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
+		cluSet.setType(cluSetInfo.getType());
+		cluSet.setDescr(toRichText(LuRichText.class, cluSetInfo.getDescr()));
+
+		for (String cluId : cluSetInfo.getCluIds()) {
+			cluSet.getClus().add(luDao.fetch(Clu.class, cluId));
+		}
+		for (String cluSetId : cluSetInfo.getCluSetIds()) {
+			CluSet c = luDao.fetch(CluSet.class, cluSetId);
+			cluSet.getCluSets().add(c);
+		}
+		cluSet.setMembershipQuery(toMembershipQueryEntity(cluSetInfo.getMembershipQuery()));
+		
+		return cluSet;
+	}
+	
 	public static CluSetInfo toCluSetInfo(CluSet entity) {
 		if (entity == null) {
 			return null;
@@ -283,7 +313,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		CluSetInfo dto = new CluSetInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "descr",
-				"cluCriteria", "cluSets", "clus", "attributes", "metaInfo" });
+				"cluCriteria", "cluSets", "clus", "attributes", "metaInfo", "membershipQuery" });
 
 		dto.setDescr(toRichTextInfo(entity.getDescr()));
 		// TODO dto.setCluCriteria()
@@ -303,8 +333,80 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
+		MembershipQueryInfo mqInfo = toMembershipQueryInfo(entity.getMembershipQuery());
+		dto.setMembershipQuery(mqInfo);
+		
 		return dto;
+	}
+	
+	public static MembershipQueryInfo toMembershipQueryInfo(MembershipQuery entity) {
+		if(entity == null) {
+			return null;
+		}
+		MembershipQueryInfo dto = new MembershipQueryInfo();
+		dto.setId(entity.getId());
+		dto.setSearchTypeKey(entity.getSearchTypeKey());
+		List<SearchParam> list = new ArrayList<SearchParam>();
+		for(SearchParameter param : entity.getSearchParameters()) {
+			SearchParam sp = toSearchParam(param);
+			list.add(sp);
+		}
+		dto.setQueryParamValueList(list);
+		
+		return dto;
+	}
 
+	public static SearchParam toSearchParam(SearchParameter entity) {
+		SearchParam dto = new SearchParam();
+		dto.setKey(entity.getKey());
+		List<String> values = new ArrayList<String>();
+		for(SearchParameterValue value : entity.getValues()) {
+			values.add(value.getValue());
+		}
+		dto.setValue(values);
+		if(entity.getValues().size() == 1) {
+			dto.setValue(entity.getValues().get(0).getValue());
+		}
+		return dto;
+	}
+
+	public static MembershipQuery toMembershipQueryEntity(MembershipQueryInfo dto) {
+		if(dto == null) {
+			return null;
+		}
+		MembershipQuery entity = new MembershipQuery();
+		entity.setSearchTypeKey(dto.getSearchTypeKey());
+		List<SearchParameter> list = new ArrayList<SearchParameter>();
+		for(SearchParam param : dto.getQueryParamValueList()) {
+			SearchParameter sp = toSearchParameterEntity(param);
+			list.add(sp);
+		}
+		entity.setSearchParameters(list);
+		
+		return entity;
+	}
+
+	public static SearchParameter toSearchParameterEntity(SearchParam dto) {
+		if(dto == null) {
+			return null;
+		}
+		SearchParameter entity = new SearchParameter();
+		entity.setKey(dto.getKey());
+		List<SearchParameterValue> values = new ArrayList<SearchParameterValue>();
+		if(dto.getValue() instanceof String) {
+			SearchParameterValue value = new SearchParameterValue();
+			value.setValue((String) dto.getValue());
+			values.add(value);
+		} else if(dto.getValue() instanceof List<?>) {
+			List<String> stringList = (List<String>)dto.getValue();
+			for(String s : stringList) {
+				SearchParameterValue value = new SearchParameterValue();
+				value.setValue(s);
+				values.add(value);
+			}
+		}
+		entity.setValues(values);
+		return entity;
 	}
 
 	public static List<ResultUsageTypeInfo> toResultUsageTypeInfos(
@@ -372,15 +474,19 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		CluResultInfo dto = new CluResultInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "resultOptions" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "resultOptions", "desc" });
 
-		List<ResultOptionInfo> resultOptions = toResultOptionInfos(entity
-				.getResultOptions());
+		List<ResultOptionInfo> resultOptions = toResultOptionInfos(entity.getResultOptions());
 		dto.setResultOptions(resultOptions);
+		dto.setDesc(toRichTextInfo(entity.getDesc()));
+		dto.setCluId(entity.getClu().getId());
+		CluResultTypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
+		dto.setType(type.getId());
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}
-
+	
 	public static List<CluResultInfo> toCluResultInfos(List<CluResult> entities) {
 		if (entities == null) {
 			return null;
@@ -415,9 +521,12 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		ResultOptionInfo dto = new ResultOptionInfo();
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "resultUsageType" });
-		dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
+		BeanUtils.copyProperties(entity, dto, new String[] { "resultUsageType", "desc" });
+		if(entity.getResultUsageType() != null) {
+			dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
+		}
+		dto.setDesc(toRichTextInfo(entity.getDesc()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}

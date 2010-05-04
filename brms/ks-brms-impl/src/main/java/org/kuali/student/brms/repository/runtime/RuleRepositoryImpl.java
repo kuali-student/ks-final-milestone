@@ -1,18 +1,18 @@
-/*
- * Copyright 2007 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.brms.repository.runtime;
 
 import java.util.ArrayList;
@@ -81,6 +81,15 @@ public class RuleRepositoryImpl implements RuleRepository {
 	 */
 	public void setRuleSetTranslator(final RuleSetTranslator ruleSetTranslator) {
 		this.ruleSetTranslator = ruleSetTranslator;
+	}
+
+	/**
+	 * Sets the rule set validator.
+	 * 
+	 * @param ruleSetValidator Rule set validator
+	 */
+	public void setRuleSetValidator(final RuleSetValidator ruleSetValidator) {
+		this.ruleSetValidator = ruleSetValidator;
 	}
 
 	/**
@@ -732,7 +741,7 @@ public class RuleRepositoryImpl implements RuleRepository {
 		
     	try {
     		RuleSet ruleSet = this.ruleSetTranslator.translate(businessRule);
-	    	RuleSetVerificationResult result = ruleSetValidator.verify(ruleSet);
+	    	RuleSetVerificationResult result = this.ruleSetValidator.verify(ruleSet);
 	        return ruleAdapter.getRuleSetVerificationResultDTO(result);
 		} catch(IllegalArgumentException e) {
 			logger.error(e.getMessage(), e);

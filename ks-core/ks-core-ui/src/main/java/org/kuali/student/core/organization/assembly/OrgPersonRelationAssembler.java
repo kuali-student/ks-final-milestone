@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.assembly;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
@@ -10,10 +25,13 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
@@ -23,13 +41,18 @@ import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgPersonHelper;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelper>{
     private OrganizationService orgService;
+    private Metadata metadata;
+    private DataModel orgPersonModel = new DataModel();
+    public static final String PERSON_PATH                  = "orgPersonRelationInfo";
     
+    public void setMetaData(Metadata metadata){
+        this.metadata=metadata;
+        
+    }
 
     public void setOrgService(OrganizationService service){
         orgService = service;
@@ -68,6 +91,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
 
     @Override
     public SaveResult<Data> save(Data input) throws AssemblyException {
+        
         addPersonRelation(input);
         SaveResult<Data> result = new SaveResult<Data>();
         List<ValidationResultInfo> validationResults = validate(input);
@@ -87,17 +111,23 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         if (input == null) {
             return;
         }
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgPersonModel.setDefinition(def);
+        //Set this for readonly permission
+        QueryPath metaPath = QueryPath.concat(null, PERSON_PATH);
+        Metadata orgPersonMeta =orgPersonModel.getMetadata(metaPath);
         for (Property p : (Data)input.get("orgPersonRelationInfo")) {
             OrgPersonHelper orgPersonHelper=  OrgPersonHelper.wrap((Data)p.getValue());
-            if(isUpdated(orgPersonHelper.getData())){
-                OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
-                orgPersonRelationInfo.setId(orgPersonHelper.getId());
-                try{
-                    OrgPersonRelationInfo  result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(),orgPersonRelationInfo);
-                    addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
-                }
-                catch(Exception e ){
-                    throw new AssemblyException();
+            if (isUpdated(orgPersonHelper.getData())) {
+                if (orgPersonMeta.isCanEdit()) {
+                    OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
+                    orgPersonRelationInfo.setId(orgPersonHelper.getId());
+                    try {
+                        OrgPersonRelationInfo result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(), orgPersonRelationInfo);
+                        addVersionIndicator(orgPersonHelper.getData(), OrgPersonRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
+                    } catch (Exception e) {
+                        throw new AssemblyException();
+                    }
                 }
             }
             else if(isDeleted(orgPersonHelper.getData())){
@@ -156,19 +186,38 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
     
     private Data buildOrgPersonRelationMap( List<OrgPersonRelationInfo> relations){
         Data orgRelations = new Data();
+        try {
         int count =0;
+
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgPersonModel.setDefinition(def);
+        //Set this for readonly permission
+        QueryPath metaPath = QueryPath.concat(null, PERSON_PATH);
+        Metadata orgPersonMeta =orgPersonModel.getMetadata(metaPath);
         for(OrgPersonRelationInfo relation:relations){
             Data relationMap = new Data();
             OrgPersonHelper orgPersonHelper = OrgPersonHelper.wrap(relationMap);
             orgPersonHelper.setId(relation.getId());
             orgPersonHelper.setOrgId(relation.getOrgId());
-            orgPersonHelper.setTypeKey(relation.getType());
+            if(!orgPersonMeta.isCanEdit()){
+                
+                    orgPersonHelper.setTypeKey(orgService.getOrgPersonRelationType(relation.getType()).getName());
+               
+            }
+            else{
+                orgPersonHelper.setTypeKey(relation.getType());
+            }
+            
             orgPersonHelper.setPersonId(relation.getPersonId());
             orgPersonHelper.setEffectiveDate(relation.getEffectiveDate());
             orgPersonHelper.setExpirationDate(relation.getExpirationDate());
             addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),relation.getId(),relation.getMetaInfo().getVersionInd());
             orgRelations.set(count,orgPersonHelper.getData());
             count = count +1;
+        }
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
         return orgRelations;
     }
@@ -177,11 +226,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-    @Override
-    public SearchResult search(SearchRequest searchRequest) {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+
 	@Override
 	public Metadata getDefaultMetadata() throws AssemblyException {
 		// TODO Auto-generated method stub

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
@@ -6,10 +21,10 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -84,8 +99,8 @@ public class SearchPanel extends Composite{
 		setupSearch();
 		this.initWidget(layout);
 	}
-	
-	public void setupSearch() {		
+
+	public void setupSearch() {
 		Widget searchParamPanel;
 		if (lookups.size() == 1) {
 			searchParamPanel = createSearchParamPanel(lookups.get(0));
@@ -124,7 +139,7 @@ public class SearchPanel extends Composite{
         //check whether we need custom tab i.e. whether we have at least one parameter that should appear on custom tab
 		for(LookupParamMetadata metaParam: meta.getParams()){
 			if ((metaParam.getUsage() == Usage.CUSTOM) || (metaParam.getUsage() == Usage.ADVANCED_CUSTOM)) {
-		        KSLinkButton button = panel.addLinkToPanel(SearchStyle.ADVANCED, getMessage("searchPanelCustomizeSearch"), SearchStyle.CUSTOM);
+		        KSButton button = panel.addLinkToPanel(SearchStyle.ADVANCED, getMessage("searchPanelCustomizeSearch"), SearchStyle.CUSTOM);
 		        button.addClickHandler(new ClickHandler(){
 
 		            @Override
@@ -148,7 +163,7 @@ public class SearchPanel extends Composite{
 		        break;
 			}
 		}
-        
+
         return panel;
 	}
 
@@ -160,17 +175,17 @@ public class SearchPanel extends Composite{
 		private VerticalFlowPanel buttonPanel = new VerticalFlowPanel();
 
 		public CustomizedSearch(final LookupMetadata meta, final ParamListItems listItems){
-			
+
 			KSLabel instrLabel = new KSLabel(criteriaInstructions);
 			layout.add(instrLabel);
-			
+
 			layout.add(linePanel);
 			CustomLine line = new CustomLine(meta, listItems);
 			line.addStyleName("ks-form-module-single-line-margin");
 			linePanel.add(line);
 			lines.add(line);
 
-            KSLinkButton addCriteria = new KSLinkButton(getMessage("searchPanelAddCriteria"), ButtonStyle.SECONDARY);
+            KSButton addCriteria = new KSButton(getMessage("searchPanelAddCriteria"), ButtonStyle.SECONDARY);
 			addCriteria.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -185,7 +200,7 @@ public class SearchPanel extends Composite{
 			addCriteria.addStyleName("ks-form-module-single-line-margin");
 			layout.add(addCriteria);
 
-            KSLinkButton searchButton = new KSLinkButton(getMessage("search"), ButtonStyle.PRIMARY);
+            KSButton searchButton = new KSButton(getMessage("search"), ButtonStyle.PRIMARY);
 			searchButton.addStyleName("KS-Advanced-Search-Button");
             searchButton.addStyleName("clearboth");
 			searchButton.addClickHandler(new ClickHandler(){
@@ -237,14 +252,14 @@ public class SearchPanel extends Composite{
 								params.add(param);
 							}
 						}
-					}				
+					}
 
 					sr.setParams(params);
 					//TODO remove this
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
-					sr.setSearchKey(meta.getSearchTypeId());				
+					sr.setSearchKey(meta.getSearchTypeId());
 
 					currentSearchLookupMetadata = meta;
 					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey()); //temporary hack before we get a new table
@@ -254,13 +269,13 @@ public class SearchPanel extends Composite{
 					if(!resultsShown){
 						searchSelectorPanel.removeFromParent();
                         modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
-                        KSLinkButton label = modifySearchPanel.getLabel();
+                        KSButton label = modifySearchPanel.getLabel();
                         label.addClickHandler(new ClickHandler(){
 
                             @Override
                             public void onClick(ClickEvent event) {
                                 tablePanel.setVisible(false);
-                                
+
                             }});
 						SearchPanel.this.layout.insert(modifySearchPanel, 0);
 					}
@@ -357,18 +372,18 @@ public class SearchPanel extends Composite{
 						panel.add(paramField);
 					}
 				}
-				
+
 				if (param.getWriteAccess() != Metadata.WriteAccess.REQUIRED) {
 					allFieldsRequired = false;
 				}
 			}
-			
+
 			//do not show criteria instructions if we have only one criteria field or in case all fields are required
 			if ((searchFields.size() > 1) || (allFieldsRequired == false)) {
 				instrLabel.setText(criteriaInstructions);
 			}
-			
-            KSLinkButton searchButton = new KSLinkButton(getMessage("search"), ButtonStyle.PRIMARY);
+
+            KSButton searchButton = new KSButton(getMessage("search"), ButtonStyle.PRIMARY);
             //searchButton.addStyleName("KS-Advanced-Search-Button");
             //searchButton.addStyleName("clearboth");
 			searchButton.addClickHandler(new ClickHandler(){
@@ -380,6 +395,7 @@ public class SearchPanel extends Composite{
 					List<SearchParam> params = new ArrayList<SearchParam>();
 					List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
 
+					//initialize search parameters if user entered values into search criteria fields in UI
 					for(SearchField field: searchFields){
 						SearchParam param = field.getSearchParam();
 						//TODO is this null check needed here? probably. assuming string here
@@ -392,6 +408,7 @@ public class SearchPanel extends Composite{
 						}
 					}
 
+					//initialize search parameters that are hidden from the UI because they are set to default context specific values
 					for(LookupParamMetadata metaParam: meta.getParams()){
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
 							if ((metaParam.getDefaultValueString() == null || metaParam.getDefaultValueString().isEmpty())&&
@@ -424,7 +441,9 @@ public class SearchPanel extends Composite{
 						}
 					}
 					sr.setParams(params);
-
+					if (meta.getResultSortKey() != null) {
+					    sr.setSortColumn(meta.getResultSortKey());
+					}
 					//TODO remove this
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
@@ -439,13 +458,13 @@ public class SearchPanel extends Composite{
 					if(!resultsShown){
 						searchSelectorPanel.removeFromParent();
                         modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
-                        KSLinkButton label = modifySearchPanel.getLabel();
+                        KSButton label = modifySearchPanel.getLabel();
                         label.addClickHandler(new ClickHandler(){
 
                             @Override
                             public void onClick(ClickEvent event) {
                                 tablePanel.setVisible(false);
-                                
+
                             }});
 						SearchPanel.this.layout.insert(modifySearchPanel, 0);
 					}
@@ -485,12 +504,12 @@ public class SearchPanel extends Composite{
                     ((HasValue) widget).setValue(param.getDefaultValueString());
                 }
             }
-									
+
 			//FIXME: remove because required field '*' indication will be part of FieldElement class
 			if (param.getWriteAccess() == Metadata.WriteAccess.REQUIRED) {
 				fieldName += " *";
-			}			
-			
+			}
+
             FieldElement fieldElement = new FieldElement(fieldName, widget);
             fieldElement.getTitleWidget().addStyleName("KS-Picker-Criteria-Text");
             panel.add(fieldElement);

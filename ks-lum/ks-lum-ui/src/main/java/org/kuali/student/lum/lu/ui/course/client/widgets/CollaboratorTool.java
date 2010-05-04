@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +21,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.AbstractSimpleModel;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -14,20 +30,23 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService.ActionRequestType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -49,36 +68,31 @@ public class CollaboratorTool extends Composite implements ToolView{
     private Controller controller;
     private String dataId = null;
     private String workflowId = null;
+    private String documentStatus = null;
     
     private FlowPanel layout = new FlowPanel();
     private final GroupSection section;
     private FieldDescriptor person;
     private FieldDescriptor permissions;
-    private KSLinkButton addButton = new KSLinkButton("Add Person", ButtonStyle.PRIMARY);
+    private FieldDescriptor actionRequests;
+    private KSButton addButton = new KSButton("Add Person");
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
+    private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
     
     //Todo MESSAGES
     private final String VIEW = "View";
     private final String COMMENT_VIEW = "Comment, View";
     private final String EDIT_COMMENT_VIEW = "Edit, Comment, View";
+        
+    private SimpleListItems permissionListItems = new SimpleListItems();
+    private SimpleListItems actionRequestListItems = new SimpleListItems();
     
-    public class PermissionList extends KSDropDown{
-        public PermissionList(){
-        	this.setBlankFirstItem(false);
-            SimpleListItems permissionListItems = new SimpleListItems();
-            permissionListItems.addItem("Co-Author", EDIT_COMMENT_VIEW);
-            permissionListItems.addItem("Commentor", COMMENT_VIEW);
-            permissionListItems.addItem("Viewer", VIEW);
+    private KSDropDown permissionList = new KSDropDown();
+    private KSDropDown actionRequestList = new KSDropDown();
 
-            super.setListItems(permissionListItems);
-            
-            this.selectItem("Viewer");
-        }
-    }
-    
-    private PermissionList permissionList = new PermissionList();
-    
+	private boolean loaded = false;
+	
 	public static class CollaboratorModel extends AbstractSimpleModel {
 		private String dataId;
 
@@ -101,6 +115,21 @@ public class CollaboratorTool extends Composite implements ToolView{
     	}
         this.viewEnum = viewEnum;
         this.viewName = viewName;
+    	this.initWidget(layout);
+    }
+
+    
+    
+	@Override
+	protected void onLoad() {
+		if (loaded){
+			//FIXME: This should already be handled in beforeShow, but not always getting called.
+			refreshDocumentStatus(Controller.NO_OP_CALLBACK);
+		}
+	}
+
+
+	public void init(){
         List<String> columns = new ArrayList<String>();
         columns.add("Name");
         columns.add("Permissions");
@@ -125,8 +154,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 				//createTableSection();
 			}
 		});
-		
-		
+		layout.add(saveWarning);
 		layout.add(section);
 		layout.add(addButton);
 		addButton.addStyleName("ks-section-widget");
@@ -142,21 +170,34 @@ public class CollaboratorTool extends Composite implements ToolView{
 						personId = (String)(((KSPicker) w).getValue().get());
 					}
 				}
-				String permission = "";
+				String permissionCode = "";
 				if(permissions != null){
-					permission = permissionList.getSelectedItem();
+					permissionCode = permissionList.getSelectedItem();
+				}
+				String actionRequestCode = "";
+				if(actionRequests != null){
+					actionRequestCode = actionRequestList.getSelectedItem();
 				}
 				//TODO last 2 are hardcoded, dont know what to do here
-				CollaboratorTool.this.addCollaborator(personId, permission, true, "");
+				CollaboratorTool.this.addCollaborator(personId, permissionCode, actionRequestCode, true, "");
 				
 			}
 		});
 
-		layout.add(createTableSection());
-		this.initWidget(layout);
-    }
+		actionRequestList.addSelectionChangeHandler(new SelectionChangeHandler(){
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				String selectedAction = actionRequestList.getSelectedItem(); 
+				refreshPermissionList(selectedAction);
+			}
+			
+		});
+		
+		layout.add(createTableSection());	
+		
+		loaded = true;
+	}
 
-    
 	@Override
 	public boolean beforeHide() {
 		return true;
@@ -164,12 +205,20 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		saveWarning.setVisible(false);
+		if (!loaded){
+			init();
+		}
 		section.redraw();
 		controller.requestModel(CollaboratorModel.class, new ModelRequestCallback<CollaboratorModel>(){
 
 			@Override
 			public void onModelReady(CollaboratorModel model) {
 				if(model.getDataId() != null && !model.getDataId().equals("")){
+					section.setVisible(true);
+					tableSection.setVisible(true);
+					addButton.setVisible(true);
+					
 					dataId = model.getDataId();
 					if(workflowId == null){
 						cluProposalRpcServiceAsync.getWorkflowIdFromDataId(dataId, new AsyncCallback<String>(){
@@ -177,30 +226,34 @@ public class CollaboratorTool extends Composite implements ToolView{
 							public void onFailure(Throwable caught) {
 								//Window.alert("Getting workflowId failed");
 								workflowId = null;
-								refreshCollaboratorTable();
-								onReadyCallback.exec(true);
+								documentStatus = null;
+								refreshCollaboratorData();
+								refreshDocumentStatus(onReadyCallback);
 							}
 	
 							@Override
 							public void onSuccess(String result) {
 								//Window.alert("Getting workflowId succeeded");
 								workflowId=result;
-								refreshCollaboratorTable();
-								onReadyCallback.exec(true);
+								refreshCollaboratorData();
+								refreshDocumentStatus(onReadyCallback);
 							}
-
 
 						});
 					}
 					else{
-						refreshCollaboratorTable();
+						refreshCollaboratorData();
 						onReadyCallback.exec(true);
 					}
 					//get collaborators here
 					
 				}
 				else{
-					//alter interface to reflect that they havent saved yet
+					saveWarning.setVisible(true);
+					section.setVisible(false);
+					addButton.setVisible(false);
+					tableSection.setVisible(false);
+					//section.setMessage("The document must be saved before Collaborators can be added" , true); 
 					onReadyCallback.exec(true);
 				}
 				
@@ -236,16 +289,78 @@ public class CollaboratorTool extends Composite implements ToolView{
 		
 	}
 	
+	private void refreshDocumentStatus(final Callback onReadyCallback){
+		cluProposalRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
+			@Override
+			public void onFailure(Throwable caught) {
+				documentStatus = null;
+				onReadyCallback.exec(true);										
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				documentStatus = result;
+				refreshActionRequestListItems();
+				onReadyCallback.exec(true);										
+			}									
+		});		
+	}
+		
 	private void createAddCollabSection(){
 		Metadata personIdMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("personId");
 		person = new FieldDescriptor(null, "Person", personIdMeta);
 		Metadata typeMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("collaboratorType");
 		permissions = new FieldDescriptor(null, "Permissions", typeMeta);
 		permissions.setFieldWidget(permissionList);
+		actionRequests = new FieldDescriptor(null, "Action Requests", typeMeta);
+		actionRequests.setFieldWidget(actionRequestList);
 		section.addField(person);
 		section.addField(permissions);
+		section.addField(actionRequests);
 		//if submitted(?) then show workflow action request here
 		
+		permissionList.setBlankFirstItem(false);
+		actionRequestList.setBlankFirstItem(false);
+	}
+	
+	private boolean isDocumentPreRoute() {
+		return "I".equals(documentStatus) || "S".equals(documentStatus);
+	}
+	
+	private void refreshActionRequestListItems(){
+		actionRequestListItems.clear();
+		if (isDocumentPreRoute()){
+            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
+		} else {
+            actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(),ActionRequestType.APPROVE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(),ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
+			
+		}
+		actionRequestList.selectItem(ActionRequestType.FYI.getActionRequestCode());
+		actionRequestList.setListItems(actionRequestListItems);		
+		refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
+	}
+	
+	/**
+	 * If this code is changed or overriden to allow non-APPROVE adhoc requests
+	 * to have the EDIT permission then the Kuali Student Post Processor classes
+	 * that remove permission added via the People/Permissions screen must be
+	 * altered to remove EDIT permission when a route level changes or users who
+	 * are sent an ACKKNOWLEDGE or FYI request will keep their edit access
+	 * across nodes
+	 */
+	private void refreshPermissionList(String selectedAction){
+		permissionListItems.clear();
+		// SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
+		if (selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
+            permissionListItems.addItem(PermissionType.EDIT.getCode(),EDIT_COMMENT_VIEW);					
+		}
+
+        permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(),COMMENT_VIEW);
+        permissionListItems.addItem(PermissionType.OPEN.getCode(),VIEW);
+
+		permissionList.setListItems(permissionListItems);		
 	}
 	
 	private Widget createTableSection(){
@@ -303,13 +418,13 @@ public class CollaboratorTool extends Composite implements ToolView{
         this.controller = controller;
     }
     
-    private void addCollaborator(final String recipientPrincipalId, final String collabType, boolean participationRequired, String respondBy){
+    private void addCollaborator(final String recipientPrincipalId, final String selectedPermissionCode, final String selectedActionRequest, boolean participationRequired, String respondBy){
     	if(workflowId==null){
             //GWT.log("Collaborators called with "+ricePersonLookupUrl, null);
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
     		//TODO put real title in
-    		workflowRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, collabType, participationRequired, respondBy, new AsyncCallback<Boolean>(){
+    		workflowRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermissionCode, selectedActionRequest, participationRequired, respondBy, new AsyncCallback<Boolean>(){
 				public void onFailure(Throwable caught) {
 					Window.alert("Could not add Collaborator");
 					GWT.log("could not add collaborator", caught);
@@ -336,14 +451,14 @@ public class CollaboratorTool extends Composite implements ToolView{
 						delegatesUserIds.add(new KSLabel(recipientPrincipalId+" was added"));
 						delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
 					}*/
-					refreshCollaboratorTable();
+					refreshCollaboratorData();
 				}
 
 	    	});
     	}
     }
     
-	public void refreshCollaboratorTable() {
+	public void refreshCollaboratorData() {
 		if(workflowId!=null){
 			workflowRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
 				public void onFailure(Throwable caught) {
@@ -419,21 +534,31 @@ public class CollaboratorTool extends Composite implements ToolView{
 						table.addRow(rowWidgets);
 						
 						numberCollabs++;
-						
-						
 					}
-					
 				}
 	        });
-    	}
-		
-	}
+		}
+		workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new AsyncCallback<Boolean>(){
 
+			@Override
+            public void onFailure(Throwable caught) {
+				GWT.log("Caught error trying to verify authorization for adding adhoc reviewers", caught);
+				Window.alert("Error checking authorization for adding collaborators/reviewers");
+            }
+
+			@Override
+            public void onSuccess(Boolean result) {
+				GWT.log("Authorization check for adding adhoc reviewers: " + result, null);
+				section.setVisible(result);
+				addButton.setVisible(result);
+            }
+
+		});
+	}
 
 	@Override
 	public KSImage getImage() {
 		return Theme.INSTANCE.getCommonImages().getPersonIcon();
 	}
-	
 
 }

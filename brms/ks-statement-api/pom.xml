@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms.statement</groupId>
 	<artifactId>ks-statement-api</artifactId>
-	<version>1.0.0-m5</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS BRMS Statement API</name>
 	<description>KS BRMS Statement API</description>
@@ -11,12 +11,8 @@
     <parent>
         <groupId>org.kuali.student.brms</groupId>
         <artifactId>ks-brms</artifactId>
-        <version>1.0.0-m5</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-      <ks.java2ws.phase>process-classes</ks.java2ws.phase>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -34,7 +30,7 @@
 				<executions>
 					<execution>
 						<id>statement-wsdl</id>
-						<phase>${ks.java2ws.phase}</phase>
+						<phase>process-classes</phase>
 						<configuration>
 							<className>
 								org.kuali.student.brms.statement.service.StatementService

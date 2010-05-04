@@ -68,6 +68,7 @@ public class CreditCourseProposalInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		
 		// metadata for ProposerPerson
@@ -160,6 +161,7 @@ public class CreditCourseProposalInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.meta.data"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		

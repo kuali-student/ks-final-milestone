@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
@@ -7,7 +24,6 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 08:39:12 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -151,7 +167,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.cluInfo.CreditCourse.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.official"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
-	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.curriculum.oversight"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
 	<dict:fieldRef bean="dict.course.campusLocations"/>
@@ -176,7 +192,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
 	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
 	<dict:fieldRef bean="dict.course.feeInfo"/>
-	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.expInfo"/>
 	<dict:fieldRef bean="dict.course.eye.color"/>
 	<dict:fieldRef bean="dict.course.meta"/>
 	<dict:fieldRef bean="dict.course.type"/>
@@ -191,7 +207,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="template" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.template.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.official"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
-	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.curriculum.oversight"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc.template"/>
 	<dict:fieldRef bean="dict.course.campusLocations"/>
@@ -216,7 +232,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
 	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
 	<dict:fieldRef bean="dict.course.feeInfo"/>
-	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.expInfo"/>
 	<dict:fieldRef bean="dict.course.eye.color"/>
 	<dict:fieldRef bean="dict.course.meta"/>
 	<dict:fieldRef bean="dict.course.type"/>
@@ -232,7 +248,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="draft.*" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.draft.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.official.draft"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
-	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.curriculum.oversight"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc.draft"/>
 	<dict:fieldRef bean="dict.course.campusLocations.draft"/>
@@ -257,7 +273,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
 	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
 	<dict:fieldRef bean="dict.course.feeInfo"/>
-	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.expInfo"/>
 	<dict:fieldRef bean="dict.course.eye.color"/>
 	<dict:fieldRef bean="dict.course.meta"/>
 	<dict:fieldRef bean="dict.course.type"/>
@@ -272,7 +288,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="submitted" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.submitted.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.official.submitted"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
-	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.curriculum.oversight"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
 	<dict:fieldRef bean="dict.course.campusLocations"/>
@@ -297,7 +313,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
 	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
 	<dict:fieldRef bean="dict.course.feeInfo"/>
-	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.expInfo"/>
 	<dict:fieldRef bean="dict.course.eye.color"/>
 	<dict:fieldRef bean="dict.course.meta"/>
 	<dict:fieldRef bean="dict.course.type"/>
@@ -313,7 +329,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="withdrawn" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.official.withdrawn"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
-	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.curriculum.oversight"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
 	<dict:fieldRef bean="dict.course.campusLocations"/>
@@ -338,7 +354,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
 	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
 	<dict:fieldRef bean="dict.course.feeInfo"/>
-	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.expInfo"/>
 	<dict:fieldRef bean="dict.course.eye.color"/>
 	<dict:fieldRef bean="dict.course.meta"/>
 	<dict:fieldRef bean="dict.course.type"/>
@@ -355,7 +371,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="rejected" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.rejected.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.official.rejected"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
-	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.curriculum.oversight"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
 	<dict:fieldRef bean="dict.course.campusLocations"/>
@@ -380,7 +396,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
 	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
 	<dict:fieldRef bean="dict.course.feeInfo"/>
-	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.expInfo"/>
 	<dict:fieldRef bean="dict.course.eye.color"/>
 	<dict:fieldRef bean="dict.course.meta"/>
 	<dict:fieldRef bean="dict.course.type"/>
@@ -397,7 +413,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="retired" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.retired.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.official"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
-	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.curriculum.oversight"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
 	<dict:fieldRef bean="dict.course.campusLocations"/>
@@ -422,7 +438,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
 	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
 	<dict:fieldRef bean="dict.course.feeInfo"/>
-	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.expInfo"/>
 	<dict:fieldRef bean="dict.course.eye.color"/>
 	<dict:fieldRef bean="dict.course.meta"/>
 	<dict:fieldRef bean="dict.course.type"/>
@@ -1357,9 +1373,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.official.internal.id.fd" parent="dict.course.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.official.internal.id.cd" parent="dict.course.official.internal.id.cd.abstract"/>
@@ -1709,9 +1726,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.cross-listed.internal.id.fd" parent="dict.course.cross-listed.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.cross-listed.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.cross-listed.internal.id.cd" parent="dict.course.cross-listed.internal.id.cd.abstract"/>
@@ -1968,39 +1986,88 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.version.internal.id.fd" parent="dict.course.version.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.version.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.version.internal.id.cd" parent="dict.course.version.internal.id.cd.abstract"/>
 
-<!-- ********************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Credit Course.(default) -->
-<!-- ********************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.CreditCourse"/>
+<!-- ************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.(default) -->
+<!-- ************************************************************************************* -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse" parent="object.field.cluInfo.desc.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.CreditCourse"/>
+		<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs.CreditCourse"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse" parent="type.field.cluInfo.desc.CreditCourse.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse" parent="type.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract"/>
 
-<!-- ****************************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Credit Course.(default).(default).(default) -->
-<!-- ****************************************************************************** -->
+<!-- ********************************************************************************************* -->
+<!-- State for state.field.cluInfo.academicSubjectOrgs.Credit Course.(default).(default).(default) -->
+<!-- ********************************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.curriculum.oversight.orgId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse" parent="state.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract"/>
+
+
+<!-- ************************************** -->
+<!-- dict.course.curriculum.oversight.orgId -->
+<!-- ************************************** -->
+<dict:field key="orgId" id="dict.course.curriculum.oversight.orgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.curriculum.oversight.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.curriculum.oversight.orgId.cd"/>
+</dict:field>
+<dict:field key="orgId" id="dict.course.curriculum.oversight.orgId" parent="dict.course.curriculum.oversight.orgId.abstract"/>
+<dict:fieldDescriptor id="dict.course.curriculum.oversight.orgId.fd.abstract" abstract="true">
+	<dict:name>Id of a n oversight org</dict:name>
+	<dict:desc>id of an oversight organization</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.curriculum.oversight.orgId.fd" parent="dict.course.curriculum.oversight.orgId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.curriculum.oversight.orgId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.orgId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="orgId" id="dict.course.curriculum.oversight.orgId.cd" parent="dict.course.curriculum.oversight.orgId.cd.abstract"/>
+
+<!-- *********************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Credit Course.(default) -->
+<!-- *********************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse" parent="object.field.cluInfo.descr.CreditCourse.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.descr.CreditCourse"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse" parent="type.field.cluInfo.descr.CreditCourse.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- State for state.field.cluInfo.descr.Credit Course.(default).(default).(default) -->
+<!-- ******************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse" parent="state.field.cluInfo.desc.CreditCourse.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse" parent="state.field.cluInfo.descr.CreditCourse.abstract"/>
 
 
 <!-- ********************** -->
@@ -2208,6 +2275,537 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="timeQuantity" id="dict.course.duration.no.cd" parent="dict.course.duration.no.cd.abstract"/>
 
+<!-- ************************************************************************* -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.(default) -->
+<!-- ************************************************************************* -->
+<!-- Detailed information associated with this CLU related to the calculation of fees. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse" parent="object.field.cluInfo.feeInfo.CreditCourse.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse" parent="type.field.cluInfo.feeInfo.CreditCourse.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.(default).(default).(default) -->
+<!-- ********************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="dict.course.feeInfo.attributes.justification"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse" parent="state.field.cluInfo.feeInfo.CreditCourse.abstract"/>
+
+
+<!-- *********************************************************************************************************** -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.(default).cluFeeRecords.(default).(default) -->
+<!-- *********************************************************************************************************** -->
+<!-- Information about a fee related to a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords" parent="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords" parent="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract"/>
+
+<!-- ******************************************************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.(default).cluFeeRecords.(default).(default).(default).(default) -->
+<!-- ******************************************************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.feeType"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.id"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords" parent="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract"/>
+
+
+<!-- ***************************************************************************************************************************************************** -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.(default).cluFeeRecords.(default).(default).affiliatedOrgInfoList.(default).(default) -->
+<!-- ***************************************************************************************************************************************************** -->
+<!-- Information about an organization that is affiliated in some percentage with a learning unit. For when precision is needed to support counts or dollars. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList" parent="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList" parent="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
+
+<!-- ************************************************************************************************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.(default).cluFeeRecords.(default).(default).affiliatedOrgInfoList.(default).(default).(default).(default) -->
+<!-- ************************************************************************************************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate"/>
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList" parent="state.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
+
+
+<!-- ************************************************************* -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId -->
+<!-- ************************************************************* -->
+<dict:field key="orgId" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.cd"/>
+</dict:field>
+<dict:field key="orgId" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org ID</dict:name>
+	<dict:desc>course fee record affiliated org ID</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.orgId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="orgId" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.orgId.cd.abstract"/>
+
+<!-- ********************************************************************* -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate -->
+<!-- ********************************************************************* -->
+<!-- Not used, but needs to be set to an initial or default value. -->
+<dict:field key="effectiveDate" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org Eff Date</dict:name>
+	<dict:desc>course fee record affiliated org effective date</dict:desc>
+	<dict:dataType>date</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.effectiveDate.cd.abstract"/>
+
+<!-- ********************************************************************** -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate -->
+<!-- ********************************************************************** -->
+<dict:field key="expirationDate" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org Exp Date</dict:name>
+	<dict:desc>course fee record affiliated org expiration date</dict:desc>
+	<dict:dataType>date</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.cd.abstract"/>
+
+<!-- ****************************************************************** -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage -->
+<!-- ****************************************************************** -->
+<!-- Wireframes and Design Spec show 2 digits after the decimal point. -->
+<dict:field key="percentage" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.cd"/>
+</dict:field>
+<dict:field key="percentage" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org Percentage</dict:name>
+	<dict:desc>course fee record affiliated org percentage</dict:desc>
+	<dict:dataType>long</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.integer"/>
+	<dict:constraintRef bean="constraint.required"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="percentage" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.percentage.cd.abstract"/>
+
+<!-- ************************************************ -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.feeType -->
+<!-- ************************************************ -->
+<dict:field key="feeType" id="dict.course.feeInfo.cluFeeRecordInfoList.feeType.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.feeType.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.feeType.cd"/>
+</dict:field>
+<dict:field key="feeType" id="dict.course.feeInfo.cluFeeRecordInfoList.feeType" parent="dict.course.feeInfo.cluFeeRecordInfoList.feeType.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.feeType.fd.abstract" abstract="true">
+	<dict:name>course fee record list fee type</dict:name>
+	<dict:desc>course fee record type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.feeType.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.feeType.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.feeType.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.code"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="feeType" id="dict.course.feeInfo.cluFeeRecordInfoList.feeType.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.feeType.cd.abstract"/>
+
+<!-- ************************************************** -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.feeAmount -->
+<!-- ************************************************** -->
+<dict:field key="feeAmount" id="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.cd"/>
+</dict:field>
+<dict:field key="feeAmount" id="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount" parent="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.fd.abstract" abstract="true">
+	<dict:name>course fee record list fee amount</dict:name>
+	<dict:desc>course fee record fee amount</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="feeAmount" id="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.feeAmount.cd.abstract"/>
+
+<!-- ******************************************************* -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs -->
+<!-- ******************************************************* -->
+<dict:field key="affiliatedOrgInfoList" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.cd"/>
+</dict:field>
+<dict:field key="affiliatedOrgInfoList" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org List</dict:name>
+	<dict:desc>course fee record affiliated orgs</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs">
+		<dict:maxOccurs>20</dict:maxOccurs>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="affiliatedOrgInfoList" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.cd.abstract"/>
+
+<!-- ************************************************************* -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type -->
+<!-- ************************************************************* -->
+<dict:field key="rateType" id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.cd"/>
+<dict:dynamic>true</dict:dynamic>
+</dict:field>
+<dict:field key="rateType" id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type" parent="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.fd.abstract" abstract="true">
+	<dict:name>coruse fee record list dynamic attr rate type value</dict:name>
+	<dict:desc>course fee record dynamic attr rate type value</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.rate.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rateType" id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.attributes.rate.type.cd.abstract"/>
+
+<!-- ********************************************************** -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount -->
+<!-- ********************************************************** -->
+<dict:field key="amount" id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.cd"/>
+<dict:dynamic>true</dict:dynamic>
+</dict:field>
+<dict:field key="amount" id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount" parent="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.fd.abstract" abstract="true">
+	<dict:name>coruse fee record list dynamic attr amount value</dict:name>
+	<dict:desc>course fee record dynamic attr amount value</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="amount" id="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.attributes.amount.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList.id -->
+<!-- ******************************************* -->
+<dict:field key="id" id="dict.course.feeInfo.cluFeeRecordInfoList.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.course.feeInfo.cluFeeRecordInfoList.id" parent="dict.course.feeInfo.cluFeeRecordInfoList.id.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.id.fd.abstract" abstract="true">
+	<dict:name>course fee record list record ID</dict:name>
+	<dict:desc>course feeRecordListRecordId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.id.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.required"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.course.feeInfo.cluFeeRecordInfoList.id.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.id.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.course.feeInfo.cluFeeRecordInfoList -->
+<!-- **************************************** -->
+<dict:field key="cluFeeRecords" id="dict.course.feeInfo.cluFeeRecordInfoList.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.cluFeeRecordInfoList.cd"/>
+</dict:field>
+<dict:field key="cluFeeRecords" id="dict.course.feeInfo.cluFeeRecordInfoList" parent="dict.course.feeInfo.cluFeeRecordInfoList.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.fd.abstract" abstract="true">
+	<dict:name>course fee record list</dict:name>
+	<dict:desc>course feeRecordList</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.course.feeInfo.cluFeeRecordInfoList">
+		<dict:maxOccurs>20</dict:maxOccurs>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluFeeRecords" id="dict.course.feeInfo.cluFeeRecordInfoList.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.course.feeInfo.attributes.justification -->
+<!-- ******************************************** -->
+<dict:field key="justification" id="dict.course.feeInfo.attributes.justification.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.feeInfo.attributes.justification.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.feeInfo.attributes.justification.cd"/>
+<dict:dynamic>true</dict:dynamic>
+</dict:field>
+<dict:field key="justification" id="dict.course.feeInfo.attributes.justification" parent="dict.course.feeInfo.attributes.justification.abstract"/>
+<dict:fieldDescriptor id="dict.course.feeInfo.attributes.justification.fd.abstract" abstract="true">
+	<dict:name>coruse fee dynamic attr justification value</dict:name>
+	<dict:desc>course fee dynamic attr justfication value</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.feeInfo.attributes.justification.fd" parent="dict.course.feeInfo.attributes.justification.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.feeInfo.attributes.justification.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.course.feeInfo.attributes.justification">
+		<dict:maxLength>1000</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="justification" id="dict.course.feeInfo.attributes.justification.cd" parent="dict.course.feeInfo.attributes.justification.cd.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.(default) -->
+<!-- ******************************************************************************** -->
+<!-- Detailed information about accounting for a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse" parent="object.field.cluInfo.accountingInfo.CreditCourse.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse" parent="type.field.cluInfo.accountingInfo.CreditCourse.abstract"/>
+
+<!-- **************************************************************************************** -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.(default).(default).(default) -->
+<!-- **************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse" parent="state.field.cluInfo.accountingInfo.CreditCourse.abstract"/>
+
+
+<!-- ************************************************************************************************************************** -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.(default).affiliatedOrgInfoList.(default).(default) -->
+<!-- ************************************************************************************************************************** -->
+<!-- Information about an organization that is affiliated in some percentage with a learning unit. For when precision is needed to support counts or dollars. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList" parent="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList" parent="type.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract"/>
+
+<!-- ********************************************************************************************************************************** -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.(default).affiliatedOrgInfoList.(default).(default).(default).(default) -->
+<!-- ********************************************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs.orgId"/>
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs.expirationDate"/>
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs.percentage"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList" parent="state.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract"/>
+
+
+<!-- **************************************** -->
+<!-- dict.course.expInfo.affiliatedOrgs.orgId -->
+<!-- **************************************** -->
+<dict:field key="orgId" id="dict.course.expInfo.affiliatedOrgs.orgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.orgId.cd"/>
+</dict:field>
+<dict:field key="orgId" id="dict.course.expInfo.affiliatedOrgs.orgId" parent="dict.course.expInfo.affiliatedOrgs.orgId.abstract"/>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.orgId.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org ID</dict:name>
+	<dict:desc>course fee record affiliated org ID</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.orgId.fd" parent="dict.course.expInfo.affiliatedOrgs.orgId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.expInfo.affiliatedOrgs.orgId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.orgId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="orgId" id="dict.course.expInfo.affiliatedOrgs.orgId.cd" parent="dict.course.expInfo.affiliatedOrgs.orgId.cd.abstract"/>
+
+<!-- ************************************************ -->
+<!-- dict.course.expInfo.affiliatedOrgs.effectiveDate -->
+<!-- ************************************************ -->
+<!-- Not used, but needs to be set to an initial or default value. -->
+<dict:field key="effectiveDate" id="dict.course.expInfo.affiliatedOrgs.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.course.expInfo.affiliatedOrgs.effectiveDate" parent="dict.course.expInfo.affiliatedOrgs.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org Eff Date</dict:name>
+	<dict:desc>course fee record affiliated org effective date</dict:desc>
+	<dict:dataType>date</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.effectiveDate.fd" parent="dict.course.expInfo.affiliatedOrgs.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.expInfo.affiliatedOrgs.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.course.expInfo.affiliatedOrgs.effectiveDate.cd" parent="dict.course.expInfo.affiliatedOrgs.effectiveDate.cd.abstract"/>
+
+<!-- ************************************************* -->
+<!-- dict.course.expInfo.affiliatedOrgs.expirationDate -->
+<!-- ************************************************* -->
+<dict:field key="expirationDate" id="dict.course.expInfo.affiliatedOrgs.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.course.expInfo.affiliatedOrgs.expirationDate" parent="dict.course.expInfo.affiliatedOrgs.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.expirationDate.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org Exp Date</dict:name>
+	<dict:desc>course fee record affiliated org expiration date</dict:desc>
+	<dict:dataType>date</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.expirationDate.fd" parent="dict.course.expInfo.affiliatedOrgs.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.expInfo.affiliatedOrgs.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.course.expInfo.affiliatedOrgs.expirationDate.cd" parent="dict.course.expInfo.affiliatedOrgs.expirationDate.cd.abstract"/>
+
+<!-- ********************************************* -->
+<!-- dict.course.expInfo.affiliatedOrgs.percentage -->
+<!-- ********************************************* -->
+<!-- Wireframes and Design Spec show 2 digits after the decimal point. -->
+<dict:field key="percentage" id="dict.course.expInfo.affiliatedOrgs.percentage.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.percentage.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.percentage.cd"/>
+</dict:field>
+<dict:field key="percentage" id="dict.course.expInfo.affiliatedOrgs.percentage" parent="dict.course.expInfo.affiliatedOrgs.percentage.abstract"/>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.percentage.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org Percentage</dict:name>
+	<dict:desc>course fee record affiliated org percentage</dict:desc>
+	<dict:dataType>long</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.percentage.fd" parent="dict.course.expInfo.affiliatedOrgs.percentage.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.expInfo.affiliatedOrgs.percentage.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.integer"/>
+	<dict:constraintRef bean="constraint.required"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="percentage" id="dict.course.expInfo.affiliatedOrgs.percentage.cd" parent="dict.course.expInfo.affiliatedOrgs.percentage.cd.abstract"/>
+
+<!-- ********************************** -->
+<!-- dict.course.expInfo.affiliatedOrgs -->
+<!-- ********************************** -->
+<dict:field key="affiliatedOrgInfoList" id="dict.course.expInfo.affiliatedOrgs.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.expInfo.affiliatedOrgs.cd"/>
+</dict:field>
+<dict:field key="affiliatedOrgInfoList" id="dict.course.expInfo.affiliatedOrgs" parent="dict.course.expInfo.affiliatedOrgs.abstract"/>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.fd.abstract" abstract="true">
+	<dict:name>course fee record list affiliated Org List</dict:name>
+	<dict:desc>course fee record affiliated orgs</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.course.expInfo.affiliatedOrgs.fd" parent="dict.course.expInfo.affiliatedOrgs.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.expInfo.affiliatedOrgs.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.course.expInfo.affiliatedOrgs">
+		<dict:maxOccurs>20</dict:maxOccurs>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="affiliatedOrgInfoList" id="dict.course.expInfo.affiliatedOrgs.cd" parent="dict.course.expInfo.affiliatedOrgs.cd.abstract"/>
+
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.(default) -->
 <!-- ************************************************************************** -->
@@ -2370,32 +2968,58 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.template" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.template.abstract"/>
 
-<!-- ********************************************************************* -->
-<!-- object structure for object.field.cluInfo.desc.Credit Course.template -->
-<!-- ********************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.template.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.CreditCourse.template"/>
+<!-- ************************************************************************************ -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.template -->
+<!-- ************************************************************************************ -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.template" parent="object.field.cluInfo.desc.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.template.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.CreditCourse.template"/>
+		<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs.CreditCourse.template"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.template" parent="type.field.cluInfo.desc.CreditCourse.template.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.template" parent="type.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract"/>
 
-<!-- ***************************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Credit Course.template.(default).(default) -->
-<!-- ***************************************************************************** -->
+<!-- ******************************************************************************************** -->
+<!-- State for state.field.cluInfo.academicSubjectOrgs.Credit Course.template.(default).(default) -->
+<!-- ******************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.template.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.curriculum.oversight.orgId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.template" parent="state.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract"/>
+
+<!-- ********************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Credit Course.template -->
+<!-- ********************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.template.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.template"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.template" parent="object.field.cluInfo.descr.CreditCourse.template.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.template.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.descr.CreditCourse.template"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.template" parent="type.field.cluInfo.descr.CreditCourse.template.abstract"/>
+
+<!-- ****************************************************************************** -->
+<!-- State for state.field.cluInfo.descr.Credit Course.template.(default).(default) -->
+<!-- ****************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.template.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.template" parent="state.field.cluInfo.desc.CreditCourse.template.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.template" parent="state.field.cluInfo.descr.CreditCourse.template.abstract"/>
 
 <!-- ******************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.template -->
@@ -2450,6 +3074,59 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
 <dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.template" parent="state.field.cluInfo.stdDuration.CreditCourse.template.abstract"/>
+
+<!-- ************************************************************************ -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.template -->
+<!-- ************************************************************************ -->
+<!-- Detailed information associated with this CLU related to the calculation of fees. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.template.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.template"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.template" parent="object.field.cluInfo.feeInfo.CreditCourse.template.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.template.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.template"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.template" parent="type.field.cluInfo.feeInfo.CreditCourse.template.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.template.(default).(default) -->
+<!-- ******************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.template.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="dict.course.feeInfo.attributes.justification"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.template" parent="state.field.cluInfo.feeInfo.CreditCourse.template.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.template -->
+<!-- ******************************************************************************* -->
+<!-- Detailed information about accounting for a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.template.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.template"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.template" parent="object.field.cluInfo.accountingInfo.CreditCourse.template.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.template.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse.template"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.template" parent="type.field.cluInfo.accountingInfo.CreditCourse.template.abstract"/>
+
+<!-- *************************************************************************************** -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.template.(default).(default) -->
+<!-- *************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.template.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.template" parent="state.field.cluInfo.accountingInfo.CreditCourse.template.abstract"/>
 
 <!-- ************************************************************************* -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.template -->
@@ -2853,32 +3530,58 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="variation" id="dict.course.version.version.draft.cd" parent="dict.course.version.version.draft.cd.abstract"/>
 
-<!-- ****************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Credit Course.draft -->
-<!-- ****************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.draft.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.CreditCourse.draft"/>
+<!-- ********************************************************************************* -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.draft -->
+<!-- ********************************************************************************* -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.draft" parent="object.field.cluInfo.desc.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.draft.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.CreditCourse.draft"/>
+		<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs.CreditCourse.draft"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.draft" parent="type.field.cluInfo.desc.CreditCourse.draft.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.draft" parent="type.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract"/>
 
-<!-- ************************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Credit Course.draft.(default).(default) -->
-<!-- ************************************************************************** -->
+<!-- ***************************************************************************************** -->
+<!-- State for state.field.cluInfo.academicSubjectOrgs.Credit Course.draft.(default).(default) -->
+<!-- ***************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.draft.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.curriculum.oversight.orgId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.draft" parent="state.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract"/>
+
+<!-- ******************************************************************* -->
+<!-- object structure for object.field.cluInfo.descr.Credit Course.draft -->
+<!-- ******************************************************************* -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.draft"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.draft" parent="object.field.cluInfo.descr.CreditCourse.draft.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.draft.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.descr.CreditCourse.draft"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.draft" parent="type.field.cluInfo.descr.CreditCourse.draft.abstract"/>
+
+<!-- *************************************************************************** -->
+<!-- State for state.field.cluInfo.descr.Credit Course.draft.(default).(default) -->
+<!-- *************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.draft.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain.draft"/>
 	<dict:fieldRef bean="dict.course.desc.formatted.draft"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.draft" parent="state.field.cluInfo.desc.CreditCourse.draft.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.draft" parent="state.field.cluInfo.descr.CreditCourse.draft.abstract"/>
 
 
 <!-- **************************** -->
@@ -3017,6 +3720,59 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.valid.duration.types"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="atpDurationTypeKey" id="dict.course.duration.units.draft.cd" parent="dict.course.duration.units.draft.cd.abstract"/>
+
+<!-- ********************************************************************* -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.draft -->
+<!-- ********************************************************************* -->
+<!-- Detailed information associated with this CLU related to the calculation of fees. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.draft"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.draft" parent="object.field.cluInfo.feeInfo.CreditCourse.draft.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.draft.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.draft"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.draft" parent="type.field.cluInfo.feeInfo.CreditCourse.draft.abstract"/>
+
+<!-- ***************************************************************************** -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.draft.(default).(default) -->
+<!-- ***************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="dict.course.feeInfo.attributes.justification"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.draft" parent="state.field.cluInfo.feeInfo.CreditCourse.draft.abstract"/>
+
+<!-- **************************************************************************** -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.draft -->
+<!-- **************************************************************************** -->
+<!-- Detailed information about accounting for a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.draft"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.draft" parent="object.field.cluInfo.accountingInfo.CreditCourse.draft.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.draft.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse.draft"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.draft" parent="type.field.cluInfo.accountingInfo.CreditCourse.draft.abstract"/>
+
+<!-- ************************************************************************************ -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.draft.(default).(default) -->
+<!-- ************************************************************************************ -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.draft" parent="state.field.cluInfo.accountingInfo.CreditCourse.draft.abstract"/>
 
 <!-- ********************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.draft -->
@@ -3252,32 +4008,58 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="suffixCode" id="dict.course.cross-listed.numberPart.submitted.cd" parent="dict.course.cross-listed.numberPart.submitted.cd.abstract"/>
 
-<!-- ********************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Credit Course.submitted -->
-<!-- ********************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.submitted.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.CreditCourse.submitted"/>
+<!-- ************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.submitted -->
+<!-- ************************************************************************************* -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.submitted" parent="object.field.cluInfo.desc.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.submitted.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.CreditCourse.submitted"/>
+		<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.submitted" parent="type.field.cluInfo.desc.CreditCourse.submitted.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted" parent="type.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract"/>
 
-<!-- ****************************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Credit Course.submitted.(default).(default) -->
-<!-- ****************************************************************************** -->
+<!-- ********************************************************************************************* -->
+<!-- State for state.field.cluInfo.academicSubjectOrgs.Credit Course.submitted.(default).(default) -->
+<!-- ********************************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.submitted.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.curriculum.oversight.orgId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted" parent="state.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract"/>
+
+<!-- *********************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Credit Course.submitted -->
+<!-- *********************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.submitted.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.submitted"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.submitted" parent="object.field.cluInfo.descr.CreditCourse.submitted.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.submitted.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.descr.CreditCourse.submitted"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.submitted" parent="type.field.cluInfo.descr.CreditCourse.submitted.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- State for state.field.cluInfo.descr.Credit Course.submitted.(default).(default) -->
+<!-- ******************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.submitted.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.submitted" parent="state.field.cluInfo.desc.CreditCourse.submitted.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.submitted" parent="state.field.cluInfo.descr.CreditCourse.submitted.abstract"/>
 
 <!-- ********************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.submitted -->
@@ -3332,6 +4114,59 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
 <dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.submitted" parent="state.field.cluInfo.stdDuration.CreditCourse.submitted.abstract"/>
+
+<!-- ************************************************************************* -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.submitted -->
+<!-- ************************************************************************* -->
+<!-- Detailed information associated with this CLU related to the calculation of fees. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.submitted.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.submitted"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.submitted" parent="object.field.cluInfo.feeInfo.CreditCourse.submitted.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.submitted.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.submitted"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.submitted" parent="type.field.cluInfo.feeInfo.CreditCourse.submitted.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.submitted.(default).(default) -->
+<!-- ********************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.submitted.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="dict.course.feeInfo.attributes.justification"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.submitted" parent="state.field.cluInfo.feeInfo.CreditCourse.submitted.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.submitted -->
+<!-- ******************************************************************************** -->
+<!-- Detailed information about accounting for a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.submitted"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.submitted" parent="object.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse.submitted"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.submitted" parent="type.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract"/>
+
+<!-- **************************************************************************************** -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.submitted.(default).(default) -->
+<!-- **************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.submitted" parent="state.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.submitted -->
@@ -3566,32 +4401,58 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="suffixCode" id="dict.course.cross-listed.numberPart.withdrawn.cd" parent="dict.course.cross-listed.numberPart.withdrawn.cd.abstract"/>
 
-<!-- ********************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Credit Course.withdrawn -->
-<!-- ********************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.withdrawn.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.CreditCourse.withdrawn"/>
+<!-- ************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.withdrawn -->
+<!-- ************************************************************************************* -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.withdrawn" parent="object.field.cluInfo.desc.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.CreditCourse.withdrawn"/>
+		<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.withdrawn" parent="type.field.cluInfo.desc.CreditCourse.withdrawn.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn" parent="type.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract"/>
 
-<!-- ****************************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Credit Course.withdrawn.(default).(default) -->
-<!-- ****************************************************************************** -->
+<!-- ********************************************************************************************* -->
+<!-- State for state.field.cluInfo.academicSubjectOrgs.Credit Course.withdrawn.(default).(default) -->
+<!-- ********************************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.curriculum.oversight.orgId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn" parent="state.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract"/>
+
+<!-- *********************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Credit Course.withdrawn -->
+<!-- *********************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.withdrawn"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.withdrawn" parent="object.field.cluInfo.descr.CreditCourse.withdrawn.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.descr.CreditCourse.withdrawn"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.withdrawn" parent="type.field.cluInfo.descr.CreditCourse.withdrawn.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- State for state.field.cluInfo.descr.Credit Course.withdrawn.(default).(default) -->
+<!-- ******************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.withdrawn" parent="state.field.cluInfo.desc.CreditCourse.withdrawn.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.withdrawn" parent="state.field.cluInfo.descr.CreditCourse.withdrawn.abstract"/>
 
 <!-- ********************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.withdrawn -->
@@ -3646,6 +4507,59 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
 <dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.withdrawn" parent="state.field.cluInfo.stdDuration.CreditCourse.withdrawn.abstract"/>
+
+<!-- ************************************************************************* -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.withdrawn -->
+<!-- ************************************************************************* -->
+<!-- Detailed information associated with this CLU related to the calculation of fees. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.withdrawn"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.withdrawn"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.withdrawn" parent="type.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.withdrawn.(default).(default) -->
+<!-- ********************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="dict.course.feeInfo.attributes.justification"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.withdrawn" parent="state.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.withdrawn -->
+<!-- ******************************************************************************** -->
+<!-- Detailed information about accounting for a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.withdrawn"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse.withdrawn"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.withdrawn" parent="type.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract"/>
+
+<!-- **************************************************************************************** -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.withdrawn.(default).(default) -->
+<!-- **************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.withdrawn" parent="state.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.withdrawn -->
@@ -3880,32 +4794,58 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="suffixCode" id="dict.course.cross-listed.numberPart.rejected.cd" parent="dict.course.cross-listed.numberPart.rejected.cd.abstract"/>
 
-<!-- ********************************************************************* -->
-<!-- object structure for object.field.cluInfo.desc.Credit Course.rejected -->
-<!-- ********************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.rejected.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.CreditCourse.rejected"/>
+<!-- ************************************************************************************ -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.rejected -->
+<!-- ************************************************************************************ -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.rejected" parent="object.field.cluInfo.desc.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.rejected.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.CreditCourse.rejected"/>
+		<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.rejected" parent="type.field.cluInfo.desc.CreditCourse.rejected.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected" parent="type.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract"/>
 
-<!-- ***************************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Credit Course.rejected.(default).(default) -->
-<!-- ***************************************************************************** -->
+<!-- ******************************************************************************************** -->
+<!-- State for state.field.cluInfo.academicSubjectOrgs.Credit Course.rejected.(default).(default) -->
+<!-- ******************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.rejected.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.curriculum.oversight.orgId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected" parent="state.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract"/>
+
+<!-- ********************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Credit Course.rejected -->
+<!-- ********************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.rejected.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.rejected"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.rejected" parent="object.field.cluInfo.descr.CreditCourse.rejected.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.rejected.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.descr.CreditCourse.rejected"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.rejected" parent="type.field.cluInfo.descr.CreditCourse.rejected.abstract"/>
+
+<!-- ****************************************************************************** -->
+<!-- State for state.field.cluInfo.descr.Credit Course.rejected.(default).(default) -->
+<!-- ****************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.rejected.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.rejected" parent="state.field.cluInfo.desc.CreditCourse.rejected.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.rejected" parent="state.field.cluInfo.descr.CreditCourse.rejected.abstract"/>
 
 <!-- ******************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.rejected -->
@@ -3961,6 +4901,59 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:state>
 <dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.rejected" parent="state.field.cluInfo.stdDuration.CreditCourse.rejected.abstract"/>
 
+<!-- ************************************************************************ -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.rejected -->
+<!-- ************************************************************************ -->
+<!-- Detailed information associated with this CLU related to the calculation of fees. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.rejected.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.rejected"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.rejected" parent="object.field.cluInfo.feeInfo.CreditCourse.rejected.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.rejected.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.rejected"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.rejected" parent="type.field.cluInfo.feeInfo.CreditCourse.rejected.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.rejected.(default).(default) -->
+<!-- ******************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.rejected.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="dict.course.feeInfo.attributes.justification"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.rejected" parent="state.field.cluInfo.feeInfo.CreditCourse.rejected.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.rejected -->
+<!-- ******************************************************************************* -->
+<!-- Detailed information about accounting for a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.rejected"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.rejected" parent="object.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse.rejected"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.rejected" parent="type.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract"/>
+
+<!-- *************************************************************************************** -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.rejected.(default).(default) -->
+<!-- *************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.rejected" parent="state.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract"/>
+
 <!-- ************************************************************************* -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.rejected -->
 <!-- ************************************************************************* -->
@@ -4008,32 +5001,58 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired.abstract"/>
 
-<!-- ******************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Credit Course.retired -->
-<!-- ******************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.retired.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.CreditCourse.retired"/>
+<!-- *********************************************************************************** -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.retired -->
+<!-- *********************************************************************************** -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.retired" parent="object.field.cluInfo.desc.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.retired.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.CreditCourse.retired"/>
+		<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs.CreditCourse.retired"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.CreditCourse.retired" parent="type.field.cluInfo.desc.CreditCourse.retired.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.retired" parent="type.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract"/>
 
-<!-- **************************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Credit Course.retired.(default).(default) -->
-<!-- **************************************************************************** -->
+<!-- ******************************************************************************************* -->
+<!-- State for state.field.cluInfo.academicSubjectOrgs.Credit Course.retired.(default).(default) -->
+<!-- ******************************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.retired.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.curriculum.oversight.orgId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.academicSubjectOrgs.CreditCourse.retired" parent="state.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract"/>
+
+<!-- ********************************************************************* -->
+<!-- object structure for object.field.cluInfo.descr.Credit Course.retired -->
+<!-- ********************************************************************* -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.retired.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.retired"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.retired" parent="object.field.cluInfo.descr.CreditCourse.retired.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.retired.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.descr.CreditCourse.retired"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.retired" parent="type.field.cluInfo.descr.CreditCourse.retired.abstract"/>
+
+<!-- ***************************************************************************** -->
+<!-- State for state.field.cluInfo.descr.Credit Course.retired.(default).(default) -->
+<!-- ***************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.retired.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.retired" parent="state.field.cluInfo.desc.CreditCourse.retired.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.CreditCourse.retired" parent="state.field.cluInfo.descr.CreditCourse.retired.abstract"/>
 
 <!-- ******************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.retired -->
@@ -4088,6 +5107,59 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
 <dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.retired" parent="state.field.cluInfo.stdDuration.CreditCourse.retired.abstract"/>
+
+<!-- *********************************************************************** -->
+<!-- object structure for object.field.cluInfo.feeInfo.Credit Course.retired -->
+<!-- *********************************************************************** -->
+<!-- Detailed information associated with this CLU related to the calculation of fees. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.retired.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.retired"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.retired" parent="object.field.cluInfo.feeInfo.CreditCourse.retired.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.retired.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.feeInfo.CreditCourse.retired"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.retired" parent="type.field.cluInfo.feeInfo.CreditCourse.retired.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.Credit Course.retired.(default).(default) -->
+<!-- ******************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.retired.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="dict.course.feeInfo.attributes.justification"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.CreditCourse.retired" parent="state.field.cluInfo.feeInfo.CreditCourse.retired.abstract"/>
+
+<!-- ****************************************************************************** -->
+<!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.retired -->
+<!-- ****************************************************************************** -->
+<!-- Detailed information about accounting for a clu. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.retired.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.retired"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.retired" parent="object.field.cluInfo.accountingInfo.CreditCourse.retired.abstract"/>
+
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.retired.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.accountingInfo.CreditCourse.retired"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.retired" parent="type.field.cluInfo.accountingInfo.CreditCourse.retired.abstract"/>
+
+<!-- ************************************************************************************** -->
+<!-- State for state.field.cluInfo.accountingInfo.Credit Course.retired.(default).(default) -->
+<!-- ************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.retired.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.expInfo.affiliatedOrgs"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluInfo.accountingInfo.CreditCourse.retired" parent="state.field.cluInfo.accountingInfo.CreditCourse.retired.abstract"/>
 
 <!-- ************************************************************************ -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.retired -->
@@ -4424,9 +5496,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.official.internal.id.fd" parent="dict.course.format.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.format.official.internal.id.cd" parent="dict.course.format.official.internal.id.cd.abstract"/>
@@ -4961,9 +6034,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.official.internal.id.fd" parent="dict.program.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.program.official.internal.id.cd" parent="dict.program.official.internal.id.cd.abstract"/>
@@ -5275,39 +6349,40 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.version.internal.id.fd" parent="dict.program.version.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.version.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.program.version.internal.id.cd" parent="dict.program.version.internal.id.cd.abstract"/>
 
-<!-- **************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Program.(default) -->
-<!-- **************************************************************** -->
+<!-- ***************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Program.(default) -->
+<!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.Program"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.Program"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program" parent="object.field.cluInfo.desc.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program" parent="object.field.cluInfo.descr.Program.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.Program.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.descr.Program.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.Program"/>
+		<dict:stateRef bean="state.field.cluInfo.descr.Program"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.Program" parent="type.field.cluInfo.desc.Program.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.descr.Program" parent="type.field.cluInfo.descr.Program.abstract"/>
 
-<!-- ************************************************************************ -->
-<!-- State for state.field.cluInfo.desc.Program.(default).(default).(default) -->
-<!-- ************************************************************************ -->
+<!-- ************************************************************************* -->
+<!-- State for state.field.cluInfo.descr.Program.(default).(default).(default) -->
+<!-- ************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.Program.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.descr.Program.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.Program" parent="state.field.cluInfo.desc.Program.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.Program" parent="state.field.cluInfo.descr.Program.abstract"/>
 
 
 <!-- *********************** -->
@@ -5732,32 +6807,32 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.template" parent="object.field.cluInfo.alternateIdentifiers.Program.template.abstract"/>
 
-<!-- *************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Program.template -->
-<!-- *************************************************************** -->
+<!-- **************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Program.template -->
+<!-- **************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.template.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.Program.template"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.template.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.Program.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.template" parent="object.field.cluInfo.desc.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.template" parent="object.field.cluInfo.descr.Program.template.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.Program.template.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.descr.Program.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.Program.template"/>
+		<dict:stateRef bean="state.field.cluInfo.descr.Program.template"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.Program.template" parent="type.field.cluInfo.desc.Program.template.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.descr.Program.template" parent="type.field.cluInfo.descr.Program.template.abstract"/>
 
-<!-- *********************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Program.template.(default).(default) -->
-<!-- *********************************************************************** -->
+<!-- ************************************************************************ -->
+<!-- State for state.field.cluInfo.descr.Program.template.(default).(default) -->
+<!-- ************************************************************************ -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.Program.template.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.descr.Program.template.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.Program.template" parent="state.field.cluInfo.desc.Program.template.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.Program.template" parent="state.field.cluInfo.descr.Program.template.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.template -->
@@ -6103,32 +7178,32 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="variation" id="dict.program.version.version.draft.cd" parent="dict.program.version.version.draft.cd.abstract"/>
 
-<!-- ************************************************************ -->
-<!-- object structure for object.field.cluInfo.desc.Program.draft -->
-<!-- ************************************************************ -->
+<!-- ************************************************************* -->
+<!-- object structure for object.field.cluInfo.descr.Program.draft -->
+<!-- ************************************************************* -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.draft.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.Program.draft"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.draft.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.Program.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.draft" parent="object.field.cluInfo.desc.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.draft" parent="object.field.cluInfo.descr.Program.draft.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.Program.draft.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.descr.Program.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.Program.draft"/>
+		<dict:stateRef bean="state.field.cluInfo.descr.Program.draft"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.Program.draft" parent="type.field.cluInfo.desc.Program.draft.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.descr.Program.draft" parent="type.field.cluInfo.descr.Program.draft.abstract"/>
 
-<!-- ******************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Program.draft.(default).(default) -->
-<!-- ******************************************************************** -->
+<!-- ********************************************************************* -->
+<!-- State for state.field.cluInfo.descr.Program.draft.(default).(default) -->
+<!-- ********************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.Program.draft.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.descr.Program.draft.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain.draft"/>
 	<dict:fieldRef bean="dict.program.desc.formatted.draft"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.Program.draft" parent="state.field.cluInfo.desc.Program.draft.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.Program.draft" parent="state.field.cluInfo.descr.Program.draft.abstract"/>
 
 
 <!-- ***************************** -->
@@ -6411,32 +7486,32 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.submitted" parent="object.field.cluInfo.alternateIdentifiers.Program.submitted.abstract"/>
 
-<!-- **************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Program.submitted -->
-<!-- **************************************************************** -->
+<!-- ***************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Program.submitted -->
+<!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.submitted.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.Program.submitted"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.submitted.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.Program.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.submitted" parent="object.field.cluInfo.desc.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.submitted" parent="object.field.cluInfo.descr.Program.submitted.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.Program.submitted.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.descr.Program.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.Program.submitted"/>
+		<dict:stateRef bean="state.field.cluInfo.descr.Program.submitted"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.Program.submitted" parent="type.field.cluInfo.desc.Program.submitted.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.descr.Program.submitted" parent="type.field.cluInfo.descr.Program.submitted.abstract"/>
 
-<!-- ************************************************************************ -->
-<!-- State for state.field.cluInfo.desc.Program.submitted.(default).(default) -->
-<!-- ************************************************************************ -->
+<!-- ************************************************************************* -->
+<!-- State for state.field.cluInfo.descr.Program.submitted.(default).(default) -->
+<!-- ************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.Program.submitted.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.descr.Program.submitted.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.Program.submitted" parent="state.field.cluInfo.desc.Program.submitted.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.Program.submitted" parent="state.field.cluInfo.descr.Program.submitted.abstract"/>
 
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.submitted -->
@@ -6635,32 +7710,32 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.withdrawn" parent="object.field.cluInfo.alternateIdentifiers.Program.withdrawn.abstract"/>
 
-<!-- **************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Program.withdrawn -->
-<!-- **************************************************************** -->
+<!-- ***************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Program.withdrawn -->
+<!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.withdrawn.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.Program.withdrawn"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.withdrawn.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.Program.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.withdrawn" parent="object.field.cluInfo.desc.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.withdrawn" parent="object.field.cluInfo.descr.Program.withdrawn.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.Program.withdrawn.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.descr.Program.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.Program.withdrawn"/>
+		<dict:stateRef bean="state.field.cluInfo.descr.Program.withdrawn"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.Program.withdrawn" parent="type.field.cluInfo.desc.Program.withdrawn.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.descr.Program.withdrawn" parent="type.field.cluInfo.descr.Program.withdrawn.abstract"/>
 
-<!-- ************************************************************************ -->
-<!-- State for state.field.cluInfo.desc.Program.withdrawn.(default).(default) -->
-<!-- ************************************************************************ -->
+<!-- ************************************************************************* -->
+<!-- State for state.field.cluInfo.descr.Program.withdrawn.(default).(default) -->
+<!-- ************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.Program.withdrawn.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.descr.Program.withdrawn.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.Program.withdrawn" parent="state.field.cluInfo.desc.Program.withdrawn.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.Program.withdrawn" parent="state.field.cluInfo.descr.Program.withdrawn.abstract"/>
 
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.withdrawn -->
@@ -6859,32 +7934,32 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.rejected" parent="object.field.cluInfo.alternateIdentifiers.Program.rejected.abstract"/>
 
-<!-- *************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Program.rejected -->
-<!-- *************************************************************** -->
+<!-- **************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Program.rejected -->
+<!-- **************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.rejected.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.Program.rejected"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.rejected.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.Program.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.rejected" parent="object.field.cluInfo.desc.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.rejected" parent="object.field.cluInfo.descr.Program.rejected.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.Program.rejected.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.descr.Program.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.Program.rejected"/>
+		<dict:stateRef bean="state.field.cluInfo.descr.Program.rejected"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.Program.rejected" parent="type.field.cluInfo.desc.Program.rejected.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.descr.Program.rejected" parent="type.field.cluInfo.descr.Program.rejected.abstract"/>
 
-<!-- *********************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Program.rejected.(default).(default) -->
-<!-- *********************************************************************** -->
+<!-- ************************************************************************ -->
+<!-- State for state.field.cluInfo.descr.Program.rejected.(default).(default) -->
+<!-- ************************************************************************ -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.Program.rejected.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.descr.Program.rejected.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.Program.rejected" parent="state.field.cluInfo.desc.Program.rejected.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.Program.rejected" parent="state.field.cluInfo.descr.Program.rejected.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.rejected -->
@@ -7013,32 +8088,32 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.retired" parent="object.field.cluInfo.alternateIdentifiers.Program.retired.abstract"/>
 
-<!-- ************************************************************** -->
-<!-- object structure for object.field.cluInfo.desc.Program.retired -->
-<!-- ************************************************************** -->
+<!-- *************************************************************** -->
+<!-- object structure for object.field.cluInfo.descr.Program.retired -->
+<!-- *************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.retired.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.desc.Program.retired"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.retired.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.descr.Program.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.Program.retired" parent="object.field.cluInfo.desc.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.retired" parent="object.field.cluInfo.descr.Program.retired.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.desc.Program.retired.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.descr.Program.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.desc.Program.retired"/>
+		<dict:stateRef bean="state.field.cluInfo.descr.Program.retired"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.desc.Program.retired" parent="type.field.cluInfo.desc.Program.retired.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.descr.Program.retired" parent="type.field.cluInfo.descr.Program.retired.abstract"/>
 
-<!-- ********************************************************************** -->
-<!-- State for state.field.cluInfo.desc.Program.retired.(default).(default) -->
-<!-- ********************************************************************** -->
+<!-- *********************************************************************** -->
+<!-- State for state.field.cluInfo.descr.Program.retired.(default).(default) -->
+<!-- *********************************************************************** -->
 
-<dict:state key="*" id="state.field.cluInfo.desc.Program.retired.abstract" abstract="true">
+<dict:state key="*" id="state.field.cluInfo.descr.Program.retired.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.desc.Program.retired" parent="state.field.cluInfo.desc.Program.retired.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.descr.Program.retired" parent="state.field.cluInfo.descr.Program.retired.abstract"/>
 
 <!-- ************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.retired -->
@@ -7455,9 +8530,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.official.internal.id.fd" parent="dict.course.activity.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.activity.official.internal.id.cd" parent="dict.course.activity.official.internal.id.cd.abstract"/>
@@ -7944,26 +9020,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="alternateIdentifiers" id="dict.course.alternateIdentifiers.cd" parent="dict.course.alternateIdentifiers.cd.abstract"/>
 
-<!-- ******************************* -->
-<!-- dict.course.academicSubjectOrgs -->
-<!-- ******************************* -->
-<dict:field key="academicSubjectOrgs" id="dict.course.academicSubjectOrgs.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.academicSubjectOrgs.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.academicSubjectOrgs.cd"/>
+<!-- ******************************** -->
+<!-- dict.course.curriculum.oversight -->
+<!-- ******************************** -->
+<dict:field key="academicSubjectOrgs" id="dict.course.curriculum.oversight.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.curriculum.oversight.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.curriculum.oversight.cd"/>
 </dict:field>
-<dict:field key="academicSubjectOrgs" id="dict.course.academicSubjectOrgs" parent="dict.course.academicSubjectOrgs.abstract"/>
-<dict:fieldDescriptor id="dict.course.academicSubjectOrgs.fd.abstract" abstract="true">
-	<dict:name>course academicSubjectOrgs</dict:name>
-	<dict:desc>course ademicSubjectOrgs</dict:desc>
+<dict:field key="academicSubjectOrgs" id="dict.course.curriculum.oversight" parent="dict.course.curriculum.oversight.abstract"/>
+<dict:fieldDescriptor id="dict.course.curriculum.oversight.fd.abstract" abstract="true">
+	<dict:name>oversight orgs</dict:name>
+	<dict:desc>Course curriculumn oversight organizations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.academicSubjectOrgs.CreditCourse"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.academicSubjectOrgs.fd" parent="dict.course.academicSubjectOrgs.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.academicSubjectOrgs.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.curriculum.oversight.fd" parent="dict.course.curriculum.oversight.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.curriculum.oversight.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
-	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="academicSubjectOrgs" id="dict.course.academicSubjectOrgs.cd" parent="dict.course.academicSubjectOrgs.cd.abstract"/>
+<dict:constraintDescriptor key="academicSubjectOrgs" id="dict.course.curriculum.oversight.cd" parent="dict.course.curriculum.oversight.cd.abstract"/>
 
 <!-- **************************** -->
 <!-- dict.course.studySubjectArea -->
@@ -7990,16 +9066,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- **************** -->
 <!-- dict.course.desc -->
 <!-- **************** -->
-<dict:field key="desc" id="dict.course.desc.abstract" abstract="true">
+<dict:field key="descr" id="dict.course.desc.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.desc.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.desc.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.desc" parent="dict.course.desc.abstract"/>
+<dict:field key="descr" id="dict.course.desc" parent="dict.course.desc.abstract"/>
 <dict:fieldDescriptor id="dict.course.desc.fd.abstract" abstract="true">
 	<dict:name>course desc</dict:name>
 	<dict:desc>dscription</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.CreditCourse"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.descr.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.desc.fd" parent="dict.course.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.desc.cd.abstract" abstract="true">
@@ -8007,7 +9083,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.desc.cd" parent="dict.course.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.desc.cd" parent="dict.course.desc.cd.abstract"/>
 
 <!-- *************************** -->
 <!-- dict.course.campusLocations -->
@@ -8200,6 +9276,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.expirationDate.cd" parent="dict.course.expirationDate.cd.abstract"/>
 
@@ -8337,11 +9414,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ************************ -->
 <!-- dict.course.isEnrollable -->
 <!-- ************************ -->
-<dict:field key="isEnrollable" id="dict.course.isEnrollable.abstract" abstract="true">
+<dict:field key="enrollable" id="dict.course.isEnrollable.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.isEnrollable.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.isEnrollable.cd"/>
 </dict:field>
-<dict:field key="isEnrollable" id="dict.course.isEnrollable" parent="dict.course.isEnrollable.abstract"/>
+<dict:field key="enrollable" id="dict.course.isEnrollable" parent="dict.course.isEnrollable.abstract"/>
 <dict:fieldDescriptor id="dict.course.isEnrollable.fd.abstract" abstract="true">
 	<dict:name>course isEnrollable</dict:name>
 	<dict:desc>course isEnrollable</dict:desc>
@@ -8352,10 +9429,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.boolean"/>
-	<dict:constraintRef bean="constraint.default.true"/>
-	<dict:constraintRef bean="constraint.not.used"/>
+	<dict:constraintRef bean="constraint.default.false"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="isEnrollable" id="dict.course.isEnrollable.cd" parent="dict.course.isEnrollable.cd.abstract"/>
+<dict:constraintDescriptor key="enrollable" id="dict.course.isEnrollable.cd" parent="dict.course.isEnrollable.cd.abstract"/>
 
 <!-- ******************* -->
 <!-- dict.course.seasons -->
@@ -8479,35 +9555,35 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course feeInfo</dict:name>
 	<dict:desc>course feeInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.feeInfo.fd" parent="dict.course.feeInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.feeInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="feeInfo" id="dict.course.feeInfo.cd" parent="dict.course.feeInfo.cd.abstract"/>
 
-<!-- ************************** -->
-<!-- dict.course.accountingInfo -->
-<!-- ************************** -->
-<dict:field key="accountingInfo" id="dict.course.accountingInfo.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.accountingInfo.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.accountingInfo.cd"/>
+<!-- ******************* -->
+<!-- dict.course.expInfo -->
+<!-- ******************* -->
+<dict:field key="accountingInfo" id="dict.course.expInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.expInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.expInfo.cd"/>
 </dict:field>
-<dict:field key="accountingInfo" id="dict.course.accountingInfo" parent="dict.course.accountingInfo.abstract"/>
-<dict:fieldDescriptor id="dict.course.accountingInfo.fd.abstract" abstract="true">
+<dict:field key="accountingInfo" id="dict.course.expInfo" parent="dict.course.expInfo.abstract"/>
+<dict:fieldDescriptor id="dict.course.expInfo.fd.abstract" abstract="true">
 	<dict:name>course accountingInfo</dict:name>
 	<dict:desc>course accountingInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.CreditCourse"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.accountingInfo.fd" parent="dict.course.accountingInfo.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.accountingInfo.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.expInfo.fd" parent="dict.course.expInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.expInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="accountingInfo" id="dict.course.accountingInfo.cd" parent="dict.course.accountingInfo.cd.abstract"/>
+<dict:constraintDescriptor key="accountingInfo" id="dict.course.expInfo.cd" parent="dict.course.expInfo.cd.abstract"/>
 
 <!-- ********************* -->
 <!-- dict.course.eye.color -->
@@ -8548,8 +9624,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.meta.fd" parent="dict.course.meta.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.meta.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.meta.cd" parent="dict.course.meta.cd.abstract"/>
 
@@ -8614,9 +9692,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.internal.id.fd" parent="dict.course.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.internal.id.cd" parent="dict.course.internal.id.cd.abstract"/>
@@ -8624,16 +9703,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ************************* -->
 <!-- dict.course.desc.template -->
 <!-- ************************* -->
-<dict:field key="desc" id="dict.course.desc.template.abstract" abstract="true">
+<dict:field key="descr" id="dict.course.desc.template.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.desc.template.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.desc.template.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.desc.template" parent="dict.course.desc.template.abstract"/>
+<dict:field key="descr" id="dict.course.desc.template" parent="dict.course.desc.template.abstract"/>
 <dict:fieldDescriptor id="dict.course.desc.template.fd.abstract" abstract="true">
 	<dict:name>course desc</dict:name>
 	<dict:desc>dscription</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.CreditCourse.template"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.descr.CreditCourse.template"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.desc.template.fd" parent="dict.course.desc.template.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.desc.template.cd.abstract" abstract="true">
@@ -8641,7 +9720,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.optional"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.desc.template.cd" parent="dict.course.desc.template.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.desc.template.cd" parent="dict.course.desc.template.cd.abstract"/>
 
 <!-- ************************** -->
 <!-- dict.course.official.draft -->
@@ -8667,16 +9746,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ********************** -->
 <!-- dict.course.desc.draft -->
 <!-- ********************** -->
-<dict:field key="desc" id="dict.course.desc.draft.abstract" abstract="true">
+<dict:field key="descr" id="dict.course.desc.draft.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.desc.draft.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.desc.draft.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.desc.draft" parent="dict.course.desc.draft.abstract"/>
+<dict:field key="descr" id="dict.course.desc.draft" parent="dict.course.desc.draft.abstract"/>
 <dict:fieldDescriptor id="dict.course.desc.draft.fd.abstract" abstract="true">
 	<dict:name>course desc</dict:name>
 	<dict:desc>dscription</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.CreditCourse.draft"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.descr.CreditCourse.draft"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.desc.draft.fd" parent="dict.course.desc.draft.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.desc.draft.cd.abstract" abstract="true">
@@ -8684,7 +9763,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.optional"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.desc.draft.cd" parent="dict.course.desc.draft.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.desc.draft.cd" parent="dict.course.desc.draft.cd.abstract"/>
 
 <!-- ********************************* -->
 <!-- dict.course.campusLocations.draft -->
@@ -8855,6 +9934,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.expirationDate.retired.cd" parent="dict.course.expirationDate.retired.cd.abstract"/>
@@ -8947,11 +10027,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- *********************** -->
 <!-- dict.course.format.desc -->
 <!-- *********************** -->
-<dict:field key="desc" id="dict.course.format.desc.abstract" abstract="true">
+<dict:field key="descr" id="dict.course.format.desc.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.format.desc.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.format.desc.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.format.desc" parent="dict.course.format.desc.abstract"/>
+<dict:field key="descr" id="dict.course.format.desc" parent="dict.course.format.desc.abstract"/>
 <dict:fieldDescriptor id="dict.course.format.desc.fd.abstract" abstract="true">
 	<dict:name>course format desc</dict:name>
 	<dict:desc>course format desc</dict:desc>
@@ -8963,7 +10043,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.format.desc.cd" parent="dict.course.format.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.format.desc.cd" parent="dict.course.format.desc.cd.abstract"/>
 
 <!-- ********************************** -->
 <!-- dict.course.format.campusLocations -->
@@ -9152,6 +10232,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.format.expirationDate.cd" parent="dict.course.format.expirationDate.cd.abstract"/>
 
@@ -9287,11 +10368,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ******************************* -->
 <!-- dict.course.format.isEnrollable -->
 <!-- ******************************* -->
-<dict:field key="isEnrollable" id="dict.course.format.isEnrollable.abstract" abstract="true">
+<dict:field key="enrollable" id="dict.course.format.isEnrollable.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.format.isEnrollable.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.format.isEnrollable.cd"/>
 </dict:field>
-<dict:field key="isEnrollable" id="dict.course.format.isEnrollable" parent="dict.course.format.isEnrollable.abstract"/>
+<dict:field key="enrollable" id="dict.course.format.isEnrollable" parent="dict.course.format.isEnrollable.abstract"/>
 <dict:fieldDescriptor id="dict.course.format.isEnrollable.fd.abstract" abstract="true">
 	<dict:name>course format isEnrollable</dict:name>
 	<dict:desc>course format isEnrollable</dict:desc>
@@ -9302,9 +10383,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.boolean"/>
-	<dict:constraintRef bean="constraint.default.true"/>
+	<dict:constraintRef bean="constraint.default.false"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="isEnrollable" id="dict.course.format.isEnrollable.cd" parent="dict.course.format.isEnrollable.cd.abstract"/>
+<dict:constraintDescriptor key="enrollable" id="dict.course.format.isEnrollable.cd" parent="dict.course.format.isEnrollable.cd.abstract"/>
 
 <!-- ********************************** -->
 <!-- dict.course.format.offeredAtpTypes -->
@@ -9475,8 +10556,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.metaInfo.fd" parent="dict.course.format.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.format.metaInfo.cd" parent="dict.course.format.metaInfo.cd.abstract"/>
 
@@ -9542,9 +10625,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.internal.id.fd" parent="dict.course.format.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.format.internal.id.cd" parent="dict.course.format.internal.id.cd.abstract"/>
@@ -9637,16 +10721,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ***************** -->
 <!-- dict.program.desc -->
 <!-- ***************** -->
-<dict:field key="desc" id="dict.program.desc.abstract" abstract="true">
+<dict:field key="descr" id="dict.program.desc.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.program.desc.fd"/>
 	<dict:constraintDescriptorRef bean="dict.program.desc.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.program.desc" parent="dict.program.desc.abstract"/>
+<dict:field key="descr" id="dict.program.desc" parent="dict.program.desc.abstract"/>
 <dict:fieldDescriptor id="dict.program.desc.fd.abstract" abstract="true">
 	<dict:name>program desc</dict:name>
 	<dict:desc>dscription</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.Program"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.descr.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.desc.fd" parent="dict.program.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.desc.cd.abstract" abstract="true">
@@ -9654,7 +10738,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.program.desc.cd" parent="dict.program.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.program.desc.cd" parent="dict.program.desc.cd.abstract"/>
 
 <!-- **************************** -->
 <!-- dict.program.campusLocations -->
@@ -9846,6 +10930,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.program.expirationDate.cd" parent="dict.program.expirationDate.cd.abstract"/>
 
@@ -9984,11 +11069,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ************************* -->
 <!-- dict.program.isEnrollable -->
 <!-- ************************* -->
-<dict:field key="isEnrollable" id="dict.program.isEnrollable.abstract" abstract="true">
+<dict:field key="enrollable" id="dict.program.isEnrollable.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.program.isEnrollable.fd"/>
 	<dict:constraintDescriptorRef bean="dict.program.isEnrollable.cd"/>
 </dict:field>
-<dict:field key="isEnrollable" id="dict.program.isEnrollable" parent="dict.program.isEnrollable.abstract"/>
+<dict:field key="enrollable" id="dict.program.isEnrollable" parent="dict.program.isEnrollable.abstract"/>
 <dict:fieldDescriptor id="dict.program.isEnrollable.fd.abstract" abstract="true">
 	<dict:name>program isEnrollable</dict:name>
 	<dict:desc>program isEnrollable</dict:desc>
@@ -9999,10 +11084,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.boolean"/>
-	<dict:constraintRef bean="constraint.default.true"/>
-	<dict:constraintRef bean="constraint.not.used"/>
+	<dict:constraintRef bean="constraint.default.false"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="isEnrollable" id="dict.program.isEnrollable.cd" parent="dict.program.isEnrollable.cd.abstract"/>
+<dict:constraintDescriptor key="enrollable" id="dict.program.isEnrollable.cd" parent="dict.program.isEnrollable.cd.abstract"/>
 
 <!-- ******************** -->
 <!-- dict.program.seasons -->
@@ -10173,8 +11257,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.meta.fd" parent="dict.program.meta.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.meta.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.program.meta.cd" parent="dict.program.meta.cd.abstract"/>
 
@@ -10239,9 +11325,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.internal.id.fd" parent="dict.program.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.program.internal.id.cd" parent="dict.program.internal.id.cd.abstract"/>
@@ -10249,16 +11336,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ************************** -->
 <!-- dict.program.desc.template -->
 <!-- ************************** -->
-<dict:field key="desc" id="dict.program.desc.template.abstract" abstract="true">
+<dict:field key="descr" id="dict.program.desc.template.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.program.desc.template.fd"/>
 	<dict:constraintDescriptorRef bean="dict.program.desc.template.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.program.desc.template" parent="dict.program.desc.template.abstract"/>
+<dict:field key="descr" id="dict.program.desc.template" parent="dict.program.desc.template.abstract"/>
 <dict:fieldDescriptor id="dict.program.desc.template.fd.abstract" abstract="true">
 	<dict:name>program desc</dict:name>
 	<dict:desc>dscription</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.Program.template"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.descr.Program.template"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.desc.template.fd" parent="dict.program.desc.template.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.desc.template.cd.abstract" abstract="true">
@@ -10266,21 +11353,21 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.optional"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.program.desc.template.cd" parent="dict.program.desc.template.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.program.desc.template.cd" parent="dict.program.desc.template.cd.abstract"/>
 
 <!-- *********************** -->
 <!-- dict.program.desc.draft -->
 <!-- *********************** -->
-<dict:field key="desc" id="dict.program.desc.draft.abstract" abstract="true">
+<dict:field key="descr" id="dict.program.desc.draft.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.program.desc.draft.fd"/>
 	<dict:constraintDescriptorRef bean="dict.program.desc.draft.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.program.desc.draft" parent="dict.program.desc.draft.abstract"/>
+<dict:field key="descr" id="dict.program.desc.draft" parent="dict.program.desc.draft.abstract"/>
 <dict:fieldDescriptor id="dict.program.desc.draft.fd.abstract" abstract="true">
 	<dict:name>program desc</dict:name>
 	<dict:desc>dscription</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.Program.draft"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.descr.Program.draft"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.desc.draft.fd" parent="dict.program.desc.draft.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.desc.draft.cd.abstract" abstract="true">
@@ -10288,7 +11375,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.optional"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.program.desc.draft.cd" parent="dict.program.desc.draft.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.program.desc.draft.cd" parent="dict.program.desc.draft.cd.abstract"/>
 
 <!-- ********************************** -->
 <!-- dict.program.campusLocations.draft -->
@@ -10395,6 +11482,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.program.expirationDate.retired.cd" parent="dict.program.expirationDate.retired.cd.abstract"/>
@@ -10487,11 +11575,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ************************* -->
 <!-- dict.course.activity.desc -->
 <!-- ************************* -->
-<dict:field key="desc" id="dict.course.activity.desc.abstract" abstract="true">
+<dict:field key="descr" id="dict.course.activity.desc.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.activity.desc.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.activity.desc.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.activity.desc" parent="dict.course.activity.desc.abstract"/>
+<dict:field key="descr" id="dict.course.activity.desc" parent="dict.course.activity.desc.abstract"/>
 <dict:fieldDescriptor id="dict.course.activity.desc.fd.abstract" abstract="true">
 	<dict:name>course activity desc</dict:name>
 	<dict:desc>course activity desc</dict:desc>
@@ -10503,7 +11591,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.activity.desc.cd" parent="dict.course.activity.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.activity.desc.cd" parent="dict.course.activity.desc.cd.abstract"/>
 
 <!-- ************************************ -->
 <!-- dict.course.activity.campusLocations -->
@@ -10692,6 +11780,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.activity.expirationDate.cd" parent="dict.course.activity.expirationDate.cd.abstract"/>
 
@@ -10827,11 +11916,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ********************************* -->
 <!-- dict.course.activity.isEnrollable -->
 <!-- ********************************* -->
-<dict:field key="isEnrollable" id="dict.course.activity.isEnrollable.abstract" abstract="true">
+<dict:field key="enrollable" id="dict.course.activity.isEnrollable.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.activity.isEnrollable.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.activity.isEnrollable.cd"/>
 </dict:field>
-<dict:field key="isEnrollable" id="dict.course.activity.isEnrollable" parent="dict.course.activity.isEnrollable.abstract"/>
+<dict:field key="enrollable" id="dict.course.activity.isEnrollable" parent="dict.course.activity.isEnrollable.abstract"/>
 <dict:fieldDescriptor id="dict.course.activity.isEnrollable.fd.abstract" abstract="true">
 	<dict:name>course activity isEnrollable</dict:name>
 	<dict:desc>course activity isEnrollable</dict:desc>
@@ -10842,9 +11931,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.boolean"/>
-	<dict:constraintRef bean="constraint.default.true"/>
+	<dict:constraintRef bean="constraint.default.false"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="isEnrollable" id="dict.course.activity.isEnrollable.cd" parent="dict.course.activity.isEnrollable.cd.abstract"/>
+<dict:constraintDescriptor key="enrollable" id="dict.course.activity.isEnrollable.cd" parent="dict.course.activity.isEnrollable.cd.abstract"/>
 
 <!-- ************************************ -->
 <!-- dict.course.activity.offeredAtpTypes -->
@@ -11015,8 +12104,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.metaInfo.fd" parent="dict.course.activity.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.activity.metaInfo.cd" parent="dict.course.activity.metaInfo.cd.abstract"/>
 
@@ -11082,9 +12173,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.internal.id.fd" parent="dict.course.activity.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.activity.internal.id.cd" parent="dict.course.activity.internal.id.cd.abstract"/>

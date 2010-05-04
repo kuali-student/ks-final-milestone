@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-cfg-dbs</artifactId>
-    <version>1.0.0-m5-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>ks-embedded-db</artifactId>
   <name>KS Embedded Database</name>
@@ -15,6 +15,14 @@
     <ks.embedded.password>KSEMBEDDED</ks.embedded.password>
   </properties>
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources/impex</directory>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/generated-sql/impex</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.kuali.impex</groupId>
@@ -34,19 +42,19 @@
         </configuration>
         <dependencies>
           <dependency>
-            <groupId>org.kuali.student.db</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ks-core-db</artifactId>
-            <version>1.0.0-m5-SNAPSHOT</version>
+            <version>${project.version}</version>
           </dependency>
           <dependency>
-            <groupId>org.kuali.student.db</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ks-lum-db</artifactId>
-            <version>1.0.0-m5-SNAPSHOT</version>
+            <version>${project.version}</version>
           </dependency>
           <dependency>
-            <groupId>org.kuali.student.db</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ks-rice-db</artifactId>
-            <version>1.0.0-m5-SNAPSHOT</version>
+            <version>${project.version}</version>
           </dependency>
         </dependencies>
       </plugin>

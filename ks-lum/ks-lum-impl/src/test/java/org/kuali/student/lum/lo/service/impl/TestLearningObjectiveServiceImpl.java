@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lo.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -201,8 +216,177 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		// delete the one created so as to not mess up other tests
 		client.deleteLoCategory(newCatInfo.getId());
 	}	
-	
 
+    @Test
+    public void testDisallowLoWEmptyDesc() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
+        LoInfo loInfo = new LoInfo();
+        loInfo.setName("Lo with Empty Desc");
+        RichTextInfo richText = new RichTextInfo();
+        richText.setFormatted("<p> </p>");
+        richText.setPlain(" ");
+        loInfo.setDesc(richText);
+        Date date = new Date();
+        loInfo.setEffectiveDate(date);
+        loInfo.setExpirationDate(date);
+        loInfo.setLoRepositoryKey("kuali.loRepository.key.singleUse");
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("attrKey", "attrValue");
+        loInfo.setAttributes(attributes);
+        loInfo.setType("kuali.lo.type.singleUse");
+        loInfo.setState("draft");
+
+        try {
+        	 LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
+        	 assertNotNull(created);
+        	
+          // delete the one erroneously created so as to not mess up other tests
+        	 StatusInfo statusInfo = client.deleteLo(created.getId());
+             assertTrue(statusInfo.getSuccess());            
+             fail("OperationFailedException expected when creating Lo with empty description");
+        } catch (MissingParameterException mpe) {
+			// expected result
+		}
+      }
+    
+    @Test
+    public void testDisallowLoCategoryWEmptyDesc() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
+    	String catName = "DontDupThisCategorytest";
+		String catState = "active";
+		String catType = "loCategoryType.accreditation";
+		String catRepo = "kuali.loRepository.key.singleUse";
+		
+		LoCategoryInfo newCatInfo = new LoCategoryInfo();
+		newCatInfo.setName(catName);
+		newCatInfo.setType(catType);
+		newCatInfo.setState(catState);
+		newCatInfo.setLoRepository(catRepo);
+		
+		//Testing KSLAB-692
+	      RichTextInfo richText = new RichTextInfo();
+	      richText.setFormatted("<p> </p>");
+	      richText.setPlain("  ");
+	      newCatInfo.setDesc(richText);
+		
+		try{
+				newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
+				assertNotNull(newCatInfo);
+	        	
+	          // delete the one erroneously created so as to not mess up other tests
+	        	 StatusInfo statusInfo = client.deleteLoCategory(newCatInfo.getId());
+	             assertTrue(statusInfo.getSuccess());            
+	             fail("OperationFailedException expected when creating LoCategory with empty description");
+		} catch (MissingParameterException mpe) {
+			// expected result
+		}
+			
+    }
+       
+	/*
+	 * Creating an LoCategory with the same name (case insensitive), type & state
+	 */
+	
+	@Test
+	public void testDisallowLoCategoryDuplicationCaseInsensitive() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+		String catName = "DontDupThisCategory";
+		String catState = "active";
+		String catType = "loCategoryType.accreditation";
+		String catRepo = "kuali.loRepository.key.singleUse";
+		
+		LoCategoryInfo newCatInfo = new LoCategoryInfo();
+		newCatInfo.setName(catName);
+		newCatInfo.setType(catType);
+		newCatInfo.setState(catState);
+		newCatInfo.setLoRepository(catRepo);
+		
+		try{				
+			newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
+			newCatInfo = client.getLoCategory(newCatInfo.getId());
+			catName = newCatInfo.getName();
+			catRepo = newCatInfo.getLoRepository();
+		} catch (OperationFailedException ofe) {
+			System.err.println(ofe.getMessage());
+		} catch (Exception e){
+			System.err.println(e.getMessage());
+		}
+		
+		String dupCatName = "dontDupThisCategory";
+		LoCategoryInfo dupCatInfo = new LoCategoryInfo();
+		dupCatInfo.setName(dupCatName);
+		dupCatInfo.setType(catType);
+		dupCatInfo.setState(catState);
+		dupCatInfo.setLoRepository(catRepo);
+		
+		
+		try {
+			dupCatInfo = client.createLoCategory(catRepo, catType, dupCatInfo);
+			dupCatInfo = client.getLoCategory(dupCatInfo.getId());
+			dupCatName = dupCatInfo.getName();
+			
+			// delete the two (one erroneously) created so as to not mess up other tests
+			client.deleteLoCategory(newCatInfo.getId());
+			client.deleteLoCategory(dupCatInfo.getId());
+            fail("OperationFailedException expected when creating LoCategory with the same name, type and state");
+		} catch (OperationFailedException ofe) {
+			// expected result
+		}
+		// delete the one created so as to not mess up other tests
+		client.deleteLoCategory(newCatInfo.getId());
+	}	
+
+	/*
+	 * Updating a LoCategory with checking LoCategory duplication(based on name (case insensitive), type, state & repository
+	 */
+	
+	@Test
+	public void testUpdateLoCategoryDuplicationCaseInsensitive() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+		String catState = "active";
+		String catType = "loCategoryType.accreditation";
+		String catRepo = "kuali.loRepository.key.singleUse";
+		String catId1 = null;
+		String catId2 = null;
+		
+		LoCategoryInfo catInfo1 = new LoCategoryInfo();
+		catInfo1.setName( "DontDupThisCategory");
+		catInfo1.setType(catType);
+		catInfo1.setState(catState);
+		catInfo1.setLoRepository(catRepo);
+		
+		LoCategoryInfo catInfo2 = new LoCategoryInfo();
+		catInfo2.setName("DontDupThisCategory2");
+		catInfo2.setType(catType);
+		catInfo2.setState(catState);
+		catInfo2.setLoRepository(catRepo);
+		
+		try{				
+			catInfo1 = client.createLoCategory(catRepo, catType, catInfo1);
+			catId1 = catInfo1.getId();
+			
+			catInfo2 = client.createLoCategory(catRepo, catType, catInfo2);
+			catId2 = catInfo2.getId();
+		} catch (OperationFailedException ofe) {
+			System.err.println(ofe.getMessage());
+		} catch (Exception e){
+			System.err.println(e.getMessage());
+		}
+		
+		
+		try {
+			catInfo2.setName( "dontDupThisCategory");
+			catInfo2 = client.updateLoCategory(catId2, catInfo2);
+			
+	
+            fail("OperationFailedException expected when updating LoCategory with the same name, type and state");
+		} catch (OperationFailedException ofe) {
+			// expected result
+		}catch (VersionMismatchException e){
+			//expected for testing
+		}
+		
+		// delete the two created so as to not mess up other tests
+		client.deleteLoCategory(catId1);
+		client.deleteLoCategory(catId2);
+	}	
+	
     @Test
     public void testGetRelatedLosByLoId() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
     	List<LoInfo> relatedLos = null;
@@ -539,7 +723,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             client.updateLoCategory(categoryId, category);
             fail("VersionMismatchException expected");
         } catch (VersionMismatchException e) {}
-        
+           catch (OperationFailedException e) {}
+           
         // switch to new LoCategory id; new one was created when we changed its type
         String newCategoryId = updated.getId();
         

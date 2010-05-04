@@ -1,22 +1,18 @@
-/*
- * Copyright 2008 The Kuali Foundation
- * <p/>
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.opensource.org/licenses/ecl1.php
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * <p/>
- * User: hjohnson
- * Date: Nov 26, 2009
- * Time: 10:34:49 AM
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
@@ -54,6 +50,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -93,7 +90,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add");
 
     private KSLightBox createCategoryWindow;
-    Hyperlink browseCategoryLink = new Hyperlink("Browse categories", "BrowseCategories");
+    Hyperlink browseCategoryLink = new Hyperlink("Browse for categories", "BrowseCategories");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
         super();
@@ -120,7 +117,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final CategoryManagement categoryManagement = new CategoryManagement();
+                final CategoryManagement categoryManagement = new CategoryManagement(true,SelectionPolicy.MULTI_ROW);
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);
@@ -369,7 +366,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
          final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(
                  "lo.search.loCategories",
-                 "lo.queryParam.startsWith.loCategoryName",
+                 "lo.queryParam.loOptionalCategoryName",
                  "lo.queryParam.loCategoryId",
                  "lo.resultColumn.categoryId", 
          "lo.resultColumn.categoryNameAndType");
@@ -390,22 +387,11 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
          }
 
          private void init () {
-
              focus.addWidget(suggestBox);
-
              loSearchOracle.setTextWidget(suggestBox.getTextBox());
-//           final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-//           QueryParamValue luStateParam = new QueryParamValue();
-//           luStateParam.setKey("lu.queryParam.cluState");     
-//           luStateParam.setValue(STATE_ACTIVATED);
-//           params.add(luStateParam);
-//           luSearchOracle.setAdditionalQueryParams(params);
-
              main.add(suggestBox);
              initWidget(main);
          }
-
-
 
          @Override
          public String getValue() {

@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.util;
 
 import java.util.HashSet;
@@ -47,15 +48,36 @@ public class MessageUtils {
      * @return the interpolated message
      */
     public static String interpolate(String message, Map<String, Object> data) {
-        if (message != null) {
+        if (message != null && data != null) {
             Set<String> fields = findFields(message);
             for (String s : fields) {
-                message = message.replaceAll("\\$\\{" + s + "\\}", "" + escape(data.get(s).toString()));
+            	if(data.get(s) != null){
+            		message = message.replaceAll("\\$\\{" + s + "\\}", "" + escape(data.get(s).toString()));
+            	}
             }
         }
         return message;
     }
-
+    
+    /**
+     * Interpolates a message which requires only a single property replacement.
+     * 
+     * @param message
+     * @param parameter
+     * @param value
+     * @return the interpolated message
+     */
+    public static String interpolate(String message, String parameter, Object value){
+    	message = message.replaceAll("\\$\\{" + parameter + "\\}", "" + escape(value.toString()));
+    	return message;
+    }
+    
+    /**
+     * Adds an escape to all characters requiring an escape.
+     * 
+     * @param input
+     * @return the input string with characters escaped.
+     */
     private static String escape(String input) {
         char[] toEscape = {'\\', '$', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}'};
         for (char c : toEscape) {
@@ -63,6 +85,7 @@ public class MessageUtils {
         }
         return input;
     }
+    
     /**
      * Returns a Set<String> of all interpolation targets (fields) within a String.
      * 

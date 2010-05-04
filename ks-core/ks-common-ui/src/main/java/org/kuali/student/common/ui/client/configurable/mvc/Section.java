@@ -1,5 +1,5 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -12,13 +12,13 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -28,7 +28,6 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
@@ -166,62 +165,36 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         //If fieldDescriptor.getFieldWidget() is not implementing the
         //HasBlurHandlers. binding.bind does not do the bind.
         // how to deal with the special case
-        // FIXME wilj: validation needs to be reworked to use new model before this bug can be fixed
-/*        if (true) {
-            // for now just skip out
-            // I could just comment out the code, but then I wouldn't get the warning to fix it during refactor
-            return;
-        }*/
+
         ValidationEventBinding binding = new ValidationEventBindingImpl();
         if(fieldDescriptor.getValidationRequestCallback()== null){
             fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
-                	ModelDTO model = LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).getModel();
-                	if(model != null){
-                		//FIXME this is for backwards compatibility ONLY, tear this out later
-                        PropertyBinding pBinding = fieldDescriptor.getPropertyBinding();
-                        PropertyBinding wBinding = fieldDescriptor.getWidgetBinding();
-                        
-                        if (wBinding != null){
-                            Widget w = fieldDescriptor.getFieldWidget();
-                            pBinding.setValue(model, wBinding.getValue(w));
-                            GWT.log(model.toString(), null);
-                        } else {
-                            GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
-                        }
-                        LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).validate(Section.this);
-                	}
-                	else{
-                	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
-                	    if (mwb != null) {
-                	        final Widget w = fieldDescriptor.getFieldWidget();
-                            final LayoutController parent = LayoutController.findParentLayout(w);
-                            parent.requestModel(new ModelRequestCallback<DataModel>() {
+            	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
+            	    if (mwb != null) {
+            	        final Widget w = fieldDescriptor.getFieldWidget();
+                        final LayoutController parent = LayoutController.findParentLayout(w);
+                        parent.requestModel(new ModelRequestCallback<DataModel>() {
 
-                                @Override
-                                public void onModelReady(DataModel model) {
-                                    mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
-                                    ValidateRequestEvent e = new ValidateRequestEvent();
-                                    e.setFieldDescriptor(fieldDescriptor);
-                                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
-                                }
+                            @Override
+                            public void onModelReady(DataModel model) {
+                                mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
+                                ValidateRequestEvent e = new ValidateRequestEvent();
+                                e.setFieldDescriptor(fieldDescriptor);
+                                LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
+                            }
 
-                                @Override
-                                public void onRequestFail(Throwable cause) {
-                                    GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
-                                }
-                                
-                            });
-                        } else {
-                            GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
-                        }
-
-                	}
-                	
-                    
-
-                }
+                            @Override
+                            public void onRequestFail(Throwable cause) {
+                                GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+                            }
+                            
+                        });
+                    } else {
+                        GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
+                    }                	                   
+            }
             });
         }
         binding.bind(fieldDescriptor);

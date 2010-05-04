@@ -1,18 +1,18 @@
-/*
- * Copyright 2007 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.brms.ruleexecution.runtime.drools;
 
 import java.io.StringReader;
@@ -34,7 +34,7 @@ import org.kuali.student.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
-import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.brms.ruleexecution.runtime.RuleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
@@ -46,12 +46,12 @@ import org.kuali.student.brms.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
-    /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
-
+public class RuleSetExecutorDroolsImpl implements RuleExecutor, java.io.Serializable {
 	/** Class serial version uid */
     private static final long serialVersionUID = 1L;
+
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
 
     private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
@@ -74,24 +74,21 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     private final DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
     
     /**
-     * Constructs a new rule set executor.
+     * Constructs a new rule set executor with no logging.
      */
     public RuleSetExecutorDroolsImpl() {
     	this.logExecution = false;
     }
 
     /**
-     * Enables rule engine execution logging.
+     * Constructs a new rule set executor.
+     * 
+     * @param logExecution True execution logging is enabled; otherwise disabled
+     * @param statLogging True statistics logging is enabled; otherwise disabled
      */
-    public void setEnableExecutionLogging(boolean enable) {
-    	this.logExecution = enable;
-    }
-
-    /**
-     * Enables rule engine execution statistics logging.
-     */
-    public void setEnableStatLogging(boolean enable) {
-    	this.statLogging = enable;
+    public RuleSetExecutorDroolsImpl(boolean logExecution, boolean statLogging) {
+    	this.logExecution = logExecution;
+    	this.statLogging = statLogging;
     }
 
     /**
@@ -393,14 +390,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	KnowledgeBase knowledgeBase = ruleBaseCache.getKnowledgeBase(ruleBaseType);
         StatelessKnowledgeSession session = knowledgeBase.newStatelessKnowledgeSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
-        DroolsWorkingMemoryStatisticsLogger statLogger = null;
         
         if(this.logExecution) {
         	droolsLogger = new DroolsWorkingMemoryLogger(session, this.executionLog);
         }
         if(this.statLogging) {
-        	statLogger = new DroolsWorkingMemoryStatisticsLogger(
-        			session, ruleBaseType, this.executionStats);
+        	new DroolsWorkingMemoryStatisticsLogger(session, ruleBaseType, this.executionStats);
         }
         
         if(this.globalObjectMap != null && !this.globalObjectMap.isEmpty()) {
@@ -452,7 +447,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         return result;
     }
 
-    private class BusinessRuleInfoValue implements java.io.Serializable {
+    private static class BusinessRuleInfoValue implements java.io.Serializable {
     	/** Class serial version uid */
         private static final long serialVersionUID = 1L;
         

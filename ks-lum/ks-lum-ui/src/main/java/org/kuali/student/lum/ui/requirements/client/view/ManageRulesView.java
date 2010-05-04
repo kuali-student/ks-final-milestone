@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.List;
@@ -375,24 +376,17 @@ public class ManageRulesView extends ViewComposite {
         
         btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-            	getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
-
             	getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel dataModel) {
-                    	RuleInfo managedRule = model.getValue();
-                    	managedRule.setNaturalLanguage(naturalLanguage);  
-                    	
-                    	/*
-                    	LuData luData = (LuData)dataModel.getRoot();                  	
-                    	List<RuleInfo> ruleInfos = luData.getRuleInfos();                   
-                        for (RuleInfo origRuleInfo : ruleInfos) {
-                            if (origRuleInfo.getLuStatementTypeKey().equals(managedRule.getLuStatementTypeKey())) {              	
-                                ruleInfos.remove(origRuleInfo);
-                                ruleInfos.add(managedRule);
-                            }                
-                        } */
+                    	RuleInfo managedRule = model.getValue();                    	
                         
+                    	if (managedRule.getStatementVO() == null) {
+                    	    ((CourseReqManager)getController()).removeRule(managedRule); 
+                    	} else {
+                            managedRule.setNaturalLanguage(naturalLanguage);                     	    
+                    	}
+                    	
                         //switch to first page
                         getController().showView(PrereqViews.RULES_LIST, Controller.NO_OP_CALLBACK);
                     }
@@ -435,7 +429,7 @@ public class ManageRulesView extends ViewComposite {
         
         SimplePanel tempPanel = new SimplePanel();
         tempPanel.setStyleName("KS-Rules-FullWidth");
-        KSLabel preReqHeading = new KSLabel("Manage " + getRuleTypeName() + " Rules");
+        KSLabel preReqHeading = new KSLabel(getHeading());
         preReqHeading.setStyleName("KS-ReqMgr-Heading");
         tempPanel.add(preReqHeading);
         complexView.add(tempPanel);
@@ -614,13 +608,17 @@ public class ManageRulesView extends ViewComposite {
             } 
         }); 
     }
+
+    private String getHeading() {
+    	return "Manage " + getRuleTypeName() + " Rules";
+    }
     
     private String getRuleTypeName() {
     	String luStatementTypeKey = model.getValue().getSelectedStatementType();
-        if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
-        if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
-        if (luStatementTypeKey.contains("coreq")) return "Corequisite";
-        if (luStatementTypeKey.contains("antireq")) return "Antirequisite";
+        if (luStatementTypeKey.contains("enroll")) return RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ_TEXT;
+        if (luStatementTypeKey.contains("prereq")) return RuleConstants.KS_STATEMENT_TYPE_PREREQ_TEXT;
+        if (luStatementTypeKey.contains("coreq")) return RuleConstants.KS_STATEMENT_TYPE_COREQ_TEXT;
+        if (luStatementTypeKey.contains("antireq")) return RuleConstants.KS_STATEMENT_TYPE_ANTIREQ_TEXT;
         return "";
     }
 }

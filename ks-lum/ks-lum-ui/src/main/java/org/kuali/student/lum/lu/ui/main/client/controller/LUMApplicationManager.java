@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.ui.main.client.controller;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -24,11 +25,14 @@ import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CategoryManagementTable;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
+import org.kuali.student.lum.lu.ui.main.client.view.ActionListView;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
 
 import com.google.gwt.user.client.Window;
@@ -50,7 +54,12 @@ public class LUMApplicationManager extends Controller {
 	private Controller manageCluSetsController = null;
 	private DelegatingViewComposite manageCluSetsView;
 
+	private Controller browseCatalogController = null;
+	private DelegatingViewComposite browseCatalogView;
+
 	private boolean loaded = false;
+	
+	private View actionListView = new ActionListView(this, "Action List");
 
 	public LUMApplicationManager() {
 		super(LUMApplicationManager.class.getName());
@@ -83,18 +92,28 @@ public class LUMApplicationManager extends Controller {
 					Window.Location.assign("/j_spring_security_logout");
 				}
 			});
-
+			CategoryManagementTable.setDisplayOnlyActiveCategories();
 			loaded = true;
 		}
 	}
 
 	public enum LUMViews {
-		HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE, MODIFY_COURSE, CREATE_PROGRAM, MANAGE_CLU_SETS
+		ACTION_LIST,
+		HOME_MENU,
+		CREATE_COURSE,
+		EDIT_COURSE_PROPOSAL,
+		VIEW_COURSE,
+		MODIFY_COURSE,
+		CREATE_PROGRAM,
+		MANAGE_CLU_SETS,
+		BROWSE_COURSE_CATALOG
 	}
 
 	@Override
 	protected <V extends Enum<?>> View getView(V viewType) {
 		switch ((LUMViews) viewType) {
+			case ACTION_LIST:
+				return actionListView;
 			case HOME_MENU:
 				return homeMenuView;
 			case CREATE_COURSE:
@@ -114,6 +133,11 @@ public class LUMApplicationManager extends Controller {
 				manageCluSetsView = new DelegatingViewComposite(LUMApplicationManager.this, manageCluSetsController);
 				manageCluSetsController.showDefaultView(NO_OP_CALLBACK);
 				return manageCluSetsView;
+			case BROWSE_COURSE_CATALOG:
+				browseCatalogController = new CatalogBrowserController(this);
+				browseCatalogView = new DelegatingViewComposite(LUMApplicationManager.this, browseCatalogController);
+				browseCatalogController.showDefaultView(NO_OP_CALLBACK);
+				return browseCatalogView;
 			default:
 				return null;
 		}
@@ -184,6 +208,7 @@ public class LUMApplicationManager extends Controller {
 	@Override
 	public void showDefaultView(final Callback<Boolean> onReadyCallback) {
 		final String docId = Window.Location.getParameter("docId");
+		final String view = Window.Location.getParameter("view");
 		if (docId != null) {
 			ViewContext context = new ViewContext();
 			context.setId(docId);
@@ -191,8 +216,10 @@ public class LUMApplicationManager extends Controller {
 			context.setPermissionType(PermissionType.OPEN);
 			initCreateCourse(context);
 			this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
-		} else {
+		} else if (view != null && view.equals("curriculum")){
 			this.showView(LUMViews.HOME_MENU, onReadyCallback);
+		} else {
+			this.showView(LUMViews.ACTION_LIST, onReadyCallback);
 		}
 	}
 

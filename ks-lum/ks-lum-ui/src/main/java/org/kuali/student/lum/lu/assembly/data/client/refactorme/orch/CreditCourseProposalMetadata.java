@@ -100,6 +100,7 @@ public class CreditCourseProposalMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("course.proposal.types"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("proposal.types"));
 		}
 		
@@ -114,6 +115,7 @@ public class CreditCourseProposalMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("course.proposal.types"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("proposal.types"));
 		}
 		

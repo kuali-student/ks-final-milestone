@@ -1,29 +1,30 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.ui.main.client;
 
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.dictionary.DictionaryLoader;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
@@ -35,7 +36,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
-import com.google.gwt.user.client.ui.RootPanel;
 
 public class LUMMainEntryPoint implements EntryPoint{
 
@@ -45,33 +45,25 @@ public class LUMMainEntryPoint implements EntryPoint{
 
     @Override
     public void onModuleLoad() {
-        final ApplicationContext context = new ApplicationContext();
-        Application.setApplicationContext(context);
+        final ApplicationContext context = Application.getApplicationContext();
 
         final String injectString = LumTheme.INSTANCE.getLumCss().getCssString();
         StyleInjector.injectStylesheet(injectString);   
 
         try {
             loadMessages(context);            
-            
-            //loadDictionary();          
-            
+                                 
             loadApp(context);
         } catch (Exception e) {
             e.printStackTrace();
         } 
     }
 
-    private void loadDictionary() {
-        DictionaryLoader.loadDictionary("luTypes");
-        DictionaryLoader.loadDictionary("loTypes");
-    }
-
     private void initScreen(){
         app = new ApplicationComposite();
         manager = new LUMApplicationManager();
         app.setContent(manager);
-        RootPanel.get().add(app);
+        ApplicationPanel.get().add(app);
         HistoryManager.bind(manager);
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);

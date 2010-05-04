@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import java.util.List;
@@ -19,28 +34,6 @@ public class ValidationMessagePanel extends Composite{
 	
 	public ValidationMessagePanel(){
 		this.initWidget(listPanel);
-		this.addStyleName("ks-form-module-validation");
-	}
-	
-	@Deprecated
-	public void addMessages(List<ValidationResultInfo> list){
-		for(ValidationResultInfo vr: list){
-    		//HorizontalBlockFlowPanel validationLine = new HorizontalBlockFlowPanel();
-    		//VerticalFlowPanel imagePanel = new VerticalFlowPanel();
-    		KSLabel message = new KSLabel(vr.getMessage());
-    		listPanel.add(message);
-    		message.setWordWrap(true);
-    		if(vr.getLevel() == ErrorLevel.ERROR){
-    			message.addStyleName("ks-form-validation-label");
-    		}
-    		else if(vr.getLevel() == ErrorLevel.WARN){
-    			//message.addStyleName("KS-Validation-Warning-Message");
-    		}
-    		else{
-    			//message.addStyleName("KS-Validation-Ok-Message");
-    		}
-    		//message.addStyleName("KS-Validation-Message");
-        }
 		
 	}
 	

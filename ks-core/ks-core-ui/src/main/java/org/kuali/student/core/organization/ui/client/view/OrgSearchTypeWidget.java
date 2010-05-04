@@ -1,14 +1,28 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.view;
+
+import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
 import org.kuali.student.core.organization.ui.client.view.searchwidget.OrgAdvancedSearchRpc;
 import org.kuali.student.core.organization.ui.client.view.searchwidget.OrgThinTitleBar;
 
@@ -34,10 +48,10 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
     private enum SearchMode {
         BASIC, ADVANCED, CUSTOM
     }
-    
+
     //KS Advanced Search Window has 3 reusable areas:
     // - title bar e.g. "Find Organization" title on the left with CANCEL button at the far right
-    // - links "Basic", "Advanced", "Custom" 
+    // - links "Basic", "Advanced", "Custom"
     // - one or more fields
     // - SEARCH button on the left of a single field or at the bottom of multiple fields
     // - result table with one or more columns
@@ -46,13 +60,13 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
     private KSLightBox dialog = new KSLightBox();
     private VerticalPanel mainPanel = new VerticalPanel();
     private SimplePanel searchPanel = new SimplePanel();
-    
+
     private OrgThinTitleBar titleBar = null;
-    
+
     private final HorizontalPanel searchModeLinksPanel = new HorizontalPanel();  //holds search mode links
-    private KSLabel basicSearchLabel = new KSLabel("Basic Search");
-    private KSLabel advancedSearchLabel = new KSLabel("Advanced Search");
-    private KSLabel customSearchLabel = new KSLabel("Custom Search"); 
+    private KSLabel basicSearchLabel = new KSLabel(getLabel("orgSearchBasic"));
+    private KSLabel advancedSearchLabel = new KSLabel(getLabel("orgSearchAdvanced"));
+    private KSLabel customSearchLabel = new KSLabel(getLabel("orgSearchCustom"));
     private boolean basicSearchEnabled = true;
     private boolean customSearchEnabled = true;
     private SearchMode selectedSearchMode;
@@ -61,7 +75,7 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
     private OrgAdvancedSearchRpc advancedSearch;
     private OrgAdvancedSearchRpc basicSearch;
     private HandlerManager handlers = new HandlerManager(this);
-    
+
     /*
     private ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 
@@ -81,21 +95,21 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
             }
         }
     }); */
-    
+
     public OrgSearchTypeWidget(
-            BaseRpcServiceAsync basicSearchService, 
-            String basicSearchTypeKey, 
+            BaseRpcServiceAsync basicSearchService,
+            String basicSearchTypeKey,
             String basicSearchResultIdKey,
             BaseRpcServiceAsync advancedSearchService,
             String advancedSearchTypeKey,
             String advancedSearchResultIdKey){
         init(basicSearchService, basicSearchTypeKey, basicSearchResultIdKey,
-                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey);       
-    }    
-    
-    public OrgSearchTypeWidget(
-            BaseRpcServiceAsync basicSearchService, 
-            String basicSearchTypeKey, 
+                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey);
+    }
+
+public OrgSearchTypeWidget(
+            BaseRpcServiceAsync basicSearchService,
+            String basicSearchTypeKey,
             String basicSearchResultIdKey,
             BaseRpcServiceAsync advancedSearchService,
             String advancedSearchTypeKey,
@@ -104,33 +118,33 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
         this.basicSearchEnabled = basicSearchEnabled;
         this.customSearchEnabled = customSearchEnabled;
         init(basicSearchService, basicSearchTypeKey, basicSearchResultIdKey,
-                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey);       
+                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey);
     }
 
     public OrgSearchTypeWidget(
-            BaseRpcServiceAsync basicSearchService, 
-            String basicSearchTypeKey, 
+            BaseRpcServiceAsync basicSearchService,
+            String basicSearchTypeKey,
             String basicSearchResultIdKey,
             BaseRpcServiceAsync advancedSearchService,
             String advancedSearchTypeKey,
             String advancedSearchResultIdKey,
             String title){
         init(basicSearchService, basicSearchTypeKey, basicSearchResultIdKey,
-                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey);       
+                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey);
         titleBar.setTitle(title);
     }
-    
+
     private void init(
-            BaseRpcServiceAsync basicSearchService, 
-            String basicSearchTypeKey, 
+            BaseRpcServiceAsync basicSearchService,
+            String basicSearchTypeKey,
             String basicSearchResultIdKey,
             BaseRpcServiceAsync advancedSearchService,
             String advancedSearchTypeKey,
             String advancedSearchResultIdKey
             ){
-        
+
         addSearchModeHandlers();
-        
+
         RowRenderer<ResultRow> rowRenderer = new RowRenderer<ResultRow>() {
             @Override
             public void renderRowValue(ResultRow rowValue, TableDefinition.AbstractRowView<ResultRow> view) {
@@ -144,21 +158,21 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
             public void onSelection(SelectionEvent<List<String>> event) {
                 fireSelectEvent(event.getSelectedItem());
             }
-        }; 
+        };
         advancedSearch = new OrgAdvancedSearchRpc(
                 advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey,
                 "KS-Button-Tight-Button", rowRenderer, cellRenderer);
         advancedSearch.addSelectionHandler(selectionHandler);
         // "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId", "Find Organization");
-        basicSearch = new OrgAdvancedSearchRpc(basicSearchService, 
+        basicSearch = new OrgAdvancedSearchRpc(basicSearchService,
                 basicSearchTypeKey, basicSearchResultIdKey,
                 "KS-Button-Tight-Button", rowRenderer, cellRenderer);
         basicSearch.addSelectionHandler(selectionHandler);
 
         selectedSearchMode = SearchMode.BASIC;
         setSelectedSearchMode(selectedSearchMode);
-        
-        titleBar = new OrgThinTitleBar(Application.getApplicationContext().getMessage("advSearch"));
+
+        titleBar = new OrgThinTitleBar(getLabel("advSearch"));
         titleBar.addCancelButtonHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -166,25 +180,25 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
             }
         });
         mainPanel.add(titleBar);
-        
+
         //add links to different mode of search (basic, advanced, custom)
         searchModeLinksPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_LEFT);
         searchModeLinksPanel.setSpacing(10);
         if (basicSearchEnabled) {
-            searchModeLinksPanel.add(basicSearchLabel);          
+            searchModeLinksPanel.add(basicSearchLabel);
         }
-        searchModeLinksPanel.add(advancedSearchLabel);        
+        searchModeLinksPanel.add(advancedSearchLabel);
         if (customSearchEnabled) {
-            searchModeLinksPanel.add(customSearchLabel);         
+            searchModeLinksPanel.add(customSearchLabel);
         }
-        mainPanel.add(searchModeLinksPanel);        
+        mainPanel.add(searchModeLinksPanel);
         mainPanel.add(searchPanel);
 //        mainPanel.add(advancedSearch);
       //  mainPanel.add(buttonPanel);
 
         dialog.setWidget(mainPanel);
     }
-    
+
     private void addSearchModeHandlers() {
         basicSearchLabel.addClickHandler(new ClickHandler() {
             @Override
@@ -208,7 +222,7 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
             }
         });
     }
-    
+
     private void setSelectedSearchMode(SearchMode mode) {
         if (mode == SearchMode.BASIC) {
             basicSearchLabel.setStyleName("action-selected");
@@ -227,21 +241,21 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
             searchPanel.setWidget(advancedSearch);
         }
     }
-    
+
     public void show(){
     //    advancedSearch.reset();
         dialog.show();
     }
-    
+
     public void hide(){
         dialog.hide();
     }
-    
+
     //TODO re-enable this
 /*    public void setMultipleSelect(boolean enable){
         advancedSearch.setMultipleSelect(enable);
     }*/
-    
+
     @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<List<String>> handler) {
         return handlers.addHandler(SelectionEvent.getType(), handler);
@@ -254,7 +268,7 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>> {
     public void fireEvent(GwtEvent<?> event) {
         handlers.fireEvent(event);
     }
-    
+
     private void fireSelectEvent(List<String> selectedItems){
         SelectionEvent.fire(this, selectedItems);
     }
@@ -277,4 +291,5 @@ class SearchCellRenderer<RowType, ColType> extends DefaultCellRenderer<RowType, 
             view.setStyleAttribute("borderRight", "5px solid white");
         }
     }
+
 }

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.ruleexecution.runtime.drools.logging;
 
 import java.util.Collection;
@@ -5,8 +20,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DroolsExecutionStatistics {
-	private final static DroolsExecutionStatistics INSTANCE = new DroolsExecutionStatistics();
+public class DroolsExecutionStatistics implements java.io.Serializable {
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
+
+    private final static DroolsExecutionStatistics INSTANCE = new DroolsExecutionStatistics();
 	private Date startTime;
 	private Map<String,EventLogger> eventMap = new HashMap<String,EventLogger>();
 	
@@ -50,11 +68,14 @@ public class DroolsExecutionStatistics {
     	eventMap.get(key).addActivation(executionTime);
     }
     
-	public static class EventLogger {
-		private String ruleBaseType;
+	public static class EventLogger implements java.io.Serializable {
+		/** Class serial version uid */
+	    private static final long serialVersionUID = 1L;
+
+	    private String ruleBaseType;
 		private String packageName;
 		private String ruleName;
-		private int activationCount = 0;
+		private long activationCount = 0;
 		private long totalExecutionTime = 0;
 	
 		public EventLogger(String ruleBaseType, String packageName, String ruleName) {
@@ -80,7 +101,7 @@ public class DroolsExecutionStatistics {
 			this.totalExecutionTime += executionTime;
 		}
 		
-		public int getActivationCount() {
+		public long getActivationCount() {
 			return this.activationCount;
 		}
 		
@@ -90,11 +111,13 @@ public class DroolsExecutionStatistics {
 		 * @return Average rule execution time
 		 */
 		public double getAverageExecutionTime() {
-			return (this.totalExecutionTime / (this.activationCount));
+			return (double)this.totalExecutionTime / (double)this.activationCount;
 		}
 	}
 
-	public static class StatisticsLogger {
+	public static class StatisticsLogger implements java.io.Serializable {
+		/** Class serial version uid */
+	    private static final long serialVersionUID = 1L;
 
 		private int totalLogEventCount = 0;
 		private int totalActivationsFiredCount = 0;

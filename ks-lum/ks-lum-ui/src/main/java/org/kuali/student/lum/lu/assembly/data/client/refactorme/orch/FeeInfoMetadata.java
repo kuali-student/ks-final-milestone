@@ -22,7 +22,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper.Properties;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeRecordInfoHelper.Properties;
 
 
 public class FeeInfoMetadata
@@ -57,7 +57,7 @@ public class FeeInfoMetadata
 		
 		// metadata for Justification
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.JUSTIFICATION.getKey (), childMeta);
+		mainMeta.getProperties ().put (FeeInfoHelper.Properties.JUSTIFICATION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -69,7 +69,9 @@ public class FeeInfoMetadata
 			consMeta.setMaxLength (1000);
 			childMeta.getConstraints ().add (consMeta);
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			/*
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			*/
 		}
 		
 		// metadata for FixedRateFee

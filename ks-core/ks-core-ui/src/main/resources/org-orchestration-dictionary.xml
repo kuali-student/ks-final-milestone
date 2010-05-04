@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
@@ -23,8 +40,8 @@
 	<bean id="lookupQos" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupQosMetadata" />
 	<bean id="datatype.StringValue" abstract="true"
-		class="org.kuali.student.core.assembly.data.Data$StringValue" />	
-		
+		class="org.kuali.student.core.assembly.data.Data$StringValue" />
+
 	<!--Constraints Declarations		-->
 	<bean id="constraint.date.time" parent="constraint">
 		<property name="id" value="date.time" />
@@ -75,6 +92,21 @@
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="1" />
 	</bean>
+	<bean id="constraint.default.today" parent="constraint">
+		<property name="id" value="default.today" />
+		<property name="desc"
+			value="Defaults to TODAY, when the object is created" />
+		<property name="serverSide" value="true" />
+		<property name="comments" value="Not sure how to implement defaults" />
+	</bean>
+	<bean id="constraint.cross.greaterthan.effective.date" parent="constraint">
+		<property name="id" value="cross.greaterthan.effective.date"/>
+		<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>
+		<property name="desc" value="Must be empty or a date greater than the entity's effective date"/>
+		
+		<!-- This is a hack, since we don't have a well defined way to handle cross field constraints. -->
+		<property name="minValue" value="../effectiveDate"/>
+	</bean>
 	<bean id="OrgProposal-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="OrgProposal" />
 		<property name="fields">
@@ -93,6 +125,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="orgInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
@@ -105,6 +138,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="orgOrgRelationInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
@@ -117,6 +151,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="OrgPositionRestrictionInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
@@ -129,6 +164,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataObjectStructure" ref="orgPersonRelationInfo" />
 		<property name="dataType" value="DATA" />
+		<property name="canEdit" value="false" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
@@ -306,8 +342,9 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
 				<ref bean="constraint.date.time" />
-
+				<ref bean="constraint.cross.greaterthan.effective.date" />
 			</list>
 		</property>
 	</bean>
@@ -330,7 +367,7 @@
 		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.optional" />
+				<ref bean="constraint.required" />
 				<ref bean="constraint.single" />
 			</list>
 		</property>
@@ -338,52 +375,52 @@
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
 				<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
-				<property name="searchTypeId" value="org.search.generic" />					
+				<property name="searchTypeId" value="org.search.generic" />
 				<property name="name" value="Organization search" />
-				<property name="desc" value="Search for administrative department organization" />								
+				<property name="desc" value="Search for administrative department organization" />
 				<property name="widget" value="SUGGEST_BOX"/>
-				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />					
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
 				<property name="params">
 					<list>
 						<bean parent="param">   <!-- suggest box entry definition -->
 							<property name="key" value="org.queryParam.orgOptionalLongName" />
 							<property name="name" value="Organization Name" />
 							<property name="desc" value="Long organization name." />
-							<property name="writeAccess" value="ALWAYS" />							
+							<property name="writeAccess" value="ALWAYS" />
 							<property name="usage" value="DEFAULT" />
 						</bean>
 						<bean parent="param">   <!-- limit search to department organizations for this UI context -->
 							<property name="key" value="org.queryParam.orgOptionalType" />
 							<property name="name" value="Org Type" />
-							<property name="desc" value="Type of an organization." />						
-							<property name="writeAccess" value="NEVER" />									
+							<property name="desc" value="Type of an organization." />
+							<property name="writeAccess" value="NEVER" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="org.resultColumn.orgId" />
 				<property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-				<property name="resultSortKey" value="" />				
+				<property name="resultSortKey" value="" />
 				<property name="results">
 					<list>
 						<bean parent="result">
 							<property name="key" value="org.resultColumn.orgId" />
 							<property name="name" value="Organization Identifier" />
-							<property name="desc" value="Identifier for the organization" />													
+							<property name="desc" value="Identifier for the organization" />
 							<property name="dataType" value="STRING" />
-							<property name="hidden" value="false" />
+							<property name="hidden" value="true" />
 						</bean>
-						<!-- 
+						<!--
 						<bean parent="result">
 							<property name="key" value="org.resultColumn.orgShortName" />
 							<property name="name" value="Short Name" />
-							<property name="desc" value="Short name for the organization, recorded as the default listing." />													
+							<property name="desc" value="Short name for the organization, recorded as the default listing." />
 							<property name="dataType" value="STRING" />
 							<property name="hidden" value="false" />
 						</bean> -->
 						<bean parent="result">
 							<property name="key" value="org.resultColumn.orgOptionalLongName" />
-							<property name="name" value="Name" />						
+							<property name="name" value="Name" />
 							<property name="desc" value="Long name for the organization, recorded as the default listing." />
 							<property name="dataType" value="STRING" />
 							<property name="hidden" value="false" />
@@ -397,18 +434,18 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
-					<property name="searchTypeId" value="org.search.generic"/>										
+					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Find Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
-					<property name="widget" value="ADVANCED_LIGHTBOX"/>		
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
@@ -418,7 +455,7 @@
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
@@ -428,17 +465,17 @@
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
-							</bean>							
+							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
@@ -447,8 +484,8 @@
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
-								<property name="dataType" value="STRING"/>								
-								<property name="writeAccess" value="NEVER"/>							
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="NEVER"/>
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
@@ -456,33 +493,33 @@
 					</property>
 					<property name="resultReturnKey" value="org.resultColumn.orgId"/>
 					<property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName"/>
-					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>					
+					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
-								<property name="desc" value="Identifier for the organization"/>															
+								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
+								<property name="hidden" value="true"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
-								<property name="desc" value="Short name for the organization, recorded as the default listing"/>		
+								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
-								<property name="desc" value="Long name for the organization, recorded as the default listing."/>													
+								<property name="desc" value="Long name for the organization, recorded as the default listing."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
 						</list>
 					</property>
-				</bean>			
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -566,8 +603,9 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
 				<ref bean="constraint.date.time" />
-
+				<ref bean="constraint.cross.greaterthan.effective.date" />
 			</list>
 		</property>
 	</bean>
@@ -631,7 +669,7 @@
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
 							<property name="desc" value="Internal person id" />
-							<property name="hidden" value="false" />
+							<property name="hidden" value="true" />
 							<property name="key" value="person.resultColumn.PersonId" />
 							<property name="name" value="Person id" />
 						</bean>
@@ -709,7 +747,7 @@
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
 							<property name="desc" value="Internal person id" />
-							<property name="hidden" value="false" />
+							<property name="hidden" value="true" />
 							<property name="key" value="person.resultColumn.PersonId" />
 							<property name="name" value="Internal id" />
 						</bean>
@@ -850,6 +888,41 @@
 				<ref bean="constraint.required" />
 			</list>
 		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="id" value="kuali.org.personRelationType.dropdown" />
+				<property name="searchTypeId" value="org.search.orgPeronRelationTypes" />
+				<property name="name" value="Organization Person Relation Type" />
+				<property name="desc"
+					value="Search Types of Organization  Person Relation Type" />
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+				<property name="widget" value="DROP_DOWN" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgPersonRelationType" />
+							<property name="name" value="Org PersonRelation Type Id" />						
+							<property name="desc" value="Org PersonRelation Type Id" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgPersonRelationTypeName" />
+							<property name="name" value="Org PersonRelation Type Name" />
+							<property name="desc" value="Org PersonRelation Type Name" />													
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="org.resultColumn.orgPersonRelationType" />
+				<property name="resultDisplayKey" value="org.resultColumn.orgPersonRelationTypeName" />
+				<property name="resultSortKey" value="org.resultColumn.orgPersonRelationTypeName" />
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list />
+		</property>		
 	</bean>
 	<bean id="OrgPositionRestrictionInfo.desc" parent="dataFieldDescriptor">
 		<property name="name" value="desc" />
@@ -941,12 +1014,30 @@
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="DATE" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.default.today" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.date.time" />
+			</list>
+		</property>
+		
 	</bean>
 	<bean id="orgInfo.expirationDate" parent="dataFieldDescriptor">
 		<property name="name" value="expirationDate" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="DATE" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.date.time" />
+				<ref bean="constraint.cross.greaterthan.effective.date" />
+			</list>
+		</property>
 	</bean>
 	<bean id="orgInfo.longDesc" parent="dataFieldDescriptor">
 		<property name="name" value="longDesc" />
@@ -977,6 +1068,41 @@
 				<ref bean="constraint.required" />
 			</list>
 		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="id" value="kuali.org.type.dropdown" />
+				<property name="searchTypeId" value="org.search.orgTypes" />
+				<property name="name" value="Organization Type" />
+				<property name="desc"
+					value="Search Types of Organization" />
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
+				<property name="widget" value="DROP_DOWN" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgType" />
+							<property name="name" value="Org Type Id" />						
+							<property name="desc" value="Org Type Id" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="org.resultColumn.orgTypeName" />
+							<property name="name" value="OrgType Name" />
+							<property name="desc" value="OrgType Name" />													
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="org.resultColumn.orgType" />
+				<property name="resultDisplayKey" value="org.resultColumn.orgTypeName" />
+				<property name="resultSortKey" value="org.resultColumn.orgTypeName" />
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list />
+		</property>		
 	</bean>
 	<bean id="orgInfo.shortDesc" parent="dataFieldDescriptor">
 		<property name="name" value="shortDesc" />
@@ -989,6 +1115,12 @@
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
 	</bean>
 	<bean id="orgInfo._runtimeData" parent="dataFieldDescriptor">
 		<property name="name" value="_runtimeData" />
@@ -1011,7 +1143,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="orgSearchInfo.searchOrgs" parent="dataFieldDescriptor">
 		<property name="name" value="searchOrgs" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -1027,52 +1159,52 @@
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
 				<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
-				<property name="searchTypeId" value="org.search.generic" />					
+				<property name="searchTypeId" value="org.search.generic" />
 				<property name="name" value="Organization search" />
-				<property name="desc" value="Search for administrative department organization" />								
+				<property name="desc" value="Search for administrative department organization" />
 				<property name="widget" value="SUGGEST_BOX"/>
-				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />					
+				<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
 				<property name="params">
 					<list>
 						<bean parent="param">   <!-- suggest box entry definition -->
 							<property name="key" value="org.queryParam.orgOptionalLongName" />
 							<property name="name" value="Organization Name" />
 							<property name="desc" value="Long organization name." />
-							<property name="writeAccess" value="ALWAYS" />							
+							<property name="writeAccess" value="ALWAYS" />
 							<property name="usage" value="DEFAULT" />
 						</bean>
 						<bean parent="param">   <!-- limit search to department organizations for this UI context -->
 							<property name="key" value="org.queryParam.orgOptionalType" />
 							<property name="name" value="Org Type" />
-							<property name="desc" value="Type of an organization." />						
-							<property name="writeAccess" value="NEVER" />									
+							<property name="desc" value="Type of an organization." />
+							<property name="writeAccess" value="NEVER" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="org.resultColumn.orgId" />
 				<property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-				<property name="resultSortKey" value="" />				
+				<property name="resultSortKey" value="" />
 				<property name="results">
 					<list>
 						<bean parent="result">
 							<property name="key" value="org.resultColumn.orgId" />
 							<property name="name" value="Organization Identifier" />
-							<property name="desc" value="Identifier for the organization" />													
+							<property name="desc" value="Identifier for the organization" />
 							<property name="dataType" value="STRING" />
 							<property name="hidden" value="false" />
 						</bean>
-						<!-- 
+						<!--
 						<bean parent="result">
 							<property name="key" value="org.resultColumn.orgShortName" />
 							<property name="name" value="Short Name" />
-							<property name="desc" value="Short name for the organization, recorded as the default listing." />													
+							<property name="desc" value="Short name for the organization, recorded as the default listing." />
 							<property name="dataType" value="STRING" />
 							<property name="hidden" value="false" />
 						</bean> -->
 						<bean parent="result">
 							<property name="key" value="org.resultColumn.orgOptionalLongName" />
-							<property name="name" value="Name" />						
+							<property name="name" value="Name" />
 							<property name="desc" value="Long name for the organization, recorded as the default listing." />
 							<property name="dataType" value="STRING" />
 							<property name="hidden" value="false" />
@@ -1086,18 +1218,18 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
-					<property name="searchTypeId" value="org.search.generic"/>										
+					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Find Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
-					<property name="widget" value="ADVANCED_LIGHTBOX"/>		
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
@@ -1107,7 +1239,7 @@
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
@@ -1117,17 +1249,17 @@
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
-							</bean>							
+							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
-								<property name="dataType" value="STRING"/>								
+								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
@@ -1136,8 +1268,8 @@
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
-								<property name="dataType" value="STRING"/>								
-								<property name="writeAccess" value="NEVER"/>							
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="NEVER"/>
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
@@ -1145,36 +1277,35 @@
 					</property>
 					<property name="resultReturnKey" value="org.resultColumn.orgId"/>
 					<property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName"/>
-					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>					
+					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
-								<property name="desc" value="Identifier for the organization"/>															
+								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
+								<property name="hidden" value="true"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
-								<property name="desc" value="Short name for the organization, recorded as the default listing"/>		
+								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
-								<property name="desc" value="Long name for the organization, recorded as the default listing."/>													
+								<property name="desc" value="Long name for the organization, recorded as the default listing."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
 						</list>
 					</property>
-				</bean>			
+				</bean>
 			</list>
 		</property>
 	</bean>
 	<bean id="orgSearchInfo" parent="orgSearchInfo-parent" />
 </beans>
-		

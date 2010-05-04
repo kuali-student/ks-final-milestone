@@ -64,15 +64,15 @@ public class ObjectStructureInfoHelper
 	}
 	
 	
-	public void setType (Data value)
+	public void setType (TypeSelectorInfoHelper value)
 	{
-		data.set (Properties.TYPE.getKey (), value);
+		data.set (Properties.TYPE.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
-	public Data getType ()
+	public TypeSelectorInfoHelper getType ()
 	{
-		return (Data) data.get (Properties.TYPE.getKey ());
+		return TypeSelectorInfoHelper.wrap ((Data) data.get (Properties.TYPE.getKey ()));
 	}
 	
 	

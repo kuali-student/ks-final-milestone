@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
@@ -8,7 +23,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
 import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
-import org.kuali.student.brms.rulemanagement.dto.RulePropositionInfo;
 
 public class SimpleComparablePropositionTest {
 
@@ -21,7 +35,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-    	Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+    	Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -34,31 +48,31 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
     public void testSimpleComparableProposition_Integer() throws Exception {
     	SimpleComparableProposition<Integer> comparableProp = new SimpleComparableProposition<Integer>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Integer("100"), new Integer(100));
+    			ComparisonOperator.EQUAL_TO, Integer.valueOf("100"), Integer.valueOf(100));
 
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
     public void testSimpleComparableProposition_Long() throws Exception {
     	SimpleComparableProposition<Long> comparableProp = new SimpleComparableProposition<Long>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Long("1000000000000000000"), new Long(1000000000000000000l));
+    			ComparisonOperator.EQUAL_TO, Long.valueOf("1000000000000000000"), Long.valueOf(1000000000000000000l));
 
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -70,7 +84,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -83,7 +97,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -97,7 +111,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -111,7 +125,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -124,7 +138,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -138,7 +152,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
     
     @Test
@@ -152,6 +166,30 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
-		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
+		Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
+    }
+
+	@Test
+    public void testSimpleComparableProposition_Matches() throws Exception {
+    	SimpleComparableProposition<String> comparableProp = new SimpleComparableProposition<String>(
+    			"A-1", "A",
+    			ComparisonOperator.MATCHES, "^(\\d{5}(( |-)\\d{4})?)|", "90210-1234");
+
+    	Boolean result = comparableProp.apply();
+
+        Assert.assertTrue(result);
+    	Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
+    }
+    
+	@Test
+    public void testSimpleComparableProposition_NotMatches() throws Exception {
+    	SimpleComparableProposition<String> comparableProp = new SimpleComparableProposition<String>(
+    			"A-1", "A",
+    			ComparisonOperator.NOT_MATCHES, "^(\\d{5}(( |-)\\d{4})?)|", "90210xxx");
+
+    	Boolean result = comparableProp.apply();
+
+        Assert.assertTrue(result);
+    	Assert.assertTrue(comparableProp.getResultValues().contains(Boolean.TRUE));
     }
 }

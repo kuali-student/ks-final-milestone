@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-cfg-dbs</artifactId>
-    <version>1.0.0-m5-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>ks-lum-db</artifactId>
   <name>KS LUM Database</name>
@@ -17,10 +17,7 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/impex/data</directory>
-      </resource>
-      <resource>
-        <directory>src/main/impex/schema</directory>
+        <directory>src/main/resources/impex</directory>
       </resource>
       <resource>
         <directory>${project.build.directory}/generated-sql/impex</directory>
@@ -38,6 +35,7 @@
           <username>${ks.lum.username}</username>
           <password>${ks.lum.password}</password>
         </configuration>
+        <!-- 
         <executions>
           <execution>
             <id>generate-datadtd</id>
@@ -66,13 +64,7 @@
             </goals>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
-          </dependency>
-        </dependencies>
+ -->
       </plugin>
     </plugins>
   </build>

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.List;
@@ -109,7 +124,7 @@ public class OrgConfigurerFactory {
         VerticalSection orgInfo = new VerticalSection();
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-        orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgName",  getLabel(OrgConstants.REL_ORGNAME_LABEL_KEY), Type.STRING, new OrgButtonPicker()));
+        orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgName",  getLabel(OrgConstants.REL_ORGNAME_LABEL_KEY), Type.STRING,new OrgRelationTypePicker()));
         orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgId",  getLabel(OrgConstants.REL_ORGID_LABEL_KEY), Type.STRING));
         orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgRelType",  getLabel(OrgConstants.REL_TYPE_LABEL_KEY), Type.STRING, new OrgRelationTypePicker()));
         orgInfo.addField(new FieldDescriptor("orgOrgRelInfo/orgOrgEffDate",  getLabel(OrgConstants.REL_EFF_DATE_LABEL_KEY), Type.STRING));

@@ -1,42 +1,35 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
-public class OrgCocValuesFinder extends KeyValuesBase{
-    public static List<KeyLabelPair> findCocOrgs() {
-        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
+public class OrgCocValuesFinder extends StudentKeyValuesBase {
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
 
-        OrganizationService orgService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName(
-                        "http://student.kuali.org/wsdl/organization",
-                        "OrganizationService"));
+	public static List<KeyLabelPair> findCocOrgs() {
+        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
 
         List<String> types = new ArrayList<String>();
         types.add("kuali.org.College");
@@ -64,7 +57,7 @@ public class OrgCocValuesFinder extends KeyValuesBase{
         searchRequest.setParams(queryParamValues);
         
         try {
-            SearchResult results = orgService.search(searchRequest);
+            SearchResult results = getOrganizationService().search(searchRequest);
 
             for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
@@ -78,12 +71,12 @@ public class OrgCocValuesFinder extends KeyValuesBase{
                         orgShortName = resultCell.getValue();
                     }
                 }
-                // departments.add(new KeyLabelPair(orgId, orgShortName));
-                departments.add(new KeyLabelPair(orgShortName, orgShortName));
+                departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
             }
 
             return departments;
         } catch (Exception e) {
+        	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
         }
     }

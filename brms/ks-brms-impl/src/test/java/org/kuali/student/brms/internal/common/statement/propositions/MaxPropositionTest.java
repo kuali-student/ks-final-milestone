@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
@@ -23,7 +38,7 @@ public class MaxPropositionTest {
     	MaxProposition<String> maxProp = new MaxProposition<String>(
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO, 
-    			new String("5"), fact, "resultColumn.credits");
+    			"5", fact, "resultColumn.credits");
 
     	Boolean result = maxProp.apply();
 
@@ -74,7 +89,7 @@ public class MaxPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Integer number = new Integer(5);
+    	Integer number = Integer.valueOf(5);
     	MaxProposition<Integer> maxProp = new MaxProposition<Integer>(
     			"A-1", "A", ComparisonOperator.EQUAL_TO, number, 
     			fact, "resultColumn.credits");
@@ -92,7 +107,7 @@ public class MaxPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Long number = new Long(5);
+    	Long number = Long.valueOf(5);
     	MaxProposition<Long> maxProp = new MaxProposition<Long>(
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO, number, 

@@ -62,7 +62,7 @@ public class StatusInfoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("boolean"));
 		}
 		
 		recursions.increment (this.getClass ().getName ());

@@ -1,23 +1,22 @@
-/*
- * Copyright 2007 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import java.util.Map;
 
 import org.kuali.student.brms.factfinder.dto.FactResultInfo;
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
+import org.kuali.student.brms.internal.common.statement.regex.RegularExpression;
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 
 /**
@@ -36,7 +36,7 @@ import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
  */
 public abstract class AbstractProposition<T> implements Proposition {
 
-    // ~ Instance fields --------------------------------------------------------
+    // ~ Instance fields -------------------------------------------------------
     protected Boolean result = false;
     protected String id;
     protected String propositionName;
@@ -52,9 +52,16 @@ public abstract class AbstractProposition<T> implements Proposition {
     
     private final Map<String,Object> contextMap = new HashMap<String, Object>();
     
-    // ~ Constructors -----------------------------------------------------------
+    private RegularExpression regex = new RegEx();
+    
+    private final static class RegEx implements RegularExpression {
+		public Boolean matches(String regex, String s) {
+			return s.matches(regex);
+		}
+    }
+    
+    // ~ Constructor -----------------------------------------------------------
     public AbstractProposition() {
-        super();
     }
 
     /**
@@ -63,7 +70,7 @@ public abstract class AbstractProposition<T> implements Proposition {
      * @param id Proposition identifier
      * @param propositionName Proposition name
      * @param type Proposition type
-     * @param operator Boolean operator (<,>,<=,>=,=)
+     * @param operator Boolean operator (<,>,<=,>=,=,!=,matches,not matches)
      * @param expectedValue Expected value
      * @param ruleProposition Rule proposition
      */
@@ -82,54 +89,65 @@ public abstract class AbstractProposition<T> implements Proposition {
         this.factColumn = factColumn;
     }
 
-    protected Boolean checkTruthValue(Comparable<T> computedValue, T expectedValue) {
-        if (!(computedValue instanceof Comparable) || !(expectedValue instanceof Comparable)) {
-            throw new IllegalArgumentException("Both computed value and expected values have to implement java.lang.Comparable.");
-        }
-
-        int compareValue = computedValue.compareTo(expectedValue);
-        return compare(compareValue);
+    /**
+     * Sets a regular expression class. This is optional.<br/> 
+     * Default <a href="../util/regex/Pattern.html#sum">regular expression</a> 
+     * uses Java's {@link java.lang.String#matches(String)}
+     * 
+     * @param regex Regular expression class
+     */
+    public void setRegularExpression(RegularExpression regex) {
+    	this.regex = regex;
     }
 
     protected Boolean checkTruthValue(Comparable<T> computedValue) {
-        if (!(computedValue instanceof Comparable) || !(expectedValue instanceof Comparable)) {
-            throw new IllegalArgumentException("Both computed value and expected values have to implement java.lang.Comparable.");
+        if (!(computedValue instanceof Comparable<?>) || !(expectedValue instanceof Comparable<?>)) {
+            throw new IllegalArgumentException("Both computed value and expected values must implement java.lang.Comparable.");
         }
 
-        int compareValue = computedValue.compareTo(this.expectedValue);
-        return compare(compareValue);
+        return compare(computedValue);
     }
 
-    protected Boolean checkTruthValue(Comparator<T> comparator, T computedValue, T expectedValue) {
-        int compareValue = comparator.compare(computedValue, expectedValue);
-        return compare(compareValue);
-    }
-
-    private Boolean compare(int compareValue) {
-        Boolean truthValue = false;
+    private Boolean compare(Comparable<T> computedValue) {
+    	int compareValue = 999;
+    	Boolean truthValue = false;
         switch (this.operator) {
 	        case EQUAL_TO:
+	            compareValue = computedValue.compareTo(this.expectedValue);
 	            truthValue = (compareValue == 0);
 	            break;
 	        case LESS_THAN:
+	            compareValue = computedValue.compareTo(this.expectedValue);
 	            truthValue = (compareValue == -1);
 	            break;
 	        case LESS_THAN_OR_EQUAL_TO:
+	            compareValue = computedValue.compareTo(this.expectedValue);
 	            truthValue = (compareValue == 0 || compareValue == -1);
 	            break;
 	        case GREATER_THAN:
+	            compareValue = computedValue.compareTo(this.expectedValue);
 	            truthValue = (compareValue == 1);
 	            break;
 	        case GREATER_THAN_OR_EQUAL_TO:
+	            compareValue = computedValue.compareTo(this.expectedValue);
 	            truthValue = (compareValue == 0 || compareValue == 1);
 	            break;
 	        case NOT_EQUAL_TO:
+	            compareValue = computedValue.compareTo(this.expectedValue);
 	            truthValue = (compareValue != 0);
 	            break;
+	        case MATCHES:
+	        	truthValue = this.regex.matches(this.expectedValue.toString(), computedValue.toString());
+	        	break;
+	        case NOT_MATCHES:
+	        	truthValue = !this.regex.matches(this.expectedValue.toString(), computedValue.toString());
+	            break;
+	        default: 
+	        	throw new IllegalStateException("Invalid comparison operator: " + this.operator);
         }
 	    return truthValue;
     }
-    
+
     protected void addMessageContext(String token, Object value) {
     	this.contextMap.put(token, value);
     }
@@ -164,7 +182,7 @@ public abstract class AbstractProposition<T> implements Proposition {
     /**
      * Executes the proposition rule.
      */
-    public abstract Boolean apply();
+    //public abstract Boolean apply();
 
     /**
      * @return the result

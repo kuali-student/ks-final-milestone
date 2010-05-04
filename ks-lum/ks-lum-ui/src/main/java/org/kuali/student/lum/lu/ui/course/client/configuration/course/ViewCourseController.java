@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.List;
@@ -35,17 +36,22 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.widgets.ViewCourseActionList;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -64,16 +70,22 @@ public class ViewCourseController extends TabbedSectionLayout {
     private String cluType = "kuali.lu.type.CreditCourse";
     private String courseId = null;
     
-    private final String CLU_STATE = "active";
-    private final String CLU_ID_KEY   = "course/id";
+    private static final String CLU_STATE = "active";
+    private static final String COURSE_CODE_PATH   = "courseCode";
     
     private final String REFERENCE_TYPE = "referenceType.clu";
     private boolean initialized = false;
     CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
     
-    final KSLightBox progressWindow = new KSLightBox();
+//    final KSLightBox progressWindow = new KSLightBox();
+    
+	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
+	private BlockingTask initTask = new BlockingTask("Initializing....");
 
     private static KSTitleContainerImpl layoutTitle = new KSTitleContainerImpl("View Course");
+    
+    private ViewCourseActionList actionToolbar;
+    
             
     public ViewCourseController(){
         super(ViewCourseController.class.getName(), layoutTitle);
@@ -127,9 +139,9 @@ public class ViewCourseController extends TabbedSectionLayout {
                 requestModel(new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultContainer>>() {
+                        model.validate(new Callback<List<ValidationResultInfo>>() {
                             @Override
-                            public void exec(List<ValidationResultContainer> result) {
+                            public void exec(List<ValidationResultInfo> result) {
                                 ValidateResultEvent e = new ValidateResultEvent();
                                 e.setValidationResult(result);
                                 fireApplicationEvent(e);
@@ -146,25 +158,27 @@ public class ViewCourseController extends TabbedSectionLayout {
             }
             
         });
+        actionToolbar = new ViewCourseActionList(createActionSubmitSuccessHandler());
+        actionToolbar.setCourseCodePath(COURSE_CODE_PATH);
+//        actionToolbar.setRequiredFieldPaths(new String[]{"course/department"});
+        actionToolbar.setRpcService(rpcServiceAsync);
+        this.addToolbar(actionToolbar);
+
     }
    
     private void init(final Callback<Boolean> onReadyCallback) {
-        KSProgressIndicator progressInd = new KSProgressIndicator();
-        progressInd.setText("Loading");
-        progressInd.show();
-        progressWindow.setWidget(progressInd);
 
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
-            progressWindow.show();
+        	KSBlockingProgressIndicator.addTask(initTask);
             rpcServiceAsync.getMetadata("", "", 
                     new AsyncCallback<Metadata>(){
     
                         @Override
                         public void onFailure(Throwable caught) {
                             onReadyCallback.exec(false);
-                            progressWindow.hide();
+                        	KSBlockingProgressIndicator.removeTask(initTask);
                             throw new RuntimeException("Failed to get model definition.", caught);                        
                         }
     
@@ -175,14 +189,14 @@ public class ViewCourseController extends TabbedSectionLayout {
                             init(def);
                             initialized = true;
                             onReadyCallback.exec(true);
-                            progressWindow.hide();
+                        	KSBlockingProgressIndicator.removeTask(initTask);
                         }                
                 });
             
         }
     }
     private void init(DataModelDefinition modelDefinition){
-        ViewCourseConfigurer cfg = new ViewCourseConfigurer();
+        ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
         super.setUpdateableSection(false);
 
         cfg.setModelDefinition(modelDefinition);
@@ -236,14 +250,15 @@ public class ViewCourseController extends TabbedSectionLayout {
        
     @SuppressWarnings("unchecked")    
     private void getCourseFromCluId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        progressWindow.show();
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
+
         rpcServiceAsync.getData(courseId, new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Error loading Course: "+caught.getMessage());
                 createNewCluModel(callback, workCompleteCallback);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
             }
 
             @Override
@@ -252,7 +267,7 @@ public class ViewCourseController extends TabbedSectionLayout {
                 getContainer().setTitle(getSectionTitle());
                 callback.onModelReady(cluModel);
                 workCompleteCallback.exec(true);
-                progressWindow.hide();
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
             }
 
         });
@@ -280,7 +295,6 @@ public class ViewCourseController extends TabbedSectionLayout {
         if (cluModel != null){
             this.cluModel.setRoot(new LuData());            
         }
-        this.setModelDTO(null, null);
         this.courseId = null;
     }
     
@@ -317,11 +331,22 @@ public class ViewCourseController extends TabbedSectionLayout {
     protected  String getSectionTitle() {
                
     	StringBuffer sb = new StringBuffer();
-    	sb.append(cluModel.get("fees/0/attributes/CourseCode"));
+    	sb.append(cluModel.get("courseCode"));
     	sb.append(" - ");
     	sb.append(cluModel.get("transcriptTitle"));
 
     	return sb.toString();
 
     }
+    
+    private CloseHandler<KSLightBox> createActionSubmitSuccessHandler() {
+    	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
+			@Override
+			public void onClose(CloseEvent<KSLightBox> event) {
+				//Reload the lum main entrypoint
+				Window.Location.reload();
+			}
+    	};
+		return handler;
+	}
 }

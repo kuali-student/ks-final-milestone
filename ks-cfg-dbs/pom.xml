@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
-    <artifactId>student</artifactId>
-    <version>1.0.0-m5-SNAPSHOT</version>
+    <artifactId>student-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-cfg-dbs</artifactId>
@@ -18,5 +18,8 @@
     <module>ks-core-db</module>
     <module>ks-lum-db</module>
     <module>ks-rice-db</module>
+    <module>ks-embedded-db</module>
+    <module>ks-rice-client-db</module>
+    <module>ks-rice-server-db</module>
   </modules>
 </project>

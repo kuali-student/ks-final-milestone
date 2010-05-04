@@ -1,14 +1,32 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
 
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -17,20 +35,20 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 class OutlineManagerToolbar extends HorizontalPanel {
-    KSButton moveUpButton = new KSButton();
+    Button moveUpButton = new Button();
 
-    KSButton moveDownButton = new KSButton();
+    Button moveDownButton = new Button();
 
-    KSButton indentButton = new KSButton();
+    Button indentButton = new Button();
 
-    KSButton outdentButton = new KSButton();
+    Button outdentButton = new Button();
 
-    KSButton deleteButton = new KSButton();
+    Button deleteButton = new Button();
 
 
-    KSButton addPeerButton = new KSButton();
+    Button addPeerButton = new Button();
 
-    KSButton addChildButton = new KSButton();
+    Button addChildButton = new Button();
 
   OutlineNodeModel outlineModel;
 
@@ -196,6 +214,8 @@ public class OutlineManager extends Composite {
       super.sinkEvents(Event.ONMOUSEMOVE);
       super.sinkEvents(Event.ONMOUSEOUT);
       emptySpacePanel.setStyleName("KS-LOOutlineManagerToolbar");
+      KSImage ieHack = Theme.INSTANCE.getCommonImages().getSpacer();
+      emptySpacePanel.add(ieHack);
       super.insert(emptySpacePanel,0);
     }
 

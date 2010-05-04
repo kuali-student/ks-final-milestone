@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.util.ArrayList;
@@ -8,36 +23,36 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.service.RoleUpdateService;
+import org.kuali.rice.student.StudentWorkflowConstants;
+import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
+
 //FIXME this servlet should take not extend abstract base 
 public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements WorkflowToolRpcService{
 	
-    public static final String EDIT_DOCUMENT_PERM = "Edit Document";
-    public static final String OPEN_DOCUMENT_PERM = "Open Document";
-    public static final String COMMENT_DOCUMENT_PERM = "Comment on Document";
-    public static final String EDIT = "Edit";
-    public static final String OPEN = "View";
-    public static final String COMMENT= "Comment";
-    public static final String DEFAULT_NAMESPACE = "KS-SYS";
-	
 	private static final long serialVersionUID = 1L;
 	final Logger LOG = Logger.getLogger(WorkflowToolRpcGwtServlet.class);
+
 	protected MetadataServiceImpl metadataService;
 	protected IdentityService identityService;
-	protected PermissionService permissionService;
-	private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
+	protected RoleUpdateService roleUpdateService;
 	
 	public IdentityService getIdentityService() {
 		return identityService;
@@ -47,13 +62,13 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 		this.identityService = identityService;
 	}
 	
-	public PermissionService getPermissionService() {
-		return permissionService;
-	}
+	public RoleUpdateService getRoleUpdateService() {
+    	return roleUpdateService;
+    }
 
-	public void setPermissionService(PermissionService permissionService) {
-		this.permissionService = permissionService;
-	}
+	public void setRoleUpdateService(RoleUpdateService roleUpdateService) {
+    	this.roleUpdateService = roleUpdateService;
+    }
 
 	@Override
 	public Metadata getMetadata(String idType, String id) {
@@ -69,79 +84,69 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 	}
 
 	@Override
-    public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) throws OperationFailedException{
+    public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException{
         if(getSimpleDocService()==null){
         	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
-		try{
-			//get a user name
-            String username=getCurrentUser();
+		//get a user name
+        String currentUserPrincipalId = getCurrentUser();
 
-	        //String collaborateComment = "Collaborate by CluProposalService";
+        ActionRequestType actionRequestType = ActionRequestType.getByCode(actionRequestTypeCode);
+        if (actionRequestType == null) {
+        	throw new RuntimeException("No valid action request type found for code: " + actionRequestTypeCode);
+        }
+        StandardResponse stdResp = null;
+        // TODO: This below are hacked versions of what the call should be. See Jira issue KULRICE-4050 about SimpleDocumentActionsWebServiceImpl
+        if (ActionRequestType.APPROVE.equals(actionRequestType)) {
+            stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(docId,recipientPrincipalId, currentUserPrincipalId, "");
+        }
+        else if (ActionRequestType.ACKNOWLEDGE.equals(actionRequestType)) {
+            stdResp = getSimpleDocService().requestAdHocAckToPrincipal(docId,recipientPrincipalId, currentUserPrincipalId, "");
+        }
+        else if (ActionRequestType.FYI.equals(actionRequestType)) {
+            stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(docId,recipientPrincipalId, currentUserPrincipalId, "");
+        }
+        else {
+        	throw new RuntimeException("Invalid action request type '" + actionRequestType.getActionRequestLabel() + "'");
+        }
+        if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+            throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + "): " + stdResp.getErrorMessage());
+        }
 
-	        //create and route a Collaborate workflow
-	        //Get the document app Id
-	        
-	        //Removed - do not do anything data specific in here!
-	       
-	        //Data cluProposal = getDataFromWorkflowId(docId);
-            //CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(cluProposal);
-	        
-            StandardResponse stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(docId,recipientPrincipalId, username, "");
-            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                throw new OperationFailedException("Error found in Collab Adhoc FYI: " + stdResp.getErrorMessage());
-            }
-
-            //String title = root.getProposal().getTitle()==null?"NoNameSet":root.getProposal().getTitle();
-            
-/*            DocumentResponse docResponse = getSimpleDocService().create(username, docId, WF_TYPE_CLU_COLLABORATOR_DOCUMENT, dataTitle);
-            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new OperationFailedException("Error found creating document: " + docResponse.getErrorMessage());
-            }
-
-            //Get the current routeNodeName
-            String routeNodeName="";
-            RouteNodeInstanceDTO[] activeNodes = getWorkflowUtilityService().getActiveNodeInstances(Long.decode(docId));
-    		if (activeNodes != null && activeNodes.length > 0) {
-	    		if (activeNodes.length == 1) {
-					routeNodeName = activeNodes[0].getName();
-				}
-    		}
-
-            //Get the document xml
-    		CluProposalCollabRequestDocInfo docContent = new CluProposalCollabRequestDocInfo();
-
-    		docContent.setCluId(dataId);
-    		docContent.setPrincipalIdRoleAttribute(new PrincipalIdRoleAttribute());
-    		docContent.getPrincipalIdRoleAttribute().setRecipientPrincipalId(recipientPrincipalId);
-    		docContent.setPrincipalId(username);
-    		docContent.setDocId(docId);
-    		docContent.setCollaboratorType(collabType);
-    		docContent.setParticipationRequired(participationRequired);
-    		docContent.setRespondBy(respondBy);
-    		docContent.setRouteNodeName(routeNodeName);
-
-    		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
-    		Marshaller marshaller = context.createMarshaller();
-            StringWriter writer = new StringWriter();
-    		marshaller.marshal(docContent, writer);
-
-            String docContentString = writer.toString();
-
-            //Do the routing
-            StandardResponse stdResp = getSimpleDocService().route(docResponse.getDocId(), username, docResponse.getTitle(), docContentString, collaborateComment);
-
-            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new OperationFailedException("Error found routing document: " + stdResp.getErrorMessage());
-        	}*/
-
-		}catch(Exception e){
-            e.printStackTrace();
-		}
-        return new Boolean(true);
+        PermissionType selectedPermType = PermissionType.getByCode(selectedPermissionCode);
+        if (selectedPermType == null) {
+        	throw new RuntimeException("No valid permission type found for code: " + selectedPermissionCode);
+        }
+//      List<KimRoleInfo> matchingRoles = new ArrayList<KimRoleInfo>();
+        if (PermissionType.EDIT.equals(selectedPermType)) {
+//          List<KimPermissionInfo> permissions = getPermissionService().getPermissionsByTemplateName(selectedPermission.getPermissionNamespace(), selectedPermission.getPermissionTemplateName())
+//	        List<String> roleIds = getPermissionService().getRoleIdsForPermissions(permissions);
+//	        RoleService roleService;
+//	        List<KimRoleInfo> roles = roleService.getRoles(roleIds);
+        	addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+        }
+        else if (PermissionType.ADD_COMMENT.equals(selectedPermType)) {
+        	addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
+        }
+        return Boolean.TRUE;
     }
 
+	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) {
+		try {
+	    	DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.valueOf(docId));
+	    	DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
+	    	AttributeSet roleMemberQuals = new AttributeSet();
+	    	roleMemberQuals.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,docType.getName());
+	    	roleMemberQuals.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,dataId);
+	    	getRoleUpdateService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
+		}
+		catch (WorkflowException e) {
+			LOG.error("Workflow threw exception for document id: " + docId, e);
+			throw new RuntimeException("Workflow threw exception for document id: " + docId, e);
+		}
+	}
+	
 	@Override
     public List<WorkflowPersonInfo> getCollaborators(String docId) throws OperationFailedException{
 		try{
@@ -164,31 +169,30 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 	        			WorkflowPersonInfo person = new WorkflowPersonInfo();
 	        			person.setPrincipalId(item.getPrincipalId());
 	        			
-	        			KimEntityDefaultInfo info =  identityService.getEntityDefaultInfoByPrincipalId(item.getPrincipalId());
+	        			KimEntityDefaultInfo info =  getIdentityService().getEntityDefaultInfoByPrincipalId(item.getPrincipalId());
 	        			
 	        			if(info != null && info.getDefaultName() != null){
 	        				person.setFirstName(info.getDefaultName().getFirstName());
 	        				person.setLastName(info.getDefaultName().getLastName());
 	        			}
 	        			
-	        			boolean editAuthorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
-	        	                EDIT_DOCUMENT_PERM, null, qualification));
-	        			boolean openAuthorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
-	        	                OPEN_DOCUMENT_PERM, null, qualification));
-	        			boolean commentAuthorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(item.getPrincipalId(), DEFAULT_NAMESPACE,
-	        	                COMMENT_DOCUMENT_PERM, null, qualification));
-	        			
+	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
+	        					PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
+	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
+	        					PermissionType.OPEN.getPermissionTemplateName(), null, qualification));
+	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), PermissionType.ADD_COMMENT.getPermissionNamespace(),
+	        					PermissionType.ADD_COMMENT.getPermissionTemplateName(), null, qualification));
 	        			
 	        			if(editAuthorized){
-	        				person.getPermList().add(EDIT);
-	        			}
-	        			
-	        			if(openAuthorized){
-	        				person.getPermList().add(OPEN);
+	        				person.getPermList().add(PermissionType.EDIT.getLabel());
 	        			}
 	        			
 	        			if(commentAuthorized){
-	        				person.getPermList().add(COMMENT);
+	        				person.getPermList().add(PermissionType.ADD_COMMENT.getLabel());
+	        			}
+	        			
+	        			if(openAuthorized){
+	        				person.getPermList().add(PermissionType.OPEN.getLabel());
 	        			}
 	        			
 	        			String request = item.getRequestLabel();
@@ -214,8 +218,18 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
             throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
-	
-	
+
+	@Override
+    public Boolean isAuthorizedAddReviewer(String docId) {
+		if (docId != null && (!"".equals(docId.trim()))) {
+			AttributeSet permissionDetails = new AttributeSet();
+			AttributeSet roleQuals = new AttributeSet();
+			roleQuals.put(KimAttributes.DOCUMENT_NUMBER,docId);
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(getCurrentUser(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
+		}
+		return Boolean.FALSE;
+    }
 
 	@Override
 	protected String deriveAppIdFromData(Data data) {

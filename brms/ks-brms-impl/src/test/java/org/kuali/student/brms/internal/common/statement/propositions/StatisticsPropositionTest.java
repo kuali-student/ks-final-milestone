@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
@@ -115,7 +130,7 @@ public class StatisticsPropositionTest {
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO,
     			StatisticsProposition.StatFunction.SUM,
-    			new Double(6.0), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}),
+    			new Double(6.0), Arrays.asList(new Long[]{Long.valueOf(1), Long.valueOf(2), Long.valueOf(3)}),
     			ruleProposition);
 
     	Boolean result = statProp.apply();
@@ -129,7 +144,7 @@ public class StatisticsPropositionTest {
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO,
     			StatisticsProposition.StatFunction.SUM,
-    			new Double(6.0), Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}),
+    			new Double(6.0), Arrays.asList(new Integer[]{Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)}),
     			ruleProposition);
 
     	Boolean result = statProp.apply();

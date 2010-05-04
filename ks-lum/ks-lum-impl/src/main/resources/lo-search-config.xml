@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
 	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
@@ -115,7 +132,7 @@
         	<ref bean="lo.result.categoryName" />
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
-        	<ref bean="lo.criteria.byCategoryName"/>
+        	<ref bean="lo.criteria.byOptionalCategoryName"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
     
@@ -402,20 +419,23 @@
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
 				<entry key="lo.search.loCategories">
-                    <value>SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_startsWith_loCategoryName || '%' </value>
+                    <value>SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name FROM LoCategory cat </value>
+                </entry>
+                <entry key="lo.queryParam.loOptionalCategoryName">                    
+                    <value>cat.name like :lo_queryParam_loOptionalCategoryName  </value>
 				</entry>
 				<entry key="lo.search.loCategoriesByNameRepoTypeState">
-                    <value>SELECT cat.id FROM LoCategory cat WHERE cat.name = :lo_queryParam_loCategoryName AND cat.loRepository.id = :lo_queryParam_loCategoryRepo AND cat.loCategoryType.id = :lo_queryParam_loCategoryType AND cat.state = :lo_queryParam_loCategoryState</value>
+                    <value>SELECT cat.id FROM LoCategory cat WHERE LOWER(cat.name) = :lo_queryParam_loCategoryName AND cat.loRepository.id = :lo_queryParam_loCategoryRepo AND cat.loCategoryType.id = :lo_queryParam_loCategoryType AND cat.state = :lo_queryParam_loCategoryState</value>
 				</entry>
 				<!--  These native searches are temporary solutions to allow cross service searches in advance of the KS permanent 
 				      cross service search implementation  -->
 				      
 				<entry key="lo.search.loCluByDesc">
 					<value>NATIVE:SELECT 
-    lo.id lo_id, 
-    clu.id clu_id, 
-    officialIdentifier.cd code, 
-    lodesc.plain plain
+    lo.id , 
+    clu.id , 
+    officialIdentifier.cd , 
+    lodesc.plain 
 FROM 
     KSLU_CLU clu 
 JOIN 
@@ -438,11 +458,11 @@ JOIN
     			</entry>
     			<entry key="lo.search.loByCategory">				
 					<value>NATIVE:SELECT 
-    lo.id lo_id, 
-    clu.id clu_id, 
-    officialIdentifier.cd code, 
-    lodesc.plain plain,
-    cat.name name 
+    lo.id , 
+    clu.id , 
+    officialIdentifier.cd , 
+    lodesc.plain ,
+    cat.name  
 FROM 
     KSLU_CLU clu 
 JOIN 
@@ -476,11 +496,11 @@ JOIN
 				</entry>	
     			<entry key="lo.search.loByCluCode">				
 					<value>NATIVE:SELECT 
-    lo.id lo_id, 
-    clu.id clu_id, 
-    officialIdentifier.cd code, 
-    lodesc.plain plain,
-    cat.name name
+    lo.id , 
+    clu.id , 
+    officialIdentifier.cd , 
+    lodesc.plain ,
+    cat.name 
 FROM 
     KSLU_CLU clu 
 JOIN 

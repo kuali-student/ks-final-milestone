@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.internal.common.utils;
 
 import java.math.BigDecimal;
@@ -52,7 +67,7 @@ public class BusinessRuleUtilTest {
 
     @Test
     public void testConvertToDataType_Integer() throws Exception {
-    	Integer num = new Integer(1);
+    	Integer num = Integer.valueOf(1);
     	Integer value = (Integer) BusinessRuleUtil.convertToDataType(Integer.class, num);
     	Assert.assertEquals(num, value);
     }
@@ -66,7 +81,7 @@ public class BusinessRuleUtilTest {
 
     @Test
     public void testConvertToDataType_Long() throws Exception {
-    	Long num = new Long(1L);
+    	Long num = Long.valueOf(1L);
     	Long value = (Long) BusinessRuleUtil.convertToDataType(Long.class,num);
     	Assert.assertEquals(num, value);
     }
@@ -115,7 +130,7 @@ public class BusinessRuleUtilTest {
 
     @Test
     public void testConvertToDataType_Boolean() throws Exception {
-    	Boolean b = new Boolean(true);
+    	Boolean b = Boolean.valueOf(true);
     	Boolean value = (Boolean) BusinessRuleUtil.convertToDataType(Boolean.class, b);
     	Assert.assertEquals(b, value);
     }

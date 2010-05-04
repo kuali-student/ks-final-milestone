@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.search.service.impl;
 
 import java.text.SimpleDateFormat;
@@ -331,7 +346,7 @@ public class CrossSearchManager {
 				Integer v2Integer = Integer.parseInt(v2);
 				compareResult = v1Integer.compareTo(v2Integer);
 			}catch(Exception e1){
-				if(("true".equals(v1.toLowerCase())||"false".equals(v1.toLowerCase()))&&
+				if(v1!=null&&v2!=null&&("true".equals(v1.toLowerCase())||"false".equals(v1.toLowerCase()))&&
 				   ("true".equals(v2.toLowerCase())||"false".equals(v2.toLowerCase()))){
 					Boolean v1Boolean = Boolean.parseBoolean(v1);
 					Boolean v2Boolean = Boolean.parseBoolean(v2);
@@ -343,7 +358,13 @@ public class CrossSearchManager {
 						Date v2Date = df.parse(v2);
 						compareResult = v1Date.compareTo(v2Date);
 					}catch(Exception e){
-						compareResult = v1.compareTo(v2);
+						if(v1!=null){
+							compareResult = v1.compareTo(v2);
+						}else if(v2==null){
+							compareResult = 0;
+						}else{
+							compareResult = -1; 
+						}
 					}
 				}
 			}

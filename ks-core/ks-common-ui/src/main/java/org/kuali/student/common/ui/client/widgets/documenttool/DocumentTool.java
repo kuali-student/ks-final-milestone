@@ -1,24 +1,25 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.documenttool;
 
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -83,6 +84,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private KSLabel progressLabel = new KSLabel();
     private ProgressBar progressBar = new ProgressBar();
     private FlexTable fileProgressTable = new FlexTable();
+    private InfoMessage saveWarning = new InfoMessage("The document must be saved before Document files can be uploaded.", true);
     
     private OkGroup progressButtons = new OkGroup(new Callback<OkEnum>(){
 		@Override
@@ -243,8 +245,41 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		super(viewEnum, viewName);
 	}
 
+	private void isAuthorizedUploadDocuments() {
+        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+
+			@Override
+            public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+				GWT.log("Error checking permission for adding comments: ", caught);
+				throw new RuntimeException("Error checking Permissions: ", caught);
+            }
+
+			@Override
+            public void onSuccess(Boolean result) {
+				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
+				if(referenceId != null && !(referenceId.isEmpty())){
+					//buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
+		        	saveWarning.setVisible(false);
+		        	buttonPanel.setVisible(result);
+					documentList.setVisible(true);
+					refreshDocuments();
+				}
+				else{
+					saveWarning.setVisible(true);
+					buttonPanel.setVisible(false);
+					documentList.setVisible(false);
+					//buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
+				}
+            }
+        	
+		});
+	}
+	
 	@Override
 	protected Widget createWidget() {
+		layout.add(saveWarning);
+		saveWarning.setVisible(false);
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
 		
 		uploadList.add(new DocumentForm());		
@@ -263,8 +298,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		
 		buttonPanel.setContent(form);
 		layout.add(documentList);
+		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
-		
+		documentList.setVisible(false);
+		buttonPanel.setVisible(false);
 		
 		progressPanel.add(progressLabel);
 		progressPanel.add(progressBar);
@@ -375,13 +412,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
-		if(referenceId != null && !(referenceId.isEmpty())){
-			buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
-		}
-		else{
-			buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
-		}
-        refreshDocuments();
+		isAuthorizedUploadDocuments();
+        
     }
 	
 	private void refreshDocuments(){
@@ -401,6 +433,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	
 					@Override
 					public void onSuccess(List<RefDocRelationInfoMock> result) {
+						documentList.clear();
 						if(result != null && !(result.isEmpty())){	
 							for(RefDocRelationInfoMock info: result){
 								documentList.add(new Document(info));

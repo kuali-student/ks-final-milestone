@@ -1,10 +1,23 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,13 +25,8 @@ import org.kuali.student.brms.factfinder.dto.FactResultInfo;
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
-import org.kuali.student.brms.rulemanagement.dto.RulePropositionInfo;
 
 public class MinPropositionTest {
-    private List<BigDecimal> gradeList = CommonTestUtil.createList("85.0,75.0,80.0");
-
-	private RulePropositionInfo ruleProposition = new RulePropositionInfo();
-
 	@Test
     public void testMinProposition_String() throws Exception {
 		FactResultInfo fact = CommonTestUtil.createFact(
@@ -79,7 +87,7 @@ public class MinPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Integer number = new Integer(3);
+    	Integer number = Integer.valueOf(3);
     	MinProposition<Integer> minProp = new MinProposition<Integer>(
     			"A-1", "A", ComparisonOperator.EQUAL_TO, number, 
     			fact, "resultColumn.credits");
@@ -97,7 +105,7 @@ public class MinPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Long number = new Long(3);
+    	Long number = Long.valueOf(3);
     	MinProposition<Long> minProp = new MinProposition<Long>(
     			"A-1", "A", ComparisonOperator.EQUAL_TO, number, 
     			fact, "resultColumn.credits");

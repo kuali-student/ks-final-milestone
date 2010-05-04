@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-execution-api</artifactId>
-	<version>1.0.0-m5</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS BRMS EXECUTION API</name>
 	<description />
@@ -10,12 +10,8 @@
     <parent>
         <groupId>org.kuali.student.brms</groupId>
         <artifactId>ks-brms</artifactId>
-        <version>1.0.0-m5</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-      <ks.java2ws.phase>process-classes</ks.java2ws.phase>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -26,7 +22,7 @@
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>ks-brms-api</artifactId>
-			<version>1.0.0-m5</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -46,13 +42,13 @@
                 <executions>
                     <execution>
                         <id>execution-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
+                        <phase>process-classes</phase>
                         <configuration>
                             <className>
                                 org.kuali.student.brms.ruleexecution.service.RuleExecutionService
                             </className>
                             <serviceName>RuleExecutionService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/wsdl/brms/RuleExecution</targetNameSpace>
+                            <targetNameSpace>http://student.kuali.org/wsdl/brms/RuleExecution</targetNameSpace>            
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>

@@ -1,6 +1,24 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.assembly.data.client.org;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.kuali.student.core.assembly.data.Data;
@@ -87,6 +105,14 @@ public class OrgHelper{
     }
     
     public Date getEffectiveDate() {
+        if(data.get(Properties.EFFECTIVE_DATE.getKey()) instanceof String){
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                return df.parse((String) data.get(Properties.EFFECTIVE_DATE.getKey()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return data.get(Properties.EFFECTIVE_DATE.getKey());
     }
     
@@ -95,6 +121,14 @@ public class OrgHelper{
     }
     
     public Date getExpirationDate() {
+        if(data.get(Properties.EXPIRATION_DATE.getKey()) instanceof String){
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                return df.parse((String) data.get(Properties.EXPIRATION_DATE.getKey()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return data.get(Properties.EXPIRATION_DATE.getKey());
     }
     

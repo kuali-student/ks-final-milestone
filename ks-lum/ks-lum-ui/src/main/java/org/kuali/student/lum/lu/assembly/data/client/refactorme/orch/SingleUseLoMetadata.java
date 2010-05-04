@@ -67,9 +67,10 @@ public class SingleUseLoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		
 		// metadata for Name
@@ -177,6 +178,7 @@ public class SingleUseLoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hard.coded.singleuse.lo"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lo.types"));
 		}
 		

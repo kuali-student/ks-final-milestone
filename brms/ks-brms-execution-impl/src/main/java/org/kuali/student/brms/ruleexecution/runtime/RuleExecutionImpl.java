@@ -1,18 +1,18 @@
-/*
- * Copyright 2007 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.brms.ruleexecution.runtime;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import org.kuali.student.brms.ruleexecution.dto.PropositionReportInfo;
 import org.kuali.student.brms.ruleexecution.dto.RuleReportInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
-import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.brms.ruleexecution.runtime.RuleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleAnchorInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
@@ -61,9 +61,9 @@ public class RuleExecutionImpl implements RuleExecution {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleExecutionImpl.class);
     
-    private RuleSetExecutor ruleSetExecutor;
+    private RuleExecutor ruleSetExecutor;
 
-    private RuleSetExecutor ruleSetExecutorTest;
+    private RuleExecutor ruleSetExecutorTest;
     
     private RuleRepository ruleRespository;
 
@@ -88,7 +88,7 @@ public class RuleExecutionImpl implements RuleExecution {
      * 
      * @return Rule execution engine
      */
-	public RuleSetExecutor getRuleSetExecutor() {
+	public RuleExecutor getRuleSetExecutor() {
 		return ruleSetExecutor;
 	}
 
@@ -97,7 +97,7 @@ public class RuleExecutionImpl implements RuleExecution {
 	 * 
 	 * @param ruleSetExecutor Rule execution engine
 	 */
-	public void setRuleSetExecutor(final RuleSetExecutor ruleSetExecutor) {
+	public void setRuleSetExecutor(final RuleExecutor ruleSetExecutor) {
 		this.ruleSetExecutor = ruleSetExecutor;
 	}
 
@@ -106,7 +106,7 @@ public class RuleExecutionImpl implements RuleExecution {
 	 * 
 	 * @param ruleSetExecutor Rule execution engine
 	 */
-	public void setRuleSetExecutorTest(final RuleSetExecutor ruleSetExecutor) {
+	public void setRuleSetExecutorTest(final RuleExecutor ruleSetExecutor) {
 		this.ruleSetExecutorTest = ruleSetExecutor;
 	}
 

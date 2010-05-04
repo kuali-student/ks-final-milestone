@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.assembly;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
@@ -7,7 +22,6 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.brms.statement.service.StatementService;
@@ -31,12 +45,11 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
@@ -133,7 +146,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         return result.getData();
     }
 
-    private Assembler<Data, CluInfoHierarchy> getCourseAssembler() {
+	private Assembler<Data, CluInfoHierarchy> getCourseAssembler() {
         return courseAssembler;
     }
 
@@ -176,6 +189,24 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         result.setTitle(prop.getName());
         result.setReferenceType(prop.getProposalReferenceType());
         result.setReferences(new Data());
+        
+        //Copy MetaInfo
+        MetaInfoHelper metaInfo = MetaInfoHelper.wrap(new Data());
+        metaInfo.setCreateId(prop.getMetaInfo().getCreateId());
+        metaInfo.setUpdateId(prop.getMetaInfo().getUpdateId());
+        metaInfo.setCreateTime(prop.getMetaInfo().getCreateTime());
+        metaInfo.setUpdateTime(prop.getMetaInfo().getUpdateTime());
+        result.setMetaInfo(metaInfo);
+        
+        Data proposerPersons = new Data();
+        
+        if(prop.getProposerPerson()!=null){
+        	for(String proposerPerson:prop.getProposerPerson()){
+        		proposerPersons.add(proposerPerson);
+        	}
+            result.setProposerPerson(proposerPersons);
+        }
+        
         for (String s : prop.getProposalReference()) {
             result.getReferences().add(s);
         }
@@ -258,10 +289,12 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             prop.setState(inputProposal.getState());
             prop.setName(inputProposal.getProposal().getTitle());
             for (Property p : inputProposal.getProposal().getReferences()) {
-                String ref = p.getValue();
-                if (!prop.getProposalReference().contains(ref)) {
-                    prop.getProposalReference().add(ref);
-                }
+            	if(!"_runtimeData".equals(p.getKey())){
+	            	String ref = p.getValue();
+	                if (!prop.getProposalReference().contains(ref)) {
+	                    prop.getProposalReference().add(ref);
+	                }
+            	}
             }
             if (prop.getMetaInfo() != null) {
                 prop.getMetaInfo().setVersionInd(getVersionIndicator(inputProposal.getProposal().getData()));
@@ -321,15 +354,6 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         throw new UnsupportedOperationException("CreditCourseProposalAssember does not support disassembly to source type");
     }
 
-    @Override
-    public SearchResult search(SearchRequest searchRequest) {
-        //TODO Might want to be synchronized, or services should be dependency injected...
-        if(null == searchDispatcher){
-            searchDispatcher = new SearchDispatcherImpl(luService, loService, proposalService);
-        }
-        return searchDispatcher.dispatchSearch(searchRequest);
-    }   
-    
     public LuService getLuService() {
         return luService;
     }

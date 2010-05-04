@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.list.impl;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public KSLabelListImpl() {
         initWidget(labels);
     }
-
+    
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
@@ -77,37 +78,32 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
-    public void selectItem(String id) {
-        //FIXME: This is a hack to get over problem in SelectItemWidgetBinding
-        
-        if (getListItems().getItemIds().isEmpty()) {
-            SimpleListItems list = new SimpleListItems();
-            list.addItem(id, id);
-            setListItems(list);
-        }
-        else if (!getListItems().getItemIds().contains(id) &&
-                  getListItems() instanceof SimpleListItems) {
-            SimpleListItems list = (SimpleListItems)getListItems();
-            list.addItem(id, id);
-            setListItems(list);
-        }
-        
+    public void selectItem(String id) {        
         if (!selectedItems.contains(id)){
              this.selectedItems.add(id);
         }
+        
+        //FIXME: Is there a better way to display selected item here without redrawing
+        redraw();
     }
     
     public void redraw(){
         labels.clear();
-        int itemCount = super.getListItems().getItemCount();
         int currCount = 0;
         int row = 0;
         int col = 0;
-
+        
+        int itemCount = 0;
+        if (super.getListItems() != null){
+        	itemCount = super.getListItems().getItemCount();        	
+        } else {
+        	itemCount = selectedItems.size();
+        }
+        
         if (maxCols <= 2){
             //Row flow - increment row faster than column
             int maxRows = (itemCount / maxCols) + (itemCount % 2);
-            for (String id:super.getListItems().getItemIds()){
+            for (String id:selectedItems){
                 currCount++;
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
@@ -118,7 +114,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
             }
         } else {
             //Column flow - increment column faster than row
-            for (String id:super.getListItems().getItemIds()){
+            for (String id:selectedItems){
                 currCount++;
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
@@ -154,7 +150,11 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     }
 
     private KSLabel createLabel(String id){
-        return new KSLabel(id);
+    	if (super.getListItems() == null || super.getListItems().getItemCount() == 0){
+    		return new KSLabel(id);
+    	} else {
+    		return new KSLabel(super.getListItems().getItemText(id));
+    	}
     }
 
 
@@ -204,7 +204,6 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     @Override
     public void clear(){
         selectedItems.clear();
-        setListItems(new SimpleListItems());
         redraw();
     }
 

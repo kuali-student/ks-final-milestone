@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.assembly;
 
 
@@ -11,10 +26,13 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
@@ -23,15 +41,19 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHelper>{
-
+    public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
     private OrganizationService orgService;
+    private Metadata metadata;
+    private DataModel orgOrgModel = new DataModel();
+    
+    public void setMetaData(Metadata metadata){
+        this.metadata=metadata;
+        
+    }
     @Override
     public Data assemble(OrgorgRelationHelper input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
@@ -62,6 +84,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         }
         catch(Exception e){
             e.printStackTrace();
+            throw(new AssemblyException());
         }
         return orgOrgRelationMap;
     }
@@ -84,12 +107,6 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         result.setValue(input);
         
         return result;
-    }
-
-    @Override
-    public SearchResult search(SearchRequest searchRequest) {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
     }
 
     @Override
@@ -137,18 +154,23 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         if (input == null) {
             return;
         }
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgOrgModel.setDefinition(def);
+        QueryPath metaPath = QueryPath.concat(null, ORGORG_PATH);
+        Metadata orgOrgMeta =orgOrgModel.getMetadata(metaPath);
         for (Property p : (Data)input.get("orgOrgRelationInfo")) {
             OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap((Data)p.getValue());
-            if(isUpdated(orgOrgRelation.getData())){
-                OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
-                orgOrgRelationInfo.setId(orgOrgRelation.getId());
-                try{
-                    OrgOrgRelationInfo  result = orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
-                    addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
-                }
-                catch(Exception e ){
-                    e.printStackTrace();
-                    throw(new AssemblyException());
+            if (isUpdated(orgOrgRelation.getData())) {
+                if (orgOrgMeta.isCanEdit()) {
+                    OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
+                    orgOrgRelationInfo.setId(orgOrgRelation.getId());
+                    try {
+                        OrgOrgRelationInfo result = orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
+                        addVersionIndicator(orgOrgRelation.getData(), OrgOrgRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw (new AssemblyException());
+                    }
                 }
             }
             else if(isDeleted(orgOrgRelation.getData())){
@@ -188,16 +210,33 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     }
     
     
-    private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations,List<OrgOrgRelationInfo> parentRelations){
+    private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations,List<OrgOrgRelationInfo> parentRelations) throws AssemblyException{
+       
         Data orgOrgRelations = new Data();
+        String relationTypeTranslation;
+        DataModel orgProposalModel = new DataModel();
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgProposalModel.setDefinition(def);
         int count = 0;
+        try{
         for(OrgOrgRelationInfo relation:relations){
             Data relationMap = new Data();
             OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(relationMap);
             orgOrgRelation.setId(relation.getId());
             orgOrgRelation.setOrgId(relation.getOrgId());
             orgOrgRelation.setRelatedOrgId(relation.getRelatedOrgId());
-            orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
+            
+            
+            //Set this for readonly permission
+            QueryPath metaPath = QueryPath.concat(null, ORGORG_PATH);
+            Metadata orgOrgMeta =orgProposalModel.getMetadata(metaPath);
+            if(!orgOrgMeta.isCanEdit()){
+                relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getName();
+                orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
+            }
+            else{
+                orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
+            }
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
@@ -212,7 +251,18 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             orgOrgRelation.setId(relation.getId());
             orgOrgRelation.setRelatedOrgId(relation.getOrgId());
             orgOrgRelation.setOrgId(relation.getRelatedOrgId());
-            orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getType());
+            
+            
+            //Set this for readonly permission
+            QueryPath metaPath = QueryPath.concat(null, ORGORG_PATH);
+            Metadata orgOrgMeta =orgProposalModel.getMetadata(metaPath);
+            if(!orgOrgMeta.isCanEdit()){
+                relationTypeTranslation =orgService.getOrgOrgRelationType(relation.getType()).getRevName();
+                orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
+            }
+            else{
+                orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getType());
+            }
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
@@ -221,6 +271,12 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             count= count+1;
         }
         
+        
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            throw(new AssemblyException());
+        }
         return orgOrgRelations;
     }
 

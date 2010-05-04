@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.Date;
@@ -18,8 +33,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -85,6 +98,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
     					topLevelLoHelper.setEffectiveDate(lo.getEffectiveDate());
     					topLevelLoHelper.setState(lo.getState());
     					topLevelLoHelper.setType(lo.getType());
+    					topLevelLoHelper.setName(lo.getName());
     					List<LoCategoryInfo> loCategories = loService.getLoCategoriesForLo(lo.getId());
     					
     					Data categoriesData = new Data();
@@ -161,6 +175,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 				loHelper.setEffectiveDate(relatedLo.getEffectiveDate());
 				loHelper.setState(relatedLo.getState());
 				loHelper.setType(relatedLo.getType());
+				loHelper.setName(relatedLo.getName());
 				
 				Data categoriesData = new Data();
 				List<LoCategoryInfo> loChildCategories = loService.getLoCategoriesForLo(relatedLo.getId());
@@ -246,11 +261,11 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		CreditCourseCourseSpecificLOsHelper cccsLoHelper;
 		RichTextInfoAssembler rtAssembler = new RichTextInfoAssembler();
 		
-        Iterator<Property> iter = input.iterator();
+        Iterator<Property> iter = input.realPropertyIterator();
         Data loData;
         
         List<CluLoRelationInfo> cluLoRelations = null;
-        Map<String, CluLoRelationInfo> loIdToCluLoReltnMap = new HashMap<String, CluLoRelationInfo>();
+        Map<String, CluLoRelationInfo> loIdToExistingCluLoReltnMap = new HashMap<String, CluLoRelationInfo>();
 		try {
 			cluLoRelations = luService.getCluLoRelationsByClu(cluId);
 		} catch (DoesNotExistException e1) {
@@ -261,7 +276,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		}
         if (null != cluLoRelations) {
         	for (CluLoRelationInfo clrInfo : cluLoRelations) {
-        		loIdToCluLoReltnMap.put(clrInfo.getLoId(), clrInfo);
+        		loIdToExistingCluLoReltnMap.put(clrInfo.getLoId(), clrInfo);
         	}
         }
         while (iter.hasNext()) {
@@ -305,7 +320,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 				} 
 		    	String resultLoId = resultLoInfo.getId(); // make things a tad more readable
 		    	saveCategoryAssociations(resultLoId, loHelper);
-		    	if ( null == loIdToCluLoReltnMap.get(resultLoId) ) {
+		    	if ( null == loIdToExistingCluLoReltnMap.get(resultLoId) ) {
 	
 			    	CluLoRelationInfo clRltnInfo = new CluLoRelationInfo();
 			    	clRltnInfo.setCluId(cluId);
@@ -316,7 +331,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		    		// TODO - "cluLuType.default" is only type so far; fix when there's more than one
 					luService.createCluLoRelation(cluId, resultLoId, "cluLuType.default", clRltnInfo);
 		    	} else { // keep track of those no longer associated w/ the Clu, by removing those that are
-		    		loIdToCluLoReltnMap.remove(resultLoId);
+		    		loIdToExistingCluLoReltnMap.remove(resultLoId);
 		    	}
 	    	} catch (Exception e) {
 				throw new AssemblyException(e);
@@ -324,9 +339,11 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	    	saveChildLos(resultLoInfo.getId(), loHelper);
         }
         // remove CluLoRelations that no longer exist
-    	for (CluLoRelationInfo clrInfo : loIdToCluLoReltnMap.values()) {
+    	for (CluLoRelationInfo clrInfo : loIdToExistingCluLoReltnMap.values()) {
     		try {
 				luService.deleteCluLoRelation(clrInfo.getId());
+				// ??
+				removeOrphans(clrInfo.getLoId());
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new AssemblyException(e);
@@ -334,6 +351,32 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
     	}
 	}
 	
+	private void removeOrphans(String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		// debug
+		LoInfo lo = loService.getLo(loId);
+		// end debug
+		List<LoInfo> relatedLos = loService.getRelatedLosByLoId(loId, "kuali.lo.relation.type.includes");
+		/*
+		if (null != loloReltns) {
+			for (LoLoRelationInfo info : loloReltns) {
+				// debug
+				LoInfo lo1 = loService.getLo(info.getLoId());
+				LoInfo lo2 = loService.getLo(info.getRelatedLoId());
+				// end debug
+				removeOrphans(info.getRelatedLoId());
+				// debug
+				System.out.println("Deleting relationship between Lo named " + lo1.getDesc().getPlain() + " and Lo named " + lo2.getDesc().getPlain());
+				// end debug
+				loService.deleteLoLoRelation(info.getId());
+			}
+		}
+		// debug
+		System.out.println("Deleting Lo named " + lo.getDesc().getPlain());
+		// end debug
+		loService.deleteLo(loId);
+		*/
+	}
+
 	private void saveCategoryAssociations(String loId , SingleUseLoHelper loHelper) throws Exception {
 		
 		Data categoryData = loHelper.getCategories();
@@ -348,7 +391,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		}
 		
 		if (null != categoryData) {
-			Iterator<Property> itr = loHelper.getCategories().iterator();
+			Iterator<Property> itr = loHelper.getCategories().realPropertyIterator();
 			while (itr.hasNext()) {
 				Property catProp = itr.next();
 				Data catData = catProp.getValue();
@@ -375,7 +418,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		
 		Data childLoData = parentLoHelper.getChildSingleUseLos();
 		if (null != childLoData) {
-	        Iterator<Property> iter = parentLoHelper.getChildSingleUseLos().iterator();
+	        Iterator<Property> iter = parentLoHelper.getChildSingleUseLos().realPropertyIterator();
 	        Data loData;
 	        while (iter.hasNext()) {
 		    	LoInfo loToSave;
@@ -420,7 +463,6 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		    	} catch (Exception e) {
 						throw new AssemblyException(e);
 				} 
-		    
 		    	// recurse
 		    	saveChildLos(currLo.getId(), loHelper);
 	        }
@@ -433,6 +475,15 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		relationInfo.setEffectiveDate(new Date());
 		relationInfo.setLoId(parentLoId);
 		relationInfo.setRelatedLoId(relatedLoId);
+		List<LoInfo> relatedLos = loService.getRelatedLosByLoId(parentLoId, "kuali.lo.relation.type.includes");
+		// TODO - we need a query for this instead, but I don't have it working yet, and cutoff's tomorrow :(
+		if (null != relatedLos) {
+			for (LoInfo loInfo : relatedLos) {
+				if (relatedLoId.equals(loInfo.getId())) {
+					return;
+				}
+			}
+		}
 		// TODO - obviously, the loLoRelationType should come from Metadata
 		loService.createLoLoRelation(parentLoId, relatedLoId, "kuali.lo.relation.type.includes", relationInfo);
 	}
@@ -453,12 +504,6 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 			}
 		}
 		return result;
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

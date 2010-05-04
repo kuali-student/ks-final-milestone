@@ -1,24 +1,24 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.ui.requirements.client.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -27,9 +27,6 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -66,8 +63,7 @@ public class CourseReqManager extends Controller {
     private ReqComponentVO componentToEdit;				//which component user chosen to edit	
     private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();
    
-    private String selectedLuStatementType = "unknown";             //type of rule that user selected to work on (add or edit)
-    private Map<String, String> cluSetsData = new HashMap<String, String>(); 
+    private String selectedLuStatementType = "";             //type of rule that user selected to work on (add or edit)
     
     public CourseReqManager(VerticalPanel displayPanel) {
         super(CourseReqManager.class.getName());       
@@ -80,11 +76,12 @@ public class CourseReqManager extends Controller {
         }
         
         this.ruleInfo = null;
-        loadSearchBoxData();
     }
     
-    public void saveApplicationState() {
-        courseRequisiteView.saveApplicationState();
+    public void saveApplicationState(DataModel model) {
+        LuData luData = (LuData)model.getRoot();
+        luData.setRuleInfos(new ArrayList(ruleInfo.getValues()));
+        courseRequisiteView.saveApplicationState(model);
     }
    
     @Override
@@ -106,20 +103,14 @@ public class CourseReqManager extends Controller {
 	                    	LuData luData = (LuData)dataModel.getRoot();
 	                    	
 	                		if (ruleInfo == null) {	                     			                    	
-		                    	List<RuleInfo> rules = luData.getRuleInfos();
+		                    	cluId = (String)dataModel.get("course/id");
 		                    	ruleInfo = new CollectionModel<RuleInfo>();
+                                List<RuleInfo> rules = luData.getRuleInfos();
 		                    	for (RuleInfo oneRule : rules) {
 		                    		oneRule.setId(Integer.toString(id++));
+		                    		oneRule.setCluId(cluId); 
 		                    		ruleInfo.add(oneRule);
-		                    	}
-		                    	cluId = dataModel.get("course/id");
-		                    	
-		                    	//make sure each rule info has set course id
-		                    	if (rules != null) {
-			                        for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
-			                            oneRuleInfo.setCluId(cluId);            		                            
-			                        }		     
-		                    	}	                    	
+		                    	}		     	                    	
 	                		} else {
 	                			luData.setRuleInfos(new ArrayList(ruleInfo.getValues()));
 	                		}
@@ -146,6 +137,13 @@ public class CourseReqManager extends Controller {
     private RuleInfo getRuleInfo(String luStatementTypeKey) {
         if (ruleInfo.getValues() != null && !ruleInfo.getValues().isEmpty()) {
             for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
+            	// if the rule
+            	if (oneRuleInfo.getStatementVO() == null) {
+                    oneRuleInfo.setCluId(cluId);
+                    oneRuleInfo.setId(Integer.toString(id++));
+                    oneRuleInfo.setSelectedStatementType(luStatementTypeKey);
+                    oneRuleInfo.setStatementVO(oneRuleInfo.createNewStatementVO());
+            	}
                 if (oneRuleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {
                     return oneRuleInfo;
                 }                
@@ -178,8 +176,7 @@ public class CourseReqManager extends Controller {
 	            return courseRequisiteView;
 	        case MANAGE_RULES:
                 return manageRulesView;
-            case RULE_COMPONENT_EDITOR:    
-                ruleCompEditorView.setCluSetsData(cluSetsData);                
+            case RULE_COMPONENT_EDITOR:                   
                 ruleCompEditorView.setEditedStatementVO(getRuleInfo(selectedLuStatementType).getStatementVO());
                 ruleCompEditorView.setEditedReqCompVO(componentToEdit);
                 ruleCompEditorView.setFieldsWithLookup(fieldsWithLookup);
@@ -202,10 +199,8 @@ public class CourseReqManager extends Controller {
         ruleInfo.add(newPrereqInfo);
     }
 
-    private void loadSearchBoxData() {        
-        cluSetsData.put("CLUSET-NL-3", "CLUSET-NL-3");
-        cluSetsData.put("CLUSET-NL-2", "CLUSET-NL-2");
-        cluSetsData.put("CLUSET-NL-1", "CLUSET-NL-1");              
+    public void removeRule(RuleInfo rule) {
+        ruleInfo.remove(rule);
     }
     
     public void saveEditHistory(StatementVO editedStatementVO) {

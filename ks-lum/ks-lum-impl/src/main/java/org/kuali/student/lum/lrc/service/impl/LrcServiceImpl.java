@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lrc.service.impl;
 
 import java.util.List;
@@ -27,6 +28,12 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
@@ -57,6 +64,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor={Throwable.class})
 public class LrcServiceImpl implements LrcService {
 	private LrcDao lrcDao;
+    private SearchManager searchManager;
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#compareGrades(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
@@ -67,7 +75,8 @@ public class LrcServiceImpl implements LrcService {
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+//		return null;
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	/* (non-Javadoc)
@@ -409,7 +418,8 @@ public class LrcServiceImpl implements LrcService {
 			String translateScaleKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+//		return null;
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	/* (non-Javadoc)
@@ -471,9 +481,85 @@ public class LrcServiceImpl implements LrcService {
      */
     private void checkForEmptyList(Object param, String paramName)
             throws MissingParameterException {
-        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+        if (param != null && param instanceof List<?> && ((List<?>)param).size() == 0) {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
+    
+
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+	}
+
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchCriteriaTypes();
+	}
+
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchResultType(searchResultTypeKey);
+	}
+
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchResultTypes();
+	}
+
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchTypeKey, "searchTypeKey");
+		return searchManager.getSearchType(searchTypeKey);
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypes()
+			throws OperationFailedException {
+		return searchManager.getSearchTypes();
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+	}
+
+	public SearchManager getSearchManager() {
+		return searchManager;
+	}
+
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
+	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, lrcDao);
+	}
 
 }

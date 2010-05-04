@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -354,6 +355,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey("");
 
 		OrgPositionRestrictionInfo created = client.addPositionRestrictionToOrg("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo);
+		OrgPositionRestrictionInfo created2 = client.addPositionRestrictionToOrg("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo);
 
 		//validate fields
 		assertEquals("Description For Position Restriction",created.getDesc());
@@ -393,7 +395,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void getPositionRestrictionsByOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<OrgPositionRestrictionInfo>  orgPositionRestrictionInfos = client.getPositionRestrictionsByOrg("19");
-		assertEquals(6, orgPositionRestrictionInfos.size());
+		assertEquals(2, orgPositionRestrictionInfos.size());
 
 		 orgPositionRestrictionInfos = client.getPositionRestrictionsByOrg("-1");
 		 assertTrue(orgPositionRestrictionInfos == null || orgPositionRestrictionInfos.size() == 0);

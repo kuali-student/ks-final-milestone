@@ -33,6 +33,8 @@ public interface CreditCourseConstants
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
 	public static final String CROSS_LISTINGS = "crossListings";
 	public static final String VERSIONS = "versions";
+	public static final String GRADING_OPTIONS = "gradingOptions";
+	public static final String OUTCOME_OPTIONS = "outcomeOptions";
 	public static final String JOINTS = "joints";
 	public static final String FINAL_RESULTS = "finalResults";
 	public static final String FEES = "fees";
@@ -46,6 +48,7 @@ public interface CreditCourseConstants
 	public static final String CAMPUS_LOCATIONS = "campusLocations";
 	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
 	public static final String COURSE_SPECIFIC_LOS = "courseSpecificLOs";
+	public static final String COURSE_SPECIFIC_LRTS = "courseSpecificLRTs";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

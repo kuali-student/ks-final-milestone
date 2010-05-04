@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-rice-lessdep</artifactId>
-	<version>1.0.0-m5</version>
+	<version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KS Rice Less Dependencies</name>
 	<description>
@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m5</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -127,11 +127,13 @@
         		<exclusion>
         			<groupId>bcel</groupId>
         			<artifactId>bcel</artifactId>
-        		</exclusion>       		
+        		</exclusion>   
+        		<!-- This is needed for bus security in ks-standalone     		
         		<exclusion>
         			<groupId>bouncycastle</groupId>
         			<artifactId>bcprov-jdk15</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
+        		-->       		        					                			
         		<exclusion>
         			<groupId>bsf</groupId>
         			<artifactId>bsf</artifactId>

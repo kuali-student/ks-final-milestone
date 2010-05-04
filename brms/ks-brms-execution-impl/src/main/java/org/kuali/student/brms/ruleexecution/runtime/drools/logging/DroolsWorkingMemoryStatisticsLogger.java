@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.ruleexecution.runtime.drools.logging;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +37,11 @@ public class DroolsWorkingMemoryStatisticsLogger extends WorkingMemoryLogger {
 	private DroolsExecutionStatistics stats;
 	private final ConcurrentMap<String, Long> executionTimeMap = new ConcurrentHashMap<String, Long>();
 	
-    public DroolsWorkingMemoryStatisticsLogger(
+	public DroolsWorkingMemoryStatisticsLogger() {
+		super();
+	}
+
+	public DroolsWorkingMemoryStatisticsLogger(
     		final KnowledgeRuntimeEventManager workingMemoryEventManager,
     		final String ruleBaseType,
     		final DroolsExecutionStatistics stats) {
@@ -43,7 +62,7 @@ public class DroolsWorkingMemoryStatisticsLogger extends WorkingMemoryLogger {
 	@Override
     public void beforeActivationFired(final BeforeActivationFiredEvent event, final WorkingMemory workingMemory) {
     	long time = System.nanoTime();
-    	this.executionTimeMap.put(getId(event.getActivation()), new Long(time));
+    	this.executionTimeMap.put(getId(event.getActivation()), Long.valueOf(time));
     }
 
 	@Override

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -15,16 +30,20 @@ public class MultiplicityHeader extends Composite{
 	private FlowPanel clearDiv = new FlowPanel();
 	private SectionTitle title;
 	private KSLinkButton help;
-	private KSLinkButton delete;
+	private KSLinkButton delete = null;
 	
-	public MultiplicityHeader(SectionTitle title){
+	public MultiplicityHeader(SectionTitle title, boolean readOnly){
 		this.title = title;
 		header.add(title);
 		
 		help = new KSLinkButton("?", ButtonStyle.HELP);
-		delete = new KSLinkButton("X", ButtonStyle.DELETE);
 		actions.add(help);
-		actions.add(delete);
+		
+		if(!readOnly){
+			delete = new KSLinkButton("X", ButtonStyle.DELETE);
+			actions.add(delete);
+		}
+		
 		actions.setStyleName("ks-form-header-title-actions");
 		
 		header.add(actions);
@@ -35,7 +54,9 @@ public class MultiplicityHeader extends Composite{
 	}
 
 	public void addDeleteHandler(ClickHandler handler){
-		delete.addClickHandler(handler);
+		if(delete!=null){
+			delete.addClickHandler(handler);
+		}
 	}
 	
 	public void addHelpHandler(ClickHandler handler){

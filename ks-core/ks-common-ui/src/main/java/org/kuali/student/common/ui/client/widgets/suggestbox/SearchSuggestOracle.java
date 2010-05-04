@@ -1,22 +1,24 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.suggestbox;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -46,7 +48,9 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
     private LookupMetadata lookupMetaData;
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);    
+    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    
+    private List<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>> searchCompletedCallbacks = new ArrayList<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>>();
     
     /**
      * @deprecated
@@ -196,6 +200,12 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                     lastSuggestions = createSuggestions(results, request.getLimit());
                     Response response = new Response(lastSuggestions);
                     callback.onSuggestionsReady(request, response);
+                    if (searchCompletedCallbacks != null &&
+                            lastSuggestions != null && lastSuggestions.size() == 1) {
+                        for (org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback : searchCompletedCallbacks) {
+                            callback.exec(lastSuggestions.get(0));
+                        }
+                    }
                 }
                 
                 private List<IdableSuggestion> createSuggestions(SearchResult results, int limit){
@@ -298,7 +308,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
             @Override
             public void onSuccess(SearchResult results) {
                 IdableSuggestion theSuggestion = null;
-                if(results != null){
+                if(results != null && !results.getRows().isEmpty()){
                 	SearchResultRow r = results.getRows().get(0);
                     theSuggestion = new IdableSuggestion();
                     for(SearchResultCell c: r.getCells()){
@@ -319,4 +329,10 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
             }
         });
     }
+
+    @Override
+    public void addSearchCompletedCallback(org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
+        searchCompletedCallbacks.add(callback);
+    }
+    
 }

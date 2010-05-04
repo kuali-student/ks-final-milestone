@@ -1,18 +1,18 @@
-/*
- * Copyright 2007 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
@@ -122,7 +122,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
 	 */
 	@Override
 	public void setValue(List<OutlineNode<LOPicker>> value, boolean fireEvents) {
-		setValue(value, false);
+		setValue(value);
 	}
 	
     /**
@@ -185,7 +185,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         
         public LearningObjectiveList(){
             mainPanel.add(outlineComposite);
-            KSLabel addnew = new KSLabel("Add new Learning Objective");
+            KSLabel addnew = new KSLabel("Add item");
             addnew.addStyleName("KS-LOBuilder-New");
             mainPanel.add(addnew);
             addnew.addClickHandler(new ClickHandler(){
@@ -229,15 +229,38 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
             
             outlineModel.addOutlineNode(aNode);
         }
+        
+        //add one or more description by going through existing LO box and populating the empty ones
+        //if not enough empty LO boxes then add new ones
         public void addSelectedLOs(List<String> loDescription) {
+            
+            List<OutlineNode<LOPicker>> existingLOs = outlineModel.getOutlineNodes();
+            
+            int ix = existingLOs.size();
             for (String strValue : loDescription){
-                appendLO(strValue);
+                
+                boolean foundEmptyBox = false;
+                while (ix > 0) {
+                    ix--;
+                    if (existingLOs.get(ix).getUserObject().getLOText().trim().length() == 0) {
+                        existingLOs.get(ix).getUserObject().setLOText(strValue);
+                        foundEmptyBox = true;
+                        break;
+                    }
+                }
+                                
+                //we didn't find empty LO box so add a new one
+                if (foundEmptyBox == false) {
+                    appendLO(strValue);
+                }                                
             }
             reDraw();
         }
+        
         private void reDraw(){
           outlineComposite.render();
         }
+        
         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<OutlineNode<LOPicker>>> handler) {
             return new NOOPListValueChangeHandler();
         }

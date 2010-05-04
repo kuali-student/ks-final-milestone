@@ -1,9 +1,25 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.assembly.data;
 
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -688,6 +704,71 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         return result;
     }
 
+    
+    /**
+     * @return an Iterator that does not contain any _runtimeData
+     */
+    public Iterator<Property> realPropertyIterator(){
+    	HashMap<Key, Value> propertyMap = new HashMap<Key, Value>(map);
+    	propertyMap.remove("_runtimeData");
+    	propertyMap.remove(new StringKey("_runtimeData"));
+        final Iterator<Map.Entry<Key, Value>> impl = propertyMap.entrySet().iterator();
+
+        return new Iterator<Property>() {
+            Map.Entry<Key, Value> current;
+
+            @Override
+            public boolean hasNext() {
+                return impl.hasNext();
+            }
+
+            @Override
+            public Property next() {
+                final Map.Entry<Key, Value> entry = impl.next();
+                current = entry;
+                return new Property() {
+                    @Override
+                    public <T> T getKey() {
+                        return (T) entry.getKey().get();
+                    }
+
+                    @Override
+                    public Class<?> getKeyType() {
+                        return entry.getKey().getType();
+                    }
+
+                    @Override
+                    public <T> T getValue() {
+                        return (T) entry.getValue().get();
+                    }
+
+                    @Override
+                    public Class<?> getValueType() {
+                        return entry.getValue().getType();
+                    }
+
+                    @Override
+                    public Key getWrappedKey() {
+                        return entry.getKey();
+                    }
+
+                    @Override
+                    public Value getWrappedValue() {
+                        return entry.getValue();
+                    }
+                };
+            }
+
+            @Override
+            public void remove() {
+                impl.remove();
+                QueryPath path = getQueryPath();
+                path.add(current.getKey());
+                execChangeCallbacks(ChangeType.REMOVE, path);
+            }
+        };
+    }
+    
     /*
      * (non-Javadoc)
      * 

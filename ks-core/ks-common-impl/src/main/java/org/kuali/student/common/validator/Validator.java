@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.validator;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public class Validator {
 
 	//TODO: Change this to 'default' when the change is made in xml
-	private static final String DEFAULT_STATE = "(n/a)";
+	private static final String DEFAULT_STATE = "*";
 
 	private static final String UNBOUNDED_CHECK = null;
 
@@ -248,7 +249,7 @@ public class Validator {
 				if (bcb.minOccurs > ((Collection<?>) value).size()) {
 					ValidationResultInfo valRes = new ValidationResultInfo(
 							xPath);
-					valRes.setError(getMessage("validation.minOccurs"));
+					valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), bcb.toMap()));
 					results.add(valRes);
 				}
 
@@ -257,7 +258,7 @@ public class Validator {
 						&& maxOccurs < ((Collection<?>) value).size()) {
 					ValidationResultInfo valRes = new ValidationResultInfo(
 							xPath);							
-					valRes.setError(getMessage("validation.maxOccurs"));
+					valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), bcb.toMap()));
 					results.add(valRes);
 				}						
 			} else {
@@ -297,7 +298,7 @@ public class Validator {
 					if (bcb.minOccurs > ((Collection<?>) value).size()) {
 						ValidationResultInfo valRes = new ValidationResultInfo(
 								xPath);
-						valRes.setError(getMessage("validation.minOccurs"));
+						valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), bcb.toMap()));
 						results.add(valRes);
 					}
 
@@ -305,8 +306,8 @@ public class Validator {
 					if (maxOccurs != null
 							&& maxOccurs < ((Collection<?>) value).size()) {
 						ValidationResultInfo valRes = new ValidationResultInfo(
-								xPath);							
-						valRes.setError(getMessage("validation.maxOccurs"));
+								xPath);
+						valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), bcb.toMap()));
 						results.add(valRes);
 					}											
 				} else {
@@ -778,10 +779,10 @@ public class Validator {
 		if (val.isOk()) {
 			Float maxValue = ValidatorUtils.getFloat(bcb.maxValue);
 			Float minValue = ValidatorUtils.getFloat(bcb.minValue);
-
+			
 			if (maxValue != null && minValue != null) {
 				// validate range
-				if (v > maxValue || v < minValue) {
+				if (v > maxValue || v < minValue) {					
 					val.setError(MessageUtils.interpolate(
 							getMessage("validation.outOfRange"), bcb.toMap()));
 				}
@@ -987,9 +988,10 @@ public class Validator {
 
 		Message msg = messageService.getMessage(messageLocaleKey,
 				messageGroupKey, messageId);
+		
 		return msg.getValue();
 	}
-
+	
 	private String getElementXpath(Stack<String> elementStack) {
 		StringBuilder xPath = new StringBuilder();
 		xPath.append("/");

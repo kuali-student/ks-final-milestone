@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.list.impl;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ import com.google.gwt.user.client.ui.FlexTable;
  *  If maxCols <=2 checkboxes will be vertical, otherwise horizontal.
  * 
  *  For ListItems with > 1 attribute a table with a header row will be generated 
- *  with each column being a ListItems attribute.
+ *  with each column being a ListItems attribute. This can be turned off using setIgnoreMultipleAttributes
  * 
  * @author Kuali Student Team 
  *
@@ -55,6 +56,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
 
     private int maxCols = 1; //default max columns
     private boolean enabled = true;
+    private boolean ignoreMultipleAttributes = false;
 
     public KSCheckBoxListImpl() {
         initWidget(checkBoxes);
@@ -111,7 +113,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         int col = 0;
 
         // If ListItems has more than one attribute create a table with each attribute in its own column
-        if (super.getListItems().getAttrKeys().size() > 1) {
+        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys().size() > 1) {
             checkBoxes.addStyleName("KS-Checkbox-Table");
             checkBoxes.setWidget(row, col++, new KSLabel("Select"));
             for (String attr:super.getListItems().getAttrKeys()){
@@ -242,6 +244,11 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
     public boolean isMultipleSelect(){
         return true;
     }
+    
+    public void setIgnoreMultipleAttributes(boolean ignoreMultiple){
+    	this.ignoreMultipleAttributes = ignoreMultiple;
+    }
+
 
     @Override
     public void clear(){

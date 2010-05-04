@@ -145,6 +145,7 @@ public class AtpTypeInfoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.key"));
 		}
 		
 		recursions.increment (this.getClass ().getName ());

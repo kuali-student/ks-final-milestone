@@ -26,7 +26,7 @@ public class StateSelectorInfoHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		FIELD ("field"),
+		FIELDS ("fields"),
 		KEY ("key");
 		
 		private final String key;
@@ -64,15 +64,15 @@ public class StateSelectorInfoHelper
 	}
 	
 	
-	public void setField (Data value)
+	public void setFields (Data value)
 	{
-		data.set (Properties.FIELD.getKey (), value);
+		data.set (Properties.FIELDS.getKey (), value);
 	}
 	
 	
-	public Data getField ()
+	public Data getFields ()
 	{
-		return (Data) data.get (Properties.FIELD.getKey ());
+		return (Data) data.get (Properties.FIELDS.getKey ());
 	}
 	
 	

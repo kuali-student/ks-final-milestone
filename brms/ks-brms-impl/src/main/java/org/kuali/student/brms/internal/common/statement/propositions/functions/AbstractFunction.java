@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.brms.internal.common.statement.propositions.functions;
 
 import java.math.BigDecimal;
@@ -20,7 +35,7 @@ public abstract class AbstractFunction<T> implements Function<T> {
 
 	String operation;
 
-	public abstract T compute();
+	//public abstract T compute();
 
 	public void setOperation(String operationType) {
 		this.operation = operationType;
@@ -79,22 +94,22 @@ public abstract class AbstractFunction<T> implements Function<T> {
     		return value;
     	}
     	else if (type.equals(Integer.class)) {
-    		return new Integer(value.intValue());
+    		return Integer.valueOf(value.intValue());
     	}
     	else if (type.equals(Double.class)) {
-    		return new Double(value.doubleValue());
+    		return Double.valueOf(value.doubleValue());
     	}
     	else if (type.equals(Long.class)) {
-    		return new Long(value.longValue());
+    		return Long.valueOf(value.longValue());
     	}
     	else if (type.equals(Float.class)) {
-    		return new Float(value.floatValue());
+    		return Float.valueOf(value.floatValue());
     	}
     	else if (type.equals(Short.class)) {
-    		return new Short(value.shortValue());
+    		return Short.valueOf(value.shortValue());
     	}
     	else if (type.equals(Byte.class)) {
-    		return new Byte(value.byteValue());
+    		return Byte.valueOf(value.byteValue());
     	}
     	else if (type.equals(BigDecimal.class)) {
     		return new BigDecimal(value.toString());

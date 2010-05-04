@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.ArrayList;
@@ -36,6 +51,7 @@ public class OrgRelationTypePicker extends KSDropDown{
 			    final Map<String,String> map = new LinkedHashMap<String, String>();
                 for(OrgOrgRelationTypeInfo info : orgRelTypes) {
                     map.put(info.getId(), info.getName());
+                    //Add the reverse relation types in the dropdown and add the prefix REV to differentiate from the original key
                     map.put("REV_" + info.getId(), info.getRevName());
                 }
                 orgRelTypeList = new ListItems() {
@@ -65,9 +81,10 @@ public class OrgRelationTypePicker extends KSDropDown{
                         return map.get(id);
                     }
                 };
-	                
+                    setListItems(orgRelTypeList);
 	                setEnabled(true);
-	                setListItems(orgRelTypeList);
+	                setInitialized(true);
+	                
 /*	                ListItems items = orgTypeDropDown.getListItems();
 	                
 	                if (items != null) {

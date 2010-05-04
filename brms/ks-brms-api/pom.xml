@@ -2,20 +2,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-api</artifactId>
-	<version>1.0.0-m5</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS BRMS API</name>
 	<description />
-
+	
     <parent>
         <groupId>org.kuali.student.brms</groupId>
         <artifactId>ks-brms</artifactId>
-        <version>1.0.0-m5</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-      <ks.java2ws.phase>process-classes</ks.java2ws.phase>
-    </properties>
 
 	<dependencies>
 		<dependency>
@@ -24,7 +20,7 @@
 			<version>${ks-core.version}</version>
 		</dependency>
 	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -33,13 +29,13 @@
 				<executions>
  					<execution>
 						<id>factfinder-wsdl</id>
-						<phase>${ks.java2ws.phase}</phase>
+						<phase>process-classes</phase>
 						<configuration>
 							<className>
 								org.kuali.student.brms.factfinder.service.FactFinderService
 							</className>
 							<serviceName>FactFinderService</serviceName>
-							<targetNameSpace>http://student.kuali.org/wsdl/brms/FactFinder</targetNameSpace>
+							<targetNameSpace>http://student.kuali.org/wsdl/brms/FactFinder</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -47,13 +43,13 @@
 					</execution>
 					<execution>
 						<id>rulemanagement-wsdl</id>
-						<phase>${ks.java2ws.phase}</phase>
+						<phase>process-classes</phase>
 						<configuration>
 							<className>
 								org.kuali.student.brms.rulemanagement.service.RuleManagementService
 							</className>
 							<serviceName>RuleManagementService</serviceName>
-							<targetNameSpace>http://student.kuali.org/wsdl/brms/RuleManagement</targetNameSpace>
+							<targetNameSpace>http://student.kuali.org/wsdl/brms/RuleManagement</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -61,13 +57,13 @@
 					</execution>
 					<execution>
 						<id>repository-wsdl</id>
-						<phase>${ks.java2ws.phase}</phase>
+						<phase>process-classes</phase>
 						<configuration>
 							<className>
 								org.kuali.student.brms.repository.service.RuleRepositoryService
 							</className>
 							<serviceName>RuleRepositoryService</serviceName>
-							<targetNameSpace>http://student.kuali.org/wsdl/brms/RuleRepository</targetNameSpace>
+							<targetNameSpace>http://student.kuali.org/wsdl/brms/RuleRepository</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -75,7 +71,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+		</plugins>			
 	</build>
-
+	
 </project>

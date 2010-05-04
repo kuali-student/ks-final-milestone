@@ -1,23 +1,25 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
@@ -33,15 +35,77 @@ public class SearchResultListItems implements ListItems{
     private ArrayList<String> attrKeys;
     private HashMap<String, SearchResultRow> resultDataMap = new HashMap<String, SearchResultRow>();
     private int attrOffset = 0;
+    //default values for attr indexes
+    //these are necessary for use in search dispatcher assumed 2 columns min
+    //we may want to switch these all to 0 to allow for 1 column result lists
+    private int sortAttrNdx = 1;
+    private int itemTextAttrNdx = 1;
+    private int keyAttrNdx = 0;
         
-    public SearchResultListItems(){
-        
-    }
+    public int getSortAttrNdx() {
+		return sortAttrNdx;
+	}
 
-    public SearchResultListItems(List<SearchResultRow> results){
+	public void setSortAttrNdx(int sortAttrNdx) {
+		this.sortAttrNdx = sortAttrNdx;
+	}
+
+	public void setSortAttrNdxFromAttrKey(List<SearchResultRow> results, String sortAttrKey) {
+		this.sortAttrNdx = getAttrKeyNdx(results, sortAttrKey);
+	}
+
+	public int getKeyAttrNdx() {
+		return keyAttrNdx;
+	}
+
+	public void setKeyAttrNdx(int keyAttrNdx) {
+		this.keyAttrNdx = keyAttrNdx;
+	}
+	
+	public void setKeyAttrNdxFromAttrKey(List<SearchResultRow> results, String keyAttrKey) {
+		this.keyAttrNdx = getAttrKeyNdx(results, keyAttrKey);
+	}
+
+	public int getItemTextAttrNdx() {
+		return itemTextAttrNdx;
+	}
+
+	public void setItemTextAttrNdx(int itemTextAttrNdx) {
+		this.itemTextAttrNdx = itemTextAttrNdx;
+	}
+
+	public void setItemTextAttrNdxFromAttrKey(List<SearchResultRow> results, String itemTextAttrKey) {
+		this.itemTextAttrNdx = getAttrKeyNdx(results, itemTextAttrKey);
+	}
+	
+	public SearchResultListItems(){ 
+    }
+    
+    private void setAttrNdxs(List<SearchResultRow> results, LookupMetadata lookupMetadata) {
+    	
+    	setItemTextAttrNdxFromAttrKey(results, lookupMetadata.getResultDisplayKey());
+    	setKeyAttrNdxFromAttrKey(results, lookupMetadata.getResultReturnKey());
+    	setSortAttrNdxFromAttrKey(results, lookupMetadata.getResultSortKey());        
+    }
+    
+    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results, LookupMetadata lookupMetadata){
+    	
+    	setAttrNdxs(results, lookupMetadata);
+    	setResultColumns(resultColumns);
+        setResults(results);
+    }   
+    
+    public SearchResultListItems(List<SearchResultRow> results, LookupMetadata lookupMetadata){
+    
+    	setAttrNdxs(results, lookupMetadata);
         setResults(results);
     }
-
+    
+    public SearchResultListItems(List<SearchResultRow> results){
+        
+    	setResults(results);
+    }
+    	
     public void setResultColumns(List<ResultColumnInfo> resultColumns){
         attrKeys = new ArrayList<String>();
         
@@ -53,18 +117,12 @@ public class SearchResultListItems implements ListItems{
         attrKeys.remove(0);
         attrOffset = 1;
     }
-    
-    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results){
-        setResultColumns(resultColumns);
-        setResults(results);
-    }       
-    
-    public void setResults(List<SearchResultRow> results){            
+           
+    public void setResults(List<SearchResultRow> results, int keyNdx){            
         resultDataMap.clear();
         if (results != null){
             for (SearchResultRow r: results){
-                //FIXME: This assumes search results have id as first column
-                resultDataMap.put(r.getCells().get(0).getValue(), r);
+                resultDataMap.put(r.getCells().get(keyNdx).getValue(), r);
             }
             
             //Default keys for column attributes
@@ -78,6 +136,23 @@ public class SearchResultListItems implements ListItems{
                 }
             }
         }
+    }
+    
+    private int getAttrKeyNdx(List<SearchResultRow> results, String keyAttrKey) {
+
+    	if (results.size() > 0){
+	        for (int i=0; i < results.get(0).getCells().size(); i++){
+	        	if (results.get(0).getCells().get(i).getKey().equals(keyAttrKey)) {
+	        		return i;
+	        	}
+	        }
+		}
+		
+		return 0;
+	}
+    
+    public void setResults(List<SearchResultRow> results) {
+    	setResults(results, this.keyAttrNdx);
     }
     
     @Override
@@ -124,8 +199,7 @@ public class SearchResultListItems implements ListItems{
      */
     @Override
     public String getItemText(String id) {
-        // FIXME: What value should this really return for multi-column list, id or the first non-id column?
-        return resultDataMap.get(id).getCells().get(1).getValue();
+        return resultDataMap.get(id).getCells().get(itemTextAttrNdx).getValue();
     }
     
 }

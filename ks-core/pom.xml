@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.0.0-m5</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>KS Core</name>
@@ -37,6 +37,7 @@
         <module>ks-hibernate</module>
         <module>ks-jta</module>
         <module>ks-rice-lessdep</module>
+        <module>ks-core-rice</module>
         <module>ks-common-util</module>
         <module>ks-common-ui</module>
         <module>ks-common-test</module>
@@ -44,12 +45,12 @@
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-ui</module>
-        <!--<module>ks-core-web</module>-->
+        <module>ks-core-web</module>
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/tags/ks-core-1.0.0-m5</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/tags/ks-core-1.0.0-m5</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</developerConnection>
     </scm>
 
     <repositories>
@@ -102,9 +103,8 @@
         <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
 
         <!-- build properties -->
-        <ks.java2ws.phase>process-classes</ks.java2ws.phase>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-        <ks-standard-security.version>1.0.0-m5</ks-standard-security.version>
+        <ks-standard-security.version>1.0.0-SNAPSHOT</ks-standard-security.version>
     </properties>
 
     <profiles>
@@ -252,6 +252,40 @@
                 </os>
             </activation>
         </profile>
+		<!-- License plugin -->
+		<!-- to run, use mvn -Pgenerate-ecl license:format -Dyear=2010 -->
+		<!-- some of the xmlparsers dont like comments to appear before the ?xml processing instruction -->
+		<!-- aslo non ascii characters like the japanese in statement.xml will get messed up by this plugin -->
+		<profile>
+			<id>generate-ecl</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+			            <groupId>com.mycila.maven-license-plugin</groupId>
+			            <artifactId>maven-license-plugin</artifactId>
+			            <configuration>
+			                <header>src/etc/ecl-header.txt</header>
+			            </configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>mc-release</id>
+					<name>Local Maven repository of releases</name>
+					<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
     </profiles>
 
     <build>
@@ -267,6 +301,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -290,14 +325,14 @@
                         <compilerArgument>-implicit:none</compilerArgument>
                     </configuration>
                 </plugin>
-    
+
                 <!--  the site plugin is both build and reporting -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>${site.plugin.version}</version>
                 </plugin>
-    
+
                 <!-- CXF Java2WS Default Configuration -->
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
@@ -322,7 +357,7 @@
                         <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
                     </configuration>
                 </plugin>
-    
+
                 <!--  Tomcat Plugin Configuration -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -333,7 +368,7 @@
                         <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
                     </configuration>
                 </plugin>
-    
+
                 <!-- War Plugin Configuration -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -343,7 +378,7 @@
                         <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                     </configuration>
                 </plugin>
-    
+
                 <!-- Codehaus GWT Maven Plugin Configuration-->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -356,7 +391,7 @@
                         <extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
                     </configuration>
                 </plugin>
-    
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -410,7 +445,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.1.2</version>
                 <configuration>
                     <!-- this takes forever to complete, enable as needed -->
                     <!--
@@ -1011,31 +1045,31 @@
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-jta</artifactId>
-                <version>1.0.0-m5</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-cxf</artifactId>
-                <version>1.0.0-m5</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-metro</artifactId>
-                <version>1.0.0-m5</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-eclipselink</artifactId>
-                <version>1.0.0-m5</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-hibernate</artifactId>
-                <version>1.0.0-m5</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
 

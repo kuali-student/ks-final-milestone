@@ -1,18 +1,39 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.server.gwt;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -23,6 +44,8 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -48,6 +71,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
     private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
 	private PermissionService permissionService;
+	private IdentityService identityService;
 	
 	@Override
 	public Data getData(String dataId) {
@@ -79,8 +103,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 				return new DataSaveResult(saveResult.getValidationResults(), saveResult.getValue());
 			}
 		} catch (Exception e) {
-			LOG.error("Unable to save credit course proposal", e);
-			throw new OperationFailedException("Unable to save credit course proposal");
+			LOG.error("Unable to save", e);
+			throw new OperationFailedException("Unable to save");
 		}
 		return null;
 	}
@@ -97,6 +121,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
             //Lookup the workflowId from the dataId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
+
             if(docDetail==null){
             	throw new OperationFailedException("Error found gettting document. " );
             }
@@ -171,9 +196,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	            	throw new OperationFailedException("Error found getting document. " );
 	            }
 	            
-		        String approveComment = "Approved by CluProposalService";
-		        
-		        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), deriveDocContentFromData(data), approveComment);
+		        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), deriveDocContentFromData(data), "");
 	            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
 	        		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
 	        	}
@@ -268,6 +291,31 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
+	public Boolean withdrawDocumentWithId(String dataId) {
+        if(simpleDocService==null){
+        	LOG.error("Workflow Service is unavailable");
+        	return Boolean.FALSE;
+        }
+
+		try{
+			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
+			KimPrincipalInfo principal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			if (principal == null) {
+				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			}
+//	        StandardResponse stdResp = simpleDocService.superUserDisapprove(docDetail.getRouteHeaderId().toString(), principal.getPrincipalId(), "");
+//	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+//        		LOG.error("Error withdrawing document: " + stdResp.getErrorMessage());
+//        		return Boolean.FALSE;
+//        	}
+		}catch(Exception e){
+            LOG.error("Error withdrawing document",e);
+            return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	@Override
 	public String getActionsRequested(String dataId) throws OperationFailedException {
         try{
     		if(workflowUtilityService==null){
@@ -280,7 +328,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
     		}
 
             //get a user name
-            String username = getCurrentUser();
+            String principalId = getCurrentUser();
 
             //Lookup the workflowId from the cluId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
@@ -289,10 +337,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             }
             
     		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
-            LOG.debug("Calling action requested with user:"+username+" and docId:"+docDetail.getRouteHeaderId());
+            LOG.debug("Calling action requested with user:"+principalId+" and docId:"+docDetail.getRouteHeaderId());
 
             Map<String,String> results = new HashMap<String,String>();
-            AttributeSet kewActionsRequested = workflowUtilityService.getActionsRequested(username, docDetail.getRouteHeaderId());
+            AttributeSet kewActionsRequested = workflowUtilityService.getActionsRequested(principalId, docDetail.getRouteHeaderId());
             for (String key : kewActionsRequested.keySet()) {
             	if ("true".equalsIgnoreCase(kewActionsRequested.get(key))) {
             		results.put(key,"true");
@@ -323,6 +371,13 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
                 	}
             	}
             }
+
+            // if user can withdraw document then add withdraw button
+            if (getPermissionService().isAuthorizedByTemplateName(principalId, PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER,docDetail.getRouteHeaderId().toString()))) {
+            	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
+//            	actionsRequested+="W";
+            }
+
             return actionsRequested;
         } catch (Exception e) {
         	LOG.error("Error getting actions Requested",e);
@@ -346,6 +401,21 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
+	public String getDocumentStatus(String workflowId)
+			throws OperationFailedException {
+		if (workflowId != null && !workflowId.isEmpty()){
+			try {
+				Long documentId = Long.valueOf(workflowId); 
+				return workflowUtilityService.getDocumentStatus(documentId);
+			} catch (Exception e) {
+				throw new OperationFailedException("Error getting document status. " + e.getMessage());
+			}	
+		}
+		
+		return null;
+	}
+
+	@Override
 	public String getWorkflowIdFromDataId(String dataId) throws OperationFailedException {
 		if(null==simpleDocService){
         	throw new OperationFailedException("Workflow Service is unavailable");
@@ -364,6 +434,27 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			LOG.error("Call Failed getting workflowId for id: "+dataId, e);
 		}
 		return null;
+	}
+	
+	@Override
+	public List<String> getWorkflowNodes(String workflowId)
+			throws OperationFailedException {
+		List<String> routeNodeNames = new ArrayList<String>();
+		
+		Long documentId = Long.valueOf(workflowId);
+		try{
+			RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getActiveNodeInstances(documentId);
+			if (routeNodes != null){
+				for (RouteNodeInstanceDTO routeNodeInstanceDTO : routeNodes) {
+					routeNodeNames.add(routeNodeInstanceDTO.getName());										
+				}
+			}
+			
+		} catch (Exception e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+		
+		return routeNodeNames;
 	}
 
 	@Override
@@ -462,29 +553,23 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		String user = getCurrentUser();
 		boolean result = false;
 		if (checkDocumentLevelPermissions()) {
-			String namespaceCode = null;
-			String permissionTemplateName = null;
-			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
-			if (PermissionType.INITIATE.equals(type)) {
-				namespaceCode = "KR-SYS";
-				permissionTemplateName = "Initiate Document";
-			}
-			else if (PermissionType.OPEN.equals(type)) {
-				namespaceCode = "KS-SYS";
-				permissionTemplateName = "Open Document";
-			}
-			else if (PermissionType.SEARCH.equals(type)) {
-	        	// FIXME: add real perms for SEARCH
-	        	return Boolean.TRUE;
-			}
-			else {
+			if (type == null) {
 				return null;
 			}
+			String namespaceCode = type.getPermissionNamespace();
+			String permissionTemplateName = type.getPermissionTemplateName();
+			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
 			if (attributes != null) {
 				roleQuals.putAll(attributes);
 			}
-			LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-			result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
+				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
+				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+			}
+			else {
+				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
+				return Boolean.TRUE;
+			}
 		}
 		else {
 			LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
@@ -511,6 +596,14 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
+    }
+
+	public IdentityService getIdentityService() {
+    	return identityService;
+    }
+
+	public void setIdentityService(IdentityService identityService) {
+    	this.identityService = identityService;
     }
 
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {

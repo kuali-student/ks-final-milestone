@@ -1,10 +1,28 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.mvc.controller;
 
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ModifyActionEvent;
 import org.kuali.student.common.ui.client.event.ModifyActionHandler;
@@ -14,7 +32,6 @@ import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
@@ -30,30 +47,28 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.StringValue;
+import org.kuali.student.core.assembly.data.Data.Value;
+import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory;
-import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory.OrgSections;
+import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.SectionsEnum;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-
-
-
-
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class OrgProposalController extends TabbedSectionLayout{
 
@@ -66,6 +81,17 @@ public class OrgProposalController extends TabbedSectionLayout{
     private CommonConfigurer commonConfigurer = new CommonConfigurer();
     final KSLightBox progressWindow = new KSLightBox();
     boolean flag = false;
+    
+    public static final String ORG_INFO_PATH                  = "orgInfo";
+    public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
+    public static final String PERSON_PATH                  = "orgPersonRelationInfo";
+    public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
+    public static final String ORG_TAB_NAME                 = "Organization";
+    public static final String POSITION_TAB_NAME                 = "Positions/Members";
+    public static final String SEARCH_TAB_NAME                 = "Search/Modify";
+    public static final String QUALIFICATION_ORG_ID                 = "orgId";
+    
+    
     
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
     public OrgProposalController(){
@@ -115,9 +141,9 @@ public class OrgProposalController extends TabbedSectionLayout{
                 requestModel(new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultContainer>>() {
+                        model.validate(new Callback<List<ValidationResultInfo>>() {
                             @Override
-                            public void exec(List<ValidationResultContainer> result) {
+                            public void exec(List<ValidationResultInfo> result) {
                                 ValidateResultEvent e = new ValidateResultEvent();
                                 e.setValidationResult(result);
                                 fireApplicationEvent(e);
@@ -147,7 +173,22 @@ public class OrgProposalController extends TabbedSectionLayout{
     private KSButton getModifyButton(){
         return new KSButton("Modify", new ClickHandler(){
                     public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
+                        Value val = null;
+                        View view = getView(SectionsEnum.SEARCH);
+                        if(view instanceof SectionView){
+                            List<FieldDescriptor> lfd = ((SectionView)view).getFields();
+                            for(FieldDescriptor fd : lfd){
+                                Widget widget = fd.getFieldWidget();
+                                if(widget instanceof KSPicker){
+                                    val = ((KSPicker)widget).getValue();
+                                }
+                            }
+                        }
+                        String strval = ((StringValue)val).get();
+                        if( !strval.equals("") && strval != null ){
+                            getCurrentView().updateModel();
+                            fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
+                        }
                     }
                 });
     }
@@ -158,14 +199,37 @@ public class OrgProposalController extends TabbedSectionLayout{
         KSProgressIndicator progressInd = new KSProgressIndicator();
         progressInd.setText("Loading");
         progressInd.show();
+        progressWindow.removeCloseLink();
         progressWindow.setWidget(progressInd);
+
 
         if (initialized) {
             onReadyCallback.exec(true);
         } 
         else {
+            String idType = null;
+            String viewContextId = null;
             progressWindow.show();
-            orgProposalRpcServiceAsync.getOrgMetaData( 
+            
+            if(getViewContext().getIdType() != null){
+                idType = getViewContext().getIdType().toString();
+                viewContextId = getViewContext().getId();
+                if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
+                    viewContextId = null;
+                }
+
+//              switch (getViewContext().getIdType()) {
+//                    case KS_KEW_OBJECT_ID :
+//                        idType = getViewContext().getIdType().toString();
+//                        viewContextId = getViewContext().getId();
+//                        break;
+//                    case DOCUMENT_ID :
+//                        idType = getViewContext().getIdType().toString();
+//                        viewContextId = getViewContext().getId();
+//                        break;
+//                }
+            }
+            orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, viewContextId,
                     new AsyncCallback<Metadata>(){
 
                         @Override
@@ -226,9 +290,9 @@ public class OrgProposalController extends TabbedSectionLayout{
         }
         
         if(!initialized){
-        addButton("Organization", getSaveButton());
-        addButton("Positions/Members", getSaveButton());
-        addButton("Search/Modify", getModifyButton());
+        addButton(ORG_TAB_NAME, getSaveButton());
+        addButton(POSITION_TAB_NAME, getSaveButton());
+        addButton(SEARCH_TAB_NAME, getModifyButton());
         
         addApplicationEventHandler(ModifyActionEvent.TYPE, new ModifyActionHandler(){
             @Override
@@ -244,6 +308,7 @@ public class OrgProposalController extends TabbedSectionLayout{
                 doSaveAction(saveAction);
             }            
         });
+        setButtonPermission();
         }
         initialized = true;
     }
@@ -310,10 +375,10 @@ public class OrgProposalController extends TabbedSectionLayout{
             requestModel(new ModelRequestCallback<DataModel>() {
                 @Override
                 public void onModelReady(DataModel model) {
-                    model.validate(new Callback<List<ValidationResultContainer>>() {
+                    model.validate(new Callback<List<ValidationResultInfo>>() {
 
                         @Override
-                        public void exec(List<ValidationResultContainer> result) {
+                        public void exec(List<ValidationResultInfo> result) {
                             boolean save = true;
                                 View v = getCurrentView();
                                 if(v instanceof Section){
@@ -369,21 +434,70 @@ public class OrgProposalController extends TabbedSectionLayout{
 //	        }       
 	    }
 	    
-	       public void doModifyAction(ModifyActionEvent modifyActionEvent){     
+	    private void setButtonPermission(){
+	        HorizontalPanel buttonPanel = getButtonPanel(ORG_TAB_NAME);
+	        QueryPath orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
+	        QueryPath orgOrgPath = QueryPath.concat(null, ORGORG_PATH);
+	        QueryPath orgPosPath = QueryPath.concat(null, POSITION_PATH);
+	        QueryPath orgPersonPath = QueryPath.concat(null, PERSON_PATH);
+	        Metadata orgInfometa = orgProposalModel.getMetadata(orgInfoPath); 
+	        Metadata orgOrgmeta = orgProposalModel.getMetadata(orgOrgPath); 
+	        Metadata orgPosmeta = orgProposalModel.getMetadata(orgPosPath); 
+	        Metadata orgPersonmeta = orgProposalModel.getMetadata(orgPersonPath); 
+	        
+	        if(orgInfometa.isCanEdit()||orgOrgmeta.isCanEdit()||orgPosmeta.isCanEdit()){
+	            buttonPanel.setVisible(true);
+	        }
+	        else{
+	            buttonPanel.setVisible(false);
+	        }
+	        buttonPanel = getButtonPanel(POSITION_TAB_NAME);
+	        orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
+	        if(!orgPersonmeta.isCanEdit()){
+                buttonPanel.setVisible(false);
+            }
+	        else{
+	            buttonPanel.setVisible(true);
+	        }
+	    }
+	    
+	       public void doModifyAction(final ModifyActionEvent modifyActionEvent){     
 	            System.out.println("Reached modify action");
 	            
 
 	            View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	            
 	            //getCurrentView().updateModel();
-	            
-	            System.out.println(" model updated ");
-	            fetchProposalOrg(modifyActionEvent);
-	            System.out.println("Reached summit 1 ");
+	            orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, modifyActionEvent.getId(),
+	                    new AsyncCallback<Metadata>(){
+
+	                        @Override
+	                        public void onFailure(Throwable caught) {
+	                            System.out.println("Failure");
+	                            progressWindow.hide();
+	                            throw new RuntimeException("Failed to get model definition.", caught);                        
+	                        }
+
+	                        @Override
+	                        public void onSuccess(Metadata result) {
+	                            
+	                            DataModelDefinition def = new DataModelDefinition(result);
+	                            System.out.println("Loaded OrgMetaData");
+	                            orgProposalModel.setDefinition(def);
+	                            commonConfigurer.setModelDefinition(def);
+	                            flag=false;
+	                            init();
+	                            System.out.println(" model updated ");
+	                            fetchProposalOrg(modifyActionEvent);
+	                            System.out.println("Reached summit 1 ");
+	                            
+	                        }
+	                });
+
       
 	        }
 	       public void fetchProposalOrg(final ModifyActionEvent modifyActionEvent) {
-
+	           
 	           orgProposalRpcServiceAsync.fetchOrg(modifyActionEvent.getId(), new AsyncCallback<Data>() {
 	               public void onFailure(Throwable caught) {
 	                   GWT.log("Fetch Failed.", caught);
@@ -400,17 +514,30 @@ public class OrgProposalController extends TabbedSectionLayout{
 	                   commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
 	                   getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
 	                   View currentView = getCurrentView();
-	                   View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
-	                   renderView(orgView);
+	                   final View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+	                   setButtonPermission();
+	                   
 	                   if (orgView instanceof VerticalSectionView) {
-	                       ((VerticalSectionView) orgView).redraw();
+	                       ((VerticalSectionView) orgView).beforeShow(new Callback<Boolean>(){
+
+                            @Override
+                            public void exec(Boolean result) {
+                                // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+//                                ((VerticalSectionView) orgView).redraw();
+                                renderView(orgView);
+                                modified = true;
+                            }
+	                           
+	                       });
+	                       
 	                   }
-	                   modified = true;
+	                 
 	               }
 	           });
 	       }
 	    public void saveProposalOrg(final SaveActionEvent saveActionEvent){
 	        final KSLightBox saveWindow = new KSLightBox();
+	        saveWindow.removeCloseLink();
 	        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
 	        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
 	                

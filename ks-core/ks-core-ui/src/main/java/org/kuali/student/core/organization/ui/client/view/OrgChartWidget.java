@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
@@ -109,27 +110,7 @@ public class OrgChartWidget extends Composite {
 		        						Window.alert("Logic error. No Organization selected");
 		        						return;
 		        					}
-    		                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(data.getValueString(selections.get(0).getRow(), 0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
-    		                        orgCreatePanel.addCloseButton("Close", new ClickHandler() {
-    		                            @Override
-    		                            public void onClick(ClickEvent event) {
-    		                            	//Called after user clicks close on the chart widget
-    		                            	o.setSelections(null);
-    		                                w.remove(w.getWidgetCount() - 1);
-    		                                w.showWidget(w.getWidgetCount() - 1);
-    		                            }
-    		                        });
-    		                        orgCreatePanel.addSelectionHandler(new SelectionHandler<OrgInfo>(){
-                                        @Override
-                                        public void onSelection(SelectionEvent<OrgInfo> event) {
-    		                            	//Called after user clicks save on the chart widget
-                                        	data.setFormattedValue(o.getSelections().get(0).getRow(), 0, event.getSelectedItem().getLongName());
-                                        	o.setSelections(null);
-                                            o.draw(data, orgChartOpts);
-                                        }
-                                    });
-    		                        w.add(orgCreatePanel);
-    		                        w.showWidget(w.getWidgetCount() - 1);
+    		                       
     							}
 
     	                    });

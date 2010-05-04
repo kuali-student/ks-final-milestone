@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.List;
@@ -16,6 +31,7 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.view.CourseRequisiteView;
 import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView;
+import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -62,7 +78,7 @@ public class CourseRequisitesSummaryView extends SectionView {
     private void displayRules() {
         for (final String statementType : CourseRequisiteView.applicableLuStatementTypes) {
             final RuleInfo ruleInfo = getRuleInfo(statementType);
-            if (ruleInfo != null) {
+            if (ruleInfo != null && ruleInfo.getStatementVO().getAllReqComponentVOs().size() > 0) {
                 requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(
                         ruleInfo.getCluId(), ruleInfo.getStatementVO(), "KUALI.CATALOG",
                         RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
@@ -103,10 +119,10 @@ public class CourseRequisitesSummaryView extends SectionView {
     }
 
     private String getRuleTypeName(String luStatementTypeKey) {
-        if (luStatementTypeKey.contains("enroll")) return "Enrollment Restrictions";
-        if (luStatementTypeKey.contains("prereq")) return "Prerequisites";
-        if (luStatementTypeKey.contains("coreq")) return "Corequisites";
-        if (luStatementTypeKey.contains("antireq")) return "Antirequisites";
+        if (luStatementTypeKey.contains("enroll")) return RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ_TEXT;
+        if (luStatementTypeKey.contains("prereq")) return RuleConstants.KS_STATEMENT_TYPE_PREREQ_TEXT;
+        if (luStatementTypeKey.contains("coreq")) return RuleConstants.KS_STATEMENT_TYPE_COREQ_TEXT;
+        if (luStatementTypeKey.contains("antireq")) return RuleConstants.KS_STATEMENT_TYPE_ANTIREQ_TEXT;
         return "";
     }
 
@@ -135,7 +151,6 @@ public class CourseRequisitesSummaryView extends SectionView {
             });
         }
     }
-    
     
     public Controller getTheController() {
         return theController;

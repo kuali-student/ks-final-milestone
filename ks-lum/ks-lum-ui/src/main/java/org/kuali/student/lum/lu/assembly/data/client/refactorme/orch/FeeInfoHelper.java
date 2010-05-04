@@ -30,7 +30,8 @@ public class FeeInfoHelper
 		FIXED_RATE_FEE ("fixedRateFee"),
 		VARIABLE_RATE_FEE ("variableRateFee"),
 		MULTIPLE_RATE_FEE ("multipleRateFee"),
-		PER_CREDIT_FEE ("perCreditFee");
+		PER_CREDIT_FEE ("perCreditFee"),
+		ID ("id");
 		
 		private final String key;
 		
@@ -78,7 +79,6 @@ public class FeeInfoHelper
 		return (String) data.get (Properties.JUSTIFICATION.getKey ());
 	}
 	
-	
 	public void setFixedRateFee (Data value)
 	{
 		data.set (Properties.FIXED_RATE_FEE.getKey (), value);
@@ -124,6 +124,16 @@ public class FeeInfoHelper
 	public Data getPerCreditFee ()
 	{
 		return (Data) data.get (Properties.PER_CREDIT_FEE.getKey ());
+	}
+	
+	public void setId (String value)
+	{
+		data.set (Properties.ID.getKey (), value);
+	}
+	
+	public String getId ()
+	{
+		return (String) data.get (Properties.ID.getKey ());
 	}
 	
 }

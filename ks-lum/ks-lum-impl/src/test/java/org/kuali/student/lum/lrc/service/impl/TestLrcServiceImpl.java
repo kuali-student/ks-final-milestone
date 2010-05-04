@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lrc.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -51,6 +52,8 @@ import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
@@ -320,7 +323,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
     public void getResultComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ResultComponentTypeInfo> rctis = client.getResultComponentTypes();
         assertNotNull(rctis);
-        assertEquals(3, rctis.size());
+        assertEquals(6, rctis.size());
     }
 
     @Test
@@ -667,5 +670,24 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
+    }
+    
+    public void testBusinessCaseExample() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	ResultComponentInfo rc = new ResultComponentInfo();
+        RichTextInfo richText = new RichTextInfo();
+        richText.setFormatted("<p>ResultComponent</p>");
+        richText.setPlain("ResultComponent");
+        rc.setDesc(richText);
+    	
+        String specificGradeId = "LRC-RESULT_VALUE-GRADE-1";
+        
+        rc.setName("ResultComponent");
+        rc.setResultValueIds(Arrays.asList(new String[] {specificGradeId}));
+        rc.setState("ACTIVE");
+        rc.setType("resultComponentType.grade");
+        
+        client.createResultComponent("resultComponentType.grade", rc);
+    	
+    	
     }
 }

@@ -1,18 +1,18 @@
-/*
- * Copyright 2007 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.brms.ruleexecution.runtime.drools;
 
 import java.math.BigDecimal;
@@ -45,7 +45,7 @@ import org.kuali.student.brms.internal.common.utils.FactUtil;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
-import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.brms.ruleexecution.runtime.RuleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.util.DroolsTestUtil;
@@ -64,7 +64,7 @@ public class RuleSetExecutorDroolsImplTest {
 	private DroolsUtil droolsUtil = new DroolsUtil();
 
 	/** Rule set executor interface */
-	private static RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
+	private static RuleExecutor executor = new RuleSetExecutorDroolsImpl(true, true);
 	private static SimpleExecutor simpleExecutor = new SimpleExecutorDroolsImpl();
 	private static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 
@@ -74,7 +74,7 @@ public class RuleSetExecutorDroolsImplTest {
     public static void setUpOnce() throws Exception {
 //        ReportBuilder reportBuilder = new RuleReportBuilder(simpleExecutor);
 //        ((RuleSetExecutorDroolsImpl)executor).setReportBuilder(reportBuilder);
-        ((RuleSetExecutorDroolsImpl)executor).setEnableExecutionLogging(true);
+//        ((RuleSetExecutorDroolsImpl)executor).setEnableExecutionLogging(true);
     	((RuleSetExecutorDroolsImpl)executor).setRuleBaseCache(ruleBase);
     }
 
@@ -530,7 +530,7 @@ public class RuleSetExecutorDroolsImplTest {
         factMap.put(factKeyIntersection, factResultIntersection);
 
     	// Enable rule execution statistics
-        ((RuleSetExecutorDroolsImpl)executor).setEnableStatLogging(true);
+//        ((RuleSetExecutorDroolsImpl)executor).setEnableStatLogging(true);
         DroolsExecutionStatistics droolsStats = ((RuleSetExecutorDroolsImpl)executor).getStatistics();
 
     	// Execute ruleset and fact

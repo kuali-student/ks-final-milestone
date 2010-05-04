@@ -15,12 +15,11 @@
  */
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
-
 import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
-
 
 public class CreditCourseHelper
 {
@@ -55,6 +54,9 @@ public class CreditCourseHelper
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
 		COURSE_SPECIFIC_LOS ("courseSpecificLOs"),
+		GRADING_OPTIONS("gradingOptions"),
+		OUTCOME_OPTIONS("outcomeOptions"),
+		META_INFO ("metaInfo"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -426,6 +428,28 @@ public class CreditCourseHelper
 	{
 		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
-	
+
+	public void setGradingOptions(Data value) {
+		data.set (Properties.GRADING_OPTIONS.getKey (), value);
+	}
+
+	public Data getGradingOptions () {
+		return (Data) data.get (Properties.GRADING_OPTIONS.getKey ());
+	}
+
+	public void setOutcomeOptions(Data value) {
+		data.set (Properties.OUTCOME_OPTIONS.getKey (), value);
+	}
+
+	public Data getOutcomeOptions () {
+		return (Data) data.get (Properties.OUTCOME_OPTIONS.getKey ());
+	}
+
+    public void setMetaInfo (MetaInfoHelper value) {
+        data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
+    }
+    public MetaInfoHelper getMetaInfo () {
+        return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
+    }
 }
 

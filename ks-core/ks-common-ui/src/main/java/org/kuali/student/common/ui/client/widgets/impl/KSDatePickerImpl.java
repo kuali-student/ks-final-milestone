@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import java.util.Date;
@@ -42,6 +43,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
@@ -54,7 +56,7 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	private DateTimeFormat df = DateTimeFormat.getFormat("MM/dd/yyyy");
 	private boolean justPicked = false;
 	private final FocusGroup focus = new FocusGroup(this);
-	
+	private boolean allowedKeyPress = true;
 	
 	public KSDatePickerImpl(){ 
 		this.initWidget(dateField);
@@ -109,10 +111,9 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 		dateField.addKeyPressHandler(new KeyPressHandler(){
 
 			public void onKeyPress(KeyPressEvent event) {
-				String dateText = dateField.getText();
 				String validInput = "0123456789";
-				if(validInput.indexOf(event.getCharCode()) == -1){
-						event.preventDefault();
+				if(validInput.indexOf(event.getCharCode()) == -1 && !isDeleteOrBackspaceKey(event.getNativeEvent().getKeyCode())){
+					event.preventDefault();
 				}
 			}
 			
@@ -135,8 +136,8 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 
 			public void onKeyUp(KeyUpEvent event) {
 				String dateText = dateField.getText();
-
-				if(event.getNativeKeyCode() != KeyCodes.KEY_BACKSPACE && event.getNativeKeyCode() != KeyCodes.KEY_DELETE){
+			
+				if(!isDeleteOrBackspaceKey(event.getNativeKeyCode())){
 					if(dateText.length() == 2){
 						dateField.setText(dateText + "/");
 						String current = df.format(currentDate);
@@ -180,6 +181,10 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 			}	
 		});
 		
+	}
+	
+	private boolean isDeleteOrBackspaceKey(int code){
+		return  (code == KeyCodes.KEY_BACKSPACE || code == KeyCodes.KEY_DELETE);
 	}
 	
 	private void fireValueChangeEvent(){

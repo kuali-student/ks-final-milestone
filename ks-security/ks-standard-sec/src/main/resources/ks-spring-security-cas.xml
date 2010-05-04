@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:security="http://www.springframework.org/schema/security"
@@ -12,14 +29,14 @@
   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   	
-	<import resource="ksss-auth-provider.xml"/>
+	<import resource="ksss-auth-common.xml"/>
 	
 	
 	<bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 		
 	<security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" >
-    	<security:intercept-url pattern="/logout.html*" filters="none"/>
+    	<security:intercept-url pattern="/auth/*" filters="none"/>
     	<security:intercept-url pattern="/services/*" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
         <security:form-login />
@@ -47,7 +64,7 @@
 	<bean id="casProcessingFilter" class="org.springframework.security.ui.cas.CasProcessingFilter">
 		<security:custom-filter position="CAS_PROCESSING_FILTER"/>
 		<property name="authenticationManager" ref="authenticationManager"/>
-		<property name="authenticationFailureUrl" value="/logout.html"/>
+		<property name="authenticationFailureUrl" value="/auth/${ks.defualt.security.cas.authenticationFailureUrl}"/>
 		<property name="defaultTargetUrl" value="/"/>
 		<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage" />
         <property name="proxyReceptorUrl" value="/secure/receptor"/>
@@ -60,7 +77,7 @@
 	
 	<bean id="casAuthenticationProvider" class="org.springframework.security.providers.cas.CasAuthenticationProvider">
 		<security:custom-authentication-provider />
-		<property name="userDetailsService" ref="ksUserDetailsService"/>
+		<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
 		<property name="serviceProperties" ref="serviceProperties"/>
 		<property name="ticketValidator">
 			<bean class="org.jasig.cas.client.validation.Cas20ProxyTicketValidator">
@@ -76,7 +93,7 @@
 	<!-- Client for proxy ticket validation and SAML -->
 
 	<bean id="samlIssuerClient"
-		class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.security.saml.service.SamlIssuerService"/>
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/security/saml}SamlIssuerService"/>
 	</bean>

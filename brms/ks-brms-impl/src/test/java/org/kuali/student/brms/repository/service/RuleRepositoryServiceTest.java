@@ -1,18 +1,18 @@
-/*
- * Copyright 2007 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.brms.repository.service;
 
 import static org.junit.Assert.assertEquals;
@@ -519,7 +519,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 		List<RuleElementInfo> ruleElementList = new ArrayList<RuleElementInfo>();
         RuleElementInfo element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
-        		new Integer(1), createRuleProposition(
+        		Integer.valueOf(1), createRuleProposition(
             			YieldValueFunctionType.SUBSET.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
@@ -527,7 +527,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
             			yieldValueFunction1));
         RuleElementInfo element2 = dtoFactory.createRuleElementDTO(
         		"element-2", "PROPOSITION", 
-        		new Integer(1), createRuleProposition(
+        		Integer.valueOf(1), createRuleProposition(
             			YieldValueFunctionType.INTERSECTION.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",

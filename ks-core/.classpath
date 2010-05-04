@@ -22,6 +22,10 @@
 	<classpathentry kind="src" output="ks-core-impl/target/classes" path="ks-core-impl/src/main/resources"/>
 	<classpathentry kind="src" output="ks-core-impl/target/test-classes" path="ks-core-impl/src/test/java"/>
 	<classpathentry kind="src" output="ks-core-impl/target/test-classes" path="ks-core-impl/src/test/resources"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-rice/target/test-classes" path="ks-core-rice/src/test/java"/>
+	<classpathentry kind="src" output="ks-core-rice/target/test-classes" path="ks-core-rice/src/test/resources"/>
 	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/java"/>
 	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/resources"/>
 	<classpathentry kind="src" output="ks-core-web/target/classes" path="ks-core-web/src/main/resources"/>
