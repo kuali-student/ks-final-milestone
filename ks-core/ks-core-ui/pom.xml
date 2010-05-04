@@ -1,10 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-ui</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
 	<name>KS Core UI</name>
 	<description>KS Core UI</description>
 
@@ -81,7 +78,7 @@
 					-->
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-cxf</artifactId>
-					<version>1.0.0-SNAPSHOT</version>
+					<version>${project.version}</version>
 					<type>pom</type>
 					<scope>runtime</scope>
 				</dependency>
@@ -95,7 +92,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-core-impl</artifactId>
-					<version>1.0.0-SNAPSHOT</version>
+					<version>${project.version}</version>
 				</dependency>
 
 			    <dependency>

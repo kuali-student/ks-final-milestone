@@ -5,9 +5,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-web</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>KS BRMS WEB</name>
 	<description>Web services</description>

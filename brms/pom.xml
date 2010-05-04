@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.brms</groupId>
     <artifactId>ks-brms</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KS BRMS</name>
     <description>KS Business Rule Management System</description>
@@ -24,7 +23,7 @@
     <properties>
         <drools.version>5.0.1</drools.version>
         <mvel.dep.version>2.0.12</mvel.dep.version>
-        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
+        <ks-core.version>${project.version}</ks-core.version>
     </properties>
 
     <modules>
