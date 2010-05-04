@@ -111,7 +111,7 @@
 				</entry>
 				<entry
 					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/LogRpcService">
-					<ref bean="ServerPropertiesServletController" />
+					<ref bean="LogRpcGwtServletController" />
 				</entry>
 			</map>
 		</property>
