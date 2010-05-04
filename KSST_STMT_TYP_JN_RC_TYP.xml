@@ -6,6 +6,8 @@
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.courseList.nof" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>
     <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqCompType.courseList.1of1" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.courseList.1of2" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.grdCondCourseList" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>

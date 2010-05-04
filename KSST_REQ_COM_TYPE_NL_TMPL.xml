@@ -37,9 +37,15 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="109" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="Students must be in one of the following program(s): Creative Writing Major"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="11" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
+        OWNER="kuali.reqCompType.courseList.1of1" TEMPLATE="Student must have completed $cluSet.getCluAsCode(0)"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="110" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="Not for students in a Music Major or Minor"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="111" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.courseList.1of1" TEMPLATE="Student must have completed MATH100"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="2" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.courseList.all" TEMPLATE="Student must have completed all of $cluSet.getCluSetAsCode()"/>
@@ -73,6 +79,9 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="210" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Programs>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="211" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.courseList.1of1" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.clu;reqCompFieldLabel=Course 1>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.courseList.1of2" TEMPLATE="Student must have completed $cluSet.getCluAsCode(0) or $cluSet.getCluAsCode(1)"/>

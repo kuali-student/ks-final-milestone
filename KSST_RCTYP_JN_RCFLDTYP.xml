@@ -4,6 +4,8 @@
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.cluSet" REQ_COMP_TYPE_ID="kuali.reqCompType.courseList.all"/>
     <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.clu" REQ_COMP_TYPE_ID="kuali.reqCompType.courseList.1of1"/>
+    <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.clu" REQ_COMP_TYPE_ID="kuali.reqCompType.courseList.1of2"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.courseList.nof"/>

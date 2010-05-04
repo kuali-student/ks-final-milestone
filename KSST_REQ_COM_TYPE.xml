@@ -2,6 +2,9 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="One required courses"
+        TYPE_DESC="Student must take specified course" TYPE_KEY="kuali.reqCompType.courseList.1of1"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="One of two required courses"
         TYPE_DESC="Student must take one of two specified courses" TYPE_KEY="kuali.reqCompType.courseList.1of2"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
