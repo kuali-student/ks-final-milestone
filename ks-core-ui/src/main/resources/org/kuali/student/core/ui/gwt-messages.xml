@@ -90,6 +90,8 @@
 
 	<bean parent="enOrg" p:id="orgId"		p:value="Organization Id"/>
 
+    <bean parent="enOrg" p:id="orgFieldCantBeEmpty"       p:value="Field value cannot be empty"/>
+
 	<!-- Organization Management panel -->
     <bean parent="enOrg" p:id="orgTitleOrg"      p:value="Organization Management" />
     <bean parent="enOrg" p:id="orgDocSearchClose"     p:value="Close" />
