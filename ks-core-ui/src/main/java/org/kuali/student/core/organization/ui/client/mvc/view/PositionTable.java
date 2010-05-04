@@ -161,6 +161,7 @@ public class PositionTable extends Composite{
         layout.clear();
 //        layout.add(pagingOptions);
         layout.add(pagingScrollTable);
+        pagingScrollTable.reloadPage();		//FIXME Undesirable solution to work with GWT 2.0
         pagingScrollTable.fillWidth();
     }
 
