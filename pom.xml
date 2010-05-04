@@ -47,6 +47,9 @@
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/1.0.x</url>
   </scm>
+  <properties>
+    <ks.java2ws.phase>process-classes</ks.java2ws.phase>
+  </properties>
   <build>
     <pluginManagement>
       <plugins>
