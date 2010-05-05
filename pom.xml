@@ -4,7 +4,7 @@
 
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-web</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-rc2</version>
 	<packaging>pom</packaging>
     
     <name>KS Web</name>
@@ -32,8 +32,8 @@
     </properties>
     
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/tags/ks-web-1.0.0-rc2</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/tags/ks-web-1.0.0-rc2</developerConnection>
     </scm>
     
     <distributionManagement>
