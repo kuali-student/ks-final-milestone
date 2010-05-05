@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
 	<artifactId>ks-lum-ui</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-rc2</version>
 	<packaging>jar</packaging>
 	<name>KS LUM UI</name>
 	<description>KS Learing Unit Management UI</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rc2</version>
 	</parent>
 
 	<build>
@@ -197,25 +197,25 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-impl</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-rc2</version>
             <scope>test</scope>
         </dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 		</dependency>
 
 	</dependencies>

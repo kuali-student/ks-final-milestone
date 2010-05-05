@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
 	<artifactId>ks-lum-web</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-rc2</version>
 	<packaging>war</packaging>
 	<name>KS LUM Web</name>
 	<description>KS Learning Unit Management-web</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rc2</version>
 	</parent>
 	
 	<properties>
@@ -160,12 +160,12 @@
 		<dependency>		
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 		</dependency>
 		
 		<!--  Deps needed for LUM UI GWT -->
@@ -173,19 +173,19 @@
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>		
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rc2</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
