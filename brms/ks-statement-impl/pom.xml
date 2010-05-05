@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.kuali.student.brms</groupId>
         <artifactId>ks-brms</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
 	<build>
@@ -50,12 +50,12 @@
         <dependency>
             <groupId>org.kuali.student.brms.statement</groupId>
             <artifactId>ks-statement-api</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.brms</groupId>
           <artifactId>ks-brms-execution-impl</artifactId>
-          <version>1.0.0</version>
+          <version>1.0.1-SNAPSHOT</version>
         </dependency>
 	</dependencies>
 

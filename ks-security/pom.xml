@@ -12,7 +12,7 @@
     <parent>
       <groupId>org.kuali.student</groupId>
       <artifactId>ks</artifactId>
-      <version>1.0.0</version>
+      <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <modules>
@@ -20,9 +20,9 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/tags/ks-1.0.0</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/tags/ks-1.0.0</developerConnection>
-      <url>https://test.kuali.org/svn/student/deploymentlab/maven/tags/ks-1.0.0/ks-security</url>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev</developerConnection>
+      <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/1.0.x/ks-security</url>
   </scm>
 
 
