@@ -27,11 +27,6 @@
         <derby.version>10.4.2.0</derby.version>
     </properties>
     
-    <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</developerConnection>
-    </scm>
-    
     <distributionManagement>
         <site>
             <id>ks.site</id>

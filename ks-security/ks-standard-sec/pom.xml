@@ -12,11 +12,6 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
     
-    <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev/ks-standard-sec</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev/ks-standard-sec</developerConnection>
-    </scm>
-
 	<dependencies>
 
 		<dependency>

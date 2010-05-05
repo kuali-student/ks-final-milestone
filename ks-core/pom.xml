@@ -53,11 +53,6 @@
         <module>ks-core-web</module>
     </modules>
 
-    <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</developerConnection>
-    </scm>
-
     <repositories>
         <repository>
             <id>kuali.release</id>
