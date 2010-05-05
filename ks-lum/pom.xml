@@ -12,8 +12,6 @@
     <url>http://student.kuali.org/site/lum/${project.version}</url>
 
     <properties>
-        <ks-core.version>${project.version}</ks-core.version>
-        <ks-brms.version>${project.version}</ks-brms.version>
     </properties>
 
     <parent>
@@ -76,7 +74,7 @@
                         <link>http://java.sun.com/javase/6/docs/api/</link>
                         <link>http://java.sun.com/javaee/5/docs/api/</link>
                         <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
-                        <link>http://student.kuali.org/site/core/${ks-core.version}/apidocs/</link>
+                        <link>http://student.kuali.org/site/core/${project.version}/apidocs/</link>
                         <link>http://rice.kuali.org/docs/1.0.0/site/apidocs/</link>
                     </links>
                 </configuration>
