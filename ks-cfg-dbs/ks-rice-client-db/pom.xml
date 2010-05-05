@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-cfg-dbs</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>ks-rice-client-db</artifactId>
   <name>KS Rice Client Database</name>
