@@ -60,22 +60,6 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
-      <id>kuali.central</id>
-      <name>Main Kuali Repository</name>
-      <url>http://kuali.googlecode.com/svn/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshots</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://kuali.googlecode.com/svn/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
