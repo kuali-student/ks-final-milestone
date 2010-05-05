@@ -91,12 +91,12 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>${ks-lum.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
-			<version>${ks-lum.version}</version>
+			<version>${project.version}</version>
 		</dependency>
         
         <!-- these are needed for rice jsp's to work properly -->
@@ -134,12 +134,12 @@
          <dependency>
             <groupId>org.kuali.student.security</groupId>
             <artifactId>ks-standard-sec</artifactId>
-            <version>${ks-standard-security.version}</version>
+            <version>${project.version}</version>
         </dependency>
          <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
-            <version>${ks-core.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
         	<artifactId>servlet-api</artifactId>

@@ -109,7 +109,6 @@
 
         <!-- build properties -->
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-        <ks-standard-security.version>${project.version}</ks-standard-security.version>
     </properties>
 
     <profiles>
@@ -476,7 +475,7 @@
                         <link>http://java.sun.com/javaee/5/docs/api/</link>
                         <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
                         <link>http://static.springsource.org/spring-security/site/docs/${spring.security.javadoc.version}/apidocs/</link>
-                        <link>http://student.kuali.org/site/security/${ks-standard-security.version}/apidocs/</link>
+                        <link>http://student.kuali.org/site/security/${project.version}/apidocs/</link>
                         <link>http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/</link>
                         <link>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</link>
                         <link>http://ws.apache.org/wss4j/apidocs/</link>

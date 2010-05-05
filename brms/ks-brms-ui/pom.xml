@@ -142,7 +142,7 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>${ks-core.version}</version>
+			<version>${project.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -164,7 +164,7 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
-			<version>${ks-core.version}</version>
+			<version>${project.version}</version>
 			<type>pom</type>
 			<scope>runtime</scope>
 		</dependency>

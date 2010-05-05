@@ -37,7 +37,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-hibernate</artifactId>
-                    <version>${ks-core.version}</version>
+                    <version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -49,7 +49,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-eclipselink</artifactId>
-                    <version>${ks-core.version}</version>
+                    <version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -64,7 +64,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-cxf</artifactId>
-                    <version>${ks-core.version}</version>
+                    <version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -96,7 +96,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-metro</artifactId>
-                    <version>${ks-core.version}</version>
+                    <version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -155,13 +155,13 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>${ks-core.version}</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>${ks-core.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		
         <dependency>
