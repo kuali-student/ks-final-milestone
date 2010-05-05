@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-core</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <url>http://student.kuali.org/site/brms/${project.version}</url>
@@ -63,8 +63,7 @@
     <scm>
         <connection>scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev</connection>
         <developerConnection>scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev</developerConnection>
-      <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/1.0.x/ks-core/ks-brms</url>
-  </scm>
+    </scm>
 
     <distributionManagement>
         <site>
