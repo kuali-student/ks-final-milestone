@@ -15,12 +15,12 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms.statement</groupId>
 			<artifactId>ks-statement-api</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-brms.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -76,45 +76,45 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-ui</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-core.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-core.version}</version>
 			<type>pom</type>
 		</dependency>
         
         <dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-lum.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-impl</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-lum.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-ui</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-lum.version}</version>
         </dependency>
         
 		<dependency>
 	      	<groupId>org.kuali.student.core</groupId>
             <artifactId>ks-rice-lessdep</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
             <type>pom</type>	      
 	    </dependency>	
 
@@ -123,41 +123,41 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-rice</artifactId>
 			<classifier>sources</classifier>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-core.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-impl</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-core.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
@@ -165,20 +165,20 @@
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>${project.version}</version>
+			<version>${ks-lum.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>		
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-lum.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms.statement</groupId>
 			<artifactId>ks-statement-api</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-brms.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>

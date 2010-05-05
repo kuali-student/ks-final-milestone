@@ -262,6 +262,16 @@
     </build>
 
     <distributionManagement>
+        <repository>
+            <id>kuali.release</id>
+            <name>Release Repository</name>
+            <url>scp://test.kuali.org:/opt/m2/repository</url>
+        </repository>
+        <snapshotRepository>
+            <id>kuali.snapshots</id>
+            <name>Internal Snapshot Repository</name>
+            <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+        </snapshotRepository>
         <site>
             <id>ks.site</id>
             <url> scp://student.kuali.org:/opt/www/student/site/security/${project.version}</url>

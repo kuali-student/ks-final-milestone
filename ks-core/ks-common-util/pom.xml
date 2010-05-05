@@ -78,7 +78,7 @@
         <dependency>
             <groupId>org.kuali.student.security</groupId>
             <artifactId>ks-standard-sec</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-standard-security.version}</version>
         </dependency>
 
         <dependency>

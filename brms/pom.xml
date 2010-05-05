@@ -23,6 +23,7 @@
     <properties>
         <drools.version>5.0.1</drools.version>
         <mvel.dep.version>2.0.12</mvel.dep.version>
+        <ks-core.version>${project.version}</ks-core.version>
     </properties>
 
     <modules>
@@ -89,7 +90,7 @@
                         <link>http://java.sun.com/javase/6/docs/api/</link>
                         <link>http://java.sun.com/javaee/5/docs/api/</link>
                         <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
-                        <link>http://student.kuali.org/site/core/${project.version}/apidocs/</link>
+                        <link>http://student.kuali.org/site/core/${ks-core.version}/apidocs/</link>
                     </links>
                 </configuration>
                 <reportSets>

@@ -25,6 +25,9 @@
     
     <properties>
         <derby.version>10.4.2.0</derby.version>
+        <ks-core.version>${project.version}</ks-core.version>
+        <ks-lum.version>${project.version}</ks-lum.version>
+        <ks-brms.version>${project.version}</ks-brms.version>
     </properties>
     
     <scm>

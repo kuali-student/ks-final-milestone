@@ -34,12 +34,12 @@
         <dependency>
           <groupId>org.kuali.student.brms.statement</groupId>
           <artifactId>ks-statement-api</artifactId>
-          <version>${project.version}</version>
+          <version>${ks-brms.version}</version>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.brms.statement</groupId>
           <artifactId>ks-statement-impl</artifactId>
-          <version>${project.version}</version>
+          <version>${ks-brms.version}</version>
         </dependency>
 
 		<dependency>
@@ -50,12 +50,12 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-impl</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -71,19 +71,19 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-core.version}</version>
         </dependency>
 
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>${project.version}</version>
+			<version>${ks-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 
