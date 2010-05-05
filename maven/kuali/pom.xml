@@ -51,7 +51,7 @@
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <repositories>
-    <!-- List maven central first, it is the repo most likely to find the artifact -->
+    <!-- List maven central first, as it has the best chance of finding artifacts -->
     <repository>
       <id>central</id>
       <name>Maven Repository Switchboard</name>
@@ -60,8 +60,30 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>kuali.central</id>
+      <name>Internal Release Repository</name>
+      <url>svn:https://kuali.googlecode.com/svn/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.snapshots</id>
+      <name>Internal Snapshot Repository</name>
+      <url>svn:https://kuali.googlecode.com/svn/snapshots</url>
+    </repository>
   </repositories>
   <pluginRepositories>
+    <!-- List maven central first, as it has the best chance of finding artifacts -->
+    <pluginRepository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
     <pluginRepository>
       <id>kuali.central</id>
       <name>Kuali Plugin Repository</name>
