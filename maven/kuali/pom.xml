@@ -51,7 +51,7 @@
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <repositories>
-    <!-- List maven central first, it is most likely to find the artifact -->
+    <!-- List maven central first, it is the repo most likely to find the artifact -->
     <repository>
       <id>central</id>
       <name>Maven Repository Switchboard</name>
