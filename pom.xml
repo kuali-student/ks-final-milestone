@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.brms</groupId>
     <artifactId>ks-brms</artifactId>
-    <version>1.0.0-rc2</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KS BRMS</name>
     <description>KS Business Rule Management System</description>
@@ -63,8 +63,8 @@
     </repositories>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-rc2</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-rc2</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev</developerConnection>
     </scm>
 
     <distributionManagement>
