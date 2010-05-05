@@ -18,7 +18,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>ks</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <description>
@@ -50,9 +50,9 @@
     </repository>
   </repositories>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-1.0.0</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-1.0.0</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/tags/ks-1.0.0</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/1.0.x</url>
   </scm>
   <properties>
     <ks.java2ws.phase>process-classes</ks.java2ws.phase>
