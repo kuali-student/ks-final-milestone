@@ -52,20 +52,26 @@
   </properties>
   <repositories>
     <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Maven Repository Switchboard</name>
-      <url>http://repo1.maven.org/maven2</url>
-    </repository>
-    <repository>
       <id>kuali.central</id>
       <name>Main Kuali Repository</name>
-      <url>http://zuali.googlecode.com/svn/repository</url>
+      <url>http://kuali.googlecode.com/svn/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>kuali.snapshots</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>http://kuali.googlecode.com/svn/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </repository>
   </repositories>
   <pluginRepositories>
