@@ -59,6 +59,14 @@
       <name>Maven Repository Switchboard</name>
       <url>http://repo1.maven.org/maven2</url>
     </repository>
+    <repository>
+      <id>kuali.central</id>
+      <name>Main Kuali Repository</name>
+      <url>http://kuali.googlecode.com/svn/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
