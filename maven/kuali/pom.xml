@@ -73,10 +73,10 @@
       <name>Internal Snapshot Repository</name>
       <url>https://kuali.googlecode.com/svn/snapshots</url>
       <releases>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
@@ -86,9 +86,13 @@
       <id>central</id>
       <name>Maven Repository Switchboard</name>
       <url>http://repo1.maven.org/maven2</url>
+      <layout>default</layout>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
     </pluginRepository>
     <pluginRepository>
       <id>kuali.central</id>
