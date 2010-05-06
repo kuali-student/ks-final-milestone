@@ -76,15 +76,26 @@
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
+      <id>kuali.central</id>
+      <name>Main Kuali Repository</name>
+      <url>http://kuali.googlecode.com/svn/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-      <id>central</id>
-      <name>Maven Plugin Repository</name>
-      <url>http://repo1.maven.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </pluginRepository>
+    <pluginRepository>
+      <id>kuali.snapshots</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>http://kuali.googlecode.com/svn/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </pluginRepository>
   </pluginRepositories>
   <distributionManagement>
