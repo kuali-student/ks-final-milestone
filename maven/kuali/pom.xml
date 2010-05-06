@@ -60,25 +60,6 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
-      <id>kuali.central</id>
-      <name>Internal Release Repository</name>
-      <url>https://kuali.googlecode.com/svn/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshots</id>
-      <name>Internal Snapshot Repository</name>
-      <url>https://kuali.googlecode.com/svn/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
   </repositories>
   <pluginRepositories>
     <!-- List maven central first, as it has the best chance of finding artifacts -->
@@ -93,27 +74,6 @@
       <releases>
         <updatePolicy>never</updatePolicy>
       </releases>
-    </pluginRepository>
-    <pluginRepository>
-      <id>kuali.central</id>
-      <name>Kuali Plugin Repository</name>
-      <url>http://kuali.googlecode.com/svn/repository</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-    </pluginRepository>
-    <pluginRepository>
-      <id>kuali.snapshots</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://kuali.googlecode.com/svn/snapshots</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
     </pluginRepository>
   </pluginRepositories>
   <distributionManagement>
