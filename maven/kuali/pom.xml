@@ -63,7 +63,7 @@
     <repository>
       <id>kuali.central</id>
       <name>Internal Release Repository</name>
-      <url>svn:https://kuali.googlecode.com/svn/repository</url>
+      <url>https://kuali.googlecode.com/svn/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -71,7 +71,13 @@
     <repository>
       <id>kuali.snapshots</id>
       <name>Internal Snapshot Repository</name>
-      <url>svn:https://kuali.googlecode.com/svn/snapshots</url>
+      <url>https://kuali.googlecode.com/svn/snapshots</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
   </repositories>
   <pluginRepositories>
