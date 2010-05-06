@@ -54,6 +54,17 @@
     <repository>
       <id>kuali.central</id>
       <name>Main Kuali Repository</name>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>kuali.central.googlecode</id>
+      <name>Main Kuali Repository</name>
       <url>http://kuali.googlecode.com/svn/repository</url>
       <snapshots>
         <enabled>false</enabled>
