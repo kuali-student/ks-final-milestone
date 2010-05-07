@@ -21,7 +21,6 @@ import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.DataResource;
 import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
-import com.google.gwt.libideas.resources.client.ImmutableResourceBundle.Resource;
 
 public interface KSClientBundle extends ImmutableResourceBundle{
 	public static final KSClientBundle INSTANCE =  GWT.create(KSClientBundle.class);

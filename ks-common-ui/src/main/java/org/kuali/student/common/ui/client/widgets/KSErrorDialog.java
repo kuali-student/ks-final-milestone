@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.logging.Logger;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.SendCancelEnum;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;

@@ -17,7 +17,6 @@ package org.kuali.student.core.organization.assembly.data.client.org;
 
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

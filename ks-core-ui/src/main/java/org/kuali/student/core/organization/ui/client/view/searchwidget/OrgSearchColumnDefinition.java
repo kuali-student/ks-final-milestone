@@ -20,10 +20,6 @@ import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.CellRenderer;
-import com.google.gwt.gen2.table.client.ColumnDefinition;
-import com.google.gwt.gen2.table.client.DefaultCellRenderer;
-import com.google.gwt.gen2.table.client.TableDefinition.AbstractCellView;
-import com.google.gwt.user.client.ui.Widget;
 
 public class OrgSearchColumnDefinition extends AbstractColumnDefinition<ResultRow, String> {
 

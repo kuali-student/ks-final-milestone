@@ -17,10 +17,8 @@ package org.kuali.student.common.ui.client.widgets.progress;
 
 import java.util.LinkedList;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSMessages;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;

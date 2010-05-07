@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.table;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;

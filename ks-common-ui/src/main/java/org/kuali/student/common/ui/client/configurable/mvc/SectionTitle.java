@@ -26,7 +26,6 @@ import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_SECTION_TIT
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HTML;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 

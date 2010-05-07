@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 
 /*
  * Possibly basic Lightbox title bar with Title on the left and CANCEL button on the right

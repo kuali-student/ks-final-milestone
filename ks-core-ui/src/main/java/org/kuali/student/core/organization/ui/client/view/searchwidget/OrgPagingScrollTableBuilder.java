@@ -20,13 +20,10 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.core.dto.Idable;
 
-
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.RowRenderer;
-import com.google.gwt.gen2.table.client.TableDefinition;
-import com.google.gwt.gen2.table.client.TableDefinition.AbstractRowView;
 import com.google.gwt.user.client.ui.HTML;
 /**
  * Constructing a PagingScrollTable from GWT's Incubator is complicated. This class uses the Builder

@@ -16,7 +16,6 @@
 package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.core.assembly.data.LookupMetadata;

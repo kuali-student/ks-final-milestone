@@ -18,7 +18,6 @@ package org.kuali.student.common.util;
 import java.util.Properties;
 
 import org.junit.Test;
-import org.kuali.student.common.util.PropertiesFilterFactoryBean;
 
 public class TestPropertiesFactory {
 

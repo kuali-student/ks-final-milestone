@@ -25,12 +25,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService;
 
 /**

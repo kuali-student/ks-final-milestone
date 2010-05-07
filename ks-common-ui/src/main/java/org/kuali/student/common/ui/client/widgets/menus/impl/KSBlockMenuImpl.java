@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.menus.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.user.client.ui.Composite;
