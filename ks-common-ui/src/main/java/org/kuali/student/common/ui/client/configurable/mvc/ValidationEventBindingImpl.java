@@ -66,8 +66,7 @@ public class ValidationEventBindingImpl  implements ValidationEventBinding {
 				}
 			});
         }
-        else if(w instanceof MultiplicityComposite || w instanceof KSLabel 
-        		|| w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite){
+        else if(w instanceof KSLabel || w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite){
         	//Do nothing these are valid but do not fire validation events (maybe?)
         }
         else {

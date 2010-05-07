@@ -24,8 +24,6 @@ import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -247,54 +245,6 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     }
 
     public abstract void validate(Callback<ValidationResultInfo.ErrorLevel> callback);
-
-    public void updateModel(ModelDTO modelDTO){
-        for (int i=0; i < fields.size(); i++){
-            FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof HasModelDTOValue){
-                ((HasModelDTOValue) field.getFieldWidget()).updateModelDTOValue();
-            }
-
-            PropertyBinding pBinding = field.getPropertyBinding();
-            PropertyBinding wBinding = field.getWidgetBinding();
-            if (wBinding != null){
-                Widget w = field.getFieldWidget();
-                pBinding.setValue(modelDTO, wBinding.getValue(w));
-            } else {
-                GWT.log(field.getFieldKey() + " has no widget binding.", null);
-            }
-
-        }
-        for(Section s: sections){
-            s.updateModel(modelDTO);
-        }
-    }
-
-    public void updateView(ModelDTO modelDTO) {
-        for (int i=0; i < fields.size(); i++){
-            FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof HasModelDTOValue){
-                ModelDTOValue value = modelDTO.get(field.getFieldKey());
-                ((HasModelDTOValue) field.getFieldWidget()).setValue(value);
-            } else {
-                // HACK - _might_ be a hack, particularly if we have nested Multiplicities,
-                // but before this else the code below was executed for SimpleMultiplicityComposite's,
-                // effectively setting their value twice and wiping out the blank LoInfo-related data
-                // from the backing ModelDTOValue
-                PropertyBinding pBinding = field.getPropertyBinding();
-                PropertyBinding wBinding = field.getWidgetBinding();
-                if (wBinding != null){
-                    Widget w = field.getFieldWidget();
-                    wBinding.setValue(w, pBinding.getValue(modelDTO));
-                } else {
-                    GWT.log(field.getFieldKey() + " has no widget binding.", null);
-                }
-            }
-        }
-        for(Section s: sections){
-            s.updateView(modelDTO);
-        }
-    }
 
     public void updateModel(DataModel model){
         //SectionBinding.INSTANCE.setModelValue(this, model, "");

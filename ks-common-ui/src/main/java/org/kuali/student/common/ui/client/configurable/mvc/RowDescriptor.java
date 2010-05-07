@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class RowDescriptor extends Composite{
     private HorizontalBlockFlowPanel rowPanel = new HorizontalBlockFlowPanel();
     private HorizontalBlockFlowPanel columnLayout =  new HorizontalBlockFlowPanel();
@@ -57,33 +58,26 @@ public class RowDescriptor extends Composite{
     
     public void addField(FieldDescriptor fieldDescriptor){
         fields.add(fieldDescriptor);
-        if (fieldDescriptor.getFieldWidget() instanceof SimpleMultiplicityComposite){
-            SimpleMultiplicityComposite listField = (SimpleMultiplicityComposite) fieldDescriptor.getFieldWidget(); 
-            listField.redraw();
-            rowPanel.add(listField);
+        KSLabel label = new KSLabel(fieldDescriptor.getFieldLabel());
+        //label.addStyleName(KSStyles.KS_FORMLAYOUT_LABEL);
+        if(currentFieldLabelType == FieldLabelType.LABEL_LEFT){
+            if(!(label.getText().equals("")) && label.getText() != null){
+                rowPanel.add(label);
+            }
+            rowPanel.add(fieldDescriptor.getFieldWidget());
         }
-        else{   
-            KSLabel label = new KSLabel(fieldDescriptor.getFieldLabel());
-            //label.addStyleName(KSStyles.KS_FORMLAYOUT_LABEL);
-            if(currentFieldLabelType == FieldLabelType.LABEL_LEFT){
-                if(!(label.getText().equals("")) && label.getText() != null){
-                    rowPanel.add(label);
-                }
+        else if(currentFieldLabelType == FieldLabelType.LABEL_TOP){
+            if(!(label.getText().equals("")) && label.getText() != null){
+                FlowPanel vp = new FlowPanel();
+                vp.add(label);
+                vp.add(fieldDescriptor.getFieldWidget());
+                rowPanel.add(vp);
+            }
+            else{
                 rowPanel.add(fieldDescriptor.getFieldWidget());
             }
-            else if(currentFieldLabelType == FieldLabelType.LABEL_TOP){
-                if(!(label.getText().equals("")) && label.getText() != null){
-                    FlowPanel vp = new FlowPanel();
-                    vp.add(label);
-                    vp.add(fieldDescriptor.getFieldWidget());
-                    rowPanel.add(vp);
-                }
-                else{
-                    rowPanel.add(fieldDescriptor.getFieldWidget());
-                }
-            }
-            rowPanel.add(new KSRequiredMarker(fieldDescriptor.getRequiredState()));
         }
+        rowPanel.add(new KSRequiredMarker(fieldDescriptor.getRequiredState()));
     }
 
     public void addWidget(Widget widget){
@@ -144,13 +138,6 @@ public class RowDescriptor extends Composite{
         clearValidationMessages();
         for (Section s:sections){
             s.clear();
-        }
-        for (FieldDescriptor fd:fields){
-            //TODO: Only resettting multplicity composite, should approporiately reset clear all field widgets
-            Widget field = fd.getFieldWidget();
-            if (field instanceof SimpleMultiplicityComposite){
-                ((SimpleMultiplicityComposite) field).clear();
-            }
         }
     }
 }

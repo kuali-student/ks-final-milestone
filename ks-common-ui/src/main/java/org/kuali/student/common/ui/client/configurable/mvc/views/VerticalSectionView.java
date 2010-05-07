@@ -16,20 +16,14 @@
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.RowDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection.FieldInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -42,16 +36,6 @@ public class VerticalSectionView extends SectionView{
     
     private DataModel model;
     private FlowPanel layout = new FlowPanel();
-    private Class<? extends ModelDTO> modelDTOType;
-
-	public VerticalSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
-		super(viewEnum, name);
-	    super.initWidget(layout);
-	    this.modelDTOType = modelDTOType; 
-	    //instructions.setText("INSTRUCTIONS");
-	    layout.setStyleName("ks-form-module");
-	    sectionTitle.addStyleName("ks-heading-page-title");
-	}
 	
     public VerticalSectionView(Enum<?> viewEnum, String name, String modelId) {     
         super(viewEnum, name);
@@ -61,31 +45,7 @@ public class VerticalSectionView extends SectionView{
         layout.setStyleName("ks-form-module");
         sectionTitle.addStyleName("ks-heading-page-title");
     }
-	
-	
-/*	public VerticalSection(){
-		layout.add(this.sectionTitle);
-		this.initWidget(layout);
-	}
-	
-	public VerticalSection(SectionTitle title){
-		this.sectionTitle = title;
-		layout.add(this.sectionTitle);
-		this.instructions.setVisible(false);
-		layout.add(this.instructions);
-		layout.add(this.message);
-		this.initWidget(layout);
-	}
-	
-	public VerticalSection(SectionTitle title, String instructions){
-		this.sectionTitle = title;
-		layout.add(this.sectionTitle);
-		this.setInstructions(instructions);
-		layout.add(this.instructions);
-		layout.add(this.message);
-		this.initWidget(layout);
-	}*/
-	
+		
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback){
         super.beforeShow(new Callback<Boolean>() {

@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -62,7 +61,6 @@ import org.kuali.student.core.assembly.data.Data.StringValue;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer;
-import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.SectionsEnum;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -88,15 +86,15 @@ public class OrgProposalController extends TabbedSectionLayout{
     final KSLightBox progressWindow = new KSLightBox();
     boolean flag = false;
 
-    public static final String ORG_INFO_PATH                  = "orgInfo";
-    public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
-    public static final String PERSON_PATH                  = "orgPersonRelationInfo";
-    public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
-    public static final String ORG_TAB_NAME                 = getLabel("orgOrgTab");
-    public static final String POSITION_TAB_NAME                 = getLabel("orgPositionTab");
-    public static final String SEARCH_TAB_NAME                 = getLabel("orgSearchTab");
-    public static final String QUALIFICATION_ORG_ID                 = "orgId";
-
+    public static final String ORG_INFO_PATH		= "orgInfo";
+    public static final String POSITION_PATH		= "OrgPositionRestrictionInfo";
+    public static final String PERSON_PATH			= "orgPersonRelationInfo";
+    public static final String ORGORG_PATH			= "orgOrgRelationInfo";
+    public static final String ORG_TAB_NAME			= getLabel("orgOrgTab");
+    public static final String POSITION_TAB_NAME	= getLabel("orgPositionTab");
+    public static final String SEARCH_TAB_NAME		= getLabel("orgSearchTab");
+    public static final String QUALIFICATION_ORG_ID	= "orgId";
+    public static final String ORG_PROPOSAL_MODEL	= "orgProposalModel";
 
 
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
@@ -359,7 +357,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	        if (modelRequestQueue == null){
 	            modelRequestQueue = new WorkQueue();
 	        }
-	        if (id.equals(OrgConfigurerFactory.ORG_PROPOSAL_MODEL)){
+	        if (id.equals(ORG_PROPOSAL_MODEL)){
 	            WorkItem workItem = new WorkItem(){
 	                @Override
 	                public void exec(Callback<Boolean> workCompleteCallback) {
