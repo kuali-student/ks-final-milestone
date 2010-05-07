@@ -34,7 +34,6 @@ import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;

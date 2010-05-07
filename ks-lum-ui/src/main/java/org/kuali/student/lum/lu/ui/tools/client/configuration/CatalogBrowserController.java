@@ -15,8 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -35,6 +33,9 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogMetadata;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 public class CatalogBrowserController extends TabbedSectionLayout

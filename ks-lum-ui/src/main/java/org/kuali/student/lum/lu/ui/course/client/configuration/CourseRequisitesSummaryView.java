@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;

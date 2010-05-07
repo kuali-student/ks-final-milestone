@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-//import java.util.ListIterator;
 import java.util.Set;
 
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
@@ -33,7 +32,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-//import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;

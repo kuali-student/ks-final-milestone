@@ -18,6 +18,14 @@ package org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.BusyStateChangeEvent;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.BusyStateChangeHandler;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.HasBusyState;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.BusyStateChangeEvent.BusyState;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.ModelChangeEvent;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.ModelChangeHandler;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.filters.Filter;
+
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -26,13 +34,6 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.BusyStateChangeEvent;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.BusyStateChangeHandler;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.HasBusyState;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.BusyStateChangeEvent.BusyState;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.ModelChangeEvent;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.ModelChangeHandler;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.filters.Filter;
 
 /**
  * Abstract class that defines a table model

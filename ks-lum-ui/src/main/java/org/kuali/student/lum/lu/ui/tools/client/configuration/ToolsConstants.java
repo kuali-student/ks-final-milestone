@@ -15,8 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**

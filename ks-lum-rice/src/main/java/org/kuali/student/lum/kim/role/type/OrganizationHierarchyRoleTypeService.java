@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.web.format.BooleanFormatter;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -36,7 +37,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.rice.kns.web.format.BooleanFormatter;
 
 /**
  * A Role Type Service that will enable an organization qualifier and parsing of the Organization Hierarchy

@@ -17,14 +17,10 @@ package org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.actions
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.ColumnDefinition;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.ColumnPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.DynamicTable;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.ColumnDefinition.ColumnAttribute;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.themes.Theme;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Callback;
 
 /**
  * Defines an action that displays a table settings popup.  Currently the only settings that can be changed are which columns are visible.

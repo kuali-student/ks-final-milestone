@@ -18,9 +18,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.export;
 
-import com.google.gwt.core.client.GWT;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.rebind.ClassReference;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.rebind.ClassReferences;
+
+import com.google.gwt.core.client.GWT;
 
 
 /**

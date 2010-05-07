@@ -22,16 +22,16 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableL
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-
-import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogBySchoolOrCollegeConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
+
+import com.google.gwt.user.client.ui.Widget;
 
 public class CatalogBrowserConfigurer
  implements BrowseCourseCatalogBySchoolOrCollegeConstants,

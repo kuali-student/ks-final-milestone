@@ -18,19 +18,13 @@ package org.kuali.student.lum.ui.requirements.server.gwt;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
-import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
-import org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
-//import org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.util.StatementServiceMock;

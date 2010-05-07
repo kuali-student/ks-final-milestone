@@ -21,10 +21,11 @@ package org.kuali.student.lum.lu.ui.course.client.widgets.a.common;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
+
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.ui.Image;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
 
 /**
  * @author wilj

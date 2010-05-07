@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.tools.server.gwt;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;

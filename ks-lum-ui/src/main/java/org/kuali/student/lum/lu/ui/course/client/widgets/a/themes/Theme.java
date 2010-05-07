@@ -18,7 +18,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets.a.themes;
 
-import com.google.gwt.core.client.GWT;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.CommonImages;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.CommonMessages;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.ScrollImages;

@@ -19,14 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 

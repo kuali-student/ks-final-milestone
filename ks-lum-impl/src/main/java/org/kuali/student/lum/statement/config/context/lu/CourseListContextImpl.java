@@ -18,10 +18,10 @@ package org.kuali.student.lum.statement.config.context.lu;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentTypes;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 
 /**
  * This class creates the template context for course list types.

@@ -19,21 +19,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.common.ui.client.widgets.table.Token;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.common.ui.client.widgets.table.Token;
 
 public class StatementVO extends Token implements Serializable {
 

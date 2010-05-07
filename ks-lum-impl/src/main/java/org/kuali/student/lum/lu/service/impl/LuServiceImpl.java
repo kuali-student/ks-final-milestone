@@ -28,7 +28,6 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;

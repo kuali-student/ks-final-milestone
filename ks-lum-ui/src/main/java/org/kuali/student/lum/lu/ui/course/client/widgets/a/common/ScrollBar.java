@@ -15,6 +15,13 @@
 
 package org.kuali.student.lum.lu.ui.course.client.widgets.a.common;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollEvent;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollHandler;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollEvent.ScrollEventType;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.A11y;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Elements;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -37,12 +44,6 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollEvent;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollHandler;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollEvent.ScrollEventType;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.A11y;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Elements;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
 
 /**
  * Standalone scrollbar widget.  Can be used when scrollbar-like capabilities are required and

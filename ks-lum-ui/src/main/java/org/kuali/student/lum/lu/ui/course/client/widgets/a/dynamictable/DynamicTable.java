@@ -15,6 +15,11 @@
 
 package org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.RowFocusEvent;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.RowFocusHandler;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplDefault;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -24,10 +29,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Focusable;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.RowFocusEvent;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.events.RowFocusHandler;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplDefault;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
 
 /**
  * Dynamic scrolling table widget.  Supports large data sets, with no upper bound on client side scaling.

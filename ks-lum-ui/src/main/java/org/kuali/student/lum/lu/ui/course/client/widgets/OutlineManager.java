@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;

@@ -18,11 +18,12 @@ package org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.actions.ActionHandler;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.actions.ActionHandler;
 
 /**
  * PopupPanel used to display menu of ActionDefinitions associated with the table

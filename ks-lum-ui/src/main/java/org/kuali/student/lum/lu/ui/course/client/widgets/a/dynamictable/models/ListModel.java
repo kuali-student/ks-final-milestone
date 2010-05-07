@@ -23,13 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.Row;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.SortInfo;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.TableModel;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.SortInfo.Direction;
+
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * Base class for creating simple client-side list models

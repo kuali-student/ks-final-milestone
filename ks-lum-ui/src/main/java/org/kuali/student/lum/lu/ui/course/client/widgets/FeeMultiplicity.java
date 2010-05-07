@@ -22,10 +22,8 @@ import java.util.Iterator;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityItemBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;

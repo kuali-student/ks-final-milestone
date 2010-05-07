@@ -15,25 +15,24 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.widgets;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 
 public class BrowsePanel extends Composite
 {

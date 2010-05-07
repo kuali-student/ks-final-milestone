@@ -18,6 +18,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.export.download;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.LightBox;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -25,9 +27,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.LightBox;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.export.ExportMessages;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.themes.Theme;
 
 /**
  * @author wilj

@@ -20,6 +20,9 @@ package org.kuali.student.lum.lu.ui.course.client.widgets.a.notifications;
 
 import java.util.LinkedList;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Elements;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -39,9 +42,6 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.themes.Theme;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Elements;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
 
 /**
  * TODO javadoc this class

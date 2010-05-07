@@ -22,6 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.LightBox;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Callback;
+import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -33,10 +37,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.LightBox;
-//import org.kuali.student.lum.lu.ui.course.client.widgets.a.themes.Theme;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Callback;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
 
 /**
  * @author wilj
