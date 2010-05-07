@@ -15,9 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.impl;
 
-
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutHandler;
@@ -82,7 +80,6 @@ public class KSButtonImpl extends KSButtonAbstract{
 		else{
 			panel.remove(anchor);
 			panel.add(disabledLabel);
-
 		}
 	}
 	
@@ -96,8 +93,7 @@ public class KSButtonImpl extends KSButtonAbstract{
 		this.text = text;
 		anchor.setText(text);
 		disabledLabel.setText(text);
-	}
-	
+	}	
 
 	@Override
 	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
@@ -137,21 +133,22 @@ public class KSButtonImpl extends KSButtonAbstract{
 
 		panel.add(anchor);
 		
-		this.initWidget(panel);
-		
+		this.initWidget(panel);		
 	}
 
 	@Override
 	public void init() {
-		init("", ButtonStyle.PRIMARY);
-		
+		init("", ButtonStyle.PRIMARY);		
 	}
 
 	@Override
 	public void init(String text, ClickHandler handler) {
 		init(text, ButtonStyle.PRIMARY);
-		anchor.addClickHandler(handler);
-		
+		anchor.addClickHandler(handler);		
 	}
 	
+    public void init(String text, ButtonStyle style, ClickHandler handler) {
+        init(text, style);
+        anchor.addClickHandler(handler);        
+    }	
 }
