@@ -219,11 +219,36 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
             //for multiple searches, show a drop down for user to select from
             if (advancedLightboxLookupdata.size() == 1) {
+                String actionLabel = advancedLightboxLookupdata.get(0)
+                        .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
                 searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
                 advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                if (actionLabel != null && actionLabel.trim().length() > 0) {
+                    advSearchWindow.setActionButtonLabel(actionLabel);
+                }
             } else {
                 searchPanel = new SearchPanel(advancedLightboxLookupdata);
                 advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                searchPanel.addLookupChangedCallback(new Callback<LookupMetadata>() {
+                    @Override
+                    public void exec(LookupMetadata selectedLookup) {
+                        String actionLabel = (selectedLookup == null)? null : selectedLookup
+                                .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+                        if (actionLabel != null && actionLabel.trim().length() > 0) {
+                            advSearchWindow.setActionButtonLabel(actionLabel);
+                        } else {
+                            advSearchWindow.setActionButtonLabel(null);
+                        }
+                    }
+                });
+                LookupMetadata initialLookupMetaData = advancedLightboxLookupdata.get(0);
+                String initialActionLabel = (initialLookupMetaData == null)? null : initialLookupMetaData
+                        .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+                if (initialActionLabel != null && initialActionLabel.trim().length() > 0) {
+                    advSearchWindow.setActionButtonLabel(initialActionLabel);
+                } else {
+                    advSearchWindow.setActionButtonLabel(null);
+                }
             }
             searchPanel.setMultiSelect(true);
 

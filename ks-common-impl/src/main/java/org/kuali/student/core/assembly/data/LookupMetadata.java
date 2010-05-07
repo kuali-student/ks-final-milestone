@@ -18,6 +18,7 @@ package org.kuali.student.core.assembly.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -67,6 +68,25 @@ public class LookupMetadata implements Serializable {
         NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON, CHECKBOX_LIST
     }
     private Widget widget;    
+
+    public enum WidgetOption {
+        ADVANCED_LIGHTBOX_PREVIEW_MODE, ADVANCED_LIGHTBOX_ACTION_LABEL
+    }
+    
+    private Map<WidgetOption, String> widgetOptions;
+    
+    public Map<WidgetOption, String> getWidgetOptions() {
+        return widgetOptions;
+    }
+    
+    public void setWidgetOptions(Map<WidgetOption, String> widgetOptions) {
+        this.widgetOptions = widgetOptions;
+    }
+    
+    public String getWidgetOptionValue(WidgetOption widgetOption) {
+        if (widgetOptions == null) return null;
+        return widgetOptions.get(widgetOption);
+    }
 
     public String getName() {
         return name;
