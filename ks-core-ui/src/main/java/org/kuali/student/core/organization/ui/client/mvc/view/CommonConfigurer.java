@@ -30,9 +30,9 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
@@ -263,12 +263,12 @@ public class CommonConfigurer {
         public Widget generateAddWidget() {
             //Label addWidget =  new Label(addItemLabel);
             //addWidget.addStyleName("KS-Multiplicity-Link-Label");
-            KSLinkButton addWidget;
+            KSButton addWidget;
             if(style == StyleType.TOP_LEVEL){
-                addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_LARGE);
+                addWidget = new KSButton(addItemLabel, ButtonStyle.FORM_LARGE);
             }
             else{
-                addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_SMALL);
+                addWidget = new KSButton(addItemLabel, ButtonStyle.FORM_SMALL);
             }
             addWidget.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
