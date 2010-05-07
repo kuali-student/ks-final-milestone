@@ -101,6 +101,7 @@
         <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
         <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
+        <findbugs.plugin.version>2.0.1</findbugs.plugin.version>
 
         <!-- build properties -->
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
@@ -441,7 +442,17 @@
 
     <reporting>
         <plugins>
-
+		      <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>findbugs-maven-plugin</artifactId>
+		        <version>${findbugs.plugin.version}</version>
+		        <configuration>
+		          <findbugsXmlOutput>true</findbugsXmlOutput>
+		          <!-- Optional directory to put findbugs xml report -->
+		          <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
+		        </configuration>
+		      </plugin>
+			
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
