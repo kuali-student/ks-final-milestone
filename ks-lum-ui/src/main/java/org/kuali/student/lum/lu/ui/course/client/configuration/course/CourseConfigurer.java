@@ -78,7 +78,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObj
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
@@ -174,20 +173,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
 	        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
 	    }
-	
-	    public SectionView generateSummarySection(){
-	        VerticalSectionView section = initSectionView(CourseSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
-	
-	    	section.enableValidation(false);
-	        section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
-	        section.addSection(generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
-	        return section;
-	    }
-	
-	    protected VerticalSection generateSummaryDetails(SectionTitle title) {
-	       return  ViewCluConfigurer.generateSummaryDetails(title);
-		}
-	
+		
 	    protected VerticalSection generateSummaryBrief(SectionTitle title) {
 	        VerticalSection section = new VerticalSection(title);
 	        section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
