@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSActionItemList;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLandingPage;
-import org.kuali.student.common.ui.client.widgets.KSSearchBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.KSActionItemList.ListLocation;
@@ -52,7 +51,7 @@ public class KSLumLandingPage extends ViewComposite{
 	private KSLabel searchLabel = new KSLabel("Search");
 	private KSActionItemList recentlyViewedList = new KSActionItemList("Recently Viewed");
 	private KSActionItemList tasklistItemsList = new KSActionItemList("Tasklist Items");
-	private KSSearchBox searchBox = new KSSearchBox();
+	//private KSSearchBox searchBox = new KSSearchBox();  //use KSPicker
 	private ListBox luTypeSelector = new ListBox();
 	private StylishDropDown proposeDropDown = new StylishDropDown(
 			"Propose New Curriculum", 
@@ -85,7 +84,7 @@ public class KSLumLandingPage extends ViewComposite{
 		createLuTypeSelector();
 		searchPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		searchPanel.add(luTypeSelector);
-		searchPanel.add(searchBox);
+		//searchPanel.add(searchBox);     //use KSPicker
 		
 		
 		layout.add(searchPanel);
