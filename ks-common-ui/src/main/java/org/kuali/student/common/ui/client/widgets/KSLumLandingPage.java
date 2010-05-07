@@ -43,7 +43,7 @@ public class KSLumLandingPage extends ViewComposite{
 	private KSLabel searchLabel = new KSLabel("Search");
 	private KSActionItemList recentlyViewedList = new KSActionItemList("Recently Viewed");
 	private KSActionItemList tasklistItemsList = new KSActionItemList("Tasklist Items");
-	private KSSearchBox searchBox = new KSSearchBox();
+	//private KSSearchBox searchBox = new KSSearchBox();   //use KSPicker
 	private ListBox luTypeSelector = new ListBox();
 	private StylishDropDown proposeDropDown = new StylishDropDown("Propose New Curriculum");
 	
@@ -72,7 +72,7 @@ public class KSLumLandingPage extends ViewComposite{
 		createLuTypeSelector();
 		searchPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		searchPanel.add(luTypeSelector);
-		searchPanel.add(searchBox);
+		//searchPanel.add(searchBox);    //use KSPicker
 		
 		
 		layout.add(searchPanel);
