@@ -14,6 +14,7 @@
  */
 
 package org.kuali.student.lum.lu.ui.course.client.widgets;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -514,7 +515,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 						//TODO add back in when we have remove
 /*
 						if (person.isCanRevokeRequest()) {
-							KSLinkButton remove = new KSLinkButton("X", ButtonStyle.DELETE);
+							KSButton remove = new KSButton("X", ButtonStyle.DELETE);
 							remove.addClickHandler(new ClickHandler() {
 	
 								@Override
