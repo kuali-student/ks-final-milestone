@@ -15,8 +15,9 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
+
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.user.client.ui.FlowPanel;

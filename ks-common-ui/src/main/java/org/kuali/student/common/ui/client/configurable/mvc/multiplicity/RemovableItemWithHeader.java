@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
