@@ -97,8 +97,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public CssResource pickListCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSelectableTableList.css")
     public CssResource selectableTableListCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSAdvancedSearchWindow.css")
-    public CssResource advancedSearchWindowCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSButtonLayout.css")
     public CssResource buttonLayoutCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSCustomFlowPanel.css")
