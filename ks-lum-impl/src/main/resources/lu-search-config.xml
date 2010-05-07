@@ -525,7 +525,7 @@
         	<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDescr" subSearchParam="lu.queryParam.luOptionalDescr"/>
-	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalFreeFormState" subSearchParam="lu.queryParam.luOptionalFreeFormState"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
         </search:subSearch>	        
 		<search:joinCriteria type="AND">
 			<search:comparison type="EQUALS">
@@ -563,6 +563,7 @@
             <ref bean="lu.queryParam.luOptionalCode" />
             <ref bean="lu.queryParam.luOptionalDescr" />
             <ref bean="lu.queryParam.luOptionalOrgLongName" />
+            <ref bean="lu.queryParam.luOptionalState" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -617,7 +618,7 @@
 				<entry key="lu.queryParam.luOptionalDivision">
 					<value>clu.officialIdentifier.division</value>
 				</entry>
-		        <entry key="lu.queryParam.luOptionalPrimaryAdminOrgId">
+				<entry key="lu.queryParam.luOptionalPrimaryAdminOrgId">
 					<value>clu.primaryAdminOrg.orgId</value>
 				</entry>				
 				<entry key="lu.queryParam.luOptionalLevel">

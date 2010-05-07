@@ -630,7 +630,15 @@ public class RuleComponentEditorView extends ViewComposite {
             }
 
             if (tag.equals("reqCompFieldType.cluSet")) {
-                final ReqCompPicker valueWidget = configureCluSetSearch(fieldLabel);                
+                
+				//need a better way to determine what pickers to use for given req. component type field
+                final ReqCompPicker valueWidget;  
+                if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.oneof")) || 
+                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.none"))) {
+                    valueWidget = configureProgramCluSetSearch(fieldLabel);
+                } else {
+                    valueWidget = configureCourseCluSetSearch(fieldLabel);
+                }
                 valueWidgets.add(valueWidget);
                 String cluSetIdsInClause = getSpecificFieldValue(fields, tag);
                 
@@ -831,7 +839,16 @@ public class RuleComponentEditorView extends ViewComposite {
     	return null;	
     }
     
-    private ReqCompPicker configureCluSetSearch(String tag) { 
+    private ReqCompPicker configureProgramCluSetSearch(String tag) { 
+        for (FieldDescriptor fieldMetadata : fieldsWithLookup) {
+            if (fieldMetadata.getMetadata().getName().equals("findProgram")) {
+                return new ReqCompPicker(fieldMetadata.getMetadata().getInitialLookup(), fieldMetadata.getMetadata().getAdditionalLookups(), tag);  
+            }
+        }
+        return null;    
+    }    
+    
+    private ReqCompPicker configureCourseCluSetSearch(String tag) { 
         for (FieldDescriptor fieldMetadata : fieldsWithLookup) {
             if (fieldMetadata.getMetadata().getName().equals("findCluSet")) {
                 return new ReqCompPicker(fieldMetadata.getMetadata().getInitialLookup(), fieldMetadata.getMetadata().getAdditionalLookups(), tag);   

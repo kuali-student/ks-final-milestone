@@ -247,6 +247,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
 	        addField(section, SEARCH + "/" + "findCourse");
             addField(section, SEARCH + "/" + "findCluSet");
+            addField(section, SEARCH + "/" + "findProgram");
 	        return section;
 	    }
 	
