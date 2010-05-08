@@ -36,15 +36,11 @@ public class DisplayItem extends MultiplicityItem {
 
     protected FlowPanel itemPanel = new FlowPanel();
     
-	private StyleType style;
-
-    
     public DisplayItem(){        
         initWidget(itemPanel);
     }
 
 	public DisplayItem(StyleType style){
-		this.style = style;
 		this.initWidget(itemPanel);
 		
 	}

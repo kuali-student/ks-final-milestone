@@ -78,10 +78,6 @@ public class KSWrapper extends Composite{
 	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
 	private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
 
-	//TODO replace with raw link widget list
-	private List<KSLabel> headerLinkList = new ArrayList<KSLabel>();
-	private List<KSLabel> footerLinkList = new ArrayList<KSLabel>();
-
 	//TODO replace with raw link widget(?)
 	private KSLabel helpLabel = new KSLabel(getMessage("wrapperPanelHelp"));
 	private KSImage helpImage = Theme.INSTANCE.getCommonImages().getHelpIcon();
@@ -281,7 +277,6 @@ public class KSWrapper extends Composite{
 	}
 
 	public void setHeaderCustomLinks(List<KSLabel> links){
-		headerLinkList = links;
 		for(KSLabel link: links){
 			FocusPanel panel = new FocusPanel();
 			panel.setWidget(link);
@@ -292,7 +287,6 @@ public class KSWrapper extends Composite{
 	}
 
 	public void setFooterLinks(List<KSLabel> links){
-		footerLinkList = links;
 		for(KSLabel link: links){
 			footer.add(link);
 			link.addStyleName("KS-Wrapper-Footer-Link");

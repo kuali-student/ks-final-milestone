@@ -18,15 +18,13 @@ package org.kuali.student.common.ui.client.validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 @Deprecated
 public class DictionaryCharFilter implements CharFilter {
-    private final FieldDescriptor descriptor;
-    
+
     public DictionaryCharFilter(FieldDescriptor descriptor) {
-        this.descriptor = descriptor;
     }
 
     public String filter(String s) {
         String result = null;
-        
+
         if (s != null) {
             StringBuilder sb = new StringBuilder();
             String invalid = "";// descriptor.getInvalidChars();
@@ -43,7 +41,7 @@ public class DictionaryCharFilter implements CharFilter {
                 }
             }
         }
-        
+
         return result;
     }
 

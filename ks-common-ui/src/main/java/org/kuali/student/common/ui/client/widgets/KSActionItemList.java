@@ -24,27 +24,25 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSActionItemList extends Composite{
 	private KSLabel title = new KSLabel();
-	private VerticalPanel layout = new VerticalPanel();
 	private KSListPanel listLayout = new KSListPanel();
 	private List<ActionItem> actionItems = new ArrayList<ActionItem>();
-	
+
 	public static enum ListLocation{TOP, BOTTOM}
-	
+
 	public class ActionItem{
 		private String text;
 		private String shortDesc;
 		private ClickHandler handler;
-		
+
 		//TODO actually LINK widget
 		private KSLabel link = new KSLabel(text);
 		private KSLabel desc = new KSLabel(shortDesc);
 		private HorizontalPanel layout = new HorizontalPanel();
-		
+
 		public ActionItem(String text, String shortDesc,
 				ClickHandler handler) {
 
@@ -73,7 +71,7 @@ public class KSActionItemList extends Composite{
 		public void setHandler(ClickHandler handler) {
 			this.handler = handler;
 		}
-		
+
 		public Widget getWidget(){
 			String id = HTMLPanel.createUniqueId();
 		    HTMLPanel panel = new HTMLPanel("<a href='javascript:return false;' id='" + id + "'></a>");
@@ -87,7 +85,7 @@ public class KSActionItemList extends Composite{
 			return layout;
 		}
 	}
-	
+
 	public KSActionItemList(String title){
 		this.title.setText(title);
 		listLayout.addStyleName("KS-ActionItemList-ListPanel");
@@ -95,7 +93,7 @@ public class KSActionItemList extends Composite{
 		redrawList();
 		this.initWidget(listLayout);
 	}
-	
+
 	public KSActionItemList(String title, List<ActionItem> items){
 		this.title.setText(title);
 		listLayout.addStyleName("KS-ActionItemList-ListPanel");
@@ -104,7 +102,7 @@ public class KSActionItemList extends Composite{
 		redrawList();
 		this.initWidget(listLayout);
 	}
-	
+
 	public void redrawList(){
 		listLayout.clear();
 		if(!title.getText().isEmpty()){
@@ -115,11 +113,11 @@ public class KSActionItemList extends Composite{
 		}
 
 	}
-	
+
 	public void setTitle(String title){
 		this.title.setText(title);
 	}
-	
+
 	public void add(ActionItem item, ListLocation location){
 		if(location == ListLocation.TOP){
 			actionItems.add(0, item);
@@ -129,7 +127,7 @@ public class KSActionItemList extends Composite{
 		}
 		//redrawList();
 	}
-	
+
 	public void add(String text, String shortDesc, ClickHandler handler, ListLocation location){
 		ActionItem item = new ActionItem(text, shortDesc, handler);
 		if(location == ListLocation.TOP){
@@ -140,17 +138,17 @@ public class KSActionItemList extends Composite{
 		}
 		redrawList();
 	}
-	
+
 	public void setActionItems(List<ActionItem> items){
 		actionItems = items;
 		redrawList();
 	}
-	
+
 	public void remove(ActionItem item){
 		actionItems.remove(item);
 		redrawList();
 	}
-	
+
 	public void removeByText(String text){
 		for(ActionItem item: actionItems){
 			if(text.equals(item.getText())){
@@ -160,7 +158,7 @@ public class KSActionItemList extends Composite{
 		}
 		redrawList();
 	}
-	
-	
-	
+
+
+
 }

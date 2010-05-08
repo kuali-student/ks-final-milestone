@@ -41,28 +41,26 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Skeleton for KSPickListImpl
- * 
+ *
  * TODO clean it up and make it work
  *
  */
 public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     private final List<String> unselected = new ArrayList<String>();
     private final List<String> selected = new ArrayList<String>();
-    
+
     private boolean enabled = true;
-    
-    
+
+
     private final HorizontalPanel panel = new HorizontalPanel();
     private final KSSelectableTableList unselectedTable = new KSSelectableTableList(true);
     private final KSSelectableTableList selectedTable = new KSSelectableTableList(true);
     private final VerticalPanel buttonPanel = new VerticalPanel();
-    private final VerticalPanel unselectedPanel = new VerticalPanel();
     private final KSLabel unselectedLabel = new KSLabel();
-    private final VerticalPanel selectedPanel = new VerticalPanel();
     private final KSLabel selectedLabel = new KSLabel();
-    
+
     private final FlexTable pickListTable = new FlexTable();
-    
+
     private final Button add = new Button(">", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
@@ -91,7 +89,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             unselectedTable.onLoad();
         }
     });
-    
+
     private final Button addAll = new Button(">>", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
@@ -101,7 +99,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             unselected.clear();
             selected.clear();
             selected.addAll(KSPickListImpl.this.getListItems().getItemIds());
-            
+
             selectedTable.onLoad();
             unselectedTable.onLoad();
         }
@@ -119,8 +117,8 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             unselectedTable.onLoad();
         }
     });
-        
-    
+
+
     private final ListItems unselectedAdapter = new ListItems() {
         @Override
         public List<String> getAttrKeys() {
@@ -155,7 +153,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             }
         }
     };
-    
+
     private final ListItems selectedAdapter = new ListItems() {
         @Override
         public List<String> getAttrKeys() {
@@ -190,31 +188,31 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             }
         }
     };
-    
+
     private final FocusGroup focus = new FocusGroup(this);
-    
+
     public KSPickListImpl() {
         initWidget(panel);
         setupDefaultStyle();
-        
+
         unselectedLabel.setText("Unselected");
         selectedLabel.setText("Selected");
         pickListTable.setWidget(0, 0, unselectedLabel);
         pickListTable.setWidget(0, 2, selectedLabel);
-        
+
         pickListTable.setWidget(1, 0, unselectedTable);
         pickListTable.setWidget(1, 1, buttonPanel);
         pickListTable.setWidget(1, 2, selectedTable);
-        
+
         buttonPanel.add(addAll);
         buttonPanel.add(add);
         buttonPanel.add(remove);
         buttonPanel.add(removeAll);
-        
+
         pickListTable.getCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
         pickListTable.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
         pickListTable.getCellFormatter().setVerticalAlignment(1, 2, HasVerticalAlignment.ALIGN_TOP);
-        
+
         panel.add(pickListTable);
         focus.addWidget(this.add);
         focus.addWidget(this.addAll);
@@ -224,7 +222,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
         focus.addWidget(this.unselectedTable);
 
     }
-    
+
     private void setupDefaultStyle(){
         panel.addStyleName(KSStyles.KS_PICK_LIST_WRAPPER_PANEL);
         buttonPanel.addStyleName(KSStyles.KS_PICK_LIST_BUTTON_PANEL);
@@ -232,7 +230,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
         selectedLabel.addStyleName(KSStyles.KS_PICK_LIST_SELECTED_LABEL);
         pickListTable.addStyleName(KSStyles.KS_PICK_LIST_TABLE_LAYOUT);
     }
-    
+
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
@@ -252,7 +250,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     }
 
 
-    
+
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
@@ -268,8 +266,8 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     public <T extends Idable> void setListItems(ListItems listItems) {
         if(listItems instanceof ModelListItems){
             Callback<T> redrawCallback = new Callback<T>(){
-    
-                @Override 
+
+                @Override
                 public void exec(T result){
                     KSPickListImpl.this.redraw();
                 }
@@ -279,14 +277,14 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             ((ModelListItems<T>)listItems).addOnUpdateCallback(redrawCallback);
             ((ModelListItems<T>)listItems).addOnBulkUpdateCallback(redrawCallback);
         }
-        
+
         super.setListItems(listItems);
         unselected.clear();
         unselected.addAll(listItems.getItemIds());
         unselectedTable.setListItems(unselectedAdapter);
         selectedTable.setListItems(selectedAdapter);
     }
-   
+
     public void redraw() {
         unselected.clear();
         unselected.addAll(KSPickListImpl.this.getListItems().getItemIds());
@@ -330,6 +328,6 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub        
+        // TODO Auto-generated method stub
     }
 }

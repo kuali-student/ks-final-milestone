@@ -35,12 +35,12 @@ import com.google.gwt.user.client.ui.FlexTable;
 
 /**
  * This class is a temporary hack to display a list of strings.
- * 
- * @author Kuali Student Team 
+ *
+ * @author Kuali Student Team
  *
  */
 public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
-    
+
     private static final HandlerRegistration NO_OP_REGISTRATION = new HandlerRegistration() {
 		@Override
 		public void removeHandler() {
@@ -48,7 +48,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
 		}
     };
 
-    
+
 	private FlexTable labels = new FlexTable();
     private List<String> selectedItems = new ArrayList<String>();
 
@@ -58,7 +58,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public KSLabelListImpl() {
         initWidget(labels);
     }
-    
+
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
@@ -78,28 +78,28 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
-    public void selectItem(String id) {        
+    public void selectItem(String id) {
         if (!selectedItems.contains(id)){
              this.selectedItems.add(id);
         }
-        
+
         //FIXME: Is there a better way to display selected item here without redrawing
         redraw();
     }
-    
+
     public void redraw(){
         labels.clear();
         int currCount = 0;
         int row = 0;
         int col = 0;
-        
+
         int itemCount = 0;
         if (super.getListItems() != null){
-        	itemCount = super.getListItems().getItemCount();        	
+        	itemCount = super.getListItems().getItemCount();
         } else {
         	itemCount = selectedItems.size();
         }
-        
+
         if (maxCols <= 2){
             //Row flow - increment row faster than column
             int maxRows = (itemCount / maxCols) + (itemCount % 2);
@@ -107,9 +107,9 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
                 currCount++;
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
-                
+
                 labels.setWidget(row, col, createLabel(id));
-                
+
                 col += ((row + 1)/ maxRows) * 1;
             }
         } else {
@@ -118,13 +118,13 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
                 currCount++;
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
-                
+
                 labels.setWidget(row, col, createLabel(id));
-                
+
                 row += ((col + 1 )/ maxCols) * 1;
             }
         }
-        
+
         super.setInitialized(true);
     }
 
@@ -132,8 +132,8 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public <T extends Idable> void setListItems(ListItems listItems) {
         if(listItems instanceof ModelListItems){
             Callback<T> redrawCallback = new Callback<T>(){
-                
-                @Override 
+
+                @Override
                 public void exec(T result){
                     KSLabelListImpl.this.redraw();
                 }
@@ -143,7 +143,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
             ((ModelListItems<T>)listItems).addOnUpdateCallback(redrawCallback);
             ((ModelListItems<T>)listItems).addOnBulkUpdateCallback(redrawCallback);
         }
-        
+
         super.setListItems(listItems);
 
         redraw();
@@ -160,7 +160,8 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
 
     @Override
     public void onClick(ClickEvent event) {
-        KSLabel label = (KSLabel)(event.getSource());   
+// FIXME
+//        KSLabel label = (KSLabel)(event.getSource());
 //        String value = label.getFormValue();
 //        if (checkbox.getValue()){
 //            if (!selectedItems.contains(value)){
@@ -196,7 +197,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public boolean isEnabled() {
         return enabled;
     }
-    
+
     @Override
     public boolean isMultipleSelect(){
         return true;

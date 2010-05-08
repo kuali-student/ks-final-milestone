@@ -44,7 +44,6 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	private SpanPanel instructions = new SpanPanel();
 	private AbbrPanel required = new AbbrPanel("Required", "ks-form-module-elements-required", "*");
 	private AbbrButton help = new AbbrButton(AbbrButtonType.HELP);
-	private Widget fieldWidget;
 	public static enum TopMargin{SINGLE, DOUBLE, TRIPLE}
 	
 	private ValidationMessagePanel validationPanel;
@@ -83,7 +82,6 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	this.setKey(key);
     	if(widget != null){
     		fieldName = title;
-    		fieldWidget = widget;
     		//TODO do widget type check here
     		String widgetId = HTMLPanel.createUniqueId();
     		fieldTitle = new LabelPanel(title, widgetId);
