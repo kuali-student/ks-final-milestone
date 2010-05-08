@@ -14,11 +14,9 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets.a.common;
-
-import java.util.LinkedList;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -36,7 +34,6 @@ public class ListPanel extends ComplexPanel {
 
 	private final ListType listType;
 	private final Element listElement;
-	private final LinkedList<Widget> widgets = new LinkedList<Widget>();
 
 	public ListPanel() {
 		this(ListType.UNORDERED);

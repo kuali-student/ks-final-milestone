@@ -46,7 +46,7 @@ public class ModifyFindPanel extends ViewComposite{
 
     CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
     MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
-    
+
     private VerticalPanel mainPanel = new VerticalPanel();
 
     private boolean loaded = false;
@@ -81,11 +81,11 @@ public class ModifyFindPanel extends ViewComposite{
                 //NOTE: quick hack; does not matter because this all goes away with new Curriculum Management home screen
                 if(result) {
                     if (searchType.equals("Courses")) {
-                        addCourseSearchWindow(); 
+                        addCourseSearchWindow();
                     } else {
                         //addProposalSearchWindow();
                     }
-                }                
+                }
             }
         });
     }
@@ -107,35 +107,10 @@ public class ModifyFindPanel extends ViewComposite{
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.OBJECT_ID);
                         ModifyFindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_COURSE, viewContext));
-                    }                    
-                }); 
+                    }
+                });
                 mainPanel.add(courseSearchWindow);
             }
-        });         
-    }
-
-    private void addProposalSearchWindow(){
-                        
-        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
-            }
-            @Override
-            public void onSuccess(Metadata metadata) {
-                metadata = metadata.getProperties().get("findProposal");                
-                KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-                proposalSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
-                    public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = (List<String>)event.getValue();
-                        ViewContext viewContext = new ViewContext();
-                        viewContext.setId(selection.get(0));
-                        viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                        ModifyFindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_COURSE, viewContext));
-                    }                    
-                });
-                mainPanel.add(proposalSearchWindow);
-            }
-        });       
+        });
     }
 }

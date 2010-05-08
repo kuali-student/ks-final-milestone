@@ -55,12 +55,10 @@ public class KSBrowser extends Composite implements HasFocusLostCallbacks,
  private List<LookupParamMetadata> cascadingChildParameters;
  private WidgetConfigInfo config;
  private VerticalFlowPanel layout = new VerticalFlowPanel ();
- private Controller controller;
 
  public KSBrowser (LookupMetadata fieldLookup, Controller controller)
  {
   this.fieldLookup = fieldLookup;
-  this.controller = controller;
   if (this.fieldLookup == null)
   {
    KSErrorDialog errorDialog = new KSErrorDialog ();
