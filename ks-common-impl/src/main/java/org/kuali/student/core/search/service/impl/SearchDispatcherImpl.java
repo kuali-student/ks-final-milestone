@@ -68,7 +68,6 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 						}
 					}
 				} catch (OperationFailedException e) {
-					// TODO Auto-generated catch block
 					LOG.warn("Error getting searchTypes",e);
 				}
 			}
