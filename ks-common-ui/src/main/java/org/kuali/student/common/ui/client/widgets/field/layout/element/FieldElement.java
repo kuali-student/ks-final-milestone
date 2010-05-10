@@ -290,8 +290,8 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	
 				break;
 			case DOUBLE:
-				if((fieldTitle != null && !fieldTitle.equals("")) || 
-						(descriptionText != null && !descriptionText.equals(""))){
+				if((fieldTitle != null && !"".equals(fieldTitle.getText())) || 
+						(descriptionText != null && !"".equals(descriptionText))){
 					layout.addStyleName("ks-form-module-single-line-margin");
 				}
 				else{

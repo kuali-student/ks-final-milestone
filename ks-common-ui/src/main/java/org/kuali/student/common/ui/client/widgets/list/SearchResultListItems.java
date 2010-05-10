@@ -198,7 +198,7 @@ public class SearchResultListItems implements ListItems{
     
     private SearchResultRow getListItem(String id) {
         for (SearchResultRow s : resultDataMap) {
-            if (s.getCells().get(keyAttrNdx).getValue() == id) {
+            if (s.getCells().get(keyAttrNdx).getValue().equals(id)) {
                 return s;
             }
         }

@@ -51,7 +51,7 @@ public class HasValueBinding extends ModelWidgetBindingSupport<HasValue> {
         } else if (value instanceof Double) {
             model.set(qPath, (Double) value);
         } else if (value instanceof Byte) {
-            model.set(qPath, (Integer) value);
+            model.set(qPath, ((Byte) value).intValue());
         } else if (value instanceof Boolean) {
             model.set(qPath, (Boolean) value);
         } else if (value instanceof Date) {
