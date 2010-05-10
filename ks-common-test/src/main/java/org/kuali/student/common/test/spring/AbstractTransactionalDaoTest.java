@@ -27,6 +27,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +127,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager")
 public abstract class AbstractTransactionalDaoTest {
+	final Logger LOG = Logger.getLogger(AbstractTransactionalDaoTest.class);
 	@PersistenceContext
 	protected EntityManager em;
 
@@ -204,7 +206,7 @@ public abstract class AbstractTransactionalDaoTest {
 			}
 			jtaTxManager.commit(txStatus);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			jtaTxManager.rollback(txStatus);
 		}
 	}

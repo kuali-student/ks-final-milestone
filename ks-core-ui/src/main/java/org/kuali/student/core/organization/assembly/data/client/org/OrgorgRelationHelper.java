@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 
@@ -26,7 +27,8 @@ import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 public class OrgorgRelationHelper{
 	private static final long serialVersionUID = 1L;
-
+	final Logger LOG = Logger.getLogger(OrgorgRelationHelper.class);
+	
 	public enum Properties implements PropertyEnum {
 		ID("id"),ORG_ID("orgId"),RELATED_ORG_ID("relatedOrgId"),TYPE("orgOrgRelationTypeKey"),
 				EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate");
@@ -101,7 +103,7 @@ public class OrgorgRelationHelper{
                 try {
                     return df.parse((String) data.get(Properties.EFFECTIVE_DATE.getKey()));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOG.error(e);
                 }
             
         }
@@ -118,7 +120,7 @@ public class OrgorgRelationHelper{
             try {
                 return df.parse((String) data.get(Properties.EXPIRATION_DATE.getKey()));
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e);
             }
         }
         return data.get(Properties.EXPIRATION_DATE.getKey());

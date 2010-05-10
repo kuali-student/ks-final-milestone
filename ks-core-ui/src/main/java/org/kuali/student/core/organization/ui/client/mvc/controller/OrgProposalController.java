@@ -257,7 +257,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 
                         @Override
                         public void onFailure(Throwable caught) {
-                            System.out.println("Failure");
+                            GWT.log("Failure",null);
                             progressWindow.hide();
                             throw new RuntimeException("Failed to get model definition.", caught);
                         }
@@ -266,7 +266,7 @@ public class OrgProposalController extends TabbedSectionLayout{
                         public void onSuccess(Metadata result) {
 
                             DataModelDefinition def = new DataModelDefinition(result);
-                            System.out.println("Loaded OrgMetaData");
+                            GWT.log("Loaded OrgMetaData",null);
                             orgProposalModel.setDefinition(def);
                             commonConfigurer.setModelDefinition(def);
                             setSectionConfig(onReadyCallback);
@@ -289,13 +289,13 @@ public class OrgProposalController extends TabbedSectionLayout{
 
                     @Override
                     public void onFailure(Throwable caught) {
-                        System.out.println("Failure");
+                        GWT.log("Failure", null);
                         throw new RuntimeException("Failed to get section config.", caught);
                     }
 
                     @Override
                     public void onSuccess(SectionConfigInfo result) {
-                        System.out.println("Loaded SectionConfig");
+                        GWT.log("Loaded SectionConfig", null);
                         commonConfigurer.setSectionConfigInfo(result);
                         init();
                         onReadyCallback.exec(true);
@@ -387,7 +387,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	    }
 
 	    public void doSaveAction(final SaveActionEvent saveActionEvent){
-	        System.out.println("Reached save action");
+	        GWT.log("Reached save action",null);
 
 	        View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	        tempView2.updateModel();
@@ -413,9 +413,9 @@ public class OrgProposalController extends TabbedSectionLayout{
                                 }
 
                                 if(save){
-                                    System.out.println(" model updated ");
+                                	GWT.log(" model updated ", null);
                                     saveProposalOrg(saveActionEvent);
-                                    System.out.println("Reached summit 1 ");
+                                    GWT.log("Reached summit 1 ", null);
                                 }
                         }
 
@@ -485,7 +485,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	    }
 
 	       public void doModifyAction(final ModifyActionEvent modifyActionEvent){
-	            System.out.println("Reached modify action");
+	            GWT.log("Reached modify action", null);
 
 
 	            View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
@@ -496,7 +496,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 
 	                        @Override
 	                        public void onFailure(Throwable caught) {
-	                            System.out.println("Failure");
+	                            GWT.log("Failure",null);
 	                            progressWindow.hide();
 	                            throw new RuntimeException("Failed to get model definition.", caught);
 	                        }
@@ -505,14 +505,14 @@ public class OrgProposalController extends TabbedSectionLayout{
 	                        public void onSuccess(Metadata result) {
 
 	                            DataModelDefinition def = new DataModelDefinition(result);
-	                            System.out.println("Loaded OrgMetaData");
+	                            GWT.log("Loaded OrgMetaData",null);
 	                            orgProposalModel.setDefinition(def);
 	                            commonConfigurer.setModelDefinition(def);
 	                            flag=false;
 	                            init();
-	                            System.out.println(" model updated ");
+	                            GWT.log(" model updated ",null);
 	                            fetchProposalOrg(modifyActionEvent);
-	                            System.out.println("Reached summit 1 ");
+	                            GWT.log("Reached summit 1 ",null);
 
 	                        }
 	                });
@@ -614,7 +614,7 @@ public class OrgProposalController extends TabbedSectionLayout{
                          saveActionEvent.doActionComplete();
                      }
 
-                    System.out.println("OrgSaved");
+                    GWT.log("OrgSaved",null);
                  }
                  });
 	    }

@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
@@ -32,7 +33,7 @@ import org.kuali.student.core.role.entity.QualifierHierarchy;
 
 @PersistenceFileLocation("classpath:META-INF/role-persistence.xml")
 public class TestQualifierHierarchyDAO extends AbstractTransactionalDaoTest {
-    
+	final Logger LOG = Logger.getLogger(TestQualifierHierarchyDAO.class);
     @Dao(value = "org.kuali.student.core.role.dao.impl.QualifierHierarchyDAOImpl")
     public QualifierHierarchyDAO qualifierHierarchyDAO;
     
@@ -48,13 +49,13 @@ public class TestQualifierHierarchyDAO extends AbstractTransactionalDaoTest {
        
     @Test
     public void testLoadedData() {
-        System.out.println("\n\n\n calling test loaded data");
+        LOG.warn("\n\n\n calling test loaded data");
         
         Qualifier term200807 = qualifierHierarchyDAO.findQualifierByType("Term", "200807");
         
         List<Qualifier> lqf = qualifierHierarchyDAO.findQualifiersAtOrAboveQualifier(term200807);
         for(Qualifier q : lqf){
-            System.out.println("ret tree qualifier : " + q.getName());
+        	LOG.warn("ret tree qualifier : " + q.getName());
         }
         
         
@@ -62,7 +63,7 @@ public class TestQualifierHierarchyDAO extends AbstractTransactionalDaoTest {
         
         List<Qualifier> lqf2 = qualifierHierarchyDAO.findQualifiersAtOrBelowQualifier(fall);
         for(Qualifier q : lqf2){
-          System.out.println("ret tree qualifier : " + q.getName());
+        	LOG.warn("ret tree qualifier : " + q.getName());
         }
     }
     

@@ -37,6 +37,7 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
@@ -265,7 +266,7 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
             }
             if (w instanceof KSSelectItemWidgetAbstract){
                 queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
-                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+                GWT.log(((KSSelectItemWidgetAbstract)w).getSelectedItem(),null);
             } else if (w instanceof KSDatePickerAbstract) {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 java.util.Date date = ((KSDatePickerAbstract)w).getValue();

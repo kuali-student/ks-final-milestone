@@ -57,7 +57,7 @@ public class OrgEntryPoint implements EntryPoint{
             context.addMessages(messageList.getMessages());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            GWT.log("Error on ModuleLoad",e);
         }
 
 //        StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());

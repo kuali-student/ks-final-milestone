@@ -40,6 +40,7 @@ import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfo
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -151,7 +152,7 @@ public class CommonConfigurer {
         return section;
         }
         catch(Exception e){
-            e.printStackTrace();
+            GWT.log("Error in config", e);
         }
         return null;
     }

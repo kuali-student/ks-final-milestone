@@ -49,7 +49,6 @@ public class DictionaryLoader {
             }
         } catch (SerializationException e) {
             GWT.log("loadDictionary failed " ,  e);
-            e.printStackTrace();
         }
     }
     

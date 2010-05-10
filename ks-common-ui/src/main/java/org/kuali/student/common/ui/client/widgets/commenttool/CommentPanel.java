@@ -127,8 +127,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
 						@Override
 						public void onFailure(Throwable caught) {
-							caught.printStackTrace();
-							
+							GWT.log("Add Comment Failed", caught);
 						}
 
 						@Override
@@ -144,7 +143,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 						}
 					});
 				} catch (Exception e) {
-					e.printStackTrace();
+					GWT.log("Add Comment Failed", e);
 				}
 
             }
@@ -323,7 +322,6 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
 			@Override
             public void onFailure(Throwable caught) {
-				caught.printStackTrace();
 				GWT.log("Error checking permission for adding comments: ", caught);
 				throw new RuntimeException("Error checking Permissions: ", caught);
             }
@@ -414,7 +412,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 	
 						@Override
 						public void onFailure(Throwable caught) {
-							caught.printStackTrace();
+							GWT.log("getComments failed", caught);
 							commentList.remove(loadingComments);
 						}
 		
@@ -448,7 +446,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 					
 					@Override
 					public void onFailure(Throwable caught) {
-						caught.printStackTrace();
+						GWT.log("getCommentsByType Failed" ,caught);
 						commentList.remove(loadingComments);
 					}
 	
@@ -478,7 +476,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
     		}
 		} catch (Exception e) {
-			e.printStackTrace();
+			GWT.log("refresh Comments Failed",e);
 		}
         
         
@@ -559,8 +557,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
 											@Override
 											public void onFailure(Throwable caught) {
-												caught.printStackTrace();
-												
+												GWT.log("updateComment failed", caught);
 											}
 
 											@Override
@@ -574,7 +571,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 											
 										});
 									} catch (Exception e) {
-										e.printStackTrace();
+										GWT.log("updateComment failed", e);
 									}
                                 	
                                     break;
@@ -605,8 +602,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								caught.printStackTrace();
-								
+								GWT.log("remove Comment Failed", caught);
 							}
 
 							@Override
@@ -614,14 +610,12 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 								if(result.getSuccess()){
 									Window.alert("Your comment was deleted successfully");
 								}
-								
 								refreshComments();
-								
 							}
 							
 						});
 					} catch (Exception e) {
-						e.printStackTrace();
+						GWT.log("remove Comment Failed", e);
 					}
                 }
             });

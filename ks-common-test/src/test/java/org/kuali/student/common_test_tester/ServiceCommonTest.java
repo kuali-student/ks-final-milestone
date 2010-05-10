@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Method;
 
 import org.aopalliance.aop.Advice;
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -43,13 +44,13 @@ import org.springframework.aop.framework.ProxyFactory;
 		@Dao("org.kuali.student.common_test_tester.support.OtherDaoImpl") })
 @PersistenceFileLocation("classpath:META-INF/test-persistence.xml")
 public class ServiceCommonTest extends AbstractServiceTest {
-
+	final Logger LOG = Logger.getLogger(ServiceCommonTest.class);
 	@Client(value="org.kuali.student.common_test_tester.support.MyServiceImpl",additionalContextFile="classpath:test-my-additional-context.xml")
 	private MyService client;
 
 	@Test
 	public void test1() {
-		System.out.println(System.getProperty("ks.test.daoImplClasses"));
+		LOG.info(System.getProperty("ks.test.daoImplClasses"));
 		assertNotNull(client.saveString("la la la"));
 	}
 
@@ -100,11 +101,9 @@ public class ServiceCommonTest extends AbstractServiceTest {
 			
 			cachedClient = (MyService) factory.getProxy();
 		} catch (SecurityException e) {
-
-			e.printStackTrace();
+			LOG.error(e);
 		} catch (NoSuchMethodException e) {
-
-			e.printStackTrace();
+			LOG.error(e);
 		}
 
 		String id = cachedClient.saveString("Cache me!");

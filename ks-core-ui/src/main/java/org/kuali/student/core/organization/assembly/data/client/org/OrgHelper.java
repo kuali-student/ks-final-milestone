@@ -20,11 +20,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.core.organization.assembly.data.client.RuntimeDataHelper;
 
 public class OrgHelper{
+	final Logger LOG = Logger.getLogger(OrgHelper.class);
 	private static final long serialVersionUID = 1L;
 
 	public enum Properties implements PropertyEnum{
@@ -109,7 +111,7 @@ public class OrgHelper{
             try {
                 return df.parse((String) data.get(Properties.EFFECTIVE_DATE.getKey()));
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e);
             }
         }
         return data.get(Properties.EFFECTIVE_DATE.getKey());
@@ -125,7 +127,7 @@ public class OrgHelper{
             try {
                 return df.parse((String) data.get(Properties.EXPIRATION_DATE.getKey()));
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e);
             }
         }
         return data.get(Properties.EXPIRATION_DATE.getKey());

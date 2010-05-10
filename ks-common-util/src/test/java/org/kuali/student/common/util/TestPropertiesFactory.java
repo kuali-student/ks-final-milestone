@@ -17,10 +17,11 @@ package org.kuali.student.common.util;
 
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class TestPropertiesFactory {
-
+	final Logger LOG = Logger.getLogger(TestPropertiesFactory.class);
 	@Test
 	public void testResolvePlaceholders() throws Exception{
 //		String orig="1111${asd}2222${23}";
@@ -30,6 +31,6 @@ public class TestPropertiesFactory {
 		pfb.setPrefix("prefix");
 		pfb.setPropertyFile("classpath:testProps.properties");
 		Properties props = (Properties) pfb.getObject();
-		System.out.println(props.toString());
+		LOG.warn(props.toString());
 	}
 }

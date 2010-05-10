@@ -35,6 +35,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -47,7 +48,7 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.mock.service.DocumentRelationService;
 
 public class UploadServlet extends HttpServlet{
-
+	final Logger LOG = Logger.getLogger(UploadServlet.class);
 	private static final long serialVersionUID = 1L;
 	DocumentService documentService;
 	DocumentRelationService relationService;
@@ -192,7 +193,7 @@ public class UploadServlet extends HttpServlet{
 		    		}
 		    		catch(Exception e){
 		    			fileError = true;
-		    			e.printStackTrace();
+		    			LOG.error(e);
 		    			fileStatus.setStatus(FileTransferStatus.ERROR);
 		    		}
 		    		info = new DocumentInfo();
@@ -209,7 +210,7 @@ public class UploadServlet extends HttpServlet{
 			
 		} catch (Exception e) {
 			status.setStatus(UploadTransferStatus.ERROR);
-			e.printStackTrace();
+			LOG.error(e);
 		}	
 		
 /*    	
@@ -307,8 +308,7 @@ public class UploadServlet extends HttpServlet{
 			try {
 				info = documentService.getDocument(request.getParameter("docId"));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error(e);
 			}
 			
 			if(info != null && info.getDocumentBinaryInfo() != null && info.getDocumentBinaryInfo().getBinary() != null && 
@@ -333,8 +333,7 @@ public class UploadServlet extends HttpServlet{
 			        //
 			        op.write(fileBytes,0,length);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOG.error(e);
 				}
 				finally{
 			        op.flush();

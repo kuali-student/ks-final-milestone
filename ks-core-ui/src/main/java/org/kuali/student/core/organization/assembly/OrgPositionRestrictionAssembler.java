@@ -25,6 +25,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
@@ -44,6 +45,7 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPositionHelper>{
+	final Logger LOG = Logger.getLogger(OrgPositionRestrictionAssembler.class);
     private OrganizationService orgService;
     private Metadata metadata;
     public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
@@ -77,7 +79,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
             
         }
         catch(Exception e){
-            e.printStackTrace();
+            LOG.error(e);
         }
         return orgPositionMap;
     }
@@ -137,7 +139,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     }
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                    LOG.error(e);
                     throw(new AssemblyException());
                 }
             }
@@ -151,7 +153,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     addVersionIndicator(orgPositionHelper.getData(),OrgPositionRestrictionInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                    LOG.error(e);
                     throw new AssemblyException();
                 }
             }

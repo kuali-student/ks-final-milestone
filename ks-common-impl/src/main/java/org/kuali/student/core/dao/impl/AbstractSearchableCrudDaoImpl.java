@@ -218,7 +218,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+).*?[Ff][Rr][Oo][Mm]";
 			String replacement = "SELECT COUNT($1) FROM";
 			String countQueryString = (queryString + optionalQueryString).replaceAll(regex, replacement);
-			System.out.println("Executing query: "+countQueryString);
+			LOG.info("Executing query: "+countQueryString);
 			Query countQuery;
 			if(isNative){
 				countQuery = em.createNativeQuery(countQueryString);
@@ -243,18 +243,6 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 	            obj1 != null && obj2 != null && obj1.equals(obj2));
 	}
 	
-	private String getParamValue(String paramKey, List<SearchParam> params) {
-	    String result = null;
-	    if (params != null) {
-	        for (SearchParam searchParam : params) {
-	            if (nullSafeEquals(searchParam.getKey(), paramKey)) {
-	                result = (String)searchParam.getValue();
-	            }
-	        }
-	    }
-	    return result;
-	}
-
 	private List<SearchResultRow> convertToResults(List<?> queryResults,
 			SearchTypeInfo searchTypeInfo) {
 		List<SearchResultRow> results = new ArrayList<SearchResultRow>();

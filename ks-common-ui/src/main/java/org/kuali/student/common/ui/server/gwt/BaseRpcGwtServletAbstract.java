@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.server.gwt;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
@@ -44,7 +45,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  *
  */
 public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServlet implements BaseRpcService{
-
+	final Logger LOG = Logger.getLogger(BaseRpcGwtServletAbstract.class);
     private static final long serialVersionUID = 1L;
     
     protected SEI service;
@@ -107,13 +108,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey);
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         
         return null;
@@ -128,7 +129,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchCriteriaTypes();
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return null;
     }
@@ -141,13 +142,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchResultType(searchResultTypeKey);
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return null;
     }
@@ -160,7 +161,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchResultTypes();
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return null;
     }
@@ -173,13 +174,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchType(searchTypeKey);
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return null;
     }
@@ -192,7 +193,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchTypes();
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return null;
     }
@@ -205,7 +206,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchTypes();
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return null;
     }
@@ -218,13 +219,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
             return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey);
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return null;
     }
@@ -237,7 +238,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         try {
 			return ((SearchService)getService()).search(searchRequest);
 		} catch (MissingParameterException e) {
-			e.printStackTrace();
+			LOG.error(e);
 		} 
 		return null;
     }        

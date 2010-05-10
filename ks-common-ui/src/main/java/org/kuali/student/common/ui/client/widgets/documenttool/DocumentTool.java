@@ -250,7 +250,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 			@Override
             public void onFailure(Throwable caught) {
-				caught.printStackTrace();
 				GWT.log("Error checking permission for adding comments: ", caught);
 				throw new RuntimeException("Error checking Permissions: ", caught);
             }
@@ -426,7 +425,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	
 					@Override
 					public void onFailure(Throwable caught) {
-						caught.printStackTrace();
+						GWT.log("getRefDocIdsForRef failed", caught);
 						documentList.remove(loadingDocuments);
 						
 					}
@@ -443,7 +442,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 					}
 				});
 			} catch (Exception e) {
-				e.printStackTrace();
+				GWT.log("getRefDocIdsForRef failed", e);
 			}
         }
 	}
@@ -500,14 +499,13 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 									});
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
+									GWT.log("deleteDocument failed", e);
 								}
 								
 							}
 						});
              		} catch (Exception e) {
-             			e.printStackTrace();
+             			GWT.log("deleteRefDocRelation failed", e);
              		}
                 	
                 	

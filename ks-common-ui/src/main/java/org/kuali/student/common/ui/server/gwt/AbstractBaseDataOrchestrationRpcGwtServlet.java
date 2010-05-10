@@ -135,7 +135,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         	}
 
 		}catch(Exception e){
-            e.printStackTrace();
+            LOG.error("Error acknowledging Document with dataId:"+dataId,e);
+            throw new OperationFailedException("Could not acknowledge");
 		}
         return new Boolean(true);
 	}
@@ -176,7 +177,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
         } catch (Exception e) {
             LOG.error("Error adhoc routing",e);
-            return new Boolean(false);
+            throw new OperationFailedException("Could not adhoc route");
         }
         return new Boolean(true);
 	}

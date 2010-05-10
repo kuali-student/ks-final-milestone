@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -40,7 +41,7 @@ import org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService;
 @Daos( { @Dao(value = "org.kuali.student.core.role.dao.impl.QualifierHierarchyDAOImpl") })
 @PersistenceFileLocation("classpath:META-INF/role-persistence.xml")
 public class TestQualifierHierarchyRoleTypeService extends AbstractServiceTest {
-    
+	final Logger LOG = Logger.getLogger(TestQualifierHierarchyRoleTypeService.class);
     @Client(value = "org.kuali.student.core.role.service.impl.QualifierHierarchyRoleTypeServiceImpl")
     public QualifierHierarchyRoleTypeService qhRoleTypeService;
     
@@ -121,11 +122,11 @@ public class TestQualifierHierarchyRoleTypeService extends AbstractServiceTest {
     @Test
     public void getAllImpliedQualificationsSingle(){
         List<AttributeSet> result = qhRoleTypeService.getAllImpliedQualifications(singleQualification);
-        System.out.println("\n Test getAllImpliedQualificationsSingle() ");
+        LOG.warn("\n Test getAllImpliedQualificationsSingle() ");
         
         for(AttributeSet attr : result){ 
             for(String key : attr.keySet()){
-                System.out.println("key : " + key + "   value : " + attr.get(key).toString());
+            	LOG.warn("key : " + key + "   value : " + attr.get(key).toString());
             }
         }
         assertEquals(5, result.size());
@@ -134,11 +135,11 @@ public class TestQualifierHierarchyRoleTypeService extends AbstractServiceTest {
     @Test
     public void getAllImpliedQualificationsComposite(){
         List<AttributeSet> result = qhRoleTypeService.getAllImpliedQualifications(compositeQualification);
-        System.out.println("\n Test getAllImpliedQualificationsComposite() " + result.size());
+        LOG.warn("\n Test getAllImpliedQualificationsComposite() " + result.size());
         
         for(AttributeSet attr : result){ 
             for(String key : attr.keySet()){
-                System.out.println("key : " + key + "   value : " + attr.get(key).toString());
+            	LOG.warn("key : " + key + "   value : " + attr.get(key).toString());
             }
         }
         
@@ -150,11 +151,11 @@ public class TestQualifierHierarchyRoleTypeService extends AbstractServiceTest {
     @Test
     public void getAllImplyingQualificationsSingle(){
         List<AttributeSet> result = qhRoleTypeService.getAllImplyingQualifications(singleQualification);
-        System.out.println("\n Test getAllImplyingQualificationsSingle() ");
+        LOG.warn("\n Test getAllImplyingQualificationsSingle() ");
         
         for(AttributeSet attr : result){ 
             for(String key : attr.keySet()){
-                System.out.println("key : " + key + "   value : " + attr.get(key).toString());
+            	LOG.warn("key : " + key + "   value : " + attr.get(key).toString());
             }
         }
         assertFalse(false);
@@ -164,11 +165,11 @@ public class TestQualifierHierarchyRoleTypeService extends AbstractServiceTest {
     @Test
     public void getAllImplyingQualificationsComposite(){
         List<AttributeSet> result = qhRoleTypeService.getAllImplyingQualifications(compositeQualification);
-        System.out.println("\n Test getAllImplyingQualificationsComposite() ");
+        LOG.warn("\n Test getAllImplyingQualificationsComposite() ");
         
         for(AttributeSet attr : result){ 
             for(String key : attr.keySet()){
-                System.out.println("key : " + key + "   value : " + attr.get(key).toString());
+            	LOG.warn("key : " + key + "   value : " + attr.get(key).toString());
             }
         }
         assertFalse(false);

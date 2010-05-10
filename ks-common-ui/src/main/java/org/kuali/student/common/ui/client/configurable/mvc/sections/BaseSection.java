@@ -308,15 +308,15 @@ public abstract class BaseSection extends Composite implements Section{
 			for(FieldDescriptor f: this.fields){
 				
 				if(f.hasHadFocus()){
-					System.out.println("Processing field " + f.getFieldKey());
+					GWT.log("Processing field " + f.getFieldKey(),null);
 					for(ValidationResultInfo vr: results){
 						if(vr.getElement().equals(f.getFieldKey())){
-							System.out.println("Checking validation on field " + f.getFieldKey());
+							GWT.log("Checking validation on field " + f.getFieldKey(), null);
 							FieldInfo info = pathFieldInfoMap.get(f.getFieldKey());
 							if (info != null){
 								ErrorLevel fieldStatus = info.processValidationResult(vr);
 								if(fieldStatus == ErrorLevel.ERROR){
-									System.out.println("Error: " + f.getFieldKey());
+									GWT.log("Error: " + f.getFieldKey(), null);
 								}
 								if(fieldStatus.getLevel() > status.getLevel()){
 									
@@ -455,7 +455,7 @@ public abstract class BaseSection extends Composite implements Section{
     public void setFieldHasHadFocusFlags(boolean hadFocus) {
         for(FieldDescriptor f: fields){
             f.setHasHadFocus(hadFocus);
-            System.out.println(f.getFieldKey() + " has had focus");
+            GWT.log(f.getFieldKey() + " has had focus", null);
             if(f.getFieldWidget() instanceof MultiplicityComposite){
 				MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
 				
