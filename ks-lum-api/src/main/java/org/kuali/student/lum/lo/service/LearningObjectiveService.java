@@ -52,7 +52,7 @@ import org.kuali.student.lum.lo.dto.LoTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Learning+Objective+Service+v1.0-rc3">LearningObjectiveService</>
  *
  */
-@WebService(name = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo") // TODO CHECK THESE VALUES
+@WebService(name = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LearningObjectiveService extends DictionaryService, SearchService { 
     /** 
