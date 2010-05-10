@@ -55,6 +55,8 @@ public class ToolsConstants {
     public static final String CLU_SET_EXP_DATE_FIELD = "cluset/expirationDate";
     public static final String CLU_SET_CLUS_FIELD = "cluset/clus";
     public static final String CLU_SET_CLU_SETS_FIELD = "cluset/clusets";
+    public static final String CLU_SET_CLU_SET_RANGE_FIELD = "cluset/clusetRange";
+    public static final String CLU_SET_CLU_SET_RANGE_EDIT_FIELD = "cluset/clusetRangeEdit";
     public static final String CLU_SET_TYPE_FIELD = "cluset/type";
     
     

@@ -85,7 +85,7 @@
 	<search:queryParam id="lu.queryParam.luOptionalLevel" parent="lu.queryParam.luOptionalLevel-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLevel-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.level.fd"/>
-	</search:queryParam>	
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalDescr" parent="lu.queryParam.luOptionalDescr-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalDescr-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.descr.fd"/>
@@ -602,7 +602,7 @@
 		            LEFT JOIN cluset.clus clu
 		            LEFT JOIN cluset.cluSets subcluset
 		            </value>
-		        </entry>    
+		        </entry>
 				<entry key="lu.queryParam.luOptionalId">
 					<value>clu.id = :lu_queryParam_luOptionalId</value>
 				</entry>

@@ -1750,6 +1750,27 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				resultCell.getKey());
 		assertEquals("Advanced Applied Linear Algebra", resultCell.getValue());
 	}
+	
+	@Test
+	public void testSearchCourseLevelRanges() throws MissingParameterException {
+        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam courseLevelsParam = new SearchParam();
+        courseLevelsParam.setKey("lu.queryParam.luOptionalCrsNoRange");
+        courseLevelsParam.setValue("100 -200");
+        queryParamValues.add(courseLevelsParam);
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setSearchKey("lu.search.generic");
+        searchRequest.setParams(queryParamValues);
+        SearchResult clus = client.search(searchRequest);
+        Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
+            public int compare(SearchResultRow o1, SearchResultRow o2) {
+                return o1.getCells().get(0).getValue().compareTo(
+                        o2.getCells().get(0).getValue());
+            }
+        });
+        assertNotNull(clus);
+        System.out.println(clus.getRows().size());
+	}
 
 	@Test
 	public void testCluValidation() throws ParseException, AlreadyExistsException,

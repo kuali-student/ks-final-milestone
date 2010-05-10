@@ -35,12 +35,14 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.WarningDialog;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemListFieldBinding;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -122,6 +124,14 @@ public class CluSetContentEditorSection extends BaseSection {
                                         });
                                         warningDialog.show();
                                     }
+                                }
+                            } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
+                                final String path = f.getFieldKey();
+                                final QueryPath qPath = QueryPath.parse(path);
+                                Data valueData = dataModel.get(qPath);
+                                CluSetRangeHelper cluSetRangeHelper = CluSetRangeHelper.wrap(valueData);
+                                if (!cluSetEditOptions.getSelectedItems().contains(f.getFieldKey())) {
+                                    
                                 }
                             }
                         }
@@ -227,6 +237,20 @@ public class CluSetContentEditorSection extends BaseSection {
                                 layout.add(addLink);
                             }
                         }
+                    } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD) ||
+                            f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD)) {
+                        List<FieldDescriptor> fields = getFields();
+                        FieldDescriptor cluSetRangeField = null;
+                        if (fields != null) {
+                            for (FieldDescriptor field : fields) {
+                                if (field.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
+                                    cluSetRangeField = field;
+                                }
+                            }
+                        }
+                        if (isFieldBeingEdited(cluSetRangeField, dataModel)) {
+                            addFieldToLayout(f);
+                        }
                     } else {
                         addFieldToLayout(f);
                     }
@@ -292,7 +316,7 @@ public class CluSetContentEditorSection extends BaseSection {
             // TODO implement course ranges
 //            editOptions.addItem("ProposedCourses", "Proposed Courses");
             editOptions.addItem(ToolsConstants.CLU_SET_CLU_SETS_FIELD, "CLU Sets");
-            editOptions.addItem("CourseRanges", "Course Ranges (Course numbers, common learning objectives, etc)");
+            editOptions.addItem(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, "Course Ranges (Course numbers, common learning objectives, etc)");
 
             super.setListItems(editOptions);
         }

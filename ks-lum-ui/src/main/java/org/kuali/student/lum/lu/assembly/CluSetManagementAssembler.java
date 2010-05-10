@@ -29,8 +29,11 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -133,7 +136,6 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         CluSetInfo cluSetInfo = toCluSetInfo(cluSetHelper);
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
-        CluSetInfo origCluSetInfo = null;
         Data resultData = null;
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
@@ -193,6 +195,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             result.setOrganization(cluSetInfo.getAdminOrg());
             result.setState(cluSetInfo.getState());
             result.setType(cluSetInfo.getType());
+            result.setCluRangeParams(CluSetRangeModelUtil.INSTANCE.toData(
+                    cluSetInfo.getMembershipQuery()));
         }
         return result;
     }
@@ -220,6 +224,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setDescr(toRichTextInfo(cluSetHelper.getDescription()));
         cluSetInfo.setEffectiveDate(cluSetHelper.getEffectiveDate());
         cluSetInfo.setExpirationDate(cluSetHelper.getExpirationDate());
+        cluSetInfo.setMembershipQuery(toMembershipQueryInfo(cluSetHelper.getCluRangeParams()));
         
         // TODO cluSetInfo.setMembershipQuery(membershipQuery)
 //        TODO should metainfo be set here? cluSetInfo.setMetaInfo(cluSetHelper.getMetaInfo());
@@ -228,6 +233,10 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setState(cluSetHelper.getState());
         cluSetInfo.setType(cluSetHelper.getType());
         return cluSetInfo;
+    }
+    
+    private MembershipQueryInfo toMembershipQueryInfo(CluSetRangeHelper cluSetRangeHelper) {
+        return CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(cluSetRangeHelper.getData());
     }
     
     private RichTextInfo toRichTextInfo(String text) {
