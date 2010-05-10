@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -22,7 +22,7 @@ public class CluRangeItemValue implements ItemValue<CluRangeItemValue> {
     @Override
     public List<Widget> generateDisplayWidgets() {
         List<Widget> displayWidgets = new ArrayList<Widget>();
-        KSLinkButton deleteButton = new KSLinkButton("X", ButtonStyle.DELETE);
+        KSButton deleteButton = new KSButton("X", ButtonStyle.DELETE);
         KSLabel itemLabel = new KSLabel(getName());
         // TODO set style color here
 //      itemLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
