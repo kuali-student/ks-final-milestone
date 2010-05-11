@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.organization.assembly.data.client.org;
+package org.kuali.student.core.organization.assembly.data.server.org;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;

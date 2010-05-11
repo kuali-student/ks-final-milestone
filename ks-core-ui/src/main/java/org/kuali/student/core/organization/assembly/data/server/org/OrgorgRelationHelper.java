@@ -13,8 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.organization.assembly.data.client.org;
-
+package org.kuali.student.core.organization.assembly.data.server.org;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,16 +22,16 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
-import org.kuali.student.core.organization.assembly.data.client.RuntimeDataHelper;
 
-public class OrgHelper{
-	final Logger LOG = Logger.getLogger(OrgHelper.class);
+
+
+public class OrgorgRelationHelper{
 	private static final long serialVersionUID = 1L;
-
-	public enum Properties implements PropertyEnum{
-		ID("id"),TYPE("type"),NAME("longName"),ABBREVIATION("shortName"),DESCRIPTION("longDesc"),
-				EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate"),_RUNTIME_DATA ("_runtimeData"),
-				VERSION_CODES("versionCodes");
+	final Logger LOG = Logger.getLogger(OrgorgRelationHelper.class);
+	
+	public enum Properties implements PropertyEnum {
+		ID("id"),ORG_ID("orgId"),RELATED_ORG_ID("relatedOrgId"),TYPE("orgOrgRelationTypeKey"),
+				EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate");
 
 		private final String key;
 
@@ -45,25 +44,25 @@ public class OrgHelper{
 			return this.key;
 		}
 	}
-
+	
 	private Data data;
-    
-    private OrgHelper(Data data){
-        this.data=data;
-    }
+	
+	private OrgorgRelationHelper(Data data){
+	    this.data=data;
+	}
 
-    public static OrgHelper wrap (Data data)
+	public static OrgorgRelationHelper wrap (Data data)
     {
         if (data == null)
         {
              return null;
         }
-        return new OrgHelper(data);
+        return new OrgorgRelationHelper(data);
     }
-    
-    public Data getData(){
-        return data;
-    }
+	
+	public Data getData(){
+	    return data;
+	}
 	
 	public void setId(String id){
 	    data.set(Properties.ID.getKey(), id);
@@ -73,46 +72,40 @@ public class OrgHelper{
         return data.get(Properties.ID.getKey());
     }
     
-	public void setType(String type) {
-	    data.set(Properties.TYPE.getKey(), type);
+    public void setOrgId(String orgId){
+        data.set(Properties.ORG_ID.getKey(), orgId);
     }
     
-    public String getType() {
+    public String getOrgId() {
+        return data.get(Properties.ORG_ID.getKey());
+    }
+    
+    public void setRelatedOrgId(String relatedOrgId){
+        data.set(Properties.RELATED_ORG_ID.getKey(), relatedOrgId);
+    }
+    
+    public String getRelatedOrgId() {
+        return data.get(Properties.RELATED_ORG_ID.getKey());
+    }
+    
+	public void setOrgOrgRelationTypeKey(String orgOrgRelationTypeKey) {
+	    data.set(Properties.TYPE.getKey(), orgOrgRelationTypeKey);
+    }
+    
+    public String getOrgOrgRelationTypeKey() {
         return data.get(Properties.TYPE.getKey());
-    }
-
-    public void setName(String name) {
-        data.set(Properties.NAME.getKey(), name);
-    }
-    
-    public String getName() {
-        return data.get(Properties.NAME.getKey());
-    }
-    
-    public void setAbbreviation(String abbr) {
-        data.set(Properties.ABBREVIATION.getKey(), abbr);
-    }
-    
-    public String getAbbreviation() {
-        return data.get(Properties.ABBREVIATION.getKey());
-    }
-    
-    public void setDescription(String description) {
-        data.set(Properties.DESCRIPTION.getKey(), description);
-    }
-    
-    public String getDescription() {
-        return data.get(Properties.DESCRIPTION.getKey());
     }
     
     public Date getEffectiveDate() {
         if(data.get(Properties.EFFECTIVE_DATE.getKey()) instanceof String){
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                return df.parse((String) data.get(Properties.EFFECTIVE_DATE.getKey()));
-            } catch (Exception e) {
-                LOG.error(e);
-            }
+          
+                try {
+                    return df.parse((String) data.get(Properties.EFFECTIVE_DATE.getKey()));
+                } catch (Exception e) {
+                    LOG.error(e);
+                }
+            
         }
         return data.get(Properties.EFFECTIVE_DATE.getKey());
     }
@@ -137,16 +130,6 @@ public class OrgHelper{
         data.set(Properties.EXPIRATION_DATE.getKey(), value);
     }
     
-    public void set_runtimeData (RuntimeDataHelper value)
-    {
-        data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
-    }
-    
-    
-    public RuntimeDataHelper get_runtimeData ()
-    {
-        return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
-    }
 
 	
 }
