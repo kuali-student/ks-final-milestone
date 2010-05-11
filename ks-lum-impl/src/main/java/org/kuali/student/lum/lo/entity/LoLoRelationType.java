@@ -159,7 +159,6 @@ public class LoLoRelationType implements AttributeOwner<LoLoRelationTypeAttribut
 
 	@Override
 	public List<LoLoRelationTypeAttribute> getAttributes() {
-		// TODO Auto-generated method stub
 		return attributes;
 	}
 
