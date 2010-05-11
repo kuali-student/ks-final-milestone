@@ -61,10 +61,6 @@
 					<ref bean="atpRpcServiceGwtController"/>
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/PersonRpcService">
-					<ref bean="personRpcServiceGwtController"/>
-				</entry>
-				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService">
 					<ref bean="LoRpcGwtServletController" />
 				</entry>
@@ -184,12 +180,6 @@
 		<property name="servletName" value="atpRpcGwtServlet" />
 		<property name="servletInstance" ref="atpRpcGwtServlet" />
 	</bean>
-
-    <bean id="personRpcServiceGwtController"
-        class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="personRpcGwtServlet" />
-        <property name="servletInstance" ref="personRpcGwtServlet" />
-    </bean>
 
 	<bean id="LoRpcGwtServletController"
 		class="org.kuali.student.common.ws.ServletWrappingController">
@@ -437,11 +427,6 @@
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.AtpRpcGwtServlet">
 		<property name="service" ref="atpClient" />
 	</bean>
-
-    <bean id="personRpcGwtServlet"
-        class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-        <property name="service" ref="personSearchClient" />
-    </bean>
 
 	<bean id="LoRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">

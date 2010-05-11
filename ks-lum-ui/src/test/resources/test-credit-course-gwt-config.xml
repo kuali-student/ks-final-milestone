@@ -157,11 +157,6 @@
 		<property name="service" ref="atpClient" />
 	</bean>
 
-    <bean id="personRpcGwtServlet"
-        class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-        <property name="service" ref="personSearchClient" />
-    </bean>
-
 	<bean id="LoRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">
 		<property name="service" ref="loClient" />
