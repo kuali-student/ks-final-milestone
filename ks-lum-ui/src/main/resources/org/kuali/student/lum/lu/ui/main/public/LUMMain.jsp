@@ -17,8 +17,6 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page	import="org.kuali.student.common.ui.server.messages.MessageRPCPreloader"%>
-<%@page	import="org.kuali.student.common.ui.server.dictionary.DictionaryRPCPreloader"%>
-<%@page	import="org.kuali.student.common.ui.client.dictionary.DictionaryHelper"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 
