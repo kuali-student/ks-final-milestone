@@ -133,7 +133,7 @@ public class ManageRulesView extends ViewComposite {
             public void onClick(ClickEvent event) {
                 Cell cell = ruleTable.getCellForEvent(event);
                 if (cell == null) {
-                    System.out.println("Cell is NULL");
+                    GWT.log("Cell is NULL", null);
                     return;
                 }
                 
@@ -598,7 +598,7 @@ public class ManageRulesView extends ViewComposite {
         									model.getValue().getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
-                caught.printStackTrace();
+                GWT.log("NL failed", caught);
            }
             
             public void onSuccess(final String statementNaturalLanguage) { 

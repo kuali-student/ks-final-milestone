@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.common.ws.beans.JaxWsClientFactoryBean;
 import org.kuali.student.core.assembly.data.Data;
@@ -32,7 +33,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
 public class AssemblerTestMain {
-
+	final static Logger LOG = Logger.getLogger(AssemblerTestMain.class);
 	public static void main(String[] args) throws Exception {
 		LuService luService = aquireLuService();
 //		AtpService atpService = aquireAtpService();
@@ -117,12 +118,12 @@ public class AssemblerTestMain {
 		}
 		for (final Data.Property prop : e) {
 			if (prop.getValueType().equals(Data.class)) {
-				System.out.println(pad + " Nested: ("
+				LOG.warn(pad + " Nested: ("
 						+ prop.getKeyType().getName() + ")"
 						+ prop.getKey().toString());
 				dump((Data) prop.getValue(), indent + 1);
 			} else {
-				System.out.println(pad + " (" + prop.getKeyType().getName()
+				LOG.warn(pad + " (" + prop.getKeyType().getName()
 						+ ")" + prop.getKey().toString() + " = ("
 						+ prop.getValueType().getName() + ")"
 						+ prop.getValue().toString());

@@ -27,6 +27,8 @@ import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
 
+import com.google.gwt.core.client.GWT;
+
 public class StatementVO extends Token implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +58,7 @@ public class StatementVO extends Token implements Serializable {
 //        level++;
         
         if (node == null) {
-            System.out.println("null node found");
+            GWT.log("null node found",null);
             return;
         }
         
@@ -64,15 +66,15 @@ public class StatementVO extends Token implements Serializable {
         if (node.getUserObject() != null) {
             Token token = (Token) node.getUserObject();
             //content = (ReqComponentVO) token.value;
-            System.out.println("Node level " + level + ", content: " + token.value);
+            GWT.log("Node level " + level + ", content: " + token.value,null);
         }
-        else System.out.println("Node user object null, level: " + level);
+        else GWT.log("Node user object null, level: " + level, null);
         for (int i = 0; i < node.getChildCount(); i++) {
             Node child = node.getChildAt(i);
             if (child.isLeaf()) {
                 Token token = (Token) child.getUserObject();
                 content = (ReqComponentVO) child.getUserObject();
-                System.out.println("Node level " + child.getDistance(child) + ", content: " + content);
+                GWT.log("Node level " + child.getDistance(child) + ", content: " + content, null);
             } else {
                 printTree(child);
             }

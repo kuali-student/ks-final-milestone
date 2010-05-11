@@ -410,7 +410,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 
 	private void buildRelatedCourse(CluInfoHierarchy currentClu, RelationshipHierarchy currentRel) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		System.out.println("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
+		LOG.info("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
@@ -767,7 +767,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			rel.setRelatedCluId(input.getCluInfo().getId());
 			rel.setType(input.getParentRelationType());
 			rel.setState(input.getParentRelationState());
-			System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
+			LOG.info("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
 			try {
 				luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
 			} catch (CircularRelationshipException e) {

@@ -55,7 +55,7 @@ public class LUMMainEntryPoint implements EntryPoint{
                                  
             loadApp(context);
         } catch (Exception e) {
-            e.printStackTrace();
+            GWT.log("Error loading entrypoint", e);
         } 
     }
 

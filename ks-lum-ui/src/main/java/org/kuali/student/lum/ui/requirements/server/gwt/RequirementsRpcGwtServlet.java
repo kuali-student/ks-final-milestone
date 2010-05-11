@@ -44,7 +44,7 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
  */
 public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements RequirementsRpcService {
 
-    final Logger logger = Logger.getLogger(RequirementsRpcGwtServlet.class);
+    final Logger LOG = Logger.getLogger(RequirementsRpcGwtServlet.class);
     
     private StatementService statementService;
     
@@ -77,7 +77,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         try {
             nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex);
             throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
         }
         
@@ -90,7 +90,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         try { 
             reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
         }
         
@@ -131,15 +131,15 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         				ids.append(cells.get(0).getValue());        				
     	        	}
     	        } catch (DoesNotExistException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (InvalidParameterException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (MissingParameterException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (OperationFailedException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (PermissionDeniedException e) {
-    				e.printStackTrace();
+    				LOG.error(e);
     			}    
     	        
     			comp.setValue(ids.toString());    	        
@@ -159,13 +159,13 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     			return clu.getOfficialIdentifier().getCode();
     		}                             
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
  
         return cluCode;

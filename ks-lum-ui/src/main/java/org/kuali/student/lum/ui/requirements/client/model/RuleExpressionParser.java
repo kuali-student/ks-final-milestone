@@ -24,6 +24,8 @@ import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
 
+import com.google.gwt.core.client.GWT;
+
 public class RuleExpressionParser {
     
     private String expression;
@@ -280,7 +282,7 @@ public class RuleExpressionParser {
                 parsedS.simplify();
             }
         } catch (Exception error) {
-            error.printStackTrace();
+            GWT.log("Exception parsing",error);
             parsedS = null;
         }
         return parsedS;

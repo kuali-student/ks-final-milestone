@@ -30,12 +30,14 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.CurrencyAmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -94,7 +96,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", additionalContextFile = "classpath:lu-additional-context.xml")
 	public LuService client;
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
-
+	final Logger LOG = Logger.getLogger(TestLuServiceImpl.class);
+	
 	@Test
 	public void testClu() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1769,7 +1772,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
             }
         });
         assertNotNull(clus);
-        System.out.println(clus.getRows().size());
+        LOG.warn(clus.getRows().size());
 	}
 
 	@Test

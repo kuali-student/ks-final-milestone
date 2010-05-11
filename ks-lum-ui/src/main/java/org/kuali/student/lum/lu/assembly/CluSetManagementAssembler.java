@@ -141,8 +141,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             try {
                 updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
             } catch (Exception e) {
-                System.out.println("Failed to update cluset");
-                e.printStackTrace();
+            	LOG.error("Failed to update cluset",e);
                 throw new AssemblyException(e);
             }
         } else {
@@ -153,8 +152,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 // end of test code
                 updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
             } catch (Exception e) {
-                System.out.println("Failed to create cluset");
-                e.printStackTrace();
+                LOG.error("Failed to create cluset",e);
                 throw new AssemblyException(e);
             }
         }

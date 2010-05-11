@@ -18,6 +18,8 @@ package org.kuali.student.lum.ui.requirements.client;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.google.gwt.core.client.GWT;
+
 public class DateRange implements java.lang.Comparable, java.io.Serializable {
     private java.util.Date startDate;
     private java.util.Date endDate;
@@ -293,7 +295,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         GregorianCalendar calendar = null;
 
         if (date == null) {
-          System.out.println("date passed in is null");
+          GWT.log("date passed in is null", null);
           return null;
         }
         calendar = new GregorianCalendar();
@@ -565,7 +567,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest case 1");
+        GWT.log("\n\n\ntest case 1",null);
         doTestExclusion(testRange, testRange2);
 
         // test case 2
@@ -581,7 +583,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest case 2");
+        GWT.log("\n\n\ntest case 2",null);
         doTestExclusion(testRange, testRange2);
 
         // test case 3
@@ -597,7 +599,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest case 3");
+        GWT.log("\n\n\ntest case 3",null);
         doTestExclusion(testRange, testRange2);
 
         // test cases 4, 5, 7
@@ -613,7 +615,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest cases 4, 5, 7");
+        GWT.log("\n\n\ntest cases 4, 5, 7",null);
         doTestExclusion(testRange, testRange2);
 
         // tests cases 4, 6, 7
@@ -629,7 +631,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest cases 4, 6, 7");
+        GWT.log("\n\n\ntest cases 4, 6, 7",null);
         doTestExclusion(testRange, testRange2);
     }
 
@@ -657,22 +659,24 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         java.util.Date startDate2 = testRange2.getStartDate();
         java.util.Date endDate2 = testRange2.getEndDate();
         for (int i = 0; i < 10; i++) {
-            System.out.println("------------------------------");
-            System.out.println("first range: \n" + testRange);
-            System.out.println("second range: \n" + testRange2);
+            GWT.log("------------------------------",null);
+            GWT.log("first range: \n" + testRange,null);
+            GWT.log("second range: \n" + testRange2,null);
             resultRanges = testRange.excludeRange(testRange2);
-            System.out.println("result ranges:");
+            GWT.log("result ranges:",null);
             if (resultRanges != null) {
                 for (int rangeIndex = 0; rangeIndex < resultRanges.length;
                 rangeIndex++) {
-                    System.out.println(resultRanges[rangeIndex]);
+                	if(resultRanges[rangeIndex]!=null){
+                		GWT.log(resultRanges[rangeIndex].toString(),null);
+                	}
                 }
             }
             // get next test date range
             startDate2 = new java.util.Date(getRelativeDay(startDate2, 1).getTime());
             endDate2 =  new java.util.Date(getRelativeDay(endDate2, 1).getTime());
             testRange2 = new DateRange(startDate2, endDate2);
-            System.out.println("==============================");
+            GWT.log("==============================",null);
         }
     }
     

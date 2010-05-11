@@ -34,7 +34,7 @@ import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView
 import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 public class LuRuleInfoPersistanceBean {
-	final Logger logger = Logger.getLogger(LuRuleInfoPersistanceBean.class);
+	final Logger LOG = Logger.getLogger(LuRuleInfoPersistanceBean.class);
 	
 	private LuService luService;
 	private StatementService statementService;
@@ -149,7 +149,7 @@ public class LuRuleInfoPersistanceBean {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Error fetching rules from luService:" + cluId, e);
+			LOG.error("Error fetching rules from luService:" + cluId, e);
 			throw new RuntimeException("Error fetching rules from luService:" + cluId);
 		}
 	
@@ -196,7 +196,7 @@ public class LuRuleInfoPersistanceBean {
 				try {
 				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.CATALOG", "en");
 				} catch(Exception e) {
-					logger.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
+					LOG.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
 					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());
 				} 				
 				reqComponentVO.setTypeDesc(nl);
@@ -249,8 +249,8 @@ public class LuRuleInfoPersistanceBean {
         try {
             nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new  RuntimeException("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
+        	LOG.error(ex);
+            throw new RuntimeException("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
         }
         
         return nlStatement;

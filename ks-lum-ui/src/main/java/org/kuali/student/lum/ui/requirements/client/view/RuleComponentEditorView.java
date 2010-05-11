@@ -70,7 +70,6 @@ public class RuleComponentEditorView extends ViewComposite {
     //view's widgets
     private static final int NOF_BASIC_RULE_TYPES = 3;
     public static final String TEMLATE_LANGUAGE = "en";
-    private static final String CATALOG_TEMLATE = "KUALI.CATALOG";
     private static final String EXAMPLE_TEMLATE = "KUALI.EXAMPLE";
     private static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";
     private static final String SIMPLE_RULE_RB_GROUP = "RuleTypesGroup";
@@ -337,7 +336,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
-                caught.printStackTrace();
+                GWT.log("getNaturalLanguageForReqComponentInfo failed",caught);
             }
 
             public void onSuccess(final String reqCompNaturalLanguage) {
@@ -362,7 +361,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
-                caught.printStackTrace();
+                GWT.log("getNaturalLanguageForReqComponentInfo failed", caught);
             }
 
             public void onSuccess(final String reqCompNaturalLanguage) {
@@ -716,7 +715,7 @@ public class RuleComponentEditorView extends ViewComposite {
 	    	requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", TEMLATE_LANGUAGE, new AsyncCallback<String>() {
 	            public void onFailure(Throwable caught) {
 	                Window.alert(caught.getMessage());
-	                caught.printStackTrace();
+	                GWT.log("getNaturalLanguageForReqComponentInfo failed",caught);
 	            }
 	
 	            public void onSuccess(final String reqCompNaturalLanguage) {
