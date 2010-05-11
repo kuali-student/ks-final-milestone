@@ -1,5 +1,5 @@
 UBC Cdm Kuali Student Embedded Readme
-FS TESTING svn commit as  dchew
+FS TESTING2 svn commit as  dchew
 
 Notes:
 - configured for M5, need to run impex for ks-embedded for M5
