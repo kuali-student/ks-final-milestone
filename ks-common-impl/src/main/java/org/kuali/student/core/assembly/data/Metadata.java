@@ -203,20 +203,6 @@ public class Metadata implements Serializable {
         return dataType;
     }
 
-    /**
-     * @deprecated
-     * @see #setDataType
-     */
-    public void setDataType(String strType) {
-        for (Data.DataType dt : Data.DataType.values()) {
-            if (dt.toString().equalsIgnoreCase(strType)) {
-                setDataType(dt);
-                return;
-            }
-        }
-        throw new IllegalArgumentException(strType);
-    }
-
     public void setDataType(Data.DataType dataType) {
         this.dataType = dataType;
     }
@@ -255,7 +241,7 @@ public class Metadata implements Serializable {
 
     public List<LookupMetadata> getAdditionalLookups() {
         if (additionalLookups == null) {
-            additionalLookups = new ArrayList();
+            additionalLookups = new ArrayList<LookupMetadata>();
         }
         return additionalLookups;
     }

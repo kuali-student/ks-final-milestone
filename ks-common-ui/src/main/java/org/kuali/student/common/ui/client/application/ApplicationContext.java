@@ -68,29 +68,6 @@ public class ApplicationContext {
 	public List<String> getRoles() {
 		return roles;
 	}
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-	@Deprecated
-	public void addDictionaryData(String name, ObjectStructure objStructure){
-	    dictionaryData.put(name, objStructure);
-	}
-
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-	@Deprecated
-    public ObjectStructure getDictionaryData(String name){
-       return dictionaryData.get(name);
-    }
-    
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-    @Deprecated
-	public boolean containsDictionaryKey(String key){
-        return dictionaryData.containsKey(key);
-    }
 
     public void addMessages(List<Message> messages) {
 		messagesList.addAll(messages);

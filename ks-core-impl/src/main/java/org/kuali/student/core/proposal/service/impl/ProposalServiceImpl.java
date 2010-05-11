@@ -49,7 +49,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -371,7 +371,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
      */
     @Override
-    public List<ValidationResultContainer> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(proposalInfo, "proposalInfo");
         // TODO lindholm - THIS METHOD NEEDS JAVADOCS
@@ -382,7 +382,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#validateProposalDocRelation(java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
      */
     @Override
-    public List<ValidationResultContainer> validateProposalDocRelation(String validationType, ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateProposalDocRelation(String validationType, ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
         // TODO lindholm - THIS METHOD NEEDS JAVADOCS

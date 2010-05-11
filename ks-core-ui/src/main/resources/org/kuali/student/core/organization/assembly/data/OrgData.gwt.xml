@@ -17,5 +17,6 @@
 -->
 
 <module>
-
+	<super-source path="org" excludes="OrgHelper.java OrgorgRelationHelper.java">
+	</super-source>
 </module>

@@ -61,7 +61,6 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -201,8 +200,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 		orgInfo.setType(orgTypeKey);
 
 		try {
-            List<ValidationResultContainer> validations = validateOrg("", orgInfo);
-            for (ValidationResultContainer validationResult : validations) {
+            List<ValidationResultInfo> validations = validateOrg("", orgInfo);
+            for (ValidationResultInfo validationResult : validations) {
                 if(validationResult.isError())
                 	throw new DataValidationErrorException(validationResult.toString());
             }
@@ -732,7 +731,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrg(String validationType,
+	public List<ValidationResultInfo> validateOrg(String validationType,
 			OrgInfo orgInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -743,50 +742,39 @@ public class OrganizationServiceImpl implements OrganizationService {
 		//FIXME redo validation here and for all calls to create/update
 		//return validator.validateTypeStateObject(orgInfo, getObjectStructure("orgInfo"));
 
-		return new ArrayList<ValidationResultContainer>(0);
+		return new ArrayList<ValidationResultInfo>(0);
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrgOrgRelation(String validationType,
+	public List<ValidationResultInfo> validateOrgOrgRelation(String validationType,
 			OrgOrgRelationInfo orgOrgRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgOrgRelationInfo, "orgOrgRelationInfo");
 
 		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgOrgRelationInfo, getObjectStructure("orgOrgRelationInfo")); 
-		ValidationResultContainer valContainer = new ValidationResultContainer();
-		valContainer.setValidationResults(valResults);
-		
-		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
-		return valContList;
+		return valResults;
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrgPersonRelation(
+	public List<ValidationResultInfo> validateOrgPersonRelation(
 			String validationType, OrgPersonRelationInfo orgPersonRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
       
 		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgPersonRelationInfo, getObjectStructure("orgPersonRelationInfo")); 
-		ValidationResultContainer valContainer = new ValidationResultContainer();
-		valContainer.setValidationResults(valResults);
-		
-		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
-		return valContList;
+		return valResults;
 
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrgPositionRestriction(
+	public List<ValidationResultInfo> validateOrgPositionRestriction(
 			String validationType,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
 

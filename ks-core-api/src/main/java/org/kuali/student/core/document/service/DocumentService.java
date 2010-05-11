@@ -32,7 +32,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 /**
  *
@@ -90,7 +90,7 @@ public interface DocumentService {
      * @throws MissingParameterException missing validationTypeKey, documentInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateDocument(@WebParam(name="validationType")String validationType, @WebParam(name="documentInfo")DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateDocument(@WebParam(name="validationType")String validationType, @WebParam(name="documentInfo")DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves information about a document.

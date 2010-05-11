@@ -178,8 +178,8 @@ public class Validator {
 		elementStack.pop();
 
 		/* All Field validations are returned right now */
-		// List<ValidationResultContainer> resultsBuffer = new
-		// ArrayList<ValidationResultContainer>();
+		// List<ValidationResultInfo> resultsBuffer = new
+		// ArrayList<ValidationResultInfo>();
 		// for (ValidationResultContainer vc : results) {
 		// if (skipFields.contains(vc.getElement()) == false) {
 		// resultsBuffer.add(vc);

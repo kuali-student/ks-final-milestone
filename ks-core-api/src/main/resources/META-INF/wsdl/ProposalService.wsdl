@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="ProposalService" targetNamespace="http://student.kuali.org/wsdl/proposal" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/proposal" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
+    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
+    <xs:element name="search" type="tns:search"/>
+    <xs:element name="searchResponse" type="tns:searchResponse"/>
+    <xs:complexType name="search">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/proposal" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
     <xs:import namespace="http://student.kuali.org/wsdl/proposal"/>
     <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
@@ -196,77 +211,6 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DependentObjectsExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
-    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
-    <xs:element name="search" type="tns:search"/>
-    <xs:element name="searchResponse" type="tns:searchResponse"/>
-    <xs:complexType name="search">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
     <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
     <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
@@ -285,8 +229,6 @@
     <xs:element name="getSearchTypesByResult" type="tns:getSearchTypesByResult"/>
     <xs:element name="getSearchTypesByResultResponse" type="tns:getSearchTypesByResultResponse"/>
     <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
-    <xs:element name="searchForResults" type="tns:searchForResults"/>
-    <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
     <xs:complexType name="getSearchCriteriaType">
         <xs:sequence>
             <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
@@ -362,35 +304,6 @@
             <xs:element minOccurs="0" name="desc" type="xs:string"/>
             <xs:element minOccurs="0" name="searchResultTypeInfo" type="tns:searchResultTypeInfo"/>
             <xs:element minOccurs="0" name="searchCriteriaTypeInfo" type="tns:searchCriteriaTypeInfo"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchForResults">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="queryParamValues" type="tns:queryParamValue"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="queryParamValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchForResultsResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:result"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="result">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="resultCell">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
@@ -915,8 +828,6 @@
     <xs:element name="getSearchTypesResponse" nillable="true" type="ns1:getSearchTypesResponse"/>
     <xs:element name="validateStructureData" nillable="true" type="ns2:validateStructureData"/>
     <xs:element name="validateStructureDataResponse" nillable="true" type="ns2:validateStructureDataResponse"/>
-    <xs:element name="searchForResults" nillable="true" type="ns1:searchForResults"/>
-    <xs:element name="searchForResultsResponse" nillable="true" type="ns1:searchForResultsResponse"/>
     <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns1:getSearchCriteriaTypes"/>
     <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns1:getSearchCriteriaTypesResponse"/>
     <xs:element name="getSearchTypesByResult" nillable="true" type="ns1:getSearchTypesByResult"/>
@@ -937,6 +848,62 @@
     <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns1:getSearchTypesByCriteriaResponse"/>
     <xs:element name="getObjectTypes" nillable="true" type="ns2:getObjectTypes"/>
     <xs:element name="getObjectTypesResponse" nillable="true" type="ns2:getObjectTypesResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DependentObjectsExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="getSearchResultTypeResponse">
@@ -1119,12 +1086,12 @@
     <wsdl:part name="parameters" element="tns:getObjectTypes">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="validateProposalDocRelationResponse">
-    <wsdl:part name="parameters" element="tns:validateProposalDocRelationResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="validateStructureData">
     <wsdl:part name="parameters" element="tns:validateStructureData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProposalDocRelationResponse">
+    <wsdl:part name="parameters" element="tns:validateProposalDocRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllowedProposalDocRelationTypesForProposalType">
@@ -1145,10 +1112,6 @@
   </wsdl:message>
   <wsdl:message name="getProposalTypes">
     <wsdl:part name="parameters" element="tns:getProposalTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForResultsResponse">
-    <wsdl:part name="parameters" element="tns:searchForResultsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchType">
@@ -1205,10 +1168,6 @@
   </wsdl:message>
   <wsdl:message name="deleteProposal">
     <wsdl:part name="parameters" element="tns:deleteProposal">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForResults">
-    <wsdl:part name="parameters" element="tns:searchForResults">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="DependentObjectsExistException">
@@ -1379,22 +1338,6 @@
     </wsdl:input>
       <wsdl:output name="validateStructureDataResponse" message="tns:validateStructureDataResponse">
     </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <wsdl:input name="searchForResults" message="tns:searchForResults">
-    </wsdl:input>
-      <wsdl:output name="searchForResultsResponse" message="tns:searchForResultsResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchCriteriaTypes">
       <wsdl:input name="getSearchCriteriaTypes" message="tns:getSearchCriteriaTypes">
@@ -1943,30 +1886,6 @@
       </wsdl:output>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForResults">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForResultsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getProposalsByState">

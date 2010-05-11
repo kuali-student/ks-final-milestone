@@ -53,8 +53,6 @@ public class LookupMetadata implements Serializable {
     private String resultDisplayKey;
     
     private String resultSortKey;
-    
-    private LookupImplMetadata impl;  //FIXME remove after LookupMetadataBank is gone
 
     // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 	// and custom screens of the advanced search lightbox
@@ -182,14 +180,6 @@ public class LookupMetadata implements Serializable {
 		this.searchParamIdKey = searchParamIdKey;
 	}
     
-    public LookupImplMetadata getImpl() {
-        return impl;
-    }
-
-    public void setImpl(LookupImplMetadata impl) {
-        this.impl = impl;
-    }
-
     public String getId() {
         return id;
     }

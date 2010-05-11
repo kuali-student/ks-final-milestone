@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.comment.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -48,7 +47,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -379,16 +377,13 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#validateComment(java.lang.String, org.kuali.student.core.comment.dto.CommentInfo)
      */
     @Override
-    public List<ValidationResultContainer> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(commentInfo, "commentInfo");
 
 		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(commentInfo, getObjectStructure("commentInfo")); 
-		ValidationResultContainer valContainer = new ValidationResultContainer();
-		valContainer.setValidationResults(valResults);
-		
-		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
-		return valContList;
+
+		return valResults;
     }
 
     /**

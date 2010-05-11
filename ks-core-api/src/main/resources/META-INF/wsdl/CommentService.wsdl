@@ -1,6 +1,280 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="CommentService" targetNamespace="http://student.kuali.org/wsdl/comment" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/comment" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/comment" xmlns:tns="http://student.kuali.org/wsdl/commentService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/commentService">
+    <xs:import namespace="http://student.kuali.org/wsdl/comment"/>
+    <xs:element name="addComment" type="tns:addComment"/>
+    <xs:element name="addCommentResponse" type="tns:addCommentResponse"/>
+    <xs:element name="addTag" type="tns:addTag"/>
+    <xs:element name="addTagResponse" type="tns:addTagResponse"/>
+    <xs:element name="getComment" type="tns:getComment"/>
+    <xs:element name="getCommentResponse" type="tns:getCommentResponse"/>
+    <xs:element name="getCommentTypes" type="tns:getCommentTypes"/>
+    <xs:element name="getCommentTypesForReferenceType" type="tns:getCommentTypesForReferenceType"/>
+    <xs:element name="getCommentTypesForReferenceTypeResponse" type="tns:getCommentTypesForReferenceTypeResponse"/>
+    <xs:element name="getCommentTypesResponse" type="tns:getCommentTypesResponse"/>
+    <xs:element name="getComments" type="tns:getComments"/>
+    <xs:element name="getCommentsByType" type="tns:getCommentsByType"/>
+    <xs:element name="getCommentsByTypeResponse" type="tns:getCommentsByTypeResponse"/>
+    <xs:element name="getCommentsResponse" type="tns:getCommentsResponse"/>
+    <xs:element name="getReferenceTypes" type="tns:getReferenceTypes"/>
+    <xs:element name="getReferenceTypesResponse" type="tns:getReferenceTypesResponse"/>
+    <xs:element name="getTag" type="tns:getTag"/>
+    <xs:element name="getTagResponse" type="tns:getTagResponse"/>
+    <xs:element name="getTagTypes" type="tns:getTagTypes"/>
+    <xs:element name="getTagTypesResponse" type="tns:getTagTypesResponse"/>
+    <xs:element name="getTags" type="tns:getTags"/>
+    <xs:element name="getTagsByType" type="tns:getTagsByType"/>
+    <xs:element name="getTagsByTypeResponse" type="tns:getTagsByTypeResponse"/>
+    <xs:element name="getTagsResponse" type="tns:getTagsResponse"/>
+    <xs:element name="removeComment" type="tns:removeComment"/>
+    <xs:element name="removeCommentResponse" type="tns:removeCommentResponse"/>
+    <xs:element name="removeComments" type="tns:removeComments"/>
+    <xs:element name="removeCommentsResponse" type="tns:removeCommentsResponse"/>
+    <xs:element name="removeTag" type="tns:removeTag"/>
+    <xs:element name="removeTagResponse" type="tns:removeTagResponse"/>
+    <xs:element name="removeTags" type="tns:removeTags"/>
+    <xs:element name="removeTagsResponse" type="tns:removeTagsResponse"/>
+    <xs:element name="updateComment" type="tns:updateComment"/>
+    <xs:element name="updateCommentResponse" type="tns:updateCommentResponse"/>
+    <xs:element name="validateComment" type="tns:validateComment"/>
+    <xs:element name="validateCommentResponse" type="tns:validateCommentResponse"/>
+    <xs:complexType name="removeTag">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeTagResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateCommentResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:validationResultInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeTags">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeTagsResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="commentId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagsByType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="tagTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagsByTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTag">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypesForReferenceType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypesForReferenceTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addTag">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="tagInfo" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addTagResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="commentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTags">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagsResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getTagTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReferenceTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getReferenceTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:referenceTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentsByType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentsByTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeComments">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeCommentsResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getComments">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentsResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/commentService" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:ns2="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/comment" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/comment">
     <xs:complexType name="statusInfo">
         <xs:sequence>
@@ -46,18 +320,6 @@
             <xs:element minOccurs="0" name="createId" type="xs:string"/>
             <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
             <xs:element minOccurs="0" name="updateId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultContainer">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
-            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="element" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="validationResultInfo">
@@ -363,280 +625,6 @@
     <xs:complexType name="validateObjectResponse">
         <xs:sequence>
             <xs:element form="unqualified" name="return" type="xs:boolean"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/comment" xmlns:tns="http://student.kuali.org/wsdl/commentService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/commentService">
-    <xs:import namespace="http://student.kuali.org/wsdl/comment"/>
-    <xs:element name="addComment" type="tns:addComment"/>
-    <xs:element name="addCommentResponse" type="tns:addCommentResponse"/>
-    <xs:element name="addTag" type="tns:addTag"/>
-    <xs:element name="addTagResponse" type="tns:addTagResponse"/>
-    <xs:element name="getComment" type="tns:getComment"/>
-    <xs:element name="getCommentResponse" type="tns:getCommentResponse"/>
-    <xs:element name="getCommentTypes" type="tns:getCommentTypes"/>
-    <xs:element name="getCommentTypesForReferenceType" type="tns:getCommentTypesForReferenceType"/>
-    <xs:element name="getCommentTypesForReferenceTypeResponse" type="tns:getCommentTypesForReferenceTypeResponse"/>
-    <xs:element name="getCommentTypesResponse" type="tns:getCommentTypesResponse"/>
-    <xs:element name="getComments" type="tns:getComments"/>
-    <xs:element name="getCommentsByType" type="tns:getCommentsByType"/>
-    <xs:element name="getCommentsByTypeResponse" type="tns:getCommentsByTypeResponse"/>
-    <xs:element name="getCommentsResponse" type="tns:getCommentsResponse"/>
-    <xs:element name="getReferenceTypes" type="tns:getReferenceTypes"/>
-    <xs:element name="getReferenceTypesResponse" type="tns:getReferenceTypesResponse"/>
-    <xs:element name="getTag" type="tns:getTag"/>
-    <xs:element name="getTagResponse" type="tns:getTagResponse"/>
-    <xs:element name="getTagTypes" type="tns:getTagTypes"/>
-    <xs:element name="getTagTypesResponse" type="tns:getTagTypesResponse"/>
-    <xs:element name="getTags" type="tns:getTags"/>
-    <xs:element name="getTagsByType" type="tns:getTagsByType"/>
-    <xs:element name="getTagsByTypeResponse" type="tns:getTagsByTypeResponse"/>
-    <xs:element name="getTagsResponse" type="tns:getTagsResponse"/>
-    <xs:element name="removeComment" type="tns:removeComment"/>
-    <xs:element name="removeCommentResponse" type="tns:removeCommentResponse"/>
-    <xs:element name="removeComments" type="tns:removeComments"/>
-    <xs:element name="removeCommentsResponse" type="tns:removeCommentsResponse"/>
-    <xs:element name="removeTag" type="tns:removeTag"/>
-    <xs:element name="removeTagResponse" type="tns:removeTagResponse"/>
-    <xs:element name="removeTags" type="tns:removeTags"/>
-    <xs:element name="removeTagsResponse" type="tns:removeTagsResponse"/>
-    <xs:element name="updateComment" type="tns:updateComment"/>
-    <xs:element name="updateCommentResponse" type="tns:updateCommentResponse"/>
-    <xs:element name="validateComment" type="tns:validateComment"/>
-    <xs:element name="validateCommentResponse" type="tns:validateCommentResponse"/>
-    <xs:complexType name="removeTag">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeTagResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateComment">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
-            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateCommentResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:validationResultContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeTags">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeTagsResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getComment">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="commentId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCommentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getTagsByType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="tagTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getTagsByTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getTag">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getTagResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:tagInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCommentTypesForReferenceType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCommentTypesForReferenceTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="addTag">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="tagInfo" type="ns1:tagInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="addTagResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:tagInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeComment">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="commentId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeCommentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCommentTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getCommentTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getTags">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getTagsResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="addComment">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="addCommentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getTagTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getTagTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateComment">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateCommentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReferenceTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getReferenceTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:referenceTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCommentsByType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="commentTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCommentsByTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeComments">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeCommentsResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getComments">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCommentsResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentInfo"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

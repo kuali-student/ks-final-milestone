@@ -43,7 +43,6 @@ import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SortDirection;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

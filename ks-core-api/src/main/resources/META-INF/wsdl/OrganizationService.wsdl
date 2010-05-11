@@ -1,201 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="OrganizationService" targetNamespace="http://student.kuali.org/wsdl/organization" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/organization" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/organization" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
-    <xs:import namespace="http://student.kuali.org/wsdl/organization"/>
-    <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
-    <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
-    <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
-    <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
-    <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
-    <xs:element name="validateObject" type="tns:validateObject"/>
-    <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
-    <xs:element name="validateStructureData" type="tns:validateStructureData"/>
-    <xs:element name="validateStructureDataResponse" type="tns:validateStructureDataResponse"/>
-    <xs:complexType name="validateObject">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateObjectResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" name="return" type="xs:boolean"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getObjectTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getObjectTypesResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fieldDescriptor">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="desc" type="xs:string"/>
-            <xs:element name="readOnly" type="xs:boolean"/>
-            <xs:element name="dataType" type="xs:string"/>
-            <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
-            <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
-            <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchSelector">
-        <xs:sequence/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="objectStructure">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="type">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element name="modifiable" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="state">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
-            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="field">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
-            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
-            <xs:element name="selector" type="xs:boolean"/>
-            <xs:element name="dynamic" type="xs:boolean"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="constraintDescriptor">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="constraintSelector">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
-            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
-            <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="className" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
-        <xs:attribute name="locale" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="validCharsConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="fields" type="xs:string"/>
-        <xs:attribute name="separator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="requireConstraint">
-        <xs:sequence/>
-        <xs:attribute name="field" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="caseConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="field" type="xs:string"/>
-        <xs:attribute name="operator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="whenConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
-        </xs:sequence>
-        <xs:attribute name="value" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="typeStateCaseConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="typeStateWhenConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="lookupConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="search" type="xs:string"/>
-        <xs:attribute name="searchField" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="lookupKeyConstraint">
-        <xs:sequence/>
-        <xs:attribute name="field" type="xs:string"/>
-        <xs:attribute name="mapsTo" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="occursConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="min" type="xs:int"/>
-        <xs:attribute name="max" type="xs:int"/>
-    </xs:complexType>
-    <xs:complexType name="getObjectStructure">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getObjectStructureResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:objectStructure"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateStructureData">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateStructureDataResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" name="return" type="xs:boolean"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
     <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
     <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
@@ -214,8 +19,6 @@
     <xs:element name="getSearchTypesByResult" type="tns:getSearchTypesByResult"/>
     <xs:element name="getSearchTypesByResultResponse" type="tns:getSearchTypesByResultResponse"/>
     <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
-    <xs:element name="searchForResults" type="tns:searchForResults"/>
-    <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
     <xs:complexType name="getSearchResultTypes">
         <xs:sequence/>
     </xs:complexType>
@@ -243,35 +46,6 @@
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="desc" type="xs:string"/>
             <xs:element minOccurs="0" name="dataType" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchForResults">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="queryParamValues" type="tns:queryParamValue"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="queryParamValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchForResultsResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:result"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="result">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="resultCell">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
@@ -429,56 +203,6 @@
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:ns2="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
     <xs:import namespace="http://student.kuali.org/wsdl/search"/>
     <xs:element name="addPositionRestrictionToOrg" type="tns:addPositionRestrictionToOrg"/>
@@ -631,19 +355,7 @@
     </xs:complexType>
     <xs:complexType name="validateOrgResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultContainer">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
-            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="element" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="validationResultInfo">
@@ -875,7 +587,13 @@
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="orgTreeInfo">
-        <xs:sequence/>
+        <xs:sequence>
+            <xs:element minOccurs="0" name="positionId" type="xs:string"/>
+            <xs:element minOccurs="0" name="personId" type="xs:string"/>
+            <xs:element minOccurs="0" name="relationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="orgHierarchyId" type="xs:string"/>
+            <xs:element name="positions" type="xs:long"/>
+        </xs:sequence>
         <xs:attribute name="orgId" type="xs:string"/>
         <xs:attribute name="parentId" type="xs:string"/>
         <xs:attribute name="displayName" type="xs:string"/>
@@ -1119,7 +837,7 @@
     </xs:complexType>
     <xs:complexType name="validateOrgOrgRelationResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getOrgTypes">
@@ -1150,7 +868,7 @@
     </xs:complexType>
     <xs:complexType name="validateOrgPositionRestrictionResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getOrgOrgRelationTypesForOrgType">
@@ -1233,7 +951,7 @@
     </xs:complexType>
     <xs:complexType name="validateOrgPersonRelationResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getAllAncestors">
@@ -1265,8 +983,6 @@
     <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns1:getSearchResultTypesResponse"/>
     <xs:element name="validateObject" nillable="true" type="ns2:validateObject"/>
     <xs:element name="validateObjectResponse" nillable="true" type="ns2:validateObjectResponse"/>
-    <xs:element name="searchForResults" nillable="true" type="ns1:searchForResults"/>
-    <xs:element name="searchForResultsResponse" nillable="true" type="ns1:searchForResultsResponse"/>
     <xs:element name="getObjectTypes" nillable="true" type="ns2:getObjectTypes"/>
     <xs:element name="getObjectTypesResponse" nillable="true" type="ns2:getObjectTypesResponse"/>
     <xs:element name="getSearchResultType" nillable="true" type="ns1:getSearchResultType"/>
@@ -1288,6 +1004,251 @@
     <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns1:getSearchCriteriaTypesResponse"/>
     <xs:element name="getSearchType" nillable="true" type="ns1:getSearchType"/>
     <xs:element name="getSearchTypeResponse" nillable="true" type="ns1:getSearchTypeResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/organization" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+    <xs:import namespace="http://student.kuali.org/wsdl/organization"/>
+    <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
+    <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
+    <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
+    <xs:element name="validateObject" type="tns:validateObject"/>
+    <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
+    <xs:element name="validateStructureData" type="tns:validateStructureData"/>
+    <xs:element name="validateStructureDataResponse" type="tns:validateStructureDataResponse"/>
+    <xs:complexType name="validateObject">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateObjectResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getObjectTypesResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fieldDescriptor">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="desc" type="xs:string"/>
+            <xs:element name="readOnly" type="xs:boolean"/>
+            <xs:element name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
+            <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
+            <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchSelector">
+        <xs:sequence/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="objectStructure">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="type">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element name="modifiable" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="field">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+            <xs:element name="selector" type="xs:boolean"/>
+            <xs:element name="dynamic" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="constraintDescriptor">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="constraintSelector">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
+            <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="className" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
+        <xs:attribute name="locale" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="validCharsConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="fields" type="xs:string"/>
+        <xs:attribute name="separator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="requireConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="caseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="whenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="typeStateCaseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeStateWhenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="search" type="xs:string"/>
+        <xs:attribute name="searchField" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupKeyConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="mapsTo" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="occursConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="min" type="xs:int"/>
+        <xs:attribute name="max" type="xs:int"/>
+    </xs:complexType>
+    <xs:complexType name="getObjectStructure">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectStructureResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:objectStructure"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStructureData">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStructureDataResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="getAllOrgPersonRelationsByOrgResponse">
@@ -1368,10 +1329,6 @@
   </wsdl:message>
   <wsdl:message name="validateOrgOrgRelation">
     <wsdl:part name="parameters" element="tns:validateOrgOrgRelation">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForResults">
-    <wsdl:part name="parameters" element="tns:searchForResults">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getOrgType">
@@ -1694,10 +1651,6 @@
     <wsdl:part name="parameters" element="tns:getOrgPersonRelationTypesForOrgTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchForResultsResponse">
-    <wsdl:part name="parameters" element="tns:searchForResultsResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getOrgHierarchyResponse">
     <wsdl:part name="parameters" element="tns:getOrgHierarchyResponse">
     </wsdl:part>
@@ -1911,22 +1864,6 @@
       <wsdl:input name="getOrgOrgRelation" message="tns:getOrgOrgRelation">
     </wsdl:input>
       <wsdl:output name="getOrgOrgRelationResponse" message="tns:getOrgOrgRelationResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <wsdl:input name="searchForResults" message="tns:searchForResults">
-    </wsdl:input>
-      <wsdl:output name="searchForResultsResponse" message="tns:searchForResultsResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -2863,30 +2800,6 @@
       </wsdl:output>
       <wsdl:fault name="MissingParameterException">
         <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForResults">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForResultsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getOrgPersonRelationTypes">
