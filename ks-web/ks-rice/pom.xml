@@ -4,7 +4,7 @@
 
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-rice</artifactId>
-	<version>1.0.0-rc2</version>
+	<version>1.0.0-rc3-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>KS Rice</name>
