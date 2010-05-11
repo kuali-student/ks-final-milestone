@@ -2,12 +2,12 @@
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>ks-brms</artifactId>
-		<version>1.0.0-rc2</version>
+		<version>1.0.0-rc3-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-web</artifactId>
-	<version>1.0.0-rc2</version>
+	<version>1.0.0-rc3-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>KS BRMS WEB</name>
 	<description>Web services</description>
@@ -114,22 +114,22 @@
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-impl</artifactId>
-            <version>1.0.0-rc2</version>
+            <version>1.0.0-rc3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-api</artifactId>
-            <version>1.0.0-rc2</version>
+            <version>1.0.0-rc3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-execution-impl</artifactId>
-            <version>1.0.0-rc2</version>
+            <version>1.0.0-rc3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-execution-api</artifactId>
-            <version>1.0.0-rc2</version>
+            <version>1.0.0-rc3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>

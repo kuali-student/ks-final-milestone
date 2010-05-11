@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.0.0-rc2</version>
+    <version>1.0.0-rc3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>KS Core</name>
@@ -104,7 +104,7 @@
 
         <!-- build properties -->
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-        <ks-standard-security.version>1.0.0-rc2</ks-standard-security.version>
+        <ks-standard-security.version>1.0.0-rc3-SNAPSHOT</ks-standard-security.version>
     </properties>
 
     <profiles>
@@ -1045,31 +1045,31 @@
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-jta</artifactId>
-                <version>1.0.0-rc2</version>
+                <version>1.0.0-rc3-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-cxf</artifactId>
-                <version>1.0.0-rc2</version>
+                <version>1.0.0-rc3-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-metro</artifactId>
-                <version>1.0.0-rc2</version>
+                <version>1.0.0-rc3-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-eclipselink</artifactId>
-                <version>1.0.0-rc2</version>
+                <version>1.0.0-rc3-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-hibernate</artifactId>
-                <version>1.0.0-rc2</version>
+                <version>1.0.0-rc3-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
 

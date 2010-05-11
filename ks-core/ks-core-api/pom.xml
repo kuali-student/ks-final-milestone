@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-api</artifactId>
-	<version>1.0.0-rc2</version>
+	<version>1.0.0-rc3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS Core API</name>
 	<description>KS core-api</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-rc2</version>
+		<version>1.0.0-rc3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>

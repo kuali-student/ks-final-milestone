@@ -4,7 +4,7 @@
 
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-web</artifactId>
-	<version>1.0.0-rc2</version>
+	<version>1.0.0-rc3-SNAPSHOT</version>
 	<packaging>pom</packaging>
     
     <name>KS Web</name>
@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-rc2</version>
+		<version>1.0.0-rc3-SNAPSHOT</version>
 	</parent>
     
 	<modules>
@@ -26,14 +26,14 @@
     
     <properties>
         <derby.version>10.4.2.0</derby.version>
-        <ks-core.version>1.0.0-rc2</ks-core.version>
-        <ks-lum.version>1.0.0-rc2</ks-lum.version>
-        <ks-brms.version>1.0.0-rc2</ks-brms.version>
+        <ks-core.version>1.0.0-rc3-SNAPSHOT</ks-core.version>
+        <ks-lum.version>1.0.0-rc3-SNAPSHOT</ks-lum.version>
+        <ks-brms.version>1.0.0-rc3-SNAPSHOT</ks-brms.version>
     </properties>
     
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/tags/ks-web-1.0.0-rc2</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/tags/ks-web-1.0.0-rc2</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/tags/ks-web-1.0.0-rc3-SNAPSHOT</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/tags/ks-web-1.0.0-rc3-SNAPSHOT</developerConnection>
     </scm>
     
     <distributionManagement>

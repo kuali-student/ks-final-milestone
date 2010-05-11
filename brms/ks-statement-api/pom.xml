@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms.statement</groupId>
 	<artifactId>ks-statement-api</artifactId>
-	<version>1.0.0-rc2</version>
+	<version>1.0.0-rc3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS BRMS Statement API</name>
 	<description>KS BRMS Statement API</description>
@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.kuali.student.brms</groupId>
         <artifactId>ks-brms</artifactId>
-        <version>1.0.0-rc2</version>
+        <version>1.0.0-rc3-SNAPSHOT</version>
     </parent>
 
     <dependencies>

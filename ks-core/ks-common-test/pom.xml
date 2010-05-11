@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-common-test</artifactId>
-	<version>1.0.0-rc2</version>
+	<version>1.0.0-rc3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS Common Test</name>
 	<description>KS test framework for web services</description>
@@ -11,14 +11,14 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-rc2</version>
+		<version>1.0.0-rc3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-rc2</version>
+			<version>1.0.0-rc3-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

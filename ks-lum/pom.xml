@@ -4,7 +4,7 @@
 
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>1.0.0-rc2</version>
+    <version>1.0.0-rc3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>KS LUM</name>
@@ -13,14 +13,14 @@
     <url>http://student.kuali.org/site/lum/${project.version}</url>
 
     <properties>
-        <ks-core.version>1.0.0-rc2</ks-core.version>
-        <ks-brms.version>1.0.0-rc2</ks-brms.version>
+        <ks-core.version>1.0.0-rc3-SNAPSHOT</ks-core.version>
+        <ks-brms.version>1.0.0-rc3-SNAPSHOT</ks-brms.version>
     </properties>
 
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-core</artifactId>
-        <version>1.0.0-rc2</version>
+        <version>1.0.0-rc3-SNAPSHOT</version>
     </parent>
 
     <modules>
@@ -49,8 +49,8 @@
     </repositories>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-lum/tags/ks-lum-1.0.0-rc2</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-lum/tags/ks-lum-1.0.0-rc2</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-lum/tags/ks-lum-1.0.0-rc3-SNAPSHOT</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-lum/tags/ks-lum-1.0.0-rc3-SNAPSHOT</developerConnection>
     </scm>
 
     <distributionManagement>
