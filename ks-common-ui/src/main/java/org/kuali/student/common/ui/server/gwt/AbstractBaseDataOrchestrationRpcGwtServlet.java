@@ -349,6 +349,9 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             }
 
             String actionsRequested = "";
+            //Use StringBuilder to avoid using string concatenations in the for loop.
+            StringBuilder actionsRequestedBuffer = new StringBuilder();
+            actionsRequestedBuffer.append(actionsRequested);
 
             String documentStatus = workflowUtilityService.getDocumentStatus(docDetail.getRouteHeaderId());
             
@@ -357,18 +360,21 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             	if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(documentStatus) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(documentStatus)) {
             		// show only complete button if complete or approve code in this doc status
             		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
-            			actionsRequested+="S";
+            			actionsRequestedBuffer.append("S");
+//            			actionsRequested+="S";
             		}
             		// if not Complete or Approve code then show the standard buttons
             		else {
     	            	if("true".equals(entry.getValue())){
-    	            		actionsRequested+=entry.getKey();
+    	            		actionsRequestedBuffer.append(entry.getKey());
+//    	            		actionsRequested+=entry.getKey();
     	            	}
             		}
             	}
             	else {
                 	if("true".equals(entry.getValue())){
-                		actionsRequested+=entry.getKey();
+                		actionsRequestedBuffer.append(entry.getKey());
+//                		actionsRequested+=entry.getKey();
                 	}
             	}
             }
@@ -379,7 +385,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 //            	actionsRequested+="W";
             }
 
-            return actionsRequested;
+            return actionsRequestedBuffer.toString();
         } catch (Exception e) {
         	LOG.error("Error getting actions Requested",e);
             throw new OperationFailedException("Error getting actions Requested");
