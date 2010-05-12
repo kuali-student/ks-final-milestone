@@ -541,7 +541,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		boolean result = organizationDao.hasOrgOrgRelation(orgId, comparisonOrgId,
 				orgOrgRelationTypeKey);
-		return new Boolean(result);
+		return Boolean.valueOf(result);
 	}
 
 	@Override
@@ -568,7 +568,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		// get ancestors of the descendant, as it will be more efficient in most cases
 		List<String> ancestors = organizationDao.getAllAncestors(descendantOrgId, orgHierarchy);
 		boolean result = ancestors.contains(orgId);
-		return new Boolean(result);
+		return Boolean.valueOf(result);
 	}
 
 	@Override
