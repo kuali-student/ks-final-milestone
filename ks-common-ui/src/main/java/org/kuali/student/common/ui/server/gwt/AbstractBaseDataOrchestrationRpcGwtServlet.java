@@ -138,7 +138,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             LOG.error("Error acknowledging Document with dataId:"+dataId,e);
             throw new OperationFailedException("Could not acknowledge");
 		}
-        return new Boolean(true);
+        return Boolean.valueOf(true);
 	}
 
 	@Override
@@ -179,7 +179,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             LOG.error("Error adhoc routing",e);
             throw new OperationFailedException("Could not adhoc route");
         }
-        return new Boolean(true);
+        return  Boolean.valueOf(true);
 	}
 
 	@Override

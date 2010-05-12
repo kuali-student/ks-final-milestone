@@ -167,7 +167,7 @@ public class AdvancedSearchWindow {
 	                        switch(result){
 	                            case ACTION:
 	                                for(Callback<Boolean> callback: actionCompletedCallbacks){
-	                                    callback.exec(new Boolean(true));
+	                                    callback.exec( Boolean.valueOf(true));
 	                                }
 	                                dialog.hide();
 	                                break;
