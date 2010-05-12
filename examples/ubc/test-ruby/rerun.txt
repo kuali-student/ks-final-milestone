@@ -1,0 +1,1 @@
+C:\perforce\FEATURE_KUALI_M5\cdm\test-ruby\features\manage_configurations.feature

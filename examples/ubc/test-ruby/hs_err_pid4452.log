@@ -1,0 +1,190 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x04f76001, pid=4452, tid=7536
+#
+# JRE version: 6.0_17-b04
+# Java VM: Java HotSpot(TM) Client VM (14.3-b01 mixed mode, sharing windows-x86 )
+# Problematic frame:
+# C  0x04f76001
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0225c800):  JavaThread "Finalizer" daemon [_thread_in_native, id=7536, stack(0x04660000,0x04760000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x04f76001
+
+Registers:
+EAX=0x04f76001, EBX=0x28d45ea0, ECX=0x0225c910, EDX=0x28d46280
+ESP=0x0475f62c, EBP=0x0475f660, ESI=0x28d45ea0, EDI=0x0225c800
+EIP=0x04f76001, EFLAGS=0x00010283
+
+Top of Stack: (sp=0x0475f62c)
+0x0475f62c:   02309e37 0225c910 0475f668 003fa870
+0x0475f63c:   00000000 0475f640 00000000 0475f674
+0x0475f64c:   28d46280 00000000 28d45ea0 00000000
+0x0475f65c:   0475f670 0475f698 02302da1 28d46208
+0x0475f66c:   02308269 003fa870 00000000 0475f678
+0x0475f67c:   28d4404d 0475f6a0 28d46280 00000000
+0x0475f68c:   28d44070 0475f670 0475f6a0 0475f6b4
+0x0475f69c:   023002cb 090a8cb0 00001f80 02300266 
+
+Instructions: (pc=0x04f76001)
+0x04f75ff1:   
+[error occurred during error reporting (printing registers, top of stack, instructions near pc), id 0xc0000005]
+
+Stack: [0x04660000,0x04760000],  sp=0x0475f62c,  free space=1021k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  0x04f76001
+j  com.sun.jna.Memory.finalize()V+13
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0xecf9c]
+V  [jvm.dll+0x1741d1]
+V  [jvm.dll+0xed01d]
+V  [jvm.dll+0xf5e2f]
+V  [jvm.dll+0xf8b24]
+C  [java.dll+0x2115]
+j  java.lang.ref.Finalizer.runFinalizer()V+45
+j  java.lang.ref.Finalizer.access$100(Ljava/lang/ref/Finalizer;)V+1
+j  java.lang.ref.Finalizer$FinalizerThread.run()V+11
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0xecf9c]
+V  [jvm.dll+0x1741d1]
+V  [jvm.dll+0xed167]
+V  [jvm.dll+0xed1dd]
+V  [jvm.dll+0x116290]
+V  [jvm.dll+0x1d0414]
+V  [jvm.dll+0x173e4c]
+C  [msvcr71.dll+0x9565]
+C  [kernel32.dll+0x13677]
+C  [ntdll.dll+0x39d72]
+C  [ntdll.dll+0x39d45]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  com.sun.jna.Memory.free(J)V+0
+j  com.sun.jna.Memory.finalize()V+13
+v  ~StubRoutines::call_stub
+j  java.lang.ref.Finalizer.invokeFinalizeMethod(Ljava/lang/Object;)V+0
+j  java.lang.ref.Finalizer.runFinalizer()V+45
+j  java.lang.ref.Finalizer.access$100(Ljava/lang/ref/Finalizer;)V+1
+j  java.lang.ref.Finalizer$FinalizerThread.run()V+11
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x009d9c00 JavaThread "DestroyJavaVM" [_thread_blocked, id=3236, stack(0x02100000,0x02200000)]
+  0x022b1000 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=6168, stack(0x04ab0000,0x04bb0000)]
+  0x022acc00 JavaThread "CompilerThread0" daemon [_thread_blocked, id=7528, stack(0x04a20000,0x04a70000)]
+  0x022ab800 JavaThread "Attach Listener" daemon [_thread_blocked, id=6908, stack(0x048e0000,0x049e0000)]
+  0x022a0c00 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=6156, stack(0x047a0000,0x048a0000)]
+=>0x0225c800 JavaThread "Finalizer" daemon [_thread_in_native, id=7536, stack(0x04660000,0x04760000)]
+  0x0225b400 JavaThread "Reference Handler" daemon [_thread_blocked, id=3976, stack(0x04520000,0x04620000)]
+
+Other Threads:
+  0x02259c00 VMThread [stack: 0x00520000,0x00570000] [id=2760]
+  0x022b2c00 WatcherThread [stack: 0x04bf0000,0x04c40000] [id=7720]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 2304K, used 143K [0x08e90000, 0x09100000, 0x0b500000)
+  eden space 2112K,   5% used [0x08e90000, 0x08eaa940, 0x090a0000)
+  from space 192K,  19% used [0x090a0000, 0x090a93d0, 0x090d0000)
+  to   space 192K,   0% used [0x090d0000, 0x090d0000, 0x09100000)
+ tenured generation   total 29892K, used 24623K [0x0b500000, 0x0d231000, 0x28290000)
+   the space 29892K,  82% used [0x0b500000, 0x0cd0bf28, 0x0cd0c000, 0x0d231000)
+ compacting perm gen  total 16384K, used 16280K [0x28290000, 0x29290000, 0x2c290000)
+   the space 16384K,  99% used [0x28290000, 0x29276338, 0x29276400, 0x29290000)
+    ro space 8192K,  67% used [0x2c290000, 0x2c7f8230, 0x2c7f8400, 0x2ca90000)
+    rw space 12288K,  54% used [0x2ca90000, 0x2d10d678, 0x2d10d800, 0x2d690000)
+
+Dynamic libraries:
+0x00400000 - 0x00424000 	c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin\java.exe
+0x77800000 - 0x77980000 	C:\Windows\SysWOW64\ntdll.dll
+0x76c50000 - 0x76d50000 	C:\Windows\syswow64\kernel32.dll
+0x76060000 - 0x760a6000 	C:\Windows\syswow64\KERNELBASE.dll
+0x768a0000 - 0x76940000 	C:\Windows\syswow64\ADVAPI32.dll
+0x764f0000 - 0x7659c000 	C:\Windows\syswow64\msvcrt.dll
+0x771a0000 - 0x771b9000 	C:\Windows\SysWOW64\sechost.dll
+0x76260000 - 0x76350000 	C:\Windows\syswow64\RPCRT4.dll
+0x75370000 - 0x753d0000 	C:\Windows\syswow64\SspiCli.dll
+0x75360000 - 0x7536c000 	C:\Windows\syswow64\CRYPTBASE.dll
+0x7c340000 - 0x7c396000 	c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin\msvcr71.dll
+0x6d8b0000 - 0x6db3b000 	c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin\client\jvm.dll
+0x771c0000 - 0x772c0000 	C:\Windows\syswow64\USER32.dll
+0x760b0000 - 0x76140000 	C:\Windows\syswow64\GDI32.dll
+0x76c40000 - 0x76c4a000 	C:\Windows\syswow64\LPK.dll
+0x76ef0000 - 0x76f8d000 	C:\Windows\syswow64\USP10.dll
+0x74cc0000 - 0x74cf2000 	C:\Windows\system32\WINMM.dll
+0x77140000 - 0x771a0000 	C:\Windows\system32\IMM32.DLL
+0x76f90000 - 0x7705c000 	C:\Windows\syswow64\MSCTF.dll
+0x74b60000 - 0x74bab000 	C:\Windows\system32\apphelp.dll
+0x6fa00000 - 0x6fa35000 	C:\PROGRA~2\Sophos\SOPHOS~1\SOPHOS~1.DLL
+0x777d0000 - 0x777d5000 	C:\Windows\syswow64\PSAPI.DLL
+0x6d860000 - 0x6d86c000 	c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin\verify.dll
+0x6d3e0000 - 0x6d3ff000 	c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin\java.dll
+0x6d340000 - 0x6d348000 	c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin\hpi.dll
+0x6d8a0000 - 0x6d8af000 	c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin\zip.dll
+0x6d610000 - 0x6d619000 	C:\Program Files (x86)\JetBrains\RubyMine 2.0.1\jre\jre\bin\management.dll
+0x75240000 - 0x75256000 	C:\Windows\system32\CRYPTSP.dll
+0x75200000 - 0x7523b000 	C:\Windows\system32\rsaenh.dll
+0x75270000 - 0x75287000 	C:\Windows\system32\USERENV.dll
+0x75260000 - 0x7526b000 	C:\Windows\system32\profapi.dll
+0x6d6c0000 - 0x6d6d3000 	C:\Program Files (x86)\JetBrains\RubyMine 2.0.1\jre\jre\bin\net.dll
+0x76020000 - 0x76055000 	C:\Windows\syswow64\WS2_32.dll
+0x76d60000 - 0x76d66000 	C:\Windows\syswow64\NSI.dll
+0x75020000 - 0x7505c000 	C:\Windows\system32\mswsock.dll
+0x75000000 - 0x75006000 	C:\Windows\System32\wship6.dll
+0x74b20000 - 0x74b30000 	C:\Windows\system32\NLAapi.dll
+0x74f80000 - 0x74fc4000 	C:\Windows\system32\DNSAPI.dll
+0x74ad0000 - 0x74ad8000 	C:\Windows\System32\winrnr.dll
+0x74ac0000 - 0x74ad0000 	C:\Windows\system32\napinsp.dll
+0x74a60000 - 0x74a72000 	C:\Windows\system32\pnrpnsp.dll
+0x75010000 - 0x75015000 	C:\Windows\System32\wshtcpip.dll
+0x750e0000 - 0x750fc000 	C:\Windows\system32\IPHLPAPI.DLL
+0x750d0000 - 0x750d7000 	C:\Windows\system32\WINNSI.DLL
+0x749e0000 - 0x749e6000 	C:\Windows\system32\rasadhlp.dll
+0x749f0000 - 0x74a28000 	C:\Windows\System32\fwpuclnt.dll
+0x6d6e0000 - 0x6d6e9000 	C:\Program Files (x86)\JetBrains\RubyMine 2.0.1\jre\jre\bin\nio.dll
+0x67e40000 - 0x67e50000 	C:\Users\dchew\AppData\Local\Temp\jffi4689430458299981181.tmp
+0x753d0000 - 0x76019000 	C:\Windows\syswow64\shell32.DLL
+0x76660000 - 0x766b7000 	C:\Windows\syswow64\SHLWAPI.dll
+0x76d90000 - 0x76eec000 	C:\Windows\syswow64\ole32.dll
+
+VM Arguments:
+jvm_args: -Xverify:none -da -Xmx500m -Xss1024k -Djruby.base=C:\apps\jruby-1.4.0 -Djruby.home=C:\apps\jruby-1.4.0 -Djruby.lib=C:\apps\jruby-1.4.0\lib -Djruby.shell=cmd.exe -Djruby.script=jruby.bat 
+java_command: org.jruby.Main script/generate
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=c:\apps\x86\jdk1.6.0_14
+CLASSPATH=.;C:\Program Files (x86)\Java\jre6\lib\ext\QTJava.zip;c:\apps\Java\jtestr\jtestr-0.5.jar
+PATH=C:\oraclexe\app\oracle\product\10.2.0\server\bin;c:\apps\x86\jdk1.6.0_14\bin;C:\apps\dchew\oracle\product\11.1.0\client_1\bin;C:\apps\dchew\product\11.1.0\client_1;c:\apps\apache-maven-2.0.9\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Perforce;c:\scripts;c:\apps\unxutils;c:\apps\jruby-1.4.0\bin;C:\Program Files (x86)\Git\cmd;M2;C:\Program Files\TortoiseSVN\bin;C:\Program Files\SlikSvn\bin\;c:\Program Files (x86)\Notepad++;c:\apps\wac;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\jEdit;c:\apps\sqlite3\;C:\Program Files\MySQL\MySQL Server 5.1\bin;c:\apps\apache-ant-1.6.5\bin;c:\program files (x86)\jetbrains\rubymine 2.0.1\jre\jre\bin;C:\apps\jruby-1.4.0\bin
+USERNAME=dchew
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 30 Stepping 5, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 Build 7600 
+
+CPU:total 8 (8 cores per cpu, 2 threads per core) family 6 model 30 stepping 5, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, ht
+
+Memory: 4k page, physical 4194303k(3426628k free), swap 4194303k(4194303k free)
+
+vm_info: Java HotSpot(TM) Client VM (14.3-b01) for windows-x86 JRE (1.6.0_17-b04), built on Oct 11 2009 00:52:06 by "java_re" with MS VC++ 7.1
+
+time: Tue Apr 20 15:01:28 2010
+elapsed time: 4 seconds
+
