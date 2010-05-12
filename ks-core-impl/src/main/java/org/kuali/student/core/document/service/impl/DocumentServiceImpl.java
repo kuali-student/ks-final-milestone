@@ -53,7 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor={Throwable.class})
 public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
-    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private DictionaryService dictionaryServiceDelegate;
     private SearchManager searchManager;
     private Validator validator;
     
