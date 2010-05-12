@@ -1024,7 +1024,7 @@ public class Validator {
 		return false;
 	}
 
-	private class BaseConstraintBean {
+	private static class BaseConstraintBean {
 		public boolean initialized = false;
 		public Integer minOccurs = 0;
 		public String maxOccurs = UNBOUNDED_CHECK;

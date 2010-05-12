@@ -137,7 +137,7 @@ public class CrossSearchManager {
 	 * Compares two SearchResultRow rows with a given sort direction and column
 	 *
 	 */
-	public class SearchResultRowComparator implements Comparator<SearchResultRow> {
+	private static class SearchResultRowComparator implements Comparator<SearchResultRow> {
 		private String sortColumn;
 		private SortDirection sortDirection;
 		
