@@ -17,7 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.List;
 
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;

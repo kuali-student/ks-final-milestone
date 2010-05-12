@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.brms.statement.entity.ReqComponent;
-import org.kuali.student.brms.statement.naturallanguage.AbstractContext;
-import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentTypes;
+import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.naturallanguage.AbstractContext;
+import org.kuali.student.core.statement.naturallanguage.util.ReqComponentTypes;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;

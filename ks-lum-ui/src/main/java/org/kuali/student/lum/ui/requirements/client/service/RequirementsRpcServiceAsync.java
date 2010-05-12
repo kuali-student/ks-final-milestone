@@ -17,9 +17,9 @@ package org.kuali.student.lum.ui.requirements.client.service;
 
 import java.util.List;
 
-import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 

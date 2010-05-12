@@ -24,7 +24,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 import java.util.List;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;

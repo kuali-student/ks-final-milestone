@@ -15,7 +15,7 @@
 
 package org.kuali.student.lum.ui.requirements.client.view;
 
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;

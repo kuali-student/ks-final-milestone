@@ -483,7 +483,7 @@
 	</bean>
 
 	<bean id="statementServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.brms.statement.service.StatementService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>
 

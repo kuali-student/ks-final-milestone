@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
 

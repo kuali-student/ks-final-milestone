@@ -178,21 +178,6 @@
 			<type>pom</type>
 		</dependency>
 
-		<!-- BRMS Dependencies -->
-		<dependency>
-			<groupId>org.kuali.student.brms.statement</groupId>
-			<artifactId>ks-statement-api</artifactId>
-			<version>${ks-brms.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.student.brms.statement</groupId>
-			<artifactId>ks-statement-api</artifactId>
-			<version>${ks-brms.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- LUM Dependencies -->
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>

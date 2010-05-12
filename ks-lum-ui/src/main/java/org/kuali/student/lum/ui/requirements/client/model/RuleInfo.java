@@ -18,10 +18,10 @@ package org.kuali.student.lum.ui.requirements.client.model;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
 public class RuleInfo implements Idable, Serializable {
 

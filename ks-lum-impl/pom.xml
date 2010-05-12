@@ -34,17 +34,6 @@
 
 	<dependencies>
 
-        <dependency>
-          <groupId>org.kuali.student.brms.statement</groupId>
-          <artifactId>ks-statement-api</artifactId>
-          <version>${ks-brms.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.kuali.student.brms.statement</groupId>
-          <artifactId>ks-statement-impl</artifactId>
-          <version>${ks-brms.version}</version>
-        </dependency>
-
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
