@@ -66,7 +66,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		List<SearchParam> internalSearchParms = new ArrayList<SearchParam>(searchRequest.getParams());
 		for(SearchParam searchParam : searchParamsTemp){
 			for(QueryParamInfo queryParam:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
-				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())){
+				// check to see if optional param has any values set.
+				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())&&searchParam.getValue()!=null){
 					if(!optionalQueryString.isEmpty()){
 						optionalQueryString += " AND ";
 					}
@@ -181,6 +182,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(internalSearchParms!=null){
 			for (SearchParam searchParam : internalSearchParms) {
+				// check to see if optional param has any values set.
+				if(searchParam.getValue()!=null){
 			    List<QueryParamInfo> queryParams = searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
 			    String paramDataType;
 			    Object queryParamValue = null;
@@ -202,6 +205,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			        queryParamValue = searchParam.getValue();
 			    }
 			    query.setParameter(searchParam.getKey().replace(".", "_"), queryParamValue);
+				}
 			}
 		}
 
