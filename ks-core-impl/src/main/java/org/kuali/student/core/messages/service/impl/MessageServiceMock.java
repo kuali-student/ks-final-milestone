@@ -50,7 +50,7 @@ public class MessageServiceMock implements MessageService {
     
     Map<String, LocaleMessages> messages = new HashMap<String, LocaleMessages>();
 
-    private class LocaleMessages{
+    private static class LocaleMessages{
         Map<String, Map<String, String>> localeMessages = new HashMap<String, Map<String,String>>();
         
         public Map<String, String> getMessages(String groupKey){
