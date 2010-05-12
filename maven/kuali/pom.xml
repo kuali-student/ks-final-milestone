@@ -58,8 +58,12 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.snapshot</id>
+      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
       <releases>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </releases>
     </repository>
   </repositories>
@@ -80,13 +84,13 @@
     <!-- site is intentionally omitted. Each project must define its own website -->
     <repository>
       <id>kuali.central</id>
-      <name>Internal Release Repository</name>
+      <name>Main Kuali Repository</name>
       <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
     <snapshotRepository>
-      <id>kuali.snapshots</id>
-      <name>Internal Snapshot Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
     </snapshotRepository>
   </distributionManagement>
   <scm>
