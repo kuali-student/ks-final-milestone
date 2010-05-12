@@ -30,7 +30,7 @@ public class SimpleWidgetTable extends Composite{
 	public List<String> columnList = new ArrayList<String>();
 	//private G
 	
-	public class TableRow{
+	private static class TableRow{
 
 		public List<Widget> widgetList = new ArrayList<Widget>();
 		public List<Widget> getWidgetList() {

@@ -97,7 +97,7 @@ public class KSWrapper extends Composite{
 
     private boolean loaded = false;
 
-    public class WrapperNavigationHandler extends NavigationHandler{
+    private static class WrapperNavigationHandler extends NavigationHandler{
 
 		public WrapperNavigationHandler(String url) {
 			super(url);

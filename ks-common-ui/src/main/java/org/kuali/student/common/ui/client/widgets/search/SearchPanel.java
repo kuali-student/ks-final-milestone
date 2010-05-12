@@ -353,7 +353,7 @@ public class SearchPanel extends Composite{
         public String getFieldName();
     }
 
-    private class CustomLine extends Composite implements HasSearchParam{
+    private static class CustomLine extends Composite implements HasSearchParam{
         private KSDropDown paramSelector = new KSDropDown();
         private SimplePanel widgetPanel = new SimplePanel();
         private Widget widget = null;
@@ -559,7 +559,7 @@ public class SearchPanel extends Composite{
         
     }
 
-    private class SearchField extends Composite implements HasSearchParam{
+    private static class SearchField extends Composite implements HasSearchParam{
 
         private Widget widget = null;
         private LookupParamMetadata meta = null;
@@ -685,7 +685,7 @@ public class SearchPanel extends Composite{
         this.multiSelect = multiSelect;
     }
 
-    private class ParamListItems implements ListItems{
+    private static class ParamListItems implements ListItems{
 
         private List<LookupParamMetadata> params = new ArrayList<LookupParamMetadata>();
 

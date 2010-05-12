@@ -78,7 +78,7 @@ public class AdvancedSearchWindow {
 		}
     }
     
-    class ActionCancelGroup extends ButtonGroup<ActionCancelEnum> {
+    private static class ActionCancelGroup extends ButtonGroup<ActionCancelEnum> {
         public ActionCancelGroup(String actionLabel, Callback<ActionCancelEnum> callback) {
             layout = new ButtonRow();
             this.addCallback(callback);

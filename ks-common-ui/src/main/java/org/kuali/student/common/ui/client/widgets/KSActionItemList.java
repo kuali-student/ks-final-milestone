@@ -33,7 +33,7 @@ public class KSActionItemList extends Composite{
 
 	public static enum ListLocation{TOP, BOTTOM}
 
-	public class ActionItem{
+	private static class ActionItem{
 		private String text;
 		private String shortDesc;
 		private ClickHandler handler;

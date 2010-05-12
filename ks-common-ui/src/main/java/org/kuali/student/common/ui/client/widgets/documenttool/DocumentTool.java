@@ -355,7 +355,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		uploadList.add(addMore);
 	}
 	
-	private class DocumentForm extends Composite{
+	private static class DocumentForm extends Composite{
 		private KSLabel file = new KSLabel("File");
 		private KSLabel type = new KSLabel("Type");
 		private KSLabel description = new KSLabel("Description");

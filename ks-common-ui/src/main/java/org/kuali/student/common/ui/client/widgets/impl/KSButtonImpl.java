@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class KSButtonImpl extends KSButtonAbstract{
 
 
-	public class SpanPanel extends ComplexPanel{
+	private static class SpanPanel extends ComplexPanel{
 
 		public SpanPanel(){
 			setElement(DOM.createSpan());
