@@ -3,18 +3,17 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>4</version>
+    <version>1</version>
   </parent>
   <groupId>org.kuali.impex</groupId>
   <artifactId>impex-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.1-SNAPSHOT</version>
-  <name>Impex</name>
-  <url>http://www.kuali.org/</url>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>Maven Impex Plugin</name>
   <repositories>
     <repository>
       <id>kuali.central</id>
-      <url>http://kuali.googlecode.com/svn/repository</url>
+      <url>https://test.kuali.org/maven</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -48,8 +47,8 @@
   </scm>
   <distributionManagement>
     <site>
-      <id>kuali.site</id>
-      <url>svn:https://kuali.googlecode.com/svn/site/${project.artifactId}/${project.version}</url>
+      <id>ks.site</id>
+      <url>scp://student.kuali.org:/opt/www/student/site/${project.artifactId}/${project.version}</url>
     </site>
   </distributionManagement>
 </project>
