@@ -473,5 +473,5 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Organization Management"
 		And I wait for "3" seconds
-		And I map csv users from "93" to "162" rows to organizations
+		And I map csv users from "2" to "162" rows to organizations
 
