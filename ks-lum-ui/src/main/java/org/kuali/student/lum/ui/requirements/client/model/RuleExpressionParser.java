@@ -162,11 +162,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ) and condition could sit before and");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after and");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -179,11 +179,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ) and condition could sit before or");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after or");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -196,11 +196,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.And || prevToken.type == Token.Or || prevToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only and, or, ( could sit before (");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after (");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -213,11 +213,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only condition and ) could sit before )");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Or || nextToken.type == Token.And || nextToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ), and, or could sit after )");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -231,11 +231,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.And || prevToken.type == Token.Or || prevToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only and, or could sit before condition");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Or || nextToken.type == Token.And || nextToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ), and, or could sit after condition");
-            validToken = validToken && false;
+            validToken = false;
         }
         Token conditionToken = tokenList.get(currentIndex);
         String conditionLetter = conditionToken.value;
@@ -250,7 +250,7 @@ public class RuleExpressionParser {
         }
         if (!validConditonLetter) {
             errorMessages.add(conditionLetter + " is not a valid conditon");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }

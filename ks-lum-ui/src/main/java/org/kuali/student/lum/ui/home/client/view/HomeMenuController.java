@@ -68,7 +68,6 @@ public class HomeMenuController extends Controller implements View {
     private class MenuItemPanel extends Composite{
         KSLabel itemLabel = new KSLabel();
         FocusPanel thePanel = new FocusPanel();
-        boolean selected = false;
         
         public MenuItemPanel(String itemName){
             itemLabel.setText(itemName);
@@ -85,13 +84,11 @@ public class HomeMenuController extends Controller implements View {
         }
         
         public void deSelect(){
-            selected = false;
             thePanel.removeStyleName("Course-Home-Menu-Item-Selected");
             itemLabel.removeStyleName("Course-Home-Menu-Label-Selected");
         }
         
         public void select(){
-            selected = true;
             thePanel.addStyleName("Course-Home-Menu-Item-Selected");
             itemLabel.addStyleName("Course-Home-Menu-Label-Selected");
         }

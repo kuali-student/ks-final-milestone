@@ -83,9 +83,9 @@ public class CollaboratorTool extends Composite implements ToolView{
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
     
     //Todo MESSAGES
-    private final String VIEW = "View";
-    private final String COMMENT_VIEW = "Comment, View";
-    private final String EDIT_COMMENT_VIEW = "Edit, Comment, View";
+    private static final String VIEW = "View";
+    private static final String COMMENT_VIEW = "Comment, View";
+    private static final String EDIT_COMMENT_VIEW = "Edit, Comment, View";
         
     private SimpleListItems permissionListItems = new SimpleListItems();
     private SimpleListItems actionRequestListItems = new SimpleListItems();
@@ -291,7 +291,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 		
 	}
 	
-	private void refreshDocumentStatus(final Callback onReadyCallback){
+	private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback){
 		cluProposalRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
 			@Override
 			public void onFailure(Throwable caught) {
@@ -485,35 +485,35 @@ public class CollaboratorTool extends Composite implements ToolView{
 							rowWidgets.add(new KSLabel(person.getPrincipalId()));
 						}
 						
-						String permString = "";
+						StringBuffer permString = new StringBuffer("");
 						int count = 0;
 						for(String perm: person.getPermList()){
 							if(perm != null){
 								if(count > 0){
-									permString = permString + ", " + perm;
+									permString.append(", " + perm);
 								}
 								else{
-									permString = permString + perm;
+									permString.append(perm);
 								}
 								count++;
 							}
 						}
-						rowWidgets.add(new KSLabel(permString));
+						rowWidgets.add(new KSLabel(permString.toString()));
 						
-						String actionString = "";
+						StringBuffer actionString = new StringBuffer("");
 						count = 0;
 						for(String action: person.getActionList()){
 							if(action != null){
 								if(count > 0){
-									actionString = actionString + ", " + action;
+									actionString.append(", " + action);
 								}
 								else{
-									actionString = actionString + action;
+									actionString.append(action);
 								}
 								count++;
 							}
 						}
-						rowWidgets.add(new KSLabel(actionString));
+						rowWidgets.add(new KSLabel(actionString.toString()));
 						if(numberCollabs > 0){
 							tableSection.getLayout().setLayoutTitle(SectionTitle.generateH3Title("Added People (" + numberCollabs + ")"));
 						}

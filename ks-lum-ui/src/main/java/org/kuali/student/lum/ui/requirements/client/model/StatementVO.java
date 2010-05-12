@@ -392,9 +392,9 @@ public class StatementVO extends Token implements Serializable {
         
         // the next GUI id will be A - Z, and A1, A2, A3 afterwards.
         if (newCharCode < 65 + 26) {
-            guiRCId = new String(Character.toString((char)newCharCode));
+            guiRCId = Character.toString((char)newCharCode);
         } else {
-            guiRCId = new String(Character.toString((char)(65 + 26)));
+            guiRCId = Character.toString((char)(65 + 26));
             guiRCId = guiRCId + Integer.toString(
                     newCharCode - 65 + 26 - 1);
         }
@@ -672,7 +672,7 @@ public class StatementVO extends Token implements Serializable {
                 }
                 parent.addStatementVOs(statementVO.getStatementVOs());
             }
-        } else if (statementVO.getStatementVOCount() > 0) {
+        } else if (statementVO!=null && statementVO.getStatementVOCount() > 0) {
             List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
             for (StatementVO subS : subSs) {
                 structureChanged = structureChanged || doSimplify(subS, statementVO);
@@ -792,11 +792,12 @@ public class StatementVO extends Token implements Serializable {
             int rcCounter = 0;
             for (ReqComponentVO childReqComponentInfo : currReqComponentVOs) {
                 if (rcCounter > 0) {
-                    StatementOperatorTypeKey operator =
-                        (statementVO == null ||
-                                statementVO.getStatementInfo() == null)? null :
-                                    statementVO.getStatementInfo().getOperator();
-                    inSbResult.append(" " + operator.toString().toLowerCase() + " ");
+                    if(statementVO != null &&
+                       statementVO.getStatementInfo() != null &&
+                       statementVO.getStatementInfo().getOperator() != null){
+	                	StatementOperatorTypeKey operator = statementVO.getStatementInfo().getOperator();
+	                    inSbResult.append(" " + operator.toString().toLowerCase() + " ");
+                    }
                 }
                 inSbResult.append(childReqComponentInfo.getGuiReferenceLabelId());
                 rcCounter++;

@@ -105,31 +105,31 @@ public class AssemblerTestMain {
 //		courseAssembler.setHierarchy(course);
 		return courseAssembler;
 	}
-	private static void dump(final Data e) {
-		dump(e, 0);
-		System.out
-				.println("***************************************************");
-	}
+//	private static void dump(final Data e) {
+//		dump(e, 0);
+//		System.out
+//				.println("***************************************************");
+//	}
 
-	private static void dump(final Data e, final int indent) {
-		String pad = "";
-		for (int i = 0; i < indent; i++) {
-			pad += "----";
-		}
-		for (final Data.Property prop : e) {
-			if (prop.getValueType().equals(Data.class)) {
-				LOG.warn(pad + " Nested: ("
-						+ prop.getKeyType().getName() + ")"
-						+ prop.getKey().toString());
-				dump((Data) prop.getValue(), indent + 1);
-			} else {
-				LOG.warn(pad + " (" + prop.getKeyType().getName()
-						+ ")" + prop.getKey().toString() + " = ("
-						+ prop.getValueType().getName() + ")"
-						+ prop.getValue().toString());
-			}
-		}
-	}
+//	private static void dump(final Data e, final int indent) {
+//		String pad = "";
+//		for (int i = 0; i < indent; i++) {
+//			pad += "----";
+//		}
+//		for (final Data.Property prop : e) {
+//			if (prop.getValueType().equals(Data.class)) {
+//				LOG.warn(pad + " Nested: ("
+//						+ prop.getKeyType().getName() + ")"
+//						+ prop.getKey().toString());
+//				dump((Data) prop.getValue(), indent + 1);
+//			} else {
+//				LOG.warn(pad + " (" + prop.getKeyType().getName()
+//						+ ")" + prop.getKey().toString() + " = ("
+//						+ prop.getValueType().getName() + ")"
+//						+ prop.getValue().toString());
+//			}
+//		}
+//	}
 
 	private static LuService aquireLuService() throws Exception {
 		// Get client

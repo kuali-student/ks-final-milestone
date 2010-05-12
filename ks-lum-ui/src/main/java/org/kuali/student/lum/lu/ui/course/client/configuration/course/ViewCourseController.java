@@ -160,7 +160,6 @@ public class ViewCourseController extends TabbedSectionLayout {
         actionToolbar = new ViewCourseActionList(createActionSubmitSuccessHandler());
         actionToolbar.setCourseCodePath(COURSE_CODE_PATH);
 //        actionToolbar.setRequiredFieldPaths(new String[]{"course/department"});
-        actionToolbar.setRpcService(rpcServiceAsync);
         this.addToolbar(actionToolbar);
 
     }

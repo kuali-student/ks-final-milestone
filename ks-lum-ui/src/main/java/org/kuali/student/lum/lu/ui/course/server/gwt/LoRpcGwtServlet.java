@@ -42,7 +42,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 public class LoRpcGwtServlet extends
 		BaseRpcGwtServletAbstract<LearningObjectiveService> implements
 		LoRpcService {
-	final Logger LOG = Logger.getLogger(LoRpcGwtServlet.class);
+	final static Logger LOG = Logger.getLogger(LoRpcGwtServlet.class);
 	private static final long serialVersionUID = 1L;
 
 	/**

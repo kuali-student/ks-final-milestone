@@ -384,32 +384,33 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
             modelToBeSaved = null;
             clearData = false;
         }
-
-        modelToBeSaved.validate(new Callback<List<ValidationResultInfo>>() {
-            @Override
-            public void exec(List<ValidationResultInfo> result) {
-
-                boolean save = true;
-                View v = getCurrentView();
-                if(v instanceof Section){
-                    ((Section) v).setFieldHasHadFocusFlags(true);
-                    ErrorLevel status = ((Section) v).processValidationResults(result);
-                    if(status == ErrorLevel.ERROR){
-                        save = false;
-                    }
-                }
-
-                if(save){
-                    getCurrentView().updateModel();
-                    CluSetsManagementController.this.updateModel();
-                    saveModel(modelToBeSaved, saveActionEvent, clearData);
-                }
-                else{
-                    Window.alert("Save failed.  Please check fields for errors.");
-                }
-
-            }
-        });
+        if(modelToBeSaved!=null){
+	        modelToBeSaved.validate(new Callback<List<ValidationResultInfo>>() {
+	            @Override
+	            public void exec(List<ValidationResultInfo> result) {
+	
+	                boolean save = true;
+	                View v = getCurrentView();
+	                if(v instanceof Section){
+	                    ((Section) v).setFieldHasHadFocusFlags(true);
+	                    ErrorLevel status = ((Section) v).processValidationResults(result);
+	                    if(status == ErrorLevel.ERROR){
+	                        save = false;
+	                    }
+	                }
+	
+	                if(save){
+	                    getCurrentView().updateModel();
+	                    CluSetsManagementController.this.updateModel();
+	                    saveModel(modelToBeSaved, saveActionEvent, clearData);
+	                }
+	                else{
+	                    Window.alert("Save failed.  Please check fields for errors.");
+	                }
+	
+	            }
+	        });
+        }
     }
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent,

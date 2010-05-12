@@ -93,12 +93,12 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
 	    ((TransmogrifyingFeeRecordItem) itemWidget).setRateType(rateType, modelIdx);
     	
 	    if (item != null){
-		    item.setItemKey(new Integer(itemCount - 1));
+		    item.setItemKey(itemCount - 1);
 		    item.setItemWidget(itemWidget);
 		    item.setRemoveCallback(removeCallback);
 	    } else if (itemWidget instanceof MultiplicityItem){
 	    	item = (MultiplicityItem)itemWidget;
-	    	item.setItemKey(new Integer(itemCount -1));
+	    	item.setItemKey(itemCount -1);
 	    }
 	    items.add(item);
 	    item.redraw();

@@ -317,8 +317,8 @@ public class RuleExpressionEditor extends ViewComposite {
     
     class RCTableItems implements ListItems {
         private List<ReqComponentVO> rcs = new ArrayList<ReqComponentVO>();
-        private final String ATTR_KEY_LABEL = "Label";
-        private final String ATTR_KEY_DESCR = "Description";
+        private static final String ATTR_KEY_LABEL = "Label";
+        private static final String ATTR_KEY_DESCR = "Description";
         
         public List<ReqComponentVO> getRcs() {
             return rcs;

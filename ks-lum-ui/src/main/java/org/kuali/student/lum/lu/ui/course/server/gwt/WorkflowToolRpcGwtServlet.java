@@ -48,7 +48,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
 public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements WorkflowToolRpcService{
 	
 	private static final long serialVersionUID = 1L;
-	final Logger LOG = Logger.getLogger(WorkflowToolRpcGwtServlet.class);
+	final static Logger LOG = Logger.getLogger(WorkflowToolRpcGwtServlet.class);
 
 	protected MetadataServiceImpl metadataService;
 	protected IdentityService identityService;
@@ -111,7 +111,11 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
         	throw new RuntimeException("Invalid action request type '" + actionRequestType.getActionRequestLabel() + "'");
         }
         if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-            throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + "): " + stdResp.getErrorMessage());
+            if(stdResp==null){
+            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + ")");
+            }else{
+            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + "): " + stdResp.getErrorMessage());
+            }
         }
 
         PermissionType selectedPermType = PermissionType.getByCode(selectedPermissionCode);

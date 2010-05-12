@@ -26,7 +26,7 @@ import org.kuali.student.core.dto.Idable;
 public class RuleInfo implements Idable, Serializable {
 
 	private static final long serialVersionUID = 1L;
-    private String id = new String("0");
+    private String id = "0";
     private String cluId;
     private StatementVO statementVO;       //top-level statement (tree ROOT)
     private String rationale;
@@ -300,7 +300,7 @@ public class RuleInfo implements Idable, Serializable {
                     parentStatementVO.getStatementVOCount() == 0) {
                 degroupAble = degroupAble && true;
             } else {
-                degroupAble = degroupAble && false;
+                degroupAble = false;
             }
         }
         return degroupAble;

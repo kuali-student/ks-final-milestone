@@ -35,7 +35,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService>
 		implements LuRpcService {
 
 	private static final long serialVersionUID = 1L;
-	final Logger LOG = Logger.getLogger(LuRpcGwtServlet.class);
+	final static Logger LOG = Logger.getLogger(LuRpcGwtServlet.class);
 	/**
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#createClu(java.lang.String,
 	 *      org.kuali.student.lum.lu.dto.CluInfo)

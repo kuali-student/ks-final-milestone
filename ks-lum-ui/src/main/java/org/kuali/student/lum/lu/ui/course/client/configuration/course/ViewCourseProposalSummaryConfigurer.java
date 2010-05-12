@@ -335,7 +335,7 @@ public class ViewCourseProposalSummaryConfigurer implements
         				summaryTable.addField(getLabel(LUConstants.FORMAT_LABEL_KEY) + " " + formatProp.getKey(), 2);
         			}
         			Data activitiesData = ((Data)formatProp.getValue()).get(ACTIVITIES);
-        			if(activitiesData != null && activitiesData instanceof Data){
+        			if(activitiesData != null){
         				Iterator<Data.Property> activityIter = activitiesData.realPropertyIterator();
         				while(activityIter.hasNext()){
         					Data.Property activityProp = activityIter.next();
@@ -467,29 +467,29 @@ public class ViewCourseProposalSummaryConfigurer implements
 									nameString = person.getPrincipalId();
 								}
 								
-								String permString = "";
+								StringBuffer permString = new StringBuffer("");
 								int count = 0;
 								for(String perm: person.getPermList()){
 									if(perm != null){
 										if(count > 0){
-											permString = permString + ", " + perm;
+											permString.append(", " + perm);
 										}
 										else{
-											permString = permString + perm;
+											permString.append(perm);
 										}
 										count++;
 									}
 								}
 								
-								String actionString = "";
+								StringBuffer actionString = new StringBuffer("");
 								count = 0;
 								for(String action: person.getActionList()){
 									if(action != null){
 										if(count > 0){
-											actionString = actionString + ", " + action;
+											actionString.append(", " + action);
 										}
 										else{
-											actionString = actionString + action;
+											actionString.append(action);
 										}
 										count++;
 									}
@@ -497,8 +497,8 @@ public class ViewCourseProposalSummaryConfigurer implements
 								
 								if(summaryTable!=null){
 									summaryTable.addField("Name",nameString, nestLevel+1);
-									summaryTable.addField("Permissions", permString, nestLevel+2);
-									summaryTable.addField("Workflow Action", actionString, nestLevel+2);
+									summaryTable.addField("Permissions", permString.toString(), nestLevel+2);
+									summaryTable.addField("Workflow Action", actionString.toString(), nestLevel+2);
 								}
 							}
 						}
@@ -605,9 +605,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 		        	        	stringValue = translation;
 		        	        }
 		    				addField(propertyLabel, stringValue, indent+1);
-						}else if(value instanceof Data){
-							addField(propertyLabel,propertyPath,model,indent+1);//added this in
-                    	}else{
+						} else {
 							addField(propertyLabel,propertyPath,model,indent+1);
 						}
                     }

@@ -62,7 +62,6 @@ public class CategoryManagement extends Composite {
     VerticalPanel mainPanel = new VerticalPanel();
     KSLabel messageLabel = new KSLabel();
     
-    List<LoCategoryInfo> categoryList;
     List<LoCategoryTypeInfo> categoryTypeList;
     private void initCategoryManagement() {
         super.initWidget(mainPanel);

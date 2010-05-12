@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -151,18 +152,15 @@ public class BrowsePanel extends Composite
   List<SearchParam> searchParams = new ArrayList<SearchParam> ();
   Map<String, Object> parms = getDefaultParameters ();
   parms.putAll (getParameters ());
-  for (String key : parms.keySet ())
+  for (Entry<String, Object> entry : parms.entrySet())
   {
-   Object value = parms.get (key);
+   Object value = entry.getValue();
    SearchParam searchParam = new SearchParam ();
-   searchParam.setKey (key);
-   if (value instanceof String)
-   {
-    searchParam.setValue ((String) value);
-   }
-   else
-   {
-    searchParam.setValue ((List) value);
+   searchParam.setKey (entry.getKey());
+   if (value instanceof String){
+	   searchParam.setValue ((String) value);
+   } else {
+	   searchParam.setValue ((List<String>) value);
    }
    searchParams.add (searchParam);
   }

@@ -23,10 +23,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
-import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
@@ -41,7 +38,6 @@ public class LRBuilder extends Composite {
 	public static final String COURSE = "course";
 	
     private boolean WITH_DIVIDER = true;
-    private boolean NO_DIVIDER = false;
 
     private static String type;
     private static String state;

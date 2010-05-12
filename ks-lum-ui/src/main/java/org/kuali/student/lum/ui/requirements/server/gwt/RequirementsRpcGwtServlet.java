@@ -44,7 +44,7 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
  */
 public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements RequirementsRpcService {
 
-    final Logger LOG = Logger.getLogger(RequirementsRpcGwtServlet.class);
+    final static Logger LOG = Logger.getLogger(RequirementsRpcGwtServlet.class);
     
     private StatementService statementService;
     

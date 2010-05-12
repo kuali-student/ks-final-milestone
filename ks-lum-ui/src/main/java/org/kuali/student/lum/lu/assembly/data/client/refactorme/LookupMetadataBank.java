@@ -2120,17 +2120,18 @@ public class LookupMetadataBank
 		if (lookup == null)
 		{
 			Window.alert ("Could not find lookupKey=" + lookupKey);
+			return null;
 		}
 		return findParam (lookup, paramKey);
 	}
 	
 	private static LookupParamMetadata findParam (LookupMetadata lookup, String paramKey)
 	{
-		for (LookupParamMetadata param : lookup.getParams ())
-		{
-			if (param.getKey ().equalsIgnoreCase (paramKey))
-			{
-				return param;
+		if(lookup!=null){
+			for (LookupParamMetadata param : lookup.getParams ()){
+				if (param.getKey ().equalsIgnoreCase (paramKey)){
+					return param;
+				}
 			}
 		}
 		Window.alert ("Could not find paramKey=" + paramKey + " in lookup=" + lookup.getId());

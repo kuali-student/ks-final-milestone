@@ -96,7 +96,7 @@ public class ModifyCreditCourseProposalManager{
         List<RuleInfo> rules = ruleInfoBean.fetchRules(cluId);
 		
         //Clear out ids from resultInfo object and anything else with external ids
-    	Integer tempId= new Integer(0);
+    	Integer tempId = 0;
         for(RuleInfo rule:rules){
     		rule.setCluId(null);
     		clearStatementIds(rule.getStatementVO(),tempId);

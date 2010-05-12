@@ -28,8 +28,6 @@ import com.google.gwt.libideas.resources.client.ResourcePrototype;
  */
 public class RequirementsEntryPoint implements EntryPoint {
 
-	CourseReqManager courseReqController;
-    
     public void onModuleLoad() {
         
         final String injectString = this.getCssString();
@@ -41,14 +39,14 @@ public class RequirementsEntryPoint implements EntryPoint {
     }
     
     public String getCssString(){
-        String injectString = "";
+        StringBuffer injectString = new StringBuffer("");
          for(ResourcePrototype r: RequirementsResources.INSTANCE.getResources()){
              if(r instanceof CssResource){
                  if(((CssResource)r).getText() != null){
-                     injectString = injectString + "\n" + (((CssResource)r).getText());
+                     injectString.append("\n" + (((CssResource)r).getText()));
                  }
              }
          }
-         return injectString;
+         return injectString.toString();
     }    
 }

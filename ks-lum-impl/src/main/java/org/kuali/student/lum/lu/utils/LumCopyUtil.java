@@ -37,6 +37,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.MetaInfo;
@@ -265,9 +266,8 @@ public class LumCopyUtil {
             return null;
 
         Map<String, String> clone = new HashMap<String, String>();
-        for (String key : old.keySet()) {
-            String value = old.get(key);
-            clone.put(key, value);
+        for (Entry<String, String> entry : old.entrySet()) {
+            clone.put(entry.getKey(), entry.getValue());
         }
         return clone;
     }

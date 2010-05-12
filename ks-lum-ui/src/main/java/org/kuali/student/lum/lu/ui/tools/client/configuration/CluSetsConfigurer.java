@@ -37,7 +37,6 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -49,7 +48,6 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeLabel;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -57,7 +55,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class CluSetsConfigurer {
 
     private boolean WITH_DIVIDER = true;
-    private boolean NO_DIVIDER = false;
 
     public static final String CREATE_CLUSET_MGT_MODEL = "createCluSetManagementModel";
     public static final String EDIT_CLUSET_MGT_MODEL = "editCluSetManagementModel";
@@ -334,24 +331,8 @@ public class CluSetsConfigurer {
         return Application.getApplicationContext().getUILabel("course", "course", "draft", labelKey);
     }
 
-    private SectionTitle getH1Title(String labelKey) {
-        return SectionTitle.generateH1Title(getLabel(labelKey));
-    }
-
-    private SectionTitle getH2Title(String labelKey) {
-        return SectionTitle.generateH2Title(getLabel(labelKey));
-    }
-
     private SectionTitle getH3Title(String labelKey) {
         return SectionTitle.generateH3Title(getLabel(labelKey));
-    }
-
-    private SectionTitle getH4Title(String labelKey) {
-        return SectionTitle.generateH4Title(getLabel(labelKey));
-    }
-
-    private SectionTitle getH5Title(String labelKey) {
-        return SectionTitle.generateH5Title(getLabel(labelKey));
     }
 
     private Picker configureSearch(String fieldKey) {
@@ -359,13 +340,6 @@ public class CluSetsConfigurer {
         Metadata metaData = modelDefinition.getMetadata(path);
         Picker picker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
         return picker;
-    }
-
-    private SearchPanel configureSearchPanel(String fieldKey) {
-        QueryPath path = QueryPath.concat(null, fieldKey);
-        Metadata metaData = modelDefinition.getMetadata(path);
-        SearchPanel searchPanel = new SearchPanel(metaData.getAdditionalLookups());
-        return searchPanel;
     }
 
 //    public class CourseList extends UpdatableMultiplicityComposite {
@@ -431,9 +405,6 @@ public class CluSetsConfigurer {
     }
     private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
     	return addField(modelIdObj, section, fieldKey, messageKey, widget, null);
-    }
-    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
-        return addField(modelIdObj, section, fieldKey, messageKey, null, parentPath);
     }
 
     // TODO - when DOL is pushed farther down into LOBuilder,

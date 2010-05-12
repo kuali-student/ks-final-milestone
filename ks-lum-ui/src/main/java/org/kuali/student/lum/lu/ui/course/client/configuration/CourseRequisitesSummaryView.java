@@ -44,7 +44,6 @@ public class CourseRequisitesSummaryView extends SectionView {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     protected final VerticalPanel mainPanel = new VerticalPanel();
-    private boolean loaded = false;
     private SimplePanel prereqRuleTextPanel = new SimplePanel();
     private SimplePanel coreqRuleTextPanel = new SimplePanel();
     private SimplePanel antireqRuleTextPanel = new SimplePanel();

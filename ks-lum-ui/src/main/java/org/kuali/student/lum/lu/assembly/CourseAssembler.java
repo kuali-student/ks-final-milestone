@@ -311,7 +311,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				result.getTermsOffered().add(atpType);
 			}
 
-			result.setFirstExpectedOffering(new String());
+			result.setFirstExpectedOffering("");
 			String atp = course.getExpectedFirstAtp();
 			if (atp != null && !atp.isEmpty()) {
 				result.setFirstExpectedOffering(atp);

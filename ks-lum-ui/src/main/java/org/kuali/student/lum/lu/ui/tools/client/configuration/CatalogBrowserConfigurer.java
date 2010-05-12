@@ -17,35 +17,26 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogBySchoolOrCollegeConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
 
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogBySchoolOrCollegeConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogConstants;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
 
 public class CatalogBrowserConfigurer
  implements BrowseCourseCatalogBySchoolOrCollegeConstants,
             BrowseCourseCatalogConstants
 {
 
- private boolean WITH_DIVIDER = true;
- private boolean NO_DIVIDER = false;
  public static final String CATALOG_BROWSER_MODEL = "CatalogBrowserModel";
  private DataModelDefinition modelDefinition;
 
@@ -129,52 +120,11 @@ public class CatalogBrowserConfigurer
   return browser;
  }
 
- private static VerticalSection initSection (SectionTitle title,
-                                             boolean withDivider)
- {
-  VerticalSection section = new VerticalSection ();
-  if (title != null)
-  {
-   section.getLayout().setLayoutTitle (title);
-  }
-  section.addStyleName (LUConstants.STYLE_SECTION);
-  if (withDivider)
-  {
-   section.addStyleName (LUConstants.STYLE_SECTION_DIVIDER);
-  }
-  return section;
- }
-
  private String getLabel (String labelKey)
  {
   // TODO make the group, type and state configurable when framework is ready
   // tried created a new message group clusetmanagement but the entries are not read for some reason
   return Application.getApplicationContext ().getUILabel ("course", "course", "draft", labelKey);
- }
-
- private SectionTitle getH1Title (String labelKey)
- {
-  return SectionTitle.generateH1Title (getLabel (labelKey));
- }
-
- private SectionTitle getH2Title (String labelKey)
- {
-  return SectionTitle.generateH2Title (getLabel (labelKey));
- }
-
- private SectionTitle getH3Title (String labelKey)
- {
-  return SectionTitle.generateH3Title (getLabel (labelKey));
- }
-
- private SectionTitle getH4Title (String labelKey)
- {
-  return SectionTitle.generateH4Title (getLabel (labelKey));
- }
-
- private SectionTitle getH5Title (String labelKey)
- {
-  return SectionTitle.generateH5Title (getLabel (labelKey));
  }
 
  // TODO - when DOL is pushed farther down into LOBuilder,

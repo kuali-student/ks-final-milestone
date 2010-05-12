@@ -757,18 +757,20 @@ import com.google.gwt.user.client.ui.Widget;
                 		String errMsg = "Unable to find non-deleted item in removal callback";
                 		GWT.log(errMsg, new RuntimeException(errMsg));
                 	}
-                	// So, how's this for sleazy? Even sleazier than the addItem() sleaziness below
-                	Object itemWithHeader = currItem.getItemWidget();
-                	GroupSection gSection = null;
-                	// let's be paranoid
-                	if (itemWithHeader instanceof RemovableItemWithHeader && ((RemovableItemWithHeader) itemWithHeader).getItemWidget() instanceof GroupSection)
-                	{
-	                	gSection = (GroupSection) ((RemovableItemWithHeader) itemWithHeader).getItemWidget();
-	                	if (gSection.getFields().size() >= 2) {
-	                		Widget txtBox = gSection.getFields().get(1).getFieldWidget();
-	                		if (txtBox instanceof KSTextBox) {
-			                	((KSTextBox) txtBox).setValue("100.00%");
-	                		}
+                	if(currItem!=null){
+	                	// So, how's this for sleazy? Even sleazier than the addItem() sleaziness below
+	                	Object itemWithHeader = currItem.getItemWidget();
+	                	GroupSection gSection = null;
+	                	// let's be paranoid
+	                	if (itemWithHeader instanceof RemovableItemWithHeader && ((RemovableItemWithHeader) itemWithHeader).getItemWidget() instanceof GroupSection)
+	                	{
+		                	gSection = (GroupSection) ((RemovableItemWithHeader) itemWithHeader).getItemWidget();
+		                	if (gSection.getFields().size() >= 2) {
+		                		Widget txtBox = gSection.getFields().get(1).getFieldWidget();
+		                		if (txtBox instanceof KSTextBox) {
+				                	((KSTextBox) txtBox).setValue("100.00%");
+		                		}
+		                	}
 	                	}
                 	}
                 }

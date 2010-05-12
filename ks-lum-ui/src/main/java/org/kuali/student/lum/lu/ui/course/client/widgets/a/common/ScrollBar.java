@@ -320,9 +320,6 @@ public class ScrollBar extends Composite implements HasValue<Integer> {
 	}
 
 	private void doRedraw() {
-		final int upHeight = up.getOffsetHeight();
-		final int downHeight = down.getOffsetHeight();
-
 		DeferredCommand.addCommand(new Command() {
 			@Override
 			public void execute() {
@@ -441,10 +438,6 @@ public class ScrollBar extends Composite implements HasValue<Integer> {
 				scrollUpTimer.cancel();
 			}
 		}
-	}
-
-	private void setStyle(final Widget w, final String key, final int value) {
-		w.getElement().getStyle().setPropertyPx(key, value);
 	}
 
 	private void setStyle(final Widget w, final String key, final String value) {

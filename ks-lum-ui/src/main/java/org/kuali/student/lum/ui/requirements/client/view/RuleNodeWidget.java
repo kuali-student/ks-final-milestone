@@ -116,7 +116,7 @@ public class RuleNodeWidget extends FocusPanel {
                 checkBoxAndToggle.setStyleName("KS-ReqComp-DeSelected");
             }
             html.setHTML(node.getUserObject().toString());
-            checkBox.setValue(new Boolean(statementVO.isCheckBoxOn()), false);
+            checkBox.setValue(statementVO.isCheckBoxOn(), false);
         } else if (userObject instanceof ReqComponentVO) {
             ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
             KSLabel rcLabel = null;
@@ -145,7 +145,7 @@ public class RuleNodeWidget extends FocusPanel {
             }
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());
-            checkBox.setValue(new Boolean(reqComponentVO.isCheckBoxOn()));
+            checkBox.setValue(reqComponentVO.isCheckBoxOn());
         } else {
             super.setWidget(html);
             html.setHTML(node.getUserObject().toString());

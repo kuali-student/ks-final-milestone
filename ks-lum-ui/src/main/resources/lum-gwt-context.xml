@@ -304,8 +304,6 @@
 	</bean>
 
 	<bean id="creditCourseProposalAssembler" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler" parent="baseAssembler">
-		<constructor-arg value="draft"/>
-		<property name="learningObjectiveService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>

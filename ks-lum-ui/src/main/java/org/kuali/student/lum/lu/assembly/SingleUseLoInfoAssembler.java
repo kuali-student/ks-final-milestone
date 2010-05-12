@@ -355,9 +355,9 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	
 	private void removeOrphans(String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		// debug
-		LoInfo lo = loService.getLo(loId);
+		loService.getLo(loId);
 		// end debug
-		List<LoInfo> relatedLos = loService.getRelatedLosByLoId(loId, "kuali.lo.relation.type.includes");
+		loService.getRelatedLosByLoId(loId, "kuali.lo.relation.type.includes");
 		/*
 		if (null != loloReltns) {
 			for (LoLoRelationInfo info : loloReltns) {

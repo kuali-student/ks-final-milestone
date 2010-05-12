@@ -81,25 +81,34 @@ public class CluRangeItemValue implements ItemValue<CluRangeItemValue> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        boolean result = false;
-        CluRangeItemValue item2 = null;
-        
-        if (obj == null) return false;
-        item2 = (CluRangeItemValue) obj;
-        if (id == item2.getId() && 
-                name != null && item2.getName() != null &&
-                name.equals(item2.getName())) {
-            result = true;
-        }
-        return result;
-    }
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CluRangeItemValue other = (CluRangeItemValue) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
 
     @Override
-    public int hashCode() {
-        int hashCode = -1;
-        hashCode = id.hashCode() + name.hashCode();
-        return hashCode;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
     
 }

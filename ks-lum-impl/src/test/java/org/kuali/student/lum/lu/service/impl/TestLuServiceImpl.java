@@ -1461,7 +1461,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		LuLuRelationTypeInfo luLuRelTypeInfo;
 
 		try {
-			luLuRelTypeInfo = client.getLuLuRelationType(null);
+			client.getLuLuRelationType(null);
 			fail("LuService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
 		} catch (MissingParameterException e) {
 		}

@@ -65,7 +65,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class RuleComponentEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
 
-    public enum reqCompFieldDefinitions { TODO }
+    public enum ReqCompFieldDefinitions { TODO }
 
     //view's widgets
     private static final int NOF_BASIC_RULE_TYPES = 3;
@@ -573,7 +573,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 tagCount = tagCounts.get(tag).intValue();
                 tagCount++;
             }
-            tagCounts.put(tag, new Integer(tagCount));
+            tagCounts.put(tag, tagCount);
 
             if ((tag.equals("reqCompFieldType.requiredCount")) || (tag.equals("reqCompFieldType.gpa")) || (tag.equals("reqCompFieldType.totalCredits"))) {
                 final KSTextBox valueWidget = new KSTextBox();
