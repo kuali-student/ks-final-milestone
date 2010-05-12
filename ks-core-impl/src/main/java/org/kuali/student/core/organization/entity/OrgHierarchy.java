@@ -44,7 +44,7 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	@Column(name = "NAME")
 	private String name; 
 	
-	@Column(name = "DESCR",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "DESCR",length=2000)
 	private String descr; 
 
 	@ManyToOne
