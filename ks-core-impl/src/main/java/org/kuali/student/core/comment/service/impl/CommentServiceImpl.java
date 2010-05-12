@@ -63,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
     final Logger logger = Logger.getLogger(CommentServiceImpl.class);
     
     private CommentDao commentDao;
-    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private DictionaryService dictionaryServiceDelegate;
     private SearchManager searchManager;
     private Validator validator;
 
