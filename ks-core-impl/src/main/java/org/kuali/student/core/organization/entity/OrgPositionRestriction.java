@@ -60,7 +60,6 @@ public class OrgPositionRestriction extends MetaEntity implements
 	private OrgPersonRelationType personRelationType;
 
 	@Column(name = "DESCR", length = 2000)
-	// TODO what is a good number for these long descriptions?
 	private String descr;
 
 	@Column(name = "TTL")
