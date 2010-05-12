@@ -145,12 +145,11 @@ public class ViewCourseProposalSummaryConfigurer implements
     	
         VerticalSectionView summaryTableSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
         summaryTableSection.addStyleName(LUConstants.STYLE_SECTION);
-        summaryTableSection.getSectionTitle().addStyleName("ks-heading-page-title");
             	
     	QueryPath path = QueryPath.concat(null, null);
     	Metadata meta = modelDefinition.getMetadata(path);
 
-    	FieldDescriptor fd = new FieldDescriptor(path.toString(), "", meta);
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), null, meta);
         fd.setWidgetBinding(new SummaryTableBinding());
         fd.setFieldWidget(new SummaryTable());
    		summaryTableSection.addField(fd);

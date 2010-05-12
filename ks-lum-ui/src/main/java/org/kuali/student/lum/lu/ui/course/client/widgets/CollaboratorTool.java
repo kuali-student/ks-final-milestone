@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
@@ -210,7 +211,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 		if (!loaded){
 			init();
 		}
-		section.redraw();
+		//section.redraw();
 		controller.requestModel(CollaboratorModel.class, new ModelRequestCallback<CollaboratorModel>(){
 
 			@Override
@@ -309,11 +310,12 @@ public class CollaboratorTool extends Composite implements ToolView{
 		
 	private void createAddCollabSection(){
 		Metadata personIdMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("personId");
-		person = new FieldDescriptor(null, "Person", personIdMeta);
+		//TODO use real keys here
+		person = new FieldDescriptor(null, generateMessageInfo("Person"), personIdMeta);
 		Metadata typeMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("collaboratorType");
-		permissions = new FieldDescriptor(null, "Permissions", typeMeta);
+		permissions = new FieldDescriptor(null, generateMessageInfo("Person"), typeMeta);
 		permissions.setFieldWidget(permissionList);
-		actionRequests = new FieldDescriptor(null, "Action Requests", typeMeta);
+		actionRequests = new FieldDescriptor(null, generateMessageInfo("Person"), typeMeta);
 		actionRequests.setFieldWidget(actionRequestList);
 		section.addField(person);
 		section.addField(permissions);
@@ -323,6 +325,10 @@ public class CollaboratorTool extends Composite implements ToolView{
 		permissionList.setBlankFirstItem(false);
 		actionRequestList.setBlankFirstItem(false);
 	}
+	
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo(null, null, null, labelKey);
+    }
 	
 	private boolean isDocumentPreRoute() {
 		return "I".equals(documentStatus) || "S".equals(documentStatus);
@@ -509,7 +515,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 						}
 						rowWidgets.add(new KSLabel(actionString));
 						if(numberCollabs > 0){
-							tableSection.setSectionTitle(SectionTitle.generateH3Title("Added People (" + numberCollabs + ")"));
+							tableSection.getLayout().setLayoutTitle(SectionTitle.generateH3Title("Added People (" + numberCollabs + ")"));
 						}
 						rowWidgets.add(new KSLabel(person.getActionRequestStatus()));
 						//TODO add back in when we have remove

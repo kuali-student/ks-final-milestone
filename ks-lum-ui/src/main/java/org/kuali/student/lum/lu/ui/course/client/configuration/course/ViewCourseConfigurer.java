@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -133,43 +134,43 @@ CreditCourseLearningResultsConstants
 		
 		VerticalSection section = initSection(null, false);
 		
-        addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
-		addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
-        addField(section, QueryPath.concat(CreditCourseConstants.DESCRIPTION, RichTextInfoConstants.PLAIN).toString(), getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
-        addField(section, CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());        
-        addField(section, CreditCourseConstants.TYPE, getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
-        addField(section,  VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
-        addField(section,  JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
-        addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
+        addField(section, TRANSCRIPT_TITLE, generateMessageInfo(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
+		addField(section, CreditCourseConstants.COURSE_TITLE, generateMessageInfo(LUConstants.TITLE_LABEL_KEY), new KSLabel());
+        addField(section, QueryPath.concat(CreditCourseConstants.DESCRIPTION, RichTextInfoConstants.PLAIN).toString(), generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
+        addField(section, CreditCourseConstants.STATE, generateMessageInfo(LUConstants.STATE_LABEL_KEY), new KSLabel());        
+        addField(section, CreditCourseConstants.TYPE, generateMessageInfo(LUConstants.TYPE_LABEL_KEY), new KSLabel());
+        addField(section,  VERSIONS, generateMessageInfo(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
+        addField(section,  JOINTS, generateMessageInfo(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
+        addField(section, CROSS_LISTINGS, generateMessageInfo(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
         
         return section;
 	}
 
     private CollapsableSection generateComprehensiveSection() {
     	
-  	    CollapsableSection section = new CollapsableSection(null, getLabel(LUConstants.DISCLOSURE_PANEL_LABEL_KEY), false, true);
+  	    CollapsableSection section = new CollapsableSection(getLabel(LUConstants.DISCLOSURE_PANEL_LABEL_KEY));
 
 		VerticalSection logistics = initSection(getH3Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)), true);
 		logistics.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-        addField(logistics, PRIMARY_INSTRUCTOR, getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
-        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
-        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
-        addField(logistics, GRADING_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY), new TranslatedStringList(GRADING_OPTIONS));
-        addField(logistics, OUTCOME_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), new OutcomesList(OUTCOME_OPTIONS));
-        addField(logistics,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
+        addField(logistics, PRIMARY_INSTRUCTOR, generateMessageInfo(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
+        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), generateMessageInfo(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
+        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
+        addField(logistics, GRADING_OPTIONS,  generateMessageInfo(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY), new TranslatedStringList(GRADING_OPTIONS));
+        addField(logistics, OUTCOME_OPTIONS,  generateMessageInfo(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), new OutcomesList(OUTCOME_OPTIONS));
+        addField(logistics,  FORMATS, generateMessageInfo(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
 
 		VerticalSection learningObjectives = initSection(getH3Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)), true);
     	addLearningObjectives(learningObjectives);
     	
 		VerticalSection governance = initSection(getH3Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)), true);
-        addField(governance, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
-        addField(governance, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new TranslatedStringList(CAMPUS_LOCATIONS));        
-        addField(governance, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
+        addField(governance, ACADEMIC_SUBJECT_ORGS, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
+        addField(governance, CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new TranslatedStringList(CAMPUS_LOCATIONS));        
+        addField(governance, DEPARTMENT, generateMessageInfo(LUConstants.DEPT_LABEL_KEY), new KSLabel());
  
 		VerticalSection scheduling = initSection(getH3Title(getLabel(LUConstants.SCHEDULING_LABEL_KEY)), true);
-        addField(scheduling, CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
-        addField(scheduling, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
-        addField(scheduling, FIRST_EXPECTED_OFFERING, getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
+        addField(scheduling, CreditCourseConstants.EFFECTIVE_DATE, generateMessageInfo(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
+        addField(scheduling, EXPIRATION_DATE, generateMessageInfo(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
+        addField(scheduling, FIRST_EXPECTED_OFFERING, generateMessageInfo(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
         
 		VerticalSection financials = initSection(getH3Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)), true);
         addFinancials(financials);       
@@ -190,11 +191,11 @@ CreditCourseLearningResultsConstants
 
 	private void addFinancials(Section section) {
 		
-        addField(section, FEES , getLabel(LUConstants.COURSE_FEE_TITLE), new FeesList(FEES));
+        addField(section, FEES , generateMessageInfo(LUConstants.COURSE_FEE_TITLE), new FeesList(FEES));
 		String revenuePath=QueryPath.concat(REVENUE_INFO, REVENUE_ORG).toString();
-        addField(section, revenuePath  , getLabel(LUConstants.REVENUE), new RevenueInformationList(revenuePath));
+        addField(section, revenuePath  , generateMessageInfo(LUConstants.REVENUE), new RevenueInformationList(revenuePath));
         String expenditurePath = QueryPath.concat(EXPENDITURE_INFO, EXPENDITURE_ORG).toString();
-        addField(section,  expenditurePath , getLabel(LUConstants.EXPENDITURE), new ExpenditureInformationList(expenditurePath));
+        addField(section,  expenditurePath , generateMessageInfo(LUConstants.EXPENDITURE), new ExpenditureInformationList(expenditurePath));
 
 	}
 
@@ -253,11 +254,11 @@ CreditCourseLearningResultsConstants
             GroupSection activity = new GroupSection();
 
             addField(activity, ACTIVITY_TYPE, null, new KSLabel(), path);
-            addField(activity, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.QUANTITY).toString(), getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), new KSLabel(), path);
+            addField(activity, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.QUANTITY).toString(), generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY), new KSLabel(), path);
             addField(activity, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.TIME_UNIT).toString(), null, new KSLabel(), path);
-            addField(activity, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.HRS).toString(), getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY), new KSLabel(), path);
+            addField(activity, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.HRS).toString(), generateMessageInfo(LUConstants.CONTACT_HOURS_LABEL_KEY), new KSLabel(), path);
             addField(activity, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.PER).toString(), null , new KSLabel(), path);
-            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), new KSLabel(), path);
+            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, generateMessageInfo(LUConstants.CLASS_SIZE_LABEL_KEY), new KSLabel(), path);
 
             return activity;
         }
@@ -326,9 +327,9 @@ CreditCourseLearningResultsConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
-            addField(groupSection, CreditCourseJointsConstants.SUBJECT_AREA, getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
-            addField(groupSection, CreditCourseJointsConstants.COURSE_NUMBER_SUFFIX, getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
-            addField(groupSection, CreditCourseJointsConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, CreditCourseJointsConstants.SUBJECT_AREA, generateMessageInfo(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, CreditCourseJointsConstants.COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, CreditCourseJointsConstants.COURSE_TITLE, generateMessageInfo(LUConstants.TITLE_LABEL_KEY), new KSLabel(), path);
 
             return groupSection;
         }
@@ -376,9 +377,9 @@ CreditCourseLearningResultsConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
-            addField(groupSection,  FeeInfoFixedRateFeeConstants.RATE_TYPE,  getLabel(LUConstants.RATE_TYPE), new KSLabel(),path);
-            addField(groupSection,  FeeInfoFixedRateFeeConstants.AMOUNT,  getLabel(LUConstants.FEE_AMOUNT_LABEL_KEY), new KSLabel(),path);
-            addField(groupSection, FeeInfoFixedRateFeeConstants.FEE_TYPE, getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
+            addField(groupSection,  FeeInfoFixedRateFeeConstants.RATE_TYPE,  generateMessageInfo(LUConstants.RATE_TYPE), new KSLabel(),path);
+            addField(groupSection,  FeeInfoFixedRateFeeConstants.AMOUNT,  generateMessageInfo(LUConstants.FEE_AMOUNT_LABEL_KEY), new KSLabel(),path);
+            addField(groupSection, FeeInfoFixedRateFeeConstants.FEE_TYPE, generateMessageInfo(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
             return groupSection;
        	
         }
@@ -395,8 +396,8 @@ CreditCourseLearningResultsConstants
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, PERCENTAGE, getLabel(LUConstants.PERCENTAGE), new KSLabel(), path);
-            addField(groupSection, ORG_ID,  getLabel(LUConstants.ORGANIZATION),new KSLabel(), path );
+            addField(groupSection, PERCENTAGE, generateMessageInfo(LUConstants.PERCENTAGE), new KSLabel(), path);
+            addField(groupSection, ORG_ID,  generateMessageInfo(LUConstants.ORGANIZATION),new KSLabel(), path );
             return groupSection;
         }
     }
@@ -413,8 +414,8 @@ CreditCourseLearningResultsConstants
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, PERCENTAGE, getLabel(LUConstants.PERCENTAGE), new KSLabel(), path);
-            addField(groupSection, ORG_ID,  getLabel(LUConstants.ORGANIZATION),new KSLabel(), path );
+            addField(groupSection, PERCENTAGE, generateMessageInfo(LUConstants.PERCENTAGE), new KSLabel(), path);
+            addField(groupSection, ORG_ID,  generateMessageInfo(LUConstants.ORGANIZATION),new KSLabel(), path );
 
             return groupSection;
         }
@@ -431,7 +432,6 @@ CreditCourseLearningResultsConstants
         VerticalSection section;
     	if(title!=null){
         	section = new VerticalSection(title);
-        	section.getSectionTitle().addStyleName("ks-heading-page-section");
         }else{
         	section = new VerticalSection();
         }
@@ -445,7 +445,12 @@ CreditCourseLearningResultsConstants
     	return getLabel(LUConstants.CURRENT_VIEW_LABEL_KEY);
     }
 
-    private String getLabel(String labelKey) {
+
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo(groupName, type, state, labelKey);
+    }
+    
+    protected String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
 
@@ -469,26 +474,30 @@ CreditCourseLearningResultsConstants
         return SectionTitle.generateH5Title(getLabel(labelKey));
     }
 
-    private void addField(Section section, String fieldKey, String fieldLabel) {
-        addField(section, fieldKey, fieldLabel, null, null);
+    // TODO - when DOL is pushed farther down into LOBuilder,
+    // revert these 5 methods to returning void again.
+    protected FieldDescriptor addField(Section section, String fieldKey) {
+    	return addField(section, fieldKey, null, null, null);
+    }    
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+    	return addField(section, fieldKey, messageKey, null, null);
     }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
-        addField(section, fieldKey, fieldLabel, widget, null);
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+    	return addField(section, fieldKey, messageKey, widget, null);
     }
-    private void addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
-        addField(section, fieldKey, fieldLabel, null, parentPath);
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+        return addField(section, fieldKey, messageKey, null, parentPath);
     }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata meta = modelDefinition.getMetadata(path);
-        
-        String modelPath = getFieldPath(path.toString());
+    	Metadata meta = modelDefinition.getMetadata(path);
 
-        FieldDescriptor fd = new FieldDescriptor(modelPath, fieldLabel, meta);
-        if (widget != null) {
-            fd.setFieldWidget(widget);
-        }
-        section.addField(fd);
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+    	if (widget != null) {
+    		fd.setFieldWidget(widget);
+    	}
+    	section.addField(fd);
+    	return fd;
     }
     
     /**

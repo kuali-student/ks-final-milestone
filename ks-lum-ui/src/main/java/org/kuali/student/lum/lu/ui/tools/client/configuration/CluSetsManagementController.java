@@ -465,7 +465,9 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                     }
                     View currentView = getCurrentView(); 
                     if (currentView instanceof VerticalSectionView){
-                        ((VerticalSectionView) currentView).redraw();
+                    	
+                    	//FIXME do something else here rework logic, this might not actually be needed here
+                        //((VerticalSectionView) currentView).redraw();
                     }
                     if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");

@@ -54,7 +54,7 @@ public class CourseRequisitesSummaryView extends SectionView {
 
     public CourseRequisitesSummaryView(Enum<?> viewEnum, String name) {
         super(viewEnum, name);
-        super.initWidget(mainPanel);
+        super.add(mainPanel);
     }
     
     @Override
@@ -130,7 +130,8 @@ public class CourseRequisitesSummaryView extends SectionView {
         mainPanel.clear();
     }
 
-    @Override
+    //FIXME re look at this, dont do model request here
+    //@Override
     public void redraw() {
         if (getTheController() != null) {
             getTheController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
@@ -163,25 +164,5 @@ public class CourseRequisitesSummaryView extends SectionView {
     public void updateModel() {
         Window.alert("CourseRequisitesSummary.updateModel");
     }
-    
-    @Override
-    protected void addFieldToLayout(FieldDescriptor f) {
-        // TODO Auto-generated method stub  
-    }
-
-    @Override
-    protected void addSectionToLayout(BaseSection s) {
-        // TODO Auto-generated method stub      
-    }
-
-    @Override
-    protected void addWidgetToLayout(Widget w) {
-        // TODO Auto-generated method stub      
-    }
-    
-	@Override
-	protected void removeSectionFromLayout(BaseSection section) {
-	
-	}
     
 }

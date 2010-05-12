@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBi
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -46,41 +47,28 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CluSetContentEditorSection extends BaseSection {
+public class CluSetContentEditorSection extends VerticalSection {
 
-    private VerticalPanel layout = new VerticalPanel();
     private CluSetEditOptionList cluSetEditOptions;
 //    private AddCluLightBox addApprovedCourseLightBox;
     private String modelId;
 
 
     public CluSetContentEditorSection(String modelId) {
+    	super();
         init(modelId);
     }
 
     public CluSetContentEditorSection(SectionTitle title, String modelId) {
-        this.sectionTitle = title;
-        this.instructions.setVisible(false);
-        layout.add(this.instructions);
-        layout.add(this.message);
+        super(title);
         init(modelId);
     }
 
-    public CluSetContentEditorSection(SectionTitle title, String instructions, String modelId){
-        this.sectionTitle = title;
-        this.setInstructions(instructions);
-        layout.add(this.instructions);
-        layout.add(this.message);
-        init(modelId);
-    }
 
     private void init(String modelId) {
         this.modelId = modelId;
-        layout.add(this.sectionTitle);
-        this.initWidget(layout);
-        layout.setStyleName("ks-form-module");
-        sectionTitle.addStyleName("ks-heading-page-section");
         cluSetEditOptions = new CluSetEditOptionList();
+        layout.add(cluSetEditOptions);
         cluSetEditOptions.addSelectionChangeHandler(new SelectionChangeHandler() {
             @Override
             public void onSelectionChange(SelectionChangeEvent event) {
@@ -119,7 +107,7 @@ public class CluSetContentEditorSection extends BaseSection {
                                                 binding.setWidgetValue(
                                                         f.getFieldWidget(), dataModel, path);
                                                 cluSetEditOptions.deSelectItem(ToolsConstants.CLU_SET_CLUS_FIELD);
-                                                redraw();
+                                                updateWidgetData(dataModel);
                                             }
                                         });
                                         warningDialog.show();
@@ -135,38 +123,11 @@ public class CluSetContentEditorSection extends BaseSection {
                                 }
                             }
                         }
-                        redraw();
+                        updateWidgetData(dataModel);
                     }
                 });
             }
         });
-    }
-
-    @Override
-    protected void addFieldToLayout(FieldDescriptor fieldDescriptor) {
-        FieldElement field = new FieldElement(fieldDescriptor);
-        FlowPanel fieldContainer = new FlowPanel();
-        FlowPanel fieldLayout = new FlowPanel();
-        fieldContainer.add(field);
-        ValidationMessagePanel validationPanel = new ValidationMessagePanel();
-        fieldLayout.add(fieldContainer);
-        fieldLayout.add(validationPanel);
-        FieldInfo info = new FieldInfo(fieldDescriptor.getFieldLabel(), validationPanel, field, fieldLayout);
-        pathFieldInfoMap.put(fieldDescriptor.getFieldKey(), info);
-        layout.add(fieldLayout);
-        fieldLayout.setStyleName("ks-form-module-group");
-        fieldLayout.addStyleName("clearfix");
-        fieldContainer.setStyleName("ks-form-module-fields");
-    }
-
-    @Override
-    protected void removeSectionFromLayout(BaseSection section) {
-        layout.remove(section);
-    }
-
-    @Override
-    protected void addSectionToLayout(BaseSection section) {
-        layout.add(section);
     }
 
     private void getModel(final Callback<DataModel> callback) {
@@ -189,23 +150,11 @@ public class CluSetContentEditorSection extends BaseSection {
     }
 
     @Override
-    public void redraw() {
-        getModel(new Callback<DataModel>() {
-            @Override
-            public void exec(final DataModel dataModel) {
-                updateView(dataModel);
-//                cluSetEditOptions.clear();
-                layout.clear();
-                layout.add(sectionTitle);
-                layout.add(instructions);
-                layout.add(message);
-                for(Section ns: sections){
-                    ns.redraw();
-                    addSectionToLayout((BaseSection)ns);
-                }
-                layout.add(cluSetEditOptions);
-
+    public void updateWidgetData(DataModel dataModel) {
+           	super.updateWidgetData(dataModel);
+                
                 for(final FieldDescriptor f: fields){
+                	layout.removeLayoutElement(f.getFieldElement());
                     // TODO distinguish between Approved CLUs and Proposed CLUs
                     // TODO implement course ranges
                     if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
@@ -229,12 +178,12 @@ public class CluSetContentEditorSection extends BaseSection {
                         if (isFieldBeingEdited(f, dataModel)) {
                             // if the field being edited is add courses
                             if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
-                                addFieldToLayout(f);
+                                layout.addField(f.getFieldElement());
                             }
                             if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
                                 Hyperlink addLink = new Hyperlink("Add CLU Set", "addCluSet");
-                                addFieldToLayout(f);
-                                layout.add(addLink);
+                                layout.addField(f.getFieldElement());
+                                layout.addWidget(addLink);
                             }
                         }
                     } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD) ||
@@ -249,15 +198,12 @@ public class CluSetContentEditorSection extends BaseSection {
                             }
                         }
                         if (isFieldBeingEdited(cluSetRangeField, dataModel)) {
-                            addFieldToLayout(f);
+                        	layout.addField(f.getFieldElement());
                         }
                     } else {
-                        addFieldToLayout(f);
+                    	layout.addField(f.getFieldElement());
                     }
                 }
-                //Fire validation request here?
-            }
-        });
 
     }
     
@@ -295,16 +241,6 @@ public class CluSetContentEditorSection extends BaseSection {
             }
         }
         return result;
-    }
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
-    protected void addWidgetToLayout(Widget w) {
-        layout.add(w);
     }
 
     public class CluSetEditOptionList extends KSCheckBoxList{

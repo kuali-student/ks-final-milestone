@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableL
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -32,6 +33,11 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
 
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogBySchoolOrCollegeConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogConstants;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
 
 public class CatalogBrowserConfigurer
  implements BrowseCourseCatalogBySchoolOrCollegeConstants,
@@ -86,32 +92,32 @@ public class CatalogBrowserConfigurer
 
  private SectionView createBrowseBySubjectAreaSection ()
  {
-  CatalogBrowserNestedSectionView nestedSectionView =
-      new CatalogBrowserNestedSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
+  VerticalSectionView nestedSectionView =
+      new VerticalSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
                           getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA),
                           CATALOG_BROWSER_MODEL);
-  nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
+  //nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
 //  VerticalSection verticalSection =
 //   initSection (getH3Title (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_INFO), WITH_DIVIDER);
 //  nestedSectionView.addSection (verticalSection);
   String fieldKey = BY_SUBJECT_AREA + "/" + COURSE_ID;
-  addField (nestedSectionView, fieldKey, "", configureKSBrowser (fieldKey));
+  addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));
   return nestedSectionView;
  }
 
  private SectionView createBrowseBySchoolSection ()
  {
-  CatalogBrowserNestedSectionView nestedSectionView =
-   new CatalogBrowserNestedSectionView (Sections.BROWSE_BY_SCHOOL,
+  VerticalSectionView nestedSectionView =
+   new VerticalSectionView (Sections.BROWSE_BY_SCHOOL,
                           getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL),
                           CATALOG_BROWSER_MODEL);
-  nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
+  //nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
 //  nestedSectionView.setSectionTitle (getH1Title (labelKey));
 //  VerticalSection verticalSection =
 //   initSection (getH3Title (CatalogBrowserConstants.BROWSE_BY_SCHOOL_INFO), WITH_DIVIDER);
 //  nestedSectionView.addSection (verticalSection);
   String fieldKey = BY_SCHOOL_OR_COLLEGE + "/" + COURSE_ID;
-  addField (nestedSectionView, fieldKey, "", configureKSBrowser (fieldKey));
+  addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));
   return nestedSectionView;
  }
 
@@ -129,7 +135,7 @@ public class CatalogBrowserConfigurer
   VerticalSection section = new VerticalSection ();
   if (title != null)
   {
-   section.setSectionTitle (title);
+   section.getLayout().setLayoutTitle (title);
   }
   section.addStyleName (LUConstants.STYLE_SECTION);
   if (withDivider)
@@ -173,43 +179,28 @@ public class CatalogBrowserConfigurer
 
  // TODO - when DOL is pushed farther down into LOBuilder,
  // revert these 5 methods to returning void again.
- private FieldDescriptor addField (Section section, String fieldKey)
- {
-  return addField (section, fieldKey, null, null, null);
+ protected FieldDescriptor addField(Section section, String fieldKey) {
+ 	return addField(section, fieldKey, null, null, null);
+ }    
+ protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+ 	return addField(section, fieldKey, messageKey, null, null);
  }
-
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel)
- {
-  return addField (section, fieldKey, fieldLabel, null, null);
+ protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+ 	return addField(section, fieldKey, messageKey, widget, null);
  }
-
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel, Widget widget)
- {
-  return addField (section, fieldKey, fieldLabel, widget, null);
+ protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+     return addField(section, fieldKey, messageKey, null, parentPath);
  }
+ protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+     QueryPath path = QueryPath.concat(parentPath, fieldKey);
+ 	Metadata meta = modelDefinition.getMetadata(path);
 
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel, String parentPath)
- {
-  return addField (section, fieldKey, fieldLabel, null, parentPath);
- }
-
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel, Widget widget,
-                                   String parentPath)
- {
-  QueryPath path = QueryPath.concat (parentPath, fieldKey);
-  Metadata meta = modelDefinition.getMetadata (path);
-
-  FieldDescriptor fd = new FieldDescriptor (path.toString (), fieldLabel, meta);
-  if (widget != null)
-  {
-   fd.setFieldWidget (widget);
-  }
-  section.addField (fd);
-  return fd;
+ 	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+ 	if (widget != null) {
+ 		fd.setFieldWidget(widget);
+ 	}
+ 	section.addField(fd);
+ 	return fd;
  }
 
 }

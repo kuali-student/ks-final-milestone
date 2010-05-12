@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
@@ -538,8 +539,10 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 	// FIXME needs to check validation results and display messages if validation failed
     				cluProposalModel.setRoot(result.getValue());
     	            View currentView = getCurrentView(); 
-    				if (currentView instanceof VerticalSectionView){
-    	            	((VerticalSectionView) currentView).redraw();
+    				if (currentView instanceof SectionView){
+    					//TODO double check that this does not break things
+    	            	//((VerticalSectionView) currentView).redraw();
+    					((SectionView)currentView).updateView(cluProposalModel);
     	            }
     				if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");

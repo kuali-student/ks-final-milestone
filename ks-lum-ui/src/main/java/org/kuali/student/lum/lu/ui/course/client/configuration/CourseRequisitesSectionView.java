@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
@@ -49,8 +50,10 @@ public class CourseRequisitesSectionView extends SectionView {
 
 	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, String modelId) {	    
 		super(viewEnum, name);
-	    super.initWidget(panel);
-        this.modelId = modelId;	    
+		layout = new VerticalFieldLayout();
+		layout.add(panel);
+        this.add(layout);
+        this.modelId = modelId;	
 	}
 	
     @Override
@@ -82,7 +85,7 @@ public class CourseRequisitesSectionView extends SectionView {
             @Override
             public void onModelReady(DataModel m) {
                 model = m;
-                redraw();
+                CourseRequisitesSectionView.this.updateWidgetData(m);
                 onReadyCallback.exec(true);
             }
             
@@ -90,12 +93,7 @@ public class CourseRequisitesSectionView extends SectionView {
 	}
 	
 	public void clear(){
-	}
-
-    @Override	
-	public void redraw(){
-		//super.updateView(model.get());
-	}			
+	}		
 
 	@Override
 	public void updateModel() {
@@ -110,23 +108,4 @@ public class CourseRequisitesSectionView extends SectionView {
 		return ErrorLevel.OK;
 	}
 
-	@Override
-	protected void addFieldToLayout(FieldDescriptor f) {
-		// TODO Auto-generated method stub	
-	}
-
-	@Override
-	protected void addSectionToLayout(BaseSection s) {
-		// TODO Auto-generated method stub		
-	}
-
-	@Override
-	protected void addWidgetToLayout(Widget w) {
-		// TODO Auto-generated method stub		
-	}
-	
-	@Override
-	protected void removeSectionFromLayout(BaseSection section) {
-		
-	}
 }

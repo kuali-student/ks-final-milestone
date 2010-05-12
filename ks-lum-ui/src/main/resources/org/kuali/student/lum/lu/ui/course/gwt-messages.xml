@@ -49,6 +49,9 @@
 	<bean parent="enCourse" p:id="cluCourseInformation" p:value="Course Information" />
 	<bean parent="enCourse" p:id="cluProposalTitle" p:value="Proposal Title" />
 	<bean parent="enCourse" p:id="cluProposalRationale" p:value="Proposal Rationale" />
+	<bean parent="enCourse" p:id="cluProposalRationale-help" p:value="The proposal rationale describes the reason for proposing a new course.  For example, what holes does the new proposed course 
+	curriculum fill or what new or expanded topics will the proposed course cover?  Why is this proposed course necessary?" />
+	<bean parent="enCourse" p:id="cluProposalRationale-instruct" p:value="Enter the reason for proposing this course" />
 	<bean parent="enCourse" p:id="cluProposalTitleSection" p:value="Proposal Title and Rationale" />
 	<bean parent="enCourse" p:id="cluTitleLiteral" p:value="Title" />
 	<bean parent="enCourse" p:id="cluCredit" p:value="Credit" />
