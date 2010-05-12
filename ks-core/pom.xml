@@ -388,7 +388,7 @@
                         <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                         <buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>
                         <hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
-                        <extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
+                        <extraJvmArgs>-Xss32m -Xmx1024m</extraJvmArgs>
                     </configuration>
                 </plugin>
 
