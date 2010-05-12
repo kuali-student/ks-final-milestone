@@ -87,15 +87,13 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 	@Override
 	public boolean validateObject(String objectTypeKey, String stateKey,
 			String info) {
-		// TODO ddean - THIS METHOD NEEDS JAVADOCS
-		return false;
+		throw new UnsupportedOperationException("validateObject");
 	}
 
 	@Override
 	public boolean validateStructureData(String objectTypeKey, String stateKey,
 			String info) {
-		// TODO ddean - THIS METHOD NEEDS JAVADOCS
-		return false;
+		throw new UnsupportedOperationException("validateStructureData");
 	}
 
 	public String[] getDictionaryContext() {
