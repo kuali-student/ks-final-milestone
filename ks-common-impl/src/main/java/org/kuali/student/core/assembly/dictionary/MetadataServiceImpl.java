@@ -421,6 +421,12 @@ public class MetadataServiceImpl {
        return constraints;
     }
     
+    /**
+     * Convert Object value to respective DataType. Method return null for object Value.
+     * @param dataType
+     * @param value
+     * @return
+     */
     protected Value convertDefaultValue(DataType dataType, Object value){
         Value v = null;
         if (value instanceof String){

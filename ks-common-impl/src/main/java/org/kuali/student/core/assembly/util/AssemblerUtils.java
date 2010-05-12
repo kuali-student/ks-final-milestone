@@ -231,8 +231,6 @@ public class AssemblerUtils {
 	     if(frame.size() == 1) {
 	         return metadata.getProperties().get(frame.get(0).get());
 	     } else {
-	         Map<String, Metadata> children = metadata.getProperties();
-	         
 	         if (metadata.getDataType() == DataType.LIST){
 	        	 return get(metadata, frame, DataType.LIST);
 	         }
