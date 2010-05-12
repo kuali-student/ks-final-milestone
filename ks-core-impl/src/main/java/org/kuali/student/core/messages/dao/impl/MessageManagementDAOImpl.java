@@ -84,7 +84,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getMessageGroups() {
-		List<String> groups = new ArrayList<String>();
+		List<String> groups;
     	try{
 	        Query query = entityManager.createQuery("SELECT distinct m.groupName FROM MessageEntity m");
 	        groups = (List<String>) query.getResultList();

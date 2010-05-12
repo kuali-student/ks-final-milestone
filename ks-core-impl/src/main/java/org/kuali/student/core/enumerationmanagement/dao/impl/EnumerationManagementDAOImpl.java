@@ -44,7 +44,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 	}
 
 	public List<EnumerationMetaEntity> findEnumerationMetas() {
-    	List<EnumerationMetaEntity> metas = new ArrayList<EnumerationMetaEntity>();
+    	List<EnumerationMetaEntity> metas;
     	try{
 	        Query query = em.createQuery("SELECT e FROM EnumerationMetaEntity e");
 	        @SuppressWarnings("unchecked")	        
