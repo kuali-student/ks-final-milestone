@@ -70,7 +70,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
     
 	@SuppressWarnings("unchecked")
 	public List<String> getLocales() {
-		List<String> locales = new ArrayList<String>();
+		List<String> locales;
     	try{
 	        Query query = entityManager.createQuery("SELECT distinct m.locale FROM MessageEntity m");
 	        locales = (List<String>) query.getResultList();
@@ -125,7 +125,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<MessageEntity> getMessages(String locale, String groupKey) {
-		List<MessageEntity> list = new ArrayList<MessageEntity>();
+		List<MessageEntity> list;
 		try{
 			Query query = entityManager.createQuery(
 		            "select m from MessageEntity m " +

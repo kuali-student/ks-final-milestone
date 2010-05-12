@@ -197,7 +197,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
     
 	public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey) {
 		
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		List<EnumeratedValueEntity> list ;
 		try{
 			Query query = em.createQuery(
 		            "select e from EnumeratedValueEntity e " +
@@ -216,7 +216,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 	}
 	public List<EnumeratedValueEntity> fetchEnumerationWithDate(String enumerationKey, Date contextDate) {
 		
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		List<EnumeratedValueEntity> list;
 		try{
 			Query query = em.createQuery(
 		            "select e from EnumeratedValueEntity e " +
@@ -237,7 +237,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 	}
 	public List<EnumeratedValueEntity> fetchEnumerationWithContext(String enumerationKey, String enumContextKey, String contextValue) {
 		
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		List<EnumeratedValueEntity> list;
 		try{
 			Query query = em.createQuery(
 		            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
@@ -262,7 +262,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 	public List<EnumeratedValueEntity> fetchEnumerationWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue,
 			Date contextDate) {
     	
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		List<EnumeratedValueEntity> list;
     	
 		try{
 	        Query query = em.createQuery(
