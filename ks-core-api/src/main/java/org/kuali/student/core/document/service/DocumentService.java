@@ -41,7 +41,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Document+Service+v1.0-rc1">DocumentService</>
  *
  */
-@WebService(name = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/document") // TODO CHECK THESE VALUES
+@WebService(name = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/document") 
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DocumentService { 
     /** 
