@@ -209,6 +209,13 @@ public abstract class AbstractTransactionalDaoTest {
 			LOG.error(e);
 			jtaTxManager.rollback(txStatus);
 		}
+		finally{
+			try {
+				in.close();
+			} catch (IOException e) {
+				LOG.error("IO Stream closed " + e);
+			}
+		}
 	}
 	
 	/**
