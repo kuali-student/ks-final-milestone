@@ -216,7 +216,7 @@
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
-		<url-pattern>/remoting/*</url-pattern>
+		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
