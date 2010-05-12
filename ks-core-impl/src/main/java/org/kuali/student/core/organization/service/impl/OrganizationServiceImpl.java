@@ -71,7 +71,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
 
 	private OrganizationDao organizationDao;
-    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private DictionaryService dictionaryServiceDelegate;
     private SearchManager searchManager;
     private Validator validator;
 
@@ -215,8 +215,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 		try {
 			org = OrganizationAssembler.toOrg(false, orgInfo, organizationDao);
 		} catch (DoesNotExistException e) {
-			//TODO DoesNotExistException exception should be thrown by the service?
+			// OrgAssembler should not be throwing this exception for create!
+			logger.info(e.getMessage(), e);
+			throw new OperationFailedException(e.getMessage(), e);
 		} catch (VersionMismatchException e) {
+			// OrgAssembler should not be throwing this exception for create!
+			logger.info(e.getMessage(), e);
+			throw new OperationFailedException(e.getMessage(), e);			
 		}
 
 		//Persist the org
@@ -253,7 +258,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public List<String> getAllDescendants(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Exception Handling
+
 		checkForMissingParameter(orgId, "orgId");
 		checkForMissingParameter(orgId, "orgHierarchy");
 
@@ -296,7 +301,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<OrgHierarchyInfo> getOrgHierarchies()
 			throws OperationFailedException {
-		//TODO flush out exceptions
 		return OrganizationAssembler.toOrgHierarchyInfos(organizationDao.find(OrgHierarchy.class));
 
 	}
@@ -735,7 +739,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			OrgInfo orgInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
+
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgInfo, "orgInfo");
 
