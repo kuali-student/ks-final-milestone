@@ -49,7 +49,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Proposal+Service">ProposalService</>
  *
  */
-@WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal") // TODO CHECK THESE VALUES
+@WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal") 
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 @XmlSeeAlso({org.kuali.student.core.dto.ReferenceTypeInfo.class})
 public interface ProposalService extends DictionaryService, SearchService{
