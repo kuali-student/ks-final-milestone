@@ -196,7 +196,27 @@ public class Metadata implements Serializable {
     }
 
     public void setConstraints(List<ConstraintMetadata> constraints) {
-        this.constraints = constraints;
+    	this.constraints = constraints;
+    }
+
+    /**
+     * This is used to set all non-server side constraints for the metadata.
+     * 
+     * @param constraints
+     */
+    public void setNonServerConstraints(List<ConstraintMetadata> constraints) {
+    	if (constraints != null){
+    		List<ConstraintMetadata> metadataConstraints = new ArrayList<ConstraintMetadata>();
+    		for (ConstraintMetadata constraint:constraints){
+    			if (!"single".equals(constraint.getId()) && 
+    				!"repeating".equals(constraint.getId()) &&
+    				!"optional".equals(constraint.getId()) &&
+    				!constraint.getServerSide()){
+    				metadataConstraints.add(constraint);
+    			}
+    		}
+            this.constraints = metadataConstraints;
+    	}
     }
 
     public Data.DataType getDataType() {

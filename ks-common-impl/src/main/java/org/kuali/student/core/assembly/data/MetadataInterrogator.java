@@ -193,29 +193,30 @@ public class MetadataInterrogator {
 			return false;
 		}
 		Integer smallestMaxOccurs = getSmallestMaxOccurs(meta);
-		// not specified so unbounded
-		if (smallestMaxOccurs == null) {
-			return true;
-		}
-		if (smallestMaxOccurs > 1) {
+		if (smallestMaxOccurs != null) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * checks if this field is a repeating field
+	 * Returns the smallest max occurs
 	 * 
-	 * @return true if the smallest maxOccurs is > 1
+	 * @return If maxOccurs defined in constraints, returns the smallest of all maxOccurs. 
+	 * If repeating constraint not defined and maxOccurs is null, returns -1 to signal unbounded repeating field. 
+	 * Returns null to signal that this is a non-repeating field.
 	 */
 	public static Integer getSmallestMaxOccurs(Metadata meta) {
 		if (meta == null) {
 			return null;
 		}
 		Integer smallestMaxOccurs = null;
-		// TODO: worry aboutg special validators
-		// TODO: worry about how this applies to non-strings?
+		boolean isRepeating = false;
+
 		for (ConstraintMetadata cons : meta.getConstraints()) {
+			if ("repeating".equals(cons.getId())){
+				isRepeating = true;
+			}
 			if (cons.getMaxOccurs() != null) {
 				if (smallestMaxOccurs == null) {
 					smallestMaxOccurs = cons.getMaxOccurs();
@@ -224,6 +225,11 @@ public class MetadataInterrogator {
 				}
 			}
 		}
+		
+		if (isRepeating && smallestMaxOccurs == null){
+			smallestMaxOccurs = -1;
+		}
+		
 		return smallestMaxOccurs;
 	}
 
