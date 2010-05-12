@@ -74,7 +74,7 @@ public class SearchPanel extends Composite{
     private String criteriaInstructions = getMessage("searchPanelEnterFields");
     private KSLabel enteredCriteriaHeading = new KSLabel(getMessage("searchPanelCriteria"));
     private boolean multiSelect = false;
-    
+
     private List<Callback<LookupMetadata>> lookupChangedCallbacks = new ArrayList<Callback<LookupMetadata>>();
     private SearchParametersWidget activeSearchParametersWidget = null;
     // uses "name" of the lookup metadata to lookup the widget that layouts the search UI
@@ -83,7 +83,7 @@ public class SearchPanel extends Composite{
     interface SearchParametersWidget {
         public SearchRequest getSearchRequest();
     }
-    
+
     public static enum Style {
         PRIMARY("KS-Search-Panel"),
         ADVANCED_SEARCH("KS-Advanced-Search-Panel"),
@@ -199,7 +199,7 @@ public class SearchPanel extends Composite{
 
         return panel;
     }
-    
+
     public SearchRequest getSearchRequest() {
         if (activeSearchParametersWidget != null) {
             return activeSearchParametersWidget.getSearchRequest();
@@ -338,14 +338,10 @@ public class SearchPanel extends Composite{
             }
 
             sr.setParams(params);
-            //TODO remove this
-            for(SearchParam p: params){
-                GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
-            }
             sr.setSearchKey(meta.getSearchTypeId());
             return sr;
         }
-        
+
     }
 
     private interface HasSearchParam{
@@ -549,14 +545,10 @@ public class SearchPanel extends Composite{
             if (meta.getResultSortKey() != null) {
                 sr.setSortColumn(meta.getResultSortKey());
             }
-            //TODO remove this
-            for(SearchParam p: params){
-                GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
-            }
             sr.setSearchKey(meta.getSearchTypeId());
             return sr;
         }
-        
+
     }
 
     private static class SearchField extends Composite implements HasSearchParam{
@@ -745,7 +737,7 @@ public class SearchPanel extends Composite{
     private String getMessage(final String msgKey) {
         return Application.getApplicationContext().getMessage(msgKey);
     }
-    
+
     public void addLookupChangedCallback(Callback<LookupMetadata> callback) {
         lookupChangedCallbacks.add(callback);
     }
