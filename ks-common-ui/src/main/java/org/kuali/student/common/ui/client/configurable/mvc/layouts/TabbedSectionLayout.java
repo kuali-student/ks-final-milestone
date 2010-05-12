@@ -85,7 +85,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		private final HorizontalPanel sectionButtonPanel = new HorizontalPanel();
 		private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
 		private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
-		private Map<String, KSListPanel> sectionMap = new HashMap<String, KSListPanel>();
 		private boolean menuAdded = false;
 		private Enum<?> tabDefaultView = null;
 		
@@ -150,6 +149,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 		public void addMenuItem(String[] hierarchy, final SectionView section) {
 			String path = "";
+			StringBuilder pathBuffer= new StringBuilder();
+			pathBuffer.append(path);
 			KSMenuItemData current = null;
 			for (int i=1; i<hierarchy.length; i++) {
 						    // For configurable section layout the hierarchy element obtained from XML file might contain
@@ -157,7 +158,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			    if(hierarchy[i]==null){
 			        return;
 			    }
-				path = path + "/" + hierarchy[i];
+//				path = path + "/" + hierarchy[i];
+				pathBuffer.append("/");
+				pathBuffer.append(hierarchy[i]);
 				KSMenuItemData item = menuHierarchyMap.get(path);
 				if (item == null) {
 					item = new KSMenuItemData(hierarchy[i]);
@@ -168,7 +171,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 						current.addSubItem(item);
 						current = item;
 					}
-					menuHierarchyMap.put(path, item);
+					menuHierarchyMap.put(pathBuffer.toString(), item);
 				} else {
 					current = item;
 				}
@@ -545,15 +548,19 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			//Check for validation errors on all sections
 			container.clearMessages();
 			String errorSections = "";
+			StringBuilder errorSectionsbuffer = new StringBuilder();
+			errorSectionsbuffer.append(errorSections);
 			for (Entry<String, View> entry:sectionViewMap.entrySet()) {
 				View v = entry.getValue();
 				if (v instanceof Section){
 					if (!isValid(validationResults, (Section)v)){
 						isValid = false;
-						errorSections += ((SectionView)v).getName() + ", ";
+						errorSectionsbuffer.append(((SectionView)v).getName() + ", ");
+//						errorSections += ((SectionView)v).getName() + ", ";
 					}
 				}
 			}
+			errorSections = errorSectionsbuffer.toString();
 			if (!errorSections.isEmpty()){
 				errorSections = errorSections.substring(0, errorSections.length()-2);
 				container.addMessage("Following section(s) has errors & must be corrected: " + errorSections);
