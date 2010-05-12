@@ -19,7 +19,7 @@
   -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>6-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -62,50 +62,17 @@
         <enabled>true</enabled>
       </releases>
     </repository>
-    <repository>
-      <id>kuali.central.googlecode</id>
-      <name>Main Kuali Repository</name>
-      <url>http://kuali.googlecode.com/svn/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>kuali.snapshots</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://kuali.googlecode.com/svn/snapshot</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
       <id>kuali.central</id>
       <name>Main Kuali Repository</name>
-      <url>http://kuali.googlecode.com/svn/repository</url>
+      <url>https://test.kuali.org/maven</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
       <releases>
         <enabled>true</enabled>
-      </releases>
-    </pluginRepository>
-    <pluginRepository>
-      <id>kuali.snapshots</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://kuali.googlecode.com/svn/snapshot</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
       </releases>
     </pluginRepository>
   </pluginRepositories>
@@ -114,12 +81,12 @@
     <repository>
       <id>kuali.central</id>
       <name>Internal Release Repository</name>
-      <url>svn:https://kuali.googlecode.com/svn/repository</url>
+      <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
       <name>Internal Snapshot Repository</name>
-      <url>svn:https://kuali.googlecode.com/svn/snapshots</url>
+      <url>scp://test.kuali.org:/opt/m2/repository</url>
     </snapshotRepository>
   </distributionManagement>
   <scm>
