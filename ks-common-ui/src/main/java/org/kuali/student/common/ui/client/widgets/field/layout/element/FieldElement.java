@@ -276,11 +276,11 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	public void setTopMargin(TopMargin margin) {
 		switch(margin){
 			case TRIPLE:
-				if((fieldTitle != null && !fieldTitle.equals("")) && 
+				if((fieldTitle != null && !fieldTitle.getTitle().equals("")) && 
 						(descriptionText != null && !descriptionText.equals(""))){
 					layout.addStyleName("ks-form-module-single-line-margin");
 				}
-				else if((fieldTitle != null && !fieldTitle.equals("")) || 
+				else if((fieldTitle != null && !fieldTitle.getTitle().equals("")) || 
 						(descriptionText != null && !descriptionText.equals(""))){
 					layout.addStyleName("ks-form-module-double-line-margin");
 				}

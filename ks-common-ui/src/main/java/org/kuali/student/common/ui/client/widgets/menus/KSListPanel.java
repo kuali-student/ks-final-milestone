@@ -64,7 +64,6 @@ public class KSListPanel extends ComplexPanel {
 	@Override
 	public boolean remove(final int index) {
 		final Widget w = super.getWidget(index);
-		final Element e = w.getElement();
 		final boolean result = super.remove(index);
 
 		return result;

@@ -75,13 +75,13 @@ public abstract class FieldLayout extends Composite implements FieldLayoutCompon
 	public String addLayout(FieldLayout layout){
 		String key = null;
 		if(layout != null){
-			if(key == null){
+//			if(key == null){
 				key = getNextId();
 				layout.setKey(key);
-			}
-			else{
-				key = layout.getKey();
-			}
+//			}
+//			else{
+//				key = layout.getKey();
+//			}
 			layoutMap.put(key, layout);
 			drawOrder.put(key, layout);
 			addLayoutToLayout(layout);

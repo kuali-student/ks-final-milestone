@@ -39,8 +39,8 @@ public class KSActionItemList extends Composite{
 		private ClickHandler handler;
 
 		//TODO actually LINK widget
-		private KSLabel link = new KSLabel(text);
-		private KSLabel desc = new KSLabel(shortDesc);
+		private KSLabel link;
+		private KSLabel desc;
 		private HorizontalPanel layout = new HorizontalPanel();
 
 		public ActionItem(String text, String shortDesc,
@@ -51,6 +51,8 @@ public class KSActionItemList extends Composite{
 			this.text = text;
 			this.shortDesc = shortDesc;
 			this.handler = handler;
+			link = new KSLabel(text);
+			desc =  new KSLabel(shortDesc);
 		}
 
 		public String getText() {
