@@ -69,7 +69,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	private String referenceType;
 	private String referenceState;
 
-	private final int POLL_INTERVAL = 2000;
+	private static final int POLL_INTERVAL = 2000;
 	
 	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
 	private VerticalFlowPanel layout = new VerticalFlowPanel();

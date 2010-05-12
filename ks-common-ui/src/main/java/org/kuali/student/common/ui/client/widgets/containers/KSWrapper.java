@@ -58,12 +58,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSWrapper extends Composite{
 
-    private final String LUM_APP_URL		= "lum.application.url";
-    private final String APP_URL			= "application.url";
-    private final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
-    private final String RICE_URL           = "ks.rice.url";
-    private final String RICE_LINK_LABEL	= "ks.rice.label";
-    private final String APP_VERSION		= "ks.application.version";
+    private static final String LUM_APP_URL		= "lum.application.url";
+    private static final String APP_URL			= "application.url";
+    private static final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
+    private static final String RICE_URL           = "ks.rice.url";
+    private static final String RICE_LINK_LABEL	= "ks.rice.label";
+    private static final String APP_VERSION		= "ks.application.version";
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
