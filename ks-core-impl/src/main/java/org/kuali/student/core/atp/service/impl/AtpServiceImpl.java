@@ -496,8 +496,7 @@ public class AtpServiceImpl implements AtpService {
 			AtpInfo atpInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("validateAtp");
 	}
 
 	@Override
@@ -505,8 +504,7 @@ public class AtpServiceImpl implements AtpService {
 			DateRangeInfo dateRangeInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("validateDateRange");
 	}
 
 	@Override
@@ -514,8 +512,7 @@ public class AtpServiceImpl implements AtpService {
 			MilestoneInfo milestoneInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("validateMilestone");
 	}
 
 	/**
@@ -611,7 +608,6 @@ public class AtpServiceImpl implements AtpService {
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException  {
-		// TODO Auto-generated method stub
 	    return searchManager.search(searchRequest, atpDao);
 	}
 
