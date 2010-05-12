@@ -372,7 +372,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
                 return null;
             } else {
 //                DataSaveResult dsr = new DataSaveResult(s.getValidationResults(), s.getValue());
-                Data sampdata = new Data();
+                Data sampdata;
                 sampdata = s.getValue();
                 List<ValidationResultInfo> vsr =  new ArrayList<ValidationResultInfo>();
                 DataSaveResult dsr = new DataSaveResult(vsr,sampdata);
@@ -541,31 +541,26 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     @Override
     protected String deriveAppIdFromData(Data data) {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     protected String deriveDocContentFromData(Data data) {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     protected String getDefaultMetaDataState() {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     protected String getDefaultMetaDataType() {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     protected String getDefaultWorkflowDocumentType() {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
