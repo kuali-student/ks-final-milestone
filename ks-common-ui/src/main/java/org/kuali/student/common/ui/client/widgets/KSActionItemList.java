@@ -45,14 +45,15 @@ public class KSActionItemList extends Composite{
 
 		public ActionItem(String text, String shortDesc,
 				ClickHandler handler) {
-
+			
+			link = new KSLabel(text);
+			desc =  new KSLabel(shortDesc);
 			link.addStyleName("KS-ActionItemList-Link");
 			desc.addStyleName("KS-ActionItemList-Desc");
 			this.text = text;
 			this.shortDesc = shortDesc;
 			this.handler = handler;
-			link = new KSLabel(text);
-			desc =  new KSLabel(shortDesc);
+
 		}
 
 		public String getText() {
