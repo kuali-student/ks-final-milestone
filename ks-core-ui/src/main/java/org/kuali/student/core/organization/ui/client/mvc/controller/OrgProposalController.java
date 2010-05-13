@@ -19,9 +19,7 @@ package org.kuali.student.core.organization.ui.client.mvc.controller;
 import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
 
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -47,12 +45,12 @@ import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -60,7 +58,6 @@ import org.kuali.student.core.assembly.data.Data.StringValue;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer;
-
 import org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.SectionsEnum;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -79,12 +76,9 @@ public class OrgProposalController extends TabbedSectionLayout{
     private final DataModel orgProposalModel = new DataModel();
     private WorkQueue modelRequestQueue;
     private static KSTitleContainerImpl container = new KSTitleContainerImpl(getLabel("orgTitleOrg"), getLabel("orgCrud"),"");
-    private KSTabPanel tabPanel = new KSTabPanel();
     private boolean initialized = false;
-    private boolean modified = false;
     private CommonConfigurer commonConfigurer = new CommonConfigurer();
-    final KSLightBox progressWindow = new KSLightBox();
-    boolean flag = false;
+    private boolean isMetadataRefreshed = false;
     
     public static final String ORG_INFO_PATH		= "orgInfo";
     public static final String POSITION_PATH		= "OrgPositionRestrictionInfo";
@@ -96,12 +90,12 @@ public class OrgProposalController extends TabbedSectionLayout{
     public static final String QUALIFICATION_ORG_ID	= "orgId";
     public static final String ORG_PROPOSAL_MODEL	= "orgProposalModel";
     
+    private BlockingTask initializingTask = new BlockingTask(getLabel("orgLoading"));
+    
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
+
     public OrgProposalController(){
-
         super(OrgProposalController.class.getName(), container);
-
-//        super.initWidget(container);
         initialize();
     }
 
@@ -111,29 +105,22 @@ public class OrgProposalController extends TabbedSectionLayout{
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-                if (modelRequestQueue == null){
-                    modelRequestQueue = new WorkQueue();
-                }
+	  	        if (modelRequestQueue == null){
+	  	            modelRequestQueue = new WorkQueue();
+	  	        }
+  	            WorkItem workItem = new WorkItem(){
+  	                @Override
+  	                public void exec(Callback<Boolean> workCompleteCallback) {
+  	                    if (orgProposalModel.getRoot() == null || orgProposalModel.getRoot().size() == 0){
+  	                        createNewOrgModel(callback, workCompleteCallback);
 
-                WorkItem workItem = new WorkItem(){
-                    @Override
-                    public void exec(Callback<Boolean> workCompleteCallback) {
-//                        if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
-//                            if(docId!=null){
-//                                getCluProposalFromWorkflowId(callback, workCompleteCallback);
-//                            } else if (proposalId != null){
-//                                getCluProposalFromProposalId(callback, workCompleteCallback);
-//                            } else{
-//                                createNewCluProposalModel(callback, workCompleteCallback);
-//                            }
-//                        } else {
-//                            callback.onModelReady(cluProposalModel);
-//                            workCompleteCallback.exec(true);
-//                        }
-                    }
-                };
-                modelRequestQueue.submit(workItem);
-
+  	                    } else {
+  	                        callback.onModelReady(orgProposalModel);
+  	                        workCompleteCallback.exec(true);
+  	                    }
+  	                }
+  	            };
+  	            modelRequestQueue.submit(workItem);
             }
 
         });
@@ -213,49 +200,25 @@ public class OrgProposalController extends TabbedSectionLayout{
                 });
     }
 
-
-
     private void init(final Callback<Boolean> onReadyCallback){
-        KSProgressIndicator progressInd = new KSProgressIndicator();
-        progressInd.setText(getLabel("orgLoading"));
-        progressInd.show();
-        progressWindow.removeCloseLink();
-        progressWindow.setWidget(progressInd);
-
-
+        
         if (initialized) {
             onReadyCallback.exec(true);
-        }
-        else {
-            String idType = null;
+        } else {
+    		KSBlockingProgressIndicator.addTask(initializingTask);
+        	
             String viewContextId = null;
-            progressWindow.show();
-
             if(getViewContext().getIdType() != null){
-                idType = getViewContext().getIdType().toString();
                 viewContextId = getViewContext().getId();
-                if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
-                    viewContextId = null;
-                }
-
-//              switch (getViewContext().getIdType()) {
-//                    case KS_KEW_OBJECT_ID :
-//                        idType = getViewContext().getIdType().toString();
-//                        viewContextId = getViewContext().getId();
-//                        break;
-//                    case DOCUMENT_ID :
-//                        idType = getViewContext().getIdType().toString();
-//                        viewContextId = getViewContext().getId();
-//                        break;
-//                }
             }
+            
             orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, viewContextId,
                     new AsyncCallback<Metadata>(){
 
                         @Override
                         public void onFailure(Throwable caught) {
                             GWT.log("Failure",null);
-                            progressWindow.hide();
+                            KSBlockingProgressIndicator.removeTask(initializingTask);
                             throw new RuntimeException("Failed to get model definition.", caught);
                         }
 
@@ -267,20 +230,15 @@ public class OrgProposalController extends TabbedSectionLayout{
                             orgProposalModel.setDefinition(def);
                             commonConfigurer.setModelDefinition(def);
                             setSectionConfig(onReadyCallback);
-                            progressWindow.hide();
-
+                            KSBlockingProgressIndicator.removeTask(initializingTask);
+                            isMetadataRefreshed = true;
                         }
                 });
 
         }
-
-
-
     }
 
     private void setSectionConfig(final Callback<Boolean> onReadyCallback){
-
-
         orgProposalRpcServiceAsync.getSectionConfig(
                 new AsyncCallback<SectionConfigInfo>(){
 
@@ -296,50 +254,41 @@ public class OrgProposalController extends TabbedSectionLayout{
                         commonConfigurer.setSectionConfigInfo(result);
                         init();
                         onReadyCallback.exec(true);
-                        progressWindow.hide();
-
                     }
             });
     }
 
     private void init(){
 
-        if(!flag){
+        if(isMetadataRefreshed){
             commonConfigurer.configureOrgProposal(this);
-            flag= true;
+            isMetadataRefreshed = false;
         }
 
         if(!initialized){
-        addButton(ORG_TAB_NAME, getSaveButton());
-        addButton(POSITION_TAB_NAME, getSaveButton());
-        addButton(SEARCH_TAB_NAME, getModifyButton());
-
-        addApplicationEventHandler(ModifyActionEvent.TYPE, new ModifyActionHandler(){
-            @Override
-            public void onModify(ModifyActionEvent modifyEvent) {
-                GWT.log("OrgController received save action request.", null);
-                doModifyAction(modifyEvent);
-
-            }
-        });
-        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
-            public void doSave(SaveActionEvent saveAction) {
-                GWT.log("OrgController received save action request.", null);
-                doSaveAction(saveAction);
-            }
-        });
-        setButtonPermission();
+	        addButton(ORG_TAB_NAME, getSaveButton());
+	        addButton(POSITION_TAB_NAME, getSaveButton());
+	        addButton(SEARCH_TAB_NAME, getModifyButton());
+	
+	        addApplicationEventHandler(ModifyActionEvent.TYPE, new ModifyActionHandler(){
+	            @Override
+	            public void onModify(ModifyActionEvent modifyEvent) {
+	                GWT.log("OrgController received save action request.", null);
+	                doModifyAction(modifyEvent);
+	
+	            }
+	        });
+	        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
+	            public void doSave(SaveActionEvent saveAction) {
+	                GWT.log("OrgController received save action request.", null);
+	                doSaveAction(saveAction);
+	            }
+	        });
+	        setButtonPermission();
         }
         initialized = true;
     }
 
-//    private void init(DataModelDefinition modelDefinition,SectionConfigInfo sectionConfigInfo) {
-//        CommonConfigurer commonConfigurer = new CommonConfigurer();
-//        commonConfigurer.setModelDefinition(modelDefinition);
-//        System.out.println("Success");
-//        commonConfigurer.setSectionConfigInfo(sectionConfigInfo);
-//        commonConfigurer.configureOrgProposal(this);
-//    }
 
 	@Override
 	public Class<? extends Enum<?>> getViewsEnum() {
@@ -347,291 +296,224 @@ public class OrgProposalController extends TabbedSectionLayout{
 	}
 
 
-	  @SuppressWarnings("unchecked")
-	    @Override
-	    public void requestModel(String modelId, final ModelRequestCallback modelRequestCallback) {
-	      String id = (modelId == null) ? super.getDefaultModelId() : modelId;
-	        if (modelRequestQueue == null){
-	            modelRequestQueue = new WorkQueue();
-	        }
-	        if (id.equals(ORG_PROPOSAL_MODEL)){
-	            WorkItem workItem = new WorkItem(){
-	                @Override
-	                public void exec(Callback<Boolean> workCompleteCallback) {
-	                    if (orgProposalModel.getRoot() == null || orgProposalModel.getRoot().size() == 0){
-	                        createNewOrgModel(modelRequestCallback, workCompleteCallback);
+	@SuppressWarnings("unchecked")
+	private void createNewOrgModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+	    orgProposalModel.setRoot(new Data());
+	    callback.onModelReady(orgProposalModel);
+	    workCompleteCallback.exec(true);
+	
+	
+	}
 
-	                    } else {
-	                        modelRequestCallback.onModelReady(orgProposalModel);
-	                        workCompleteCallback.exec(true);
-	                    }
-	                }
-	            };
-	            modelRequestQueue.submit(workItem);
-	        } else{
-	            super.requestModel(id, modelRequestCallback);
-	        }
-	    }
+    public void doSaveAction(final SaveActionEvent saveActionEvent){
+        GWT.log("Reached save action",null);
 
-
-	  @SuppressWarnings("unchecked")
-	    private void createNewOrgModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-	        orgProposalModel.setRoot(new Data());
-	        callback.onModelReady(orgProposalModel);
-	        workCompleteCallback.exec(true);
-
-
-	    }
-
-	    public void doSaveAction(final SaveActionEvent saveActionEvent){
-	        GWT.log("Reached save action",null);
-
-	        View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
-	        tempView2.updateModel();
-            getCurrentView().updateModel();
+        View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+        tempView2.updateModel();
+        getCurrentView().updateModel();
 
 
 
-            requestModel(new ModelRequestCallback<DataModel>() {
-                @Override
-                public void onModelReady(DataModel model) {
-                    model.validate(new Callback<List<ValidationResultInfo>>() {
+        requestModel(new ModelRequestCallback<DataModel>() {
+            @Override
+            public void onModelReady(DataModel model) {
+                model.validate(new Callback<List<ValidationResultInfo>>() {
 
-                        @Override
-                        public void exec(List<ValidationResultInfo> result) {
-                            boolean save = true;
-                                View v = getCurrentView();
-                                if(v instanceof Section){
-                                    ((Section) v).setFieldHasHadFocusFlags(true);
-                                    ErrorLevel status = ((Section) v).processValidationResults(result);
-                                    if(status == ErrorLevel.ERROR){
-                                        save = false;
-                                    }
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                        boolean save = true;
+                            View v = getCurrentView();
+                            if(v instanceof Section){
+                                ((Section) v).setFieldHasHadFocusFlags(true);
+                                ErrorLevel status = ((Section) v).processValidationResults(result);
+                                if(status == ErrorLevel.ERROR){
+                                    save = false;
                                 }
+                            }
 
-                                if(save){
-                                	GWT.log(" model updated ", null);
-                                    saveProposalOrg(saveActionEvent);
-                                    GWT.log("Reached summit 1 ", null);
-                                }
-                        }
+                            if(save){
+                            	GWT.log(" model updated ", null);
+                                saveProposalOrg(saveActionEvent);
+                                GWT.log("Reached summit 1 ", null);
+                            }
+                    }
 
-                    });
-                }
+                });
+            }
 
-                @Override
-                public void onRequestFail(Throwable cause) {
-                    GWT.log("Unable to retrieve model for validation and save", cause);
+            @Override
+            public void onRequestFail(Throwable cause) {
+                GWT.log("Unable to retrieve model for validation and save", cause);
 
-                }
+            }
+        });
+    }
+
+    private void setButtonPermission(){
+        HorizontalPanel buttonPanel = getButtonPanel(ORG_TAB_NAME);
+        QueryPath orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
+        QueryPath orgOrgPath = QueryPath.concat(null, ORGORG_PATH);
+        QueryPath orgPosPath = QueryPath.concat(null, POSITION_PATH);
+        QueryPath orgPersonPath = QueryPath.concat(null, PERSON_PATH);
+        Metadata orgInfometa = orgProposalModel.getMetadata(orgInfoPath);
+        Metadata orgOrgmeta = orgProposalModel.getMetadata(orgOrgPath);
+        Metadata orgPosmeta = orgProposalModel.getMetadata(orgPosPath);
+        Metadata orgPersonmeta = orgProposalModel.getMetadata(orgPersonPath);
+
+        if(orgInfometa.isCanEdit()||orgOrgmeta.isCanEdit()||orgPosmeta.isCanEdit()){
+            buttonPanel.setVisible(true);
+        }
+        else{
+            buttonPanel.setVisible(false);
+        }
+        buttonPanel = getButtonPanel(POSITION_TAB_NAME);
+        orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
+        if(!orgPersonmeta.isCanEdit()){
+            buttonPanel.setVisible(false);
+        }
+        else{
+            buttonPanel.setVisible(true);
+        }
+    }
+
+   public void doModifyAction(final ModifyActionEvent modifyActionEvent){
+        GWT.log("Reached modify action", null);
+
+        orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, modifyActionEvent.getId(),
+                new AsyncCallback<Metadata>(){
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        GWT.log("Failure",null);
+                        throw new RuntimeException("Failed to get model definition.", caught);
+                    }
+
+                    @Override
+                    public void onSuccess(Metadata result) {
+
+                        DataModelDefinition def = new DataModelDefinition(result);
+                        GWT.log("Loaded OrgMetaData",null);
+                        orgProposalModel.setDefinition(def);
+                        commonConfigurer.setModelDefinition(def);
+                        isMetadataRefreshed = true;
+                        init();
+                        GWT.log(" model updated ",null);
+                        fetchProposalOrg(modifyActionEvent);
+                        GWT.log("Reached summit 1 ",null);
+
+                    }
             });
 
 
+    }
+       
+   public void fetchProposalOrg(final ModifyActionEvent modifyActionEvent) {
 
+       orgProposalRpcServiceAsync.fetchOrg(modifyActionEvent.getId(), new AsyncCallback<Data>() {
+           public void onFailure(Throwable caught) {
+               GWT.log("Fetch Failed.", caught);
+           }
 
+           public void onSuccess(Data result) {
+               orgProposalModel.setRoot(result);
+               commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+               commonConfigurer.positionTable.fetchPosition();
+               commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+               getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
+               final View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+               setButtonPermission();
 
+               if (orgView instanceof VerticalSectionView) {
+                   ((VerticalSectionView) orgView).beforeShow(new Callback<Boolean>(){
 
+                    @Override
+                    public void exec(Boolean result) {
+                        renderView(orgView);
+                    }
 
-//            this.updateModel();
-//	        String proposalName = cluProposalModel.get().get(CLU_PROPOSAL_NAME_KEY);
-//	        currentSaveEvent = saveActionEvent;
-//	        if (proposalName == null){
-//	            showStartSection();
-//	        } else {
-//	            getStartSection().updateModel();
-//
-//	            getCurrentView().updateModel();
-//
-//	            this.updateModel();
-//
-//	            saveProposalClu(saveActionEvent);
-//	            processingSave=true;
-//	            View v = getCurrentView();
-//	          if(v instanceof SectionView){
-//	              ((SectionView) v).setFieldHasHadFocusFlags(true);
-//	              this.validate((SectionView)v);
-//	          }
-//	        }
-	    }
+                   });
 
-	    private void setButtonPermission(){
-	        HorizontalPanel buttonPanel = getButtonPanel(ORG_TAB_NAME);
-	        QueryPath orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
-	        QueryPath orgOrgPath = QueryPath.concat(null, ORGORG_PATH);
-	        QueryPath orgPosPath = QueryPath.concat(null, POSITION_PATH);
-	        QueryPath orgPersonPath = QueryPath.concat(null, PERSON_PATH);
-	        Metadata orgInfometa = orgProposalModel.getMetadata(orgInfoPath);
-	        Metadata orgOrgmeta = orgProposalModel.getMetadata(orgOrgPath);
-	        Metadata orgPosmeta = orgProposalModel.getMetadata(orgPosPath);
-	        Metadata orgPersonmeta = orgProposalModel.getMetadata(orgPersonPath);
+               }
 
-	        if(orgInfometa.isCanEdit()||orgOrgmeta.isCanEdit()||orgPosmeta.isCanEdit()){
-	            buttonPanel.setVisible(true);
-	        }
-	        else{
-	            buttonPanel.setVisible(false);
-	        }
-	        buttonPanel = getButtonPanel(POSITION_TAB_NAME);
-	        orgInfoPath = QueryPath.concat(null, ORG_INFO_PATH);
-	        if(!orgPersonmeta.isCanEdit()){
-                buttonPanel.setVisible(false);
-            }
-	        else{
-	            buttonPanel.setVisible(true);
-	        }
-	    }
+           }
+       });
+   }
+       
+    public void saveProposalOrg(final SaveActionEvent saveActionEvent){
+        final KSLightBox saveWindow = new KSLightBox();
+        saveWindow.removeCloseLink();
+        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
+        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
 
-	       public void doModifyAction(final ModifyActionEvent modifyActionEvent){
-	            GWT.log("Reached modify action", null);
+                @Override
+                public void exec(OkEnum result) {
+                    saveWindow.hide();
+                    saveActionEvent.doActionComplete();
+                }
+            });
 
+        buttonGroup.setWidth("250px");
+        buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
+        buttonGroup.setContent(saveMessage);
 
-	            View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+        if (saveActionEvent.isAcknowledgeRequired()){
+            saveWindow.setWidget(buttonGroup);
+        } else {
+            saveWindow.setWidget(saveMessage);
+        }
+        saveWindow.show();
 
-	            //getCurrentView().updateModel();
-	            orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, modifyActionEvent.getId(),
-	                    new AsyncCallback<Metadata>(){
+        orgProposalRpcServiceAsync.saveOrgProposal(orgProposalModel.getRoot(),  new AsyncCallback<DataSaveResult>(){
+            public void onFailure(Throwable caught) {
+                GWT.log("Save Failed.", caught);
+                saveWindow.setWidget(buttonGroup);
+                saveMessage.setText(getLabel("orgSaveFailed"));
+                buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+             }
 
-	                        @Override
-	                        public void onFailure(Throwable caught) {
-	                            GWT.log("Failure",null);
-	                            progressWindow.hide();
-	                            throw new RuntimeException("Failed to get model definition.", caught);
-	                        }
+             public void onSuccess(DataSaveResult result) {
+                 // FIXME needs to check validation results and display messages if validation failed
+            	 // This was reviewd as part of KSCOR-220, deferred to KSCOR-225, can't be fixed until server side validation completed
+                 orgProposalModel.setRoot(result.getValue());
 
-	                        @Override
-	                        public void onSuccess(Metadata result) {
-
-	                            DataModelDefinition def = new DataModelDefinition(result);
-	                            GWT.log("Loaded OrgMetaData",null);
-	                            orgProposalModel.setDefinition(def);
-	                            commonConfigurer.setModelDefinition(def);
-	                            flag=false;
-	                            init();
-	                            GWT.log(" model updated ",null);
-	                            fetchProposalOrg(modifyActionEvent);
-	                            GWT.log("Reached summit 1 ",null);
-
-	                        }
-	                });
-
-
-	        }
-	       public void fetchProposalOrg(final ModifyActionEvent modifyActionEvent) {
-
-	           orgProposalRpcServiceAsync.fetchOrg(modifyActionEvent.getId(), new AsyncCallback<Data>() {
-	               public void onFailure(Throwable caught) {
-	                   GWT.log("Fetch Failed.", caught);
-	                   // saveWindow.setWidget(buttonGroup);
-	                   // saveMessage.setText("Save Failed!  Please Try Again.");
-	                   // buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-	               }
-
-	               public void onSuccess(Data result) {
-	                   // FIXME needs to check validation results and display messages if validation failed
-	                   orgProposalModel.setRoot(result);
-	                   commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
-	                   commonConfigurer.positionTable.fetchPosition();
-	                   commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
-	                   getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
-	                   View currentView = getCurrentView();
-	                   final View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
-	                   setButtonPermission();
-
-	                   if (orgView instanceof VerticalSectionView) {
-	                       ((VerticalSectionView) orgView).beforeShow(new Callback<Boolean>(){
-
-                            @Override
-                            public void exec(Boolean result) {
-                                // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-//                                ((VerticalSectionView) orgView).redraw();
-                                renderView(orgView);
-                                modified = true;
-                            }
-
-	                       });
-
-	                   }
-
-	               }
-	           });
-	       }
-	    public void saveProposalOrg(final SaveActionEvent saveActionEvent){
-	        final KSLightBox saveWindow = new KSLightBox();
-	        saveWindow.removeCloseLink();
-	        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
-	        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
-
-	                @Override
-	                public void exec(OkEnum result) {
-	                    saveWindow.hide();
-	                    saveActionEvent.doActionComplete();
-	                }
-	            });
-
-	        buttonGroup.setWidth("250px");
-	        buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
-	        buttonGroup.setContent(saveMessage);
-
-	        if (saveActionEvent.isAcknowledgeRequired()){
-	            saveWindow.setWidget(buttonGroup);
-	        } else {
-	            saveWindow.setWidget(saveMessage);
-	        }
-	        saveWindow.show();
-
-	        orgProposalRpcServiceAsync.saveOrgProposal(orgProposalModel.getRoot(),  new AsyncCallback<DataSaveResult>(){
-                public void onFailure(Throwable caught) {
-                    GWT.log("Save Failed.", caught);
-                    saveWindow.setWidget(buttonGroup);
-                    saveMessage.setText(getLabel("orgSaveFailed"));
-                    buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-                 }
-
-                 public void onSuccess(DataSaveResult result) {
-                     // FIXME needs to check validation results and display messages if validation failed
-                     orgProposalModel.setRoot(result.getValue());
-
-                     View currentView = getCurrentView();
-                     commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+                 View currentView = getCurrentView();
+                 commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+                 commonConfigurer.positionTable.fetchPosition();
+                 commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+                 getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
+                 if(currentView.getName().equals(getLabel("orgPositionRelationSection"))){
                      commonConfigurer.positionTable.fetchPosition();
-                     commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
-                     getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
-                     if(currentView.getName().equals(getLabel("orgPositionRelationSection"))){
-                         commonConfigurer.positionTable.fetchPosition();
-                     }
-                     if (currentView instanceof VerticalSectionView){
-                    	 //TODO check removing ok
-                         //((VerticalSectionView) currentView).redraw();
-                     }
-                     if (saveActionEvent.isAcknowledgeRequired()){
-                         saveMessage.setText(getLabel("orgSaveOk"));
-                         buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-
-                     } else {
-                         saveWindow.hide();
-                         saveActionEvent.doActionComplete();
-                     }
-
-                    GWT.log("OrgSaved",null);
                  }
-                 });
-	    }
-	    @Override
-	    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
-	        init(new Callback<Boolean>() {
+                 if (saveActionEvent.isAcknowledgeRequired()){
+                     saveMessage.setText(getLabel("orgSaveOk"));
+                     buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
 
-	            @Override
-	            public void exec(Boolean result) {
-	                if (result) {
-	                    doShowDefaultView(onReadyCallback);
-	                } else {
-	                    onReadyCallback.exec(false);
-	                }
-	            }
-	        });
-	    }
+                 } else {
+                     saveWindow.hide();
+                     saveActionEvent.doActionComplete();
+                 }
 
-	    private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
-	        super.showDefaultView(onReadyCallback);
-	    }
+                GWT.log("OrgSaved",null);
+             }
+             });
+    }
+
+    @Override
+    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+        init(new Callback<Boolean>() {
+
+            @Override
+            public void exec(Boolean result) {
+                if (result) {
+                    doShowDefaultView(onReadyCallback);
+                } else {
+                    onReadyCallback.exec(false);
+                }
+            }
+        });
+    }
+
+    private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
+        super.showDefaultView(onReadyCallback);
+    }
 }
