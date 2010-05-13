@@ -251,12 +251,12 @@
     
     <bean id="reportBuilder"
         class="org.kuali.student.brms.ruleexecution.runtime.report.ast.RuleReportBuilderImpl">
-        <constructor-arg ref="simpleExecutor" />
+        <!--constructor-arg ref="simpleExecutor" /-->
     </bean>
     
-    <bean id="simpleExecutor"
+    <!--bean id="simpleExecutor"
         class="org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
-    </bean>
+    </bean-->
     
     <bean id="droolsRuleExecutorTest"
         class="org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">

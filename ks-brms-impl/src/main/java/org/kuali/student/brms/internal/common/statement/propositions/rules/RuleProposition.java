@@ -17,11 +17,14 @@ package org.kuali.student.brms.internal.common.statement.propositions.rules;
 
 import java.util.Collection;
 
-import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
+//import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
+import org.kuali.student.common.messagebuilder.booleanmessage.BooleanMessage;
 import org.kuali.student.brms.internal.common.statement.exceptions.IllegalPropositionStateException;
 import org.kuali.student.brms.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
 
+//public interface RuleProposition extends BooleanMessage {
+//New boolean message in ks-common-util
 public interface RuleProposition extends BooleanMessage {
 	/**
 	 * Evaluates the proposition to a truth value

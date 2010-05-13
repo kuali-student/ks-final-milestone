@@ -20,12 +20,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.brms.internal.common.runtime.ast.BooleanFunctionResult;
+//import org.kuali.student.brms.internal.common.runtime.ast.BooleanFunctionResult;
+import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanFunctionResult;
+import org.kuali.student.common.messagebuilder.impl.AbstractMessageBuilder;
+import org.kuali.student.common.messagebuilder.impl.BooleanOperators;
 import org.kuali.student.brms.internal.common.statement.PropositionContainer;
 import org.kuali.student.brms.internal.common.statement.propositions.rules.RuleProposition;
 import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
 import org.kuali.student.brms.internal.common.statement.report.RuleReport;
-import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
+//import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
 
@@ -34,12 +37,20 @@ import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.Messag
  * propositions. The report is built using the boolean expression 
  * (functional rule) found in the <code>PropositionContainer</code>.
  */
+//New abstract message builder in ks-common-util
 public class RuleReportBuilderImpl extends AbstractMessageBuilder implements ReportBuilder {
-    public RuleReportBuilderImpl(SimpleExecutor executor) {
-    	super(executor);
-    }
+//    public RuleReportBuilderImpl(SimpleExecutor executor) {
+//    	super(executor);
+//    }
 
-    /**
+    public RuleReportBuilderImpl() {
+	}
+
+	public RuleReportBuilderImpl(final String language, final BooleanOperators booleanOperators) {
+		super(language, booleanOperators);
+	}
+
+	/**
      * Creates proposition report from a list of propositions.
      * 
      * @param pc Contains a list of propositions

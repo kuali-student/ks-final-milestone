@@ -23,20 +23,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.internal.common.statement.PropositionContainer;
 import org.kuali.student.brms.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
 import org.kuali.student.brms.internal.common.statement.report.RuleReport;
-import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
-import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
+//import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
+//import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.brms.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.RuleReportBuilderImpl;
-import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
+//import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
+import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderException;
 
 public class RuleReportBuilderTest {
 	private String functionalRuleString;
@@ -68,23 +67,24 @@ public class RuleReportBuilderTest {
 	private PropositionReport sumReport = new PropositionReport("G", PropositionType.SUM);
 
 	private ReportBuilder ruleReportBuilder;
-    private final static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
-	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
+//    private final static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
+//	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
 
-    @BeforeClass
-    public static void setUpOnce() throws Exception {
-		executor.setEnableStatisticsLogging(true);
-    	executor.setRuleBaseCache(ruleBase);
-    }
+//    @BeforeClass
+//    public static void setUpOnce() throws Exception {
+//		executor.setEnableStatisticsLogging(true);
+//    	executor.setRuleBaseCache(ruleBase);
+//    }
     
-    @AfterClass
-    public static void tearDownOnce() throws Exception {
-    	executor = null;
-    }
+//    @AfterClass
+//    public static void tearDownOnce() throws Exception {
+//    	executor = null;
+//    }
 
 	@Before
 	public void setUp() throws Exception {
-	    this.ruleReportBuilder = new RuleReportBuilderImpl(executor);
+//	    this.ruleReportBuilder = new RuleReportBuilderImpl(executor);
+	    this.ruleReportBuilder = new RuleReportBuilderImpl();
 
 		Set<String> criteriaSet = new HashSet<String>();
 		criteriaSet.add("ENGL100");
