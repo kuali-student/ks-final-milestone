@@ -186,7 +186,8 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
             result.getRows().add(resultRow);
             
         }
-        result.setStartAt(1); // TODO fix this
+        
+        result.setStartAt(searchRequest.getStartAt());
         result.setTotalResults(result.getRows().size()); // TODO fix this
         return result;
     }
