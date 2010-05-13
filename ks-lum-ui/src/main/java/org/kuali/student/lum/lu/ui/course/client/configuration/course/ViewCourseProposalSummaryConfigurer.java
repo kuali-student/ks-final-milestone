@@ -181,7 +181,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField(getLabel(LUConstants.BRIEF_LABEL_KEY), 0);
 				summaryTable.addField(LUConstants.TITLE_LABEL_KEY, PROPOSAL + "/" + TITLE, model, 1);
 				summaryTable.addField(LUConstants.DIVISION_LABEL_KEY, COURSE + "/" + SUBJECT_AREA, model, 1);
-				summaryTable.addField(LUConstants.SUFFIX_CODE_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
+				summaryTable.addField(LUConstants.COURSE_NUMBER_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
 				summaryTable.addField(LUConstants.CREATED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, model, 1);
 				summaryTable.addField(LUConstants.LAST_CHANGED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + UPDATE_TIME, model, 1);
 
