@@ -156,14 +156,6 @@ public interface KSStyles {
     public static final String KS_BASIC_MENU_TOPLEVEL_ITEM_PANEL = "KS-Basic-Menu-Toplevel-Item-Panel";
     public static final String KS_ACCORDION_TITLEBAR_IMAGE = "KS-Accordion-Titlebar-Image";
     public static final String KS_BASIC_MENU_ITEM_IMAGE = "KS-Basic-Menu-Item-Image";
-    public static final String KS_ADVANCED_SEARCH_WINDOW = "KS-Advanced-Search-Window";
-    public static final String KS_ADVANCED_SEARCH_PARAM_LABELS = "KS-Advanced-Search-Param-Labels";
-    public static final String KS_ADVANCED_SEARCH_TAB_PANEL = "KS-Advanced-Search-Tab-Panel";
-    public static final String KS_ADVANCED_SEARCH_PANEL = "KS-Advanced-Search-Panel";
-    public static final String KS_ADVANCED_SEARCH_RESULTS_PANEL = "KS-Advanced-Search-Results-Panel";
-    public static final String KS_ADVANCED_SEARCH_PARAM_LABEL_COLUMN = "KS-Advanced-Search-Param-Label-Column";
-    public static final String KS_ADVANCED_SEARCH_PARAM_LABEL_CELLS = "KS-Advanced-Search-Param-Label-Cells";
-    public static final String KS_ADVANCED_SEARCH_RESULTS_LABEL = "KS-Advanced-Search-Results-Label";
     public static final String KS_SUGGEST_PICKER_LAYOUT_TABLE = "KS-Suggest-Picker-Layout-Table";
     public static final String KS_SUGGEST_PICKER_SUGGEST_BOX_ROW = "KS-Suggest-Picker-Suggest-Box-Row";
     public static final String KS_SUGGEST_PICKER_LIST_ROW = "KS-Suggest-Picker-List-Row";

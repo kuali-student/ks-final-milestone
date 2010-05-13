@@ -84,22 +84,6 @@ public class SearchPanel extends Composite{
         public SearchRequest getSearchRequest();
     }
 
-    public static enum Style {
-        PRIMARY("KS-Search-Panel"),
-        ADVANCED_SEARCH("KS-Advanced-Search-Panel"),
-        CUSTOMIZE_SEARCH("KS-Customize-Search-Panel");
-
-        private String style;
-
-        private Style(String style) {
-            this.style = style;
-        }
-
-        public String getStyle() {
-            return style;
-        }
-    };
-
     public SearchPanel(LookupMetadata meta){
         lookups.add(meta);
         setupSearch();
@@ -142,7 +126,7 @@ public class SearchPanel extends Composite{
         tablePanel.clear();
         layout.clear();
         layout.addStyleName("KS-Picker-Border");
-        layout.addStyleName(Style.PRIMARY.getStyle());
+        layout.addStyleName("KS-Search-Panel");
 
 
         searchSelectorPanel.setWidget(searchParamPanel);

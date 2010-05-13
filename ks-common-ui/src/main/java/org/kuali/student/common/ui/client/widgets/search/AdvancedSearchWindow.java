@@ -43,21 +43,7 @@ public class AdvancedSearchWindow {
 	private SearchPanel searchPanel;
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private SimplePanel buttons = new SimplePanel();
- 
-	public static enum Style {
-        PRIMARY("KS-Advanced-Search-Window");
 
-        private String style;
-
-        private Style(String style) {
-            this.style = style;
-        }
-
-        public String getStyle() {
-            return style;
-        }
-    };
-    
     enum ActionCancelEnum implements ButtonEnum {
         ACTION, CANCEL;
         @Override
@@ -68,7 +54,7 @@ public class AdvancedSearchWindow {
                 case CANCEL:
                     return ConfirmCancelEnum.CANCEL.getText();
             }
-            return null;  
+            return null;
         }
 
 		@Override
@@ -77,20 +63,20 @@ public class AdvancedSearchWindow {
 			return null;
 		}
     }
-    
+
     private static class ActionCancelGroup extends ButtonGroup<ActionCancelEnum> {
         public ActionCancelGroup(String actionLabel, Callback<ActionCancelEnum> callback) {
             layout = new ButtonRow();
             this.addCallback(callback);
-            
+
             addButton(ActionCancelEnum.CANCEL);
             addButtonToSecondaryGroup(actionLabel, ActionCancelEnum.ACTION);
-            
+
             this.initWidget(layout);
         }
         private void addButton(final ActionCancelEnum type){
             KSButton button = new KSButton(type.getText(), new ClickHandler(){
-                
+
                 @Override
                 public void onClick(ClickEvent event) {
                     sendCallbacks(type);
@@ -99,11 +85,11 @@ public class AdvancedSearchWindow {
             layout.addButton(button);
             buttonMap.put(type, button);
         }
-        
-        private void addButtonToSecondaryGroup(final String actionLabel, 
+
+        private void addButtonToSecondaryGroup(final String actionLabel,
                 final ActionCancelEnum type){
             KSButton button = new KSButton(actionLabel, new ClickHandler(){
-                
+
                 @Override
                 public void onClick(ClickEvent event) {
                     sendCallbacks(type);
@@ -113,15 +99,15 @@ public class AdvancedSearchWindow {
             buttonMap.put(type, button);
         }
     }
-    
+
     public List<SelectedResults> getSelectedValues() {
         return searchPanel.getSelectedValues();
     }
-    
+
     public SearchRequest getSearchRequest() {
         return searchPanel.getSearchRequest();
     }
-    
+
     private ConfirmCancelGroup confirmCancelButtons = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 
         @Override
@@ -140,14 +126,14 @@ public class AdvancedSearchWindow {
             }
         }
     });
-	
+
 	public AdvancedSearchWindow(String fieldMessageKey, SearchPanel panel){
-	    layout.addStyleName(Style.PRIMARY.getStyle());
+	    layout.addStyleName("KS-Advanced-Search-Window");
 		searchPanel = panel;
 		//TODO use messages here
 		titleBar = new KSLabel(fieldMessageKey);
 		titleBar.addStyleName("KS-Advanced-Search-Header-Label");
-		
+
 		layout.add(titleBar);
 		layout.add(panel);
 		buttons.clear();
@@ -155,7 +141,7 @@ public class AdvancedSearchWindow {
 		layout.add(buttons);
 		dialog.setWidget(layout);
 	}
-	
+
 	public void setActionButtonLabel(String actionLabel) {
 	    if (actionLabel != null) {
 	        ActionCancelGroup actionCancelGroup = new ActionCancelGroup(
@@ -184,11 +170,11 @@ public class AdvancedSearchWindow {
 	        buttons.setWidget(confirmCancelButtons);
 	    }
 	}
-	
+
 	public void addSelectionCompleteCallback(Callback<List<SelectedResults>> callback){
 		selectedCompleteCallbacks.add(callback);
 	}
-	
+
     public void addActionCompleteCallback(Callback<Boolean> callback){
         actionCompletedCallbacks.add(callback);
     }
@@ -197,8 +183,8 @@ public class AdvancedSearchWindow {
 		searchPanel.setupSearch();
 		dialog.show();
 	}
-	
-	public void hide(){	
+
+	public void hide(){
 		dialog.hide();
 	}
 }
