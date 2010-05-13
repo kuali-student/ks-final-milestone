@@ -535,6 +535,7 @@ CreditCourseLearningResultsConstants
         section.addField(fd);
     }
 
+    //FIXME: rework these next 2 methods to combine them
     private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey, Widget widget, String parentPath, ModelWidgetBinding binding) {
 
 		QueryPath path = QueryPath.concat(parentPath, fieldKey);
@@ -549,6 +550,7 @@ CreditCourseLearningResultsConstants
         if (binding != null) {
         	fd.setWidgetBinding(binding);
 	    }
+        fd.getFieldElement().setRequired(false);
 		return fd;
 	}
 
@@ -565,7 +567,10 @@ CreditCourseLearningResultsConstants
         QueryPath fieldPath = QueryPath.concat(s);
         String tablePath =  fieldPath.subPath(++i, fieldPath.size()).toString();
 
-		return new FieldDescriptor(tablePath, generateMessageInfo(labelKey), meta);
+        FieldDescriptor fd = new FieldDescriptor(tablePath, generateMessageInfo(labelKey), meta);
+        fd.getFieldElement().setRequired(false);
+
+		return fd;
 
 	}
 
