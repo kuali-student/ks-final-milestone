@@ -27,10 +27,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSGeneral.css")
 	public CssResource generalCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSAccordionMenu.css")
-	public CssResource accordionMenuCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSAccordionPanel.css")
-	public CssResource accordionPanelCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSBlockingProgressIndicator.css")
     public CssResource breadcrumbCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSBreadcrumb.css")
