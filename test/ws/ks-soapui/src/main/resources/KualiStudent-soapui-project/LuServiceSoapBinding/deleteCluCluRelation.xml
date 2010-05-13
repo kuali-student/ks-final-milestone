@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="deleteCluCluRelation" bindingOperationName="deleteCluCluRelation" type="Request-Response" outputName="deleteCluCluRelationResponse" inputName="deleteCluCluRelation" receivesAttachments="false" sendsAttachments="false" id="42d22e12-1764-4f13-896f-eb0c2156ef41" anonymous="optional" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:call name="deleteCluCluRelation"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lu:deleteCluCluRelation>
-         <cluCluRelationId>aad9c380-93af-4c71-b05d-2c58405366d1</cluCluRelationId>
-      </lu:deleteCluCluRelation>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/deleteCluCluRelation"/><con:wsrmConfig version="1.2"/></con:call></con:operation>
