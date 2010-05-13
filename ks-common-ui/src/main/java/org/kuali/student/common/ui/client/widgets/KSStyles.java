@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.widgets;
 
 /**
  * KSStyles defines constant style names used for KS widgets.
- * 
+ *
  * @author Kuali Student Team
  *
  */
@@ -40,7 +40,7 @@ public interface KSStyles {
 	public static final String KS_BUTTON_HOVER_STYLE = "KS-Button-Hover";
 	public static final String KS_BUTTON_STYLE = "KS-Button";
 	public static final String KS_BUTTON_SPECIAL_STYLE = "KS-Button-Special";
-	
+
 	public static final String KS_BREADCRUMB = "KS-Breadcrumb";
     public static final String KS_BREADCRUMB_ITEM = "KS-Breadcrumb-Item";
     public static final String KS_BREADCRUMB_ITEM_HISTORY = "KS-Breadcrumb-Item-History";
@@ -97,16 +97,16 @@ public interface KSStyles {
 	public static final String KS_MODAL_GLASS = "KS-Modal-Dialog-Glass";
 	public static final String KS_MODAL_POPUP = "KS-Modal-Popup";
 	public static final String KS_PLACEHOLDER_STYLE = "KS-Placeholder";
-	
-	
+
+
 	public static final String KS_MOUSE_NORMAL = "KS-Mouse-Normal";
 
 	public static final String KS_MOUSE_WAIT = "KS-Mouse-Wait";
-	
+
 	public static final String KS_POPOUT_IMAGE = "KS-RichText-Popout-Image";
 	public static final String KS_POPOUT_IMAGE_HOVER = "KS-RichText-Popout-Image-Hover";
 	public static final String KS_POPOUT_IMAGE_PANEL = "KS-RichText-Popout-Image-Panel";
-	
+
 	public static final String KS_POPOUT_WINDOW = "KS-RichText-Popout-Window";
 	public static final String KS_POPUP = "KS-Popup";
 	public static final String KS_POPUP_HEADER = "KS-Popup-Header";
@@ -114,14 +114,14 @@ public interface KSStyles {
 	public static final String KS_RADIO_CHECKED_STYLE = "KS-Radio-Selected";
 	public static final String KS_RADIO_FOCUS_STYLE = "KS-Radio-Focus";
 	public static final String KS_RADIO_HOVER_STYLE = "KS-Radio-Hover";
-	
+
 	public static final String KS_RADIO_STYLE = "KS-Radio";
 	public static final String KS_RICH_TEXT_LARGE = "KS-RichText-Large";
-	
+
 	public static final String KS_RICH_TEXT_NORMAL = "KS-RichText-Normal";
 	public static final String KS_RICH_TEXT_POPOUT_GLASS = "KS-RichText-Popout-Glass";
 	public static final String KS_SIDEBAR = "KS-Sidebar";
-	
+
 	public static final String KS_SIDEBAR_CONTENT_PANEL = "KS-Sidebar-Content-Panel";
 	public static final String KS_SIDEBAR_CONTENT_WRAPPER = "KS-Sidebar-Content-Wrapper";
 	public static final String KS_SIDEBAR_FLOAT_PANEL = "KS-Sidebar-Float-Panel";
@@ -142,18 +142,18 @@ public interface KSStyles {
 	public static final String KS_TEXTBOX_FOCUS_STYLE = "KS-Textbox-Focus";
 	public static final String KS_TEXTBOX_HOVER_STYLE = "KS-Textbox-Hover";
 	public static final String KS_TEXTBOX_STYLE = "KS-Textbox";
-	
+
 	public static final String KS_TOOLTIP = "KSToolTip";
     public static final String KS_TOOLTIP_CONTENT = "KSToolTipContent";
     public static final String KS_TOOLTIP_HEADER = "KSToolTipHeader";
     public static final String KS_SELECT_TABLE_PANEL = "KS-Select-Table-Panel";
-    
+
     public static final String KS_PICK_LIST_WRAPPER_PANEL = "KS-Pick-List-Wrapper-Panel";
     public static final String KS_PICK_LIST_BUTTON_PANEL = "KS-Pick-List-Button-Panel";
     public static final String KS_PICK_LIST_UNSELECTED_LABEL = "KS-Pick-List-Unselected-Label";
     public static final String KS_PICK_LIST_SELECTED_LABEL = "KS-Pick-List-Selected-Label";
     public static final String KS_PICK_LIST_TABLE_LAYOUT = "KS-Pick-List-Table-Layout";
-   
+
     public static final String KS_BASIC_MENU_PARENT_CONTAINER = "KS-Basic-Menu-Parent-Container";
     public static final String KS_BASIC_MENU_TITLE_PANEL = "KS-Basic-Menu-Title-Panel";
     public static final String KS_BASIC_MENU_PANEL = "KS-Basic-Menu-Panel";
@@ -197,7 +197,7 @@ public interface KSStyles {
     public static final String KS_RICH_TEXT_LARGE_TOOLBAR = "KS-RichText-Large-Toolbar";
     public static final String KS_RICH_TEXT_LARGE_CONTENT = "KS-RichText-Large-Content-Panel";
     public static final String KS_RICH_TEXT_NORMAL_CONTENT = "KS-RichText-Normal-Content-Panel";
-    
+
     public static final String KS_ERROR_DIALOG = "KS-Error-Dialog";
     public static final String KS_ERROR_DIALOG_TITLE = "KS-Error-Dialog-Title";
     public static final String KS_ERROR_DIALOG_LABEL = "KS-Error-Dialog-Label";
@@ -205,24 +205,8 @@ public interface KSStyles {
     public static final String KS_ERROR_DIALOG_DESCRIPTION = "KS-Error-Dialog-Description";
     public static final String KS_ERROR_DIALOG_TEXTAREA = "KS-Error-Dialog-TextArea";
     public static final String KS_ERROR_DIALOG_BUTTON = "KS-Error-Dialog-Button";
-    
-    public static final String KS_COMMENT_IMAGE_BUTTON = "KS-Comment-Image-Button";
-    public static final String KS_COMMENT_IMAGE_BUTTON_PANEL = "KS-Comment-Image-Button-Panel";
-    public static final String KS_COMMENT_NAME = "KS-Comment-Image-Name";
-    public static final String KS_COMMENT_DATE_CREATED = "KS-Comment-Date-Created";
-    public static final String KS_COMMENT_DATE_MODIFIED = "KS-Comment-Date-Modified";
-    public static final String KS_COMMENT_HEADER = "KS-Comment-Header";
-    public static final String KS_COMMENT_FOOTER = "KS-Comment-Footer";
-    public static final String KS_COMMENT_CREATE_PANEL = "KS-Comment-Create-Panel";
-    public static final String KS_COMMENT_CREATE_EDITOR = "KS-Comment-Create-Editor";
-    public static final String KS_COMMENT_CONTAINER = "KS-Comment-Container";
-    public static final String KS_COMMENT_TEXT = "KS-Comment-Text";
-    public static final String KS_COMMENT_INLINE_EDIT = "KS-Comment-Inline-Edit-Panel";
-    public static final String KS_COMMENT_INLINE_EDIT_EDITOR = "KS-Comment-Inline-Edit-Editor";
-    public static final String KS_COMMENT_LOGIN_USER = "KS-Comment-Login-User";
-	public static final String KS_COMMENT_HEADER_LEFT = "KS-Comment-Header-Left";
-	public static final String KS_COMMENT_CONTAINER_IN_USE = "KS-Comment-Container-InUse";
-	
+
+
     public static final String KS_SECTION_TITLE = "KS-Section-Title";
     public static final String KS_H1_SECTION_TITLE = "KS-H1-Section-Title";
     public static final String KS_H2_SECTION_TITLE = "KS-H2-Section-Title";
@@ -230,7 +214,7 @@ public interface KSStyles {
     public static final String KS_H4_SECTION_TITLE = "KS-H4-Section-Title";
     public static final String KS_H5_SECTION_TITLE = "KS-H5-Section-Title";
     public static final String KS_H6_SECTION_TITLE = "KS-H6-Section-Title";
-	
+
     public static final String KS_REQUIRED_MARKER_PANEL = "KS-Required-Marker-Panel";
 	public static final String KS_REQUIRED_MARKER_ASTERISK = "KS-Required-Marker-Asterisk";
 	public static final String KS_REQUIRED_MARKER_OPTIONAL_TEXT = "KS-Required-Marker-Optional-Text";

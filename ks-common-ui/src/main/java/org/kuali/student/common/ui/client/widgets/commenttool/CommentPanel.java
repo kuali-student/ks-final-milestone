@@ -35,7 +35,6 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
@@ -63,12 +62,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
 	final static ApplicationContext context = Application.getApplicationContext();
-	
+
 	private String referenceId;
 	private String referenceTypeKey;
 	private String referenceType;
 	private String referenceState;
-    
+
 	private CommentRpcServiceAsync commentServiceAsync = GWT.create(CommentRpcService.class);
 	private static final String ALL = "All";
     private VerticalFlowPanel layout = new VerticalFlowPanel();
@@ -87,12 +86,12 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Comments can be added.", true);
     private boolean showingEditButtons = true;
     private List<String> types = new ArrayList<String>();
-    
+
     private Comparator<CommentInfo> commentInfoComparator = new Comparator<CommentInfo>(){
 
 		@Override
 		public int compare(CommentInfo comment1, CommentInfo comment2) {
-			
+
 			if(comment1.getMetaInfo().getCreateTime().after(comment2.getMetaInfo().getCreateTime())){
 				return -1;
 			}
@@ -103,19 +102,19 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 				//equal
 				return 0;
 			}
-			
+
 		}
     };
-    
+
     private static DateTimeFormat formatter = DateTimeFormat.getMediumDateTimeFormat();
-    
+
     private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
         @Override
         public void exec(OkEnum result) {
             if(result == OkEnum.Ok){
                 CommentInfo newComment = new CommentInfo();
-                
+
                 RichTextInfo text = new RichTextInfo();
                 text.setFormatted(commentEditor.getHTML());
                 text.setPlain(commentEditor.getText());
@@ -147,24 +146,24 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 				}
 
             }
-            
+
         }
     });
-    
+
     public CommentPanel(Enum<?> viewEnum, String viewName) {
 		super(viewEnum, viewName);
 	}
-    
+
     @Override
     public void setReferenceId(String id) {
         this.referenceId = id;
     }
-    
+
     @Override
     public String getReferenceId() {
         return referenceId;
     }
-    
+
     @Override
 	public String getReferenceTypeKey() {
 		return referenceTypeKey;
@@ -194,8 +193,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 	public void setReferenceState(String referenceState) {
 		this.referenceState = referenceState;
 	}
-    
-      
+
+
     @Override
     protected Widget createWidget() {
     	commentTypes.setBlankFirstItem(false);
@@ -211,7 +210,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
 			@Override
 			public String getItemAttribute(String id, String attrkey) {
-				
+
 				String result = id;
 				/*String result = null;
 				if(id.equals(ALL)){
@@ -230,7 +229,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 							break;
 						}
 					}
-					
+
 					if(type != null){
 						if(attrkey.equalsIgnoreCase("desc")){
 							result = type.getDesc();
@@ -255,7 +254,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 				for(String i: types){
 					ids.add(i);
 				}
-				
+
 				return ids;
 			}
 
@@ -272,8 +271,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 				return result;
 			}
     	});
-    	
-    	
+
+
     	commentTypes.selectItem(ALL);
     	commentTypes.addSelectionChangeHandler(new SelectionChangeHandler(){
 
@@ -282,15 +281,15 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 				refreshComments();
 			}
     	});
-    	
+
         buttonPanel.setButtonText(OkEnum.Ok, "Submit");
         //FIXME: get person logged in as
         loggedInAs.setText("PersonId Here");
-        
-        loggedInAs.addStyleName(KSStyles.KS_COMMENT_LOGIN_USER);
-        createPanel.addStyleName(KSStyles.KS_COMMENT_CREATE_PANEL);
-        commentEditor.addStyleName(KSStyles.KS_COMMENT_CREATE_EDITOR);
-        
+
+        loggedInAs.addStyleName("KS-Comment-Login-User");
+        createPanel.addStyleName("KS-Comment-Create-Panel");
+        commentEditor.addStyleName("KS-Comment-Create-Editor");
+
         layout.add(headerTitle);
         layout.add(saveWarning);
         saveWarning.setVisible(false);
@@ -299,11 +298,11 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         createPanel.add(commentEditorPanel);
         createPanel.add(loggedInAs);
         createPanel.add(buttonPanel);
-        
+
         commentTypesPanel.add(seeComments);
         commentTypesPanel.add(commentTypes);
         createPanel.add(commentTypesPanel);
-        
+
         // TODO: is this needed or will the screen refresh at some point?
         isAuthorizedAddComment();
         layout.add(createPanel);
@@ -312,7 +311,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 		commentList.setVisible(false);
         //refreshCommentTypes();
 
-        
+
         return layout;
     }
 
@@ -343,7 +342,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 					//buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
 				}
             }
-        	
+
 		});
     }
 
@@ -363,7 +362,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 //				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
 //				comment.showEditActions(result);
 //            }
-//        	
+//
 //		});
     	//TODO: force no edits for R1
     	comment.showEditActions(false);
@@ -374,20 +373,20 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     public void setVisible(boolean visible) {
         super.setVisible(visible);
         isAuthorizedAddComment();
-        
+
     }
-    
+
 /*   public void refreshCommentTypes(){
-    	
-    	
-    	
+
+
+
     	try {
 			commentServiceAsync.getCommentTypesForReferenceType(referenceTypeKey,  new AsyncCallback<List<CommentTypeInfo>>(){
 
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					
+
 				}
 
 				@Override
@@ -400,8 +399,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 			e.printStackTrace();
 		}
     }*/
-    
-    
+
+
     public void refreshComments(){
         commentList.clear();
         commentList.add(loadingComments);
@@ -409,13 +408,13 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     	try {
     		if(commentTypes.getSelectedItem().equals(ALL)){
 				commentServiceAsync.getComments(referenceId, referenceTypeKey, new AsyncCallback<List<CommentInfo>>(){
-	
+
 						@Override
 						public void onFailure(Throwable caught) {
 							GWT.log("getComments failed", caught);
 							commentList.remove(loadingComments);
 						}
-		
+
 						@Override
 						public void onSuccess(List<CommentInfo> result) {
 							if(result != null){
@@ -427,14 +426,14 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 									if(!(types.contains(c.getType()))){
 										types.add(c.getType());
 									}
-									
+
 									Comment commentWidget = new Comment(c);
 									comments.add(commentWidget);
 									commentList.add(commentWidget);
 								}
 								commentTypes.redraw();
 							}
-							
+
 							commentList.remove(loadingComments);
 							//refreshCommentTypes();
 						}
@@ -443,13 +442,13 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     		else{
     			//must be showing specific comment type
 				commentServiceAsync.getCommentsByType(referenceId, referenceTypeKey, commentTypes.getSelectedItem(), new AsyncCallback<List<CommentInfo>>(){
-					
+
 					@Override
 					public void onFailure(Throwable caught) {
 						GWT.log("getCommentsByType Failed" ,caught);
 						commentList.remove(loadingComments);
 					}
-	
+
 					@Override
 					public void onSuccess(List<CommentInfo> result) {
 						if(result != null){
@@ -461,14 +460,14 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 								if(!(types.contains(c.getType()))){
 									types.add(c.getType());
 								}
-								
+
 								Comment commentWidget = new Comment(c);
 								comments.add(commentWidget);
 								commentList.add(commentWidget);
 							}
 							commentTypes.redraw();
 						}
-						
+
 						commentList.remove(loadingComments);
 						//refreshCommentTypes();
 					}
@@ -478,8 +477,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 		} catch (Exception e) {
 			GWT.log("refresh Comments Failed",e);
 		}
-        
-        
+
+
     }
 
     private void turnCommentEditingOn() {
@@ -501,7 +500,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 			// permissions don't matter as we need to hide create panel by force
     		createPanel.setVisible(false);
     		commentEditorPanel.remove(commentEditor);
-    		
+
     		for(Comment c: comments){
     			// permissions don't matter as we need to hide edit actions by force
         		c.showEditActions(false);
@@ -511,9 +510,9 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     }
 
     private KSRichEditor editor = new KSRichEditor();
-    
+
     private class Comment extends Composite{
-        
+
         private SimplePanel content = new SimplePanel();
         private VerticalFlowPanel editLayout = new VerticalFlowPanel();
         private VerticalFlowPanel viewLayout = new VerticalFlowPanel();
@@ -521,17 +520,17 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         private HorizontalBlockFlowPanel headerTextContainer = new HorizontalBlockFlowPanel();
         private HorizontalBlockFlowPanel footer = new HorizontalBlockFlowPanel();
         private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
-        
+
         KSImage edit = Theme.INSTANCE.getCommonImages().getEditCommentIcon();
         KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
-        
+
         private KSLabel name = new KSLabel();
         private HTML commentText = new HTML();
         private KSLabel datePosted = new KSLabel();
         private KSLabel dateModified = new KSLabel();
-        
+
         private CommentInfo info;
-        
+
         public Comment(CommentInfo info){
             this.info = info;
             edit.addClickHandler(new ClickHandler(){
@@ -540,18 +539,18 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
                 	editLayout.clear();
                     //editActions.setVisible(false);
                 	turnCommentEditingOff();
-                    content.addStyleName(KSStyles.KS_COMMENT_CONTAINER_IN_USE);
+                    content.addStyleName("KS-Comment-Container-InUse");
                     editor.setHTML(Comment.this.info.getCommentText().getFormatted());
-                    
+
                     ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
                         @Override
                         public void exec(ConfirmCancelEnum result) {
                             switch(result){
                                 case CONFIRM:
-                                	
+
                                     Comment.this.info.getCommentText().setFormatted(CommentPanel.this.editor.getHTML());
                                     Comment.this.info.getCommentText().setPlain(CommentPanel.this.editor.getText());
-                                    
+
                                 	try {
 										commentServiceAsync.updateComment(referenceId, referenceTypeKey, Comment.this.info, new AsyncCallback<CommentInfo>(){
 
@@ -563,37 +562,37 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 											@Override
 											public void onSuccess(CommentInfo result) {
 												Comment.this.info = result;
-												content.removeStyleName(KSStyles.KS_COMMENT_CONTAINER_IN_USE);
+												content.removeStyleName("KS-Comment-Container-InUse");
 												editor.setText("");
 												editor.removeFromParent();
 			                                    setupViewLayout();
 											}
-											
+
 										});
 									} catch (Exception e) {
 										GWT.log("updateComment failed", e);
 									}
-                                	
+
                                     break;
                                 case CANCEL:
-                                	content.removeStyleName(KSStyles.KS_COMMENT_CONTAINER_IN_USE);
+                                	content.removeStyleName("KS-Comment-Container-InUse");
                                 	editor.setText("");
                                 	editor.removeFromParent();
                                     setupViewLayout();
                                     break;
                             }
-                            
+
                         }
                     });
-                    
-                    buttonPanel.addStyleName(KSStyles.KS_COMMENT_INLINE_EDIT);
+
+                    buttonPanel.addStyleName("KS-Comment-Inline-Edit-Panel");
                     buttonPanel.setContent(editor);
                     editLayout.add(header);
                     editLayout.add(buttonPanel);
                     content.setWidget(editLayout);
                 }
             });
-            
+
             delete.addClickHandler(new ClickHandler(){
                 @Override
                 public void onClick(ClickEvent event) {
@@ -612,14 +611,14 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 								}
 								refreshComments();
 							}
-							
+
 						});
 					} catch (Exception e) {
 						GWT.log("remove Comment Failed", e);
 					}
                 }
             });
-            
+
             setupDefaultStyles();
             headerTextContainer.add(name);
             headerTextContainer.add(datePosted);
@@ -633,32 +632,32 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
             this.initWidget(content);
         }
-        
+
         private void setupDefaultStyles(){
-        	content.addStyleName(KSStyles.KS_COMMENT_CONTAINER);
-        	header.addStyleName(KSStyles.KS_COMMENT_HEADER);
-        	headerTextContainer.addStyleName(KSStyles.KS_COMMENT_HEADER_LEFT);
-        	footer.addStyleName(KSStyles.KS_COMMENT_FOOTER);
-        	edit.addStyleName(KSStyles.KS_COMMENT_IMAGE_BUTTON);
-        	delete.addStyleName(KSStyles.KS_COMMENT_IMAGE_BUTTON);
-        	editActions.addStyleName(KSStyles.KS_COMMENT_IMAGE_BUTTON_PANEL);
-        	name.addStyleName(KSStyles.KS_COMMENT_NAME);
-        	commentText.addStyleName(KSStyles.KS_COMMENT_TEXT);
-        	datePosted.addStyleName(KSStyles.KS_COMMENT_DATE_CREATED);
-        	dateModified.addStyleName(KSStyles.KS_COMMENT_DATE_MODIFIED);
-        	editor.setStyleName(KSStyles.KS_COMMENT_INLINE_EDIT_EDITOR);
+        	content.addStyleName("KS-Comment-Container");
+        	header.addStyleName("KS-Comment-Header");
+        	headerTextContainer.addStyleName("KS-Comment-Header-Left");
+        	footer.addStyleName("KS-Comment-Footer");
+        	edit.addStyleName("KS-Comment-Image-Button");
+        	delete.addStyleName("KS-Comment-Image-Button");
+        	editActions.addStyleName("KS-Comment-Image-Button-Panel");
+        	name.addStyleName("KS-Comment-Name");
+        	commentText.addStyleName("KS-Comment-Text");
+        	datePosted.addStyleName("KS-Comment-Date-Created");
+        	dateModified.addStyleName("KS-Comment-Date-Modified");
+        	editor.setStyleName("KS-Comment-Inline-Edit-Editor");
         }
-        
+
         private void setupViewLayout(){
-            
+
             viewLayout.clear();
             viewLayout.add(header);
             viewLayout.add(commentText);
-            viewLayout.add(footer);  
-            
+            viewLayout.add(footer);
+
             //FIXME: this will actually call the person service to get person info
             name.setText(info.getMetaInfo().getCreateId());
-            
+
             if(info.getCommentText() != null){
                 commentText.setHTML(info.getCommentText().getFormatted());
             }
@@ -668,19 +667,19 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
             if(info.getMetaInfo().getUpdateTime() != null && !(info.getMetaInfo().getUpdateTime().equals(info.getMetaInfo().getCreateTime()))){
                 dateModified.setText("Last Modified: " + formatter.format(info.getMetaInfo().getUpdateTime()));
             }
-            
+
             content.setWidget(viewLayout);
-            
-            
+
+
             turnCommentEditingOn();
         }
 
         public void showEditActions(boolean show){
         	editActions.setVisible(show);
         }
-        
+
     }
-    
+
     @Override
     public void collectHistory(HistoryStackFrame frame) {
         // do nothing
