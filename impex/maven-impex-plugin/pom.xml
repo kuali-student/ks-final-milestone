@@ -9,7 +9,7 @@
   <artifactId>maven-impex-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>Maven Impex Plugin</name>
-  <description>Maven plugin for the Impex Generator</description>
+  <description>Maven Impex Plugin for IMPorting and EXporting data</description>
   <dependencies>
     <dependency>
       <groupId>org.kuali.impex</groupId>
