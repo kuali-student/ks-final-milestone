@@ -26,6 +26,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
@@ -61,7 +62,7 @@ public class CourseReqManager extends Controller {
     private String cluId = null;						//course id
     private static int id = 0; 
     private ReqComponentVO componentToEdit;				//which component user chosen to edit	
-    private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();
+    private List<Metadata> fieldsWithLookup = new ArrayList<Metadata>();
    
     private String selectedLuStatementType = "";             //type of rule that user selected to work on (add or edit)
     
@@ -236,11 +237,11 @@ public class CourseReqManager extends Controller {
 		this.componentToEdit = componentToEdit;
 	}
 
-	public List<FieldDescriptor> getFieldsWithLookup() {
+	public List<Metadata> getFieldsWithLookup() {
 		return fieldsWithLookup;
 	}
 
-	public void setFieldsWithLookup(List<FieldDescriptor> fieldsWithLookup) {
+	public void setFieldsWithLookup(List<Metadata> fieldsWithLookup) {
 		this.fieldsWithLookup = fieldsWithLookup;
 	}		
 }

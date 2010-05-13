@@ -41,6 +41,7 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
@@ -103,7 +104,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private List<Object> reqCompWidgets = new ArrayList<Object>();
     private static int tempCounterID = 2000;
     private List<ReqCompPicker> valueWidgets = new ArrayList<ReqCompPicker>();    
-    private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();  //contains definition of lookups
+    private List<Metadata> fieldsWithLookup = new ArrayList<Metadata>();  //contains definition of lookups
 
     public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -830,27 +831,27 @@ public class RuleComponentEditorView extends ViewComposite {
     }
     
     private ReqCompPicker configureCourseSearch(String tag) { 
-    	for (FieldDescriptor fieldMetadata : fieldsWithLookup) {
-    		if (fieldMetadata.getMetadata().getName().equals("findCourse")) {
-    			return new ReqCompPicker(fieldMetadata.getMetadata().getInitialLookup(), fieldMetadata.getMetadata().getAdditionalLookups(), tag); 	
+    	for (Metadata fieldMetadata : fieldsWithLookup) {
+    		if (fieldMetadata.getName().equals("findCourse")) {
+    			return new ReqCompPicker(fieldMetadata.getInitialLookup(), fieldMetadata.getAdditionalLookups(), tag); 	
     		}
     	}
     	return null;	
     }
     
     private ReqCompPicker configureProgramCluSetSearch(String tag) { 
-        for (FieldDescriptor fieldMetadata : fieldsWithLookup) {
-            if (fieldMetadata.getMetadata().getName().equals("findProgram")) {
-                return new ReqCompPicker(fieldMetadata.getMetadata().getInitialLookup(), fieldMetadata.getMetadata().getAdditionalLookups(), tag);  
+        for (Metadata fieldMetadata : fieldsWithLookup) {
+            if (fieldMetadata.getName().equals("findProgram")) {
+                return new ReqCompPicker(fieldMetadata.getInitialLookup(), fieldMetadata.getAdditionalLookups(), tag);  
             }
         }
         return null;    
     }    
     
     private ReqCompPicker configureCourseCluSetSearch(String tag) { 
-        for (FieldDescriptor fieldMetadata : fieldsWithLookup) {
-            if (fieldMetadata.getMetadata().getName().equals("findCluSet")) {
-                return new ReqCompPicker(fieldMetadata.getMetadata().getInitialLookup(), fieldMetadata.getMetadata().getAdditionalLookups(), tag);   
+        for (Metadata fieldMetadata : fieldsWithLookup) {
+            if (fieldMetadata.getName().equals("findCluSet")) {
+                return new ReqCompPicker(fieldMetadata.getInitialLookup(), fieldMetadata.getAdditionalLookups(), tag);   
             }
         }
         return null;    
@@ -864,7 +865,7 @@ public class RuleComponentEditorView extends ViewComposite {
 		this.editedReqCompVO = editedReqCompVO;
 	}
 
-	public void setFieldsWithLookup(List<FieldDescriptor> fieldsWithLookup) {
+	public void setFieldsWithLookup(List<Metadata> fieldsWithLookup) {
 		this.fieldsWithLookup = fieldsWithLookup;
 	}
 }

@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
@@ -46,14 +47,16 @@ public class CourseRequisitesSectionView extends SectionView {
 	private boolean loaded = false;
 	CourseReqManager childController;	//controls the display of all rules related pages
     private DataModel model;
-    private String modelId;    
+    private String modelId;
+    private List<Metadata> searchLookupData;
 
-	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, String modelId) {	    
+	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, String modelId, List<Metadata> searchLookupData ) {	    
 		super(viewEnum, name);
 		layout = new VerticalFieldLayout();
 		layout.add(panel);
         this.add(layout);
         this.modelId = modelId;	
+        this.searchLookupData = searchLookupData;
 	}
 	
     @Override
@@ -62,7 +65,7 @@ public class CourseRequisitesSectionView extends SectionView {
 		if (loaded == false) {
 			childController = new CourseReqManager(panel);
 			childController.setParentController(getController());
-			childController.setFieldsWithLookup(getFields());
+			childController.setFieldsWithLookup(searchLookupData);
 		}
 				
         if (childController.getCurrentView() == null){

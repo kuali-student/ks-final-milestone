@@ -29,7 +29,9 @@
 	 */
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 	
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
@@ -229,12 +231,16 @@ import com.google.gwt.user.client.ui.Widget;
 	     * @return
 	     */
 	    protected SectionView generateCourseRequisitesSection() {
-	        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CLU_PROPOSAL_MODEL);
+	        
+	        List<Metadata> searchMetadata = new ArrayList<Metadata>();	        
+	        
+            searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCourse")));
+            searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCluSet")));
+            searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findProgram")));            
+            
+	        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CLU_PROPOSAL_MODEL, searchMetadata);
 	        //Setting the section title after initializing the widget won't do anything
 	        section.getLayout().setLayoutTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-	        addField(section, SEARCH + "/" + "findCourse");
-            addField(section, SEARCH + "/" + "findCluSet");
-            addField(section, SEARCH + "/" + "findProgram");
 	        return section;
 	    }
 	
