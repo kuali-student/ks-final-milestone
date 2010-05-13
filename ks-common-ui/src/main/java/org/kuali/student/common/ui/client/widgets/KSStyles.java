@@ -55,11 +55,6 @@ public interface KSStyles {
 	public static final String KS_CHECKBOX_HOVER_STYLE = "KS-Checkbox-Hover";
 	public static final String KS_CHECKBOX_STYLE = "KS-Checkbox";
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
-	public static final String KS_CONFIRM_DIALOG = "KS-Confirm-Dialog";
-	public static final String KS_CONFIRM_DIALOG_CONTENT = "KS-Confirm-Dialog-Content";
-	public static final String KS_CONFIRM_DIALOG_IMAGE = "KS-Confirm-Dialog-Image";
-	public static final String KS_CONFIRM_DIALOG_TITLE = "KS-Confirm-Dialog-Title";
-	public static final String KS_CONFIRM_DIALOG_TITLE_PANEL = "KS-Confirm-Dialog-Title-Panel";
 	public static final String KS_DATEFIELD_FOCUS_STYLE = "KS-Datefield-Focus";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
 	public static final String KS_DISCLOSURE_CONTENTPANEL_STYLE = "KS-Disclosure-Content";
