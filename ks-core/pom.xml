@@ -45,7 +45,7 @@
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-ui</module>
-        <module>ks-core-web</module>
+        <!-- <module>ks-core-web</module> -->
     </modules>
 
     <scm>
