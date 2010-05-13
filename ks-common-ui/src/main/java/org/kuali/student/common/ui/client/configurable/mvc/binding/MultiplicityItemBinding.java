@@ -49,7 +49,6 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
     	String mutiRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
         if (widget instanceof Section) {
-        	//FIXME temporary fix
         	itemPath = "";
             SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
         } else if (widget instanceof ModelWidgetBinding) {

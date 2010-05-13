@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * This is a read only version of MultiplicityItem for use in read only multiplicity composites.
  * 
- * FIXME: Initial checkin - still needs fleshing out and more testing!
  *
  * @author Kuali Student Team
  */

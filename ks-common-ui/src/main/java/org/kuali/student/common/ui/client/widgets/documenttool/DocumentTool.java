@@ -34,6 +34,7 @@ import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -419,7 +420,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         if(referenceId != null && !(referenceId.isEmpty())){
         	documentList.add(loadingDocuments);
 	        try {
-	        	//FIXME: change to real doc relation stuff later
 	        	documentRelationRpc.getRefDocIdsForRef(referenceId, new AsyncCallback<List<RefDocRelationInfoMock>>(){
 
 					@Override
@@ -476,9 +476,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 							@Override
 							public void onFailure(Throwable caught) {
-								//FIXME dont know what to do here
-								refreshDocuments();
-							}
+                              KSErrorDialog.show(caught);
+                            }
 
 							@Override
 							public void onSuccess(StatusInfo result) {
@@ -487,8 +486,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 										@Override
 										public void onFailure(Throwable caught) {
-											//FIXME dont know what to do here
-											refreshDocuments();
+                                            KSErrorDialog.show(caught);
 										}
 
 										@Override

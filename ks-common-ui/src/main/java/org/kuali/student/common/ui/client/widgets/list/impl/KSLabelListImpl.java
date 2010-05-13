@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.FlexTable;
  * @author Kuali Student Team
  *
  */
-public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
+public class KSLabelListImpl extends KSSelectItemWidgetAbstract {
 
     private static final HandlerRegistration NO_OP_REGISTRATION = new HandlerRegistration() {
 		@Override
@@ -157,27 +157,8 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     	}
     }
 
-
-    @Override
-    public void onClick(ClickEvent event) {
-// FIXME
-//        KSLabel label = (KSLabel)(event.getSource());
-//        String value = label.getFormValue();
-//        if (checkbox.getValue()){
-//            if (!selectedItems.contains(value)){
-//                selectedItems.add(value);
-//            }
-//        } else {
-//            selectedItems.remove(value);
-//        }
-//        fireChangeEvent();
-    }
-
     public void onLoad() {}
 
-    /**
-     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setMaxColumns(int)
-     */
     @Override
     public void setColumnSize(int col) {
         maxCols = col;

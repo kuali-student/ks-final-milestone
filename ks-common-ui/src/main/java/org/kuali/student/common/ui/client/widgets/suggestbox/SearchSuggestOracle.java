@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
@@ -90,8 +91,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         	}
         }
         if (this.searchTextKey == null) {
-        	//FIXME deal with missing default key
-        	GWT.log("Cannot find searchTextKey for " + searchTypeKey, null);
+        	KSErrorDialog.show(new Throwable("Cannot find searchTextKey for " + searchTypeKey) );
         }
         
         this.searchIdKey = lookupMetadata.getSearchParamIdKey();
