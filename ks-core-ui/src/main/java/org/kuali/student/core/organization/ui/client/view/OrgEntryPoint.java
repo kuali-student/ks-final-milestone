@@ -30,7 +30,7 @@ import org.kuali.student.core.organization.ui.client.theme.OrgTheme;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;

@@ -64,6 +64,9 @@ public class KSWrapper extends Composite{
     private static final String RICE_URL           = "ks.rice.url";
     private static final String RICE_LINK_LABEL	= "ks.rice.label";
     private static final String APP_VERSION		= "ks.application.version";
+    
+    //This property is used to append code server param to urls so links displayed in get dev mode works as intended
+    private static final String CODE_SERVER		= "ks.gwt.codeServer"; 
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
@@ -94,6 +97,7 @@ public class KSWrapper extends Composite{
     private String riceURL ="..";
     private String riceLinkLabel="Rice";
     private String appVersion = "";
+    private String codeServer = "";
 
     private boolean loaded = false;
 
@@ -119,7 +123,7 @@ public class KSWrapper extends Composite{
 	protected void onLoad() {
 		super.onLoad();
 		if (!loaded){
-			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION);
+			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION, CODE_SERVER);
 
 	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
 	            public void onFailure(Throwable caught) {
@@ -136,6 +140,10 @@ public class KSWrapper extends Composite{
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
+	                    
+	                    if (result.get(CODE_SERVER) != null){
+	                    	codeServer		= result.get(CODE_SERVER);
+	                    }
 	                }
 	                init();
 	            }
@@ -242,11 +250,11 @@ public class KSWrapper extends Composite{
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleMyActionList"),Theme.INSTANCE.getCommonImages().getApplicationIcon(),
     			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"+(codeServer.isEmpty()?"":"?"+codeServer)))
     	);
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleCurriculumManagement"),Theme.INSTANCE.getCommonImages().getBookIcon(),
     			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"))
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"+(codeServer.isEmpty()?"":"&"+codeServer)))
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleOrg"), Theme.INSTANCE.getCommonImages().getPeopleIcon(),
     			new WrapperNavigationHandler(

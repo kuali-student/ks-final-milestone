@@ -25,7 +25,6 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<classifier>${platform}</classifier>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
