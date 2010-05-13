@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
-    <classpathentry kind="src" path="ks-statement-api/src/main/java"/>
-    <classpathentry kind="src" path="ks-statement-api/src/main/resources"/>
-	<classpathentry kind="src" path="ks-statement-impl/src/main/java"/>
-    <classpathentry kind="src" path="ks-statement-impl/src/main/resources"/>
-    <classpathentry kind="src" path="ks-statement-impl/src/test/resources"/>
-    <classpathentry kind="src" path="ks-statement-impl/src/test/java"/>
 	<classpathentry kind="src" output="ks-brms-api/target/classes" path="ks-brms-api/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="ks-brms-api/target/classes" path="ks-brms-api/src/main/resources"/>
 	<classpathentry kind="src" output="ks-brms-api/target/test-classes" path="ks-brms-api/src/test/java"/>
