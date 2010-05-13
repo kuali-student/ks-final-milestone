@@ -600,30 +600,33 @@ public class SearchPanel extends Composite{
     }
 
     private static SearchParam getSearchParam(final Widget widget, String key){
-            SearchParam param = new SearchParam();
+        SearchParam param = new SearchParam();
         param.setKey(key);
-            if(widget instanceof HasText){
-                param.setValue(((HasText) widget).getText());
-            }
-            else if(widget instanceof HasValue){
-                Object value = ((HasValue) widget).getValue();
-                if(value != null){
-                //TODO need to handle date and other types here, how they are converted for search, etc
-                    if(value instanceof String){
-                        param.setValue((String)value);
-                    }
-                    else{
-                        param.setValue(value.toString());
-                        GWT.log("Fields in search probably(?) shouldnt have values other than string", null);
-                    }
+        if(widget instanceof HasText){
+            param.setValue(((HasText) widget).getText());
+        }
+        else if(widget instanceof HasValue){
+            Object value = ((HasValue) widget).getValue();
+            if(value != null){
+            //TODO need to handle date and other types here, how they are converted for search, etc
+                if(value instanceof String){
+                    param.setValue((String)value);
+                }
+                else{
+                    param.setValue(value.toString());
+                    GWT.log("Fields in search probably(?) shouldnt have values other than string", null);
                 }
             }
-            else{
-                param.setValue("");
-            }
-
-            return param;
         }
+        else if (widget instanceof KSPicker){
+            param.setValue(((KSPicker)widget).getDisplayValue());
+        }
+        else {
+            param.setValue("");
+        }
+
+        return param;
+    }
 
     private void showCriteriaChosen(List<HasSearchParam> fields){
         enteredCriteriaString.clear();

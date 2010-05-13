@@ -302,6 +302,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     }
 
 	private List<LookupMetadata> getLookupMetadataBasedOnWidget(List<LookupMetadata> additionalLookupMetadata, LookupMetadata.Widget widgetType) {
+	    
+	    //lookup does not need to have additional lookup e.g. if the lookup is for suggest box within advanced search lightbox
+	    if (additionalLookupMetadata == null) {
+	        return null;
+	    }
+	    
     	List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
     	for (LookupMetadata addLookupData : additionalLookupMetadata) {
     		if (addLookupData.getWidget() == widgetType) {
@@ -419,14 +425,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		    if (basicWidget instanceof KSTextBox) {
                 result = ((KSTextBox)basicWidget).getText();
             } else if (basicWidget instanceof KSSuggestBox) {
-                //Do check here
-                if(!config.isRepeating){
-                    //what to do here?
-                } else {
-                    IdableSuggestion suggestion = ((KSSuggestBox)basicWidget).getCurrentSuggestion();
-                    if(suggestion != null) {
-                        result = suggestion.getReplacementString();
-                    }
+                IdableSuggestion suggestion = ((KSSuggestBox)basicWidget).getCurrentSuggestion();
+                if(suggestion != null) {
+                    result = suggestion.getReplacementString();
                 }
             }  else if (basicWidget instanceof KSDropDown) {
                 KSDropDown dropDown = (KSDropDown)basicWidget;
