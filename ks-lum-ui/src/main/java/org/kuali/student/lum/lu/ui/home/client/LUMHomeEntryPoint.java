@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.ui.home.client;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeResources;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.ResourcePrototype;
 

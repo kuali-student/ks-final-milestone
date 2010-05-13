@@ -21,7 +21,7 @@ import org.kuali.student.lum.ui.home.client.view.HomeResources;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.ResourcePrototype;
 

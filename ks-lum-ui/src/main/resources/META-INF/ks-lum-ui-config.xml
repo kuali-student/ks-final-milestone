@@ -50,5 +50,6 @@
 	<param name="ks.rice.application.url">http://localhost:8081/ks-embedded-dev/</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.application.url}/kew/ActionList.do</param>
     <param name="ks.rice.docSearch.serviceAddress">${ks.rice.application.url}/kew/DocumentSearch.do</param>
+    <param name="ks.gwt.codeServer">gwt.codesvr=127.0.0.1:9997</param>
     
 </config>
