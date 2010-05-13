@@ -49,13 +49,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CommonConfigurer {
 
-    private String sectionName;
-    private String modelName;
+
     private DataModelDefinition modelDefinition;
     private SectionConfigInfo sectionConfigInfo;
     private static String groupName = "org";
     private boolean WITH_DIVIDER = true;
-    private boolean NO_DIVIDER = false;
     public static final String ORG_PROPOSAL_MODEL = "orgProposalModel";
     public static final String ORG_SEARCH = "searchOrgs";
     public PositionTable positionTable;
@@ -109,10 +107,10 @@ public class CommonConfigurer {
      */
     private SectionView generateSection(SectionViewInfo sectionViewInfo){
         try {
-        String tempTestEnum = sectionViewInfo.getSectionEnum();
         VerticalSectionView section = initSectionView(SectionsEnum.valueOf(sectionViewInfo.getSectionEnum()), sectionViewInfo.getSectionName());
 //        VerticalSectionView section = initSectionView(SectionsEnum.ORG_INFO, sectionViewInfo.getSectionName());
-        VerticalSection orgInfo = initSection(getH3Title(sectionViewInfo.getSectionName()), WITH_DIVIDER);   
+//        VerticalSection orgInfo = initSection(getH3Title(sectionViewInfo.getSectionName()), WITH_DIVIDER);   
+        VerticalSection orgInfo = new VerticalSection();
         //orgInfo.setSectionTitle(getH3Title(""));
         groupName="org";
         List<FieldInfo> fieldList = sectionViewInfo.getfields();
