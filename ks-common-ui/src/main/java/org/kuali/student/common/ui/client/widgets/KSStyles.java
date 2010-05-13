@@ -47,9 +47,6 @@ public interface KSStyles {
     public static final String KS_BREADCRUMB_ITEM_CURRENT = "KS-Breadcrumb-Item-Current";
     public static final String KS_BREADCRUMB_ITEM_FOCUS = "KS-Breadcrumb-Item-Focus";
 
-    public static final String KS_CBP_BUTTON_PANEL = "KS-CBP-Button-Panel";
-	public static final String KS_CBP_CANCEL_BUTTON = "KS-CBP-Cancel-Button";
-	public static final String KS_CBP_CONFIRM_BUTTON = "KS-CBP-Confirm-Button";
 	public static final String KS_CHECKBOX_CHECKED_STYLE = "KS-Checkbox-Checked";
 	public static final String KS_CHECKBOX_FOCUS_STYLE = "KS-Checkbox-Focus";
 	public static final String KS_CHECKBOX_HOVER_STYLE = "KS-Checkbox-Hover";

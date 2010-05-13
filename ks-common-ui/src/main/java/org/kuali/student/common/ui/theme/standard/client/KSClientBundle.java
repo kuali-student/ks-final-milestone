@@ -81,8 +81,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource dialogPanelCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSProgressIndicator.css")
 	public CssResource progressIndicatorCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSConfirmButtonPanel.css")
-	public CssResource confirmButtonPanelCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSScrollTable.css")
     public CssResource scrollTableCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSidebar.css")
