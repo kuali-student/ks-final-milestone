@@ -4,7 +4,7 @@
 
 	<groupId>ca.ubc.student.cdm</groupId>
 	<artifactId>cdm-embedded</artifactId>
-	<version>1.0.0-m5</version>
+	<version>1.0.0-rc2</version>
 	<packaging>war</packaging>
 
 	<name>CDM Embedded</name>
@@ -13,14 +13,16 @@
 	<parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>ks-web</artifactId>
-		<version>1.0.0-m5</version>
+		<version>1.0.0-rc2</version>
 	</parent>
 	
 	<properties>
 		<ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
-		<!-- ks.gwt.module.lum>ca.ubc.student.kuali.lum.lu.ui.main.CDMLUMMain</ks.gwt.module.lum-->
-		<ks.gwt.module.lum>ca.ubc.student.kuali.lum.lu.ui.main.CDMLUMMain</ks.gwt.module.lum>
-		<ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>		
+		<!--  old GWT entry point for Curriculum Management
+		<ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
+		 -->
+		<ks.gwt.module.lum>ca.ubc.student.kuali.lum.lu.ui.CDMLUMMain</ks.gwt.module.lum>
+		<!-- ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab-->		
 	</properties>			
 		
 	<build>
@@ -47,7 +49,6 @@
 					<modules>
 						<module>${ks.gwt.module.org}</module>
 						<module>${ks.gwt.module.lum}</module>
-						<module>${ks.gwt.module.collab}</module>
 					</modules>
 					<style>PRETTY</style>
 				</configuration>
@@ -162,6 +163,13 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
+			<classifier>sources</classifier>
+			<version>${ks-core.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-rice</artifactId>
 			<classifier>sources</classifier>
 			<version>${ks-core.version}</version>
 			<scope>provided</scope>

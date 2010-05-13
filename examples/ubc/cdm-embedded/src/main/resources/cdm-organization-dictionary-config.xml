@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension" xsi:schemaLocation=" http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-	<!-- Import the base configuration -->
-	<import resource="organization-dictionary-config.xml"/>
 	
 	<dict:constraintDescriptor id="field.orgInfo.longName.cd" parent="field.orgInfo.longName.cd.abstract">
 	  <dict:constraint key="maxCharacters">

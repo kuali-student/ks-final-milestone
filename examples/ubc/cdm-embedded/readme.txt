@@ -1,6 +1,4 @@
-UBC Cdm Kuali Student Embedded Readme File
-FS TESTING2 svn commit as  dchew
-Further testing
+UBC Cdm Kuali Student Embedded Readme
 
 Notes:
 - configured for M5, need to run impex for ks-embedded for M5

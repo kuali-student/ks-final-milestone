@@ -10,9 +10,10 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-    <bean id="courseService"
-      class="ca.ubc.student.cdm.service.course.client.CourseService" />
     <!-- 
+	<bean id="courseService"
+      class="ca.ubc.student.cdm.service.course.client.CourseService" />
+    
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
       <property name="serviceDefinition">
         <bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
@@ -22,10 +23,12 @@
         </bean>
       </property>
     </bean>
-	-->  
+    -->
+
     <bean id="orgSearchManager"
         class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:cdm-organization-search-config.xml" />
-    </bean>
+    </bean>	
+	
 </beans>
 

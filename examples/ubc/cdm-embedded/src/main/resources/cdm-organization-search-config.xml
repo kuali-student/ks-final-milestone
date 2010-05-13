@@ -12,6 +12,7 @@
 		<search:name>List of generic criteria</search:name>
 		<search:desc>Generic criteria</search:desc>
 		<search:queryParams>
+			<ref bean="org.queryParam.orgOptionalLongName"/>
 			<ref bean="org.queryParam.orgOptionalLocation"/>
 			<ref bean="org.queryParam.orgOptionalId"/>
 			<ref bean="org.queryParam.orgOptionalShortName"/>
@@ -31,6 +32,15 @@
 			<map>
 				<entry key="org.search.orgHierarchyIds">
 					<value>SELECT oh.id, oh.name FROM OrgHierarchy oh</value>
+				</entry>
+				<entry key="org.search.orgTypes">
+					<value>SELECT org.id, org.name FROM OrgType org</value>
+				</entry>
+				<entry key="org.search.orgPeronRelationTypes">
+					<value>SELECT org.id, org.name FROM OrgPersonRelationType org</value>
+				</entry>
+				<entry key="org.search.findOrgPositionRestrictions">
+					<value>SELECT opr.personRelationType.id , opr.title FROM OrgPositionRestriction opr WHERE opr.org.id = :org_queryParam_orgId</value>
 				</entry>
 				<entry key="org.search.hierarchiesOrgIsIn">
 					<value>SELECT hierarchy.id FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
@@ -78,8 +88,11 @@
 				<entry key="org.queryParam.orgOptionalId">
 					<value>org.id = :org_queryParam_orgOptionalId</value>
 				</entry>					
+				<entry key="org.queryParam.orgPositionId">
+					<value>org.org.id = :org_queryParam_orgPositionId</value>
+				</entry>				
 				<entry key="org.queryParam.orgOptionalType">
-					<value>org.type.id = :org_queryParam_orgOptionalType</value>
+					<value>org.type.id IN (:org_queryParam_orgOptionalType)</value>
 				</entry>	
 				<entry key="org.queryParam.orgOptionalShortName">
 					<value>org.shortName</value>
