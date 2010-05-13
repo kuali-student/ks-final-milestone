@@ -32,6 +32,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.KSEntityConstants;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.TimeAmount;
 
@@ -59,7 +60,7 @@ public class OrgPositionRestriction extends MetaEntity implements
 	@JoinColumn(name = "PERS_RELTN_TYPE")
 	private OrgPersonRelationType personRelationType;
 
-	@Column(name = "DESCR", length = 2000)
+	@Column(name = "DESCR", length = KSEntityConstants.LONG_TEXT_LENGTH)
 	private String descr;
 
 	@Column(name = "TTL")

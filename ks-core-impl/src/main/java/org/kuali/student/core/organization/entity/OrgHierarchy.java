@@ -32,6 +32,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.KSEntityConstants;
 
 @Entity
 @Table(name="KSOR_ORG_HIRCHY")
@@ -44,7 +45,7 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	@Column(name = "NAME")
 	private String name; 
 	
-	@Column(name = "DESCR",length=2000)
+	@Column(name = "DESCR",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String descr; 
 
 	@ManyToOne
