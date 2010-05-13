@@ -24,12 +24,6 @@ package org.kuali.student.common.ui.client.widgets;
  */
 @Deprecated
 public interface KSStyles {
-	public static final String KS_ACCORDION = "KS-Accordion";
-	public static final String KS_ACCORDION_TITLEBAR = "KS-Accordion-Titlebar";
-	public static final String KS_ACCORDION_TITLEBAR_FOCUS = "KS-Accordion-Titlebar-Focus";
-	public static final String KS_ACCORDION_TITLEBAR_HOVER = "KS-Accordion-Titlebar-Hover";
-	public static final String KS_ACCORDION_TITLEBAR_LABEL = "KS-Accordion-Titlebar-Label";
-	public static final String KS_ACCORDION_TITLEBAR_OPEN = "KS-Accordion-Titlebar-Open";
 	public static final String KS_ACCORDION_WIDGETPANEL = "KS-Accordion-WidgetPanel";
 	public static final String KS_BLOCKING_TASK_ITEM = "KS-Blocking-Task-Item";
 	public static final String KS_BLOCKING_TASK_LIST = "KS-Blocking-Task-List";
