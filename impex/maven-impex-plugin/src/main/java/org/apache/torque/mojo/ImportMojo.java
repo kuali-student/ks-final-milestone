@@ -66,7 +66,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * Executes SQL against a database.
+ * Execute the SQL files generated to create a schema and import data
  * 
  * @goal import
  */

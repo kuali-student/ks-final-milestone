@@ -8,7 +8,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueDataDumpTask;
 
 /**
- * Reads the content of tables from the database and stores the data in XML files.
+ * Reads the content of tables from the database and exports the data to XML files.
  * 
  * @goal exportdata
  * @phase generate-sources
@@ -19,6 +19,7 @@ public class ExportDataMojo extends AntTaskMojo {
 	 * Database type (oracle, mysql etc)
 	 * 
 	 * @parameter expression="${targetDatabase}"
+	 * @required
 	 */
 	private String targetDatabase;
 

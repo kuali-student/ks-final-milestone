@@ -8,7 +8,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 
 /**
- * Export the schema to an XML file
+ * Export a database schema to an XML file
  * 
  * @goal exportschema
  * @phase generate-sources
