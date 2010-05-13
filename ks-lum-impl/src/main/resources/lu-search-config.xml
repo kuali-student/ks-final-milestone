@@ -55,6 +55,8 @@
 			<ref bean="lu.queryParam.luOptionalState"/>
 			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
 			<ref bean="lu.queryParam.luOptionalCrsNoRange"/>
+			<ref bean="lu.queryParam.luOptionalEffectiveDate1"/>
+			<ref bean="lu.queryParam.luOptionalEffectiveDate2"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -105,6 +107,22 @@
 	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange" parent="lu.queryParam.luOptionalCrsNoRange-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange-parent"  optional="true" abstract="true">
 	    <ref bean="field.cluInfo.officialIdentifier.level.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate1" parent="lu.queryParam.luOptionalEffectiveDate1-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate1-parent"  optional="true" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Effective Date</dict:name>
+            <dict:desc>Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+            <dict:dataType>date</dict:dataType>
+	    </dict:fieldDescriptor>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate2" parent="lu.queryParam.luOptionalEffectiveDate2-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate2-parent"  optional="true" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Effective Date</dict:name>
+            <dict:desc>Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+            <dict:dataType>date</dict:dataType>
+	    </dict:fieldDescriptor>
 	</search:queryParam>
 
 	<search:searchResultTypeInfo id="lu.result.generic" parent="lu.result.generic-parent"/>
@@ -659,6 +677,12 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalCrsNoRange">
 				    <value>!!NUMBER_RANGE clu.officialIdentifier.level</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalEffectiveDate1">
+				    <value>clu.effectiveDate &gt;= :lu_queryParam_luOptionalEffectiveDate1</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalEffectiveDate2">
+				    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalEffectiveDate2</value>
 				</entry>
             </map>
 		</property>

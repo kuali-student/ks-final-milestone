@@ -15,7 +15,10 @@ import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CluSetRangeLabel extends Composite implements HasDataValue {
@@ -23,9 +26,11 @@ public class CluSetRangeLabel extends Composite implements HasDataValue {
     private MembershipQueryInfo membershipQueryInfo;
     protected SimplePanel mainPanel = new SimplePanel();
     private KSLabel label = new KSLabel();
+    private KSLabel delete = new KSLabel(" X ");
     private LookupMetadata lookupMetadata;
     private List<Callback<Value>> valueChangeCallbacks =
         new ArrayList<Callback<Value>>();
+    private boolean initialized;
 
     public CluSetRangeLabel() {
         super.initWidget(mainPanel);
@@ -66,9 +71,22 @@ public class CluSetRangeLabel extends Composite implements HasDataValue {
     private void redraw() {
         StringBuilder labelText = new StringBuilder();
         int paramCounter = 0;
+        HorizontalPanel labelPanel = new HorizontalPanel();
+        labelPanel.add(label);
         mainPanel.clear();
-        mainPanel.setWidget(label);
+        mainPanel.setWidget(labelPanel);
         label.setText("");
+        if (!initialized) {
+            delete.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    membershipQueryInfo = null;
+                    label.setText("");
+                    callHandlers();
+                }
+            });
+            initialized = true;
+        }
         if (membershipQueryInfo != null && membershipQueryInfo.getQueryParamValueList() != null && 
                 !membershipQueryInfo.getQueryParamValueList().isEmpty()) {
             labelText.append(getLookupDisplayName()).append(": ");
@@ -81,6 +99,7 @@ public class CluSetRangeLabel extends Composite implements HasDataValue {
                 paramCounter++;
             }
             label.setText(labelText.toString());
+            labelPanel.add(delete);
         }
     }
     

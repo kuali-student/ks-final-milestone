@@ -6283,7 +6283,7 @@
 						</list>
 					</property>
 				</bean>
-				<!-- 2 type of search -->
+				<!-- 2nd type of search -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced1"/>
 					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
@@ -6334,6 +6334,64 @@
 								<property name="key" value="lo.resultColumn.loCluOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Title of Clu."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<!-- 3rd type of search -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="effectiveDateRangeParameters"/>
+					<property name="searchTypeId" value="lu.search.generic"/>
+					<property name="name" value="Effective Date Range"/>
+					<property name="desc" value="Search used to define course range by effective dates"/>
+					<property name="title" value="Add Course Range"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="widgetOptions">
+						<map>
+							<entry key="ADVANCED_LIGHTBOX_PREVIEW_MODE" value="true" />
+							<entry key="ADVANCED_LIGHTBOX_ACTION_LABEL" value="Add Course Range" />
+						</map>
+					</property>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalEffectiveDate1"/>
+								<property name="name" value="Effective From"/>
+								<property name="desc" value="Effective Date a course."/>
+								<property name="dataType" value="TRUNCATED_DATE"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalEffectiveDate2"/>
+								<property name="name" value="Effective To"/>
+								<property name="desc" value="Effective Date a course."/>
+								<property name="dataType" value="TRUNCATED_DATE"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
+					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
+					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalCode"/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Code of the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
+								<property name="name" value="Long Name of the course"/>
+								<property name="desc" value="Long Name of the course"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
@@ -6983,13 +7041,6 @@
 							<property name="desc" value="CLU Set Name." />
 							<property name="writeAccess" value="ALWAYS" />
 							<property name="usage" value="DEFAULT" />
-						</bean>
-						<bean parent="param">   <!-- limit search to Credit Courses for this UI context -->
-							<property name="key" value="lu.queryParam.luOptionalType" />
-							<property name="name" value="Lu Type" />
-							<property name="desc" value="Type of a learning unit" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
 				</property>

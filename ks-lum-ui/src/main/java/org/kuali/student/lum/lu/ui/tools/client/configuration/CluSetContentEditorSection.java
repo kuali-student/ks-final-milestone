@@ -36,7 +36,9 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.WarningDialog;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemListFieldBinding;
 
 import com.google.gwt.core.client.GWT;
@@ -130,7 +132,7 @@ public class CluSetContentEditorSection extends VerticalSection {
     }
 
     private void getModel(final Callback<DataModel> callback) {
-        LayoutController controller = LayoutController.findParentLayout(this);
+        LayoutController controller = LayoutController.findParentLayout(this.getLayout());
         if (controller != null) {
             controller.requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
@@ -189,12 +191,18 @@ public class CluSetContentEditorSection extends VerticalSection {
                             f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD)) {
                         List<FieldDescriptor> fields = getFields();
                         FieldDescriptor cluSetRangeField = null;
+                        String path = f.getFieldKey();
+                        final QueryPath qPath = QueryPath.parse(path);
+                        Data cluSetRangeData = dataModel.get(qPath);
                         if (fields != null) {
                             for (FieldDescriptor field : fields) {
                                 if (field.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
                                     cluSetRangeField = field;
                                 }
                             }
+                        }
+                        if (hasCluSetRange(cluSetRangeData)) {
+                            cluSetEditOptions.selectItem(path);
                         }
                         if (isFieldBeingEdited(cluSetRangeField, dataModel)) {
                         	layout.addField(f.getFieldElement());
@@ -204,6 +212,16 @@ public class CluSetContentEditorSection extends VerticalSection {
                     }
                 }
 
+    }
+    
+    private boolean hasCluSetRange(Data cluSetRangeData) {
+        boolean hasCluSetRange = false;
+        MembershipQueryInfo membershipQueryInfo = 
+            CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(cluSetRangeData);
+        if (membershipQueryInfo != null) {
+            hasCluSetRange = true;
+        }
+        return hasCluSetRange;
     }
     
     private boolean clusNotEmpty(Data clusData) {

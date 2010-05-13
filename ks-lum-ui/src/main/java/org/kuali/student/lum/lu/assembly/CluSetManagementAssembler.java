@@ -62,7 +62,14 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         Data resultData = null;
 
         try {
+            List<String> cluIds = null;
             CluSetInfo cluSetInfo = luService.getCluSetInfo(id);
+            // note: the cluIds returned by luService.getCluSetInfo also contains the clus
+            //       that are the result of query parameter search.  Set to null here and
+            //       retrieve the clus that are direct members.
+            cluSetInfo.setCluIds(null);
+            cluIds = luService.getCluIdsFromCluSet(id);
+            cluSetInfo.setCluIds(cluIds);
             resultCluSetHelper = toCluSetHelper(cluSetInfo);
             if (resultCluSetHelper == null) {
                 resultData = null;
