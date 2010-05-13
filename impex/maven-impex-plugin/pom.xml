@@ -14,12 +14,12 @@
     <dependency>
       <groupId>org.kuali.impex</groupId>
       <artifactId>torque-generator</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.impex</groupId>
       <artifactId>torque-templates</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
