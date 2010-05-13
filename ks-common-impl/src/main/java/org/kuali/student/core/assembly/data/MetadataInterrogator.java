@@ -202,9 +202,11 @@ public class MetadataInterrogator {
 	/**
 	 * Returns the smallest max occurs
 	 * 
-	 * @return If maxOccurs defined in constraints, returns the smallest of all maxOccurs. 
-	 * If repeating constraint not defined and maxOccurs is null, returns -1 to signal unbounded repeating field. 
-	 * Returns null to signal that this is a non-repeating field.
+	 * @return 
+	 * 
+	 * Returns the smallest of all maxOccurs, if maxOccurs defined in constraints. 
+	 * Returns -1, indicating unbounded repeating field, if repeating constraint defined & maxOccurs not defined. 
+	 * Returns null, indicating that this is a non-repeating field.
 	 */
 	public static Integer getSmallestMaxOccurs(Metadata meta) {
 		if (meta == null) {

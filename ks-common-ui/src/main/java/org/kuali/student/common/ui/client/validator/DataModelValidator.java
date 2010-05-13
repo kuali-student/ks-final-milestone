@@ -71,7 +71,6 @@ public class DataModelValidator {
 	private static final String RUNTIME_DELETED_KEY = "_runtimeData/deleted";
 	
 	private DateParser dateParser = null;
-	int counter = 0;
 
 
 	/**
@@ -236,7 +235,6 @@ public class DataModelValidator {
 					List<ConstraintMetadata> constraints = meta.getConstraints();
 					
 					for (int consIdx=0; consIdx <constraints.size(); consIdx++) {
-						counter++;
 						ConstraintMetadata cons = constraints.get(consIdx);
 						if (failed) {
 							break;
@@ -519,7 +517,6 @@ public class DataModelValidator {
 			addError(results, path, REQUIRED);
 		} else if (meta.getDataType().equals(DataType.LIST)){
 			for (Map.Entry<QueryPath, Object> e:values.entrySet()){
-				counter++;
 				QueryPath listPath = QueryPath.parse(e.getKey().toString());
 				listPath.add(Data.WILDCARD_KEY);
 				values = model.query(listPath);
@@ -534,7 +531,6 @@ public class DataModelValidator {
 		if (meta.getProperties() != null) {
 			Object[] keys = meta.getProperties().keySet().toArray();
 			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-				counter++;
 				String element = (String)keys[keyIndex];
 				if (!element.contains("runtimeData")){
 					QueryPath childPath = QueryPath.concat(basePath, element);
@@ -554,7 +550,7 @@ public class DataModelValidator {
 	    boolean minValid = min == null || min <= size;
 	 
 	    Integer max = getSmallestMaxOccurs(meta);
-        boolean maxValid = max == null || max >= size;
+        boolean maxValid = (max == null || max == -1 || max >= size);
 	    
         
 		if (!minValid || !maxValid) {
@@ -580,7 +576,6 @@ public class DataModelValidator {
 			if (listMeta != null && listMeta.getDataType().equals(DataType.DATA)){
 				Object[] valueList = values.values().toArray();
 				for (int i=0; i < valueList.length; i++){
-					counter++;
 					Object value = valueList[i];
 					Data d = (Data)value;
 					Boolean deleted = d.query(RUNTIME_DELETED_KEY);
@@ -603,7 +598,6 @@ public class DataModelValidator {
     	Object v = null;
     	List<ConstraintMetadata> constraints = meta.getConstraints();
     	for (int i=0; i < constraints.size(); i++) {
-    		counter++;
     		ConstraintMetadata cons = constraints.get(i);
 			if (cons.getMinValue() != null && cons.getMinValue().contains("../")){
 				QueryPath crossFieldPath = QueryPath.parse(path.toString());
@@ -622,7 +616,6 @@ public class DataModelValidator {
     	Object v = null;
     	List<ConstraintMetadata> constraints = meta.getConstraints();
     	for (int i=0; i < constraints.size(); i++) {
-    		counter++;
     		ConstraintMetadata cons = constraints.get(i);
 			if (cons.getMaxValue() != null && cons.getMaxValue().contains("../")){
 				QueryPath crossFieldPath = QueryPath.parse(path.toString());

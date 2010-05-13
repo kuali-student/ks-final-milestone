@@ -209,7 +209,6 @@ public class Metadata implements Serializable {
     		List<ConstraintMetadata> metadataConstraints = new ArrayList<ConstraintMetadata>();
     		for (ConstraintMetadata constraint:constraints){
     			if (!"single".equals(constraint.getId()) && 
-    				!"repeating".equals(constraint.getId()) &&
     				!"optional".equals(constraint.getId()) &&
     				!constraint.getServerSide()){
     				metadataConstraints.add(constraint);
