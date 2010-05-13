@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<!DOCTYPE Repository PUBLIC "-//The Apache Software Foundation//DTD Jackrabbit 1.2//EN"
+                            "http://jackrabbit.apache.org/dtd/repository-1.2.dtd">
+<Repository>
+    <!--
+        virtual file system where the repository stores global state
+        (e.g. registered namespaces, custom node types, etc.)
+    -->
+    <!-- In-memory Configuration -->
+    <FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem">
+        <param name="path" value="${rep.home}/fs/mem"/>
+    </FileSystem>
+    <!--
+        security configuration
+    -->
+    <Security appName="Jackrabbit">
+        <!--
+            access manager:
+            class: FQN of class implementing the AccessManager interface
+        -->
+        <AccessManager class="org.apache.jackrabbit.core.security.SimpleAccessManager">
+            <!-- <param name="config" value="${rep.home}/access.xml"/> -->
+        </AccessManager>
+
+        <LoginModule class="org.apache.jackrabbit.core.security.SimpleLoginModule">
+           <!-- anonymous user name ('anonymous' is the default value) -->
+           <!-- param name="anonymousId" value="anonymous"/-->
+           <!--
+              default user name to be used instead of the anonymous user
+              when no login credentials are provided (unset by default)
+           -->
+           <!-- <param name="defaultUserId" value="superuser"/> -->
+        </LoginModule>
+    </Security>
+
+    <!--
+        location of workspaces root directory and name of default workspace
+    -->
+    <Workspaces rootPath="${rep.home}/workspaces" defaultWorkspace="default"/>
+    <!--
+        workspace configuration template:
+        used to create the initial workspace if there's no workspace yet
+    -->
+    <Workspace name="${wsp.name}">
+        <!--
+            virtual file system of the workspace:
+            class: FQN of class implementing the FileSystem interface
+        -->
+	    <!-- In-memory Configuration -->
+	    <FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem">
+	        <param name="path" value="${wsp.home}/work/fs/mem"/>
+	    </FileSystem>
+        <!--
+            persistence manager of the workspace:
+            class: FQN of class implementing the PersistenceManager interface
+        -->
+	    <!-- In-memory Configuration -->
+        <PersistenceManager class="org.apache.jackrabbit.core.persistence.mem.InMemPersistenceManager">
+			<param name="persistent" value="false"/>
+		</PersistenceManager>
+        <!--
+            Search index and the file system it uses.
+            class: FQN of class implementing the QueryHandler interface
+        -->
+        <SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
+            <param name="path" value="${wsp.home}/index"/>
+        </SearchIndex>
+    </Workspace>
+
+    <!--
+        Configures the versioning
+    -->
+    <Versioning rootPath="${rep.home}/version">
+        <!--
+            Configures the filesystem to use for versioning for the respective
+            persistence manager
+        -->
+        <!-- In-memory Configuration -->
+        <FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem">
+            <param name="path" value="${rep.home}/version/fs/mem"/>
+        </FileSystem>
+
+        <!--
+            Configures the persistence manager to be used for persisting version state.
+            Please note that the current versioning implementation is based on
+            a 'normal' persistence manager, but this could change in future
+            implementations.
+        -->
+        <!-- In-memory Configuration -->
+        <PersistenceManager class="org.apache.jackrabbit.core.persistence.mem.InMemPersistenceManager">
+            <param name="persistent" value="false"/>
+        </PersistenceManager>
+    </Versioning>
+
+    <!--
+        Search index for content that is shared repository wide
+        (/jcr:system tree, contains mainly versions)
+    -->
+    <SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
+        <param name="path" value="${rep.home}/repository/index"/>
+    </SearchIndex>
+</Repository>

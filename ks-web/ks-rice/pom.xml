@@ -1,0 +1,153 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.kuali.student</groupId>
+	<artifactId>ks-rice</artifactId>
+	<version>1.1.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>KS Rice</name>
+	<description>Kuali Student Rice Standalone Server project for development</description>
+
+    <parent>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>ks-web</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.0-beta-1</version>
+				<configuration>
+					<path>/ks-rice-dev</path>
+					<port>8081</port>
+				</configuration>
+                
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc14</artifactId>
+                        <version>10.2.0.3.0</version>
+                    </dependency>
+                </dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<dependentWarExcludes>WEB-INF/lib/**</dependentWarExcludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>kuali.release</id>
+			<url>http://archiva.kuali.umd.edu/repository/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>kuali.snapshot</id>
+			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-web</artifactId>
+			<version>${kuali.rice.version}</version>
+			<type>war</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-impl</artifactId>
+            <version>${kuali.rice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-api</artifactId>
+			<version>${ks-lum.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-rice</artifactId>
+			<version>${ks-lum.version}</version>
+		</dependency>
+        
+        <!-- these are needed for rice jsp's to work properly -->
+        <dependency>
+            <groupId>tomcat</groupId>
+            <artifactId>jasper-compiler</artifactId>
+            <version>5.5.15</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>tomcat</groupId>
+            <artifactId>jasper-compiler-jdt</artifactId>
+            <version>5.5.15</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>tomcat</groupId>
+            <artifactId>jasper-runtime</artifactId>
+            <version>5.5.15</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jdt</groupId>
+            <artifactId>core</artifactId>
+            <version>3.1.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
+        </dependency>
+         <dependency>
+            <groupId>org.kuali.student.security</groupId>
+            <artifactId>ks-standard-sec</artifactId>
+            <version>${ks-standard-security.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-util</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
+        <dependency>
+        	<artifactId>servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <version>2.5</version>
+            <scope>provided</scope>
+         </dependency>
+	</dependencies>
+
+</project>
