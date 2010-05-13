@@ -181,9 +181,6 @@ public interface KSStyles {
     public static final String KS_BUTTON_ROW_CONTENT_PANEL = "KS-Button-Row-ContentPanel";
     public static final String KS_BUTTON_ROW_MAIN_PANEL = "KS-Button-Row-MainPanel";
 
-    public static final String KS_HORIZONTAL_BLOCK_FLOW = "KS-Horizontal-Block-Flow";
-    public static final String KS_HORIZONTAL_INLINE_FLOW = "KS-Horizontal-Inline-Flow";
-    public static final String KS_VERTICAL_FLOW = "KS-Vertical-Flow";
     public static final String KS_RICH_TEXT_CONTENT = "KS-RichText-Content-Panel";
     public static final String KS_RICH_TEXT_NORMAL_TOOLBAR = "KS-RichText-Normal-Toolbar";
     public static final String KS_RICH_TEXT_LARGE_TOOLBAR = "KS-RichText-Large-Toolbar";
