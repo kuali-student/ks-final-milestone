@@ -1,0 +1,112 @@
+##
+## Copyright 2007 The Kuali Foundation
+##
+## Licensed under the Educational Community License, Version 1.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+## http://www.opensource.org/licenses/ecl1.php
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+
+## A generic initialization rule template
+## Generics need Java 1.5 or greater - Must set drools.dialect.java.compiler=ECLIPSE
+
+# Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')
+
+#macro (dataType $comparisonDataType)
+    #if($comparisonDataType == "java.lang.String")
+        $comparisonDataType value${key} = "$rhs";
+    #else
+        $comparisonDataType value${key} = new $comparisonDataType("$rhs");
+    #end
+#end
+
+rule "${ruleName}"
+    no-loop true
+    lock-on-active true
+
+    when 
+        container : FactContainer( anchor == "${anchor}", anchorTypeKey == "${anchorTypeKey}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
+        //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
+        CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
+    then
+        Logger logger = LoggerFactory.getLogger(org.kuali.student.rules.translators.RuleSetTranslator.class);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("id="+container.getId());
+            logger.debug("anchor="+container.getAnchor());
+            logger.debug("anchorTypeKey="+container.getAnchorTypeKey());
+            logger.debug("factMap="+factMap);
+        }
+
+        prop.setFunctionalRuleString("$functionString");
+        #foreach( $key in $propositionMap.keySet() ) 
+       		#set( $proposition = $propositionMap.get($key) )
+       		#set( $rhs = $proposition.RightHandSide.ExpectedValue )
+            #set( $comparisonDataType = $proposition.ComparisonDataTypeKey )
+       		#set( $operator = $proposition.ComparisonOperatorTypeKey )
+    		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
+            ##set( $yvfDataType = $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionDataType )
+
+            String uuid${key} = "${key}-${uuid}";
+            RulePropositionDTO ruleProposition${key} = (RulePropositionDTO) propositionMap.get("${key}");
+
+            #if ( $yvf.YieldValueFunctionType == "SIMPLECOMPARABLE" )
+                ##dataType($comparisonDataType)
+                SimpleComparableRuleProposition proposition${key} = new SimpleComparableRuleProposition(
+                    uuid${key}, "${key}", ruleProposition${key}, factMap );
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+                insert(proposition${key}.getProposition());
+            #elseif ( $yvf.YieldValueFunctionType == "SUBSET" )
+                SubsetRuleProposition proposition${key} = new SubsetRuleProposition(
+                    uuid${key}, "${key}", ruleProposition${key}, factMap );
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+                insert(proposition${key}.getProposition());
+       		#elseif ( $yvf.YieldValueFunctionType == "INTERSECTION" )
+                IntersectionRuleProposition proposition${key} = new IntersectionRuleProposition(
+                    uuid${key}, "${key}", ruleProposition${key}, factMap );
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+                insert(proposition${key}.getProposition());
+            #elseif ( $yvf.YieldValueFunctionType == "SUM" )
+                ##dataType($comparisonDataType)
+                SumRuleProposition proposition${key} = new SumRuleProposition(
+                    uuid${key}, "${key}", ruleProposition${key}, factMap );
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+                insert(proposition${key}.getProposition());
+            #elseif ( $yvf.YieldValueFunctionType == "AVERAGE" )
+                ##dataType($comparisonDataType)
+                AverageRuleProposition proposition${key} = new AverageRuleProposition(
+                    uuid${key}, "${key}", ruleProposition${key}, factMap );
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+                insert(proposition${key}.getProposition());
+            #elseif ( $yvf.YieldValueFunctionType == "MIN" )
+                ##dataType($comparisonDataType)
+                MinRuleProposition proposition${key} = new MinRuleProposition(
+                    uuid${key}, "${key}", ruleProposition${key}, factMap );
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+                insert(proposition${key}.getProposition());
+            #elseif ( $yvf.YieldValueFunctionType == "MAX" )
+                ##dataType($comparisonDataType)
+                MaxRuleProposition proposition${key} = new MaxRuleProposition(
+                    uuid${key}, "${key}", ruleProposition${key}, factMap );
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+                insert(proposition${key}.getProposition());
+            #end
+        #end
+
+        container.setState(FactContainer.State.DONE);
+        update(container);
+end

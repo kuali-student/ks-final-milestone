@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--bean id="exporter"
+    	class="org.springframework.jmx.export.MBeanExporter"
+    	lazy-init="false">
+    	<property name="beans">
+    		<map>
+    			<entry key="bean:name=ruleExecutorJmxBean" value-ref="ruleExecutorJmxBean" />
+    		</map>
+    	</property>
+    </bean>
+
+    <bean id="ruleExecutorJmxBean"
+        class="org.kuali.student.rules.ruleexecution.drools.jmx.DroolsExecutorJmxInstrument">
+        <constructor-arg type="org.kuali.student.rules.ruleexecution.RuleSetExecutor"
+            ref="ruleExecutor" />
+    </bean-->
+
+    <bean id="ruleExecutor"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <property name="ruleBaseCache" ref="droolsRuleBaseCache"/>
+        <!--constructor-arg type="org.kuali.student.rules.repository.RuleEngineRepository"
+            ref="ruleRepository" /-->
+    </bean>
+
+    <bean id="droolsRuleBaseCache"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+    </bean>
+    
+    <!--bean id="ruleRepository"
+		class="org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock">
+	</bean-->
+
+</beans>

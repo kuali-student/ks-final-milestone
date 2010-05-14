@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<context:property-placeholder
+		location="classpath:application.properties" />
+
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry
+					key="/org.kuali.student.rules.devgui.DevelopersGui/DevelopersGuiService">
+					<ref bean="developersGuiServiceController" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="developersGuiServiceController"
+		class="com.server.ServletWrappingController">
+		<property name="servletName" value="/DevelopersGuiService" />
+		<property name="servletInstance">
+			<ref bean="developersGuiService" />
+		</property>
+	</bean>
+
+	<bean id="developersGuiService"
+		class="org.kuali.student.rules.devgui.server.gwt.DevelopersGuiServiceImplGWT">
+		<property name="serviceImpl">
+			<bean
+			      class="org.kuali.student.rules.devgui.server.impl.DevelopersGuiServiceImpl">
+			    <property name="rulesManagementService" ref="rulesManagementClient" />
+			    <property name="factFinderService" ref="factFinderClient" />
+			    <property name="ruleExecutionService" ref="ruleExecutionClient" />
+			</bean>
+		</property>
+	</bean>
+
+   <bean id="ruleManagementClient"
+     class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+     <property name="wsdlLocation"
+         value="classpath:wsdl/RulesManagementService.wsdl" />
+     <property name="serviceEndpointInterface"
+         value="org.kuali.student.rules.rulemanagement.service.RuleManagementService" />
+     <property name="serviceQNameString"
+         value="{http://student.kuali.org/wsdl/brms/RuleManagement}RuleManagementService" />
+     <property name="address"
+         value="${ks.servicelocation.RuleManagementService}" />
+    </bean>
+	
+   <bean id="factFinderClient"
+		 class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		 <property name="wsdlLocation"
+		     value="classpath:wsdl/FactFinderService.wsdl" />
+		 <property name="serviceEndpointInterface"
+		     value="org.kuali.student.rules.factfinder.service.FactFinderService" />
+		 <property name="serviceQNameString"
+		     value="{http://student.kuali.org/wsdl/brms/FactFinder}FactFinderService" />
+		 <property name="address"
+		     value="${ks.servicelocation.FactFinderService}" />
+    </bean>    	
+	
+   <bean id="ruleExecutionClient"
+		 class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		 <property name="wsdlLocation"
+		     value="classpath:wsdl/RuleExecutionService.wsdl" />
+		 <property name="serviceEndpointInterface"
+		     value="org.kuali.student.rules.ruleexecution.service.RuleExecutionService" />
+		 <property name="serviceQNameString"
+		     value="{http://student.kuali.org/wsdl/brms/RuleExecution}RuleExecutionService" />
+		 <property name="address"
+		     value="${ks.servicelocation.RuleExecutionService}" />
+    </bean>    	
+	
+</beans>
