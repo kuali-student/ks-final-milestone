@@ -74,7 +74,6 @@ public class WorkflowToolbar extends Composite {
     private String idPath;
     private String workflowId;
     
-    //FIXME: This should be determined from metadata/dictionary
     private String[] requiredFieldPaths;
     
 	private HorizontalBlockFlowPanel rootPanel = new HorizontalBlockFlowPanel();
@@ -391,13 +390,11 @@ public class WorkflowToolbar extends Composite {
 										StringBuilder workflowNodesBuffer = new StringBuilder();
 										workflowNodesBuffer.append(workflowNodes);
 										for (String nodeName:result){
-//											workflowNodes += nodeName + " ";
 											workflowNodesBuffer.append(nodeName);
 											workflowNodesBuffer.append(" ");
 										}
 										if (workflowNodes.isEmpty()){
 											workflowNodesBuffer.append("Not in workflow");
-//											workflowNodes = "Not in workflow";
 										}
 										wfNodeLabel.setText(workflowNodesBuffer.toString());
 									}
@@ -483,6 +480,13 @@ public class WorkflowToolbar extends Composite {
 		this.idPath = idPath;
 	}
 	
+	/**
+	 * Use to indicate which fields are required for workflow before workflow actions are allowed.
+	 * 
+	 * NOTE: We want this to be configurable via metadata rather than hardcoding a call to this in configurers or controllers.
+	 * 
+	 * @param requiredFieldPaths An array of paths to fields to check in the data model
+	 */
 	public void setRequiredFieldPaths(String[] requiredFieldPaths){
 		this.requiredFieldPaths = requiredFieldPaths;
 	}
