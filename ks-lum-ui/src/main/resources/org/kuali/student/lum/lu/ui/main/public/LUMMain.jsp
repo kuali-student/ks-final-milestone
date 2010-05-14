@@ -33,7 +33,7 @@
     try {
         MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
         String commonMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"common", "validation"});
-        String luMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"course", "program"});
+        String luMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"course", "program","clusetmanagement"});
 		
 %>
 <script type="text/javascript"> 

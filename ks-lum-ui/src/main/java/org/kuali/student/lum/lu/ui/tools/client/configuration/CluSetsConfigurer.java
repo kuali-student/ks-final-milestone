@@ -84,7 +84,7 @@ public class CluSetsConfigurer {
 
     private void addClusetDetailsSections(SectionView parentView, final String modelId) {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), WITH_DIVIDER);
-        final CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title("Content"), !WITH_DIVIDER, modelId);
+        final CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title(ToolsConstants.NEW_CLU_SET_CONTENT), !WITH_DIVIDER, modelId);
         ModelIdPlaceHolder modelIdObj = new ModelIdPlaceHolder(modelId);
 //        AddCluLightBox addCourseLightBox = new AddCluLightBox(configureSearch(ToolsConstants.SEARCH_COURSE));
 //        clusetDetails.setAddApprovedCourseWidget(addCourseLightBox);
@@ -92,13 +92,13 @@ public class CluSetsConfigurer {
 //        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
 
         // ****** Add Clus *******
-        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo("Courses")).setModelId(modelId);
+        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_COURSE)).setModelId(modelId);
         // END OF items related to Add Clus
 
         // ****** Add Clu Range *******
         //TODO add cluset and clurange here
         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
-        final FieldDescriptor cluRangeFieldEditDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo("Course Range"), cluSetRangePicker);
+        final FieldDescriptor cluRangeFieldEditDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
         final CluSetRangeLabel clusetRangeLabel = new CluSetRangeLabel();
         final FieldDescriptor cluRangeFieldDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
         cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
@@ -277,7 +277,7 @@ public class CluSetsConfigurer {
         addField(sectionView, ToolsConstants.SEARCH_CLU_SET, generateMessageInfo(""), cluSetPicker);
 
         VerticalSection nameSection = initSection(null, WITH_DIVIDER);
-        addField(nameSection, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo("Name"), new KSLabel());
+        addField(nameSection, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.CLU_SET_NAME), new KSLabel());
         sectionView.addSection(nameSection);
 
         VerticalSection expirationDateSection = initSection(null, WITH_DIVIDER);
@@ -291,7 +291,6 @@ public class CluSetsConfigurer {
     private VerticalSectionView initVerticalSectionView(Enum<?> viewEnum, String labelKey, String modelId) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), modelId);
         section.addStyleName(LUConstants.STYLE_SECTION);
-        //TODO is setting to H1 here necessary?
         //section.setSectionTitle(getH1Title(labelKey));
 
         return section;
@@ -300,7 +299,6 @@ public class CluSetsConfigurer {
     private VerticalSectionView initNestedSectionView (Enum<?> viewEnum, String labelKey, String modelId) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), modelId);
         section.addStyleName(LUConstants.STYLE_SECTION);
-        //TODO is setting to H1 here necessary?
         //section.setSectionTitle(getH1Title(labelKey));
 
         return section;
@@ -326,9 +324,7 @@ public class CluSetsConfigurer {
     }
 
     private String getLabel(String labelKey) {
-        // TODO make the group, type and state configurable when framework is ready
-        // tried created a new message group clusetmanagement but the entries are not read for some reason
-        return Application.getApplicationContext().getUILabel("course", "course", "draft", labelKey);
+        return Application.getApplicationContext().getUILabel("clusetmanagement", "clusetmanagement", "draft", labelKey);
     }
 
     private SectionTitle getH3Title(String labelKey) {
@@ -455,9 +451,7 @@ public class CluSetsConfigurer {
     }
     
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
-        // TODO make the group, type and state configurable when framework is ready
-        // tried created a new message group clusetmanagement but the entries are not read for some reason
-        return new MessageKeyInfo("course", "course", "draft", labelKey);
+        return new MessageKeyInfo("clusetmanagement", "clusetmanagement", "draft", labelKey);
     }
     
     class ModelIdPlaceHolder {
