@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
@@ -102,10 +101,10 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         menuPanel.addStyleName("KS-Basic-Menu-Panel");
 
         menuTitle.addStyleName("KS-Basic-Menu-Title-Label");
-        menuTitle.addStyleName(KSStyles.KS_INDENT + "-1");
+        menuTitle.addStyleName("KS-Indent" + "-1");
 
         menuDescription.addStyleName("KS-Basic-Menu-Desc-Label");
-        menuDescription.addStyleName(KSStyles.KS_INDENT + "-1");
+        menuDescription.addStyleName("KS-Indent" + "-1");
 
         this.initWidget(menuContainer);
     }
@@ -213,7 +212,7 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
             }
 
             if(indent > 0 && indent <= 7){
-                itemLabel.addStyleName(KSStyles.KS_INDENT + "-" + indent);
+                itemLabel.addStyleName("KS-Indent" + "-" + indent);
             }
 
             itemLabel.setWordWrap(true);

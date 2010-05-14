@@ -19,7 +19,6 @@ import java.util.LinkedList;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -115,7 +114,7 @@ public class KSBlockingProgressIndicator{
 	private static  void setupDefaultStyle(){
 		listPanel.addStyleName("KS-Blocking-Task-List");
 		mainPanel.addStyleName("KS-Blocking-Task-Main");
-		mainPanel.addStyleName(KSStyles.KS_MOUSE_NORMAL);
+		mainPanel.addStyleName("KS-Mouse-Normal");
 	}
 
 }

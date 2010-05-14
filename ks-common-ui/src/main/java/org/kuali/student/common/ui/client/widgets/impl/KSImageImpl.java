@@ -16,7 +16,6 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.widgets.KSImageAbstract;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

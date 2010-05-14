@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.impl;
 import java.util.Date;
 
 import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 

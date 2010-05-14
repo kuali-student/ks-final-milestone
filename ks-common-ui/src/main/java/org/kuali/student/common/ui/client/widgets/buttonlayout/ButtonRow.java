@@ -16,7 +16,6 @@
 package org.kuali.student.common.ui.client.widgets.buttonlayout;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HasAlignment;

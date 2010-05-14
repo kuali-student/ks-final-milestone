@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.ClickablePanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -105,10 +104,10 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
         menuPanel.addStyleName( "KS-Basic-Menu-Panel");
 
         menuTitle.addStyleName("KS-Basic-Menu-Title-Label");
-        menuTitle.addStyleName(KSStyles.KS_INDENT + "-1");
+        menuTitle.addStyleName("KS-Indent" + "-1");
 
         menuDescription.addStyleName("KS-Basic-Menu-Desc-Label");
-        menuDescription.addStyleName(KSStyles.KS_INDENT + "-1");
+        menuDescription.addStyleName("KS-Indent" + "-1");
 
         this.initWidget(menuPanel);
     }
