@@ -363,6 +363,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
      */
     private class LOCategoryPicker extends Composite implements SuggestPicker {
 
+        //FIXME:   [KSCOR-225] Class needs to be rewritten to use KSPicker instead of SuggestPicker and use lookup config through metadata
+        
          final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(
                  "lo.search.loCategories",
                  "lo.queryParam.loOptionalCategoryName",

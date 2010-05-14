@@ -100,11 +100,11 @@ CreditCourseLearningResultsConstants
 
     public static final String COURSE_MODEL	= "courseModel";
 
-	private static final String ID_TRANSLATION = "id-translation";
-	//FIXME: Temp paths waiting for DOL changes
+	//FIXME: [KSCOR-225] Temp paths waiting for DOL changes
     private static final String STATEMENTS_PATH = "statements";
+	private static final String ID_TRANSLATION = "id-translation";
 
-    //FIXME:  Initialize type and state from selected cluId
+    //FIXME: [KSCOR-225] Initialize type and state from selected cluId
     private String type = "course";
     private String state = "draft";
     private String groupName;
@@ -535,7 +535,7 @@ CreditCourseLearningResultsConstants
         section.addField(fd);
     }
 
-    //FIXME: rework these next 2 methods to combine them
+    //FIXME: [KSCOR-225] rework these next 2 methods to combine them
     private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey, Widget widget, String parentPath, ModelWidgetBinding binding) {
 
 		QueryPath path = QueryPath.concat(parentPath, fieldKey);

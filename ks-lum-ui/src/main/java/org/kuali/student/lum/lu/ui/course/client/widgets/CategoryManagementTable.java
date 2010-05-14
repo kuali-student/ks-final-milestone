@@ -55,7 +55,6 @@ public class CategoryManagementTable extends Composite {
     static String TYPE_COLUMN_KEY = "type";
     static String STATE_COLUMN_KEY = "state";
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();
-    private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
     private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
     protected PagingScrollTable<ResultRow> pagingScrollTable;
@@ -222,7 +221,7 @@ public class CategoryManagementTable extends Composite {
     }   
     
     private void createColumnDefs() {
-        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();   
+        List<AbstractColumnDefinition<ResultRow, ?>> columnDefs=new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
         SearchColumnDefinition columnDef = new SearchColumnDefinition(NAME_COLUMN_HEADER, NAME_COLUMN_KEY);
         columnDef.setColumnSortable(false);
         columnDefs.add(columnDef);
@@ -235,7 +234,6 @@ public class CategoryManagementTable extends Composite {
             columnDefs.add(columnDef);            
         }
         if(columnDefs.size() == 1){
-            //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
             columnDefs.get(0).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);

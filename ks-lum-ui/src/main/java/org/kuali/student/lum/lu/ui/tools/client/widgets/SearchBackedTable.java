@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -111,8 +112,7 @@ public class SearchBackedTable extends Composite
    @Override
    public void onFailure (Throwable cause)
    {
-    GWT.log ("Failed to perform search", cause); //FIXME more detail info here
-//    Window.alert ("Failed to perform search");
+	   KSErrorDialog.show(cause);
    }
 
    @Override
@@ -166,8 +166,7 @@ public class SearchBackedTable extends Composite
   }
   if (columnDefs.size () == 1)
   {
-   //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
-   columnDefs.get (0).setMinimumColumnWidth (370);
+    columnDefs.get (0).setMinimumColumnWidth (370);
   }
   builder.columnDefinitions (columnDefs);
   tableModel.setColumnDefs (columnDefs);
@@ -178,7 +177,7 @@ public class SearchBackedTable extends Composite
  public void redraw ()
  {
   tableModel.setRows (resultRows);
-  pagingScrollTable = builder.build (tableModel); // FIXME do we really need to recreate the table for every refresh?
+  pagingScrollTable = builder.build (tableModel); 
   pagingScrollTable.setResizePolicy (ResizePolicy.FILL_WIDTH);
 //  pagingOptions = createPagingOptions (pagingScrollTable);
   layout.clear ();

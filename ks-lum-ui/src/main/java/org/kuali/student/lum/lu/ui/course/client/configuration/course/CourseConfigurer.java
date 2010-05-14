@@ -115,7 +115,7 @@ import com.google.gwt.user.client.ui.Widget;
 	 CreditCourseRevenueInfoConstants,
 	 CreditCourseExpenditureInfoConstants {
 	
-		//FIXME:  Initialize type and state
+		//FIXME:  [KSCOR-225] Initialize type and state
 		protected String type = "course";
 	    protected String state = "draft";
 	    protected String groupName;
@@ -176,37 +176,11 @@ import com.google.gwt.user.client.ui.Widget;
 	        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
 	        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
 	    }
-		
-	    protected VerticalSection generateSummaryBrief(SectionTitle title) {
-	        VerticalSection section = new VerticalSection(title);
-	        section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-	        section.addStyleName(LUConstants.STYLE_SECTION);
-	        addField(section, PROPOSAL + "/" + TITLE, generateMessageInfo(LUConstants.TITLE_LABEL_KEY), new KSLabel());
-	        addField(section, COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUConstants.DIVISION_LABEL_KEY), new KSLabel());
-	        addField(section, COURSE + "/" + COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.SUFFIX_CODE_LABEL_KEY), new KSLabel());
-	
-	
-	        // FIXME wilj: add proposal/delegate/collab person info to assembly
-	        addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSER_LABEL_KEY), new ProposerPersonList());
-	        addField(section, "proposalInfo/todo", generateMessageInfo(LUConstants.DELEGATE_LABEL_KEY), new KSLabel());
-	        addField(section, "proposalInfo/todo", generateMessageInfo(LUConstants.COLLABORATORS_LABEL_KEY), new KSLabel());
-	
-	        // FIXME wilj: add create/update meta info to assembly
-	        addField(section, PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, generateMessageInfo(LUConstants.CREATED_DATE_LABEL_KEY), new KSLabel());
-	        addField(section, PROPOSAL + "/" + META_INFO + "/" + UPDATE_TIME, generateMessageInfo(LUConstants.LAST_CHANGED_DATE_LABEL_KEY), new KSLabel());
-	
-	        addField(section, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_LABEL_KEY), new KSLabel());
-	       // TODO: Norm: find out why was this prefixed with proposal there is no state on proposal it is on the main object
-	        addField(section, CreditCourseProposalConstants.STATE, generateMessageInfo(LUConstants.STATUS_LABEL_KEY), new KSLabel());
-	        return section;
-	    }
-		
+			
 		public void addCluStartSection(ConfigurableLayout layout){
 	        VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 	
 	        addField(section, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-	        //This will need to be a person picker
-	        // FIXME wilj: add proposal/delegate/collab person info to assembly
 	        addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
 	        layout.addStartSection(section);
 	    }
@@ -282,8 +256,6 @@ import com.google.gwt.user.client.ui.Widget;
 		public SectionView generateCourseInfoSection(){
 	        VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
 	
-	        //FIXME: Label should be key to messaging, field type should come from dictionary?
-	
 	        section.addSection(generateCourseNumberSection());
 	        section.addSection(generateCourseInfoShortTitleSection());
 	        section.addSection(generateLongTitleSection());
@@ -349,7 +321,7 @@ import com.google.gwt.user.client.ui.Widget;
 	
 		protected VerticalSection generateDescriptionSection() {
 	        VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
-	        //FIXME Temporary fix til we have a real rich text editor
+	        //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
 	        //addField(description, COURSE + "/" + DESCRIPTION, null);
 	        addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, null);
 	        return description;
@@ -386,7 +358,6 @@ import com.google.gwt.user.client.ui.Widget;
 	
 	    protected VerticalSection generateInstructorsSection() {
 	        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
-	        // FIXME wilj: do we need to set the instructor's orgId? or can we default it at the assembler level?
 	        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR);
 	        return instructors;
 		}
@@ -403,7 +374,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
 	    	Metadata meta = modelDefinition.getMetadata(path);
 	        
-	        // FIXME - where should repo key come from?
+	        // FIXME [KSCOR-225]  where should repo key come from?
 	        FieldDescriptor fd = addField(los,
 	        								CreditCourseConstants.COURSE_SPECIFIC_LOS,
 	        								null,
@@ -476,7 +447,7 @@ import com.google.gwt.user.client.ui.Widget;
 	            final PersonList us = this;
 	            final String userId = Application.getApplicationContext().getUserId();
 	            
-	            //FIXME: Commented out search code to display drop down with only current user, and disable select            
+	            //FIXME: [KSCOR-225] Commented out search code to display drop down with only current user, and disable select            
 	            people.addItem(userId, userId);
 	            us.setListItems(people);
 	            us.selectItem(userId);
