@@ -18,7 +18,6 @@ package org.kuali.student.lum.ui.requirements.client.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -44,7 +43,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CourseReqManager extends Controller {
- 
+
     public enum PrereqViews {
         RULES_LIST, MANAGE_RULES, RULE_COMPONENT_EDITOR, RULE_EXPRESSION_EDITOR
     }
@@ -56,35 +55,35 @@ public class CourseReqManager extends Controller {
     private final ManageRulesView manageRulesView = new ManageRulesView(this);
     private final RuleComponentEditorView ruleCompEditorView = new RuleComponentEditorView(this);
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
-    
+
     //controller's data
     private CollectionModel<RuleInfo> ruleInfo;         //contains all rules belonging to this course
     private String cluId = null;						//course id
-    private static int id = 0; 
-    private ReqComponentVO componentToEdit;				//which component user chosen to edit	
+    private static int id = 0;
+    private ReqComponentVO componentToEdit;				//which component user chosen to edit
     private List<Metadata> fieldsWithLookup = new ArrayList<Metadata>();
-   
+
     private String selectedLuStatementType = "";             //type of rule that user selected to work on (add or edit)
-    
+
     public CourseReqManager(VerticalPanel displayPanel) {
-        super(CourseReqManager.class.getName());       
-        
-        if (displayPanel == null) {        
+        super(CourseReqManager.class.getName());
+
+        if (displayPanel == null) {
        	 	super.initWidget(viewPanel);
        	 	viewPanel.add(mainPanel);
         } else {
         	displayPanel.add(mainPanel);
         }
-        
+
         this.ruleInfo = null;
     }
-    
+
     public void saveApplicationState(DataModel model) {
         LuData luData = (LuData)model.getRoot();
         luData.setRuleInfos(new ArrayList(ruleInfo.getValues()));
         courseRequisiteView.saveApplicationState(model);
     }
-   
+
     @Override
     protected void onLoad() {
         //showDefaultView();   instead of showing default view every time user comes back, just show the screen user left off last time
@@ -95,46 +94,46 @@ public class CourseReqManager extends Controller {
     @SuppressWarnings("unchecked")
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
     	//retrieving all rules for given course
-    	if (modelType.equals(LuData.class)) {    		
+    	if (modelType.equals(LuData.class)) {
 
 	    	super.requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL,
 	    			new ModelRequestCallback<DataModel>() {
 	                    @Override
 	                    public void onModelReady(DataModel dataModel) {
 	                    	LuData luData = (LuData)dataModel.getRoot();
-	                    	
-	                		if (ruleInfo == null) {	                     			                    	
+
+	                		if (ruleInfo == null) {
 		                    	cluId = (String)dataModel.get("course/id");
 		                    	ruleInfo = new CollectionModel<RuleInfo>();
                                 List<RuleInfo> rules = luData.getRuleInfos();
 		                    	for (RuleInfo oneRule : rules) {
 		                    		oneRule.setId(Integer.toString(id++));
-		                    		oneRule.setCluId(cluId); 
+		                    		oneRule.setCluId(cluId);
 		                    		ruleInfo.add(oneRule);
-		                    	}		     	                    	
+		                    	}
 	                		} else {
 	                			luData.setRuleInfos(new ArrayList(ruleInfo.getValues()));
 	                		}
 	                        callback.onModelReady(dataModel);
-	                    }    
-	
+	                    }
+
 	                    @Override
 	                    public void onRequestFail(Throwable cause) {
 	                    	GWT.log("Failed to get LuData DataModel", cause);
 	                    	Window.alert("Failed to get LuData DataModel");
 	                    }
-	            });    		    		
+	            });
     	}
     	//retrieving a specific type of rule (selected by user for editing)
-    	else if (modelType.equals(RuleInfo.class)) {            
+    	else if (modelType.equals(RuleInfo.class)) {
         	CollectionModel<RuleInfo> ruleInfoGivenType = new CollectionModel<RuleInfo>();
-            ruleInfoGivenType.setValue(getRuleInfo(selectedLuStatementType));                        
-            callback.onModelReady(ruleInfoGivenType);            
+            ruleInfoGivenType.setValue(getRuleInfo(selectedLuStatementType));
+            callback.onModelReady(ruleInfoGivenType);
         } else {
             super.requestModel(modelType, callback);
         }
     }
-    
+
     private RuleInfo getRuleInfo(String luStatementTypeKey) {
         if (ruleInfo.getValues() != null && !ruleInfo.getValues().isEmpty()) {
             for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
@@ -147,17 +146,17 @@ public class CourseReqManager extends Controller {
             	}
                 if (oneRuleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {
                     return oneRuleInfo;
-                }                
+                }
             }
-        } 
+        }
         return null;
-    }    
+    }
 
     @Override
     public void showDefaultView(final Callback<Boolean> onReadyCallback) {
         showView(PrereqViews.RULES_LIST, onReadyCallback);
     }
-    
+
     @Override
     public void renderView(View view) {
         // in this case we know that all of our widgets are composites
@@ -168,7 +167,7 @@ public class CourseReqManager extends Controller {
     @Override
     protected void hideView(View view) {
         mainPanel.clear();
-    }    
+    }
 
     @Override
     protected <V extends Enum<?>> View getView(V viewType) {
@@ -177,7 +176,7 @@ public class CourseReqManager extends Controller {
 	            return courseRequisiteView;
 	        case MANAGE_RULES:
                 return manageRulesView;
-            case RULE_COMPONENT_EDITOR:                   
+            case RULE_COMPONENT_EDITOR:
                 ruleCompEditorView.setEditedStatementVO(getRuleInfo(selectedLuStatementType).getStatementVO());
                 ruleCompEditorView.setEditedReqCompVO(componentToEdit);
                 ruleCompEditorView.setFieldsWithLookup(fieldsWithLookup);
@@ -203,11 +202,11 @@ public class CourseReqManager extends Controller {
     public void removeRule(RuleInfo rule) {
         ruleInfo.remove(rule);
     }
-    
+
     public void saveEditHistory(StatementVO editedStatementVO) {
     	getRuleInfo(selectedLuStatementType).getEditHistory().save(editedStatementVO);
     }
-    
+
     public Class<? extends Enum<?>> getViewsEnum() {
         return PrereqViews.class;
     }
@@ -216,19 +215,19 @@ public class CourseReqManager extends Controller {
     public Enum<?> getViewEnumValue(String enumValue) {
         return PrereqViews.valueOf(enumValue);
     }
-    
+
     public void setRule(RuleInfo newRule) {
   		ruleInfo.add(newRule);
     }
-    
+
     public String getSelectedLuStatementType() {
         return selectedLuStatementType;
     }
 
     public void setSelectedLuStatementType(String luStatementType) {
         this.selectedLuStatementType = luStatementType;
-    } 
-    
+    }
+
     public String getCluId() {
 		return cluId;
 	}
@@ -243,5 +242,5 @@ public class CourseReqManager extends Controller {
 
 	public void setFieldsWithLookup(List<Metadata> fieldsWithLookup) {
 		this.fieldsWithLookup = fieldsWithLookup;
-	}		
+	}
 }

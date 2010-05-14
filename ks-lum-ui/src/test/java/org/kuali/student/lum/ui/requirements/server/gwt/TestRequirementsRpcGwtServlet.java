@@ -22,11 +22,9 @@ import java.util.Arrays;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.common.messagebuilder.impl.BooleanOperators;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-//import org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.util.StatementServiceMock;
@@ -35,10 +33,10 @@ public class TestRequirementsRpcGwtServlet {
 
 	private static StatementServiceMock statementService = new StatementServiceMock();
 	private static RequirementsRpcGwtServlet requirementsRpcGwtServlet = new RequirementsRpcGwtServlet();
-	
+
 	private static ReqComponentInfo reqComp1;
 	private static ReqComponentInfo reqComp2;
-	
+
 	@BeforeClass
 	public static void setupOnce() throws Exception {
 		createTranslator();
@@ -92,44 +90,44 @@ public class TestRequirementsRpcGwtServlet {
 //
 //		statementService.addObject(reqComp1.getId(), reqComp1);
 //		statementService.addObject(reqComp2.getId(), reqComp2);
-//		
+//
 //		ReqComponentTypeInfo reqType = RequirementsUtil.createDefaultReqComponentType("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
 //		statementService.addObject(reqType.getId(), reqType);
-//		
+//
 //		StatementTypeInfo statementTypeInfo = RequirementsUtil.createLuStatementTypeInfo("kuali.luStatementType.prereqAcademicReadiness");
 //		statementService.addObject(statementTypeInfo.getId(), statementTypeInfo);
     }
-    
+
     private static void setRpcGwtServices() {
 		requirementsRpcGwtServlet.setStatementService(statementService);
     }
-    
+
 //    private static ReqComponentInfo createReqComponent(String reqComponentId, String cluSetId) throws Exception {
 //        ReqComponentInfo reqCompInfo = RequirementsUtil.createReqComponent(
 //        		"KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
 //        reqCompInfo.setId(reqComponentId);
-//        
+//
 //        List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
-//        
+//
 //        ReqCompFieldInfo field1 = new ReqCompFieldInfo();
 //        field1.setId("reqCompFieldType.requiredCount");
 //        field1.setValue("1");
 //        fieldList.add(field1);
-//        
+//
 //        ReqCompFieldInfo field2 = new ReqCompFieldInfo();
 //        field2.setId("reqCompFieldType.operator");
 //        field2.setValue("greater_than_or_equal_to");
 //        fieldList.add(field2);
-//        
+//
 //        ReqCompFieldInfo field3 = new ReqCompFieldInfo();
 //        field3.setId("reqCompFieldType.cluSet");
 //        field3.setValue(cluSetId);
 //        fieldList.add(field3);
-//        
+//
 //        reqCompInfo.setReqCompFields(fieldList);
 //        return reqCompInfo;
 //    }
-    
+
     @Ignore
     @Test
     public void testGetNaturalLanguageForReqComponentInfo() throws Exception {
@@ -153,7 +151,7 @@ public class TestRequirementsRpcGwtServlet {
     	StatementVO statementVO = new StatementVO(statementInfo);
     	statementVO.addReqComponentVO(reqVo1);
     	statementVO.addReqComponentVO(reqVo2);
-    	
+
     	String naturalLanguage = requirementsRpcGwtServlet.getNaturalLanguageForStatementVO("CLU-NL-1", statementVO, "KUALI.CATALOG", "en");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 1 of MATH 152, MATH 221, MATH 180", naturalLanguage);
     }

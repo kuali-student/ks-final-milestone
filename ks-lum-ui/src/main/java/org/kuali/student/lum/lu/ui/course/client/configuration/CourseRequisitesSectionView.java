@@ -17,8 +17,6 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -31,18 +29,17 @@ import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
- * 
+ *
  * Displays Rules pages within this section, allowing end user to navigate between rules screens
- * without using or affecting menu on the left.  
- * 
+ * without using or affecting menu on the left.
+ *
  * @author Kuali Student Team
  *
  */
 public class CourseRequisitesSectionView extends SectionView {
-    
+
     protected final VerticalPanel panel = new VerticalPanel();
 	private boolean loaded = false;
 	CourseReqManager childController;	//controls the display of all rules related pages
@@ -50,32 +47,32 @@ public class CourseRequisitesSectionView extends SectionView {
     private String modelId;
     private List<Metadata> searchLookupData;
 
-	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, String modelId, List<Metadata> searchLookupData ) {	    
+	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, String modelId, List<Metadata> searchLookupData ) {
 		super(viewEnum, name);
 		layout = new VerticalFieldLayout();
 		layout.add(panel);
         this.add(layout);
-        this.modelId = modelId;	
+        this.modelId = modelId;
         this.searchLookupData = searchLookupData;
 	}
-	
+
     @Override
-	public void beforeShow(final Callback<Boolean> onReadyCallback){	
-		
+	public void beforeShow(final Callback<Boolean> onReadyCallback){
+
 		if (loaded == false) {
 			childController = new CourseReqManager(panel);
 			childController.setParentController(getController());
 			childController.setFieldsWithLookup(searchLookupData);
 		}
-				
+
         if (childController.getCurrentView() == null){
             childController.showDefaultView(onReadyCallback);
         } else {
         	onReadyCallback.exec(true);
         }
-        
+
         loaded = true;
-        
+
         //Request model and redraw view
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
@@ -91,12 +88,12 @@ public class CourseRequisitesSectionView extends SectionView {
                 CourseRequisitesSectionView.this.updateWidgetData(m);
                 onReadyCallback.exec(true);
             }
-            
-        });        
+
+        });
 	}
-	
+
 	public void clear(){
-	}		
+	}
 
 	@Override
 	public void updateModel() {

@@ -20,14 +20,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -35,9 +27,9 @@ import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 
 /**
- * 
+ *
  * @author Kuali Student Team
- * 
+ *
  */
 public class LoRpcGwtServlet extends
 		BaseRpcGwtServletAbstract<LearningObjectiveService> implements
@@ -47,7 +39,7 @@ public class LoRpcGwtServlet extends
 
 	/**
 	 * This overridden method ...
-	 * 
+	 *
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoByIdList(java.util.List)
 	 */
 	@Override
@@ -62,7 +54,7 @@ public class LoRpcGwtServlet extends
 
 	/**
 	 * This overridden method ...
-	 * 
+	 *
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategoryTypes()
 	 */
 	@Override
@@ -77,7 +69,7 @@ public class LoRpcGwtServlet extends
 
 	/**
 	 * This overridden method ...
-	 * 
+	 *
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#createLoCategory(java.lang.String,
 	 *      java.lang.String, org.kuali.student.lum.lo.dto.LoCategoryInfo)
 	 */
@@ -95,7 +87,7 @@ public class LoRpcGwtServlet extends
 
 	/**
 	 * This overridden method ...
-	 * 
+	 *
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategory(java.lang.String)
 	 */
 	@Override
@@ -110,7 +102,7 @@ public class LoRpcGwtServlet extends
 
 	/**
 	 * This overridden method ...
-	 * 
+	 *
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategoryType(java.lang.String)
 	 */
 	@Override

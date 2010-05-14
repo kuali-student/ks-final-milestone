@@ -17,8 +17,6 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -38,32 +36,31 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequisitesSummaryView extends SectionView {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-    
+
     protected final VerticalPanel mainPanel = new VerticalPanel();
     private SimplePanel prereqRuleTextPanel = new SimplePanel();
     private SimplePanel coreqRuleTextPanel = new SimplePanel();
     private SimplePanel antireqRuleTextPanel = new SimplePanel();
-    private SimplePanel enrollRuleTextPanel = new SimplePanel(); 
+    private SimplePanel enrollRuleTextPanel = new SimplePanel();
     private List<RuleInfo> courseRules;                             //contains all rules belonging to this course
-    private Controller theController; 
+    private Controller theController;
 
     public CourseRequisitesSummaryView(Enum<?> viewEnum, String name) {
         super(viewEnum, name);
         super.add(mainPanel);
     }
-    
+
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
         Window.alert("CourseRequisitesSummary.beforeShow");
     }
-    
+
     private void initUI() {
         mainPanel.clear();
-        
+
         for (String statementType : CourseRequisiteView.applicableLuStatementTypes) {
             SimplePanel rulesTextPanel = getRulesTextPanel(statementType);
             String ruleTitle = getRuleTypeName(statementType);
@@ -72,7 +69,7 @@ public class CourseRequisitesSummaryView extends SectionView {
             mainPanel.add(rulesTextPanel);
         }
     }
-    
+
     private void displayRules() {
         for (final String statementType : CourseRequisiteView.applicableLuStatementTypes) {
             final RuleInfo ruleInfo = getRuleInfo(statementType);
@@ -84,35 +81,35 @@ public class CourseRequisitesSummaryView extends SectionView {
                         GWT.log("Failed to get NL for " + ruleInfo.getCluId(), cause);
                         Window.alert("Failed to get NL for " + ruleInfo.getCluId());
                     }
-                    
-                    public void onSuccess(final String statementNaturalLanguage) { 
+
+                    public void onSuccess(final String statementNaturalLanguage) {
                         String ruleTitle = getRuleTypeName(statementType);
                         SimplePanel rulesTextPanel = getRulesTextPanel(statementType);
                         rulesTextPanel.clear();
                         rulesTextPanel.setWidget(new Label(ruleTitle + ": " + statementNaturalLanguage));
-                    } 
-                }); 
+                    }
+                });
             }
         }
     }
-    
+
     private SimplePanel getRulesTextPanel(String statementType) {
         if (statementType.contains("enroll")) return enrollRuleTextPanel;
         if (statementType.contains("prereq")) return prereqRuleTextPanel;
         if (statementType.contains("coreq")) return coreqRuleTextPanel;
-        if (statementType.contains("antireq")) return antireqRuleTextPanel;   
+        if (statementType.contains("antireq")) return antireqRuleTextPanel;
         return new SimplePanel();
-    }    
-    
-    private RuleInfo getRuleInfo(String statementType) {   
+    }
+
+    private RuleInfo getRuleInfo(String statementType) {
         if ((courseRules != null) && !courseRules.isEmpty()) {
             for (RuleInfo ruleInfo : courseRules) {
                 if (ruleInfo.getStatementTypeKey() != null &&
-                        ruleInfo.getStatementTypeKey().equals(statementType)) {                
+                        ruleInfo.getStatementTypeKey().equals(statementType)) {
                     return ruleInfo;
-                }                
+                }
             }
-        }     
+        }
         return null;
     }
 
@@ -150,7 +147,7 @@ public class CourseRequisitesSummaryView extends SectionView {
             });
         }
     }
-    
+
     public Controller getTheController() {
         return theController;
     }
@@ -163,5 +160,5 @@ public class CourseRequisitesSummaryView extends SectionView {
     public void updateModel() {
         Window.alert("CourseRequisitesSummary.updateModel");
     }
-    
+
 }
