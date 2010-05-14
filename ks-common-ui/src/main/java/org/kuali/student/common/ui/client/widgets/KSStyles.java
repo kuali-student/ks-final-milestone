@@ -26,10 +26,6 @@ package org.kuali.student.common.ui.client.widgets;
 public interface KSStyles {
 	public static final String KS_ACCORDION_WIDGETPANEL = "KS-Accordion-WidgetPanel";
 
-	public static final String KS_CHECKBOX_CHECKED_STYLE = "KS-Checkbox-Checked";
-	public static final String KS_CHECKBOX_FOCUS_STYLE = "KS-Checkbox-Focus";
-	public static final String KS_CHECKBOX_HOVER_STYLE = "KS-Checkbox-Hover";
-	public static final String KS_CHECKBOX_STYLE = "KS-Checkbox";
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
 	public static final String KS_DATEFIELD_FOCUS_STYLE = "KS-Datefield-Focus";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
