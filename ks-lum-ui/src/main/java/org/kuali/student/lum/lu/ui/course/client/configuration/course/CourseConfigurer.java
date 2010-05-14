@@ -50,7 +50,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
@@ -92,10 +91,6 @@ import com.google.gwt.user.client.ui.Widget;
 	
 	/**
 	 * This is the configuration factory class for creating a proposal.
-	 *
-	 * TODO: The following is a list of items that need to be fixed.
-	 * 	1) All hardcoded drop downs need to be replaced with one populated via an enumeration lookup
-	 *  2) Any pickers (eg. org, course, needs to be replaced wtih proper lookup based search pickers
 	 *
 	 * @author Kuali Student Team
 	 *

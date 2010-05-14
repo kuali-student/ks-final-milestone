@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -325,17 +324,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		callback.onModelReady(ref);
         	}
         } else if(modelType == CollaboratorTool.CollaboratorModel.class){
-        	//Update the collabmodel with info from the CluProposal Model
-        	//Create a new one if it does not yet exist
-/*        	if(null==collaboratorModel){
-        		collaboratorModel = new Collaborators.CollaboratorModel();
-        	}
-        	String proposalId="";
-        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
-        	}
-        	collaboratorModel.setProposalId(proposalId);    
-        	callback.onModelReady(collaboratorModel);*/
         	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
         	String proposalId=null;
         	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
@@ -540,8 +528,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     				cluProposalModel.setRoot(result.getValue());
     	            View currentView = getCurrentView(); 
     				if (currentView instanceof SectionView){
-    					//TODO double check that this does not break things
-    	            	//((VerticalSectionView) currentView).redraw();
     					((SectionView)currentView).updateView(cluProposalModel);
     	            }
     				if (saveActionEvent.isAcknowledgeRequired()){
