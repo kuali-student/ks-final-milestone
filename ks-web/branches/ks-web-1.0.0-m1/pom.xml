@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.kuali.student</groupId>
+	<artifactId>ks-web</artifactId>
+	<version>1.0.0-m1</version>
+	<packaging>pom</packaging>
+    
+    <name>KS Web</name>
+    <description>Project for building KS Reference Wars</description>
+    
+    <url>http://student.kuali.org/site/web/${project.version}</url>
+    
+	<parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-core</artifactId>
+		<version>1.0.0-m1</version>
+	</parent>
+    
+	<modules>
+        <module>ks-embedded</module>
+		<module>ks-standalone</module>
+		<module>ks-rice</module>
+	</modules>
+    
+    <properties>
+        <derby.version>10.4.2.0</derby.version>
+        <kuali.rice.version>1.0.0-ks-m1</kuali.rice.version>
+        <ks-core.version>1.0.0-m1</ks-core.version>
+        <ks-lum.version>1.0.0-m1</ks-lum.version>
+    </properties>
+    
+    <scm>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1</developerConnection>
+    </scm>
+    
+    <distributionManagement>
+        <site>
+            <id>ks.site</id>
+            <url>
+                dav:https://student.kuali.org:8443/student/site/web/${project.version}
+            </url>
+        </site>
+    </distributionManagement>
+    
+    <repositories>
+        <repository>
+            <id>kuali</id>
+            <name>Kuali Repository</name>
+            <url>https://test.kuali.org/maven</url>
+        </repository>
+        <repository>
+            <id>kuali.release</id>
+            <url>http://archiva.kuali.umd.edu/repository/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>kuali.snapshot</id>
+            <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    
+	
+</project>
