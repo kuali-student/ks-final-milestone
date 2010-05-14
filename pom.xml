@@ -28,7 +28,6 @@
         <derby.version>10.4.2.0</derby.version>
         <ks-core.version>1.1.0-SNAPSHOT</ks-core.version>
         <ks-lum.version>1.1.0-SNAPSHOT</ks-lum.version>
-        <ks-brms.version>1.1.0-SNAPSHOT</ks-brms.version>
     </properties>
     
     <scm>
