@@ -302,15 +302,12 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         commentTypesPanel.add(seeComments);
         commentTypesPanel.add(commentTypes);
         createPanel.add(commentTypesPanel);
-
-        // TODO: is this needed or will the screen refresh at some point?
+        
         isAuthorizedAddComment();
         layout.add(createPanel);
         layout.add(commentList);
         createPanel.setVisible(false);
 		commentList.setVisible(false);
-        //refreshCommentTypes();
-
 
         return layout;
     }
@@ -364,11 +361,9 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 //            }
 //
 //		});
-    	//TODO: force no edits for R1
     	comment.showEditActions(false);
     }
 
-    // TODO: Look into if this buttonPanel forced disable/enable is needed with new permissions and visibility of edit/create actions
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);

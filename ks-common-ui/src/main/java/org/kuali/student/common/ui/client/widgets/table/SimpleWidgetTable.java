@@ -28,7 +28,6 @@ public class SimpleWidgetTable extends Composite{
 	private FlexTable simpleTable = new FlexTable();
 	private int rowCount = 0;
 	public List<String> columnList = new ArrayList<String>();
-	//private G
 	
 	private static class TableRow{
 
@@ -51,7 +50,6 @@ public class SimpleWidgetTable extends Composite{
 		
 		
 		Element table = simpleTable.getElement();
-		//table.setAttribute("style", "border-collapse: collapse; ");
 		 DOM.appendChild(thead,tr); 
 		 for (String columnName: columnNames) {
 			 Element th = DOM.createTH(); 
@@ -61,8 +59,7 @@ public class SimpleWidgetTable extends Composite{
 		 }
 
 		DOM.insertChild(table,thead,0);
-		
-		//TODO fix style names here
+
 		simpleTable.setWidth("100%");
 		simpleTable.setStyleName("ks-table-plain");
 		this.initWidget(simpleTable);
@@ -78,13 +75,6 @@ public class SimpleWidgetTable extends Composite{
 		}
 		rowCount++;
 	}
-	
-/*	public void setRows(List<TableRow> rows){
-		clear();
-		for(TableRow row: rows){
-			addRow(row);
-		}
-	}*/
 	
 	public void clear(){
 		rowCount = 0;

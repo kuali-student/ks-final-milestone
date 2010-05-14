@@ -59,8 +59,7 @@ public class AdvancedSearchWindow {
 
 		@Override
 		public ButtonStyle getStyle() {
-			// TODO Auto-generated method stub
-			return null;
+			return ButtonStyle.PRIMARY_SMALL;
 		}
     }
 
@@ -130,7 +129,6 @@ public class AdvancedSearchWindow {
 	public AdvancedSearchWindow(String fieldMessageKey, SearchPanel panel){
 	    layout.addStyleName("KS-Advanced-Search-Window");
 		searchPanel = panel;
-		//TODO use messages here
 		titleBar = new KSLabel(fieldMessageKey);
 		titleBar.addStyleName("KS-Advanced-Search-Header-Label");
 

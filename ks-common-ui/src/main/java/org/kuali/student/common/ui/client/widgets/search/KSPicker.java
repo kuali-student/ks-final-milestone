@@ -474,7 +474,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
             if (basicWidget.getClass().getName().contains("ContainerWidget")) {
-                ((SelectionContainerWidget) basicWidget).addValuesChangeHandler(handler);
+                ((SelectionContainerWidget) basicWidget).addValueChangeHandler(handler);
             }
         }
 		public void addSelectionChangeHandler(SelectionChangeHandler handler) {
@@ -536,7 +536,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         @Override
         public void setValue(final Map<String, String> translations) {
-        	//TODO: Update to also work with a KSLabelList that doesn't require pre-population of all list items
+        	//TODO: Reviewed in M6 cleanup, unknown:  Update to also work with a KSLabelList that doesn't require pre-population of all list items
         	if (basicWidget instanceof KSSelectItemWidgetAbstract){
         		Callback<Widget> widgetReadyCallback = new Callback<Widget>(){
 					public void exec(Widget widget) {
@@ -557,16 +557,11 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     }
 
-    private class SelectionContainerWidget extends Widget implements HasValue<List<String>> {
-    	//ValueChangeHandler<List<String>> handler;
+    private class SelectionContainerWidget extends Widget implements HasValueChangeHandlers<List<String>> {
     	private List<String> selections = new ArrayList<String>();
 
 		public List<String> getSelections() {
 			return selections;
-		}
-
-		public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
-			super.addHandler(handler, ValueChangeEvent.getType());
 		}
 
 		public void setSelections(List<String> selections) {
@@ -575,25 +570,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		}
 
 		@Override
-		public List<String> getValue() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void setValue(List<String> value) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void setValue(List<String> value, boolean fireEvents) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
 		public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<String>> handler) {
-			// TODO Auto-generated method stub
-			return null;
+			return super.addHandler(handler, ValueChangeEvent.getType());
 		}
     }
 
@@ -639,12 +617,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         sr.setParams(params);
 
         return sr;
-    }
-
-    //TODO use for labels lookup
-    private String getLabel(String labelKey) {
-      //  return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
-    	return null;
     }
 
     public AdvancedSearchWindow getSearchWindow(){

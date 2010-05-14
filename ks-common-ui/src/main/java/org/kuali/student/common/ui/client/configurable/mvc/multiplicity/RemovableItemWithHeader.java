@@ -84,7 +84,6 @@ public class RemovableItemWithHeader extends MultiplicityItem {
      */
     @Override
     public void clear() {
-        // TODO We need a clear/redraw interface to redraw decorated widget
         loaded = false;
     }
 

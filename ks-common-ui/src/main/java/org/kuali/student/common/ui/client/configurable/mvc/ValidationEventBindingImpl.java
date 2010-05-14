@@ -64,7 +64,6 @@ public class ValidationEventBindingImpl  implements ValidationEventBinding {
         	//Do nothing these are valid but do not fire validation events (maybe?)
         }
         else {
-            //TODO address the exception
         	GWT.log("The field with key: " + fd.getFieldKey() +
         			" does not use a widget which implements an interface that can perform on the fly validation", null);
         }

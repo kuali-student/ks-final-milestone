@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,22 +39,20 @@ public class KSActionItemList extends Composite{
 		private String shortDesc;
 		private ClickHandler handler;
 
-		//TODO actually LINK widget
-		private KSLabel link;
+		private KSButton link;
 		private KSLabel desc;
 		private HorizontalPanel layout = new HorizontalPanel();
 
 		public ActionItem(String text, String shortDesc,
 				ClickHandler handler) {
-			
-			link = new KSLabel(text);
-			desc =  new KSLabel(shortDesc);
+
 			link.addStyleName("KS-ActionItemList-Link");
 			desc.addStyleName("KS-ActionItemList-Desc");
 			this.text = text;
 			this.shortDesc = shortDesc;
 			this.handler = handler;
-
+			link = new KSButton(text, ButtonStyle.DEFAULT_ANCHOR);
+			desc =  new KSLabel(shortDesc);
 		}
 
 		public String getText() {

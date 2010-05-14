@@ -470,7 +470,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                 @Override
                 public void onClick(ClickEvent event) {
                 	 try {
-                		 //TODO this will fail if the document does not exist BUT the relation does, needs a check for existance
+                		 //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
                 		 //before delete
              			documentRelationRpc.deleteRefDocRelation(Document.this.info.getId(), new AsyncCallback<StatusInfo>(){
 
@@ -537,19 +537,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
             viewLayout.add(documentText);
 
             if(info.getTitle() != null){
-            	//name.setText(info.getTitle());
-            	//TODO maybe not open up a new window for certain file types not expected to be viewed in browser
             	name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + info.getDocumentId() + "\" target=\"_blank\"><b>" + info.getTitle() + "</b></a>");
-/*            	name.addClickHandler(new ClickHandler(){
-
-					@Override
-					public void onClick(ClickEvent event) {
-
-
-						Window.open(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + info.getDocumentId(), info.getTitle(), "resizable=yes,scrollbars=yes,menubar=no,location=yes,status=yes");
-
-					}
-				});*/
             }
 
             if(info.getDesc() != null){

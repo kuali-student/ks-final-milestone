@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 
@@ -81,10 +82,8 @@ public class KSWrapper extends Composite{
 	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
 	private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
 
-	//TODO replace with raw link widget(?)
-	private KSLabel helpLabel = new KSLabel(getMessage("wrapperPanelHelp"));
+	private KSButton helpLabel = new KSButton(getMessage("wrapperPanelHelp"), ButtonStyle.DEFAULT_ANCHOR);
 	private KSImage helpImage = Theme.INSTANCE.getCommonImages().getHelpIcon();
-	//TODO
 	private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 	private SimplePanel content = new SimplePanel();
 
@@ -158,8 +157,7 @@ public class KSWrapper extends Composite{
 	private void init(){
 		headerBottomLinks.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		createUserDropDown();
-		headerBottomLinks.add(userDropDown);//Todo, put in current user
-		//headerBottomLinks.add(buildUserIdPanel());
+		headerBottomLinks.add(userDropDown);
 
 		createHelpInfo();
 		headerBottomLinks.add(helpLabel);
@@ -171,7 +169,7 @@ public class KSWrapper extends Composite{
 		}
 		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		createNavDropDown();
-		leftHeader.add(navDropDown);//TODO Put back in with operations
+		leftHeader.add(navDropDown);
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
@@ -223,7 +221,6 @@ public class KSWrapper extends Composite{
 
 	private void createUserDropDown() {
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-    	//TODO preferences real link here
     	items.add(new KSMenuItemData(getMessage("wrapperPanelSettings"),
     			new ClickHandler(){
 					public void onClick(ClickEvent event) {
@@ -303,7 +300,6 @@ public class KSWrapper extends Composite{
 
 
     private KSLabel buildLink(final String text, final String title, final String actionUrl) {
-        //TODO need to add the action for the link
 
         //Using KSLabel for now - couldn't change color for Anchor
         final KSLabel link = new KSLabel(text);
@@ -327,7 +323,6 @@ public class KSWrapper extends Composite{
 
             @Override
             public void onClick(ClickEvent event) {
-                //TODO need to set actionUrl
                 Window.Location.assign(actionUrl);
             }});
 

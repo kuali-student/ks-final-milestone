@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
@@ -129,8 +130,7 @@ public class TempSearchBackedTable extends Composite{
 
         columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
         for (LookupResultMetadata r: listResultMetadata){
-            //TODO: use this as a token to get a message from message service instead
-            String header = r.getName();
+            String header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
             String key = r.getKey();
             if(!r.isHidden()){
                 columnDefs.add(new SearchColumnDefinition(header, key));

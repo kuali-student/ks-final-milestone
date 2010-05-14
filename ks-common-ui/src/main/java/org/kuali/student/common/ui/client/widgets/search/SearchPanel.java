@@ -70,7 +70,6 @@ public class SearchPanel extends Composite{
     private TempSearchBackedTable table = null;             //FIXME: Swap with new table implementation
     public static enum SearchStyle{ADVANCED, CUSTOM};
 
-    //TODO messages
     private String criteriaInstructions = getMessage("searchPanelEnterFields");
     private KSLabel enteredCriteriaHeading = new KSLabel(getMessage("searchPanelCriteria"));
     private boolean multiSelect = false;
