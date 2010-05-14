@@ -37,9 +37,6 @@ public interface KSStyles {
 	public static final String KS_POPUP = "KS-Popup";
 	public static final String KS_TAB_PANEL = "KS-Tab-Panel";
 	public static final String KS_TAB_PANEL_BAR_ITEM = "KS-Tab-Panel-BarItem";
-	public static final String KS_TEXTAREA_FOCUS_STYLE = "KS-Textarea-Focus";
-	public static final String KS_TEXTAREA_HOVER_STYLE = "KS-Textarea-Hover";
-	public static final String KS_TEXTAREA_STYLE = "KS-Textarea";
 	public static final String KS_TEXTBOX_FOCUS_STYLE = "KS-Textbox-Focus";
 	public static final String KS_TEXTBOX_HOVER_STYLE = "KS-Textbox-Hover";
 	public static final String KS_TEXTBOX_STYLE = "KS-Textbox";
