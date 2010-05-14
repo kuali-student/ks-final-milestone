@@ -25,11 +25,6 @@ package org.kuali.student.common.ui.client.widgets;
 @Deprecated
 public interface KSStyles {
 	public static final String KS_ACCORDION_WIDGETPANEL = "KS-Accordion-WidgetPanel";
-	public static final String KS_BUTTON_CLICK_STYLE = "KS-Button-Click";
-	public static final String KS_BUTTON_FOCUS_STYLE = "KS-Button-Focus";
-	public static final String KS_BUTTON_HOVER_STYLE = "KS-Button-Hover";
-	public static final String KS_BUTTON_STYLE = "KS-Button";
-	public static final String KS_BUTTON_SPECIAL_STYLE = "KS-Button-Special";
 
 	public static final String KS_CHECKBOX_CHECKED_STYLE = "KS-Checkbox-Checked";
 	public static final String KS_CHECKBOX_FOCUS_STYLE = "KS-Checkbox-Focus";

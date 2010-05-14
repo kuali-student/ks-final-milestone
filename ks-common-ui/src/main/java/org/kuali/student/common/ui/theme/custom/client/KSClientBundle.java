@@ -33,8 +33,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource accordionPanelCss();
     @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSBlockingProgressIndicator.css")
 	public CssResource blockingProgressIndicatorCss();
-    @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSButton.css")
-	public CssResource buttonCss();
     @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSCheckbox.css")
 	public CssResource checkboxCss();
     @Resource("org/kuali/student/common/ui/theme/custom/public/css/KSDatePicker.css")
