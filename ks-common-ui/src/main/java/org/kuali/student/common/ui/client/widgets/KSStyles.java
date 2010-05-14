@@ -28,15 +28,6 @@ public interface KSStyles {
 
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
-	public static final String KS_HELP_POPUP = "KS-Help-Popup";
-	public static final String KS_HELP_POPUP_FRAME = "KS-Help-Frame";
-	public static final String KS_HELP_IMAGE = "KS-Help-Image";
-    public static final String KS_HELP_TEXT = "KS-Help-Text";
-	public static final String KS_HELP_TEXT_ERROR = "KS-Help-Text-Error";
-	public static final String KS_HELP_TEXT_OK = "KS-Help-Text-OK";
-	public static final String KS_HELP_TEXT_PANEL = "KS-Help-Text-Panel";
-	public static final String KS_HELP_TEXT_PANEL_ERROR = "KS-Help-Text-Panel-Error";
-	public static final String KS_HELP_TEXT_PANEL_OK = "KS-Help-Text-Panel-OK";
 	public static final String KS_IMAGE_CLICK_STYLE = "KS-Image-Click";
 	public static final String KS_IMAGE_HOVER_STYLE = "KS-Image-Hover";
 	public static final String KS_IMAGE_STYLE = "KS-Image";
