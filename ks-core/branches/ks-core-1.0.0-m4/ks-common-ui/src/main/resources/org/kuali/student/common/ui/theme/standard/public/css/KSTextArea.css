@@ -1,0 +1,12 @@
+.KS-Textarea-Hover{
+
+}
+.KS-Textarea-Focus{
+	background-color: #ECF2FA;
+}
+.KS-Textarea{
+	margin: 2px;
+	border: 1px solid #4583D5;
+	height: 200px;
+	width: 500px;
+}

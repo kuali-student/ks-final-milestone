@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<parent>
+		<groupId>org.kuali.student.brms</groupId>
+		<artifactId>brms-impl-pom</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.brms</groupId>
+	<artifactId>rule-common-impl</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>Kuali Student BRMS - rule-common</name>
+	<description>
+		Rules common library. This library is used internally by the
+		rules modules. THIS MODULE SHOULD NOT BE USED OUTSIDE OF RULES.
+	</description>
+
+	<build>
+		<plugins>
+			<plugin>
+                <groupId>org.antlr</groupId>
+				<artifactId>antlr3-maven-plugin</artifactId>
+				<version>3.1.1.2</version>
+				<configuration>
+					<outputDirectory>
+						src/main/java/org/kuali/student/rules/internal/common/parsers
+					</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>antlr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>rule-management-api</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+		</dependency>
+        <dependency>
+            <groupId>org.kuali.student.brms</groupId>
+            <artifactId>rule-repository-api</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-math</groupId>
+            <artifactId>commons-math</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+        	<groupId>xerces</groupId>
+        	<artifactId>xercesImpl</artifactId>
+        	<version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>velocity-tools</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>${velocity.tools.version}</version>          
+        </dependency>
+	</dependencies>
+	
+</project>

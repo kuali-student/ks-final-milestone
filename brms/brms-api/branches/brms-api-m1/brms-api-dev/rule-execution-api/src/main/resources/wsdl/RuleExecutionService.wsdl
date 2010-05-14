@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="RuleExecutionService" targetNamespace="http://student.kuali.org/wsdl/brms/RuleExecution" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/brms/RuleExecution" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/brms/RuleExecution" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/brms/RuleExecution">
+    <xs:element name="agendaExecutionResultDTO" type="tns:agendaExecutionResultDTO"/>
+    <xs:element name="executeAgenda" type="tns:executeAgenda"/>
+    <xs:element name="executeAgendaResponse" type="tns:executeAgendaResponse"/>
+    <xs:element name="executeBusinessRule" type="tns:executeBusinessRule"/>
+    <xs:element name="executeBusinessRuleResponse" type="tns:executeBusinessRuleResponse"/>
+    <xs:element name="executionResultDTO" type="tns:executionResultDTO"/>
+    <xs:element name="propositionReportDTO" type="tns:propositionReportDTO"/>
+    <xs:complexType name="executeAgenda">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="agenda" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executeAgendaResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:agendaExecutionResultDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="agendaExecutionResultDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="xs:string"/>
+            <xs:element minOccurs="0" name="executionResult" type="xs:boolean"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="executionResultList" type="tns:executionResultDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executionResultDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="executionResult" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="propositionReport" type="tns:propositionReportDTO"/>
+            <xs:element minOccurs="0" name="executionLog" type="xs:string"/>
+            <xs:element minOccurs="0" name="errorMessage" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="propositionReportDTO">
+        <xs:sequence>
+            <xs:element name="successful" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
+            <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executeBusinessRule">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRuleId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executeBusinessRuleResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:executionResultDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence/>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="executeAgenda">
+    <wsdl:part name="parameters" element="tns:executeAgenda">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeBusinessRuleResponse">
+    <wsdl:part name="parameters" element="tns:executeBusinessRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeAgendaResponse">
+    <wsdl:part name="parameters" element="tns:executeAgendaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeBusinessRule">
+    <wsdl:part name="parameters" element="tns:executeBusinessRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RuleExecutionService">
+    <wsdl:operation name="executeAgenda">
+      <wsdl:input name="executeAgenda" message="tns:executeAgenda">
+    </wsdl:input>
+      <wsdl:output name="executeAgendaResponse" message="tns:executeAgendaResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="executeBusinessRule">
+      <wsdl:input name="executeBusinessRule" message="tns:executeBusinessRule">
+    </wsdl:input>
+      <wsdl:output name="executeBusinessRuleResponse" message="tns:executeBusinessRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RuleExecutionServiceServiceSoapBinding" type="tns:RuleExecutionService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="executeAgenda">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="executeAgenda">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeAgendaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="executeBusinessRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="executeBusinessRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeBusinessRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RuleExecutionService">
+    <wsdl:port name="RuleExecutionServicePort" binding="tns:RuleExecutionServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/RuleExecutionServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

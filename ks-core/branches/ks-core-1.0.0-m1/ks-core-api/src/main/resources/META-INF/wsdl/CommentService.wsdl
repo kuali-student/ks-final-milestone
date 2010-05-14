@@ -1,0 +1,1565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CommentService" targetNamespace="http://student.kuali.org/wsdl/comment" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/comment" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+    <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
+    <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
+    <xs:element name="validateObject" type="tns:validateObject"/>
+    <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
+    <xs:element name="validateStructureData" type="tns:validateStructureData"/>
+    <xs:element name="validateStructureDataResponse" type="tns:validateStructureDataResponse"/>
+    <xs:complexType name="getObjectTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getObjectTypesResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStructureData">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStructureDataResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectStructure">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectStructureResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:objectStructure"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="objectStructure">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="type">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="field">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+            <xs:element name="selector" type="xs:boolean"/>
+            <xs:element name="dynamic" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="fieldDescriptor">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="desc" type="xs:string"/>
+            <xs:element name="readOnly" type="xs:boolean"/>
+            <xs:element name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
+            <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
+            <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchSelector">
+        <xs:sequence/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="constraintDescriptor">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="constraintSelector">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
+            <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="className" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
+        <xs:attribute name="locale" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="validCharsConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="fields" type="xs:string"/>
+        <xs:attribute name="separator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="requireConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="caseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="whenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="typeStateCaseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeStateWhenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="search" type="xs:string"/>
+        <xs:attribute name="searchField" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupKeyConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="mapsTo" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="occursConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="min" type="xs:int"/>
+        <xs:attribute name="max" type="xs:int"/>
+    </xs:complexType>
+    <xs:complexType name="validateObject">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateObjectResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/comment" xmlns:tns="http://student.kuali.org/wsdl/commentService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/commentService">
+    <xs:import namespace="http://student.kuali.org/wsdl/comment"/>
+    <xs:element name="addComment" type="tns:addComment"/>
+    <xs:element name="addCommentResponse" type="tns:addCommentResponse"/>
+    <xs:element name="addTag" type="tns:addTag"/>
+    <xs:element name="addTagResponse" type="tns:addTagResponse"/>
+    <xs:element name="getComment" type="tns:getComment"/>
+    <xs:element name="getCommentResponse" type="tns:getCommentResponse"/>
+    <xs:element name="getCommentTypes" type="tns:getCommentTypes"/>
+    <xs:element name="getCommentTypesForReferenceType" type="tns:getCommentTypesForReferenceType"/>
+    <xs:element name="getCommentTypesForReferenceTypeResponse" type="tns:getCommentTypesForReferenceTypeResponse"/>
+    <xs:element name="getCommentTypesResponse" type="tns:getCommentTypesResponse"/>
+    <xs:element name="getComments" type="tns:getComments"/>
+    <xs:element name="getCommentsByType" type="tns:getCommentsByType"/>
+    <xs:element name="getCommentsByTypeResponse" type="tns:getCommentsByTypeResponse"/>
+    <xs:element name="getCommentsResponse" type="tns:getCommentsResponse"/>
+    <xs:element name="getReferenceTypes" type="tns:getReferenceTypes"/>
+    <xs:element name="getReferenceTypesResponse" type="tns:getReferenceTypesResponse"/>
+    <xs:element name="getTag" type="tns:getTag"/>
+    <xs:element name="getTagResponse" type="tns:getTagResponse"/>
+    <xs:element name="getTagTypes" type="tns:getTagTypes"/>
+    <xs:element name="getTagTypesResponse" type="tns:getTagTypesResponse"/>
+    <xs:element name="getTags" type="tns:getTags"/>
+    <xs:element name="getTagsByType" type="tns:getTagsByType"/>
+    <xs:element name="getTagsByTypeResponse" type="tns:getTagsByTypeResponse"/>
+    <xs:element name="getTagsResponse" type="tns:getTagsResponse"/>
+    <xs:element name="removeComment" type="tns:removeComment"/>
+    <xs:element name="removeCommentResponse" type="tns:removeCommentResponse"/>
+    <xs:element name="removeComments" type="tns:removeComments"/>
+    <xs:element name="removeCommentsResponse" type="tns:removeCommentsResponse"/>
+    <xs:element name="removeTag" type="tns:removeTag"/>
+    <xs:element name="removeTagResponse" type="tns:removeTagResponse"/>
+    <xs:element name="removeTags" type="tns:removeTags"/>
+    <xs:element name="removeTagsResponse" type="tns:removeTagsResponse"/>
+    <xs:element name="updateComment" type="tns:updateComment"/>
+    <xs:element name="updateCommentResponse" type="tns:updateCommentResponse"/>
+    <xs:element name="validateComment" type="tns:validateComment"/>
+    <xs:element name="validateCommentResponse" type="tns:validateCommentResponse"/>
+    <xs:complexType name="removeTag">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeTagResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateCommentResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:validationResultContainer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeTags">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeTagsResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="commentId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagsByType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="tagTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagsByTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTag">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="tagId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypesForReferenceType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypesForReferenceTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addTag">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="tagInfo" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addTagResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="commentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getCommentTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTags">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagsResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getTagTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getTagTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:tagTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateComment">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentInfo" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateCommentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReferenceTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getReferenceTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:referenceTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentsByType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="commentTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentsByTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeComments">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeCommentsResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getComments">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCommentsResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/commentService" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:ns2="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/comment" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/comment">
+    <xs:complexType name="statusInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="commentInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="commentText" type="tns:richTextInfo"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="richTextInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="plain" type="xs:string"/>
+            <xs:element minOccurs="0" name="formatted" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="metaInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+            <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="createId" type="xs:string"/>
+            <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="updateId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validationResultContainer">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
+            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
+            <xs:element minOccurs="0" name="element" type="xs:string"/>
+            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
+            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validationResultInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tagTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="tagInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="namespace" type="xs:string"/>
+            <xs:element minOccurs="0" name="predicate" type="xs:string"/>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="commentTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="referenceTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:simpleType name="errorLevel">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OK"/>
+            <xs:enumeration value="WARN"/>
+            <xs:enumeration value="ERROR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="removeTag" nillable="true" type="ns0:removeTag"/>
+    <xs:element name="removeTagResponse" nillable="true" type="ns0:removeTagResponse"/>
+    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
+    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
+    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
+    <xs:element name="validateComment" nillable="true" type="ns0:validateComment"/>
+    <xs:element name="validateCommentResponse" nillable="true" type="ns0:validateCommentResponse"/>
+    <xs:element name="removeTags" nillable="true" type="ns0:removeTags"/>
+    <xs:element name="removeTagsResponse" nillable="true" type="ns0:removeTagsResponse"/>
+    <xs:element name="getObjectTypes" nillable="true" type="ns2:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" nillable="true" type="ns2:getObjectTypesResponse"/>
+    <xs:element name="getComment" nillable="true" type="ns0:getComment"/>
+    <xs:element name="getCommentResponse" nillable="true" type="ns0:getCommentResponse"/>
+    <xs:element name="validateStructureData" nillable="true" type="ns2:validateStructureData"/>
+    <xs:element name="validateStructureDataResponse" nillable="true" type="ns2:validateStructureDataResponse"/>
+    <xs:element name="getTagsByType" nillable="true" type="ns0:getTagsByType"/>
+    <xs:element name="getTagsByTypeResponse" nillable="true" type="ns0:getTagsByTypeResponse"/>
+    <xs:element name="getTag" nillable="true" type="ns0:getTag"/>
+    <xs:element name="getTagResponse" nillable="true" type="ns0:getTagResponse"/>
+    <xs:element name="getCommentTypesForReferenceType" nillable="true" type="ns0:getCommentTypesForReferenceType"/>
+    <xs:element name="getCommentTypesForReferenceTypeResponse" nillable="true" type="ns0:getCommentTypesForReferenceTypeResponse"/>
+    <xs:element name="addTag" nillable="true" type="ns0:addTag"/>
+    <xs:element name="addTagResponse" nillable="true" type="ns0:addTagResponse"/>
+    <xs:element name="DataValidationErrorException" nillable="true" type="ns1:DataValidationErrorException"/>
+    <xs:element name="AlreadyExistsException" nillable="true" type="ns1:AlreadyExistsException"/>
+    <xs:element name="removeComment" nillable="true" type="ns0:removeComment"/>
+    <xs:element name="removeCommentResponse" nillable="true" type="ns0:removeCommentResponse"/>
+    <xs:element name="getCommentTypes" nillable="true" type="ns0:getCommentTypes"/>
+    <xs:element name="getCommentTypesResponse" nillable="true" type="ns0:getCommentTypesResponse"/>
+    <xs:element name="getObjectStructure" nillable="true" type="ns2:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" nillable="true" type="ns2:getObjectStructureResponse"/>
+    <xs:element name="getTags" nillable="true" type="ns0:getTags"/>
+    <xs:element name="getTagsResponse" nillable="true" type="ns0:getTagsResponse"/>
+    <xs:element name="addComment" nillable="true" type="ns0:addComment"/>
+    <xs:element name="addCommentResponse" nillable="true" type="ns0:addCommentResponse"/>
+    <xs:element name="getTagTypes" nillable="true" type="ns0:getTagTypes"/>
+    <xs:element name="getTagTypesResponse" nillable="true" type="ns0:getTagTypesResponse"/>
+    <xs:element name="updateComment" nillable="true" type="ns0:updateComment"/>
+    <xs:element name="updateCommentResponse" nillable="true" type="ns0:updateCommentResponse"/>
+    <xs:element name="getReferenceTypes" nillable="true" type="ns0:getReferenceTypes"/>
+    <xs:element name="getReferenceTypesResponse" nillable="true" type="ns0:getReferenceTypesResponse"/>
+    <xs:element name="getCommentsByType" nillable="true" type="ns0:getCommentsByType"/>
+    <xs:element name="getCommentsByTypeResponse" nillable="true" type="ns0:getCommentsByTypeResponse"/>
+    <xs:element name="removeComments" nillable="true" type="ns0:removeComments"/>
+    <xs:element name="removeCommentsResponse" nillable="true" type="ns0:removeCommentsResponse"/>
+    <xs:element name="validateObject" nillable="true" type="ns2:validateObject"/>
+    <xs:element name="validateObjectResponse" nillable="true" type="ns2:validateObjectResponse"/>
+    <xs:element name="getComments" nillable="true" type="ns0:getComments"/>
+    <xs:element name="getCommentsResponse" nillable="true" type="ns0:getCommentsResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="removeComments">
+    <wsdl:part name="parameters" element="tns:removeComments">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addTagResponse">
+    <wsdl:part name="parameters" element="tns:addTagResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTagsResponse">
+    <wsdl:part name="parameters" element="tns:getTagsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTagsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getTagsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComments">
+    <wsdl:part name="parameters" element="tns:getComments">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentTypesForReferenceTypeResponse">
+    <wsdl:part name="parameters" element="tns:getCommentTypesForReferenceTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCommentResponse">
+    <wsdl:part name="parameters" element="tns:validateCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeCommentResponse">
+    <wsdl:part name="parameters" element="tns:removeCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentTypesForReferenceType">
+    <wsdl:part name="parameters" element="tns:getCommentTypesForReferenceType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectStructure">
+    <wsdl:part name="parameters" element="tns:getObjectStructure">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateObject">
+    <wsdl:part name="parameters" element="tns:validateObject">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReferenceTypes">
+    <wsdl:part name="parameters" element="tns:getReferenceTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentsResponse">
+    <wsdl:part name="parameters" element="tns:getCommentsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTag">
+    <wsdl:part name="parameters" element="tns:getTag">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateComment">
+    <wsdl:part name="parameters" element="tns:validateComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTag">
+    <wsdl:part name="parameters" element="tns:removeTag">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypesResponse">
+    <wsdl:part name="parameters" element="tns:getObjectTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectStructureResponse">
+    <wsdl:part name="parameters" element="tns:getObjectStructureResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComment">
+    <wsdl:part name="parameters" element="tns:getComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateComment">
+    <wsdl:part name="parameters" element="tns:updateComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTagResponse">
+    <wsdl:part name="parameters" element="tns:getTagResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentTypes">
+    <wsdl:part name="parameters" element="tns:getCommentTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addTag">
+    <wsdl:part name="parameters" element="tns:addTag">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addCommentResponse">
+    <wsdl:part name="parameters" element="tns:addCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getCommentsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentsByType">
+    <wsdl:part name="parameters" element="tns:getCommentsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypes">
+    <wsdl:part name="parameters" element="tns:getObjectTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateStructureData">
+    <wsdl:part name="parameters" element="tns:validateStructureData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeComment">
+    <wsdl:part name="parameters" element="tns:removeComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTagTypesResponse">
+    <wsdl:part name="parameters" element="tns:getTagTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentTypesResponse">
+    <wsdl:part name="parameters" element="tns:getCommentTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateObjectResponse">
+    <wsdl:part name="parameters" element="tns:validateObjectResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addComment">
+    <wsdl:part name="parameters" element="tns:addComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCommentResponse">
+    <wsdl:part name="parameters" element="tns:updateCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeCommentsResponse">
+    <wsdl:part name="parameters" element="tns:removeCommentsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTagResponse">
+    <wsdl:part name="parameters" element="tns:removeTagResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReferenceTypesResponse">
+    <wsdl:part name="parameters" element="tns:getReferenceTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateStructureDataResponse">
+    <wsdl:part name="parameters" element="tns:validateStructureDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTagsResponse">
+    <wsdl:part name="parameters" element="tns:removeTagsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTagTypes">
+    <wsdl:part name="parameters" element="tns:getTagTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTags">
+    <wsdl:part name="parameters" element="tns:removeTags">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommentResponse">
+    <wsdl:part name="parameters" element="tns:getCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTags">
+    <wsdl:part name="parameters" element="tns:getTags">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTagsByType">
+    <wsdl:part name="parameters" element="tns:getTagsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CommentService">
+    <wsdl:operation name="removeTag">
+      <wsdl:input name="removeTag" message="tns:removeTag">
+    </wsdl:input>
+      <wsdl:output name="removeTagResponse" message="tns:removeTagResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateComment">
+      <wsdl:input name="validateComment" message="tns:validateComment">
+    </wsdl:input>
+      <wsdl:output name="validateCommentResponse" message="tns:validateCommentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTags">
+      <wsdl:input name="removeTags" message="tns:removeTags">
+    </wsdl:input>
+      <wsdl:output name="removeTagsResponse" message="tns:removeTagsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectTypes">
+      <wsdl:input name="getObjectTypes" message="tns:getObjectTypes">
+    </wsdl:input>
+      <wsdl:output name="getObjectTypesResponse" message="tns:getObjectTypesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComment">
+      <wsdl:input name="getComment" message="tns:getComment">
+    </wsdl:input>
+      <wsdl:output name="getCommentResponse" message="tns:getCommentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateStructureData">
+      <wsdl:input name="validateStructureData" message="tns:validateStructureData">
+    </wsdl:input>
+      <wsdl:output name="validateStructureDataResponse" message="tns:validateStructureDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTagsByType">
+      <wsdl:input name="getTagsByType" message="tns:getTagsByType">
+    </wsdl:input>
+      <wsdl:output name="getTagsByTypeResponse" message="tns:getTagsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTag">
+      <wsdl:input name="getTag" message="tns:getTag">
+    </wsdl:input>
+      <wsdl:output name="getTagResponse" message="tns:getTagResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCommentTypesForReferenceType">
+      <wsdl:input name="getCommentTypesForReferenceType" message="tns:getCommentTypesForReferenceType">
+    </wsdl:input>
+      <wsdl:output name="getCommentTypesForReferenceTypeResponse" message="tns:getCommentTypesForReferenceTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addTag">
+      <wsdl:input name="addTag" message="tns:addTag">
+    </wsdl:input>
+      <wsdl:output name="addTagResponse" message="tns:addTagResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeComment">
+      <wsdl:input name="removeComment" message="tns:removeComment">
+    </wsdl:input>
+      <wsdl:output name="removeCommentResponse" message="tns:removeCommentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCommentTypes">
+      <wsdl:input name="getCommentTypes" message="tns:getCommentTypes">
+    </wsdl:input>
+      <wsdl:output name="getCommentTypesResponse" message="tns:getCommentTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectStructure">
+      <wsdl:input name="getObjectStructure" message="tns:getObjectStructure">
+    </wsdl:input>
+      <wsdl:output name="getObjectStructureResponse" message="tns:getObjectStructureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTags">
+      <wsdl:input name="getTags" message="tns:getTags">
+    </wsdl:input>
+      <wsdl:output name="getTagsResponse" message="tns:getTagsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addComment">
+      <wsdl:input name="addComment" message="tns:addComment">
+    </wsdl:input>
+      <wsdl:output name="addCommentResponse" message="tns:addCommentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTagTypes">
+      <wsdl:input name="getTagTypes" message="tns:getTagTypes">
+    </wsdl:input>
+      <wsdl:output name="getTagTypesResponse" message="tns:getTagTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateComment">
+      <wsdl:input name="updateComment" message="tns:updateComment">
+    </wsdl:input>
+      <wsdl:output name="updateCommentResponse" message="tns:updateCommentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReferenceTypes">
+      <wsdl:input name="getReferenceTypes" message="tns:getReferenceTypes">
+    </wsdl:input>
+      <wsdl:output name="getReferenceTypesResponse" message="tns:getReferenceTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCommentsByType">
+      <wsdl:input name="getCommentsByType" message="tns:getCommentsByType">
+    </wsdl:input>
+      <wsdl:output name="getCommentsByTypeResponse" message="tns:getCommentsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeComments">
+      <wsdl:input name="removeComments" message="tns:removeComments">
+    </wsdl:input>
+      <wsdl:output name="removeCommentsResponse" message="tns:removeCommentsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateObject">
+      <wsdl:input name="validateObject" message="tns:validateObject">
+    </wsdl:input>
+      <wsdl:output name="validateObjectResponse" message="tns:validateObjectResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComments">
+      <wsdl:input name="getComments" message="tns:getComments">
+    </wsdl:input>
+      <wsdl:output name="getCommentsResponse" message="tns:getCommentsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CommentServiceServiceSoapBinding" type="tns:CommentService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="removeTag">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeTag">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeTagResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTags">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeTags">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeTagsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateStructureData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateStructureData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateStructureDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTagsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTagsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTagsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTag">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTag">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTagResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCommentTypesForReferenceType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCommentTypesForReferenceType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCommentTypesForReferenceTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addTag">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addTag">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addTagResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCommentTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCommentTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCommentTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectStructure">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectStructure">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectStructureResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTags">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTags">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTagsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTagTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTagTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTagTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReferenceTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReferenceTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReferenceTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCommentsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCommentsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCommentsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeComments">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeComments">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeCommentsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateObject">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateObject">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateObjectResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComments">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getComments">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCommentsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CommentService">
+    <wsdl:port name="CommentServicePort" binding="tns:CommentServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/CommentServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
