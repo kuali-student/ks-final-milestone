@@ -29,8 +29,6 @@ public interface KSStyles {
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
 	public static final String KS_INDENT = "KS-Indent";
-	public static final String KS_MODAL_GLASS = "KS-Modal-Dialog-Glass";
-	public static final String KS_MODAL_POPUP = "KS-Modal-Popup";
 	public static final String KS_PLACEHOLDER_STYLE = "KS-Placeholder";
 
 

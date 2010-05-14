@@ -43,8 +43,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public CssResource helpLinkCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSImage.css")
 	public CssResource imageCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSModalDialogPanel.css")
-	public CssResource modalDialogPanelCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSLabel.css")
 	public CssResource labelCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSRadioButton.css")
