@@ -21,8 +21,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TimeAmount {
 
+	@Column(name="ATP_DUR_TYP_KEY")
 	private String atpDurationTypeKey;
 	
+	@Column(name="TM_QUANTITY")
 	private Integer timeQuantity;
 	
 	public String getAtpDurationTypeKey() {
