@@ -56,28 +56,28 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	private boolean justPicked = false;
 	private final FocusGroup focus = new FocusGroup(this);
 	private boolean allowedKeyPress = true;
-	
-	public KSDatePickerImpl(){ 
+
+	public KSDatePickerImpl(){
 		this.initWidget(dateField);
 		focus.addWidget(picker);
 		focus.addWidget(dateField);
 		//pickerWrapper.add(picker);
 		popup.add(picker);
-		
+
 		picker.setWidth(dateField.getOffsetWidth() + "px");
 		dateField.addBlurHandler(new BlurHandler(){
 			public void onBlur(BlurEvent event) {
-				dateField.removeStyleName(KSStyles.KS_DATEFIELD_FOCUS_STYLE);	
+				dateField.removeStyleName("KS-Datefield-Focus");
 				if(!picker.isVisible()){
 					focus.setSuppressed(false);
 				}
-			}	
+			}
 		});
-		
+
 
 		dateField.addFocusHandler(new FocusHandler(){
 			public void onFocus(FocusEvent event) {
-				dateField.addStyleName(KSStyles.KS_DATEFIELD_FOCUS_STYLE);
+				dateField.addStyleName("KS-Datefield-Focus");
 				popup.setPopupPosition(getAbsoluteLeft(), getAbsoluteTop() + dateField.getOffsetHeight());
 				if(justPicked){
 					dateField.selectAll();
@@ -92,21 +92,21 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 						}
 					});
 				}
-				
-			}		
+
+			}
 		});
-		
+
 		dateField.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
 				popup.setPopupPosition(getAbsoluteLeft(), getAbsoluteTop() + dateField.getOffsetHeight());
 				popup.show();
 				//dateField.selectAll();
-				
+
 			}
-			
+
 		});
-		
+
 		dateField.addKeyPressHandler(new KeyPressHandler(){
 
 			public void onKeyPress(KeyPressEvent event) {
@@ -115,9 +115,9 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 					event.preventDefault();
 				}
 			}
-			
+
 		});
-		
+
 		dateField.addKeyDownHandler(new KeyDownHandler(){
 
 			public void onKeyDown(KeyDownEvent event) {
@@ -128,14 +128,14 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 					}
 				}
 			}
-			
+
 		});
-		
+
 		dateField.addKeyUpHandler(new KeyUpHandler(){
 
 			public void onKeyUp(KeyUpEvent event) {
 				String dateText = dateField.getText();
-			
+
 				if(!isDeleteOrBackspaceKey(event.getNativeKeyCode())){
 					if(dateText.length() == 2){
 						dateField.setText(dateText + "/");
@@ -150,7 +150,7 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 						dateField.setText(df.format(newDate).substring(0, 6));
 						picker.setCurrentMonth(newDate);
 						picker.setValue(newDate, false);
-						
+
 					}
 					else if(dateText.length() == 10){
 						Date newDate = df.parse(dateField.getText());
@@ -160,10 +160,10 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 					}
 				}
 			}
-			
+
 		});
-		
-		
+
+
 		//pickerHandlers
 		picker.addValueChangeHandler(new ValueChangeHandler<Date>(){
 
@@ -177,25 +177,25 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 				justPicked = true;
 				focus.setSuppressed(false);
 				fireValueChangeEvent();
-			}	
+			}
 		});
-		
+
 	}
-	
+
 	private boolean isDeleteOrBackspaceKey(int code){
 		return  (code == KeyCodes.KEY_BACKSPACE || code == KeyCodes.KEY_DELETE);
 	}
-	
+
 	private void fireValueChangeEvent(){
-        ValueChangeEvent.fire(this, selectedDate);	    
+        ValueChangeEvent.fire(this, selectedDate);
 	}
-	
+
 	public Date getValue(){
 		Date date = null;
-		if(dateField.getText() != null 
+		if(dateField.getText() != null
 				&& dateField.getText().trim().length() == 10)
 		{
-			try{	
+			try{
 				date = df.parseStrict(dateField.getText().trim());
 			}
 			catch(IllegalArgumentException e){
@@ -208,7 +208,7 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 		return date;
 		//return this.selectedDate;
 	}
-	
+
 	public void setValue(Date date){
 		if(null==date){
 			dateField.setText("");
@@ -218,9 +218,9 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	        picker.setValue(date, false);
 		    selectedDate = date;
 		}
-        
+
 	}
-	
+
 /*	public void setValue(String date){
 		if(date == null || date.equals("")){
 			dateField.setText("");
@@ -236,7 +236,7 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 
     @Override
     public void setValue(Date date, boolean fireEvents) {
-        setValue(date);        
+        setValue(date);
     }
 
     @Override
@@ -253,5 +253,5 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return focus.addBlurHandler(handler);
 	}
-	
+
 }

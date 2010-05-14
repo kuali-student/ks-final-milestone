@@ -27,7 +27,6 @@ public interface KSStyles {
 	public static final String KS_ACCORDION_WIDGETPANEL = "KS-Accordion-WidgetPanel";
 
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
-	public static final String KS_DATEFIELD_FOCUS_STYLE = "KS-Datefield-Focus";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
 	public static final String KS_DISCLOSURE_CONTENTPANEL_STYLE = "KS-Disclosure-Content";
 	public static final String KS_DISCLOSURE_HEADER_STYLE = "KS-Disclosure-Header";
