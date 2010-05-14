@@ -966,7 +966,7 @@
                 <version>1.1.1</version>
             </dependency>
 
-            <!-- Velocity (used by cxf & brms) -->
+            <!-- Velocity (used by cxf & statements) -->
             <dependency>
                 <groupId>velocity</groupId>
                 <artifactId>velocity</artifactId>
