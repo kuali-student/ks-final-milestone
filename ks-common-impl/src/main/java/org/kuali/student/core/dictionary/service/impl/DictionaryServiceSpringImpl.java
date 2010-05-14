@@ -84,18 +84,6 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 		return new ArrayList<String>(objectStructures.keySet());
 	}
 
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		throw new UnsupportedOperationException("validateObject");
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		throw new UnsupportedOperationException("validateStructureData");
-	}
-
 	public String[] getDictionaryContext() {
 		return dictionaryContext;
 	}

@@ -865,18 +865,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-	}
-
-	@Override
 	public List<OrgTreeInfo> getOrgTree(String rootOrgId,
 			String orgHierarchyId, int maxLevels) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

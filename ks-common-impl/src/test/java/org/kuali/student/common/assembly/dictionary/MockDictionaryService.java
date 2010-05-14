@@ -46,22 +46,6 @@ public class MockDictionaryService implements DictionaryService{
         return dictionaryServiceDelegate.getObjectTypes();
     }
 
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-    }
-
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-    }
-
     public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }

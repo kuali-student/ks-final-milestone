@@ -451,18 +451,6 @@ public class CommentServiceImpl implements CommentService {
 		return dictionaryServiceDelegate.getObjectTypes();
 	}
 
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-	}
-
 	public Validator getValidator() {
 		return validator;
 	}

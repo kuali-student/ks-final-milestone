@@ -632,16 +632,6 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public boolean validateObject(final String objectTypeKey, final String stateKey, final String info) {
-        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-    }
-
-    @Override
-    public boolean validateStructureData(final String objectTypeKey, final String stateKey, final String info) {
-        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-    }
-
-    @Override
     public StatementTypeInfo getStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return statementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     }
