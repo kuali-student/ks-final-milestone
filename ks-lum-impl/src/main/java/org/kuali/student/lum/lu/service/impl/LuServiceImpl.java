@@ -282,8 +282,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> getLuPublicationTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("getLuPublicationTypesForLuType");
 	}
 
 	@Override
@@ -2726,20 +2725,6 @@ public class LuServiceImpl implements LuService {
 	@Override
 	public List<String> getObjectTypes() {
 		return dictionaryServiceDelegate.getObjectTypes();
-	}
-
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateObject(objectTypeKey,
-				stateKey, info);
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateStructureData(objectTypeKey,
-				stateKey, info);
 	}
 
 	public LuDao getLuDao() {

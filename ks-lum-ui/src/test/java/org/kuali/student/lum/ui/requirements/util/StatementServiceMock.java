@@ -203,16 +203,6 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return false;
-    }
-
-    @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return false;
-    }
-
-    @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;
     }

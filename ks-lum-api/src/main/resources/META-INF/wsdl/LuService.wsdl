@@ -1550,6 +1550,17 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    <xs:complexType name="updateLuiState">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="luiId" type="xs:string"/>
+            <xs:element minOccurs="0" name="luState" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateLuiStateResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:luiInfo"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="getLuiIdsByRelation">
         <xs:sequence>
             <xs:element minOccurs="0" name="relatedLuiId" type="xs:string"/>
@@ -1578,17 +1589,6 @@
     <xs:complexType name="getInstructionalFormatTypesResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateLuiState">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="luiId" type="xs:string"/>
-            <xs:element minOccurs="0" name="luState" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateLuiStateResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:luiInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getDeliveryMethodTypes">
@@ -2031,14 +2031,10 @@
     <xs:element name="getSearchTypesByResultResponse" nillable="true" type="ns1:getSearchTypesByResultResponse"/>
     <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns1:getSearchCriteriaTypes"/>
     <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns1:getSearchCriteriaTypesResponse"/>
-    <xs:element name="validateObject" nillable="true" type="ns2:validateObject"/>
-    <xs:element name="validateObjectResponse" nillable="true" type="ns2:validateObjectResponse"/>
     <xs:element name="getSearchCriteriaType" nillable="true" type="ns1:getSearchCriteriaType"/>
     <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns1:getSearchCriteriaTypeResponse"/>
     <xs:element name="getSearchResultTypes" nillable="true" type="ns1:getSearchResultTypes"/>
     <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns1:getSearchResultTypesResponse"/>
-    <xs:element name="validateStructureData" nillable="true" type="ns2:validateStructureData"/>
-    <xs:element name="validateStructureDataResponse" nillable="true" type="ns2:validateStructureDataResponse"/>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/lu" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
     <xs:import namespace="http://student.kuali.org/wsdl/lu"/>
@@ -2047,10 +2043,6 @@
     <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
     <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
     <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
-    <xs:element name="validateObject" type="tns:validateObject"/>
-    <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
-    <xs:element name="validateStructureData" type="tns:validateStructureData"/>
-    <xs:element name="validateStructureDataResponse" type="tns:validateStructureDataResponse"/>
     <xs:complexType name="getObjectStructure">
         <xs:sequence>
             <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
@@ -2207,31 +2199,7 @@
     </xs:complexType>
     <xs:complexType name="getObjectTypesResponse">
         <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateObject">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateObjectResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" name="return" type="xs:boolean"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateStructureData">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateStructureDataResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
@@ -2318,10 +2286,6 @@
   </wsdl:message>
   <wsdl:message name="getSearchResultTypeResponse">
     <wsdl:part name="parameters" element="tns:getSearchResultTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="validateObjectResponse">
-    <wsdl:part name="parameters" element="tns:validateObjectResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCluResultTypes">
@@ -2524,10 +2488,6 @@
     <wsdl:part name="parameters" element="tns:getLuPublicationType">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="validateStructureDataResponse">
-    <wsdl:part name="parameters" element="tns:validateStructureDataResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="DoesNotExistException">
     <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
     </wsdl:part>
@@ -2682,10 +2642,6 @@
   </wsdl:message>
   <wsdl:message name="addClusToCluSetResponse">
     <wsdl:part name="parameters" element="tns:addClusToCluSetResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="validateObject">
-    <wsdl:part name="parameters" element="tns:validateObject">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllowedLuLuRelationTypesForLuType">
@@ -2844,12 +2800,12 @@
     <wsdl:part name="parameters" element="tns:getLuiIdsInAtpByCluId">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="deleteLui">
-    <wsdl:part name="parameters" element="tns:deleteLui">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getCluResultTypeResponse">
     <wsdl:part name="parameters" element="tns:getCluResultTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLui">
+    <wsdl:part name="parameters" element="tns:deleteLui">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addClusToCluSet">
@@ -2916,12 +2872,12 @@
     <wsdl:part name="parameters" element="tns:validateCluLoRelation">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="deleteLuiResponse">
-    <wsdl:part name="parameters" element="tns:deleteLuiResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getInstructionalFormatTypesResponse">
     <wsdl:part name="parameters" element="tns:getInstructionalFormatTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLuiResponse">
+    <wsdl:part name="parameters" element="tns:deleteLuiResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCluCluRelationsByCluResponse">
@@ -3190,10 +3146,6 @@
   </wsdl:message>
   <wsdl:message name="getLuiIdsByRelationResponse">
     <wsdl:part name="parameters" element="tns:getLuiIdsByRelationResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="validateStructureData">
-    <wsdl:part name="parameters" element="tns:validateStructureData">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCluResultByCluResponse">
@@ -4424,11 +4376,11 @@
     </wsdl:fault>
       <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
     </wsdl:fault>
+      <wsdl:fault name="UnsupportedActionException" message="tns:UnsupportedActionException">
+    </wsdl:fault>
       <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
       <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
@@ -4487,6 +4439,24 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateLuiState">
+      <wsdl:input name="updateLuiState" message="tns:updateLuiState">
+    </wsdl:input>
+      <wsdl:output name="updateLuiStateResponse" message="tns:updateLuiStateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getLuiIdsByRelation">
       <wsdl:input name="getLuiIdsByRelation" message="tns:getLuiIdsByRelation">
     </wsdl:input>
@@ -4520,30 +4490,6 @@
     </wsdl:input>
       <wsdl:output name="getInstructionalFormatTypesResponse" message="tns:getInstructionalFormatTypesResponse">
     </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="validateObject">
-      <wsdl:input name="validateObject" message="tns:validateObject">
-    </wsdl:input>
-      <wsdl:output name="validateObjectResponse" message="tns:validateObjectResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="updateLuiState">
-      <wsdl:input name="updateLuiState" message="tns:updateLuiState">
-    </wsdl:input>
-      <wsdl:output name="updateLuiStateResponse" message="tns:updateLuiStateResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
@@ -4916,12 +4862,6 @@
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="validateStructureData">
-      <wsdl:input name="validateStructureData" message="tns:validateStructureData">
-    </wsdl:input>
-      <wsdl:output name="validateStructureDataResponse" message="tns:validateStructureDataResponse">
-    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getCluIdsByRelation">
       <wsdl:input name="getCluIdsByRelation" message="tns:getCluIdsByRelation">
@@ -6742,14 +6682,14 @@
       <wsdl:fault name="DataValidationErrorException">
         <soap:fault name="DataValidationErrorException" use="literal"/>
       </wsdl:fault>
+      <wsdl:fault name="UnsupportedActionException">
+        <soap:fault name="UnsupportedActionException" use="literal"/>
+      </wsdl:fault>
       <wsdl:fault name="MissingParameterException">
         <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="AlreadyExistsException">
         <soap:fault name="AlreadyExistsException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException">
         <soap:fault name="PermissionDeniedException" use="literal"/>
@@ -6878,6 +6818,33 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateLuiState">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateLuiState">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateLuiStateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getInstructionalFormatTypes">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getInstructionalFormatTypes">
@@ -6906,42 +6873,6 @@
       </wsdl:fault>
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="validateObject">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="validateObject">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="validateObjectResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="updateLuiState">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="updateLuiState">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="updateLuiStateResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DataValidationErrorException">
-        <soap:fault name="DataValidationErrorException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
@@ -7502,21 +7433,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="validateStructureData">
+    <wsdl:operation name="getCluResultByClu">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="validateStructureData">
+      <wsdl:input name="getCluResultByClu">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="validateStructureDataResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getCluIdsByRelation">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCluIdsByRelation">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCluIdsByRelationResponse">
+      <wsdl:output name="getCluResultByCluResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -7532,12 +7454,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getCluResultByClu">
+    <wsdl:operation name="getCluIdsByRelation">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCluResultByClu">
+      <wsdl:input name="getCluIdsByRelation">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getCluResultByCluResponse">
+      <wsdl:output name="getCluIdsByRelationResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -7580,12 +7502,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="validateCluSet">
+    <wsdl:operation name="getAllowedResultUsageTypesForLuType">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="validateCluSet">
+      <wsdl:input name="getAllowedResultUsageTypesForLuType">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="validateCluSetResponse">
+      <wsdl:output name="getAllowedResultUsageTypesForLuTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -7622,12 +7544,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getAllowedResultUsageTypesForLuType">
+    <wsdl:operation name="validateCluSet">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getAllowedResultUsageTypesForLuType">
+      <wsdl:input name="validateCluSet">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getAllowedResultUsageTypesForLuTypeResponse">
+      <wsdl:output name="validateCluSetResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
