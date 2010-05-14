@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentTypes;
+import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 
@@ -40,7 +40,7 @@ public class GradeConditionCourseListContextImpl extends AbstractLuContext<ReqCo
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         
-        contextMap.put(TOTAL_CREDITS_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentTypes.ReqCompFieldTypes.TOTAL_CREDIT_KEY.getKey()));
+        contextMap.put(TOTAL_CREDITS_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey()));
         contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
 
         return contextMap;
