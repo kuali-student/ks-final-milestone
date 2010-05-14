@@ -264,31 +264,9 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 			@Override
 			public void onRequestFail(Throwable cause) {
-				// TODO Auto-generated method stub
 				onReadyCallback.exec(true);
 			}
 		});
-		
-/*		workflowRpcServiceAsync.getMetadata("workflow", null, new AsyncCallback<Metadata>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-				GWT.log("error getting meta", caught);
-			}
-
-			@Override
-			public void onSuccess(Metadata result) {
-				// TODO Auto-generated method stub
-				System.out.println("got here!!!");
-				Metadata personIdMeta = result
-				FieldDescriptor fd = new FieldDescriptor(null, "Person", personIdMeta);
-				section.addField(fd);
-				//fd.getWidgetBinding().getV
-				//addField(section, "workflow/personId", "Person");
-				onReadyCallback.exec(true);
-			}
-		});*/
-		
 	}
 	
 	private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback){
@@ -381,8 +359,6 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -392,23 +368,15 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void updateModel() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void collectHistory(HistoryStackFrame frame) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onHistoryEvent(HistoryStackFrame frame) {
-		// TODO Auto-generated method stub
-		
 	}
-	
-
     /**
      * @see org.kuali.student.common.ui.client.mvc.View#getName()
      */
