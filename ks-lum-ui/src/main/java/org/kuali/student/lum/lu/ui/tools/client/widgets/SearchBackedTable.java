@@ -169,6 +169,7 @@ public class SearchBackedTable extends Composite
 		layout.clear ();
 		layout.add (pagingScrollTable);
 		pagingScrollTable.fillWidth ();
+		pagingScrollTable.reloadPage();
 	}
 
 	public void addSelectionHandler (RowSelectionHandler selectionHandler)
