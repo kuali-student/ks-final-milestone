@@ -28,9 +28,6 @@ public interface KSStyles {
 
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
-	public static final String KS_FORMLAYOUT_HELP = "KS-FormLayout-Help";
-	public static final String KS_FORMLAYOUT_FIELD = "KS-FormLayout-Field";
-	public static final String KS_FORMLAYOUT_LABEL = "KS-FormLayout-Label";
 	public static final String KS_HELP_POPUP = "KS-Help-Popup";
 	public static final String KS_HELP_POPUP_FRAME = "KS-Help-Frame";
 	public static final String KS_HELP_IMAGE = "KS-Help-Image";

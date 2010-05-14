@@ -37,8 +37,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public CssResource ErrorDialogCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSErrorDialog.css")
 	public CssResource dropDownCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSFormLayout.css")
-	public CssResource formLayoutCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSHelpLink.css")
 	public CssResource headerCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/Header.css")
