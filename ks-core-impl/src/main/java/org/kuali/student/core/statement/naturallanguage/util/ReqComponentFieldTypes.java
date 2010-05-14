@@ -32,27 +32,24 @@ package org.kuali.student.core.statement.naturallanguage.util;
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
-public class ReqComponentTypes {
+public enum ReqComponentFieldTypes {
+	CLU_KEY("reqCompFieldType.clu"),
+	CLUSET_KEY("reqCompFieldType.cluSet"),
+	REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
+    GPA_KEY("reqCompFieldType.gpa"),
+    TOTAL_CREDIT_KEY("reqCompFieldType.totalCredits"),
+	OPERATOR_KEY("reqCompFieldType.operator"),
+	COUNT_TYPE_KEY("reqCompFieldType.countType"),
+	INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
+	INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value");
 
-	public enum ReqCompFieldTypes {
-		CLU_KEY("reqCompFieldType.clu"),
-		CLUSET_KEY("reqCompFieldType.cluSet"),
-		REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
-        GPA_KEY("reqCompFieldType.gpa"),
-        TOTAL_CREDIT_KEY("reqCompFieldType.totalCredits"),
-		OPERATOR_KEY("reqCompFieldType.operator"),
-		COUNT_TYPE_KEY("reqCompFieldType.countType"),
-		INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
-		INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value");
-
-		private String key;
-		
-		ReqCompFieldTypes(String key) {
-			this.key = key;
-		}
-		
-		public String getKey() {
-			return this.key;
-		}
+	private String key;
+	
+	ReqComponentFieldTypes(String key) {
+		this.key = key;
+	}
+	
+	public String getKey() {
+		return this.key;
 	}
 }
