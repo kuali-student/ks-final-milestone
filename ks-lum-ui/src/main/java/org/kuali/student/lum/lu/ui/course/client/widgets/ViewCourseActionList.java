@@ -196,7 +196,6 @@ public class ViewCourseActionList extends Composite {
 //		rpcService.getActionsRequested(courseId, new AsyncCallback<String>(){
 //
 //			public void onFailure(Throwable caught) {
-//				 TODO
 //			}
 //
 //			public void onSuccess(String result) {
