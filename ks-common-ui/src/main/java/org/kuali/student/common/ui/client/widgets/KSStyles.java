@@ -40,11 +40,6 @@ public interface KSStyles {
 
 	public static final String KS_POPOUT_WINDOW = "KS-RichText-Popout-Window";
 	public static final String KS_POPUP = "KS-Popup";
-	public static final String KS_RADIO_CHECKED_STYLE = "KS-Radio-Selected";
-	public static final String KS_RADIO_FOCUS_STYLE = "KS-Radio-Focus";
-	public static final String KS_RADIO_HOVER_STYLE = "KS-Radio-Hover";
-
-	public static final String KS_RADIO_STYLE = "KS-Radio";
 	public static final String KS_RICH_TEXT_LARGE = "KS-RichText-Large";
 
 	public static final String KS_RICH_TEXT_NORMAL = "KS-RichText-Normal";
