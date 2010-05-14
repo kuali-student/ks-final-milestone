@@ -15,8 +15,8 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</developerConnection>
     </scm>
 
 
