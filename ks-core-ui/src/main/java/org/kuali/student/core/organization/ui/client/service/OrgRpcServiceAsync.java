@@ -69,9 +69,7 @@ public interface OrgRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync
     public void getOrgPersonRelationsByOrg(String orgId, AsyncCallback<List<OrgPersonRelationInfo>> callback);
     public void removeOrgOrgRelation(String orgOrgRelationId, AsyncCallback<StatusInfo> callback);
 	public void removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey, AsyncCallback<StatusInfo> callback);
-//	public void getOrgProposalModelDefinition(String modelId, AsyncCallback<DataModel> callback);
 	public void saveOrgProposal(Data proposal, AsyncCallback<DataSaveResult> callback);
-	public void getOrgMetaData(AsyncCallback<Metadata> callback);
 	public void getSectionConfig(AsyncCallback<SectionConfigInfo> callback);
 	public void fetchOrg(String orgId,AsyncCallback<Data> callback);
 	public void getOrgPositionPersonRelation(String orgId, AsyncCallback<List<OrgPositionPersonRelationInfo>> callback);

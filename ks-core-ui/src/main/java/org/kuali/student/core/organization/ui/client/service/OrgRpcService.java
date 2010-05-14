@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServic
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -76,9 +75,7 @@ public interface OrgRpcService extends RemoteService, BaseDataOrchestrationRpcSe
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId);
     public StatusInfo removeOrgOrgRelation(String orgOrgRelationId);
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey);
-//    public DataModel getOrgProposalModelDefinition(String modelId);
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-    public Metadata getOrgMetaData() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
     public SectionConfigInfo getSectionConfig() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
     public Data fetchOrg(String orgId);
     public List<OrgPositionPersonRelationInfo> getOrgPositionPersonRelation(String orgId);

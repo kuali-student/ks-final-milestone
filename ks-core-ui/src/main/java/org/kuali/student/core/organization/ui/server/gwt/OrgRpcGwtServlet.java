@@ -35,7 +35,6 @@ import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -332,46 +331,15 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 		}
         return null;
     }	
-//    private Assembler assembler;
-    
-//    public void setOrgProposalAssembler(Assembler assembler){
-//            assembler=assembler;
-//    }
-    
-    private synchronized void initAssemblers() {
-//        if (assembler == null) {
-//            assembler = new OrgProposalAssembler();
-//        }       
-        
-    }
-    
-// TODO rewrite this method to use the metadata structures from the assembler
-//    /**
-//     * This method should return a an empty model with associated model definition for 
-//     * requested model
-//     */
-//    public DataModel getOrgProposalModelDefinition(String modelId){
-//        DataModel model = null;
-//        if (OrgConfigurerFactory.ORG_PROPOSAL_MODEL.equals(modelId)){
-//            final SimpleModelDefinition def = new SimpleModelDefinition();
-//            def.define("orgInfo", "org.kuali.student.core.organization.assembly.data.client.org.Org");
-//            def.define("orgOrgRelInfo", "org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelation");
-//            model = new DataModel(def, new Data());
-//            
-//        }
-//        return model;
-//    }
     
     @Override
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
 
         try {
-            initAssemblers();
             DataSaveResult s = this.saveData(proposal);
             if (s == null) {
                 return null;
             } else {
-//                DataSaveResult dsr = new DataSaveResult(s.getValidationResults(), s.getValue());
                 Data sampdata;
                 sampdata = s.getValue();
                 List<ValidationResultInfo> vsr =  new ArrayList<ValidationResultInfo>();
@@ -384,21 +352,6 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         }
      
     }
-
-    @Override
-    public Metadata getOrgMetaData() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
-        try {
-            initAssemblers();
-            //FIXME: where to get the ID?
-//            return this.getMetadata("orgProposal", null);
-        }
-        catch(Exception e){
-        	LOG.error(e);
-            throw new org.kuali.student.common.ui.client.service.exceptions.OperationFailedException("Unable to retrieve metadata for org");
-        }
-        return null;
-    }
-
 
     @Override
     public SectionConfigInfo getSectionConfig() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
@@ -477,18 +430,12 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public Data fetchOrg(String orgId) {
         try {
-            initAssemblers();
-            //OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
-            //String orgId = orgSearchHelper.getOrgId();
             return (Data)this.getData(orgId);
-//            return orgProposalAssembler.getMetadata(null,"draft");
         }
         catch(Exception e){
         	LOG.error(e);
-//            throw new OperationFailedException("Unable to retrieve metadata for org");
         }
         return null;
-
     }
 
     @Override
@@ -563,9 +510,5 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     protected String getDefaultWorkflowDocumentType() {
         return null;
     }
-
-
-
-
     
 }
