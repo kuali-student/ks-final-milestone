@@ -20,7 +20,6 @@ import java.util.List;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -58,7 +57,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class CluSetsManagementController extends TabbedSectionLayout { //PagedSectionLayout {  FIXME should be paged layout? 
+public class CluSetsManagementController extends TabbedSectionLayout {  
 
     private final DataModel createCluSetModel = new DataModel();    
     private final DataModel editCluSetModel = new DataModel();
@@ -366,7 +365,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
     }
 
     public void doSaveAction(final SaveActionEvent saveActionEvent){
-        Enum clusetSectionEnum = getCurrentViewEnum();
+        Enum<?> clusetSectionEnum = getCurrentViewEnum();
         final DataModel modelToBeSaved;
         final boolean clearData;
 
@@ -463,13 +462,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                         dataModel.setRoot(new Data());
                     } else {
                         dataModel.setRoot(result.getValue());
-                    }
-                    View currentView = getCurrentView(); 
-                    if (currentView instanceof VerticalSectionView){
-                    	
-                    	//FIXME do something else here rework logic, this might not actually be needed here
-                        //((VerticalSectionView) currentView).redraw();
-                    }
+                    } 
                     if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");
                         buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
@@ -515,13 +508,11 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 
     @Override
     public Enum<?> getViewEnumValue(String enumValue) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setParentController(Controller controller) {
-        // TODO Auto-generated method stub
         super.setParentController(controller);    
     }
 }

@@ -26,9 +26,6 @@ public class CluSetManagementRpcGwtServlet extends
 
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CluSetManagementRpcGwtServlet.class);
-    private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
-	private static final String DEFAULT_METADATA_STATE = "draft";
-	private static final String DEFAULT_METADATA_TYPE = null;
     
 	@Override
 	protected String getDefaultMetaDataState() {
@@ -47,13 +44,11 @@ public class CluSetManagementRpcGwtServlet extends
 	
 	@Override
 	protected String deriveAppIdFromData(Data data) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String deriveDocContentFromData(Data data) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

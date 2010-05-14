@@ -24,7 +24,6 @@ public class CluRangeItemValue implements ItemValue<CluRangeItemValue> {
         List<Widget> displayWidgets = new ArrayList<Widget>();
         KSButton deleteButton = new KSButton("X", ButtonStyle.DELETE);
         KSLabel itemLabel = new KSLabel(getName());
-        // TODO set style color here
 //      itemLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
         displayWidgets.add(itemLabel);
         if (isEditable()) {
