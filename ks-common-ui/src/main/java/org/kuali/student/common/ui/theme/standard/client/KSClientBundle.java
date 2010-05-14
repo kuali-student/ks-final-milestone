@@ -69,8 +69,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource toolTipCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSBasicMenu.css")
     public CssResource basicMenuCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSPickList.css")
-    public CssResource pickListCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSelectableTableList.css")
     public CssResource selectableTableListCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSButtonLayout.css")
