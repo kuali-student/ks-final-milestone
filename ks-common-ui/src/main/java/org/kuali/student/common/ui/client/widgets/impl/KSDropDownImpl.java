@@ -42,83 +42,83 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFocusHandlers, HasBlurHandlers{ 
+public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFocusHandlers, HasBlurHandlers{
 
 	private ListBox listBox;
 	private boolean blankFirstItem = true;
 	private final String EMPTY_ITEM = "";
-	
+
 	public KSDropDownImpl() {
 	    init();
 	}
-	
+
 	public void redraw(){
 	    String selectedItem = getSelectedItem();
-	    
+
         listBox.clear();
-        
+
         if(blankFirstItem){
             listBox.addItem(EMPTY_ITEM);
         }
         for (String id: super.getListItems().getItemIds()){
-            listBox.addItem(super.getListItems().getItemText(id),id);            
+            listBox.addItem(super.getListItems().getItemText(id),id);
         }
-        
+
         selectItem(selectedItem);
         setInitialized(true);
 	}
-	
+
     protected void init() {
 		listBox = new ListBox(false);
         this.initWidget(listBox);
 		setupDefaultStyle();
-		
+
 		listBox.addChangeHandler(new ChangeHandler(){
             public void onChange(ChangeEvent event) {
-                fireChangeEvent();                
-            }	    
+                fireChangeEvent();
+            }
 		});
 	}
 
 	private void setupDefaultStyle() {
-	    listBox.addStyleName(KSStyles.KS_DROPDOWN_STYLE);
-		
+	    listBox.addStyleName("KS-Dropdown");
+
 		listBox.addBlurHandler(new BlurHandler(){
 			public void onBlur(BlurEvent event) {
-			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);				
-			}	
-		});	
+			    listBox.removeStyleName("KS-Dropdown-Focus");
+			}
+		});
 
 		listBox.addFocusHandler(new FocusHandler(){
 			public void onFocus(FocusEvent event) {
-			    listBox.addStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);
-			}		
+			    listBox.addStyleName("KS-Dropdown-Focus");
+			}
 		});
-		
+
 		listBox.addMouseOverHandler(new MouseOverHandler(){
 			public void onMouseOver(MouseOverEvent event) {
-			    listBox.addStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);				
-			}		
+			    listBox.addStyleName("KS-Dropdown-Hover");
+			}
 		});
-		
+
 		listBox.addMouseOutHandler(new MouseOutHandler(){
 			public void onMouseOut(MouseOutEvent event) {
-			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);				
-			}			
+			    listBox.removeStyleName("KS-Dropdown-Hover");
+			}
 		});
-		
+
 		listBox.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if(listBox.getSelectedIndex() != -1){
-				    listBox.addStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
+				    listBox.addStyleName("KS-Dropdown-Selected");
 				}
 				else{
-				    listBox.removeStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
-				}				
-			}			
-		});		
-	}	
-	
+				    listBox.removeStyleName("KS-Dropdown-Selected");
+				}
+			}
+		});
+	}
+
 	public void selectItem(String id){
 	    if (id != null){
     		for(int i = 0; i < listBox.getItemCount(); i++){
@@ -137,7 +137,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
         int i = listBox.getSelectedIndex();
         if (i >= 0 && listBox.getValue(i).equals(id)){
             listBox.setItemSelected(i, false);
-            listBox.setItemSelected(0, true);            
+            listBox.setItemSelected(0, true);
         }
     }
 
@@ -145,8 +145,8 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
     public <T extends Idable> void setListItems(ListItems listItems) {
         if(listItems instanceof ModelListItems){
             Callback<T> redrawCallback = new Callback<T>(){
-                
-                @Override 
+
+                @Override
                 public void exec(T result){
                     KSDropDownImpl.this.redraw();
                 }
@@ -156,10 +156,10 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
             ((ModelListItems<T>)listItems).addOnUpdateCallback(redrawCallback);
             ((ModelListItems<T>)listItems).addOnBulkUpdateCallback(redrawCallback);
         }
-               
+
         super.setListItems(listItems);
-        
-        this.redraw();        
+
+        this.redraw();
     }
 
     /**
@@ -169,10 +169,10 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
     public List<String> getSelectedItems() {
         List<String> result = new ArrayList<String>();
 
-        int selectedIdx = listBox.getSelectedIndex();                
-        
+        int selectedIdx = listBox.getSelectedIndex();
+
         if((blankFirstItem && selectedIdx > 0) || (!blankFirstItem && selectedIdx >= 0)){
-            String id = listBox.getValue(selectedIdx);            
+            String id = listBox.getValue(selectedIdx);
             result.add(id);
         }
         return result;
@@ -183,7 +183,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
      */
     @Override
     public void onLoad() {
-                
+
     }
 
     @Override
@@ -219,12 +219,12 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
         //need to select the default item
         if (super.getListItems() != null) {
             listBox.clear();
-            
+
             if(blankFirstItem){
                 listBox.addItem(EMPTY_ITEM);
             }
             for (String id: super.getListItems().getItemIds()){
-                listBox.addItem(super.getListItems().getItemText(id),id);            
+                listBox.addItem(super.getListItems().getItemText(id),id);
             }
         }
     }

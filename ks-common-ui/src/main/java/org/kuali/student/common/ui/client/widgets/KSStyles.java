@@ -28,10 +28,6 @@ public interface KSStyles {
 
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
-	public static final String KS_DROPDOWN_FOCUS_STYLE = "KS-Dropdown-Focus";
-	public static final String KS_DROPDOWN_HOVER_STYLE = "KS-Dropdown-Hover";
-	public static final String KS_DROPDOWN_SELECTED_STYLE = "KS-Dropdown-Selected";
-	public static final String KS_DROPDOWN_STYLE = "KS-Dropdown";
 	public static final String KS_FLOATPANEL = "KS-FloatPanel";
 	public static final String KS_FORMLAYOUT_HELP = "KS-FormLayout-Help";
 	public static final String KS_FORMLAYOUT_FIELD = "KS-FormLayout-Field";
