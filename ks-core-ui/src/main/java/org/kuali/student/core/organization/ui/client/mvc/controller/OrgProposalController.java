@@ -79,7 +79,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     private boolean initialized = false;
     private CommonConfigurer commonConfigurer = new CommonConfigurer();
     private boolean isMetadataRefreshed = false;
-    
+
     public static final String ORG_INFO_PATH		= "orgInfo";
     public static final String POSITION_PATH		= "OrgPositionRestrictionInfo";
     public static final String PERSON_PATH			= "orgPersonRelationInfo";
@@ -89,9 +89,9 @@ public class OrgProposalController extends TabbedSectionLayout{
     public static final String SEARCH_TAB_NAME		= getLabel("orgSearchTab");
     public static final String QUALIFICATION_ORG_ID	= "orgId";
     public static final String ORG_PROPOSAL_MODEL	= "orgProposalModel";
-    
+
     private BlockingTask initializingTask = new BlockingTask(getLabel("orgLoading"));
-    
+
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
 
     public OrgProposalController(){
@@ -182,14 +182,14 @@ public class OrgProposalController extends TabbedSectionLayout{
                         }
 
                         String strval = ((StringValue)val).get();
-                        if( !strval.equals("") && strval != null ){
+                        if(strval != null && !strval.equals("")){
                             getCurrentView().updateModel();
                             fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
                         } else{
                             // display error message
                             for(Section section : sections){
                                 if(section instanceof BaseSection){
-                                    
+
                                     ValidationResultInfo vr = new ValidationResultInfo();
                                     vr.setError(getLabel("orgFieldCantBeEmpty"));
                                     section.getField(fieldKey).getFieldElement().processValidationResult(vr);
@@ -201,17 +201,17 @@ public class OrgProposalController extends TabbedSectionLayout{
     }
 
     private void init(final Callback<Boolean> onReadyCallback){
-        
+
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
     		KSBlockingProgressIndicator.addTask(initializingTask);
-        	
+
             String viewContextId = null;
             if(getViewContext().getIdType() != null){
                 viewContextId = getViewContext().getId();
             }
-            
+
             orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, viewContextId,
                     new AsyncCallback<Metadata>(){
 
@@ -269,13 +269,13 @@ public class OrgProposalController extends TabbedSectionLayout{
 	        addButton(ORG_TAB_NAME, getSaveButton());
 	        addButton(POSITION_TAB_NAME, getSaveButton());
 	        addButton(SEARCH_TAB_NAME, getModifyButton());
-	
+
 	        addApplicationEventHandler(ModifyActionEvent.TYPE, new ModifyActionHandler(){
 	            @Override
 	            public void onModify(ModifyActionEvent modifyEvent) {
 	                GWT.log("OrgController received save action request.", null);
 	                doModifyAction(modifyEvent);
-	
+
 	            }
 	        });
 	        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
@@ -301,8 +301,8 @@ public class OrgProposalController extends TabbedSectionLayout{
 	    orgProposalModel.setRoot(new Data());
 	    callback.onModelReady(orgProposalModel);
 	    workCompleteCallback.exec(true);
-	
-	
+
+
 	}
 
     public void doSaveAction(final SaveActionEvent saveActionEvent){
@@ -406,7 +406,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 
 
     }
-       
+
    public void fetchProposalOrg(final ModifyActionEvent modifyActionEvent) {
 
        orgProposalRpcServiceAsync.fetchOrg(modifyActionEvent.getId(), new AsyncCallback<Data>() {
@@ -438,7 +438,7 @@ public class OrgProposalController extends TabbedSectionLayout{
            }
        });
    }
-       
+
     public void saveProposalOrg(final SaveActionEvent saveActionEvent){
         final KSLightBox saveWindow = new KSLightBox();
         saveWindow.removeCloseLink();

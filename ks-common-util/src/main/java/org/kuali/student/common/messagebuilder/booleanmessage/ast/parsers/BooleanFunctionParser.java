@@ -14,15 +14,20 @@
  */
 
 // $ANTLR 3.1.1 BooleanFunction.g 2009-06-03 01:05:39
- package org.kuali.student.common.messagebuilder.booleanmessage.ast.parsers; 
+ package org.kuali.student.common.messagebuilder.booleanmessage.ast.parsers;
 
-import org.antlr.runtime.*;
-import java.util.Stack;
 import java.util.List;
-import java.util.ArrayList;
 
-
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.ParserRuleReturnScope;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.TreeAdaptor;
 
 public class BooleanFunctionParser extends Parser {
     public static final String[] tokenNames = new String[] {
@@ -48,9 +53,9 @@ public class BooleanFunctionParser extends Parser {
         }
         public BooleanFunctionParser(TokenStream input, RecognizerSharedState state) {
             super(input, state);
-             
+
         }
-        
+
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
     public void setTreeAdaptor(TreeAdaptor adaptor) {
@@ -124,7 +129,7 @@ public class BooleanFunctionParser extends Parser {
             state._fsp--;
 
             adaptor.addChild(root_0, orTerm1.getTree());
-            if ( isTokenParenthesis(input.LT(1).getText()) ) throw new RecognitionException(); 
+            if ( isTokenParenthesis(input.LT(1).getText()) ) throw new RecognitionException();
 
             }
 
@@ -192,7 +197,7 @@ public class BooleanFunctionParser extends Parser {
             	case 1 :
             	    // BooleanFunction.g:61:22: OR andTerm
             	    {
-            	    OR3=(Token)match(input,OR,FOLLOW_OR_in_orTerm126); 
+            	    OR3=(Token)match(input,OR,FOLLOW_OR_in_orTerm126);
             	    OR3_tree = (Object)adaptor.create(OR3);
             	    root_0 = (Object)adaptor.becomeRoot(OR3_tree, root_0);
 
@@ -278,7 +283,7 @@ public class BooleanFunctionParser extends Parser {
             	case 1 :
             	    // BooleanFunction.g:62:19: AND atom
             	    {
-            	    AND6=(Token)match(input,AND,FOLLOW_AND_in_andTerm143); 
+            	    AND6=(Token)match(input,AND,FOLLOW_AND_in_andTerm143);
             	    AND6_tree = (Object)adaptor.create(AND6);
             	    root_0 = (Object)adaptor.becomeRoot(AND6_tree, root_0);
 
@@ -362,7 +367,7 @@ public class BooleanFunctionParser extends Parser {
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    ALPHA8=(Token)match(input,ALPHA,FOLLOW_ALPHA_in_atom160); 
+                    ALPHA8=(Token)match(input,ALPHA,FOLLOW_ALPHA_in_atom160);
                     ALPHA8_tree = (Object)adaptor.create(ALPHA8);
                     adaptor.addChild(root_0, ALPHA8_tree);
 
@@ -377,14 +382,14 @@ public class BooleanFunctionParser extends Parser {
                     // BooleanFunction.g:63:21: ( LP orTerm RP )
                     // BooleanFunction.g:63:22: LP orTerm RP
                     {
-                    LP9=(Token)match(input,LP,FOLLOW_LP_in_atom165); 
+                    LP9=(Token)match(input,LP,FOLLOW_LP_in_atom165);
                     pushFollow(FOLLOW_orTerm_in_atom168);
                     orTerm10=orTerm();
 
                     state._fsp--;
 
                     adaptor.addChild(root_0, orTerm10.getTree());
-                    RP11=(Token)match(input,RP,FOLLOW_RP_in_atom170); 
+                    RP11=(Token)match(input,RP,FOLLOW_RP_in_atom170);
 
                     }
 
@@ -412,7 +417,7 @@ public class BooleanFunctionParser extends Parser {
     // Delegated rules
 
 
- 
+
 
     public static final BitSet FOLLOW_orTerm_in_booleanExpression111 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_andTerm_in_orTerm123 = new BitSet(new long[]{0x0000000000000012L});

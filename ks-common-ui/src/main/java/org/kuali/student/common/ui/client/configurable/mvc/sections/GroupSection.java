@@ -15,9 +15,6 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
-import java.util.ArrayList;
-
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.GroupFieldLayout;
 
@@ -27,7 +24,7 @@ public class GroupSection extends BaseSection{
 		layout = new GroupFieldLayout();
 		this.add(layout);
 	}
-	
+
 	public GroupSection(SectionTitle title){
 		layout = new GroupFieldLayout(title);
 		this.add(layout);

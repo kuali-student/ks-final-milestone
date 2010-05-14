@@ -15,8 +15,6 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -25,21 +23,21 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This wraps a widget item
- * 
+ *
  * @author Kuali Student Team
  */
 public class RemovableItem extends MultiplicityItem {
     private boolean loaded = false;
 
     protected FlowPanel itemPanel = new FlowPanel();
-    
-    public RemovableItem(){        
+
+    public RemovableItem(){
         initWidget(itemPanel);
     }
 
     public void onLoad(){
     }
-    
+
     private Widget generateRemoveWidget() {
         ClickHandler ch = new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -51,7 +49,7 @@ public class RemovableItem extends MultiplicityItem {
         Label deleteLabel = new Label("Delete");
         deleteLabel.addStyleName("KS-Multiplicity-Link-Label");
         deleteLabel.addClickHandler(ch);
- 
+
         return deleteLabel;
     }
 
@@ -70,7 +68,7 @@ public class RemovableItem extends MultiplicityItem {
     public void redraw() {
         Widget item = getItemWidget();
         if (!loaded){
-       
+
             itemPanel.add(item);
             itemPanel.add(generateRemoveWidget());
             loaded = true;

@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -28,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This wraps a widget item
- * 
+ *
  * @author Kuali Student Team
  */
 public class RemovableItemWithHeader extends MultiplicityItem {
@@ -38,14 +37,14 @@ public class RemovableItemWithHeader extends MultiplicityItem {
     private KSLabel headerLabel;
     private boolean readOnly=false;
     protected VerticalFlowPanel itemPanel = new VerticalFlowPanel();
-    
-    public RemovableItemWithHeader(){        
+
+    public RemovableItemWithHeader(){
         initWidget(itemPanel);
     }
 
     public void onLoad(){
     }
-    
+
     public void isReadOnly(boolean readOnly){
         this.readOnly=readOnly;
     }
@@ -57,7 +56,7 @@ public class RemovableItemWithHeader extends MultiplicityItem {
         };
 
         Widget returnWidget;
-       
+
         if (useDeleteLabel) {
             Label deleteLabel = new Label("Delete");
             deleteLabel.addStyleName("KS-Multiplicity-Link-Label");
@@ -66,9 +65,9 @@ public class RemovableItemWithHeader extends MultiplicityItem {
         } else {
             returnWidget = new KSButton("-", ch);
         }
-        
+
         itemPanel.addStyleName("KS-Multiplicity-Item");
-        
+
         if(readOnly){
             returnWidget.setVisible(false);
         }
@@ -95,21 +94,21 @@ public class RemovableItemWithHeader extends MultiplicityItem {
         Widget item = getItemWidget();
         if (!loaded){
             itemPanel.addStyleName("KS-Multiplicity-Item");
-    
+
             HorizontalPanel headerPanel = new HorizontalPanel();
             headerPanel.addStyleName("KS-Multiplicity-Item-Header");
             headerLabel = new KSLabel(itemLabel + " " + getItemKey());
             headerPanel.add(headerLabel);
             headerPanel.add(generateRemoveWidget());
-    
+
             itemPanel.add(headerPanel);
             itemPanel.add(item);
-            
+
             loaded = true;
             headerLabel.setText(itemLabel + " " + getItemKey());
         }
 
-        
+
         //redraw() removed
 /*        if (item instanceof Section){
             ((Section)item).redraw();

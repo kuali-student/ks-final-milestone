@@ -15,8 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -37,7 +35,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FieldElement extends Composite implements FieldLayoutComponent{
-	
+
 	//Layout
 	private KSTitleDescPanel titlePanel = new KSTitleDescPanel();
 	private FlowPanel layout = new FlowPanel();
@@ -51,10 +49,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	private String fieldHTMLId;
 	private LineNum margin;
 	public static enum LineNum{SINGLE, DOUBLE, TRIPLE}
-	
+
 	private ValidationMessagePanel validationPanel;
 	private String fieldKey;
-	
+
 	public void setValidationPanel(ValidationMessagePanel validationPanel) {
 		this.validationPanel = validationPanel;
 	}
@@ -69,7 +67,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		this.parentPanel = parentPanel;
 		this.parentElement = parentPanel.getElement();
 	}
-	
+
 	public void setParentElement(Element element){
 		parentElement = element;
 	}
@@ -85,48 +83,48 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	generateLayout(null, title, null, null, widget);
 
     }
-    
+
     public FieldElement(String key, String title, Widget widget){
     	generateLayout(key, title, null, null, widget);
     }
-    
+
     public FieldElement(String key, MessageKeyInfo info){
     	String title = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), info.getId());
-    	String help = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), 
+    	String help = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
     			info.getId() + HELP_MESSAGE_KEY);
     	if(help.equals(info.getId() + HELP_MESSAGE_KEY)){
     		help = null;
     	}
-    	String instructions = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), 
+    	String instructions = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
     			info.getId() + INSTRUCT_MESSAGE_KEY);
     	if(instructions.equals(info.getId() + INSTRUCT_MESSAGE_KEY)){
     		instructions = null;
     	}
     	generateLayout(key, title, help, instructions, null);
     }
-    
+
     public FieldElement(String key, MessageKeyInfo info, Widget widget){
     	String title = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), info.getId());
-    	String help = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), 
+    	String help = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
     			info.getId() + HELP_MESSAGE_KEY);
     	if(help.equals(info.getId() + HELP_MESSAGE_KEY)){
     		help = null;
     	}
-    	String instructions = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), 
+    	String instructions = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
     			info.getId() + INSTRUCT_MESSAGE_KEY);
     	if(instructions.equals(info.getId() + INSTRUCT_MESSAGE_KEY)){
     		instructions = null;
     	}
     	generateLayout(key, title, help, instructions, widget);
     }
-    
+
     private void generateLayout(String key, String title, String helpText, String instructText, Widget widget){
     	this.setKey(key);
 		fieldName = title;
-		
+
 		fieldHTMLId = HTMLPanel.createUniqueId();
 		fieldTitle = new LabelPanel(title, fieldHTMLId);
-		
+
 		required.setVisible(false);
 		fieldTitle.add(required);
 		if(helpText != null){
@@ -135,7 +133,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		else{
 			help.setVisible(false);
 		}
-		
+
 		fieldTitle.add(help);
 		layout.add(fieldTitle);
 		if(instructText != null){
@@ -149,18 +147,18 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		layout.add(widgetSpan);
 		if(widget != null){
 			this.setWidget(widget);
-			
+
 		}
 		constraintText.setVisible(false);
 		constraintText.setStyleName("ks-form-module-elements-help-text");
 		layout.add(constraintText);
 
-        
+
         initWidget(layout);
         layout.addStyleName("ks-form-module-elements");
         layout.addStyleName("ks-form-module-single-line-margin");
     }
-    
+
     public void setWidget(Widget w){
     	if(fieldWidget != null){
     		widgetSpan.remove(fieldWidget);
@@ -172,11 +170,11 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     		w.getElement().setAttribute("id", fieldHTMLId);
     	}
     }
-    
+
     public Widget getFieldWidget(){
     	return fieldWidget;
     }
-    
+
     public FlowPanel getFieldDetailsLayout(){
     	FlowPanel div = new FlowPanel();
 		div.add(fieldTitle);
@@ -184,7 +182,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		div.addStyleName("ks-form-module-elements");
 		return div;
     }
-    
+
     public FlowPanel getFieldWidgetAreaLayout(){
     	FlowPanel div = new FlowPanel();
     	div.add(fieldWidget);
@@ -192,11 +190,11 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	div.addStyleName("ks-form-module-elements");
     	return div;
     }
-    
+
     public void setRequired(boolean isRequired){
     	required.setVisible(isRequired);
     }
-    
+
     public void setInstructions(String text){
     	instructionText = text;
     	if(instructionText != null && !instructionText.trim().equals("")){
@@ -204,14 +202,14 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     		instructions.setVisible(true);
     	}
     }
-    
+
     public void setConstraintText(String text){
     	if(text != null && !text.trim().equals("")){
     		constraintText.setText(text);
     		constraintText.setVisible(true);
     	}
     }
-    
+
     public void setHelp(final String html){
     	if(html != null && !html.trim().equals("")){
     		help.setVisible(true);
@@ -222,7 +220,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 				public void onClick(ClickEvent event) {
 					//TODO show actual help window
 					Window.alert(html);
-					
+
 				}
 			});
     	}
@@ -230,23 +228,23 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     		help.setVisible(false);
     	}
     }
-	
+
 	public Widget getTitleWidget() {
 	    return titlePanel.getTitleWidget();
 	}
-	
+
 	public ValidationMessagePanel getValidationPanel() {
 		return validationPanel;
 	}
-	
+
 	public Panel getEncapsulatingPanel() {
 		return parentPanel;
 	}
-	
+
 	public String getFieldName() {
 		return fieldName;
 	}
-	
+
 	public void setErrorState(boolean error){
 		if(error){
 			fieldTitle.addStyleName("invalid");
@@ -256,7 +254,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			else if(parentElement != null){
 				parentElement.setClassName("error");
 			}
-			
+
 		}
 		else{
 			fieldTitle.removeStyleName("invalid");
@@ -267,15 +265,15 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 				parentElement.setClassName("");
 			}
 		}
-		
+
 	}
-	
+
 	public ErrorLevel processValidationResult(ValidationResultInfo vr) {
 		ErrorLevel status = ErrorLevel.OK;
-	
+
 		if(vr.getLevel() == ErrorLevel.ERROR){
 			this.addValidationErrorMessage(vr.getMessage());
-			
+
 			if(status.getLevel() < ErrorLevel.ERROR.getLevel()){
 				status = vr.getLevel();
 			}
@@ -291,7 +289,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		}
 		return status;
 	}
-	
+
 	public void addValidationErrorMessage(String text){
 		if(validationPanel != null){
 			KSLabel message;
@@ -306,7 +304,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			this.validationPanel.addMessage(message);
 		}
 	}
-	
+
 	public void clearValidationPanel(){
 		this.setErrorState(false);
 		this.validationPanel.clear();
@@ -323,7 +321,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			//TODO better way to generate unique id here?
 			key = HTMLPanel.createUniqueId();
 		}
-		this.fieldKey = key;		
+		this.fieldKey = key;
 	}
 
 	public void setTitleDescLineHeight(LineNum margin) {
@@ -339,7 +337,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 				else{
 					layout.addStyleName("ks-form-module-triple-line-margin");
 				}
-	
+
 				break;
 			case DOUBLE:
 				if((firstLineExists() || secondLineExists())){
@@ -355,7 +353,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		}
 
 	}
-	
+
 	private boolean firstLineExists(){
 		boolean exists = false;
 		if((fieldName != null && !fieldName.equals("")) || required.isVisible() || help.isVisible()){
@@ -363,7 +361,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		}
 		return exists;
 	}
-	
+
 	private boolean secondLineExists(){
 		boolean exists = false;
 		if(instructions.isVisible()){

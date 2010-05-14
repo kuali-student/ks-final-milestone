@@ -36,13 +36,12 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class BaseSection extends SpanPanel implements Section{
 
 	protected FieldLayout layout;
-	
+
 	protected ArrayList<Section> sections = new ArrayList<Section>();
 	protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
 	protected LayoutController layoutController = null;
@@ -101,11 +100,11 @@ public abstract class BaseSection extends SpanPanel implements Section{
             });
         }
         binding.bind(fieldDescriptor);
-		
+
         return key;
 	}
-	
-	private void validateField( 
+
+	private void validateField(
 			final FieldDescriptor fieldDescriptor, final DataModel model) {
 		Widget w = fieldDescriptor.getFieldWidget();
 		ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
@@ -116,7 +115,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
 		}
 	}
-	
+
 	@Override
 	public String addSection(Section section) {
 
@@ -124,7 +123,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
         String key = layout.addLayout(section.getLayout());
         return key;
 	}
-	
+
 	@Override
 	public void removeSection(Section section){
 		sections.remove(section);
@@ -133,7 +132,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
 	private void clearValidation() {
 		layout.clearValidation();
-		
+
 	}
 
 	@Override
@@ -146,7 +145,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
         }
         return allFields;
 	}
-	
+
 	@Override
 	public List<FieldDescriptor> getUnnestedFields() {
         return fields;
@@ -163,9 +162,9 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		ErrorLevel status = ErrorLevel.OK;
 
 		if (isValidationEnabled){
-		
+
 			for(FieldDescriptor f: this.fields){
-				
+
 				if(f.hasHadFocus()){
 					System.out.println("Processing field " + f.getFieldKey());
 					for(ValidationResultInfo vr: results){
@@ -178,17 +177,17 @@ public abstract class BaseSection extends SpanPanel implements Section{
 									System.out.println("Error: " + f.getFieldKey());
 								}
 								if(fieldStatus.getLevel() > status.getLevel()){
-									
+
 									status = fieldStatus;
 								}
-							} 
+							}
 						}
 					}
 				}
-				
+
 				if(f.getFieldWidget() instanceof MultiplicityComposite){
 					MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
-	            	
+
 					//possibly return error state from processValidationResults to give composite title bar a separate color
 	            	for(MultiplicityItem item: mc.getItems()){
 	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
@@ -200,7 +199,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            	}
 				}
 			}
-	
+
 	        for(Section s: sections){
 	            ErrorLevel subsectionStatus = s.processValidationResults(results);
 	            if(subsectionStatus.getLevel() > status.getLevel()){
@@ -208,7 +207,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            }
 	        }
 		}
-		
+
         return status;
 	}
 
@@ -221,20 +220,20 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public void setLayoutController(LayoutController controller) {
 		this.layoutController = controller;
 	}
-    
-    
+
+
 	@Override
 	public String addWidget(Widget w) {
 		return layout.addWidget(w);
 	}
-	
+
     public void setFieldHasHadFocusFlags(boolean hadFocus) {
         for(FieldDescriptor f: fields){
             f.setHasHadFocus(hadFocus);
             System.out.println(f.getFieldKey() + " has had focus");
             if(f.getFieldWidget() instanceof MultiplicityComposite){
 				MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
-				
+
             	for(MultiplicityItem item: mc.getItems()){
             		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
             			((Section) item.getItemWidget()).setFieldHasHadFocusFlags(hadFocus);
@@ -248,17 +247,17 @@ public abstract class BaseSection extends SpanPanel implements Section{
         }
 
     }
-    
-    @Override    
+
+    @Override
     public void enableValidation(boolean enableValidation) {
     	this.isValidationEnabled = enableValidation;
     }
-    
+
     @Override
     public boolean isValidationEnabled() {
 		return isValidationEnabled;
 	}
-    
+
 	@Override
     public void updateModel(DataModel model){
         SectionBinding.INSTANCE.setModelValue(this, model, "");
@@ -281,8 +280,8 @@ public abstract class BaseSection extends SpanPanel implements Section{
         }
 
     }
-    
-    
+
+
 	@Override
 	public String addSection(String key, Section section) {
         sections.add(section);
@@ -331,7 +330,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			fields.remove(index);
 		}
 		layout.removeLayoutElement(fieldKey);
-		
+
 	}
 
 	@Override
@@ -339,7 +338,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
 		fields.remove(field);
 		layout.removeLayoutElement(field.getFieldKey());
-		
+
 	}
 
 	@Override
@@ -357,19 +356,19 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			sections.remove(index);
 		}
 		layout.removeLayoutElement(sectionKey);
-		
+
 	}
 
 	@Override
 	public void removeWidget(Widget widget) {
 		layout.removeLayoutElement(widget);
-		
+
 	}
 
 	@Override
 	public void removeWidget(String key) {
 		layout.removeLayoutElement(key);
-		
+
 	}
 
 }

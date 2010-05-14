@@ -27,15 +27,14 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
-import org.kuali.student.core.assembly.data.QueryPath;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This is a field descriptor widget that defines ui fields.  
- * 
+ * This is a field descriptor widget that defines ui fields.
+ *
  * @author Kuali Student Team
  *
  */
@@ -49,7 +48,7 @@ public class FieldDescriptor {
     private boolean hasHadFocus = false;
     private FieldElement fieldElement;
     private String modelId;
-    
+
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Metadata metadata) {
     	this.fieldKey = fieldKey;
     	this.metadata = metadata;
@@ -59,7 +58,7 @@ public class FieldDescriptor {
     	fieldElement = new FieldElement(fieldKey, messageKey);
     	setupField();
     }
-    
+
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Metadata metadata, Widget fieldWidget){
     	this.fieldKey = fieldKey;
     	this.metadata = metadata;
@@ -69,7 +68,7 @@ public class FieldDescriptor {
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
     }
-    
+
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Widget fieldWidget){
     	this.fieldKey = fieldKey;
     	if(messageKey == null){
@@ -77,14 +76,14 @@ public class FieldDescriptor {
     	}
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     }
-    
+
     private void setupField(){
     	if(metadata != null){
 	    	fieldElement.setRequired(MetadataInterrogator.isRequired(metadata));
 	    	//TODO setup the constraint text here
     	}
     }
-    
+
     public FieldElement getFieldElement(){
     	return fieldElement;
     }
@@ -96,7 +95,7 @@ public class FieldDescriptor {
     public String getFieldLabel() {
         return fieldElement.getFieldName();
     }
-    
+
     public Widget getFieldWidget(){
         if (fieldElement.getFieldWidget() == null){
             Widget w = createFieldWidget();
@@ -104,7 +103,7 @@ public class FieldDescriptor {
         }
         return fieldElement.getFieldWidget();
     }
-    
+
     protected Widget createFieldWidget() {
     	if (metadata == null) {
     		// backwards compatibility for old ModelDTO code
@@ -181,9 +180,9 @@ public class FieldDescriptor {
 	public void setModelId(String modelId) {
 		this.modelId = modelId;
 	}
-    
-    public void setWidgetBinding(ModelWidgetBinding widgetBinding) {        
+
+    public void setWidgetBinding(ModelWidgetBinding widgetBinding) {
         this.modelWidgetBinding = widgetBinding;
     }
-    
+
 }

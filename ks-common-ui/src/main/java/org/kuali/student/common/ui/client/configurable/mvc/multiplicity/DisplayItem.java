@@ -17,7 +17,6 @@ package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -25,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This is a read only version of MultiplicityItem for use in read only multiplicity composites.
- * 
+ *
  *
  * @author Kuali Student Team
  */
@@ -34,18 +33,18 @@ public class DisplayItem extends MultiplicityItem {
 	private KSLabel itemLabel;
 
     protected FlowPanel itemPanel = new FlowPanel();
-    
-    public DisplayItem(){        
+
+    public DisplayItem(){
         initWidget(itemPanel);
     }
 
 	public DisplayItem(StyleType style){
 		this.initWidget(itemPanel);
-		
+
 	}
     public void onLoad(){
     }
-    
+
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem#clear()
      */
@@ -61,7 +60,7 @@ public class DisplayItem extends MultiplicityItem {
     public void redraw() {
         Widget item = getItemWidget();
         if (!loaded){
-       
+
             if (itemLabel != null) {
                 itemPanel.add(itemLabel);
              	itemLabel.addStyleName("KS-Multiplicity-Item-Header");
@@ -70,15 +69,15 @@ public class DisplayItem extends MultiplicityItem {
             itemPanel.addStyleName("KS-Multiplicity-Display-Item");
             loaded = true;
         }
-//redraw() removed, probably not needed here 
+//redraw() removed, probably not needed here
 /*        if (item instanceof Section){
             ((Section)item).redraw();
         }*/
     }
 
-	
+
     public void setItemLabel(String itemLabel) {
         this.itemLabel = new KSLabel(itemLabel);
     }
-    
+
 }

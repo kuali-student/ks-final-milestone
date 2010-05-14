@@ -21,7 +21,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -42,7 +41,7 @@ public interface OrgRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync
     public void createOrganization(OrgInfo orgInfo, AsyncCallback<OrgInfo> callback);
     public void createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo, AsyncCallback<OrgOrgRelationInfo> callback);
 
-    public void getOrgHierarchies(AsyncCallback<List<OrgHierarchyInfo>> callback); 
+    public void getOrgHierarchies(AsyncCallback<List<OrgHierarchyInfo>> callback);
     public void getOrganization(String orgId, AsyncCallback<OrgInfo> callback);
     public void getOrganizationsByIdList(List<String> orgIdList, AsyncCallback<List<OrgInfo> > callback);
     public void getOrgOrgRelationsByOrg(String orgId, AsyncCallback<List<OrgOrgRelationInfo>> callback);
@@ -53,7 +52,7 @@ public interface OrgRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync
     public void getOrgPersonRelationTypes(AsyncCallback<List<OrgPersonRelationTypeInfo>> callback);
     public void getOrgTypes(AsyncCallback<List<OrgTypeInfo>> callback);
     public void getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels, AsyncCallback<List<OrgTreeInfo>> callback);
-   
+
     public void getPositionRestrictionsByOrg(String orgId, AsyncCallback<List<OrgPositionRestrictionInfo>> callback);
 
     public void addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo, AsyncCallback<OrgPositionRestrictionInfo> callback);
@@ -61,7 +60,7 @@ public interface OrgRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync
     public void updateOrganization(OrgInfo orgInfo, AsyncCallback<OrgInfo> callback);
     public void updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo, AsyncCallback<OrgPositionRestrictionInfo> callback);
     public void updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo, AsyncCallback<OrgOrgRelationInfo> callback);
-    
+
     public void createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo, AsyncCallback<OrgPersonRelationInfo> callback);
     public void updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo, AsyncCallback<OrgPersonRelationInfo> callback);
     public void removeOrgPersonRelation(String orgPersonRelationId, AsyncCallback<StatusInfo> callback);

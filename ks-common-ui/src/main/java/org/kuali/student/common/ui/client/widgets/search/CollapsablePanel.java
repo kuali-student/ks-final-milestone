@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.search;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -27,7 +26,6 @@ import com.google.gwt.animation.client.Animation;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -42,7 +40,7 @@ public class CollapsablePanel extends Composite{
 	private ContentAnimation animation = new ContentAnimation();
 	private boolean withImages;
 	private String buttonLabel;
-	
+
 	KSImage closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
     KSImage openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
 	 private static class ContentAnimation extends Animation {
@@ -58,7 +56,7 @@ public class CollapsablePanel extends Composite{
 
 		    /**
 		     * Open or close the content.
-		     * 
+		     *
 		     * @param panel the panel to open or close
 		     * @param animate true to animate, false to open instantly
 		     */
@@ -74,7 +72,7 @@ public class CollapsablePanel extends Composite{
 		      } else {
 		        panel.content.setVisible(panel.isOpen);
 		        if (panel.isOpen) {
-		          // Special treatment on the visible case to ensure LazyPanel works 
+		          // Special treatment on the visible case to ensure LazyPanel works
 		          panel.content.setVisible(true);
 		        }
 		      }
@@ -97,7 +95,7 @@ public class CollapsablePanel extends Composite{
 		      DOM.setStyleAttribute(curPanel.content.getElement(), "overflow", "hidden");
 		      if (opening) {
 		        curPanel.content.setVisible(true);
-		        // Special treatment on the visible case to ensure LazyPanel works 
+		        // Special treatment on the visible case to ensure LazyPanel works
 		        curPanel.content.setVisible(true);
 		     }
 		    }
@@ -111,23 +109,23 @@ public class CollapsablePanel extends Composite{
 		        height = scrollHeight - height;
 		      }
 		      height = Math.max(height, 1);
-		      
+
 		      DOM.setStyleAttribute(curPanel.content.getElement(), "height",
 		          height + "px");
 		      DOM.setStyleAttribute(curPanel.content.getElement(), "width",
 		          "auto");
 		    }
 	 }
-	 
+
 		public CollapsablePanel(String name, Widget content, boolean isOpen){
 			init(name, content, isOpen, true);
 		}
-		
+
 	 public CollapsablePanel(String name, Widget content, boolean isOpen, boolean withImages){
 		init(name, content, isOpen, withImages);
-		
+
 	}
-	 
+
 	 private void init(String name, Widget content, boolean isOpen, boolean withImages){
 		 this.withImages = withImages;
 			label = new KSButton(name, ButtonStyle.DEFAULT_ANCHOR);
@@ -143,7 +141,7 @@ public class CollapsablePanel extends Composite{
 	        	if (this.withImages)
 	        		linkPanel.add(openedImage);
 			}
-			
+
 			label.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -153,10 +151,10 @@ public class CollapsablePanel extends Composite{
 					}
 					else{
 						CollapsablePanel.this.open();
-					}				
+					}
 				}
 			});
-			
+
 			layout.add(linkPanel);
 			layout.add(this.content);
 			closedImage.addStyleName("ks-image-middle-alignment");
@@ -164,9 +162,9 @@ public class CollapsablePanel extends Composite{
 			content.addStyleName("top-padding");
 			this.initWidget(layout);
 	 }
-	
 
-	
+
+
 	public KSButton getLabel() {
         return label;
     }
@@ -174,7 +172,7 @@ public class CollapsablePanel extends Composite{
     public boolean isOpen(){
 		return isOpen;
 	}
-	
+
 	public void open(){
 		isOpen = true;
 		if (withImages) {
@@ -183,7 +181,7 @@ public class CollapsablePanel extends Composite{
 		}
 		animation.setOpen(this, true);
 	}
-	
+
 	public void close(){
 		isOpen = false;
 		if (withImages) {
@@ -192,6 +190,6 @@ public class CollapsablePanel extends Composite{
 		}
 		animation.setOpen(this, true);
 	}
-	
-	 
+
+
 }

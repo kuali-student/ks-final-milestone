@@ -18,22 +18,16 @@ package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class FieldLayout extends SpanPanel implements FieldLayoutComponent{
@@ -48,12 +42,12 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 	private String key;
 	private ButtonLayout buttonLayout;
 	protected SectionTitle layoutTitle = null;
-	
 
-	private static String getNextId() { 
-		return "fieldComponent" + (generatedKeyNum); 
+
+	private static String getNextId() {
+		return "fieldComponent" + (generatedKeyNum);
 	}
-	
+
 	public void underlineTitle(boolean underline){
 		if(layoutTitle != null){
 			if(underline){
@@ -64,7 +58,7 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 			}
 		}
 	}
-	
+
 	public FieldLayout getParentLayout() {
 		return parentLayout;
 	}
@@ -89,7 +83,7 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 		}
 		return key;
 	}
-	
+
 	public String addLayout(FieldLayout layout){
 		String key = null;
 		if(layout != null){
@@ -106,11 +100,11 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 		}
 		return key;
 	}
-	
+
 	public String addWidget(Widget widget){
 		return this.addWidget(null, widget);
 	}
-	
+
 	public String addWidget(String key, Widget widget){
 		if(widget != null){
 			if(key == null){
@@ -124,7 +118,7 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 		}
 		return key;
 	}
-	
+
 	public boolean removeLayoutElement(String key){
 		Widget w = drawOrder.get(key);
 		if(w != null){
@@ -144,7 +138,7 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 			return false;
 		}
 	}
-	
+
 	public boolean removeLayoutElement(Widget widget){
 		if(drawOrder.containsValue(widget)){
 			Iterator<String> it = drawOrder.keySet().iterator();
@@ -172,7 +166,7 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 			return false;
 		}
 	}
-	
+
 	public void setInstructions(String instructions) {
 		if(instructions != null && !instructions.equals("")){
 			this.instructions.addStyleName("ks-section-instuctions");
@@ -191,7 +185,7 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 	public void showMessage(boolean show) {
 		this.message.setVisible(show);
 	}
-	
+
 	@Override
 	public String getKey() {
 		return key;
@@ -201,39 +195,39 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 	public void setKey(String layoutKey) {
 		key = layoutKey;
 	}
-	
+
 	public FieldElement getFieldElement(String key){
 		return fieldMap.get(key);
 	}
-	
+
 	public FieldLayout getFieldLayout(String key){
 		return layoutMap.get(key);
 	}
-	
+
 	public Widget getWidget(String key){
 		return drawOrder.get(key);
 	}
-	
+
 	public abstract void addFieldToLayout(FieldElement field);
 	public abstract void addLayoutToLayout(FieldLayout layout);
 	public abstract void addWidgetToLayout(Widget widget);
 	public abstract void removeWidgetFromLayout(Widget widget);
 	public abstract void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component);
-	
+
 	public void processValidationResults(String fieldElementKey, ValidationResultInfo validationResult){
 		FieldElement field = fieldMap.get(fieldElementKey);
 		if(field != null && hasValidation){
 			field.processValidationResult(validationResult);
 		}
 	}
-	
+
 	public void addValidationErrorMessage(String fieldElementKey, String message){
 		FieldElement field = fieldMap.get(fieldElementKey);
 		if(field != null && hasValidation){
 			field.addValidationErrorMessage(message);
 		}
 	}
-	
+
 	public void clearValidation(){
 		//fieldMap.
 		for(FieldElement e: fieldMap.values()){
@@ -250,16 +244,16 @@ public abstract class FieldLayout extends SpanPanel implements FieldLayoutCompon
 	public SectionTitle getLayoutTitle() {
 		return layoutTitle;
 	}
-	
+
 	public void addButtonLayout(ButtonLayout buttonLayout){
 		this.buttonLayout = buttonLayout;
 		addButtonLayoutToLayout(buttonLayout);
 	}
-	
+
 	public ButtonLayout getButtonLayout(){
 		return buttonLayout;
 	}
-	
+
 	public abstract void addButtonLayoutToLayout(ButtonLayout buttonLayout);
-	
+
 }

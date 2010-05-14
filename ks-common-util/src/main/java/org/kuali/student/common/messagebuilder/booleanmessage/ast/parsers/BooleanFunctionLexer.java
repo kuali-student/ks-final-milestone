@@ -14,12 +14,15 @@
  */
 
 // $ANTLR 3.1.1 BooleanFunction.g 2009-06-03 01:05:39
- package org.kuali.student.common.messagebuilder.booleanmessage.ast.parsers; 
+ package org.kuali.student.common.messagebuilder.booleanmessage.ast.parsers;
 
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.Lexer;
+import org.antlr.runtime.MismatchedSetException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
 
 public class BooleanFunctionLexer extends Lexer {
     public static final int UPPERCASE=9;
@@ -36,7 +39,7 @@ public class BooleanFunctionLexer extends Lexer {
     // delegates
     // delegators
 
-    public BooleanFunctionLexer() {;} 
+    public BooleanFunctionLexer() {;}
     public BooleanFunctionLexer(CharStream input) {
         this(input, new RecognizerSharedState());
     }
@@ -54,7 +57,7 @@ public class BooleanFunctionLexer extends Lexer {
             // BooleanFunction.g:5:4: ( '+' )
             // BooleanFunction.g:5:6: '+'
             {
-            match('+'); 
+            match('+');
 
             }
 
@@ -74,7 +77,7 @@ public class BooleanFunctionLexer extends Lexer {
             // BooleanFunction.g:6:5: ( '*' )
             // BooleanFunction.g:6:7: '*'
             {
-            match('*'); 
+            match('*');
 
             }
 
@@ -94,7 +97,7 @@ public class BooleanFunctionLexer extends Lexer {
             // BooleanFunction.g:7:4: ( '(' )
             // BooleanFunction.g:7:6: '('
             {
-            match('('); 
+            match('(');
 
             }
 
@@ -114,7 +117,7 @@ public class BooleanFunctionLexer extends Lexer {
             // BooleanFunction.g:8:4: ( ')' )
             // BooleanFunction.g:8:6: ')'
             {
-            match(')'); 
+            match(')');
 
             }
 
@@ -154,7 +157,7 @@ public class BooleanFunctionLexer extends Lexer {
                 case 1 :
                     // BooleanFunction.g:69:11: UPPERCASE
                     {
-                    mUPPERCASE(); 
+                    mUPPERCASE();
 
                     }
                     break;
@@ -164,8 +167,8 @@ public class BooleanFunctionLexer extends Lexer {
                     // BooleanFunction.g:69:23: ( UPPERCASE NUMBER )
                     // BooleanFunction.g:69:24: UPPERCASE NUMBER
                     {
-                    mUPPERCASE(); 
-                    mNUMBER(); 
+                    mUPPERCASE();
+                    mNUMBER();
 
                     }
 
@@ -206,7 +209,7 @@ public class BooleanFunctionLexer extends Lexer {
             	case 1 :
             	    // BooleanFunction.g:71:12: '0' .. '9'
             	    {
-            	    matchRange('0','9'); 
+            	    matchRange('0','9');
 
             	    }
             	    break;
@@ -277,7 +280,7 @@ public class BooleanFunctionLexer extends Lexer {
                 cnt3++;
             } while (true);
 
-             _channel = HIDDEN; 
+             _channel = HIDDEN;
 
             }
 
@@ -297,7 +300,7 @@ public class BooleanFunctionLexer extends Lexer {
             // BooleanFunction.g:75:11: ( 'a' .. 'z' )
             // BooleanFunction.g:75:13: 'a' .. 'z'
             {
-            matchRange('a','z'); 
+            matchRange('a','z');
 
             }
 
@@ -315,7 +318,7 @@ public class BooleanFunctionLexer extends Lexer {
             // BooleanFunction.g:77:20: ( 'A' .. 'Z' )
             // BooleanFunction.g:77:22: 'A' .. 'Z'
             {
-            matchRange('A','Z'); 
+            matchRange('A','Z');
 
             }
 
@@ -443,56 +446,56 @@ public class BooleanFunctionLexer extends Lexer {
             case 1 :
                 // BooleanFunction.g:1:10: OR
                 {
-                mOR(); 
+                mOR();
 
                 }
                 break;
             case 2 :
                 // BooleanFunction.g:1:13: AND
                 {
-                mAND(); 
+                mAND();
 
                 }
                 break;
             case 3 :
                 // BooleanFunction.g:1:17: LP
                 {
-                mLP(); 
+                mLP();
 
                 }
                 break;
             case 4 :
                 // BooleanFunction.g:1:20: RP
                 {
-                mRP(); 
+                mRP();
 
                 }
                 break;
             case 5 :
                 // BooleanFunction.g:1:23: ALPHA
                 {
-                mALPHA(); 
+                mALPHA();
 
                 }
                 break;
             case 6 :
                 // BooleanFunction.g:1:29: NUMBER
                 {
-                mNUMBER(); 
+                mNUMBER();
 
                 }
                 break;
             case 7 :
                 // BooleanFunction.g:1:36: WHITESPACE
                 {
-                mWHITESPACE(); 
+                mWHITESPACE();
 
                 }
                 break;
             case 8 :
                 // BooleanFunction.g:1:47: LOWERCASE
                 {
-                mLOWERCASE(); 
+                mLOWERCASE();
 
                 }
                 break;
@@ -502,6 +505,6 @@ public class BooleanFunctionLexer extends Lexer {
     }
 
 
- 
+
 
 }
