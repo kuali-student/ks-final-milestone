@@ -33,8 +33,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource checkboxCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSDatePicker.css")
 	public CssResource datepickerCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSDisclosureSection.css")
-	public CssResource disclosureSectionCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSDropDown.css")
     public CssResource ErrorDialogCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSErrorDialog.css")

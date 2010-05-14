@@ -28,12 +28,6 @@ public interface KSStyles {
 
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
-	public static final String KS_DISCLOSURE_CONTENTPANEL_STYLE = "KS-Disclosure-Content";
-	public static final String KS_DISCLOSURE_HEADER_STYLE = "KS-Disclosure-Header";
-	public static final String KS_DISCLOSURE_OPEN_CONTENTPANEL_STYLE = "KS-Disclosure-Content-Open";
-	public static final String KS_DISCLOSURE_OPEN_HEADER_STYLE = "KS-Disclosure-Header-Open";
-	public static final String KS_DISCLOSURE_OPEN_SECTION_PANEL = "KS-Disclosure-Section-Open";
-	public static final String KS_DISCLOSURE_SECTION_PANEL = "KS-Disclosure-Section";
 	public static final String KS_DROPDOWN_FOCUS_STYLE = "KS-Dropdown-Focus";
 	public static final String KS_DROPDOWN_HOVER_STYLE = "KS-Dropdown-Hover";
 	public static final String KS_DROPDOWN_SELECTED_STYLE = "KS-Dropdown-Selected";
@@ -75,7 +69,6 @@ public interface KSStyles {
 
 	public static final String KS_POPOUT_WINDOW = "KS-RichText-Popout-Window";
 	public static final String KS_POPUP = "KS-Popup";
-	public static final String KS_POPUP_HEADER = "KS-Popup-Header";
 	public static final String KS_PROGRESS_INDICATOR = "KSProgressIndicator";
 	public static final String KS_RADIO_CHECKED_STYLE = "KS-Radio-Selected";
 	public static final String KS_RADIO_FOCUS_STYLE = "KS-Radio-Focus";
