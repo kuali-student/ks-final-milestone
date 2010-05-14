@@ -158,10 +158,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			    if(hierarchy[i]==null){
 			        return;
 			    }
-//				path = path + "/" + hierarchy[i];
 				pathBuffer.append("/");
 				pathBuffer.append(hierarchy[i]);
-				KSMenuItemData item = menuHierarchyMap.get(path);
+				KSMenuItemData item = menuHierarchyMap.get(pathBuffer.toString());
 				if (item == null) {
 					item = new KSMenuItemData(hierarchy[i]);
 					if (current == null) {
