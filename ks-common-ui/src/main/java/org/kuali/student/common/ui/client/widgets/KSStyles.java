@@ -38,9 +38,6 @@ public interface KSStyles {
 	public static final String KS_TAB_PANEL = "KS-Tab-Panel";
 	public static final String KS_TAB_PANEL_BAR_ITEM = "KS-Tab-Panel-BarItem";
 
-	public static final String KS_TOOLTIP = "KSToolTip";
-    public static final String KS_TOOLTIP_CONTENT = "KSToolTipContent";
-    public static final String KS_TOOLTIP_HEADER = "KSToolTipHeader";
     public static final String KS_SELECT_TABLE_PANEL = "KS-Select-Table-Panel";
 
     public static final String KS_ACCORDION_TITLEBAR_IMAGE = "KS-Accordion-Titlebar-Image";
