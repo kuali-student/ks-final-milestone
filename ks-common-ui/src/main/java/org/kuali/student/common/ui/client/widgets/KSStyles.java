@@ -53,8 +53,6 @@ public interface KSStyles {
 
 	public static final String KS_MOUSE_NORMAL = "KS-Mouse-Normal";
 
-	public static final String KS_MOUSE_WAIT = "KS-Mouse-Wait";
-
 	public static final String KS_POPOUT_IMAGE = "KS-RichText-Popout-Image";
 	public static final String KS_POPOUT_IMAGE_HOVER = "KS-RichText-Popout-Image-Hover";
 	public static final String KS_POPOUT_IMAGE_PANEL = "KS-RichText-Popout-Image-Panel";
