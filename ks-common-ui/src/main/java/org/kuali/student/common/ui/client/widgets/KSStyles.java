@@ -25,10 +25,6 @@ package org.kuali.student.common.ui.client.widgets;
 @Deprecated
 public interface KSStyles {
 	public static final String KS_ACCORDION_WIDGETPANEL = "KS-Accordion-WidgetPanel";
-	public static final String KS_BLOCKING_TASK_ITEM = "KS-Blocking-Task-Item";
-	public static final String KS_BLOCKING_TASK_LIST = "KS-Blocking-Task-List";
-	public static final String KS_BLOCKING_TASK_MAIN = "KS-Blocking-Task-Main";
-	public static final String KS_BLOCKING_TASK_WINDOW = "KS-Blocking-Task-Window";
 	public static final String KS_BUTTON_CLICK_STYLE = "KS-Button-Click";
 	public static final String KS_BUTTON_FOCUS_STYLE = "KS-Button-Focus";
 	public static final String KS_BUTTON_HOVER_STYLE = "KS-Button-Hover";
