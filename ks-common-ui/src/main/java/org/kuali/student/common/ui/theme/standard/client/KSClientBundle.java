@@ -28,11 +28,7 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSGeneral.css")
 	public CssResource generalCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSBlockingProgressIndicator.css")
-    public CssResource breadcrumbCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSBreadcrumb.css")
 	public CssResource blockingProgressIndicatorCss();
-    @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSButton.css")
-	public CssResource buttonCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSCheckbox.css")
 	public CssResource checkboxCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSDatePicker.css")

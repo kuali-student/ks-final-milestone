@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.security.SecurityContext;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.messages.dto.Message;
 
 public class ApplicationContext {
@@ -32,7 +31,6 @@ public class ApplicationContext {
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
 	private List<Message> messagesList = new ArrayList<Message>();
-	Map<String, ObjectStructure> dictionaryData = new HashMap<String, ObjectStructure>();
 	
 	private SecurityContext securityContext;
 	

@@ -56,12 +56,14 @@ public class LookupMetadata implements Serializable {
 
     // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 	// and custom screens of the advanced search lightbox
+    //TODO is DEFAULT needed? it has 0 references
     public enum Usage {
         DEFAULT, ADVANCED, CUSTOM, ADVANCED_CUSTOM
     }
 
     private Usage usage;
     
+    //TODO BUTTON has 0 references. Is it needed?
     public enum Widget {
         NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON, CHECKBOX_LIST
     }
