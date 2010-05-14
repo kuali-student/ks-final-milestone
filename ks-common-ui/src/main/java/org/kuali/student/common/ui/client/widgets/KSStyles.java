@@ -31,12 +31,6 @@ public interface KSStyles {
 	public static final String KS_BUTTON_STYLE = "KS-Button";
 	public static final String KS_BUTTON_SPECIAL_STYLE = "KS-Button-Special";
 
-	public static final String KS_BREADCRUMB = "KS-Breadcrumb";
-    public static final String KS_BREADCRUMB_ITEM = "KS-Breadcrumb-Item";
-    public static final String KS_BREADCRUMB_ITEM_HISTORY = "KS-Breadcrumb-Item-History";
-    public static final String KS_BREADCRUMB_ITEM_CURRENT = "KS-Breadcrumb-Item-Current";
-    public static final String KS_BREADCRUMB_ITEM_FOCUS = "KS-Breadcrumb-Item-Focus";
-
 	public static final String KS_CHECKBOX_CHECKED_STYLE = "KS-Checkbox-Checked";
 	public static final String KS_CHECKBOX_FOCUS_STYLE = "KS-Checkbox-Focus";
 	public static final String KS_CHECKBOX_HOVER_STYLE = "KS-Checkbox-Hover";
