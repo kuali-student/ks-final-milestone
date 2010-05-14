@@ -66,7 +66,6 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
 
 
     protected LOBuilder() {
-        //TODO: should this be an error?  Can we set realistic defaults?
     }
 
     public LOBuilder(String luType, String luState, String luGroup, String loRepoKey, final Metadata metadata) {

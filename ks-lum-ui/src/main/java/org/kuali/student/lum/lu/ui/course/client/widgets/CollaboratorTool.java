@@ -359,6 +359,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void clear() {
+		//do nothing, nothing to clear
 	}
 
 	@Override
@@ -368,6 +369,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void updateModel() {
+		//do nothing
 	}
 
 	@Override

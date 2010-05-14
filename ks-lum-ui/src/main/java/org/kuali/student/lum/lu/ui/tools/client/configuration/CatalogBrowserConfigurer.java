@@ -62,7 +62,6 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 	public void configureCatalogBrowser (ConfigurableLayout layout)
 	{
 
-		// addStartSection(layout);
 		layout.addSection (new String[]
 		                              {
 				"Browse by Subject Area"
@@ -81,10 +80,6 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 			new VerticalSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
 					getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA),
 					CATALOG_BROWSER_MODEL);
-		//nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
-		//  VerticalSection verticalSection =
-		//   initSection (getH3Title (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_INFO), WITH_DIVIDER);
-		//  nestedSectionView.addSection (verticalSection);
 		String fieldKey = BY_SUBJECT_AREA + "/" + COURSE_ID;
 		addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));
 		return nestedSectionView;
@@ -96,11 +91,6 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 			new VerticalSectionView (Sections.BROWSE_BY_SCHOOL,
 					getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL),
 					CATALOG_BROWSER_MODEL);
-		//nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
-		//  nestedSectionView.setSectionTitle (getH1Title (labelKey));
-		//  VerticalSection verticalSection =
-		//   initSection (getH3Title (CatalogBrowserConstants.BROWSE_BY_SCHOOL_INFO), WITH_DIVIDER);
-		//  nestedSectionView.addSection (verticalSection);
 		String fieldKey = BY_SCHOOL_OR_COLLEGE + "/" + COURSE_ID;
 		addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));
 		return nestedSectionView;
@@ -121,19 +111,22 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 		return Application.getApplicationContext ().getUILabel ("course", "course", "draft", labelKey);
 	}
 
-	// TODO - when DOL is pushed farther down into LOBuilder, revert these 5 methods to returning void again.
 	protected FieldDescriptor addField(Section section, String fieldKey) {
 		return addField(section, fieldKey, null, null, null);
-	}    
+	} 
+	
 	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
 		return addField(section, fieldKey, messageKey, null, null);
 	}
+	
 	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
 		return addField(section, fieldKey, messageKey, widget, null);
 	}
+	
 	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
 		return addField(section, fieldKey, messageKey, null, parentPath);
 	}
+	
 	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
 		QueryPath path = QueryPath.concat(parentPath, fieldKey);
 		Metadata meta = modelDefinition.getMetadata(path);

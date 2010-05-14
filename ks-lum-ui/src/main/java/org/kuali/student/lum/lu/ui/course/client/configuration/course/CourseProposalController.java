@@ -254,7 +254,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         cfg.setModelDefinition(modelDefinition);
         cfg.configure(this);
         
-        //FIXME: This needs to be moved to the configurer
+        //FIXME: [KSCOR-225] This needs to be moved to the configurer
         workflowToolbar = new WorkflowToolbar(createOnWorkflowSubmitSuccessHandler());
         workflowToolbar.setIdPath("proposal/id");
         workflowToolbar.setRequiredFieldPaths(new String[]{"course/department"});
@@ -310,7 +310,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
 
-        		//FIXME: test code
         		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
             		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
         		} else {
@@ -524,7 +523,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 }
 
                 public void onSuccess(DataSaveResult result) {
-                	// FIXME needs to check validation results and display messages if validation failed
+                	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
     				cluProposalModel.setRoot(result.getValue());
     	            View currentView = getCurrentView(); 
     				if (currentView instanceof SectionView){

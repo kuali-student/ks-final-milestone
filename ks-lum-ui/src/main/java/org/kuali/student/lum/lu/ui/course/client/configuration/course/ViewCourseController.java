@@ -15,14 +15,9 @@
 
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
-import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
-import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
-import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -39,7 +34,6 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -62,8 +56,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class ViewCourseController extends TabbedSectionLayout { 
     private final DataModel cluModel = new DataModel(); 
-//    private RequirementsDisplayWidget.RequirementsModel requirementsModel;
-    
+   
     private WorkQueue modelRequestQueue;
 
     private String cluType = "kuali.lu.type.CreditCourse";
@@ -76,7 +69,6 @@ public class ViewCourseController extends TabbedSectionLayout {
     private boolean initialized = false;
     CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
     
-//    final KSLightBox progressWindow = new KSLightBox();
     
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
 	private BlockingTask initTask = new BlockingTask("Initializing....");
@@ -131,35 +123,8 @@ public class ViewCourseController extends TabbedSectionLayout {
             }
             
         });
-        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
-
-            @Override
-            public void onValidateRequest(ValidateRequestEvent event) {
-                requestModel(new ModelRequestCallback<DataModel>() {
-                    @Override
-                    public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultInfo>>() {
-                            @Override
-                            public void exec(List<ValidationResultInfo> result) {
-                                ValidateResultEvent e = new ValidateResultEvent();
-                                e.setValidationResult(result);
-                                fireApplicationEvent(e);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        GWT.log("Unable to retrieve model for validation", cause);
-                    }
-                    
-                });
-            }
-            
-        });
         actionToolbar = new ViewCourseActionList(createActionSubmitSuccessHandler());
         actionToolbar.setCourseCodePath(COURSE_CODE_PATH);
-//        actionToolbar.setRequiredFieldPaths(new String[]{"course/department"});
         this.addToolbar(actionToolbar);
 
     }
@@ -193,6 +158,7 @@ public class ViewCourseController extends TabbedSectionLayout {
             
         }
     }
+    
     private void init(DataModelDefinition modelDefinition){
         ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
         super.setUpdateableSection(false);
@@ -213,9 +179,6 @@ public class ViewCourseController extends TabbedSectionLayout {
     public Class<? extends Enum<?>> getViewsEnum() {
         return ViewCourseConfigurer.Sections.class;
     }
-
-   
-
     
     @SuppressWarnings("unchecked")
     @Override
@@ -224,11 +187,9 @@ public class ViewCourseController extends TabbedSectionLayout {
             if (cluModel != null){
                 ReferenceModel ref = new ReferenceModel();
 
-                //FIXME: test code
                 if(cluModel.get("course/id") != null){
                     ref.setReferenceId((String)cluModel.get("course/id"));
-                }
-                else{
+                } else{
                     ref.setReferenceId(null);
                 }
                 
@@ -240,8 +201,7 @@ public class ViewCourseController extends TabbedSectionLayout {
             }
         }else if (modelType == LuData.class){
             requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
-        } else /*
-        */ {
+        } else {
             super.requestModel(modelType, callback);
         }
     }

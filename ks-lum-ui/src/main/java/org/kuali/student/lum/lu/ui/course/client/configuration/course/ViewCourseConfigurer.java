@@ -486,28 +486,10 @@ CreditCourseLearningResultsConstants
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
 
-    private SectionTitle getH1Title(String labelKey) {
-        return SectionTitle.generateH1Title(getLabel(labelKey));
-    } 
-
-    private SectionTitle getH2Title(String labelKey) {
-        return SectionTitle.generateH2Title(getLabel(labelKey));
-    } 
-
     private SectionTitle getH3Title(String labelKey) {
         return SectionTitle.generateH3Title(getLabel(labelKey));
     } 
 
-    private SectionTitle getH4Title(String labelKey) {
-        return SectionTitle.generateH4Title(getLabel(labelKey));
-    } 
-
-    private SectionTitle getH5Title(String labelKey) {
-        return SectionTitle.generateH5Title(getLabel(labelKey));
-    }
-
-    // TODO - when DOL is pushed farther down into LOBuilder,
-    // revert these 5 methods to returning void again.
     protected FieldDescriptor addField(Section section, String fieldKey) {
     	return addField(section, fieldKey, null, null, null);
     }    
@@ -536,6 +518,7 @@ CreditCourseLearningResultsConstants
     }
 
     //FIXME: [KSCOR-225] rework these next 2 methods to combine them
+    @SuppressWarnings("unchecked")
     private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey, Widget widget, String parentPath, ModelWidgetBinding binding) {
 
 		QueryPath path = QueryPath.concat(parentPath, fieldKey);

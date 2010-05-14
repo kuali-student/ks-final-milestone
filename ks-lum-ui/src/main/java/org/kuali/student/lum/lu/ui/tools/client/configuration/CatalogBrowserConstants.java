@@ -17,25 +17,17 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
- *
- * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
 public class CatalogBrowserConstants
 {
- // Message keys for top-level section label lookup
- public static final String BROWSE_BY_SUBJECT_AREA_LABEL_KEY =
-  "browseBySubjectArea";
- public static final String BROWSE_BY_SCHOOL_LABEL_KEY =
-	  "browseBySchool"; 
- public static final String BROWSE_BY_SUBJECT_AREA =
-  "Browse Catalog by Subject Area";
- public static final String BROWSE_BY_SUBJECT_AREA_INFO =
-  "Subject Area Information";
- public static final String BROWSE_BY_SCHOOL = "Browse Catalog by School";
- public static final String BROWSE_BY_SCHOOL_INFO = "School Information";
+	// Message keys for top-level section label lookup
+	public static final String BROWSE_BY_SUBJECT_AREA_LABEL_KEY =	"browseBySubjectArea";
+	public static final String BROWSE_BY_SCHOOL_LABEL_KEY =			"browseBySchool"; 
+	public static final String BROWSE_BY_SUBJECT_AREA =				"Browse Catalog by Subject Area";
+	public static final String BROWSE_BY_SUBJECT_AREA_INFO =		"Subject Area Information";
+	public static final String BROWSE_BY_SCHOOL = 					"Browse Catalog by School";
+	public static final String BROWSE_BY_SCHOOL_INFO = 				"School Information";
 }
 

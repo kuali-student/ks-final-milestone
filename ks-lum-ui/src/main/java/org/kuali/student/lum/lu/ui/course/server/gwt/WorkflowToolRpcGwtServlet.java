@@ -44,7 +44,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
 
-//FIXME this servlet should take not extend abstract base 
+//FIXME this servlet should take not extend AbstractBaseDataOrchestrationRpcGwtServlet, does not use metadata and not processed through workflow
 public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements WorkflowToolRpcService{
 	
 	private static final long serialVersionUID = 1L;

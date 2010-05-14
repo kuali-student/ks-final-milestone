@@ -242,8 +242,9 @@ public class HomeMenuController extends Controller{
         
     }
 
-    @Override
-    public void fireApplicationEvent(ApplicationEvent event) {
+	@Override
+    @SuppressWarnings("unchecked")
+	public void fireApplicationEvent(ApplicationEvent event) {
         
         if ((event instanceof ChangeViewActionEvent) && (getParentController() != null)) {
             this.getParentController().fireApplicationEvent(event);
