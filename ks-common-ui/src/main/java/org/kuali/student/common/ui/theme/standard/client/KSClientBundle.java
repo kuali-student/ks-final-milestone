@@ -164,7 +164,7 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/asterisk_orange.png")
     public ImageResource asterisk();
 
-    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/twiddler3.gif")
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/twiddler3.gif")
     public ImageResource spinner();
 
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/blue-gradient.jpg")
