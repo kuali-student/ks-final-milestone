@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  MAX ID : 100000000031 -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="persistList"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+	 			<ref bean="businessRuleType1"/>
+	 			<ref bean="businessRuleType2"/> 
+				<ref bean="agendaType1"/>
+ 				<ref bean="agendaType2"/>  
+				<ref bean="funcBusRule1" />
+				<ref bean="funcBusRule2" />
+				<!-- <ref bean="funcBusRule3" />
+					<ref bean="funcBusRule4" />
+				-->
+			</list>
+		</property>
+	</bean>
+
+	<bean id="currentTime" class="java.util.Date" />
+
+    <bean id="startTime" class="java.util.Date" />
+    <bean id="endTime" class="java.util.Date">
+        <!-- 2010-01-01 12:00 -->
+        <property name="time" value="1262376000325"/>
+    </bean>
+
+	<bean id="agendaType1"
+		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		<property name="id" value="11223344-1122-1122-1112-100000000030"/>
+		<property name="type" value="KUALI_STUDENT_ENROLLS_IN_COURSE"/>
+		<property name="businessRuleTypes">
+		  <list>
+			<ref bean="businessRuleType1"/>
+			<ref bean="businessRuleType2"/>
+		  </list>
+		</property>
+		<property name="agendaInfoDeterminationStructureList">
+		  <list>
+		  </list>
+		</property>
+	</bean>
+	
+
+	<bean id="agendaType2"
+		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		<property name="id" value="11223344-1122-1122-1112-100000000031"/>
+		<property name="type" value="KUALI_STUDENT_STUDENT_DROPS_COURSE"/>
+		<property name="businessRuleTypes">
+		  <list>
+			<ref bean="businessRuleType1"/>
+		  </list>
+		</property>
+		<property name="agendaInfoDeterminationStructureList">
+		  <list>
+		  </list>
+		</property>
+	</bean>
+
+	<bean id="businessRuleType1"
+		class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">
+		<property name="id" value="11223344-1122-1122-1112-100000000009" />
+		<property name="businessRuleTypeKey" value="KUALI_PRE_REQ" />
+		<property name="anchorTypeKey" value="KUALI_COURSE" />
+	</bean>
+
+	<bean id="businessRuleType2"
+		class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">
+		<property name="id" value="11223344-1122-1122-1112-100000000010" />
+		<property name="businessRuleTypeKey" value="KUALI_CO_REQ" />
+		<property name="anchorTypeKey" value="KUALI_COURSE" />
+	</bean>
+		
+	<!-- 
+		Rule: 1 of CPR 101 OR 1 of FA 001 
+		This rule should pass based on the static facts 
+	-->
+	<bean id="funcBusRule1"
+		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
+		<property name="id" value="11223344-1122-1122-1112-100000000001" />
+		<property name="ruleId" value="11223344-1122-1122-1112-200000000001" />
+		<property name="name" value="Intermediate CPR" />
+		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />
+		<property name="successMessage" value="Rule 1 Success Message" />
+		<property name="failureMessage" value="Rule 1 Failure Message" />
+		<property name="compiledId" value="" />
+		<property name="anchor" value="CPR 201" />
+		<property name="businessRuleType" ref="businessRuleType2" />
+		<property name="metaData" ref="ruleMetaData" />
+		<property name="ruleElements">
+			<list>
+				<bean id="ruleElement1"
+					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					<property name="id"
+						value="11223344-1122-1122-1112-100000000002" />
+					<property name="name" value="PA" />
+					<property name="description" value="" />
+					<property name="operation" value="PROPOSITION" />
+					<property name="ordinalPosition" value="1" />
+					<property name="businessRule" ref="funcBusRule1" />
+					<property name="ruleProposition" ref="ruleProposition1" />
+				</bean>
+				<bean id="ruleElement2"
+					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					<property name="id" value="11223344-1122-1122-1112-100000000003" />
+					<property name="name" value="PB" />
+					<property name="description" value="" />
+					<property name="operation" value="OR" />
+					<property name="ordinalPosition" value="2" />
+					<property name="businessRule" ref="funcBusRule1" />
+				</bean>
+				<bean id="ruleElement3"
+					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					<property name="id" value="11223344-1122-1122-1112-100000000004" />
+					<property name="name" value="PC" />
+					<property name="description" value="" />
+					<property name="operation" value="PROPOSITION" />
+					<property name="ordinalPosition" value="3" />
+					<property name="businessRule" ref="funcBusRule1" />
+					<property name="ruleProposition" ref="ruleProposition2" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ruleMetaData"
+		class="org.kuali.student.rules.rulemanagement.entity.RuleMetaData">
+		<property name="createdBy" value="Kamal" />
+		<property name="createDate" ref="currentTime" />
+		<property name="updateBy" value="Wil" />
+		<property name="updateDate" ref="currentTime" />
+		<property name="effectiveDateStart" ref="startTime" />
+		<property name="effectiveDateEnd" ref="endTime" />
+		<property name="version" value="1.0" />
+		<property name="status" value="DRAFT_IN_PROGRESS" />
+	</bean>
+
+	<bean id="ruleProposition1"
+		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		<property name="id" value="11223344-1122-1122-1112-100000000005" />
+		<property name="name" value="P1" />
+		<property name="description" value="enumeration of required co-requisite courses" />
+		<property name="failureMessage" value="prop error message" />
+		<property name="comparisonDataType" value="java.lang.Integer" />
+		<property name="leftHandSide" ref="leftHandSide1" />
+		<property name="operator" value="EQUAL_TO" />
+		<property name="rightHandSide" ref="rightHandSide1" />
+	</bean>
+
+	<bean id="ruleProposition2"
+		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		<property name="id" value="11223344-1122-1122-1112-100000000007" />
+		<property name="name" value="P2" />
+		<property name="description" value="enumeration of required co-requisite courses" />
+		<property name="failureMessage" value="prop error message" />
+		<property name="comparisonDataType" value="java.lang.Integer" />
+		<property name="leftHandSide" ref="leftHandSide3" />
+		<property name="operator" value="EQUAL_TO" />
+		<property name="rightHandSide" ref="rightHandSide3" />
+	</bean>
+
+	<bean id="leftHandSide1"
+		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		<property name="yieldValueFunction" ref="yieldValueFunction1" />
+	</bean>
+
+	<bean id="leftHandSide3"
+		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		<property name="yieldValueFunction" ref="yieldValueFunction3" />
+	</bean>
+
+	<bean id="factStructure1"
+		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		<property name="id" value="11223344-1122-1122-1112-100000000020" />
+		<property name="factStructureId" value="1" />
+		<property name="factTypeKey" value="fact.cpr_prereq_criteria1" />
+		<property name="anchorFlag" value="false" />
+		<property name="staticFact" value="true" />
+		<property name="staticValue" value="CPR 101" />
+		<property name="staticValueDataType" value="java.lang.String" />
+	</bean>
+
+	<bean id="factStructure2"
+		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		<property name="id" value="11223344-1122-1122-1112-100000000021" />
+		<property name="factStructureId" value="2" />
+		<property name="factTypeKey" value="fact.cpr_prereq_cluset" />
+		<property name="anchorFlag" value="false" />
+		<property name="staticFact" value="true" />
+		<property name="staticValue" value="CPR 101, MATH 101, MATH 102" />
+        <property name="staticValueDataType" value="java.lang.String" />
+	</bean>
+
+	<bean id="factStructure3"
+		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		<property name="id" value="11223344-1122-1122-1112-100000000022" />
+		<property name="factStructureId" value="3" />
+		<property name="factTypeKey" value="fact.cpr_prereq_criteria2" />
+		<property name="anchorFlag" value="false" />
+		<property name="staticFact" value="true" />
+		<property name="staticValue" value="FA 001" />
+        <property name="staticValueDataType" value="java.lang.String" />
+	</bean>
+
+	<bean id="yieldValueFunction1"
+		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		<property name="id" value="11223344-1122-1122-1112-100000000006" />
+		<property name="yieldValueFunctionType" value="INTERSECTION" />
+		<property name="facts">
+			<list>
+				<ref bean="factStructure1" />
+				<ref bean="factStructure2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="yieldValueFunction3"
+		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		<property name="id" value="11223344-1122-1122-1112-100000000008" />
+		<property name="yieldValueFunctionType" value="INTERSECTION" />
+		<property name="facts">
+			<list>
+				<ref bean="factStructure3" />
+				<ref bean="factStructure2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="rightHandSide1"
+		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		<property name="expectedValue" value="1" />
+	</bean>
+
+	<bean id="rightHandSide3"
+		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		<property name="expectedValue" value="1" />
+	</bean>
+
+
+
+	<!-- 
+	    Rule: 1 of MATH 100 AND SUM of CREDITS > 12 
+        This rule should NOT pass based on the static facts 
+	-->
+	<bean id="funcBusRule2"
+		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
+		<property name="id" value="11223344-1122-1122-1112-100000000011" />
+		<property name="ruleId" value="11223344-1122-1122-1112-200000000002" />
+		<property name="name" value="Freshmen Math" />
+		<property name="description"
+			value="enrollment pre-requisites for Freshman Math 101" />
+		<property name="successMessage" value="Rule 2 Success Message" />
+		<property name="failureMessage" value="Rule 2 Failure Message" />
+		<property name="compiledId" value="" />
+		<property name="anchor" value="MATH 101" />
+		<property name="businessRuleType" ref="businessRuleType1" />
+		<property name="metaData" ref="ruleMetaData" />
+		<property name="ruleElements">
+			<list>
+				<bean id="ruleElement4"
+					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					<property name="id" value="11223344-1122-1122-1112-100000000012" />
+					<property name="name" value="" />
+					<property name="description" value="" />
+					<property name="operation" value="PROPOSITION" />
+					<property name="ordinalPosition" value="1" />
+					<property name="businessRule" ref="funcBusRule2" />
+					<property name="ruleProposition" ref="ruleProposition3" />
+				</bean>
+				<bean id="ruleElement5"
+					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					<property name="id" value="11223344-1122-1122-1112-100000000013" />
+					<property name="name" value="" />
+					<property name="description" value="" />
+					<property name="operation" value="AND" />
+					<property name="ordinalPosition" value="2" />
+					<property name="businessRule" ref="funcBusRule2" />
+				</bean>
+				<bean id="ruleElement6"
+					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					<property name="id" value="11223344-1122-1122-1112-100000000014" />
+					<property name="name" value="" />
+					<property name="description" value="" />
+					<property name="operation" value="PROPOSITION" />
+					<property name="ordinalPosition" value="3" />
+					<property name="businessRule" ref="funcBusRule2" />
+					<property name="ruleProposition"
+						ref="ruleProposition4" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ruleProposition3"
+		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		<property name="id"
+			value="11223344-1122-1122-1112-100000000015" />
+		<property name="name" value="P3" />
+		<property name="description" value="enumeration of required pre-requisite courses" />
+		<property name="failureMessage" value="prop error message" />
+		<property name="comparisonDataType" value="java.lang.Integer" />
+		<property name="leftHandSide" ref="leftHandSide4" />
+		<property name="operator" value="EQUAL_TO" />
+		<property name="rightHandSide" ref="rightHandSide4" />
+	</bean>
+
+	<bean id="ruleProposition4"
+		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		<property name="id" value="11223344-1122-1122-1112-100000000016" />
+		<property name="name" value="P4" />
+		<property name="description" value="credits check" />
+		<property name="failureMessage" value="prop error message" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
+		<property name="leftHandSide" ref="leftHandSide5" />
+		<property name="operator" value="GREATER_THAN" />
+		<property name="rightHandSide" ref="rightHandSide5" />
+	</bean>
+
+	<bean id="leftHandSide4"
+		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		<property name="yieldValueFunction" ref="yieldValueFunction4" />
+	</bean>
+
+	<bean id="leftHandSide5"
+		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		<property name="yieldValueFunction" ref="yieldValueFunction5" />
+	</bean>
+
+
+	<bean id="factStructure5"
+		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		<property name="id"
+			value="11223344-1122-1122-1112-100000000024" />
+		<property name="factStructureId" value="5" />
+		<property name="factTypeKey" value="fact.math_prereq_criteria" />
+		<property name="anchorFlag" value="false" />
+		<property name="staticFact" value="true" />
+		<property name="staticValue" value="MATH 100" />
+        <property name="staticValueDataType" value="java.lang.String" />
+	</bean>
+
+	<bean id="factStructure6"
+		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		<property name="id" value="11223344-1122-1122-1112-100000000025" />
+		<property name="factStructureId" value="6" />
+		<property name="factTypeKey" value="fact.math_prereq_cluset" />
+		<property name="anchorFlag" value="false" />
+		<property name="staticFact" value="true" />
+		<property name="staticValue" value="CPR 101, MATH 100, MATH 102" />
+        <property name="staticValueDataType" value="java.lang.String" />
+	</bean>
+
+	<bean id="factStructure7"
+		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		<property name="id" value="11223344-1122-1122-1112-100000000026" />
+		<property name="factStructureId" value="7" />
+		<property name="factTypeKey" value="fact.math_prereq_gpalist" />
+		<property name="anchorFlag" value="false" />
+		<property name="staticFact" value="true" />
+		<property name="staticValue" value="2.0, 3.0, 4.0" />
+        <property name="staticValueDataType" value="java.math.BigDecimal" />
+	</bean>
+
+	<bean id="yieldValueFunction4"
+		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		<property name="id" value="11223344-1122-1122-1112-100000000017" />
+		<property name="yieldValueFunctionType" value="INTERSECTION" />
+		<property name="facts">
+			<list>
+				<ref bean="factStructure5" />
+				<ref bean="factStructure6" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="yieldValueFunction5"
+		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		<property name="id" value="11223344-1122-1122-1112-100000000018" />
+		<property name="yieldValueFunctionType" value="SUM" />
+		<property name="facts">
+			<list>
+				<ref bean="factStructure7"/>
+			</list>
+		</property>			
+	</bean>
+
+	<bean id="rightHandSide4"
+		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		<property name="expectedValue" value="1" />
+	</bean>
+
+	<bean id="rightHandSide5"
+		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		<property name="expectedValue" value="12.0" />
+	</bean>
+
+</beans>

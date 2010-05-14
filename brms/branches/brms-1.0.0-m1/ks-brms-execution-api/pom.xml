@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.brms</groupId>
+	<artifactId>ks-brms-execution-api</artifactId>
+	<version>1.0.0-m1</version>
+	<packaging>jar</packaging>
+	<name>KS BRMS EXECUTION API</name>
+	<description />
+
+    <parent>
+        <groupId>org.kuali.student.brms</groupId>
+        <artifactId>ks-brms</artifactId>
+        <version>1.0.0-m1</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>ks-brms-api</artifactId>
+			<version>1.0.0-m1</version>
+		</dependency>
+	</dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkMode>always</forkMode>
+                    <argLine>-Xms256m -Xmx512m</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>execution-wsdl</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>
+                                org.kuali.student.brms.ruleexecution.service.RuleExecutionService
+                            </className>
+                            <serviceName>RuleExecutionService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/brms/RuleExecution</targetNameSpace>            
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
