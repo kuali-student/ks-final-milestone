@@ -81,8 +81,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public CssResource commentToolCss();
     @Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSectionTitle.css")
     public CssResource sectionTitleCss();
-	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSRequiredMarker.css")
-	public CssResource requiredMarkerCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/UploadProgressBar.css")
 	public CssResource uploadProgressBarCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSValidationLayout.css")

@@ -92,8 +92,5 @@ public interface KSStyles {
     public static final String KS_H5_SECTION_TITLE = "KS-H5-Section-Title";
     public static final String KS_H6_SECTION_TITLE = "KS-H6-Section-Title";
 
-    public static final String KS_REQUIRED_MARKER_PANEL = "KS-Required-Marker-Panel";
-	public static final String KS_REQUIRED_MARKER_ASTERISK = "KS-Required-Marker-Asterisk";
-	public static final String KS_REQUIRED_MARKER_OPTIONAL_TEXT = "KS-Required-Marker-Optional-Text";
 
 }
