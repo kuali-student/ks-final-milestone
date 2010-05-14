@@ -679,6 +679,15 @@ public class LuServiceImpl implements LuService {
 		}
 		return ids;
 	}
+	
+	@Override
+	public Boolean isCluSetDynamic(String cluSetId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("isCluSetDynamic");
+	}
 
 	@Override
 	public List<CluInfo> getClusFromCluSet(String cluSetId)
