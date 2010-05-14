@@ -15,87 +15,79 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H1_SECTION_TITLE;
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H2_SECTION_TITLE;
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H3_SECTION_TITLE;
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H4_SECTION_TITLE;
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H5_SECTION_TITLE;
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H6_SECTION_TITLE;
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_SECTION_TITLE;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
+ * This is a description of what this class does - hjohnson don't forget to fill this in.
+ *
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
 public class SectionTitle extends ComplexPanel {
 
 
-	
+
     private SectionTitle(Element e) {
         this.setElement(e);
     }
 
     public static SectionTitle generateEmptyTitle() {
-        return generateTitle(DOM.createSpan(), null);  
+        return generateTitle(DOM.createSpan(), null);
     }
 
     public static SectionTitle generateH1Title(String titletext) {
-    	
+
     	Element headerElement = DOM.createElement("H1");
     	headerElement.setInnerText(titletext);
-        return generateTitle(headerElement, KS_H1_SECTION_TITLE);        
+        return generateTitle(headerElement, "KS-H1-Section-Title");
     }
-    
+
     public static SectionTitle generateH2Title(String titletext) {
-    	
+
     	Element headerElement = DOM.createElement("H2");
     	headerElement.setInnerText(titletext);
-        return generateTitle(headerElement, KS_H2_SECTION_TITLE);        
+        return generateTitle(headerElement, "KS-H2-Section-Title");
     }
-    
+
     public static SectionTitle generateH3Title(String titletext) {
-    	
+
     	Element headerElement = DOM.createElement("H3");
     	headerElement.setInnerText(titletext);
-        return generateTitle(headerElement, KS_H3_SECTION_TITLE);        
+        return generateTitle(headerElement, "KS-H3-Section-Title");
     }
-    
+
     public static SectionTitle generateH4Title(String titletext) {
-    	
+
     	Element headerElement = DOM.createElement("H4");
     	headerElement.setInnerText(titletext);
-        return generateTitle(headerElement, KS_H4_SECTION_TITLE);        
+        return generateTitle(headerElement, "KS-H4-Section-Title");
     }
-    
+
     public static SectionTitle generateH5Title(String titletext) {
-    	
+
     	Element headerElement = DOM.createElement("H5");
     	headerElement.setInnerText(titletext);
-        return generateTitle(headerElement, KS_H5_SECTION_TITLE);        
+        return generateTitle(headerElement, "KS-H5-Section-Title");
     }
-    
+
     public static SectionTitle generateH6Title(String titletext) {
-    	
+
     	Element headerElement = DOM.createElement("H6");
     	headerElement.setInnerText(titletext);
-        return generateTitle(headerElement, KS_H6_SECTION_TITLE);        
+        return generateTitle(headerElement, "KS-H6-Section-Title");
     }
-    
+
     private static SectionTitle generateTitle(Element header, String styleName) {
     	SectionTitle thisTitle = new SectionTitle(header);
-    	thisTitle.addStyleName(KS_SECTION_TITLE);
+    	thisTitle.addStyleName("KS-Section-Title");
         if(styleName != null){
         	thisTitle.addStyleName(styleName);
         }
         return thisTitle;
     }
-    
+
 /*    private static SectionTitle generateTitle(String text, String styleName) {
         SectionTitle thisTitle = new SectionTitle();
         thisTitle.setHTML(text);
@@ -105,7 +97,7 @@ public class SectionTitle extends ComplexPanel {
         }
         return thisTitle;
     }*/
-    
+
     public void setText(String text){
     	this.getElement().setInnerText(text);
     }

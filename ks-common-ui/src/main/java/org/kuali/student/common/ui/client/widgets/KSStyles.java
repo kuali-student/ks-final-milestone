@@ -68,13 +68,4 @@ public interface KSStyles {
     public static final String KS_SUGGEST_PICKER_SUGGEST_BOX_ROW = "KS-Suggest-Picker-Suggest-Box-Row";
     public static final String KS_SUGGEST_PICKER_LIST_ROW = "KS-Suggest-Picker-List-Row";
 
-    public static final String KS_SECTION_TITLE = "KS-Section-Title";
-    public static final String KS_H1_SECTION_TITLE = "KS-H1-Section-Title";
-    public static final String KS_H2_SECTION_TITLE = "KS-H2-Section-Title";
-    public static final String KS_H3_SECTION_TITLE = "KS-H3-Section-Title";
-    public static final String KS_H4_SECTION_TITLE = "KS-H4-Section-Title";
-    public static final String KS_H5_SECTION_TITLE = "KS-H5-Section-Title";
-    public static final String KS_H6_SECTION_TITLE = "KS-H6-Section-Title";
-
-
 }
