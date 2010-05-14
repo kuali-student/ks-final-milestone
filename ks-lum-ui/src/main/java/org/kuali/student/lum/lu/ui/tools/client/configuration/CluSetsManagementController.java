@@ -365,7 +365,7 @@ public class CluSetsManagementController extends TabbedSectionLayout {
     }
 
     public void doSaveAction(final SaveActionEvent saveActionEvent){
-        Enum<?> clusetSectionEnum = getCurrentViewEnum();
+        Enum clusetSectionEnum = getCurrentViewEnum();
         final DataModel modelToBeSaved;
         final boolean clearData;
 
