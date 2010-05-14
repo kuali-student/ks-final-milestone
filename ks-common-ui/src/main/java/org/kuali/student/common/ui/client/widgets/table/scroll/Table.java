@@ -19,9 +19,6 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 /**
  * A table with UiBinder.
  * 
- * Steps to create a table.
- * <BR>
- * 1) 
  * */
 public class Table extends Composite {
 
