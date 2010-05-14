@@ -143,6 +143,7 @@ public class CategoryManagementTable extends Composite {
         layout.clear();
         layout.add(pagingScrollTable);
         pagingScrollTable.fillWidth();
+        pagingScrollTable.reloadPage();//FIXME Undesirable solution to work with GWT 2.0
     }
     
     public void redraw(List<ResultRow> filteredRows){
@@ -152,7 +153,9 @@ public class CategoryManagementTable extends Composite {
         layout.clear();
         layout.add(pagingScrollTable);
         pagingScrollTable.fillWidth();
+        pagingScrollTable.reloadPage();//FIXME Undesirable solution to work with GWT 2.0
     }
+
     public void clearTable(){
         resultRows.clear();
         redraw();        
