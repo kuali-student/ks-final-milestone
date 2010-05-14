@@ -91,8 +91,6 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource landingPageCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSActionItemList.css")
 	public CssResource actionItemListCss();
-	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSearchBox.css")
-	public CssResource searchBoxCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/GwtDefault.css")
 	public CssResource gwtDefaultCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSection.css")
