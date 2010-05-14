@@ -35,20 +35,6 @@ public interface KSStyles {
 	public static final String KS_MOUSE_NORMAL = "KS-Mouse-Normal";
 
 	public static final String KS_POPUP = "KS-Popup";
-	public static final String KS_SIDEBAR = "KS-Sidebar";
-
-	public static final String KS_SIDEBAR_CONTENT_PANEL = "KS-Sidebar-Content-Panel";
-	public static final String KS_SIDEBAR_CONTENT_WRAPPER = "KS-Sidebar-Content-Wrapper";
-	public static final String KS_SIDEBAR_FLOAT_PANEL = "KS-Sidebar-Float-Panel";
-	public static final String KS_SIDEBAR_LEFTTAB = "KS-Sidebar-LeftTab";
-	public static final String KS_SIDEBAR_LEFTTAB_HOVER = "KS-Sidebar-LeftTab-Hover";
-	public static final String KS_SIDEBAR_LEFTTAB_SELECTED = "KS-Sidebar-LeftTab-Selected";
-	public static final String KS_SIDEBAR_RIGHTTAB = "KS-Sidebar-RightTab";
-	public static final String KS_SIDEBAR_RIGHTTAB_HOVER = "KS-Sidebar-RightTab-Hover";
-	public static final String KS_SIDEBAR_RIGHTTAB_SELECTED = "KS-Sidebar-RightTab-Selected";
-	public static final String KS_SIDEBAR_TAB_PANEL = "KS-Sidebar-Tab-Panel";
-	public static final String KS_SIDEBAR_TITLE_LABEL = "KS-Sidebar-Title-Label";
-	public static final String KS_SIDEBAR_TITLE_PANEL = "KS-Sidebar-Title-Panel";
 	public static final String KS_TAB_PANEL = "KS-Tab-Panel";
 	public static final String KS_TAB_PANEL_BAR_ITEM = "KS-Tab-Panel-BarItem";
 	public static final String KS_TEXTAREA_FOCUS_STYLE = "KS-Textarea-Focus";
