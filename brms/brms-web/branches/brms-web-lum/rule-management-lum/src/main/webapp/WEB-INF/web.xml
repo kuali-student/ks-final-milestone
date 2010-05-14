@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<init-param>
+  			<param-name>contextConfigLocation</param-name> 
+  			<param-value>classpath:spring-beans.xml</param-value> 
+  		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>enumerationClientService</servlet-name>
+		<servlet-class>org.kuali.student.enumeration.web.server.gwt.EnumerationGWTClientServiceImplGWT</servlet-class>
+		               
+		<load-on-startup>1</load-on-startup>
+	</servlet>	
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.enumeration.web.Main/GuiService</url-pattern>
+	</servlet-mapping>	
+</web-app>
