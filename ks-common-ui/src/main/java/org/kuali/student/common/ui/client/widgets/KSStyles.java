@@ -34,16 +34,7 @@ public interface KSStyles {
 
 	public static final String KS_MOUSE_NORMAL = "KS-Mouse-Normal";
 
-	public static final String KS_POPOUT_IMAGE = "KS-RichText-Popout-Image";
-	public static final String KS_POPOUT_IMAGE_HOVER = "KS-RichText-Popout-Image-Hover";
-	public static final String KS_POPOUT_IMAGE_PANEL = "KS-RichText-Popout-Image-Panel";
-
-	public static final String KS_POPOUT_WINDOW = "KS-RichText-Popout-Window";
 	public static final String KS_POPUP = "KS-Popup";
-	public static final String KS_RICH_TEXT_LARGE = "KS-RichText-Large";
-
-	public static final String KS_RICH_TEXT_NORMAL = "KS-RichText-Normal";
-	public static final String KS_RICH_TEXT_POPOUT_GLASS = "KS-RichText-Popout-Glass";
 	public static final String KS_SIDEBAR = "KS-Sidebar";
 
 	public static final String KS_SIDEBAR_CONTENT_PANEL = "KS-Sidebar-Content-Panel";
@@ -76,13 +67,6 @@ public interface KSStyles {
     public static final String KS_SUGGEST_PICKER_LAYOUT_TABLE = "KS-Suggest-Picker-Layout-Table";
     public static final String KS_SUGGEST_PICKER_SUGGEST_BOX_ROW = "KS-Suggest-Picker-Suggest-Box-Row";
     public static final String KS_SUGGEST_PICKER_LIST_ROW = "KS-Suggest-Picker-List-Row";
-
-    public static final String KS_RICH_TEXT_CONTENT = "KS-RichText-Content-Panel";
-    public static final String KS_RICH_TEXT_NORMAL_TOOLBAR = "KS-RichText-Normal-Toolbar";
-    public static final String KS_RICH_TEXT_LARGE_TOOLBAR = "KS-RichText-Large-Toolbar";
-    public static final String KS_RICH_TEXT_LARGE_CONTENT = "KS-RichText-Large-Content-Panel";
-    public static final String KS_RICH_TEXT_NORMAL_CONTENT = "KS-RichText-Normal-Content-Panel";
-
 
     public static final String KS_SECTION_TITLE = "KS-Section-Title";
     public static final String KS_H1_SECTION_TITLE = "KS-H1-Section-Title";
