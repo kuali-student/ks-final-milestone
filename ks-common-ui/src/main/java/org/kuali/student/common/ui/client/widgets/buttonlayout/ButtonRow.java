@@ -30,7 +30,7 @@ public class ButtonRow extends ButtonLayoutTwoGroups{
     private SimplePanel contentPanel = new SimplePanel();
     private DockPanel mainPanel = new DockPanel();
     private Widget content = null;
-    
+
     public ButtonRow(){
         setupDefaultStyles();
         mainPanel.add(contentPanel, DockPanel.NORTH);
@@ -39,7 +39,7 @@ public class ButtonRow extends ButtonLayoutTwoGroups{
         mainPanel.add(rightPanel, DockPanel.EAST);
         this.initWidget(mainPanel);
     }
-    
+
     public ButtonRow(boolean contentBottom){
         setupDefaultStyles();
         if(contentBottom){
@@ -53,7 +53,7 @@ public class ButtonRow extends ButtonLayoutTwoGroups{
         mainPanel.add(rightPanel, DockPanel.EAST);
         this.initWidget(mainPanel);
     }
-    
+
     @Override
     protected void onLoad() {
         super.onLoad();
@@ -61,17 +61,17 @@ public class ButtonRow extends ButtonLayoutTwoGroups{
             mainPanel.setWidth(content.getOffsetWidth() + "px");
         }
     }
-    
+
     private void setupDefaultStyles(){
-        mainPanel.addStyleName(KSStyles.KS_BUTTON_ROW_MAIN_PANEL);
-        contentPanel.addStyleName(KSStyles.KS_BUTTON_ROW_CONTENT_PANEL);
+        mainPanel.addStyleName("KS-Button-Row-MainPanel");
+        contentPanel.addStyleName("KS-Button-Row-ContentPanel");
     }
 
     @Override
     public void setContent(Widget w) {
         contentPanel.setWidget(w);
         content = w;
-        
+
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ButtonRow extends ButtonLayoutTwoGroups{
 
     @Override
     public void addButton(KSButton button) {
-        this.addButtonToPrimaryGroup(button);  
+        this.addButtonToPrimaryGroup(button);
     }
-    
+
 }
