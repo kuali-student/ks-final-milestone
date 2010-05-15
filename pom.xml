@@ -26,4 +26,16 @@
     <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
   </scm>
+  <distributionManagement>
+    <repository>
+      <id>kuali.release</id>
+      <name>Internal Release Repository</name>
+      <url>scp://test.kuali.org:/opt/m2/repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>kuali.snapshots</id>
+      <name>Internal Snapshot Repository</name>
+      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
