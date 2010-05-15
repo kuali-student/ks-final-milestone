@@ -49,8 +49,8 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-core</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-core</developerConnection>
     </scm>
 
     <repositories>
