@@ -55,7 +55,7 @@
   <repositories>
     <repository>
       <id>kuali.release</id>
-      <url>http://archiva.kuali.umd.edu/repository/release</url>
+      <url>https://test.kuali.org/maven</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
