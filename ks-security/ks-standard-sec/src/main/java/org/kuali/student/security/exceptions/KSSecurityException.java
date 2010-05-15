@@ -15,7 +15,7 @@
 
 package org.kuali.student.security.exceptions;
 
-public class KSSecurityException extends Exception {
+public class KSSecurityException extends Exception {{
 
     private static final long serialVersionUID = 2941300199692497512L;
 
