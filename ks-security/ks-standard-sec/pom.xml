@@ -16,8 +16,8 @@
 	</parent>
     
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev/ks-standard-sec</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/branches/ks-security-dev/ks-standard-sec</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-standard-sec</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-standard-sec</developerConnection>
     </scm>
 
 	<dependencies>
