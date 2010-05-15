@@ -31,8 +31,8 @@
     </properties>
     
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-web</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-web</developerConnection>
     </scm>
     
     <distributionManagement>
