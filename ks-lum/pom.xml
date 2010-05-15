@@ -15,13 +15,66 @@
     <artifactId>ks-core</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </parent>
-  <modules>
-    <module>ks-lum-api</module>
-    <module>ks-lum-impl</module>
-    <module>ks-lum-rice</module>
-    <module>ks-lum-ui</module>
-    <module>ks-lum-web</module>
-  </modules>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+        <module>ks-lum-ui</module>
+        <module>ks-lum-web</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>embedded-only-war</id>
+      <modules>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+        <module>ks-lum-ui</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>standalone-only-wars</id>
+      <modules>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+        <module>ks-lum-ui</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>skip-lum-war</id>
+      <modules>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+        <module>ks-lum-ui</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>skip-developer-wars</id>
+      <modules>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+        <module>ks-lum-ui</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>skip-all-wars</id>
+      <modules>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+        <module>ks-lum-ui</module>
+      </modules>
+    </profile>
+  </profiles>
   <repositories>
     <repository>
       <id>kuali.release</id>
