@@ -48,8 +48,8 @@
     </repositories>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-lum/branches/ks-lum-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-lum/branches/ks-lum-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-lum</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-lum</developerConnection>
     </scm>
 
     <distributionManagement>
