@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student</groupId>
   <artifactId>ks-web</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>KS Web</name>
   <description>Project for building KS Reference Wars</description>
@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
   <profiles>
     <profile>
@@ -45,12 +45,12 @@
   </profiles>
   <properties>
     <derby.version>10.4.2.0</derby.version>
-    <ks-core.version>1.1.0-SNAPSHOT</ks-core.version>
-    <ks-lum.version>1.1.0-SNAPSHOT</ks-lum.version>
+    <ks-core.version>1.1.0-poc-1-SNAPSHOT</ks-core.version>
+    <ks-lum.version>1.1.0-poc-1-SNAPSHOT</ks-lum.version>
   </properties>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-web</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-web</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-web</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-web</developerConnection>
   </scm>
   <distributionManagement>
     <site>

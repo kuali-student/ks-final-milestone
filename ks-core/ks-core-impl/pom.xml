@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student.core</groupId>
   <artifactId>ks-core-impl</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>KS Core Impl</name>
   <description>KS Core Impl</description>
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -30,17 +30,17 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

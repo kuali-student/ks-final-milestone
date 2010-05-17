@@ -3,7 +3,7 @@
   <groupId>org.kuali.student.security</groupId>
   <artifactId>ks-security</artifactId>
   <packaging>pom</packaging>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
   <name>KS Security</name>
   <description>KS Security Parent POM</description>
   <url>http://student.kuali.org/site/security/${project.version}</url>
@@ -11,8 +11,8 @@
     <module>ks-standard-sec</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-security</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-security</developerConnection>
   </scm>
   <repositories>
     <repository>

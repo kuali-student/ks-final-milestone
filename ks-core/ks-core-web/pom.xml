@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student.core</groupId>
   <artifactId>ks-core-web</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>KS Core Web</name>
   <description>KS Core Web</description>
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -137,12 +137,12 @@
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-ui</artifactId>
           <type>jar</type>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-impl</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.core</groupId>
@@ -185,7 +185,7 @@
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-rice-lessdep</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
           <type>pom</type>
           <scope>runtime</scope>
         </dependency>
@@ -194,7 +194,7 @@
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-rice</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
           <classifier>sources</classifier>
           <scope>provided</scope>
         </dependency>
@@ -202,34 +202,34 @@
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-ui</artifactId>
           <classifier>sources</classifier>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
           <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-common-ui</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
           <classifier>sources</classifier>
           <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-api</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
           <classifier>sources</classifier>
           <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-common-util</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
           <classifier>sources</classifier>
           <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-common-impl</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0-poc-1-SNAPSHOT</version>
           <classifier>sources</classifier>
           <scope>provided</scope>
         </dependency>
