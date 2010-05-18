@@ -7,7 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:course-test-config.xml"})
+@ContextConfiguration(locations={"classpath:course-test-context.xml"})
 public class TestCourseServiceImpl {
 
 	CourseService courseService;
