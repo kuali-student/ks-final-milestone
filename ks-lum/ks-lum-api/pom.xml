@@ -25,7 +25,7 @@
             <id>lo-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.lum.lo.service.LearningObjectiveService </className>
+              <className>org.kuali.student.lum.lo.service.LearningObjectiveService</className>
               <serviceName>LoService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/lo</targetNameSpace>
             </configuration>
@@ -37,7 +37,7 @@
             <id>lu-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.lum.lu.service.LuService </className>
+              <className>org.kuali.student.lum.lu.service.LuService</className>
               <serviceName>LuService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/lu</targetNameSpace>
             </configuration>
@@ -49,7 +49,7 @@
             <id>lrc-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.lum.lrc.service.LrcService </className>
+              <className>org.kuali.student.lum.lrc.service.LrcService</className>
               <serviceName>LrcService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/lrc</targetNameSpace>
             </configuration>
@@ -58,6 +58,16 @@
             </goals>
           </execution>
         </executions>
+        <!-- CXF does classloading does not agree with Maven3, requiring the ks-core-api
+             dependency to be duplicated here inside the plugin configuration -->
+        <!-- https://cwiki.apache.org/MAVEN/maven-3x-class-loading.html -->
+        <dependencies>
+          <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
