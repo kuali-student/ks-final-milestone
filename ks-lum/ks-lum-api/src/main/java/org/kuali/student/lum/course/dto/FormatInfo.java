@@ -37,8 +37,8 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * Detailed information about a single course.
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:39:55 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 11:30:55 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/formatInfo+Structure">FormatInfo</>
  *
  */

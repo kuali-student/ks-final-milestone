@@ -21,7 +21,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -31,8 +30,8 @@ import org.kuali.student.lum.lo.dto.LoInfo;
  * Detailed information about an LO  and all it's children for application use.
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:40:36 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 13:27:38 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loDisplayInfo+Structure">LoDisplayInfo</>
  *
  */
@@ -47,13 +46,13 @@ public class LoDisplayInfo implements Serializable {
     @XmlElement
     private List<LoDisplayInfo> loDisplayInfoList;
 
-    @XmlAttribute
+    @XmlElement
     private String parentRelType;
 
-    @XmlAttribute
+    @XmlElement
     private String parentLoRelationid;
 
-    @XmlAttribute
+    @XmlElement
     private List<LoCategoryInfo> loCategoryInfoList;
 
     /**

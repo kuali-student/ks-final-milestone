@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlElement;
  * Information about course joints.
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:40:14 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 11:31:06 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseJointInfo+Structure">CourseJointInfo</>
  *
  */
@@ -110,7 +110,7 @@ public class CourseJointInfo implements Serializable {
     }
 
     /**
-     * 
+     * Unique identifier for a Course Joints.
      */
     public String getRelationId() {
         return relationId;

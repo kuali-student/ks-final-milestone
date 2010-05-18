@@ -43,8 +43,8 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
  * Detailed information about a single course.
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:39:53 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 11:30:53 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseInfo+Structure">CourseInfo</>
  *
  */

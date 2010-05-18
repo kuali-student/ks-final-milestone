@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlElement;
  * Information about an organization that is affiliated in some percentage with a learning unit. For when precision is needed to support counts or dollars.
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:40:31 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 11:31:18 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/affiliatedOrgInfo+Structure">AffiliatedOrgInfo</>
  *
  */

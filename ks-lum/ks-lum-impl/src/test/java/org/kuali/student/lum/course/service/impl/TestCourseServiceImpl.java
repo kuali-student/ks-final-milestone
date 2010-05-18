@@ -12,8 +12,23 @@ public class TestCourseServiceImpl {
 
 	CourseService courseService;
 	
+	@Test 
+	public void testGetCourse() {
+		
+	}
+	
+	@Test 
+	public void testUpdateCourse() {
+		
+	}
+	
+	@Test 
+	public void testDeleteCourse() {
+		
+	}
+	
 	@Test
-	public void testCreate(){
+	public void testCreateCourse(){
 		
 	}
 }

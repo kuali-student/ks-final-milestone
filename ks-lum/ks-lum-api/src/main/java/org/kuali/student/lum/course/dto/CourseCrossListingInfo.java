@@ -28,8 +28,8 @@ import org.kuali.student.core.dto.Idable;
  * Detailed information about the human readable form of a Variation
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:40:17 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 11:31:09 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseCrossListingInfo+Structure">CourseCrossListingInfo</>
  *
  */

@@ -31,93 +31,6 @@ public class CourseServiceImpl implements CourseService {
 	private OrganizationService orgService;
 	private AtpService atpService;
 	
-	@Override
-	public CourseInfo createCourse(CourseInfo courseInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatusInfo deleteCourse(String courseId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CourseInfo getCourse() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ActivityInfo> getCourseActivities()
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<FormatInfo> getCourseFormats() throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LoDisplayInfo> getCourseLos() throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<StatementTreeViewInfo> getCourseStatements()
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CourseInfo updateCourse(CourseInfo courseInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			VersionMismatchException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LoDisplayInfo> updateCourseLos(String courseId,
-			List<LoDisplayInfo> loDisplayInfoList)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<StatementTreeViewInfo> updateCourseStatements(String courseId,
-			List<StatementTreeViewInfo> statementTreeViewInfoList)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public LuService getLuService() {
 		return luService;
@@ -158,5 +71,92 @@ public class CourseServiceImpl implements CourseService {
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;
 	}
+
+	@Override
+	public CourseInfo createCourse(CourseInfo courseInfo)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteCourse(String courseId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CourseInfo getCourse(String courseId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ActivityInfo> getCourseActivities(String formatId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("GetCourseActivities");
+	}
+
+	@Override
+	public List<FormatInfo> getCourseFormats(String courseId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("GetCourseFormats");
+	}
+
+	@Override
+	public List<LoDisplayInfo> getCourseLos(String courseId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("GetCourseLos");
+	}
+
+	@Override
+	public List<StatementTreeViewInfo> getCourseStatements(String courseId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("GetCourseStatements");
+	}
+
+	@Override
+	public CourseInfo updateCourse(CourseInfo courseInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			VersionMismatchException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<LoDisplayInfo> updateCourseLos(String courseId,
+			List<LoDisplayInfo> loDisplayInfoList)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("updateCourseLos");
+	}
+
+	@Override
+	public List<StatementTreeViewInfo> updateCourseStatements(String courseId,
+			List<StatementTreeViewInfo> statementTreeViewInfoList)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("updateCourseStatements");
+	}
+	
 
 }

@@ -38,8 +38,8 @@ import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
  * Detailed information about a single course activity.
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:39:57 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 11:30:56 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/activityInfo+Structure">ActivityInfo</>
  *
  */

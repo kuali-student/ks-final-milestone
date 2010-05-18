@@ -36,12 +36,11 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 
-
 /**
  *
  * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Fri May 07 11:39:48 EDT 2010
+ * @Author Kamal
+ * @Since Tue May 18 11:30:50 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Course+Service">CourseService</>
  *
  */
@@ -49,14 +48,20 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseService { 
     /** 
-     * Retrieves a Course.
-     * @return the Course Structure
+     * Retrieves a Course
+     * @param courseId Unique Id of the Course. Maps to cluId
+     * @return the created course
+     * @throws DoesNotExistException Course does not exist
+     * @throws InvalidParameterException invalid course
+     * @throws MissingParameterException missing Course
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
 	 */
-    public CourseInfo getCourse() throws OperationFailedException;
+    public CourseInfo getCourse(@WebParam(name="courseId")String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the formats for a Course.
+     * @param courseId Unique Id of the Course. Maps to cluId
      * @return a list of format info Structures
      * @throws DoesNotExistException Course does not exist
      * @throws InvalidParameterException invalid courseId
@@ -64,21 +69,23 @@ public interface CourseService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public List<FormatInfo> getCourseFormats() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<FormatInfo> getCourseFormats(@WebParam(name="courseId")String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the Activities for a Course.
+     * @param formatId Unique Id of the Format. Maps to cluId
      * @return a list of activity info Structures
      * @throws DoesNotExistException Format does not exist
-     * @throws InvalidParameterException invalid formatId
-     * @throws MissingParameterException invalid formatId
+     * @throws InvalidParameterException invalid format
+     * @throws MissingParameterException missing Format
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public List<ActivityInfo> getCourseActivities() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ActivityInfo> getCourseActivities(@WebParam(name="formatId")String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the Los for a Course.
+     * @param courseId Unique Id of the Course. Maps to cluId
      * @return a list of LoDisplay info Structures
      * @throws DoesNotExistException Course does not exist
      * @throws InvalidParameterException invalid courseId
@@ -86,18 +93,19 @@ public interface CourseService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public List<LoDisplayInfo> getCourseLos() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LoDisplayInfo> getCourseLos(@WebParam(name="courseId")String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the Statements of a Course.
+     * @param courseId Unique Id of the Course. Maps to cluId
      * @return a list of Statementree Structures
-     * @throws DoesNotExistException Credit Course does not exist
+     * @throws DoesNotExistException Course does not exist
      * @throws InvalidParameterException invalid courseId
      * @throws MissingParameterException invalid courseId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public List<StatementTreeViewInfo> getCourseStatements() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StatementTreeViewInfo> getCourseStatements(@WebParam(name="courseId")String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a Course
