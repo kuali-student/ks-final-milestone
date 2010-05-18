@@ -52,7 +52,7 @@
   </properties>
   <repositories>
     <repository>
-      <id>kuali.central</id>
+      <id>kuali.release</id>
       <name>Main Kuali Repository</name>
       <url>https://test.kuali.org/maven</url>
       <snapshots>
@@ -61,6 +61,7 @@
     </repository>
     <repository>
       <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
       <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
       <releases>
         <enabled>false</enabled>
@@ -69,7 +70,7 @@
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>kuali.central</id>
+      <id>kuali.release</id>
       <name>Main Kuali Repository</name>
       <url>https://test.kuali.org/maven</url>
       <snapshots>
@@ -83,7 +84,7 @@
   <distributionManagement>
     <!-- site is intentionally omitted. Each project must define its own website -->
     <repository>
-      <id>kuali.central</id>
+      <id>kuali.release</id>
       <name>Main Kuali Repository</name>
       <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
