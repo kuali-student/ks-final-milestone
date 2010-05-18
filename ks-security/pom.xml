@@ -26,6 +26,14 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
   </repositories>
   <distributionManagement>
     <site>
