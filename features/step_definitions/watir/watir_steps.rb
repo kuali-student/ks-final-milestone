@@ -538,8 +538,7 @@ Then /^I map csv users from "([^\"]*)" to "([^\"]*)" rows to organizations$/ do 
          rowin += 1
       else
         @browser.link(:text,"Save").click
-        rescue_wait_retry {@browser.link(:text, "Ok").click}
-        puts "row:#{rowin}"        
+        rescue_wait_retry {@browser.link(:text, "Ok").click}     
          break
       end         
     end
