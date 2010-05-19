@@ -83,7 +83,7 @@
     <snapshotRepository>
       <id>kuali.snapshot</id>
       <name>Kuali Snapshot Repository</name>
-      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <url>s3://maven.kuali.org/snapshot</url>
     </snapshotRepository>
   </distributionManagement>
   <scm>
@@ -97,6 +97,11 @@
         <groupId>org.jvnet.wagon-svn</groupId>
         <artifactId>wagon-svn</artifactId>
         <version>1.9</version>
+      </extension>
+      <extension>
+        <groupId>org.kuali</groupId>
+        <artifactId>kuali-aws-maven</artifactId>
+        <version>1.0</version>
       </extension>
     </extensions>
     <pluginManagement>
