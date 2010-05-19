@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<bean id="searchManager"
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+		autowire="byType">
+		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
+	</bean>
+
+	<bean id="dictionaryServiceDelegate" 
+	   class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
+	</bean>
+
+	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+		<property name="messageFiles">
+			<list>
+ 				<value>classpath:gwt-messages.xml</value>				
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="validator" class="org.kuali.student.common.validator.Validator">
+ 		<property name="messageService" ref="ks.messageServiceMock"/> 		
+	</bean>
+
+    <bean id="mapExceptionAdvisor"
+        class="org.kuali.student.common.util.ExceptionMappingAdvice">
+        <property name="defaultException"
+            value="org.kuali.student.core.exceptions.OperationFailedException" />
+        <property name="exceptionMapping">
+            <map>
+                <entry key="javax.persistence.EntityExistsException"
+                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                <entry
+                    key="org.hibernate.exception.ConstraintViolationException"
+                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+            </map>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException"
+            ref="mapExceptionAdvisor">
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.lum.lu.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.lum.lrc.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+        </aop:aspect>
+    </aop:config>
+
+</beans>
