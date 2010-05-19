@@ -7,7 +7,7 @@
     <relativePath>../maven/kuali/pom.xml</relativePath>
   </parent>
   <artifactId>kuali-aws-maven</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <name>Wagon Provider for S3</name>
   <build>
     <pluginManagement>
@@ -42,8 +42,8 @@
     </repository>
   </repositories>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-aws-maven-1.0</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/kuali-aws-maven-1.0</developerConnection>
-    <url>http://www.kuali.org/tags/kuali-aws-maven-1.0</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-aws-maven</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-aws-maven</developerConnection>
+    <url>http://www.kuali.org/</url>
   </scm>
 </project>
