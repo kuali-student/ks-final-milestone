@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="updateCluPublication" bindingOperationName="updateCluPublication" type="Request-Response" outputName="updateCluPublicationResponse" inputName="updateCluPublication" receivesAttachments="false" sendsAttachments="false" id="56f3ee25-b22e-4eba-947f-d7f64798c34a" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
