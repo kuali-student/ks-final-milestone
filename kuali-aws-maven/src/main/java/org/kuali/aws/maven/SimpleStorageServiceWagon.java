@@ -191,6 +191,9 @@ public class SimpleStorageServiceWagon extends AbstractWagon {
 		}
 		// M3 beta-1 doesn't handle credentials like M2.2.1
 		// showAuthenticationInfo(authenticationInfo);
+		// For AWS:
+		// Access Key ID = username from settings.xml
+		// Secret Access Key = password from settings.xml
 		String accessKey = authenticationInfo.getUserName();
 		String secretKey = authenticationInfo.getPassword();
 		if (accessKey == null || secretKey == null) {
