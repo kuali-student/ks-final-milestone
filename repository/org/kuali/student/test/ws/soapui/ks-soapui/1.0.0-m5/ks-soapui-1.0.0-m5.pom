@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.student.test.ws</groupId>
+    <artifactId>ws</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <groupId>org.kuali.student.test.ws.soapui</groupId>
+  <artifactId>ks-soapui</artifactId>
+  <version>1.0.0-m5</version>
+  <packaging>jar</packaging>
+  <name>WS - SoapUI</name>
+  <description>This is a collection of SoapUI artifacts for testing Kuali Student web services</description>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0-m5</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0-m5</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/ks-soapui-1.0.0-m5</url>
+  </scm>
+  <repositories>
+    <repository>
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+</project>
