@@ -3,11 +3,11 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>3</version>
+    <version>6-SNAPSHOT</version>
     <relativePath>../maven/kuali/pom.xml</relativePath>
   </parent>
-  <artifactId>kuali-aws-maven</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <artifactId>wagon-s3</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <name>Wagon Provider for S3</name>
   <build>
     <pluginManagement>
@@ -34,16 +34,9 @@
       <version>1.0-beta-6</version>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>Kuali Release</id>
-      <name>Main Kuali Repository</name>
-      <url>https://test.kuali.org/maven</url>
-    </repository>
-  </repositories>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-aws-maven</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-aws-maven</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/wagon-s3</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/wagon-s3</developerConnection>
     <url>http://www.kuali.org/</url>
   </scm>
 </project>
