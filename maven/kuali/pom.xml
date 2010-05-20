@@ -119,9 +119,9 @@
           <version>2.5</version>
           <dependencies>
             <dependency>
-              <groupId>org.jvnet.wagon-svn</groupId>
-              <artifactId>wagon-svn</artifactId>
-              <version>1.9</version>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-ssh</artifactId>
+              <version>1.0-beta-6</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -157,8 +157,8 @@
           <configuration>
             <archive>
               <manifest>
-                <addDefaultSpecificationEntries>true </addDefaultSpecificationEntries>
-                <addDefaultImplementationEntries>true </addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
               </manifest>
             </archive>
           </configuration>
