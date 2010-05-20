@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
@@ -72,6 +73,9 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
 
     @XmlAttribute
     private String id;
+    
+    @XmlElement
+    private AmountInfo contactHours;
 
     /**
      * The standard duration of the Course.
@@ -166,4 +170,14 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
     public void setId(String id) {
         this.id = id;
     }
+
+	public void setContactHours(AmountInfo contactHours) {
+		this.contactHours = contactHours;
+	}
+    /**
+     * ContactHours for an Activity.
+     */
+	public AmountInfo getContactHours() {
+		return contactHours;
+	}
 }

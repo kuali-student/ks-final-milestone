@@ -15,10 +15,8 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -49,16 +47,17 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
 	@Override
 	public ActivityInfo assemble(CluInfo clu) {
+		
+		
 		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
 
 	@Override
-	public SortedMap<Integer, BaseDTOAssemblyNode<?>> disassemble(
-			ActivityInfo activity, Boolean isCreate) {
+	public BaseDTOAssemblyNode<CluInfo> disassemble(
+			ActivityInfo activity, NodeOperation operation) {
 		
-		int index = 0;
-		SortedMap<Integer, BaseDTOAssemblyNode<?>> result = new TreeMap<Integer, BaseDTOAssemblyNode<?>>();
+		BaseDTOAssemblyNode<CluInfo> result = new BaseDTOAssemblyNode<CluInfo>();
 		
 		CluInfo clu = new CluInfo();
 	
@@ -67,7 +66,11 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setState(activity.getState());
 		clu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());
 		clu.setStdDuration(activity.getDuration());
+		clu.setIntensity(activity.getContactHours());
+		clu.setMetaInfo(activity.getMetaInfo());
 		
+		result.setNodeData(clu);
+		result.setOperation(operation);
 		
 		// TODO Add contact hours to activity
 		//TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(clu.getIntensity()));
@@ -83,7 +86,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
 
 //		addVersionIndicator(activity.getData(), CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd());
-
+		
 		
 		return result;
 	}

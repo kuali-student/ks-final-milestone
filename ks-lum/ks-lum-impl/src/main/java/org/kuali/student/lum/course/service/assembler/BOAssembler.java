@@ -15,7 +15,9 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-import java.util.SortedMap;
+import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
+
 
 /**
  * An assembler that provides assembly and disassembly of business DTO from
@@ -37,8 +39,9 @@ public interface BOAssembler<E, T> {
 	 * @param baseDTO
 	 *            Base DTO that corresponds to the business DTO
 	 * @return Assembled business DTO
+	 * @throws AssemblyException 
 	 */
-	public E assemble(T baseDTO);
+	public E assemble(T baseDTO) throws AssemblyException;
 
 	/**
 	 * 
@@ -54,7 +57,8 @@ public interface BOAssembler<E, T> {
 	 * @return A sorted map of BaseDTOAssemblyNodes to be processed in the given
 	 *         order. The key (Integer) is the sequence in which the nodes have
 	 *         to be processed
+	 * @throws AssemblyException 
 	 */
-	public SortedMap<Integer, BaseDTOAssemblyNode<?>> disassemble(
-			E businessDTO, Boolean isCreate);
+	public BaseDTOAssemblyNode<T> disassemble(
+			E businessDTO, NodeOperation operation) throws AssemblyException;
 }

@@ -15,6 +15,9 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A node in the sorted map of disassembled base DTOs. The node provides the
  * data for the base DTO along with the operation information on the data.
@@ -27,13 +30,15 @@ package org.kuali.student.lum.course.service.assembler;
  */
 public class BaseDTOAssemblyNode<T> {
 
-	public enum NodeOpr {
+	public enum NodeOperation {
 		CREATE, UPDATE, DELETE;
 	}
 
-	protected NodeOpr operation;
-	
+	protected NodeOperation operation;
+
 	protected T nodeData;
+
+	protected List<BaseDTOAssemblyNode<?>> childNodes;
 
 	/**
 	 * @return the nodeData
@@ -53,14 +58,26 @@ public class BaseDTOAssemblyNode<T> {
 	/**
 	 * @return the operation
 	 */
-	public NodeOpr getOperation() {
+	public NodeOperation getOperation() {
 		return operation;
 	}
 
 	/**
-	 * @param operation the operation to set
+	 * @param operation
+	 *            the operation to set
 	 */
-	public void setOperation(NodeOpr operation) {
+	public void setOperation(NodeOperation operation) {
 		this.operation = operation;
-	}		
+	}
+
+	public List<BaseDTOAssemblyNode<?>> getChildNodes() {
+		if (childNodes == null) {
+			childNodes = new ArrayList<BaseDTOAssemblyNode<?>>();
+		}
+		return childNodes;
+	}
+
+	public void setChildNodes(List<BaseDTOAssemblyNode<?>> childNodes) {
+		this.childNodes = childNodes;
+	}
 }

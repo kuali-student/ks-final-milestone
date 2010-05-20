@@ -15,9 +15,8 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-import java.util.SortedMap;
-
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -51,8 +50,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 
 	@Override
-	public SortedMap<Integer, BaseDTOAssemblyNode<?>> disassemble(
-			CourseInfo course, Boolean isCreate) {
+	public BaseDTOAssemblyNode<CluInfo> disassemble(
+			CourseInfo course, NodeOperation operation) {
 			
 		
 		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
