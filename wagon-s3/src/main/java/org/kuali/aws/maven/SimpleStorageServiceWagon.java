@@ -43,10 +43,22 @@ import java.util.List;
  * <code>s3://static.springframework.org</code> would put files into the <code>static.springframework.org</code> bucket
  * on the S3 service.
  * <p/>
- * This implementation uses the <code>username</code> and <code>passphrase</code> portions of the server authentication
- * metadata for credentials.
+ * This implementation uses <code>passphrase</code> and <code>privateKey</code> to hold Access Key ID and Secret Access
+ * Key
+ * 
+ * The settings.xml snippet looks like this:
+ * 
+ * <code>
+    <server>
+      <id>aws.bucket</id>
+      <passphrase>[Access Key ID]</passphrase>
+      <privateKey>[Secret Access Key]</privateKey>
+    </server>
+  </code>
+ * 
  * 
  * @author Ben Hale
+ * @author Jeff Caddel - corrected Javadoc added debugging method
  */
 public class SimpleStorageServiceWagon extends AbstractWagon {
 
