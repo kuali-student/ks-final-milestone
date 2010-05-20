@@ -43,22 +43,10 @@ import java.util.List;
  * <code>s3://static.springframework.org</code> would put files into the <code>static.springframework.org</code> bucket
  * on the S3 service.
  * <p/>
- * This implementation uses <code>passphrase</code> and <code>privateKey</code> to hold Access Key ID and Secret Access
- * Key
- * 
- * The settings.xml snippet looks like this:
- * 
- * <code>
-    <server>
-      <id>aws.bucket</id>
-      <passphrase>[Access Key ID]</passphrase>
-      <privateKey>[Secret Access Key]</privateKey>
-    </server>
-  </code>
- * 
+ * This implementation uses the <code>username</code> and <code>passphrase</code> portions of the server authentication
+ * metadata for credentials.
  * 
  * @author Ben Hale
- * @author Jeff Caddel - corrected Javadoc added debugging method
  */
 public class SimpleStorageServiceWagon extends AbstractWagon {
 
@@ -201,13 +189,10 @@ public class SimpleStorageServiceWagon extends AbstractWagon {
 		if (authenticationInfo == null) {
 			return null;
 		}
-		// M3 beta-1 doesn't handle credentials from settings.xml correctly
+		// M3 beta-1 doesn't handle credentials like M2.2.1
 		// showAuthenticationInfo(authenticationInfo);
-		// For AWS:
-		// Access Key ID = username from settings.xml
-		// Secret Access Key = password from settings.xml
-		String accessKey = authenticationInfo.getPassphrase();
-		String secretKey = authenticationInfo.getPrivateKey();
+		String accessKey = authenticationInfo.getUserName();
+		String secretKey = authenticationInfo.getPassword();
 		if (accessKey == null || secretKey == null) {
 			throw new AuthenticationException("S3 requires a username and password to be set");
 		}
