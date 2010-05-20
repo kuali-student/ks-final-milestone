@@ -3,6 +3,8 @@ package org.kuali.student.core.dictionary.poc.dto;
 import java.util.List;
 
 public class Constraint extends BaseConstraint {
+	public static final String UNBOUNDED = "unbounded";
+	public static final String SINGLE = "1";
 	// Constraints
 	protected boolean serverSide;
 	protected String locale; //What is locale for?
