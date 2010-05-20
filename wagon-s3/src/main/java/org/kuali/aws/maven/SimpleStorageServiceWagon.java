@@ -189,13 +189,13 @@ public class SimpleStorageServiceWagon extends AbstractWagon {
 		if (authenticationInfo == null) {
 			return null;
 		}
-		// M3 beta-1 doesn't handle credentials like M2.2.1
+		// M3 beta-1 doesn't handle credentials from settings.xml correctly
 		// showAuthenticationInfo(authenticationInfo);
 		// For AWS:
 		// Access Key ID = username from settings.xml
 		// Secret Access Key = password from settings.xml
-		String accessKey = authenticationInfo.getUserName();
-		String secretKey = authenticationInfo.getPassword();
+		String accessKey = authenticationInfo.getPassphrase();
+		String secretKey = authenticationInfo.getPrivateKey();
 		if (accessKey == null || secretKey == null) {
 			throw new AuthenticationException("S3 requires a username and password to be set");
 		}
