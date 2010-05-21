@@ -15,10 +15,11 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
 
 /**
  * Assembles/Disassembles ActivityInfo DTO from/To CluInfo 
@@ -28,40 +29,38 @@ import org.kuali.student.lum.lu.service.LuService;
  */
 public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
-	protected LuService luService;
-	
-	
-	/**
-	 * @return the luService
-	 */
-	public LuService getLuService() {
-		return luService;
-	}
-
-	/**
-	 * @param luService the luService to set
-	 */
-	public void setLuService(LuService luService) {
-		this.luService = luService;
-	}
-
 	@Override
 	public ActivityInfo assemble(CluInfo clu) {
+		if(clu == null){
+			return null;
+		}
 		
+		ActivityInfo activityInfo = new ActivityInfo();
+		activityInfo.setId(clu.getId());
+		activityInfo.setActivityType(clu.getType());
+		activityInfo.setState(clu.getState());
+		activityInfo.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
+		activityInfo.setDuration(clu.getStdDuration());
+		activityInfo.setContactHours(clu.getIntensity());
+		activityInfo.setMetaInfo(clu.getMetaInfo());
 		
-		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return null;
+		return activityInfo;
 	}
 
 	@Override
 	public BaseDTOAssemblyNode<CluInfo> disassemble(
-			ActivityInfo activity, NodeOperation operation) {
+			ActivityInfo activity, NodeOperation operation) throws AssemblyException {
+		if(activity==null){
+			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
+			throw new AssemblyException("Activity can not be null");
+		}
 		
 		BaseDTOAssemblyNode<CluInfo> result = new BaseDTOAssemblyNode<CluInfo>();
 		
 		CluInfo clu = new CluInfo();
 	
-		clu.setId(activity.getId());
+		//Copy all fields 
+		clu.setId(UUIDHelper.genStringUUID(activity.getId()));//Create the id if it's not there already(important for creating relations)
 		clu.setType(activity.getActivityType());
 		clu.setState(activity.getState());
 		clu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());
@@ -69,25 +68,10 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setIntensity(activity.getContactHours());
 		clu.setMetaInfo(activity.getMetaInfo());
 		
+		//Add the Clu to the result 
 		result.setNodeData(clu);
 		result.setOperation(operation);
-		
-		// TODO Add contact hours to activity
-		//TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(clu.getIntensity()));
-//		AmountInfo time = clu.getIntensity();
-//		if (time != null) {
-//			CreditCourseActivityContactHoursHelper hours = CreditCourseActivityContactHoursHelper.wrap(new Data());
-//			if(time.getUnitQuantity() != null) {
-//				hours.setHrs(Integer.valueOf(time.getUnitQuantity()));
-//			}
-//			hours.setPer(time.getUnitType());
-//			activity.setContactHours(hours);
-//		}
 
-
-//		addVersionIndicator(activity.getData(), CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd());
-		
-		
 		return result;
 	}
 }

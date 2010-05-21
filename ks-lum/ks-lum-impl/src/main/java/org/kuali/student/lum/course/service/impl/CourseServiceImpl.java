@@ -2,6 +2,8 @@ package org.kuali.student.lum.course.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -20,18 +22,24 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode;
+import org.kuali.student.lum.course.service.assembler.CourseAssembler;
+import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
 public class CourseServiceImpl implements CourseService {
-
+	final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
+	
 	private LuService luService;
 	private StatementService statementService;
 	private LearningObjectiveService loService;
 	private OrganizationService orgService;
 	private AtpService atpService;
 	
-
+	private CourseAssembler courseAssembler;
+	
 	public LuService getLuService() {
 		return luService;
 	}
@@ -77,7 +85,15 @@ public class CourseServiceImpl implements CourseService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
+		try {
+			
+			BaseDTOAssemblyNode<CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.CREATE);
+			//TODO Use the results to make the appropriate service calls here with some helper class
+			
+		} catch (AssemblyException e) {
+			LOG.error("Error disassembling course",e);
+			throw new OperationFailedException("Error disassembling course");
+		}
 		return null;
 	}
 
