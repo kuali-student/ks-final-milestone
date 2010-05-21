@@ -89,12 +89,19 @@ public class CourseServiceImpl implements CourseService {
 			
 			BaseDTOAssemblyNode<CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.CREATE);
 			//TODO Use the results to make the appropriate service calls here with some helper class
-			
+			CourseInfo course;
+			try {
+				course = new CourseServiceMethodInvoker().doStuff(results);
+				return course;
+			} catch (Exception e) {
+				LOG.error("Error creating course",e);
+				throw new OperationFailedException("Error creating course");
+			}
 		} catch (AssemblyException e) {
 			LOG.error("Error disassembling course",e);
 			throw new OperationFailedException("Error disassembling course");
 		}
-		return null;
+
 	}
 
 	@Override
