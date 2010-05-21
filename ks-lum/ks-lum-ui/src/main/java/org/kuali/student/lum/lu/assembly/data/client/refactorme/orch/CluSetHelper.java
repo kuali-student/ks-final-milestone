@@ -34,6 +34,7 @@ public class CluSetHelper {
         EXPIRATION_DATE ("expirationDate"),
         CLUS ("clus"),
         CLU_SET_RANGE ("clusetRange"),
+        CLU_SET_RANGE_VIEW_DETAILS ("cluSetRangeViewDetails"),
         META_INFO ("metaInfo"),
         NAME ("name"),
         STATE ("state"),
@@ -152,6 +153,17 @@ public class CluSetHelper {
             setCluRangeParams(cluRangeParamsData);
         }
         return new CluSetRangeHelper(cluRangeParamsData);
+    }
+    public void setCluRangeViewDetails(Data value) {
+        data.set(Properties.CLU_SET_RANGE_VIEW_DETAILS.getKey(), value);
+    }
+    public Data getCluRangeViewDetails() {
+        Data cluSetRangeViewDetailsData = data.get(Properties.CLU_SET_RANGE_VIEW_DETAILS.getKey());
+        if (cluSetRangeViewDetailsData == null) {
+            cluSetRangeViewDetailsData = new Data();
+            setClus(cluSetRangeViewDetailsData);
+        }
+        return cluSetRangeViewDetailsData;
     }
 
 }

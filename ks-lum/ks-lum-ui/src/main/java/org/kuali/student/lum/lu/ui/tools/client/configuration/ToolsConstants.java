@@ -61,6 +61,7 @@ public class ToolsConstants {
     public static final String CLU_SET_CLU_SETS_FIELD = "cluset/clusets";
     public static final String CLU_SET_CLU_SET_RANGE_FIELD = "cluset/clusetRange";
     public static final String CLU_SET_CLU_SET_RANGE_EDIT_FIELD = "cluset/clusetRangeEdit";
+    public static final String CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD = "cluset/cluSetRangeViewDetails";
     public static final String CLU_SET_TYPE_FIELD = "cluset/type";
     
     

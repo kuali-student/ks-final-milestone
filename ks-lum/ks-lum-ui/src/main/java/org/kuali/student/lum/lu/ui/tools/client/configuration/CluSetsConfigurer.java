@@ -24,6 +24,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -36,6 +38,7 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.Data;
@@ -45,6 +48,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeLabel;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
@@ -92,6 +96,7 @@ public class CluSetsConfigurer {
 //        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
 
         // ****** Add Clus *******
+//        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo("Courses")).setModelId(modelId);
         addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_COURSE)).setModelId(modelId);
         // END OF items related to Add Clus
 
@@ -276,16 +281,51 @@ public class CluSetsConfigurer {
         });
         addField(sectionView, ToolsConstants.SEARCH_CLU_SET, generateMessageInfo(""), cluSetPicker);
 
-        VerticalSection nameSection = initSection(null, WITH_DIVIDER);
+        VerticalSection nameSection = initSection(null, !WITH_DIVIDER);
+        nameSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
         addField(nameSection, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.CLU_SET_NAME), new KSLabel());
         sectionView.addSection(nameSection);
 
-        VerticalSection expirationDateSection = initSection(null, WITH_DIVIDER);
+        VerticalSection descriptionSection = initSection(null, !WITH_DIVIDER);
+        descriptionSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        addField(descriptionSection, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo("Description"), new KSLabel());
+        sectionView.addSection(descriptionSection);
+        
+        VerticalSection expirationDateSection = initSection(null, !WITH_DIVIDER);
+        expirationDateSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
         addField(expirationDateSection, ToolsConstants.CLU_SET_EXP_DATE_FIELD, generateMessageInfo(ToolsConstants.EFFECTIVE_DATE), new KSLabel());
         sectionView.addSection(expirationDateSection);
-
+        
+        VerticalSection clusSection = initSection(null, !WITH_DIVIDER);
+        clusSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, 
+                generateMessageInfo("Individual Courses"),
+                new TranslatedStringList(ToolsConstants.CLU_SET_CLUS_FIELD));
+        sectionView.addSection(clusSection);
+        
+        VerticalSection cluRangeDetailsSection = initSection(null, !WITH_DIVIDER);
+        cluRangeDetailsSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        addField(cluRangeDetailsSection, ToolsConstants.CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD, 
+                generateMessageInfo("Course Range"),
+                new TranslatedStringList(ToolsConstants.CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD));
+        sectionView.addSection(cluRangeDetailsSection);
 
         return sectionView;
+    }
+
+    private class TranslatedStringList extends DisplayMultiplicityComposite {
+        private final String parentPath;
+        public TranslatedStringList(String parentPath){
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, CreditCourseConstants._RUNTIME_DATA, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "id-translation", null, new KSLabel(), path);
+
+            return ns;
+        }
     }
 
     private VerticalSectionView initVerticalSectionView(Enum<?> viewEnum, String labelKey, String modelId) {
@@ -418,6 +458,9 @@ public class CluSetsConfigurer {
     }
     protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
         return addField(null, section, fieldKey, messageKey, null, parentPath);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+        return addField(null, section, fieldKey, messageKey, widget, parentPath);
     }
     private FieldDescriptor addField(ModelIdPlaceHolder modelId, Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
