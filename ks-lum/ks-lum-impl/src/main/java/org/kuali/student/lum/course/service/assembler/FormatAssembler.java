@@ -45,7 +45,7 @@ import org.kuali.student.lum.lu.service.LuService;
 public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	final static Logger LOG = Logger.getLogger(FormatAssembler.class);
 	
-	private static final String COURSE_ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
+	public static final String COURSE_ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 	
 	private BOAssembler<ActivityInfo,CluInfo> activityAssembler;
 	private LuService luService;

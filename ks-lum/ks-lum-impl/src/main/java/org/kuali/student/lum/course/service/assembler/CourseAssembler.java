@@ -43,7 +43,7 @@ import org.kuali.student.lum.lu.service.LuService;
  */
 public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
-	private static final String COURSE_FORMAT_RELATION_TYPE = "kuali.lu.type.CreditCourseFormatShell";
+	public static final String COURSE_FORMAT_RELATION_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 	private LuService luService;
 	private FormatAssembler formatAssembler;
 	
