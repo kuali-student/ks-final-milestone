@@ -839,7 +839,15 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Iterator itr = path.iterator(); itr.hasNext() && d != null;) {
             final Key k = (Key) itr.next();
             if (itr.hasNext()) {
-                d = d.get(k);
+                Object obj = d.get(k);
+                if (obj != null && !(obj instanceof Data)) {
+                    // TODO what should be done if we try to query
+                    // cluset/clus/0/_runtimeData where cluset/0 returns a string instead of Data
+                    // throw an exception here?
+                    throw new java.lang.IllegalArgumentException();
+                } else {
+                    d = d.get(k);
+                }
             } else {
                 result = (T) d.get(k);
             }
