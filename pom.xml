@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>5</version>
+    <version>6</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>ks</artifactId>
@@ -30,22 +30,7 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
   </repositories>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>s3://maven.kuali.org/snapshot</url>
-    </snapshotRepository>
-  </distributionManagement>
   <ciManagement>
     <system>hudson</system>
     <url>https://ci.ks.kuali.org</url>
@@ -228,13 +213,6 @@
     </profile>
   </profiles>
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.springframework.aws</groupId>
-        <artifactId>spring-aws-maven</artifactId>
-        <version>1.2-KUALI-1</version>
-      </extension>
-    </extensions>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
