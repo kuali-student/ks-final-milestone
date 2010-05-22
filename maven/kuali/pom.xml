@@ -59,6 +59,14 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>https://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
@@ -80,6 +88,11 @@
       <name>Main Kuali Repository</name>
       <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
+    <snapshotRepository>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>s3://maven.kuali.org/snapshot</url>
+    </snapshotRepository>
   </distributionManagement>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</connection>
@@ -87,6 +100,13 @@
     <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</url>
   </scm>
   <build>
+    <extensions>
+      <extension>
+        <groupId>org.kuali.maven</groupId>
+        <artifactId>kuali-wagon-s3</artifactId>
+        <version>1.0.4</version>
+      </extension>
+    </extensions>
     <pluginManagement>
       <plugins>
         <!-- set versions of common plugins for reproducibility, ordered alphabetically -->
