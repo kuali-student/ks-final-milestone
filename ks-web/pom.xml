@@ -66,7 +66,7 @@
     <repository>
       <id>kuali.snapshot</id>
       <name>Kuali Snapshot Repository</name>
-      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
       <releases>
         <enabled>false</enabled>
       </releases>

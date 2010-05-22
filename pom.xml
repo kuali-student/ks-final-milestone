@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>3</version>
+    <version>5</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>ks</artifactId>
@@ -33,7 +33,7 @@
     <repository>
       <id>kuali.snapshot</id>
       <name>Kuali Snapshot Repository</name>
-      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -43,7 +43,7 @@
     <snapshotRepository>
       <id>kuali.snapshot</id>
       <name>Kuali Snapshot Repository</name>
-      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <url>s3://maven.kuali.org/snapshot</url>
     </snapshotRepository>
   </distributionManagement>
   <ciManagement>
@@ -176,16 +176,6 @@
           </snapshots>
         </pluginRepository>
         <pluginRepository>
-          <id>ks.snapshot.plugin</id>
-          <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
           <id>codehaus</id>
           <url>http://repository.codehaus.org/</url>
           <releases>
@@ -240,9 +230,9 @@
   <build>
     <extensions>
       <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
+        <groupId>org.springframework.aws</groupId>
+        <artifactId>spring-aws-maven</artifactId>
+        <version>1.2-KUALI-1</version>
       </extension>
     </extensions>
     <plugins>
