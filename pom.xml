@@ -303,7 +303,7 @@
             <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
             <buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>
             <hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
-            <extraJvmArgs>-Xss32m -Xmx1g -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -Xloggc:gwt-heap.log -XX:MaxPermSize=256m</extraJvmArgs>
+            <extraJvmArgs>-Xss32m -Xmx1g -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -Xloggc:${project.artifactId}-gwt-heap.log -XX:MaxPermSize=256m</extraJvmArgs>
           </configuration>
         </plugin>
       </plugins>
