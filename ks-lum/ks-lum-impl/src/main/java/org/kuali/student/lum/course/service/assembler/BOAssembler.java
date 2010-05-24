@@ -38,10 +38,14 @@ public interface BOAssembler<E, T> {
 	 * 
 	 * @param baseDTO
 	 *            Base DTO that corresponds to the business DTO
+	 * @param businessDTO
+	 * 			  Reference to Business DTO
+	 * @param shallowBuild
+	 * 			  boolean flag to indicate if the assembly should be shallow or deep 
 	 * @return Assembled business DTO
 	 * @throws AssemblyException 
 	 */
-	public E assemble(T baseDTO) throws AssemblyException;
+	public E assemble(T baseDTO, E businessDTO, boolean shallowBuild) throws AssemblyException;
 
 	/**
 	 * 
@@ -59,6 +63,6 @@ public interface BOAssembler<E, T> {
 	 *         to be processed
 	 * @throws AssemblyException 
 	 */
-	public BaseDTOAssemblyNode<T> disassemble(
+	public BaseDTOAssemblyNode<E,	T> disassemble(
 			E businessDTO, NodeOperation operation) throws AssemblyException;
 }

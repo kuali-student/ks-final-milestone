@@ -50,8 +50,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	private CourseJointAssembler courseJointAssembler;
 
 	@Override
-	public CourseInfo assemble(CluInfo clu) throws AssemblyException {
-		CourseInfo course = new CourseInfo();
+	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo, boolean shallowBuild) throws AssemblyException {
+		
+		CourseInfo course = (null != courseInfo) ? courseInfo : new CourseInfo();
 
 		// Copy all the data from the clu to the course
 		course.setAcademicSubjectOrgs(clu.getAcademicSubjectOrgs());
@@ -91,7 +92,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(clu.getId());	
 			for (CluCluRelationInfo cluRel : cluClus) {
 				if(cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)){				
-					CourseJointInfo jointInfo = courseJointAssembler.assemble(cluRel);
+					CourseJointInfo jointInfo = courseJointAssembler.assemble(cluRel, null, false);
 					course.getJoints().add(jointInfo);
 				}
 			}
@@ -105,7 +106,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			List<CluInfo> formats = luService.getRelatedClusByCluId(course
 					.getId(), CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);			
 			for (CluInfo format : formats) {
-				FormatInfo formatInfo = formatAssembler.assemble(format);
+				FormatInfo formatInfo = formatAssembler.assemble(format, null, false);
 				course.getFormats().add(formatInfo);
 			}						
 
@@ -123,7 +124,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	}
 
 	@Override
-	public BaseDTOAssemblyNode<CluInfo> disassemble(CourseInfo course,
+	public BaseDTOAssemblyNode<CourseInfo, CluInfo> disassemble(CourseInfo course,
 			NodeOperation operation) throws AssemblyException {
 
 		if (course == null) {
@@ -132,7 +133,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			throw new AssemblyException("Course can not be null");
 		}
 
-		BaseDTOAssemblyNode<CluInfo> result = new BaseDTOAssemblyNode<CluInfo>();
+		BaseDTOAssemblyNode<CourseInfo, CluInfo> result = new BaseDTOAssemblyNode<CourseInfo, CluInfo>();
 
 		CluInfo clu = new CluInfo();
 
@@ -147,7 +148,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		result.setOperation(operation);
 
 		// Use the Format assembler to disassemble the formats and relations
-		List<BaseDTOAssemblyNode<?>> formatResults = disassembleFormats(course,
+		List<BaseDTOAssemblyNode<?,?>> formatResults = disassembleFormats(course,
 				operation);
 		result.getChildNodes().addAll(formatResults);
 
@@ -156,10 +157,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 	// TODO This is pretty much a copy of the FormatAssembler's
 	// disassembleActivities code... maybe can be made generic
-	private List<BaseDTOAssemblyNode<?>> disassembleFormats(CourseInfo course,
+	private List<BaseDTOAssemblyNode<?,?>> disassembleFormats(CourseInfo course,
 			NodeOperation operation) throws AssemblyException {
 
-		List<BaseDTOAssemblyNode<?>> results = new ArrayList<BaseDTOAssemblyNode<?>>();
+		List<BaseDTOAssemblyNode<?,?>> results = new ArrayList<BaseDTOAssemblyNode<?,?>>();
 
 		// Get the current formats and put them in a map of format id/relation
 		// id
@@ -194,7 +195,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					&& currentformatIds.containsKey(format.getId())) {
 				// If the course already has this format, then just update the
 				// format
-				BaseDTOAssemblyNode<CluInfo> formatNode = formatAssembler
+				BaseDTOAssemblyNode<FormatInfo,CluInfo> formatNode = formatAssembler
 						.disassemble(format, NodeOperation.UPDATE);
 				results.add(formatNode);
 
@@ -204,7 +205,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			} else if (!NodeOperation.DELETE.equals(operation)) {
 				// the format does not exist, so create
 				// Assemble and add the format
-				BaseDTOAssemblyNode<CluInfo> formatNode = formatAssembler
+				BaseDTOAssemblyNode<FormatInfo,CluInfo> formatNode = formatAssembler
 						.disassemble(format, NodeOperation.CREATE);
 				results.add(formatNode);
 
@@ -217,7 +218,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				relation.setType(CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
 				relation.setState(course.getState());
 
-				BaseDTOAssemblyNode<CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CluCluRelationInfo>();
+				BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo>();
 				relationNode.setNodeData(relation);
 				relationNode.setOperation(NodeOperation.CREATE);
 
@@ -231,7 +232,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// delete
 				CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
 				relationToDelete.setId(entry.getValue());
-				BaseDTOAssemblyNode<CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CluCluRelationInfo>();
+				BaseDTOAssemblyNode<CourseInfo,CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseInfo,CluCluRelationInfo>();
 				relationToDeleteNode.setNodeData(relationToDelete);
 				relationToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(relationToDeleteNode);
@@ -240,7 +241,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// delete
 				CluInfo formatToDelete = new CluInfo();
 				formatToDelete.setId(entry.getKey());
-				BaseDTOAssemblyNode<CluInfo> formatToDeleteNode = new BaseDTOAssemblyNode<CluInfo>();
+				BaseDTOAssemblyNode<FormatInfo,CluInfo> formatToDeleteNode = new BaseDTOAssemblyNode<FormatInfo,CluInfo>();
 				formatToDeleteNode.setNodeData(formatToDelete);
 				formatToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(formatToDeleteNode);
@@ -253,10 +254,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			
 	// TODO This is pretty much a copy of the disassembleJoints 
 	// code... maybe can be made generic
-	private List<BaseDTOAssemblyNode<?>> disassembleJoints(CourseInfo course,
+	private List<BaseDTOAssemblyNode<?,?>> disassembleJoints(CourseInfo course,
 			NodeOperation operation) throws AssemblyException {
 
-		List<BaseDTOAssemblyNode<?>> results = new ArrayList<BaseDTOAssemblyNode<?>>();
+		List<BaseDTOAssemblyNode<?,?>> results = new ArrayList<BaseDTOAssemblyNode<?,?>>();
 
 		// Get the current joints and put them in a map of joint id/relation
 		// id
@@ -294,7 +295,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				currentJointIds.remove(joint.getRelationId());
 			} else if (!NodeOperation.DELETE.equals(operation)) {
 				// the format does not exist, so create cluclurelation
-				BaseDTOAssemblyNode<CluCluRelationInfo> jointNode = courseJointAssembler
+				BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo> jointNode = courseJointAssembler
 						.disassemble(joint, NodeOperation.CREATE);
 				jointNode.getNodeData().setCluId(course.getId());
 				results.add(jointNode);
@@ -307,7 +308,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// delete
 				CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
 				relationToDelete.setId(entry.getValue());
-				BaseDTOAssemblyNode<CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CluCluRelationInfo>();
+				BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo>();
 				relationToDeleteNode.setNodeData(relationToDelete);
 				relationToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(relationToDeleteNode);

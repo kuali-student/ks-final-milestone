@@ -1,5 +1,8 @@
 package org.kuali.student.lum.course.service.impl;
 
+import java.util.List;
+
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
@@ -28,22 +31,24 @@ public class CourseServiceMethodInvoker {
 	private OrganizationService orgService;
 	private AtpService atpService;
 	
-	public CourseInfo doStuff(BaseDTOAssemblyNode<?> results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException {
+	@SuppressWarnings("unchecked")
+	public CourseInfo doStuff(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
 		Object nodeData = results.getNodeData();
 		if(nodeData instanceof CluInfo){
 			CluInfo clu = (CluInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				luService.createClu(clu.getType(), clu);
+				CluInfo newClu = luService.createClu(clu.getType(), clu);
+				results.getAssembler().assemble(newClu, results.getBusinessDTORef(), true);
 				break;
 			case UPDATE:
-				luService.updateClu(clu.getId(), clu);
+				CluInfo updatedClu = luService.updateClu(clu.getId(), clu);
+				results.getAssembler().assemble(updatedClu, results.getBusinessDTORef(), true);
 				break;
 			case DELETE:
 				luService.deleteClu(clu.getId());
 				break;
-			}
-						
+			}						
 		}else if(nodeData instanceof CluCluRelationInfo){
 			CluCluRelationInfo  relation = (CluCluRelationInfo) nodeData;
 			switch(results.getOperation()){
@@ -60,7 +65,7 @@ public class CourseServiceMethodInvoker {
 			
 		}
 		
-		for(BaseDTOAssemblyNode<?> childNode:results.getChildNodes()){
+		for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
 			doStuff(childNode);
 		}
 

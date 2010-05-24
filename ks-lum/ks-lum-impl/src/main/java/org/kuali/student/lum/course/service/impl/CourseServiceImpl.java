@@ -87,7 +87,7 @@ public class CourseServiceImpl implements CourseService {
 			OperationFailedException, PermissionDeniedException {
 		try {
 			
-			BaseDTOAssemblyNode<CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.CREATE);
+			BaseDTOAssemblyNode<CourseInfo,CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.CREATE);
 			//TODO Use the results to make the appropriate service calls here with some helper class
 			CourseInfo course;
 			try {

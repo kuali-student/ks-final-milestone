@@ -49,27 +49,27 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	private LuService luService;
 	
 	@Override
-	public FormatInfo assemble(CluInfo clu) throws AssemblyException {
+	public FormatInfo assemble(CluInfo clu, FormatInfo formatInfo, boolean shallowBuild) throws AssemblyException {
 		
 		if(clu==null){
 			return null;
 		}
 
-		FormatInfo formatInfo = new FormatInfo();
+		FormatInfo format = (null != formatInfo) ? formatInfo : new FormatInfo();
 		
 		//Copy base properties
-		formatInfo.setId(clu.getId());
-		formatInfo.setType(clu.getType());
-		formatInfo.setState(clu.getState());
-		formatInfo.setMetaInfo(clu.getMetaInfo());
-		formatInfo.setAttributes(clu.getAttributes());
+		format.setId(clu.getId());
+		format.setType(clu.getType());
+		format.setState(clu.getState());
+		format.setMetaInfo(clu.getMetaInfo());
+		format.setAttributes(clu.getAttributes());
 		
 		//Use the luService to find activities, then convert and add to the format
 		try {
-			List<CluInfo> activities = luService.getRelatedClusByCluId(formatInfo.getId(), CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+			List<CluInfo> activities = luService.getRelatedClusByCluId(format.getId(), CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
 			for(CluInfo activity:activities){
-				ActivityInfo activityInfo = activityAssembler.assemble(activity);
-				formatInfo.getActivities().add(activityInfo);
+				ActivityInfo activityInfo = activityAssembler.assemble(activity, null, false);
+				format.getActivities().add(activityInfo);
 			}
 		} catch (DoesNotExistException e) {
 		} catch (InvalidParameterException e) {
@@ -80,13 +80,13 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			throw new AssemblyException("Error getting related activities",e);
 		}
 		
-		return formatInfo;
+		return format;
 	}
 
 	@Override
-	public BaseDTOAssemblyNode<CluInfo> disassemble(
+	public BaseDTOAssemblyNode<FormatInfo, CluInfo> disassemble(
 			FormatInfo format, NodeOperation operation) throws AssemblyException {
-		BaseDTOAssemblyNode<CluInfo> result = new BaseDTOAssemblyNode<CluInfo>();
+		BaseDTOAssemblyNode<FormatInfo, CluInfo> result = new BaseDTOAssemblyNode<FormatInfo, CluInfo>();
 		if(format==null){
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
 			throw new AssemblyException("Format can not be null");
@@ -106,7 +106,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		result.setOperation(operation);
 
 		//Use the Activity assembler to disassemble the activities and relations
-		List<BaseDTOAssemblyNode<?>> activityResults = disassembleActivities(format, operation);
+		List<BaseDTOAssemblyNode<?,?>> activityResults = disassembleActivities(format, operation);
 		result.getChildNodes().addAll(activityResults);
 		
 		return result;
@@ -129,8 +129,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * @return List of Assembly nodes 
 	 * @throws AssemblyException
 	 */
-	private List<BaseDTOAssemblyNode<?>> disassembleActivities(FormatInfo format, NodeOperation operation) throws AssemblyException {
-		List<BaseDTOAssemblyNode<?>> results = new ArrayList<BaseDTOAssemblyNode<?>>();
+	private List<BaseDTOAssemblyNode<?,?>> disassembleActivities(FormatInfo format, NodeOperation operation) throws AssemblyException {
+		List<BaseDTOAssemblyNode<?,?>> results = new ArrayList<BaseDTOAssemblyNode<?,?>>();
 		
 		//Get the current activities and put them in a map of activity id/relation id 
 		Map<String,String> currentActivityIds = new HashMap<String,String>();
@@ -159,7 +159,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			//If this is a format create then all activities will be created
 			if(NodeOperation.UPDATE.equals(operation)&&currentActivityIds.containsKey(activity.getId())){
 				//If the format already has this activity, then just update the activity
-				BaseDTOAssemblyNode<CluInfo> activityNode = activityAssembler.disassemble(activity,NodeOperation.UPDATE);
+				BaseDTOAssemblyNode<ActivityInfo,CluInfo> activityNode = activityAssembler.disassemble(activity,NodeOperation.UPDATE);
 				results.add(activityNode);
 				
 				//remove this entry from the map so we can tell what needs to be deleted at the end
@@ -167,7 +167,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			}else if(!NodeOperation.DELETE.equals(operation)){
 				//the activity does not exist, so create
 				//Assemble and add the activity
-				BaseDTOAssemblyNode<CluInfo> activityNode = activityAssembler.disassemble(activity,NodeOperation.CREATE);
+				BaseDTOAssemblyNode<ActivityInfo,CluInfo> activityNode = activityAssembler.disassemble(activity,NodeOperation.CREATE);
 				results.add(activityNode);
 				
 				//Create the relationship and add it as well
@@ -177,7 +177,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
 				relation.setState(format.getState());
 				
-				BaseDTOAssemblyNode<CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CluCluRelationInfo>();
+				BaseDTOAssemblyNode<FormatInfo,CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<FormatInfo,CluCluRelationInfo>();
 				relationNode.setNodeData(relation);
 				relationNode.setOperation(NodeOperation.CREATE);
 				
@@ -189,7 +189,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				//Create a new relation with the id of the relation we want to delete
 				CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
 				relationToDelete.setId(entry.getValue());
-				BaseDTOAssemblyNode<CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CluCluRelationInfo>();
+				BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo>();
 				relationToDeleteNode.setNodeData(relationToDelete);
 				relationToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(relationToDeleteNode);
@@ -197,7 +197,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				//Create a new Clu Info with the id of the clu we want to delete
 				CluInfo activityToDelete = new CluInfo();
 				activityToDelete.setId(entry.getKey());
-				BaseDTOAssemblyNode<CluInfo> activityToDeleteNode = new BaseDTOAssemblyNode<CluInfo>();
+				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityToDeleteNode = new BaseDTOAssemblyNode<ActivityInfo, CluInfo>();
 				activityToDeleteNode.setNodeData(activityToDelete);
 				activityToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(activityToDeleteNode);

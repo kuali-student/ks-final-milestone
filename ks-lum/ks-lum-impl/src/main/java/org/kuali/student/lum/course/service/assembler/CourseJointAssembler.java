@@ -17,10 +17,6 @@ package org.kuali.student.lum.course.service.assembler;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -52,12 +48,12 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 	}
 
 	@Override
-	public CourseJointInfo assemble(CluCluRelationInfo cluRel) throws AssemblyException {
+	public CourseJointInfo assemble(CluCluRelationInfo cluRel, CourseJointInfo jointInfo, boolean shallowBuild) throws AssemblyException {
 		if(null == cluRel) {
 			return null;
 		}
 		
-		CourseJointInfo joint = new CourseJointInfo();
+		CourseJointInfo joint = (jointInfo != null) ? jointInfo : new CourseJointInfo();
 
 		CluInfo clu;
 		try {
@@ -78,7 +74,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 	}
 
 	@Override
-	public BaseDTOAssemblyNode<CluCluRelationInfo> disassemble(
+	public BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> disassemble(
 			CourseJointInfo joint, NodeOperation operation) throws AssemblyException {
 		
 		if(null == joint){
@@ -86,13 +82,14 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 			throw new AssemblyException("Activity can not be null");
 		}
 				
-		BaseDTOAssemblyNode<CluCluRelationInfo> result = new BaseDTOAssemblyNode<CluCluRelationInfo>();
-
+		BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> result = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>();
+		result.setBusinessDTORef(joint);
+		
 		CluCluRelationInfo cluRel = new CluCluRelationInfo();
 		cluRel.setId(UUIDHelper.genStringUUID(joint.getRelationId()));
 		cluRel.setRelatedCluId(joint.getCourseId());
 		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
-
+		
 		// The caller is required to set the CluId on the cluCluRelation
 		
 		return result;

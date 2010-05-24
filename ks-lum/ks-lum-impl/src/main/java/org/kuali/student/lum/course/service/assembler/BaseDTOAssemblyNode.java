@@ -28,7 +28,7 @@ import java.util.List;
  * @author Kuali Student Team
  * 
  */
-public class BaseDTOAssemblyNode<T> {
+public class BaseDTOAssemblyNode<E,T> {
 
 	public enum NodeOperation {
 		CREATE, UPDATE, DELETE;
@@ -36,9 +36,14 @@ public class BaseDTOAssemblyNode<T> {
 
 	protected NodeOperation operation;
 
+	protected E businessDTORef;
+	
 	protected T nodeData;
 
-	protected List<BaseDTOAssemblyNode<?>> childNodes;
+	
+	protected BOAssembler<E, T> assembler;
+	
+	protected List<BaseDTOAssemblyNode<?,?>> childNodes;
 
 	/**
 	 * @return the nodeData
@@ -70,14 +75,43 @@ public class BaseDTOAssemblyNode<T> {
 		this.operation = operation;
 	}
 
-	public List<BaseDTOAssemblyNode<?>> getChildNodes() {
+	public List<BaseDTOAssemblyNode<?,?>> getChildNodes() {
 		if (childNodes == null) {
-			childNodes = new ArrayList<BaseDTOAssemblyNode<?>>();
+			childNodes = new ArrayList<BaseDTOAssemblyNode<?,?>>();
 		}
 		return childNodes;
 	}
 
-	public void setChildNodes(List<BaseDTOAssemblyNode<?>> childNodes) {
+	public void setChildNodes(List<BaseDTOAssemblyNode<?,?>> childNodes) {
 		this.childNodes = childNodes;
 	}
+	
+	/**
+	 * @return the assembler
+	 */
+	public BOAssembler<E, T> getAssembler() {
+		return assembler;
+	}
+
+	/**
+	 * @param assembler the assembler to set
+	 */
+	public void setAssembler(BOAssembler<E, T> assembler) {
+		this.assembler = assembler;
+	}
+
+	/**
+	 * @return the businessDTORef
+	 */
+	public E getBusinessDTORef() {
+		return businessDTORef;
+	}
+
+	/**
+	 * @param businessDTORef the businessDTORef to set
+	 */
+	public void setBusinessDTORef(E businessDTORef) {
+		this.businessDTORef = businessDTORef;
+	}
+	
 }

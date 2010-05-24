@@ -30,12 +30,12 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
 	@Override
-	public ActivityInfo assemble(CluInfo clu) {
+	public ActivityInfo assemble(CluInfo clu, ActivityInfo activity, boolean shallowBuild) {
 		if(clu == null){
 			return null;
 		}
 		
-		ActivityInfo activityInfo = new ActivityInfo();
+		ActivityInfo activityInfo = (null != activity) ? activity : new ActivityInfo();
 		activityInfo.setId(clu.getId());
 		activityInfo.setActivityType(clu.getType());
 		activityInfo.setState(clu.getState());
@@ -48,14 +48,14 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 	}
 
 	@Override
-	public BaseDTOAssemblyNode<CluInfo> disassemble(
+	public BaseDTOAssemblyNode<ActivityInfo,CluInfo> disassemble(
 			ActivityInfo activity, NodeOperation operation) throws AssemblyException {
 		if(activity==null){
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
 			throw new AssemblyException("Activity can not be null");
 		}
 		
-		BaseDTOAssemblyNode<CluInfo> result = new BaseDTOAssemblyNode<CluInfo>();
+		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>();
 		
 		CluInfo clu = new CluInfo();
 	
@@ -67,9 +67,13 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setStdDuration(activity.getDuration());
 		clu.setIntensity(activity.getContactHours());
 		clu.setMetaInfo(activity.getMetaInfo());
-		
+				
 		//Add the Clu to the result 
 		result.setNodeData(clu);
+
+		// Add refernce to Activity
+		result.setBusinessDTORef(activity);
+		
 		result.setOperation(operation);
 
 		return result;
