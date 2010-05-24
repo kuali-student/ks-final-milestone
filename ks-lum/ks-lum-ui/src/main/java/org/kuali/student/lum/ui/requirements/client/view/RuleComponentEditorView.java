@@ -42,7 +42,6 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -497,7 +496,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 return false;
             }
 
-            if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
+            if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
             	enteredCluCodes.append((enteredCluCodes.length() > 0 ? ", " : "") + fieldInfo.getValue());
             } else {
             	editedFields.add(fieldInfo);
@@ -506,7 +505,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     	if (enteredCluCodes.length() > 0) {
             ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-            fieldInfo.setId(ReqComponentFieldTypes.CLU_KEY.getKey());
+            fieldInfo.setId("reqCompFieldType.clu");
             fieldInfo.setValue(enteredCluCodes.toString());
             editedFields.add(fieldInfo);
         }
@@ -516,15 +515,15 @@ public class RuleComponentEditorView extends ViewComposite {
 
     private String getFieldName(ReqCompFieldInfo fieldInfo) {
 
-        if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
+        if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
             return "Course";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals("reqCompFieldType.cluSet")) {
             return "Courses";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals("reqCompFieldType.requiredCount")) {
             return "count";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.GPA_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals("reqCompFieldType.gpa")) {
             return "GPA";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals("reqCompFieldType.totalCredits")) {
             return "Total Credits";
         }
 
@@ -576,8 +575,7 @@ public class RuleComponentEditorView extends ViewComposite {
             }
             tagCounts.put(tag, tagCount);
 
-            if ((tag.equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey())) || 
-            		(tag.equals(ReqComponentFieldTypes.GPA_KEY.getKey())) || (tag.equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey()))) {
+            if ((tag.equals("reqCompFieldType.requiredCount")) || (tag.equals("reqCompFieldType.gpa")) || (tag.equals("reqCompFieldType.totalCredits"))) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
@@ -599,7 +597,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
+            if (tag.equals("reqCompFieldType.clu")) {
             	final ReqCompPicker valueWidget = configureCourseSearch(fieldLabel);
                 valueWidgets.add(valueWidget);
                 String cluIdsInClause = getSpecificFieldValue(fields, tag);
@@ -630,7 +628,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
+            if (tag.equals("reqCompFieldType.cluSet")) {
 
 				//need a better way to determine what pickers to use for given req. component type field
                 final ReqCompPicker valueWidget;

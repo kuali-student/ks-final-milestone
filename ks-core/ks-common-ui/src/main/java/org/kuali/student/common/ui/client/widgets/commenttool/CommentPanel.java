@@ -283,7 +283,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     	});
 
         buttonPanel.setButtonText(OkEnum.Ok, "Submit");
-        loggedInAs.setText(Application.getApplicationContext().getUserId());
+        //FIXME: get person logged in as
+        loggedInAs.setText("PersonId Here");
 
         loggedInAs.addStyleName("KS-Comment-Login-User");
         createPanel.addStyleName("KS-Comment-Create-Panel");
@@ -301,7 +302,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         commentTypesPanel.add(seeComments);
         commentTypesPanel.add(commentTypes);
         createPanel.add(commentTypesPanel);
-
+        
         isAuthorizedAddComment();
         layout.add(createPanel);
         layout.add(commentList);

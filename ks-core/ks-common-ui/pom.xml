@@ -1,12 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student.core</groupId>
   <artifactId>ks-common-ui</artifactId>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>KS Common UI</name>
   <description>KS common-ui</description>
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
   <dependencies>
     <!--
@@ -57,54 +60,54 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-rice</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-rice</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${project.version}</version>
+      <version>1.1.0-poc-1-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
     <dependency>

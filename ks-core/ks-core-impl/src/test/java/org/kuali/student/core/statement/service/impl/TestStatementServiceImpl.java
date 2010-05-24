@@ -65,7 +65,6 @@ import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.core.statement.service.StatementService;
 
 @Daos({@Dao(value = "org.kuali.student.core.statement.dao.impl.StatementDaoImpl")})
@@ -207,17 +206,17 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setId("reqCompFieldType.requiredCount");
 		field1.setValue("1");
 		fieldList.add(field1);
 
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setId("reqCompFieldType.operator");
 		field2.setValue("greater_than_or_equal_to");
 		fieldList.add(field2);
 
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-		field3.setId(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+		field3.setId("reqCompFieldType.cluSet");
 		field3.setValue("CLUSET-NL-1");
 		fieldList.add(field3);
 
@@ -235,12 +234,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     private List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setId("reqCompFieldType.requiredCount");
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setId("reqCompFieldType.operator");
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
@@ -270,10 +269,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		statementInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 
-		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", ReqComponentFieldTypes.CLU_KEY.getKey(), "CLU-NL-1,CLU-NL-3");
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
 		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList1);
 		reqComp1.setId("req-1");
-		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", ReqComponentFieldTypes.CLUSET_KEY.getKey(), "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
 		reqComp2.setId("req-2");
 		
@@ -581,7 +580,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         
         ReqCompFieldTypeInfo ftInfo = reqftList.get(0);
         
-        assertEquals(ftInfo.getId(), ReqComponentFieldTypes.CLUSET_KEY.getKey());
+        assertEquals(ftInfo.getId(), "reqCompFieldType.cluSet");
         
         FieldDescriptor fd = ftInfo.getFieldDescriptor();
         
@@ -882,7 +881,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(req.getReqCompFields().size(), 0);
         
         ReqCompFieldInfo rcfInfo = new ReqCompFieldInfo();
-        rcfInfo.setId(ReqComponentFieldTypes.CLU_KEY.getKey());
+        rcfInfo.setId("reqCompFieldType.clu");
         rcfInfo.setValue("MATH 101");
         
         List<ReqCompFieldInfo> reqCompField = new ArrayList<ReqCompFieldInfo>();
@@ -908,7 +907,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertNotNull(updReq.getId());
         assertNotNull(newrcfInfo);
         assertEquals("MATH 101", newrcfInfo.getValue());
-        assertEquals(ReqComponentFieldTypes.CLU_KEY.getKey(), newrcfInfo.getId());       
+        assertEquals("reqCompFieldType.clu", newrcfInfo.getId());       
     }
     
     @Test

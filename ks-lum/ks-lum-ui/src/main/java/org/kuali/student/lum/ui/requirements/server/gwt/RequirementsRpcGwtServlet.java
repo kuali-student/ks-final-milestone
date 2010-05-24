@@ -23,7 +23,6 @@ import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -97,7 +96,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         
         return reqComponentTypeInfoList;
     }
-    
+        
     /**
      * @throws Exception 
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#updateClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
@@ -108,7 +107,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     	for (ReqCompFieldInfo comp : editedFields) {
     		
     		//find clu ids based on clu code
-    		if (comp.getId().equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
+    		if (comp.getId().equals("reqCompFieldType.clu")) {
     			String[] codes = comp.getValue().split(", ");
     			StringBuffer ids = new StringBuffer();
     			

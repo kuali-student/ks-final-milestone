@@ -1,16 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student.security</groupId>
+  <artifactId>ks-standard-sec</artifactId>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>KS Standard Security</name>
+  <description>KS Standard Security - out of the box</description>
   <parent>
     <groupId>org.kuali.student.security</groupId>
     <artifactId>ks-security</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
-  <artifactId>ks-standard-sec</artifactId>
-  <name>KS Standard Security</name>
-  <description>KS Standard Security - out of the box</description>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-standard-sec</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-standard-sec</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-security/ks-standard-sec</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-security/ks-standard-sec</developerConnection>
   </scm>
   <dependencies>
     <dependency>

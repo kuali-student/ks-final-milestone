@@ -41,7 +41,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class BooleanValue implements Value {
-        private Boolean value;
+        Boolean value;
 
         protected BooleanValue() {
 
@@ -73,7 +73,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DataValue implements Value {
-        private Data value;
+        Data value;
 
         protected DataValue() {
 
@@ -105,7 +105,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DateValue implements Value {
-        private Date value;
+        Date value;
 
         protected DateValue() {
 
@@ -137,7 +137,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DoubleValue implements Value {
-        private Double value;
+        Double value;
 
         protected DoubleValue() {
 
@@ -169,7 +169,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class FloatValue implements Value {
-        private Float value;
+        Float value;
 
         protected FloatValue() {
 
@@ -254,7 +254,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class IntegerValue implements Value {
-        private Integer value;
+        Integer value;
 
         protected IntegerValue() {
 
@@ -293,7 +293,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class LongValue implements Value {
-        private Long value;
+        Long value;
 
         protected LongValue() {
 
@@ -339,7 +339,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class ShortValue implements Value {
-        private Short value;
+        Short value;
 
         protected ShortValue() {
 
@@ -371,7 +371,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class StringKey implements Key {
-        private String key;
+        String key;
 
         protected StringKey() {
 
@@ -425,7 +425,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class StringValue implements Value {
-        private String value;
+        String value;
 
         protected StringValue() {
 
@@ -457,7 +457,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class TimestampValue implements Value {
-        private Timestamp value;
+        Timestamp value;
 
         protected TimestampValue() {
 
@@ -489,7 +489,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class TimeValue implements Value {
-        private Time value;
+        Time value;
 
         protected TimeValue() {
 
@@ -839,15 +839,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Iterator itr = path.iterator(); itr.hasNext() && d != null;) {
             final Key k = (Key) itr.next();
             if (itr.hasNext()) {
-                Object obj = d.get(k);
-                if (obj != null && !(obj instanceof Data)) {
-                    // TODO what should be done if we try to query
-                    // cluset/clus/0/_runtimeData where cluset/0 returns a string instead of Data
-                    // throw an exception here?
-                    throw new java.lang.IllegalArgumentException();
-                } else {
-                    d = d.get(k);
-                }
+                d = d.get(k);
             } else {
                 result = (T) d.get(k);
             }

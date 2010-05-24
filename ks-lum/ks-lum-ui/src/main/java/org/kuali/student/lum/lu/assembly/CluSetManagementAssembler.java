@@ -26,11 +26,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
@@ -183,29 +178,6 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         return result;
     }
     
-    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException {
-        if(query == null) {
-            return null;
-        }
-        SearchRequest sr = new SearchRequest();
-        sr.setSearchKey(query.getSearchTypeKey());
-        sr.setParams(query.getQueryParamValueList());
-
-        SearchResult result = luService.search(sr);
-        
-        List<String> cluIds = new ArrayList<String>();
-        List<SearchResultRow> rows = result.getRows();
-        for(SearchResultRow row : rows) {
-            List<SearchResultCell> cells = row.getCells();
-            for(SearchResultCell cell : cells) {
-                if(cell.getKey().equals("lu.resultColumn.cluId")) {
-                    cluIds.add(cell.getValue());
-                }
-            }
-        }
-        return cluIds;
-    }
-
     private CluSetHelper toCluSetHelper(CluSetInfo cluSetInfo) throws Exception {
         Data data = new Data();
         Data cluSetDetailData = new Data();
@@ -219,17 +191,6 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                     result.getClus().add(cluId);
                 }
             }
-            if (cluSetInfo.getMembershipQuery() != null) {
-                MembershipQueryInfo mq = cluSetInfo.getMembershipQuery();
-                List<String> cluRangeCluIds = getMembershipQuerySearchResult(mq);
-                if (cluRangeCluIds != null) {
-                    result.setCluRangeViewDetails(new Data());
-                    for (String cluRangeCluId : cluRangeCluIds) {
-                        result.getCluRangeViewDetails().add(cluRangeCluId);
-                    }
-                }
-            }
-//            luService.search(searchRequest)
             result.setDescription(richTextToString(cluSetInfo.getDescr()));
             result.setEffectiveDate(cluSetInfo.getEffectiveDate());
             result.setExpirationDate(cluSetInfo.getExpirationDate());

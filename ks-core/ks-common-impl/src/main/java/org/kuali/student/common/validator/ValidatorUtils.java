@@ -84,13 +84,12 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	protected static Integer getInteger(Object o) {
-		if (o == null)
-			return null;
-
+	public static Integer getInteger(Object o) {
 		Integer result = null;
 		if (o instanceof Integer)
 			return (Integer) o;
+		if (o == null)
+			return null;
 		if (o instanceof Number)
 			return ((Number) o).intValue();
 		String s = o.toString();
@@ -100,13 +99,12 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	protected static Long getLong(Object o) {
-		if (o == null)
-			return null;
-
+	public static Long getLong(Object o) {
 		Long result = null;
 		if (o instanceof Long)
 			return (Long) o;
+		if (o == null)
+			return null;
 		if (o instanceof Number)
 			return ((Number) o).longValue();
 		String s = o.toString();
@@ -116,13 +114,12 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	protected static Float getFloat(Object o) {
-		if (o == null)
-			return null;
-
+	public static Float getFloat(Object o) {
 		Float result = null;
 		if (o instanceof Float)
 			return (Float) o;
+		if (o == null)
+			return null;
 		if (o instanceof Number)
 			return ((Number) o).floatValue();
 		String s = o.toString();
@@ -132,13 +129,12 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	protected static Double getDouble(Object o) {
-		if (o == null)
-			return null;
-
+	public static Double getDouble(Object o) {
 		Double result = null;
 		if (o instanceof Double)
 			return (Double) o;
+		if (o == null)
+			return null;
 		if (o instanceof Number)
 			return ((Number) o).doubleValue();
 		String s = o.toString();
@@ -148,13 +144,12 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	protected static Date getDate(Object o, DateParser dateParser) {
-		if (o == null)
-			return null;
-
+	public static Date getDate(Object o, DateParser dateParser) {
 		Date result = null;
 		if (o instanceof Date)
 			return (Date) o;
+		if (o == null)
+			return null;
 		String s = o.toString();
 		if (s != null && s.trim().length() > 0) {
 			result = dateParser.parseDate(s.trim());
@@ -162,48 +157,48 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	protected static String getString(Object o) {
-		if (o == null)
-			return null;
-
+	public static String getString(Object o) {
 		if (o instanceof String)
 			return (String) o;
+		if (o == null)
+			return null;
 		return o.toString();
 	}
 
-	private static Boolean getBoolean(Object o) {
-		if (o == null)
-			return null;
-
+	public static Boolean getBoolean(Object o) {
 		Boolean result = null;
 		if (o instanceof Boolean)
 			return (Boolean) o;
+		if (o == null)
+			return null;
 		String s = o.toString();
 		if (s != null && s.trim().length() > 0) {
 			result = Boolean.parseBoolean(s.trim());
 		}
 		return result;
-	}
-
+	}	
+	
 	/**
 	 * Traverses the dictionary ObjectStructure to find the field with the match
 	 * key, type and state
-	 *
+	 * 
 	 * @param key
 	 * @param type
 	 * @param state
 	 * @param objStructure
 	 * @return
 	 */
-	protected static Field getField(String key, ObjectStructure objStructure,
+	public static Field getField(String key, ObjectStructure objStructure,
 			String type, String state) {
 		List<Type> typeList = objStructure.getType();
 
 		for (Type t : typeList) {
 			if (t.getKey().equalsIgnoreCase(type)) {
-				for (State s : t.getState()) {
+				List<State> stateList = t.getState();
+				for (State s : stateList) {
 					if (s.getKey().equalsIgnoreCase(state)) {
-						for (Field f : s.getField()) {
+						List<Field> fieldList = s.getField();
+						for (Field f : fieldList) {
 							if (f.getKey().equals(key)) {
 								return f;
 							}

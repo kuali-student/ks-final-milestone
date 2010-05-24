@@ -31,7 +31,6 @@ import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 
 /**
  * Utility class to support testing.
@@ -149,19 +148,19 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("1");
-		field1.setKey(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setKey("reqCompFieldType.requiredCount");
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("2");
-		field2.setKey(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setKey("reqCompFieldType.operator");
 		field2.setValue(operator);
 		fieldList.add(field2);
 				
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("3");
-		field3.setKey(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+		field3.setKey("reqCompFieldType.cluSet");
 		field3.setValue(target);
 		fieldList.add(field3);
 		
@@ -172,19 +171,19 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("4");
-		field1.setKey(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setKey("reqCompFieldType.requiredCount");
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("5");
-		field2.setKey(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setKey("reqCompFieldType.operator");
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("6");
-		field3.setKey(ReqComponentFieldTypes.CLU_KEY.getKey());
+		field3.setKey("reqCompFieldType.clu");
 		field3.setValue(cluIds);
 		fieldList.add(field3);
 		
@@ -194,12 +193,12 @@ public class NaturalLanguageUtil {
     public static List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setId("reqCompFieldType.requiredCount");
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setId("reqCompFieldType.operator");
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
