@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.course.service.assembler.FormatAssembler;
 
 /**
@@ -120,7 +121,7 @@ public class CourseDataGenerator {
 		}
 		if("type".equals(name)){
 			if("formats".equals(parentPropertyName)){
-				return CourseAssembler.COURSE_FORMAT_RELATION_TYPE;
+				return CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE;
 			}
 			if("activities".equals(parentPropertyName)){
 				return FormatAssembler.COURSE_ACTIVITY_RELATION_TYPE;
