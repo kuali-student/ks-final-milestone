@@ -38,6 +38,14 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>kuali.private</id>
+      <name>Repository of Artifacts External to Kuali</name>
+      <url>http://s3.amazonaws.com/maven.kuali.org/private</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   <ciManagement>
     <system>hudson</system>
