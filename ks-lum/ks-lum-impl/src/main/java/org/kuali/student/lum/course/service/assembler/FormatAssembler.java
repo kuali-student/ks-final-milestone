@@ -104,6 +104,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		//Add the Clu to the result 
 		result.setNodeData(clu);
 		result.setOperation(operation);
+		result.setBusinessDTORef(format);
 
 		//Use the Activity assembler to disassemble the activities and relations
 		List<BaseDTOAssemblyNode<?,?>> activityResults = disassembleActivities(format, operation);

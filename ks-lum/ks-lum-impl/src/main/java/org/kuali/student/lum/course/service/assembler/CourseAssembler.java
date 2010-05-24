@@ -86,35 +86,38 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		course.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 		course.setTranscriptTitle(clu.getOfficialIdentifier().getShortName());
 		
-				
-		try {
-			// Use the luService to find Joints, then convert and add to the course
-			List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(clu.getId());	
-			for (CluCluRelationInfo cluRel : cluClus) {
-				if(cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)){				
-					CourseJointInfo jointInfo = courseJointAssembler.assemble(cluRel, null, false);
-					course.getJoints().add(jointInfo);
-				}
-			}
-		} catch (DoesNotExistException e) {
-		} catch (Exception e) {
-			throw new AssemblyException("Error getting course joints", e);
-		} 
-			
-		try{					
-			// Use the luService to find formats, then convert and add to the course			
-			List<CluInfo> formats = luService.getRelatedClusByCluId(course
-					.getId(), CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);			
-			for (CluInfo format : formats) {
-				FormatInfo formatInfo = formatAssembler.assemble(format, null, false);
-				course.getFormats().add(formatInfo);
-			}						
-
-		} catch (DoesNotExistException e) {
-		} catch (Exception e) {
-			throw new AssemblyException("Error getting related formats", e);
-		} 
 		
+		//Don't make any changes to nested datastructures if this is 
+		if(!shallowBuild){		
+			try {
+				// Use the luService to find Joints, then convert and add to the course
+				List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(clu.getId());	
+				for (CluCluRelationInfo cluRel : cluClus) {
+					if(cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)){				
+						CourseJointInfo jointInfo = courseJointAssembler.assemble(cluRel, null, false);
+						course.getJoints().add(jointInfo);
+					}
+				}
+			} catch (DoesNotExistException e) {
+			} catch (Exception e) {
+				throw new AssemblyException("Error getting course joints", e);
+			} 
+				
+			try{					
+				// Use the luService to find formats, then convert and add to the course			
+				List<CluInfo> formats = luService.getRelatedClusByCluId(course
+						.getId(), CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);			
+				for (CluInfo format : formats) {
+					FormatInfo formatInfo = formatAssembler.assemble(format, null, false);
+					course.getFormats().add(formatInfo);
+				}						
+	
+			} catch (DoesNotExistException e) {
+			} catch (Exception e) {
+				throw new AssemblyException("Error getting related formats", e);
+			} 
+		
+		}
 		
 		//TODO: Variations
 		//course.setVariations(variations)
@@ -146,7 +149,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);
-
+		result.setBusinessDTORef(course);
+		
 		// Use the Format assembler to disassemble the formats and relations
 		List<BaseDTOAssemblyNode<?,?>> formatResults = disassembleFormats(course,
 				operation);

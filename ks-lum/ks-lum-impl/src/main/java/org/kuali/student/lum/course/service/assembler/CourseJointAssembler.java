@@ -84,6 +84,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 				
 		BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> result = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>();
 		result.setBusinessDTORef(joint);
+		result.setOperation(operation);
 		
 		CluCluRelationInfo cluRel = new CluCluRelationInfo();
 		cluRel.setId(UUIDHelper.genStringUUID(joint.getRelationId()));
