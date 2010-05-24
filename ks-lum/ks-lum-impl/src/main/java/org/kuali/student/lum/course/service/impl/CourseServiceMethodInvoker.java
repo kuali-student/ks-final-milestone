@@ -32,7 +32,7 @@ public class CourseServiceMethodInvoker {
 	private AtpService atpService;
 	
 	@SuppressWarnings("unchecked")
-	public CourseInfo doStuff(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
+	public CourseInfo invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
 		Object nodeData = results.getNodeData();
 		if(nodeData instanceof CluInfo){
 			CluInfo clu = (CluInfo) nodeData;
@@ -66,7 +66,7 @@ public class CourseServiceMethodInvoker {
 		}
 		
 		for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
-			doStuff(childNode);
+			invokeServiceCalls(childNode);
 		}
 
 		//TODO... instead of getting the object again we could build it back up from the return values here!

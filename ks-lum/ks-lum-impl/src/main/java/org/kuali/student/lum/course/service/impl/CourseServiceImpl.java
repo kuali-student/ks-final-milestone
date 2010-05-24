@@ -91,7 +91,7 @@ public class CourseServiceImpl implements CourseService {
 			//TODO Use the results to make the appropriate service calls here with some helper class
 			CourseInfo course;
 			try {
-				course = new CourseServiceMethodInvoker().doStuff(results);
+				course = new CourseServiceMethodInvoker().invokeServiceCalls(results);
 				return course;
 			} catch (Exception e) {
 				LOG.error("Error creating course",e);
