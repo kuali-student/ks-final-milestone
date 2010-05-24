@@ -25,7 +25,7 @@
     <repository>
       <id>kuali.release</id>
       <name>Kuali Release</name>
-      <url>https://test.kuali.org/maven</url>
+      <url>http://s3.amazonaws.com/maven.kuali.org/release</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
