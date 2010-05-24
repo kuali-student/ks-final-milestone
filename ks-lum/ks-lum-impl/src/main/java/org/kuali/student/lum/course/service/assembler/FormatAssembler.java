@@ -207,4 +207,21 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		
 		return results;
 	}
+
+	public BOAssembler<ActivityInfo, CluInfo> getActivityAssembler() {
+		return activityAssembler;
+	}
+
+	public void setActivityAssembler(
+			BOAssembler<ActivityInfo, CluInfo> activityAssembler) {
+		this.activityAssembler = activityAssembler;
+	}
+
+	public LuService getLuService() {
+		return luService;
+	}
+
+	public void setLuService(LuService luService) {
+		this.luService = luService;
+	}
 }

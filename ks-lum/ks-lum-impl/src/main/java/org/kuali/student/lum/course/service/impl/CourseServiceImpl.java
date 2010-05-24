@@ -40,6 +40,8 @@ public class CourseServiceImpl implements CourseService {
 	
 	private CourseAssembler courseAssembler;
 	
+	private CourseServiceMethodInvoker courseServiceMethodInvoker;
+	
 	public LuService getLuService() {
 		return luService;
 	}
@@ -86,12 +88,11 @@ public class CourseServiceImpl implements CourseService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		try {
-			
 			BaseDTOAssemblyNode<CourseInfo,CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.CREATE);
-			//TODO Use the results to make the appropriate service calls here with some helper class
 			CourseInfo course;
 			try {
-				course = new CourseServiceMethodInvoker().invokeServiceCalls(results);
+				//Use the results to make the appropriate service calls here
+				course = courseServiceMethodInvoker.invokeServiceCalls(results);
 				return course;
 			} catch (Exception e) {
 				LOG.error("Error creating course",e);
@@ -179,6 +180,23 @@ public class CourseServiceImpl implements CourseService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		throw new UnsupportedOperationException("updateCourseStatements");
+	}
+
+	public CourseAssembler getCourseAssembler() {
+		return courseAssembler;
+	}
+
+	public void setCourseAssembler(CourseAssembler courseAssembler) {
+		this.courseAssembler = courseAssembler;
+	}
+
+	public CourseServiceMethodInvoker getCourseServiceMethodInvoker() {
+		return courseServiceMethodInvoker;
+	}
+
+	public void setCourseServiceMethodInvoker(
+			CourseServiceMethodInvoker courseServiceMethodInvoker) {
+		this.courseServiceMethodInvoker = courseServiceMethodInvoker;
 	}
 	
 

@@ -337,4 +337,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	public FormatAssembler getFormatAssembler() {
 		return formatAssembler;
 	}
+
+	public CourseJointAssembler getCourseJointAssembler() {
+		return courseJointAssembler;
+	}
+
+	public void setCourseJointAssembler(CourseJointAssembler courseJointAssembler) {
+		this.courseJointAssembler = courseJointAssembler;
+	}
 }

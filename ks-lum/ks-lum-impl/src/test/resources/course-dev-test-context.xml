@@ -25,9 +25,32 @@
 		<property name="luService" ref="luClient"/>
 		<property name="orgService" ref="orgClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
+		<property name="courseAssembler" ref="courseAssembler"/>
+		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
 	</bean>
 	
+	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+		<property name="luService" ref="luClient"/>
+	</bean>
 	
+	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+		<property name="formatAssembler" ref="formatAssembler"/>
+		<property name="courseJointAssembler" ref="courseJointAssembler"/>
+		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+		<property name="activityAssembler" ref="activityAssembler"/>
+		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler"/>
+
+	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
+		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<!-- Service Clients -->
 	<bean id="orgClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
@@ -43,12 +66,10 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
 	</bean>
 	
-
 	<bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
 	</bean>
-	
 	
 	<bean id="statementServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
