@@ -55,7 +55,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 			throw new AssemblyException("Activity can not be null");
 		}
 		
-		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>();
+		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>(this);
 		
 		CluInfo clu = new CluInfo();
 	

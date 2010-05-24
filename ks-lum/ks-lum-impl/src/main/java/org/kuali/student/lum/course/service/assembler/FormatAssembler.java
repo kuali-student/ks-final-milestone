@@ -86,7 +86,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	@Override
 	public BaseDTOAssemblyNode<FormatInfo, CluInfo> disassemble(
 			FormatInfo format, NodeOperation operation) throws AssemblyException {
-		BaseDTOAssemblyNode<FormatInfo, CluInfo> result = new BaseDTOAssemblyNode<FormatInfo, CluInfo>();
+		BaseDTOAssemblyNode<FormatInfo, CluInfo> result = new BaseDTOAssemblyNode<FormatInfo, CluInfo>(this);
 		if(format==null){
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
 			throw new AssemblyException("Format can not be null");
@@ -178,7 +178,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
 				relation.setState(format.getState());
 				
-				BaseDTOAssemblyNode<FormatInfo,CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<FormatInfo,CluCluRelationInfo>();
+				BaseDTOAssemblyNode<FormatInfo,CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<FormatInfo,CluCluRelationInfo>(null);
 				relationNode.setNodeData(relation);
 				relationNode.setOperation(NodeOperation.CREATE);
 				
@@ -190,7 +190,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				//Create a new relation with the id of the relation we want to delete
 				CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
 				relationToDelete.setId(entry.getValue());
-				BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo>();
+				BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo>(null);
 				relationToDeleteNode.setNodeData(relationToDelete);
 				relationToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(relationToDeleteNode);
@@ -198,7 +198,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				//Create a new Clu Info with the id of the clu we want to delete
 				CluInfo activityToDelete = new CluInfo();
 				activityToDelete.setId(entry.getKey());
-				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityToDeleteNode = new BaseDTOAssemblyNode<ActivityInfo, CluInfo>();
+				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityToDeleteNode = new BaseDTOAssemblyNode<ActivityInfo, CluInfo>(activityAssembler);
 				activityToDeleteNode.setNodeData(activityToDelete);
 				activityToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(activityToDeleteNode);

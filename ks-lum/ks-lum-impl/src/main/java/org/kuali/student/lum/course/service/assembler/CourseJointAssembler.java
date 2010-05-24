@@ -82,7 +82,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 			throw new AssemblyException("Activity can not be null");
 		}
 				
-		BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> result = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>();
+		BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> result = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(this);
 		result.setBusinessDTORef(joint);
 		result.setOperation(operation);
 		

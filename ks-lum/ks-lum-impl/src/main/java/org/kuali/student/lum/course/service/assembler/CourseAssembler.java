@@ -136,7 +136,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			throw new AssemblyException("Course can not be null");
 		}
 
-		BaseDTOAssemblyNode<CourseInfo, CluInfo> result = new BaseDTOAssemblyNode<CourseInfo, CluInfo>();
+		BaseDTOAssemblyNode<CourseInfo, CluInfo> result = new BaseDTOAssemblyNode<CourseInfo, CluInfo>(this);
 
 		CluInfo clu = new CluInfo();
 
@@ -222,7 +222,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				relation.setType(CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
 				relation.setState(course.getState());
 
-				BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo>();
+				BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo>(null);
 				relationNode.setNodeData(relation);
 				relationNode.setOperation(NodeOperation.CREATE);
 
@@ -236,7 +236,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// delete
 				CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
 				relationToDelete.setId(entry.getValue());
-				BaseDTOAssemblyNode<CourseInfo,CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseInfo,CluCluRelationInfo>();
+				BaseDTOAssemblyNode<CourseInfo,CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseInfo,CluCluRelationInfo>(null);
 				relationToDeleteNode.setNodeData(relationToDelete);
 				relationToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(relationToDeleteNode);
@@ -245,7 +245,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// delete
 				CluInfo formatToDelete = new CluInfo();
 				formatToDelete.setId(entry.getKey());
-				BaseDTOAssemblyNode<FormatInfo,CluInfo> formatToDeleteNode = new BaseDTOAssemblyNode<FormatInfo,CluInfo>();
+				BaseDTOAssemblyNode<FormatInfo,CluInfo> formatToDeleteNode = new BaseDTOAssemblyNode<FormatInfo,CluInfo>(formatAssembler);
 				formatToDeleteNode.setNodeData(formatToDelete);
 				formatToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(formatToDeleteNode);
@@ -312,7 +312,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// delete
 				CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
 				relationToDelete.setId(entry.getValue());
-				BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo>();
+				BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo>(courseJointAssembler);
 				relationToDeleteNode.setNodeData(relationToDelete);
 				relationToDeleteNode.setOperation(NodeOperation.DELETE);
 				results.add(relationToDeleteNode);

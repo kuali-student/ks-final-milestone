@@ -45,6 +45,11 @@ public class BaseDTOAssemblyNode<E,T> {
 	
 	protected List<BaseDTOAssemblyNode<?,?>> childNodes;
 
+	public BaseDTOAssemblyNode(BOAssembler<E, T> assembler) {
+		super();
+		this.assembler = assembler;
+	}
+
 	/**
 	 * @return the nodeData
 	 */
