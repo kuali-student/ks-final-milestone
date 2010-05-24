@@ -30,6 +30,14 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>kuali.external</id>
+      <name>Repository of Artifacts External to Kuali</name>
+      <url>http://s3.amazonaws.com/maven.kuali.org/external</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   <ciManagement>
     <system>hudson</system>
