@@ -60,7 +60,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 			clu = luService.getClu(cluRel.getRelatedCluId());
 
 			joint.setCourseId(clu.getId());
-			joint.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
+			joint.setType(clu.getType());
 			joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 			joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 			joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
