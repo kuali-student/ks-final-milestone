@@ -6,7 +6,7 @@ public class ObjectStructureDefinition {
 	protected String name;// TODO do we need this?
 	protected Class<?> businessObjectClass;
 	protected List<FieldDefinition> attributes;
-	protected boolean hasMetaData;
+	protected boolean hasMetaData;//TODO do we need this?
 
 	public Class<?> getBusinessObjectClass() {
 		return businessObjectClass;
