@@ -23,40 +23,6 @@
   <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
-  <repositories>
-    <repository>
-      <id>kuali.release</id>
-      <name>Kuali Release</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/release</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.external</id>
-      <name>Kuali External</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/external</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.private</id>
-      <name>Kuali Private</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/private</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot</name>
-      <url>https://s3.amazonaws.com/maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
   <ciManagement>
     <system>hudson</system>
     <url>https://ci.ks.kuali.org</url>
@@ -108,6 +74,62 @@
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
   </properties>
   <profiles>
+    <profile>
+      <id>proxy.repository</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <name>Proxy Repository</name>
+          <url>http://ec2-72-44-57-159.compute-1.amazonaws.com/nexus/content/groups/public</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>s3.repositories</id>
+      <repositories>
+        <repository>
+          <id>kuali.release</id>
+          <name>Kuali Release</name>
+          <url>http://s3.amazonaws.com/maven.kuali.org/release</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>kuali.external</id>
+          <name>Kuali External</name>
+          <url>http://s3.amazonaws.com/maven.kuali.org/external</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>kuali.private</id>
+          <name>Kuali Private</name>
+          <url>http://s3.amazonaws.com/maven.kuali.org/private</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>kuali.snapshot</id>
+          <name>Kuali Snapshot</name>
+          <url>https://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+        </repository>
+      </repositories>
+    </profile>
     <!-- License plugin -->
     <!-- to run, use mvn -Pgenerate-ecl license:format -Dyear=2010 -->
     <!-- some of the xmlparsers dont like comments to appear before the ?xml processing instruction -->
