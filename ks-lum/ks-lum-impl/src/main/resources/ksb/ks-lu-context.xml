@@ -174,7 +174,7 @@
     </bean>
 	
 	<bean id="statementDao"
-		class="org.kuali.student.brms.statement.dao.impl.StatementDaoImpl">
+		class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
         <property name="em" ref="statementEntityManager" />		
 	</bean>
 
@@ -184,12 +184,12 @@
 	</bean>
 
     <bean id="statementAssembler"
-        class="org.kuali.student.brms.statement.service.impl.StatementAssembler">
+        class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="statementDao"/>
     </bean>
     
 	<bean id="statementServiceImpl"
-		class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
+		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
@@ -202,7 +202,7 @@
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="statementServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.brms.statement.service.StatementService" />
+                <property name="serviceInterface" value="org.kuali.student.core.statement.service.StatementService" />
                 <property name="localServiceName" value="StatementService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/statement" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />

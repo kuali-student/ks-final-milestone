@@ -75,7 +75,7 @@ public abstract class AbstractBaseConfig implements Config {
     }
 
     public Boolean getBatchMode() {
-        return new Boolean(getProperty(Config.BATCH_MODE));
+        return  Boolean.valueOf((getProperty(Config.BATCH_MODE)));
     }
 
     public boolean getBooleanProperty(String key, boolean defaultValue) {

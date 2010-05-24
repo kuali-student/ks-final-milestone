@@ -49,7 +49,6 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
     	String mutiRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
         if (widget instanceof Section) {
-        	//FIXME temporary fix
         	itemPath = "";
             SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
         } else if (widget instanceof ModelWidgetBinding) {
@@ -67,11 +66,16 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
         } else {
             qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_UPDATED);
         }
-        Boolean oldValue = model.get(qPath);
-        Boolean newValue = true;
-        if (!nullsafeEquals(oldValue, newValue)) {
-            model.set(qPath, newValue);
-            setDirtyFlag(model, qPath);
+        try {
+            Boolean oldValue = model.get(qPath);
+            Boolean newValue = true;
+            if (!nullsafeEquals(oldValue, newValue)) {
+                model.set(qPath, newValue);
+                setDirtyFlag(model, qPath);
+            }
+        } catch (java.lang.IllegalArgumentException e) {
+            // model.get(qPath) will throw this exception if there is no such path
+            GWT.log("Warning: Ignoring error attempting to setValue for " + widget.getClass().getName() + " path: " + qPath, e);
         }
 
     }

@@ -23,7 +23,7 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -254,7 +254,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         cfg.setModelDefinition(modelDefinition);
         cfg.configure(this);
         
-        //FIXME: This needs to be moved to the configurer
+        //FIXME: [KSCOR-225] This needs to be moved to the configurer
         workflowToolbar = new WorkflowToolbar(createOnWorkflowSubmitSuccessHandler());
         workflowToolbar.setIdPath("proposal/id");
         workflowToolbar.setRequiredFieldPaths(new String[]{"course/department"});
@@ -310,7 +310,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
 
-        		//FIXME: test code
         		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
             		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
         		} else {
@@ -324,17 +323,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		callback.onModelReady(ref);
         	}
         } else if(modelType == CollaboratorTool.CollaboratorModel.class){
-        	//Update the collabmodel with info from the CluProposal Model
-        	//Create a new one if it does not yet exist
-/*        	if(null==collaboratorModel){
-        		collaboratorModel = new Collaborators.CollaboratorModel();
-        	}
-        	String proposalId="";
-        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
-        	}
-        	collaboratorModel.setProposalId(proposalId);    
-        	callback.onModelReady(collaboratorModel);*/
         	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
         	String proposalId=null;
         	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
@@ -535,11 +523,11 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 }
 
                 public void onSuccess(DataSaveResult result) {
-                	// FIXME needs to check validation results and display messages if validation failed
+                	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
     				cluProposalModel.setRoot(result.getValue());
     	            View currentView = getCurrentView(); 
-    				if (currentView instanceof VerticalSectionView){
-    	            	((VerticalSectionView) currentView).redraw();
+    				if (currentView instanceof SectionView){
+    					((SectionView)currentView).updateView(cluProposalModel);
     	            }
     				if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");
@@ -626,7 +614,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
 	@Override
 	public boolean isAuthorizationRequired() {
-		return true;
+		return false;
 	}
 
 	@Override

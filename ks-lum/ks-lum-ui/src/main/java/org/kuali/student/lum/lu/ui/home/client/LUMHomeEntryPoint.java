@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.ui.home.client;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeResources;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.ResourcePrototype;
 
@@ -32,14 +32,14 @@ public class LUMHomeEntryPoint implements EntryPoint{
     }
 
     public String getCssString(){
-        String injectString = "";
+        StringBuffer injectString = new StringBuffer("");
          for(ResourcePrototype r: HomeResources.INSTANCE.getResources()){
              if(r instanceof CssResource){
                  if(((CssResource)r).getText() != null){
-                     injectString = injectString + "\n" + (((CssResource)r).getText());
+                     injectString.append("\n" + (((CssResource)r).getText()));
                  }
              }
          }
-         return injectString;
+         return injectString.toString();
     }
 }

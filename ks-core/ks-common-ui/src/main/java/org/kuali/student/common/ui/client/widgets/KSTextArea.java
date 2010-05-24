@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.TextArea;
 /**
  * KSTextArea wraps gwt TextArea.  This class provides most of the same functionality, but sets KS css styles
  * for its default look and a variety of TextArea events (for improved browser compatibility and customizability).
- * 
+ *
  * @author Kuali Student Team
  *
  */
@@ -37,7 +37,7 @@ public class KSTextArea extends TextArea{
 
     /**
      * Creates a new empty text area.
-     * 
+     *
      */
     public KSTextArea() {
         super();
@@ -46,7 +46,7 @@ public class KSTextArea extends TextArea{
 
     /**
      * Creates a new text area using the text area element specified.
-     * 
+     *
      * @param element a <TextArea> element
      */
     public KSTextArea(Element element) {
@@ -56,43 +56,43 @@ public class KSTextArea extends TextArea{
 
     /**
      * This method sets the default style for the text area and text area events.
-     * 
+     *
      */
     private void setupDefaultStyle() {
-        addStyleName(KSStyles.KS_TEXTAREA_STYLE);
-        
+        addStyleName("KS-Textarea");
+
         this.addBlurHandler(new BlurHandler(){
             public void onBlur(BlurEvent event) {
-                KSTextArea.this.removeStyleName(KSStyles.KS_TEXTAREA_FOCUS_STYLE);
-                
-            }   
-        }); 
+                KSTextArea.this.removeStyleName("KS-Textarea-Focus");
+
+            }
+        });
 
         this.addFocusHandler(new FocusHandler(){
             public void onFocus(FocusEvent event) {
-                KSTextArea.this.addStyleName(KSStyles.KS_TEXTAREA_FOCUS_STYLE);
+                KSTextArea.this.addStyleName("KS-Textarea-Focus");
 
-            }       
+            }
         });
-        
+
         this.addMouseOverHandler(new MouseOverHandler(){
             public void onMouseOver(MouseOverEvent event) {
-                KSTextArea.this.addStyleName(KSStyles.KS_TEXTAREA_HOVER_STYLE);
-                
-            }       
+                KSTextArea.this.addStyleName("KS-Textarea-Hover");
+
+            }
         });
-        
+
         this.addMouseOutHandler(new MouseOutHandler(){
 
             public void onMouseOut(MouseOutEvent event) {
-                KSTextArea.this.removeStyleName(KSStyles.KS_TEXTAREA_HOVER_STYLE);
-                
+                KSTextArea.this.removeStyleName("KS-Textarea-Hover");
+
             }
-            
+
         });
-        
+
     }
-    
-    
+
+
 
 }

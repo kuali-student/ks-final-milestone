@@ -84,20 +84,6 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 		return new ArrayList<String>(objectStructures.keySet());
 	}
 
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		// TODO ddean - THIS METHOD NEEDS JAVADOCS
-		return false;
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		// TODO ddean - THIS METHOD NEEDS JAVADOCS
-		return false;
-	}
-
 	public String[] getDictionaryContext() {
 		return dictionaryContext;
 	}

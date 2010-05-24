@@ -20,13 +20,13 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
 public class RuleInfo implements Idable, Serializable {
 
 	private static final long serialVersionUID = 1L;
-    private String id = new String("0");
+    private String id = "0";
     private String cluId;
     private StatementVO statementVO;       //top-level statement (tree ROOT)
     private String rationale;
@@ -300,7 +300,7 @@ public class RuleInfo implements Idable, Serializable {
                     parentStatementVO.getStatementVOCount() == 0) {
                 degroupAble = degroupAble && true;
             } else {
-                degroupAble = degroupAble && false;
+                degroupAble = false;
             }
         }
         return degroupAble;

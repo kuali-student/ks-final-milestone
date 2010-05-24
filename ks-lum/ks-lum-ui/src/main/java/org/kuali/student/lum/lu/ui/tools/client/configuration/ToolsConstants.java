@@ -15,8 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -33,18 +31,22 @@ public class ToolsConstants {
 	
     // Message keys for top-level section label lookup
     public static final String NEW_CLU_SET_LABEL_KEY = "cluSetInformation";
-    public static final String NEW_CLU_SET = "Create New Clu Set";
-    public static final String NEW_CLU_SET_INFO = "CLU set Information";
-    public static final String EDIT_CLU_SET = "Edit Clu Set";
-    public static final String VIEW_CLU_SET = "View Clu Set";
-    public static final String EDIT_CLU_SET_INFO = "CLU set Information";
-    public static final String ORGANIZATION = "Organization";
-    public static final String TITLE = "Title";
-    public static final String DESCRIPTION = "Description";
-    public static final String EFFECTIVE_DATE = "Effective Date";
-    public static final String EXPIRATION_DATE = "Expiration Date";
-    public static final String CONTENT = "Content";
+    public static final String NEW_CLU_SET = "cluSetNew";
+    public static final String NEW_CLU_SET_INFO = "cluSetNewInformation";
+    public static final String NEW_CLU_SET_CONTENT = "cluSetContent";
+    public static final String NEW_CLU_SET_CONTENT_COURSE = "cluSetCourses";
+    public static final String NEW_CLU_SET_CONTENT_RANGE = "cluSetCourseRange";
+    public static final String EDIT_CLU_SET = "cluSetEditCluSet";
+    public static final String VIEW_CLU_SET = "cluSetViewCluSet";
+    public static final String EDIT_CLU_SET_INFO = "cluSetEditInformation";
+    public static final String ORGANIZATION = "cluSetOrganization";
+    public static final String TITLE = "cluSetTitle";
+    public static final String DESCRIPTION = "cluSetDescription";
+    public static final String EFFECTIVE_DATE = "cluSetEffectiveDate";
+    public static final String EXPIRATION_DATE = "cluSetExpirationDate";
+    public static final String CONTENT = "cluSetContent";
     public static final String CONTENT_DIRECTIONS = "contentDirections";
+    public static final String CLU_SET_NAME ="cluSetName";
     
     // Field Keys
     public static final String SEARCH_CLU_SET = "search/findCluSet";
@@ -57,6 +59,9 @@ public class ToolsConstants {
     public static final String CLU_SET_EXP_DATE_FIELD = "cluset/expirationDate";
     public static final String CLU_SET_CLUS_FIELD = "cluset/clus";
     public static final String CLU_SET_CLU_SETS_FIELD = "cluset/clusets";
+    public static final String CLU_SET_CLU_SET_RANGE_FIELD = "cluset/clusetRange";
+    public static final String CLU_SET_CLU_SET_RANGE_EDIT_FIELD = "cluset/clusetRangeEdit";
+    public static final String CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD = "cluset/cluSetRangeViewDetails";
     public static final String CLU_SET_TYPE_FIELD = "cluset/type";
     
     

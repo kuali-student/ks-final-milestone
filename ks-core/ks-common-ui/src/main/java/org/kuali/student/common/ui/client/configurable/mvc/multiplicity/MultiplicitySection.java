@@ -15,11 +15,12 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 
-public abstract class MultiplicitySection extends Section {
+public abstract class MultiplicitySection extends BaseSection {
 	private final QueryPath path;
 	
 	public MultiplicitySection(String path) {

@@ -78,13 +78,21 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 	@Override
 	protected void loadSuiteTestData() throws Exception {
 		new SQLDataLoader(getKNSDefaultSuiteTestData(), "/").runSql();
-		BufferedReader reader = new BufferedReader(new FileReader(getKIMDataLoadOrderFile()));
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			if (!StringUtils.isBlank(line)) {
-				new SQLDataLoader(getKIMSqlFileBaseLocation() + "/" + line, "/").runSql();
+		BufferedReader reader = null;
+		try{
+			reader = new BufferedReader(new FileReader(getKIMDataLoadOrderFile()));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				if (!StringUtils.isBlank(line)) {
+					new SQLDataLoader(getKIMSqlFileBaseLocation() + "/" + line, "/").runSql();
+				}
+			}
+		}finally{
+			if(reader!=null){
+				reader.close();
 			}
 		}
+		
 		new SQLDataLoader("file:" + getBaseDir() + "/src/main/config/sql/kim.sql", ";").runSql();
 	}
 	

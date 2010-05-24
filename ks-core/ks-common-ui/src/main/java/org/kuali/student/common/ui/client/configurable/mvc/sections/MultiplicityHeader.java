@@ -16,8 +16,8 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -29,18 +29,18 @@ public class MultiplicityHeader extends Composite{
 	private FlowPanel actions = new FlowPanel();
 	private FlowPanel clearDiv = new FlowPanel();
 	private SectionTitle title;
-	private KSLinkButton help;
-	private KSLinkButton delete = null;
+	private KSButton help;
+	private KSButton delete = null;
 	
 	public MultiplicityHeader(SectionTitle title, boolean readOnly){
 		this.title = title;
 		header.add(title);
 		
-		help = new KSLinkButton("?", ButtonStyle.HELP);
+		help = new KSButton("?", ButtonStyle.HELP);
 		actions.add(help);
 		
 		if(!readOnly){
-			delete = new KSLinkButton("X", ButtonStyle.DELETE);
+			delete = new KSButton("X", ButtonStyle.DELETE);
 			actions.add(delete);
 		}
 		

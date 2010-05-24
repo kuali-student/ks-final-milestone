@@ -20,8 +20,6 @@ import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInfoHelper.Properties;
 
 public class CluSetHelper {
 
@@ -35,6 +33,8 @@ public class CluSetHelper {
         EFFECTIVE_DATE ("effectiveDate"),
         EXPIRATION_DATE ("expirationDate"),
         CLUS ("clus"),
+        CLU_SET_RANGE ("clusetRange"),
+        CLU_SET_RANGE_VIEW_DETAILS ("cluSetRangeViewDetails"),
         META_INFO ("metaInfo"),
         NAME ("name"),
         STATE ("state"),
@@ -142,6 +142,28 @@ public class CluSetHelper {
             setClus(clusData);
         }
         return clusData;
+    }
+    public void setCluRangeParams(Data value) {
+        data.set(Properties.CLU_SET_RANGE.getKey(), value);
+    }
+    public CluSetRangeHelper getCluRangeParams() {
+        Data cluRangeParamsData = data.get(Properties.CLU_SET_RANGE.getKey());
+        if (cluRangeParamsData == null) {
+            cluRangeParamsData = new Data();
+            setCluRangeParams(cluRangeParamsData);
+        }
+        return new CluSetRangeHelper(cluRangeParamsData);
+    }
+    public void setCluRangeViewDetails(Data value) {
+        data.set(Properties.CLU_SET_RANGE_VIEW_DETAILS.getKey(), value);
+    }
+    public Data getCluRangeViewDetails() {
+        Data cluSetRangeViewDetailsData = data.get(Properties.CLU_SET_RANGE_VIEW_DETAILS.getKey());
+        if (cluSetRangeViewDetailsData == null) {
+            cluSetRangeViewDetailsData = new Data();
+            setClus(cluSetRangeViewDetailsData);
+        }
+        return cluSetRangeViewDetailsData;
     }
 
 }

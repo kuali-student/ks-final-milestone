@@ -56,7 +56,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -364,6 +363,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
      */
     private class LOCategoryPicker extends Composite implements SuggestPicker {
 
+        //FIXME:   [KSCOR-225] Class needs to be rewritten to use KSPicker instead of SuggestPicker and use lookup config through metadata
+        
          final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(
                  "lo.search.loCategories",
                  "lo.queryParam.loOptionalCategoryName",

@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-//import java.util.ListIterator;
 import java.util.Set;
 
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
@@ -33,7 +32,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-//import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
@@ -57,7 +55,6 @@ public class CategoryManagementTable extends Composite {
     static String TYPE_COLUMN_KEY = "type";
     static String STATE_COLUMN_KEY = "state";
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();
-    private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
     private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
     protected PagingScrollTable<ResultRow> pagingScrollTable;
@@ -146,6 +143,7 @@ public class CategoryManagementTable extends Composite {
         layout.clear();
         layout.add(pagingScrollTable);
         pagingScrollTable.fillWidth();
+        pagingScrollTable.reloadPage();//FIXME Undesirable solution to work with GWT 2.0
     }
     
     public void redraw(List<ResultRow> filteredRows){
@@ -155,7 +153,9 @@ public class CategoryManagementTable extends Composite {
         layout.clear();
         layout.add(pagingScrollTable);
         pagingScrollTable.fillWidth();
+        pagingScrollTable.reloadPage();//FIXME Undesirable solution to work with GWT 2.0
     }
+
     public void clearTable(){
         resultRows.clear();
         redraw();        
@@ -224,7 +224,7 @@ public class CategoryManagementTable extends Composite {
     }   
     
     private void createColumnDefs() {
-        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();   
+        List<AbstractColumnDefinition<ResultRow, ?>> columnDefs=new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
         SearchColumnDefinition columnDef = new SearchColumnDefinition(NAME_COLUMN_HEADER, NAME_COLUMN_KEY);
         columnDef.setColumnSortable(false);
         columnDefs.add(columnDef);
@@ -237,7 +237,6 @@ public class CategoryManagementTable extends Composite {
             columnDefs.add(columnDef);            
         }
         if(columnDefs.size() == 1){
-            //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
             columnDefs.get(0).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);

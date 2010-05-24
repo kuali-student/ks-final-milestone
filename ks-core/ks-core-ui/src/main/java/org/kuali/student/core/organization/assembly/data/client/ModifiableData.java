@@ -41,16 +41,5 @@ public class ModifiableData extends Data {
 	public ModifiableData(String className) {
 		super(className);
 	}
-	
-	public ModificationData getModifications() {
-		ModificationData result = super.get(Properties.MODIFICATIONS.getKey());
-		if (result == null) {
-			result = new ModificationData();
-			super.set(Properties.MODIFICATIONS.getKey(), result);
-		}
-		return result;
-	}
-	public void setModifications(ModificationData modifications) {
-		super.set(Properties.MODIFICATIONS.getKey(), modifications);
-	}
+
 }

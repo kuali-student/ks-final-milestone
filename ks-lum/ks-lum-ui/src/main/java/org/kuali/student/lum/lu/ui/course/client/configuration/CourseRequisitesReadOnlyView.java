@@ -29,7 +29,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class CourseRequisitesReadOnlyView extends Composite {
 	DataModel dataModel=null;
 	
-	boolean loaded=false;
     Controller myController;
     private VerticalPanel rootPanel = new VerticalPanel();
     

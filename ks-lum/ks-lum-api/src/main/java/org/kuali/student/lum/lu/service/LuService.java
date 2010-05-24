@@ -64,7 +64,7 @@ import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/LU+Service+v1.0-rc4">LUService</>
  *
  */
-@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu") // TODO CHECK THESE VALUES
+@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuService extends DictionaryService, SearchService { 
     /** 
@@ -599,6 +599,19 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public List<String> getCluSetIdsFromCluSet(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /** 
+     * Check if the given CluSet is dynamic
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved list of CLU Set Ids within the specified CLU set
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public Boolean isCluSetDynamic(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
     /** 
      * Retrieves the list of CLUs in a CLU set. This only retrieves the direct members.
      * @param cluSetId Identifier of the CLU set

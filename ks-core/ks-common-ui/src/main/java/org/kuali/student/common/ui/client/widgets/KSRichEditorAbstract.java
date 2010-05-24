@@ -42,5 +42,5 @@ public abstract class KSRichEditorAbstract extends RichTextEditor {
 	@Override
 	public abstract void setStyleName(String text);
 
-    protected abstract void init(boolean isUsedInPopup);
+    protected abstract void init();
 }

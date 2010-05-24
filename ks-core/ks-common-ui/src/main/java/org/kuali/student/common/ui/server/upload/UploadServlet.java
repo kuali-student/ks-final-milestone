@@ -35,6 +35,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -47,7 +48,7 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.mock.service.DocumentRelationService;
 
 public class UploadServlet extends HttpServlet{
-
+	final Logger LOG = Logger.getLogger(UploadServlet.class);
 	private static final long serialVersionUID = 1L;
 	DocumentService documentService;
 	DocumentRelationService relationService;
@@ -119,9 +120,6 @@ public class UploadServlet extends HttpServlet{
 			        	text.setPlain(value);
 			        	info.setDesc(text);
 			        }
-			        else if(name.equals("documentType")){
-			        	//TODO: Dont know what to do with this yet
-			        }
 			    } 
 			    else {
 			    	String fullFileName = item.getName();
@@ -132,12 +130,6 @@ public class UploadServlet extends HttpServlet{
 			            status.getFileStatusList().add(currentItem, fileStatus);
 				    	DocumentBinaryInfo bInfo = new DocumentBinaryInfo();
 				    	ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-/*				    	Iterator headers = item.getHeaders().getHeaderNames();
-				    	while(headers.hasNext()){
-				    		System.out.println(headers.next());
-				    	}*/
-				    	//TODO import this class maybe?
-				    	//Base64OutputStream base64 = new Base64OutputStream(bytes);
 				    	byte[] buffer = new byte[4096];
 				    	while (true) {
 				    	    int read = stream.read(buffer);
@@ -146,8 +138,6 @@ public class UploadServlet extends HttpServlet{
 				    	    } else {
 				    	        bytes.write(buffer, 0, read);
 				    	        fileStatus.setProgress(fileStatus.getProgress() + read);
-				    	        // TODO you could put a Thread.sleep(500) here to simulate slow network
-				    	        //Thread.sleep(500);
 				    	    }
 				    	}
 				    	bytes.flush();
@@ -182,7 +172,6 @@ public class UploadServlet extends HttpServlet{
 			    			fileStatus.setDocId(createdDoc.getId());
 			    		}
 			    		
-			    		//TODO replace this with real stuff later
 			    		RefDocRelationInfoMock relationInfo = new RefDocRelationInfoMock();
 			    		relationInfo.setDesc(info.getDesc());
 			    		relationInfo.setRefId(request.getParameter("referenceId"));
@@ -192,7 +181,7 @@ public class UploadServlet extends HttpServlet{
 		    		}
 		    		catch(Exception e){
 		    			fileError = true;
-		    			e.printStackTrace();
+		    			LOG.error(e);
 		    			fileStatus.setStatus(FileTransferStatus.ERROR);
 		    		}
 		    		info = new DocumentInfo();
@@ -209,94 +198,8 @@ public class UploadServlet extends HttpServlet{
 			
 		} catch (Exception e) {
 			status.setStatus(UploadTransferStatus.ERROR);
-			e.printStackTrace();
-		}	
-		
-/*    	
-    	//fileStatusMap.put(request.getParameter("uploadId"), status);
-
-		int itemNum = 0;
-
-		if(ServletFileUpload.isMultipartContent(request)){
-			try {
-				FileItemFactory factory = new DiskFileItemFactory();
-				ServletFileUpload upload = new ServletFileUpload(factory);
-				upload.setProgressListener(new DocumentProgressListener(request.getParameter("uploadId")));
-			
-				List items = upload.parseRequest(request);
-				Iterator iter = items.iterator();
-				DocumentInfo info = new DocumentInfo();
-				
-				//assumes that transfer retains order, I believe this is true
-				while (iter.hasNext()) {
-				    FileItem item = (FileItem) iter.next();
-				    itemNum++;
-				    System.out.println(itemNum);
-				    if (item.isFormField()) {
-				    	String name = item.getFieldName();
-				    	String value = item.getString();
-				        //System.out.println(item.getFieldName() + ": " + item.getString());
-				        if(name.equals("documentDescription")){
-				        	RichTextInfo text = new RichTextInfo();
-				        	text.setPlain(value);
-				        	info.setDesc(text);
-				        }
-				        else if(name.equals("documentType")){
-				        	//TODO: Dont know what to do with this yet
-				        }
-				        //TODO: probably eventually get document category from hidden field here too
-				    }
-				    else{
-				    	String fullFileName = item.getName();
-				    	if(item.getName() != null && !(item.getName().equals("")) && item.getSize() != 0){
-					    	DocumentBinaryInfo bInfo = new DocumentBinaryInfo();
-					    	bInfo.setBinary(new String(Base64.encodeBase64(item.get())));
-					    	info.setDocumentBinaryInfo(bInfo);
-					    	info.setState("active");
-					    	
-					    	int lastSeperator = fullFileName.lastIndexOf("\\");
-					    	if(lastSeperator == -1){
-					    		lastSeperator = fullFileName.lastIndexOf("/");
-					    	}
-					    	String fileName = fullFileName.substring(lastSeperator + 1).replace(' ', '_');
-					    	info.setFileName(fileName);
-					    	
-					    	int extSeperator = fileName.lastIndexOf(".");
-					    	
-					    	info.setName(fileName.substring(0, extSeperator));
-					    	String type = "documentType." + fileName.substring(extSeperator + 1);
-					    	info.setType(type);
-					    	if(documentService != null){
-					    		DocumentInfo createdDoc = documentService.createDocument(type, "documentCategory.proposal", info);
-					    		if(createdDoc != null){
-					    			status.getCreatedDocIds().add(createdDoc.getId());
-					    		}
-					    	}
-					    	else{
-					    		//Could not contact service error
-					    		//TODO: what should we do with files that do finish, but one (or more) in the batch errors?
-					    		status.setStatus(UploadTransferStatus.ERROR);
-					    	}
-				    	}
-				    	else{
-				    		//No file specified error
-				    		//TODO: what should we do with files that do finish, but one (or more) in the batch errors?
-				    		status.setStatus(UploadTransferStatus.ERROR);
-				    	}
-				    	info = new DocumentInfo();
-				    	
-				    }
-				}
-				
-				if(status.getStatus() != UploadTransferStatus.ERROR){
-					status.setStatus(UploadTransferStatus.COMMIT_FINISHED);
-				}
-				
-			} catch (Exception e) {
-				//Server upload error
-				status.setStatus(UploadTransferStatus.ERROR);
-				e.printStackTrace();
-			}*/
+			LOG.error(e);
+		}
 			
 	}
 	
@@ -307,8 +210,7 @@ public class UploadServlet extends HttpServlet{
 			try {
 				info = documentService.getDocument(request.getParameter("docId"));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error(e);
 			}
 			
 			if(info != null && info.getDocumentBinaryInfo() != null && info.getDocumentBinaryInfo().getBinary() != null && 
@@ -321,7 +223,6 @@ public class UploadServlet extends HttpServlet{
 					int length = fileBytes.length;
 			        
 			        ServletContext context = getServletConfig().getServletContext();
-			        //TODO no mimetypes in info exist - switch check or future addition to DocumentInfo needed later
 			        String mimetype = context.getMimeType(info.getFileName());
 			        
 			        response.setContentType( (mimetype != null) ? mimetype : "application/octet-stream" );
@@ -333,8 +234,7 @@ public class UploadServlet extends HttpServlet{
 			        //
 			        op.write(fileBytes,0,length);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOG.error(e);
 				}
 				finally{
 			        op.flush();
