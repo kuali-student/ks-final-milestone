@@ -55,21 +55,4 @@
       <url>scp://student.kuali.org:/opt/www/student/site/web/${project.version}</url>
     </site>
   </distributionManagement>
-  <repositories>
-    <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
 </project>

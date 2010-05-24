@@ -71,23 +71,6 @@
       </modules>
     </profile>
   </profiles>
-  <repositories>
-    <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-lum</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-lum</developerConnection>
