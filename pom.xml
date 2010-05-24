@@ -24,7 +24,7 @@
   <repositories>
     <repository>
       <id>kuali.release</id>
-      <name>Main Kuali Repository</name>
+      <name>Kuali Release</name>
       <url>https://test.kuali.org/maven</url>
       <snapshots>
         <enabled>false</enabled>
@@ -32,7 +32,7 @@
     </repository>
     <repository>
       <id>kuali.external</id>
-      <name>Repository of Artifacts External to Kuali</name>
+      <name>Kuali External</name>
       <url>http://s3.amazonaws.com/maven.kuali.org/external</url>
       <snapshots>
         <enabled>false</enabled>
@@ -40,7 +40,7 @@
     </repository>
     <repository>
       <id>kuali.private</id>
-      <name>Repository of Artifacts External to Kuali</name>
+      <name>Kuali Private</name>
       <url>http://s3.amazonaws.com/maven.kuali.org/private</url>
       <snapshots>
         <enabled>false</enabled>
