@@ -45,8 +45,6 @@ import org.kuali.student.lum.lu.service.LuService;
 public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	final static Logger LOG = Logger.getLogger(FormatAssembler.class);
 	
-	public static final String COURSE_ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
-	
 	private BOAssembler<ActivityInfo,CluInfo> activityAssembler;
 	private LuService luService;
 	
@@ -68,7 +66,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		
 		//Use the luService to find activities, then convert and add to the format
 		try {
-			List<CluInfo> activities = luService.getRelatedClusByCluId(formatInfo.getId(), COURSE_ACTIVITY_RELATION_TYPE);
+			List<CluInfo> activities = luService.getRelatedClusByCluId(formatInfo.getId(), CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
 			for(CluInfo activity:activities){
 				ActivityInfo activityInfo = activityAssembler.assemble(activity);
 				formatInfo.getActivities().add(activityInfo);
@@ -141,7 +139,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			try {
 				List<CluCluRelationInfo> activityRelationships = luService.getCluCluRelationsByClu(format.getId());
 				for(CluCluRelationInfo activityRelation:activityRelationships){
-					if(COURSE_ACTIVITY_RELATION_TYPE.equals(activityRelation.getType())){
+					if(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE.equals(activityRelation.getType())){
 						currentActivityIds.put(activityRelation.getRelatedCluId(), activityRelation.getId());
 					}
 				}
@@ -176,7 +174,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				CluCluRelationInfo relation = new CluCluRelationInfo();
 				relation.setCluId(format.getId());
 				relation.setRelatedCluId(activity.getId());//this should already be set even if it's a create
-				relation.setType(COURSE_ACTIVITY_RELATION_TYPE);
+				relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
 				relation.setState(format.getState());
 				
 				BaseDTOAssemblyNode<CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CluCluRelationInfo>();

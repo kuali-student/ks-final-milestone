@@ -15,5 +15,6 @@ public class CourseAssemblerConstants {
 	public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 
 	public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
-		
+	
+	public static final String COURSE_ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";	
 }
