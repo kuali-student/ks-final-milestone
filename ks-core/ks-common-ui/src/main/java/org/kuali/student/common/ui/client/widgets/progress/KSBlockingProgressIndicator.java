@@ -52,9 +52,12 @@ public class KSBlockingProgressIndicator{
 
 		mainPanel.add(listPanel);
 
+		//popupIndicator = new KSLightBox(false);
 		popupIndicator = new KSLightBox(false);
-
+		//popupIndicator.setShowCloseLink(false);
+		
 		popupIndicator.setWidget(mainPanel);
+	//	popupIndicator.setSize(400, 50);
 		setupDefaultStyle();
 		initialized = true;
 	}
@@ -82,24 +85,24 @@ public class KSBlockingProgressIndicator{
 		} else {
 			updateIndicator();
 		}
-
 	}
-
 	private static void updateIndicator() {
-
 		showIndicator();
 		listPanel.clear();
-		KSImage kSImage = new KSImage("images/common/twiddler3.gif");
+		int i=1;
 		for(BlockingTask task: tasks){
 			HorizontalPanel taskPanel = new HorizontalPanel();
-			taskPanel.add(new Label(task.getDescription()));
+		    KSImage kSImage = new KSImage("images/common/twiddler3.gif");
+
 			taskPanel.add(kSImage);
-			taskPanel.addStyleName("KS-Blocking-Task-Item");
+			taskPanel.add(new Label(task.getDescription()));
+			
+			//taskPanel.addStyleName("KS-Blocking-Task-Item");
+			popupIndicator.setSize(400, 25*(i++));
+			//listPanel.setSize(300, )
 			listPanel.add(taskPanel);
 		}
-
 	}
-
 	private static void showIndicator(){
 		if(!initialized){
 			initialize();
@@ -116,5 +119,4 @@ public class KSBlockingProgressIndicator{
 		mainPanel.addStyleName("KS-Blocking-Task-Main");
 		mainPanel.addStyleName("KS-Mouse-Normal");
 	}
-
 }

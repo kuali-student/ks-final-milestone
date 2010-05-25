@@ -115,13 +115,12 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 		titlePlaceHolder.setSize("2em", "2em");
 		construct(titlePlaceHolder);
 	}
-	
 	public KSLightBox(boolean addCloseLink) {
 	        // TODO review with UX what the expected look/behavior is when no title is specified, right now the close image can get in the way of the scroll-up button
 	        // this is a hack for now
 	        this.resizer = DEFAULT_RESIZER;
 	        final SimplePanel titlePlaceHolder = new SimplePanel();
-	        titlePlaceHolder.setSize("2em", "2em");
+	       // titlePlaceHolder.setSize("2em", "2em");
 	        this.addCloseLink=addCloseLink;
 	        construct(titlePlaceHolder);
 	}
@@ -138,7 +137,13 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     	this.resizer = resizer;
     	construct(title);
     }
+    public void setShowCloseLink(boolean b){
+        closeLink.setVisible(b);
+    }
     protected void construct(Widget title) {
+        scroll.setPixelSize(200, 200);
+        
+        
     	pop.setStyleName(Styles.LIGHTBOX.getStyle());
     	pop.addStyleName("KS-Drop-Shadow");
     	scroll.addStyleName(Styles.CONTENT.getStyle());
@@ -170,18 +175,19 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     }
     
     protected void adjust() {
-        resizer.resize(scroll);
+      //  resizer.resize(scroll);
+       // scroll.setPixelSize(400, 200);
         pop.center();
     }
-    
-
-
+    public void setSize(int width, int height){
+        scroll.setPixelSize(width, height);
+    }
     public void show() {
         if (!showing) {
             glass.getElement().setAttribute("zIndex", "" + KSZIndexStack.pop());
             parentPanel.add(glass, 0, 0);
             pop.getElement().setAttribute("zIndex", "" + KSZIndexStack.pop());
-            resizeTimer.scheduleRepeating(500);
+           // resizeTimer.scheduleRepeating(500);
             Elements.setOpacity(pop, 0);
             adjust();
             Elements.setOpacity(pop, 100);
