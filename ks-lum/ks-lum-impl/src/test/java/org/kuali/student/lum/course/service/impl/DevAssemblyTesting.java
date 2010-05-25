@@ -1,12 +1,15 @@
 package org.kuali.student.lum.course.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -24,7 +27,13 @@ public class DevAssemblyTesting {
 
 	@Autowired
 	CourseService courseService;
-	
+	@Test
+	public void testDctionary(){
+		List<String> types = courseService.getObjectTypes();
+		assertEquals(15,types.size());
+		ObjectStructureDefinition def = courseService.getObjectStructure(types.get(0));
+		assertNotNull(def);
+	}
 	@Test
 	public void testCreate() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		CourseDataGenerator courseGen = new CourseDataGenerator();

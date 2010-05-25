@@ -71,6 +71,7 @@
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
+		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
 	</bean>
 	
 	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
@@ -92,6 +93,10 @@
 
 	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
 		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.poc.DictionaryServiceImpl">
+		<constructor-arg index="0" value="classpath:ks-cluInfo-dictionary-context.xml" />	
 	</bean>
 	
 	<!-- Service Clients -->
