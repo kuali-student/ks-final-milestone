@@ -75,25 +75,6 @@
   </properties>
   <profiles>
     <profile>
-      <id>kuali.repo.old</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <repositories>
-        <repository>
-          <id>kuali-repo-old</id>
-          <name>Old Kuali Repo</name>
-          <url>https://test.kuali.org/maven</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-    </profile>
-    <profile>
       <id>proxy.repository</id>
       <repositories>
         <repository>
