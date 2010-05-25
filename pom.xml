@@ -76,9 +76,6 @@
   <profiles>
     <profile>
       <id>proxy.repository</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <repositories>
         <repository>
           <id>central</id>
