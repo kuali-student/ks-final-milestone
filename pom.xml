@@ -244,6 +244,13 @@
           <version>${war.plugin.version}</version> <!-- so one version is used regardless of build env :-) -->
           <configuration>
             <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+            <archive>
+              <manifestEntries>
+                <Kuali-Student-Type>${project.artifactId}</Kuali-Student-Type>
+                <Kuali-Student-Version>${project.version}</Kuali-Student-Version>
+                <Maven-Build-Timestamp>${maven.build.timestamp}</Maven-Build-Timestamp>
+              </manifestEntries>
+            </archive>
           </configuration>
         </plugin>
 
