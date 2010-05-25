@@ -62,7 +62,7 @@
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
           <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-          <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag,META-INF/**</dependentWarExcludes>
+          <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag</dependentWarExcludes>
         </configuration>
       </plugin>
     </plugins>
