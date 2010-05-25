@@ -17,7 +17,6 @@ package org.kuali.student.lum.ui.theme.standard.client;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumImages;
-import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
 
 public class LumImagesImpl implements LumImages{
 

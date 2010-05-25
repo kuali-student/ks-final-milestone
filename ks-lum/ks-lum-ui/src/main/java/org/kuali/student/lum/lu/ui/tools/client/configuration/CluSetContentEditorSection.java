@@ -21,13 +21,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -35,50 +32,37 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.WarningDialog;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.ItemListFieldBinding;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
-public class CluSetContentEditorSection extends BaseSection {
+public class CluSetContentEditorSection extends VerticalSection {
 
-    private VerticalPanel layout = new VerticalPanel();
     private CluSetEditOptionList cluSetEditOptions;
 //    private AddCluLightBox addApprovedCourseLightBox;
     private String modelId;
 
 
     public CluSetContentEditorSection(String modelId) {
+    	super();
         init(modelId);
     }
 
     public CluSetContentEditorSection(SectionTitle title, String modelId) {
-        this.sectionTitle = title;
-        this.instructions.setVisible(false);
-        layout.add(this.instructions);
-        layout.add(this.message);
+        super(title);
         init(modelId);
     }
 
-    public CluSetContentEditorSection(SectionTitle title, String instructions, String modelId){
-        this.sectionTitle = title;
-        this.setInstructions(instructions);
-        layout.add(this.instructions);
-        layout.add(this.message);
-        init(modelId);
-    }
 
     private void init(String modelId) {
         this.modelId = modelId;
-        layout.add(this.sectionTitle);
-        this.initWidget(layout);
-        layout.setStyleName("ks-form-module");
-        sectionTitle.addStyleName("ks-heading-page-section");
         cluSetEditOptions = new CluSetEditOptionList();
+        layout.add(cluSetEditOptions);
         cluSetEditOptions.addSelectionChangeHandler(new SelectionChangeHandler() {
             @Override
             public void onSelectionChange(SelectionChangeEvent event) {
@@ -117,50 +101,31 @@ public class CluSetContentEditorSection extends BaseSection {
                                                 binding.setWidgetValue(
                                                         f.getFieldWidget(), dataModel, path);
                                                 cluSetEditOptions.deSelectItem(ToolsConstants.CLU_SET_CLUS_FIELD);
-                                                redraw();
+                                                updateWidgetData(dataModel);
                                             }
                                         });
                                         warningDialog.show();
                                     }
                                 }
+                            } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
+                                final String path = f.getFieldKey();
+                                final QueryPath qPath = QueryPath.parse(path);
+                                Data valueData = dataModel.get(qPath);
+                                CluSetRangeHelper cluSetRangeHelper = CluSetRangeHelper.wrap(valueData);
+                                if (!cluSetEditOptions.getSelectedItems().contains(f.getFieldKey())) {
+                                    
+                                }
                             }
                         }
-                        redraw();
+                        updateWidgetData(dataModel);
                     }
                 });
             }
         });
     }
 
-    @Override
-    protected void addFieldToLayout(FieldDescriptor fieldDescriptor) {
-        FieldElement field = new FieldElement(fieldDescriptor);
-        FlowPanel fieldContainer = new FlowPanel();
-        FlowPanel fieldLayout = new FlowPanel();
-        fieldContainer.add(field);
-        ValidationMessagePanel validationPanel = new ValidationMessagePanel();
-        fieldLayout.add(fieldContainer);
-        fieldLayout.add(validationPanel);
-        FieldInfo info = new FieldInfo(fieldDescriptor.getFieldLabel(), validationPanel, field, fieldLayout);
-        pathFieldInfoMap.put(fieldDescriptor.getFieldKey(), info);
-        layout.add(fieldLayout);
-        fieldLayout.setStyleName("ks-form-module-group");
-        fieldLayout.addStyleName("clearfix");
-        fieldContainer.setStyleName("ks-form-module-fields");
-    }
-
-    @Override
-    protected void removeSectionFromLayout(BaseSection section) {
-        layout.remove(section);
-    }
-
-    @Override
-    protected void addSectionToLayout(BaseSection section) {
-        layout.add(section);
-    }
-
     private void getModel(final Callback<DataModel> callback) {
-        LayoutController controller = LayoutController.findParentLayout(this);
+        LayoutController controller = LayoutController.findParentLayout(this.getLayout());
         if (controller != null) {
             controller.requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
@@ -179,23 +144,11 @@ public class CluSetContentEditorSection extends BaseSection {
     }
 
     @Override
-    public void redraw() {
-        getModel(new Callback<DataModel>() {
-            @Override
-            public void exec(final DataModel dataModel) {
-                updateView(dataModel);
-//                cluSetEditOptions.clear();
-                layout.clear();
-                layout.add(sectionTitle);
-                layout.add(instructions);
-                layout.add(message);
-                for(Section ns: sections){
-                    ns.redraw();
-                    addSectionToLayout((BaseSection)ns);
-                }
-                layout.add(cluSetEditOptions);
-
+    public void updateWidgetData(DataModel dataModel) {
+           	super.updateWidgetData(dataModel);
+                
                 for(final FieldDescriptor f: fields){
+                	layout.removeLayoutElement(f.getFieldElement());
                     // TODO distinguish between Approved CLUs and Proposed CLUs
                     // TODO implement course ranges
                     if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
@@ -219,22 +172,49 @@ public class CluSetContentEditorSection extends BaseSection {
                         if (isFieldBeingEdited(f, dataModel)) {
                             // if the field being edited is add courses
                             if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
-                                addFieldToLayout(f);
+                                layout.addField(f.getFieldElement());
                             }
                             if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
                                 Hyperlink addLink = new Hyperlink("Add CLU Set", "addCluSet");
-                                addFieldToLayout(f);
-                                layout.add(addLink);
+                                layout.addField(f.getFieldElement());
+                                layout.addWidget(addLink);
                             }
                         }
+                    } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD) ||
+                            f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD)) {
+                        List<FieldDescriptor> fields = getFields();
+                        FieldDescriptor cluSetRangeField = null;
+                        String path = f.getFieldKey();
+                        final QueryPath qPath = QueryPath.parse(path);
+                        Data cluSetRangeData = dataModel.get(qPath);
+                        if (fields != null) {
+                            for (FieldDescriptor field : fields) {
+                                if (field.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
+                                    cluSetRangeField = field;
+                                }
+                            }
+                        }
+                        if (hasCluSetRange(cluSetRangeData)) {
+                            cluSetEditOptions.selectItem(path);
+                        }
+                        if (isFieldBeingEdited(cluSetRangeField, dataModel)) {
+                        	layout.addField(f.getFieldElement());
+                        }
                     } else {
-                        addFieldToLayout(f);
+                    	layout.addField(f.getFieldElement());
                     }
                 }
-                //Fire validation request here?
-            }
-        });
 
+    }
+    
+    private boolean hasCluSetRange(Data cluSetRangeData) {
+        boolean hasCluSetRange = false;
+        MembershipQueryInfo membershipQueryInfo = 
+            CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(cluSetRangeData);
+        if (membershipQueryInfo != null) {
+            hasCluSetRange = true;
+        }
+        return hasCluSetRange;
     }
     
     private boolean clusNotEmpty(Data clusData) {
@@ -273,16 +253,6 @@ public class CluSetContentEditorSection extends BaseSection {
         return result;
     }
 
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
-    protected void addWidgetToLayout(Widget w) {
-        layout.add(w);
-    }
-
     public class CluSetEditOptionList extends KSCheckBoxList{
         public CluSetEditOptionList(){
             SimpleListItems editOptions = new SimpleListItems();
@@ -292,7 +262,7 @@ public class CluSetContentEditorSection extends BaseSection {
             // TODO implement course ranges
 //            editOptions.addItem("ProposedCourses", "Proposed Courses");
             editOptions.addItem(ToolsConstants.CLU_SET_CLU_SETS_FIELD, "CLU Sets");
-            editOptions.addItem("CourseRanges", "Course Ranges (Course numbers, common learning objectives, etc)");
+            editOptions.addItem(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, "Course Ranges (Course numbers, common learning objectives, etc)");
 
             super.setListItems(editOptions);
         }

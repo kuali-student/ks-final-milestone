@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.dto.RefDocRelationInfoMock;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -35,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.core.mock.service.DocumentRelationService", serviceName = "DocumentRelationService", portName = "DocumentRelationService", targetNamespace = "http://student.kuali.org/wsdl/documentRelation")
 @Transactional(rollbackFor = {Throwable.class})
 public class DocumentRelationServiceImpl implements DocumentRelationService {
+	final Logger LOG = Logger.getLogger(DocumentRelationServiceImpl.class);
     private static final String DOC_RELATION_TYPE = "kuali.proposal.docRelationType.attachment";
     private ProposalService proposalService;
     
@@ -55,7 +57,7 @@ public class DocumentRelationServiceImpl implements DocumentRelationService {
         try {
             infos = proposalService.getProposalDocRelationsByProposal(id);
         } catch (DoesNotExistException e) {
-            System.out.println("%%%DOES NOT EXIST");
+            LOG.error("%%%DOES NOT EXIST");
             return null;
         }
         List<RefDocRelationInfoMock> result = new ArrayList<RefDocRelationInfoMock>();
@@ -79,12 +81,6 @@ public class DocumentRelationServiceImpl implements DocumentRelationService {
         result.setSuccess(true);
 
         return result;
-    }
-
-    private void checkForMissingParameter(Object param, String paramName) throws MissingParameterException {
-        if (param == null) {
-            throw new MissingParameterException(paramName + " can not be null");
-        }
     }
 
     public void setProposalService(ProposalService proposalService) {

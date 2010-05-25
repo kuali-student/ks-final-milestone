@@ -45,6 +45,7 @@ public class LookupParamMetadata implements Serializable {
     private Usage usage;
 
     @XmlType(name="ParamWidget")
+    //TODO none of these are used
     public enum Widget {
         SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, CALENDAR, PICKER
     }

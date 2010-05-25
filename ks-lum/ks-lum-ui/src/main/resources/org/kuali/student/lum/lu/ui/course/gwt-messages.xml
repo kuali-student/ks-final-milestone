@@ -31,6 +31,12 @@
 		<property name="locale" value="es" />
 		<property name="groupName" value="course" />
 	</bean>
+	
+	<bean id="enClusetmanagement" abstract="true"
+		class="org.kuali.student.core.messages.entity.MessageEntity">
+		<property name="locale" value="en" />
+		<property name="groupName" value="clusetmanagement" />
+	</bean>
 
 	<bean parent="enCourse" p:id="beginTitle" p:value="Begin Proposal" />
 	<bean parent="enCourse" p:id="beginDirections">
@@ -49,6 +55,9 @@
 	<bean parent="enCourse" p:id="cluCourseInformation" p:value="Course Information" />
 	<bean parent="enCourse" p:id="cluProposalTitle" p:value="Proposal Title" />
 	<bean parent="enCourse" p:id="cluProposalRationale" p:value="Proposal Rationale" />
+	<bean parent="enCourse" p:id="cluProposalRationale-help" p:value="The proposal rationale describes the reason for proposing a new course.  For example, what holes does the new proposed course 
+	curriculum fill or what new or expanded topics will the proposed course cover?  Why is this proposed course necessary?" />
+	<bean parent="enCourse" p:id="cluProposalRationale-instruct" p:value="Enter the reason for proposing this course" />
 	<bean parent="enCourse" p:id="cluProposalTitleSection" p:value="Proposal Title and Rationale" />
 	<bean parent="enCourse" p:id="cluTitleLiteral" p:value="Title" />
 	<bean parent="enCourse" p:id="cluCredit" p:value="Credit" />
@@ -322,5 +331,25 @@
 	<bean parent="enCourse" p:id="cluOrganization"                      p:value="Organization"/>
 	<bean parent="enCourse" p:id="cluAddAnotherOrganization"                      p:value="Add another Organization"/>
 	<bean parent="enCourse" p:id="cluPercentage"                      p:value="Percentage"/>
+	
+	 <!-- CluSet Management  labels -->
+	<bean parent="enClusetmanagement" p:id="cluSetInformation"                      p:value="CluSet Information"/>
+	<bean parent="enClusetmanagement" p:id="cluSetNew"                      p:value="Create New Clu Set"/>
+	<bean parent="enClusetmanagement" p:id="cluSetNewInformation"                      p:value="CLU set Information"/>
+	<bean parent="enClusetmanagement" p:id="cluSetContent"                      p:value="Content"/>
+	<bean parent="enClusetmanagement" p:id="cluSetCourses"                      p:value="Courses"/>
+	<bean parent="enClusetmanagement" p:id="cluSetCourseRange"                      p:value="Course Range"/>
+	<bean parent="enClusetmanagement" p:id="cluSetOrganization"                      p:value="Organization"/>
+	<bean parent="enClusetmanagement" p:id="cluSetTitle"                      p:value="Title"/>
+	<bean parent="enClusetmanagement" p:id="cluSetDescription"                      p:value="Description"/>
+	<bean parent="enClusetmanagement" p:id="cluSetEffectiveDate"                      p:value="Effective Date"/>
+	<bean parent="enClusetmanagement" p:id="cluSetExpirationDate"                      p:value="Expiration Date"/>
+	<bean parent="enClusetmanagement" p:id="cluSetName"                      p:value="Name"/>
+	<bean parent="enClusetmanagement" p:id="cluSetEditInformation"                      p:value="CLU set Information"/>
+	<bean parent="enClusetmanagement" p:id="cluSetEditCluSet"                      p:value="Edit Clu Set"/>
+	<bean parent="enClusetmanagement" p:id="cluSetViewCluSet"                      p:value="View Clu Set"/>
+	
+	
+	
 
 </beans>

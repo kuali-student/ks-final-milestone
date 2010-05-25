@@ -1,56 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="AtpService" targetNamespace="http://student.kuali.org/wsdl/atp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/atp" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
     <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
     <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
@@ -69,8 +19,6 @@
     <xs:element name="getSearchTypesByResult" type="tns:getSearchTypesByResult"/>
     <xs:element name="getSearchTypesByResultResponse" type="tns:getSearchTypesByResultResponse"/>
     <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
-    <xs:element name="searchForResults" type="tns:searchForResults"/>
-    <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
     <xs:complexType name="searchRequest">
         <xs:sequence>
             <xs:element minOccurs="0" name="searchKey" type="xs:string"/>
@@ -170,35 +118,6 @@
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="searchForResults">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="queryParamValues" type="tns:queryParamValue"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="queryParamValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchForResultsResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:result"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="result">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="resultCell">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
     <xs:complexType name="getSearchResultTypes">
         <xs:sequence/>
     </xs:complexType>
@@ -283,166 +202,6 @@
             <xs:enumeration value="DESC"/>
         </xs:restriction>
     </xs:simpleType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/atp" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
-    <xs:import namespace="http://student.kuali.org/wsdl/atp"/>
-    <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
-    <xs:complexType name="fieldDescriptor">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="desc" type="xs:string"/>
-            <xs:element name="readOnly" type="xs:boolean"/>
-            <xs:element name="dataType" type="xs:string"/>
-            <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
-            <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
-            <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchSelector">
-        <xs:sequence/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="objectStructure">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="type">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element name="modifiable" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="state">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
-            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="field">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
-            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
-            <xs:element name="selector" type="xs:boolean"/>
-            <xs:element name="dynamic" type="xs:boolean"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="constraintDescriptor">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="constraintSelector">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
-            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
-            <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="className" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
-        <xs:attribute name="locale" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="validCharsConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="fields" type="xs:string"/>
-        <xs:attribute name="separator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="requireConstraint">
-        <xs:sequence/>
-        <xs:attribute name="field" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="caseConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="field" type="xs:string"/>
-        <xs:attribute name="operator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="whenConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
-        </xs:sequence>
-        <xs:attribute name="value" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="typeStateCaseConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="typeStateWhenConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="lookupConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="search" type="xs:string"/>
-        <xs:attribute name="searchField" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="lookupKeyConstraint">
-        <xs:sequence/>
-        <xs:attribute name="field" type="xs:string"/>
-        <xs:attribute name="mapsTo" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="occursConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="min" type="xs:int"/>
-        <xs:attribute name="max" type="xs:int"/>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
-    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
-    <xs:element name="search" type="tns:search"/>
-    <xs:element name="searchResponse" type="tns:searchResponse"/>
-    <xs:complexType name="search">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
-        </xs:sequence>
-    </xs:complexType>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/organization" xmlns:ns2="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/atp" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/atp">
     <xs:element name="addDateRange" type="tns:addDateRange"/>
@@ -562,19 +321,7 @@
     </xs:complexType>
     <xs:complexType name="validateAtpResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultContainer">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
-            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="element" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="validationResultInfo">
@@ -713,6 +460,29 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    <xs:complexType name="updateMilestone">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="milestoneKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="milestoneInfo" type="tns:milestoneInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateMilestoneResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:milestoneInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getMilestonesByDatesAndType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="milestoneTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getMilestonesByDatesAndTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:milestoneInfo"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="getDateRangeType">
         <xs:sequence>
             <xs:element minOccurs="0" name="dateRangeTypeKey" type="xs:string"/>
@@ -736,29 +506,6 @@
     <xs:complexType name="getAtpSeasonalTypesResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:atpSeasonalTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateMilestone">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="milestoneKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="milestoneInfo" type="tns:milestoneInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateMilestoneResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:milestoneInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getMilestonesByDatesAndType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="milestoneTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getMilestonesByDatesAndTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:milestoneInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getDateRangeTypesForAtpType">
@@ -955,7 +702,7 @@
     </xs:complexType>
     <xs:complexType name="validateDateRangeResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="validateMilestone">
@@ -966,7 +713,7 @@
     </xs:complexType>
     <xs:complexType name="validateMilestoneResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getAtpDurationType">
@@ -1030,8 +777,6 @@
     <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
     <xs:element name="getSearchResultType" nillable="true" type="ns2:getSearchResultType"/>
     <xs:element name="getSearchResultTypeResponse" nillable="true" type="ns2:getSearchResultTypeResponse"/>
-    <xs:element name="searchForResults" nillable="true" type="ns2:searchForResults"/>
-    <xs:element name="searchForResultsResponse" nillable="true" type="ns2:searchForResultsResponse"/>
     <xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
     <xs:element name="getSearchResultTypes" nillable="true" type="ns2:getSearchResultTypes"/>
     <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns2:getSearchResultTypesResponse"/>
@@ -1046,9 +791,223 @@
     <xs:element name="getSearchCriteriaType" nillable="true" type="ns2:getSearchCriteriaType"/>
     <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns2:getSearchCriteriaTypeResponse"/>
 </xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
+    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
+    <xs:element name="search" type="tns:search"/>
+    <xs:element name="searchResponse" type="tns:searchResponse"/>
+    <xs:complexType name="search">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/atp" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+    <xs:import namespace="http://student.kuali.org/wsdl/atp"/>
+    <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
+    <xs:complexType name="fieldDescriptor">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="desc" type="xs:string"/>
+            <xs:element name="readOnly" type="xs:boolean"/>
+            <xs:element name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
+            <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
+            <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchSelector">
+        <xs:sequence/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="objectStructure">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="type">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element name="modifiable" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="field">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+            <xs:element name="selector" type="xs:boolean"/>
+            <xs:element name="dynamic" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="constraintDescriptor">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="constraintSelector">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
+            <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="className" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
+        <xs:attribute name="locale" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="validCharsConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="fields" type="xs:string"/>
+        <xs:attribute name="separator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="requireConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="caseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="whenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="typeStateCaseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeStateWhenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="search" type="xs:string"/>
+        <xs:attribute name="searchField" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupKeyConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="mapsTo" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="occursConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="min" type="xs:int"/>
+        <xs:attribute name="max" type="xs:int"/>
+    </xs:complexType>
+</xs:schema>
   </wsdl:types>
   <wsdl:message name="getAtpsByDate">
     <wsdl:part name="parameters" element="tns:getAtpsByDate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="search">
@@ -1057,6 +1016,10 @@
   </wsdl:message>
   <wsdl:message name="getSearchCriteriaTypeResponse">
     <wsdl:part name="parameters" element="tns:getSearchCriteriaTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateDateRange">
+    <wsdl:part name="parameters" element="tns:validateDateRange">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchResultTypesResponse">
@@ -1071,6 +1034,10 @@
     <wsdl:part name="parameters" element="tns:getSearchResultType">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getSearchResultTypeResponse">
+    <wsdl:part name="parameters" element="tns:getSearchResultTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="DoesNotExistException">
     <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
     </wsdl:part>
@@ -1083,184 +1050,24 @@
     <wsdl:part name="parameters" element="tns:getAtpSeasonalType">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getSearchResultTypes">
-    <wsdl:part name="parameters" element="tns:getSearchResultTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMilestonesByDatesAndTypeResponse">
-    <wsdl:part name="parameters" element="tns:getMilestonesByDatesAndTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAtpSeasonalTypes">
-    <wsdl:part name="parameters" element="tns:getAtpSeasonalTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAtpsByAtpTypeResponse">
-    <wsdl:part name="parameters" element="tns:getAtpsByAtpTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteAtp">
-    <wsdl:part name="parameters" element="tns:deleteAtp">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getDateRangeTypesForAtpTypeResponse">
-    <wsdl:part name="parameters" element="tns:getDateRangeTypesForAtpTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMilestoneTypesForAtpTypeResponse">
-    <wsdl:part name="parameters" element="tns:getMilestoneTypesForAtpTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getDateRangeResponse">
-    <wsdl:part name="parameters" element="tns:getDateRangeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="validateDateRangeResponse">
-    <wsdl:part name="parameters" element="tns:validateDateRangeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSearchTypesByResultResponse">
-    <wsdl:part name="parameters" element="tns:getSearchTypesByResultResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSearchTypesByCriteria">
-    <wsdl:part name="parameters" element="tns:getSearchTypesByCriteria">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getDateRangesByDate">
-    <wsdl:part name="parameters" element="tns:getDateRangesByDate">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAtpResponse">
-    <wsdl:part name="parameters" element="tns:getAtpResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSearchTypesByResult">
-    <wsdl:part name="parameters" element="tns:getSearchTypesByResult">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSearchCriteriaTypes">
-    <wsdl:part name="parameters" element="tns:getSearchCriteriaTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSearchCriteriaType">
-    <wsdl:part name="parameters" element="tns:getSearchCriteriaType">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="OperationFailedException">
-    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="VersionMismatchException">
-    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getDateRangeTypeResponse">
-    <wsdl:part name="parameters" element="tns:getDateRangeTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="AlreadyExistsException">
-    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMilestoneTypesForAtpType">
-    <wsdl:part name="parameters" element="tns:getMilestoneTypesForAtpType">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMilestoneResponse">
-    <wsdl:part name="parameters" element="tns:getMilestoneResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMilestone">
-    <wsdl:part name="parameters" element="tns:getMilestone">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAtpTypesResponse">
-    <wsdl:part name="parameters" element="tns:getAtpTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="addDateRange">
-    <wsdl:part name="parameters" element="tns:addDateRange">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForResults">
-    <wsdl:part name="parameters" element="tns:searchForResults">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateAtp">
-    <wsdl:part name="parameters" element="tns:updateAtp">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="removeMilestone">
-    <wsdl:part name="parameters" element="tns:removeMilestone">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getDateRangeTypes">
-    <wsdl:part name="parameters" element="tns:getDateRangeTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAtpType">
-    <wsdl:part name="parameters" element="tns:getAtpType">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAtpsByDateResponse">
-    <wsdl:part name="parameters" element="tns:getAtpsByDateResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMilestoneTypes">
-    <wsdl:part name="parameters" element="tns:getMilestoneTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSearchTypesResponse">
-    <wsdl:part name="parameters" element="tns:getSearchTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="removeDateRangeResponse">
-    <wsdl:part name="parameters" element="tns:removeDateRangeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteAtpResponse">
-    <wsdl:part name="parameters" element="tns:deleteAtpResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createAtpResponse">
-    <wsdl:part name="parameters" element="tns:createAtpResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateDateRange">
-    <wsdl:part name="parameters" element="tns:updateDateRange">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAtpTypeResponse">
-    <wsdl:part name="parameters" element="tns:getAtpTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getDateRange">
-    <wsdl:part name="parameters" element="tns:getDateRange">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="MissingParameterException">
-    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="validateDateRange">
-    <wsdl:part name="parameters" element="tns:validateDateRange">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getSearchResultTypeResponse">
-    <wsdl:part name="parameters" element="tns:getSearchResultTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="addDateRangeResponse">
     <wsdl:part name="parameters" element="tns:addDateRangeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpsByDates">
+    <wsdl:part name="parameters" element="tns:getAtpsByDates">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateAtp">
     <wsdl:part name="parameters" element="tns:validateAtp">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAtpsByDates">
-    <wsdl:part name="parameters" element="tns:getAtpsByDates">
+  <wsdl:message name="getSearchResultTypes">
+    <wsdl:part name="parameters" element="tns:getSearchResultTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMilestonesByDatesAndTypeResponse">
+    <wsdl:part name="parameters" element="tns:getMilestonesByDatesAndTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchCriteriaTypesResponse">
@@ -1275,24 +1082,24 @@
     <wsdl:part name="parameters" element="tns:addMilestone">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getDateRangeType">
-    <wsdl:part name="parameters" element="tns:getDateRangeType">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="removeMilestoneResponse">
     <wsdl:part name="parameters" element="tns:removeMilestoneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateRangeType">
+    <wsdl:part name="parameters" element="tns:getDateRangeType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addMilestoneResponse">
     <wsdl:part name="parameters" element="tns:addMilestoneResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getDateRangeTypesResponse">
-    <wsdl:part name="parameters" element="tns:getDateRangeTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getAtpDurationTypesResponse">
     <wsdl:part name="parameters" element="tns:getAtpDurationTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateRangeTypesResponse">
+    <wsdl:part name="parameters" element="tns:getDateRangeTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateDateRangeResponse">
@@ -1307,6 +1114,22 @@
     <wsdl:part name="parameters" element="tns:createAtp">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteAtp">
+    <wsdl:part name="parameters" element="tns:deleteAtp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpsByAtpTypeResponse">
+    <wsdl:part name="parameters" element="tns:getAtpsByAtpTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpSeasonalTypes">
+    <wsdl:part name="parameters" element="tns:getAtpSeasonalTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateRangeTypesForAtpTypeResponse">
+    <wsdl:part name="parameters" element="tns:getDateRangeTypesForAtpTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getMilestoneType">
     <wsdl:part name="parameters" element="tns:getMilestoneType">
     </wsdl:part>
@@ -1319,24 +1142,64 @@
     <wsdl:part name="parameters" element="tns:getDateRangesByAtpResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getMilestoneTypesForAtpTypeResponse">
+    <wsdl:part name="parameters" element="tns:getMilestoneTypesForAtpTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="InvalidParameterException">
     <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateRangeResponse">
+    <wsdl:part name="parameters" element="tns:getDateRangeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateDateRangeResponse">
+    <wsdl:part name="parameters" element="tns:validateDateRangeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getDateRangeTypesForAtpType">
     <wsdl:part name="parameters" element="tns:getDateRangeTypesForAtpType">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getSearchTypesByResultResponse">
+    <wsdl:part name="parameters" element="tns:getSearchTypesByResultResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getMilestoneTypesResponse">
     <wsdl:part name="parameters" element="tns:getMilestoneTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesByCriteria">
+    <wsdl:part name="parameters" element="tns:getSearchTypesByCriteria">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getMilestoneTypeResponse">
     <wsdl:part name="parameters" element="tns:getMilestoneTypeResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getDateRangesByDate">
+    <wsdl:part name="parameters" element="tns:getDateRangesByDate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpResponse">
+    <wsdl:part name="parameters" element="tns:getAtpResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getSearchTypeResponse">
     <wsdl:part name="parameters" element="tns:getSearchTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesByResult">
+    <wsdl:part name="parameters" element="tns:getSearchTypesByResult">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchCriteriaTypes">
+    <wsdl:part name="parameters" element="tns:getSearchCriteriaTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchCriteriaType">
+    <wsdl:part name="parameters" element="tns:getSearchCriteriaType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAtpsByAtpType">
@@ -1347,20 +1210,28 @@
     <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAtpTypes">
-    <wsdl:part name="parameters" element="tns:getAtpTypes">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getDateRangesByDateResponse">
     <wsdl:part name="parameters" element="tns:getDateRangesByDateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpTypes">
+    <wsdl:part name="parameters" element="tns:getAtpTypes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="PermissionDeniedException">
     <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getSearchType">
     <wsdl:part name="parameters" element="tns:getSearchType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getMilestonesByAtp">
@@ -1371,52 +1242,108 @@
     <wsdl:part name="parameters" element="tns:getMilestonesByDatesAndType">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchForResultsResponse">
-    <wsdl:part name="parameters" element="tns:searchForResultsResponse">
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAtp">
-    <wsdl:part name="parameters" element="tns:getAtp">
+  <wsdl:message name="getDateRangeTypeResponse">
+    <wsdl:part name="parameters" element="tns:getDateRangeTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateAtpResponse">
     <wsdl:part name="parameters" element="tns:updateAtpResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getAtp">
+    <wsdl:part name="parameters" element="tns:getAtp">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="validateMilestone">
     <wsdl:part name="parameters" element="tns:validateMilestone">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMilestoneResponse">
+    <wsdl:part name="parameters" element="tns:getMilestoneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMilestoneTypesForAtpType">
+    <wsdl:part name="parameters" element="tns:getMilestoneTypesForAtpType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMilestone">
+    <wsdl:part name="parameters" element="tns:getMilestone">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getMilestonesByDates">
     <wsdl:part name="parameters" element="tns:getMilestonesByDates">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateMilestoneResponse">
-    <wsdl:part name="parameters" element="tns:updateMilestoneResponse">
+  <wsdl:message name="getAtpDurationType">
+    <wsdl:part name="parameters" element="tns:getAtpDurationType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAtpDurationTypes">
     <wsdl:part name="parameters" element="tns:getAtpDurationTypes">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAtpDurationType">
-    <wsdl:part name="parameters" element="tns:getAtpDurationType">
+  <wsdl:message name="updateMilestoneResponse">
+    <wsdl:part name="parameters" element="tns:updateMilestoneResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateAtpResponse">
     <wsdl:part name="parameters" element="tns:validateAtpResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="addDateRange">
+    <wsdl:part name="parameters" element="tns:addDateRange">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpTypesResponse">
+    <wsdl:part name="parameters" element="tns:getAtpTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAtpSeasonalTypesResponse">
     <wsdl:part name="parameters" element="tns:getAtpSeasonalTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAtp">
+    <wsdl:part name="parameters" element="tns:updateAtp">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateMilestoneResponse">
     <wsdl:part name="parameters" element="tns:validateMilestoneResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="removeMilestone">
+    <wsdl:part name="parameters" element="tns:removeMilestone">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpsByDateResponse">
+    <wsdl:part name="parameters" element="tns:getAtpsByDateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpType">
+    <wsdl:part name="parameters" element="tns:getAtpType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateRangeTypes">
+    <wsdl:part name="parameters" element="tns:getDateRangeTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMilestoneTypes">
+    <wsdl:part name="parameters" element="tns:getMilestoneTypes">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAtpSeasonalTypeResponse">
     <wsdl:part name="parameters" element="tns:getAtpSeasonalTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeDateRangeResponse">
+    <wsdl:part name="parameters" element="tns:removeDateRangeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesResponse">
+    <wsdl:part name="parameters" element="tns:getSearchTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getMilestonesByDatesResponse">
@@ -1427,16 +1354,36 @@
     <wsdl:part name="parameters" element="tns:getSearchTypesByCriteriaResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchResponse">
-    <wsdl:part name="parameters" element="tns:searchResponse">
+  <wsdl:message name="deleteAtpResponse">
+    <wsdl:part name="parameters" element="tns:deleteAtpResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createAtpResponse">
+    <wsdl:part name="parameters" element="tns:createAtpResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateRangesByAtp">
+    <wsdl:part name="parameters" element="tns:getDateRangesByAtp">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSearchTypes">
     <wsdl:part name="parameters" element="tns:getSearchTypes">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getDateRangesByAtp">
-    <wsdl:part name="parameters" element="tns:getDateRangesByAtp">
+  <wsdl:message name="searchResponse">
+    <wsdl:part name="parameters" element="tns:searchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDateRange">
+    <wsdl:part name="parameters" element="tns:updateDateRange">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAtpTypeResponse">
+    <wsdl:part name="parameters" element="tns:getAtpTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateRange">
+    <wsdl:part name="parameters" element="tns:getDateRange">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="AtpService">
@@ -1574,44 +1521,6 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getDateRangeType">
-      <wsdl:input name="getDateRangeType" message="tns:getDateRangeType">
-    </wsdl:input>
-      <wsdl:output name="getDateRangeTypeResponse" message="tns:getDateRangeTypeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getAtpSeasonalTypes">
-      <wsdl:input name="getAtpSeasonalTypes" message="tns:getAtpSeasonalTypes">
-    </wsdl:input>
-      <wsdl:output name="getAtpSeasonalTypesResponse" message="tns:getAtpSeasonalTypesResponse">
-    </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <wsdl:input name="searchForResults" message="tns:searchForResults">
-    </wsdl:input>
-      <wsdl:output name="searchForResultsResponse" message="tns:searchForResultsResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="updateMilestone">
       <wsdl:input name="updateMilestone" message="tns:updateMilestone">
     </wsdl:input>
@@ -1641,6 +1550,28 @@
     </wsdl:fault>
       <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDateRangeType">
+      <wsdl:input name="getDateRangeType" message="tns:getDateRangeType">
+    </wsdl:input>
+      <wsdl:output name="getDateRangeTypeResponse" message="tns:getDateRangeTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAtpSeasonalTypes">
+      <wsdl:input name="getAtpSeasonalTypes" message="tns:getAtpSeasonalTypes">
+    </wsdl:input>
+      <wsdl:output name="getAtpSeasonalTypesResponse" message="tns:getAtpSeasonalTypesResponse">
+    </wsdl:output>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
@@ -2270,30 +2201,6 @@
       </wsdl:fault>
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForResults">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForResultsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>

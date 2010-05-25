@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;

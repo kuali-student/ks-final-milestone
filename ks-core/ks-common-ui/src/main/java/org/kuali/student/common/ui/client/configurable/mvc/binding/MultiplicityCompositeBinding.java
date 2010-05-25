@@ -94,7 +94,6 @@ public class MultiplicityCompositeBinding extends ModelWidgetBindingSupport<Mult
     public boolean isItemDeleted(DataModel model, String path, Integer index, MultiplicityComposite mcWidget){
     	boolean isDeleted = false;
     	
-    	// FIXME: Find a better way to do this
     	// If this is a read only widget deletions aren't possible so no point checking
     	if (!(mcWidget instanceof DisplayMultiplicityComposite)) {
 

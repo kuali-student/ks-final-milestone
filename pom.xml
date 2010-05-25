@@ -11,93 +11,31 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.kuali</groupId>
-    <artifactId>kuali-parent</artifactId>
-    <version>5</version>
-  </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>ks</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
-  <description>
-    Kuali Student is a next-generation student system.
-    Kuali Student offers a flexible, scalable, cost-effective system that can be configured to meet the business 
-    requirements of any higher education institution.  The student-centric design will help students, faculty, 
-    and institutions deal with the dynamic learning environment.
-  </description>
-  <organization>
-    <name>Kuali Student</name>
-    <url>http://student.kuali.org/</url>
-  </organization>
-  <url>http://student.kuali.org/</url>
-  <inceptionYear>2006</inceptionYear>
-  <repositories>
-    <repository>
-      <id>kuali.central</id>
-      <url>http://kuali.googlecode.com/svn/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.central.2</id>
-      <url>http://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-1.0.0</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/ks-1.0.0</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/tags/ks-1.0.0</url>
-  </scm>
-  <properties>
-    <ks.java2ws.phase>process-classes</ks.java2ws.phase>
-  </properties>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.0.2</version>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-            <encoding>${project.build.sourceEncoding}</encoding>
-            <!-- Don't compile sources that are in jars -->
-            <compilerArgument>-implicit:none</compilerArgument>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.kuali.impex</groupId>
-          <artifactId>maven-impex-plugin</artifactId>
-          <version>1.0.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.oracle</groupId>
-              <artifactId>ojdbc14</artifactId>
-              <version>10.2.0.3.0</version>
-            </dependency>
-            <dependency>
-              <groupId>mysql</groupId>
-              <artifactId>mysql-connector-java</artifactId>
-              <version>5.1.12</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
   <modules>
-    <module>ks-cfg-dbs</module>
     <module>ks-security</module>
     <module>ks-core</module>
-    <module>brms</module>
     <module>ks-lum</module>
     <module>ks-web</module>
   </modules>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</developerConnection>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>kuali.release</id>
+      <name>Internal Release Repository</name>
+      <url>scp://test.kuali.org:/opt/m2/repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>kuali.snapshots</id>
+      <name>Internal Snapshot Repository</name>
+      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>

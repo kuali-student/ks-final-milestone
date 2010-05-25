@@ -24,6 +24,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
@@ -42,9 +43,9 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -54,7 +55,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
-    
+	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
     public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
@@ -75,7 +76,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         try {
             this.metadata=getMetadata(QUALIFICATION_ORG_ID, orgId, null, null);
         } catch (AssemblyException e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
     }
     @Override
@@ -132,7 +133,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             
         }
         catch(Exception e){
-            
+        	LOG.error(e);
         }
         
         return result;
@@ -184,7 +185,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             result.setValue((orgId == null) ? null : get(orgId));
             
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e);
             throw(new AssemblyException());
         }
         

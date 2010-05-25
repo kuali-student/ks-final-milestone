@@ -43,11 +43,11 @@ public class LUConstants {
     public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
 
     // Valid states for Credit Course
-    public final static String LU_STATE_PROPOSED = "Proposed"; // FIXME: Should this be Draft
+    public final static String LU_STATE_PROPOSED = "Proposed"; 
     public final static String LU_STATE_SUBMITTED = "Submitted";
     public final static String LU_STATE_WITHDRAWN = "Withdrawn";
     public final static String LU_STATE_APPROVED = "Approved";
-    public final static String LU_STATE_NOT_APPROVED = "Not Approved";// FIXME: Maybe Rejected would be a better value?
+    public final static String LU_STATE_NOT_APPROVED = "Not Approved";
     public final static String LU_STATE_ACTIVATED = "Activated";
     public final static String LU_STATE_RETIRED = "Retired";
 

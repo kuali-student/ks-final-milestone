@@ -29,9 +29,9 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleExpressionParser;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -317,8 +317,8 @@ public class RuleExpressionEditor extends ViewComposite {
     
     class RCTableItems implements ListItems {
         private List<ReqComponentVO> rcs = new ArrayList<ReqComponentVO>();
-        private final String ATTR_KEY_LABEL = "Label";
-        private final String ATTR_KEY_DESCR = "Description";
+        private static final String ATTR_KEY_LABEL = "Label";
+        private static final String ATTR_KEY_DESCR = "Description";
         
         public List<ReqComponentVO> getRcs() {
             return rcs;

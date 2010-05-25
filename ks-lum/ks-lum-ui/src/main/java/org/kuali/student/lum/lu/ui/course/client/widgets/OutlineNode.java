@@ -18,8 +18,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 public class OutlineNode<T> {
     int indentLevel = 0;
 
-    boolean isCurrentNode = false;
-
     T userObject;
 
     OutlineNodeModel<T> outlineModel;

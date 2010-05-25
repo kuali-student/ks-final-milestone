@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.table;
 
-public class Token {
+public class Token implements Cloneable{
     public static Token createAndToken(){
         Token t = new Token();
         t.type = And;
@@ -75,6 +75,13 @@ public class Token {
             return true;
         }
         return false;
+    }
+    
+    public int hashCode(){
+    	int hash =1;
+    	hash = hash * 31 + new Integer(type).hashCode();
+    	hash = hash * 31 + (value == null ? 0 : value.hashCode());
+    	return hash;
     }
     public Token clone(){
         Token t = new Token();

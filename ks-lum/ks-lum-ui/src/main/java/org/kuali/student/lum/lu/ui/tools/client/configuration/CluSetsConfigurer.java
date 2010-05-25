@@ -15,12 +15,14 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -33,13 +35,19 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataValue;
+import org.kuali.student.core.assembly.data.Data.Value;
+import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeLabel;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -47,7 +55,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class CluSetsConfigurer {
 
     private boolean WITH_DIVIDER = true;
-    private boolean NO_DIVIDER = false;
 
     public static final String CREATE_CLUSET_MGT_MODEL = "createCluSetManagementModel";
     public static final String EDIT_CLUSET_MGT_MODEL = "editCluSetManagementModel";
@@ -77,7 +84,7 @@ public class CluSetsConfigurer {
 
     private void addClusetDetailsSections(SectionView parentView, final String modelId) {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), WITH_DIVIDER);
-        final CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title("Content"), !WITH_DIVIDER, modelId);
+        final CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title(ToolsConstants.NEW_CLU_SET_CONTENT), !WITH_DIVIDER, modelId);
         ModelIdPlaceHolder modelIdObj = new ModelIdPlaceHolder(modelId);
 //        AddCluLightBox addCourseLightBox = new AddCluLightBox(configureSearch(ToolsConstants.SEARCH_COURSE));
 //        clusetDetails.setAddApprovedCourseWidget(addCourseLightBox);
@@ -85,28 +92,122 @@ public class CluSetsConfigurer {
 //        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
 
         // ****** Add Clus *******
-        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, getLabel("Courses")).setModelId(modelId);
+        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_COURSE)).setModelId(modelId);
         // END OF items related to Add Clus
 
-        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD);
-        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, getLabel(ToolsConstants.ORGANIZATION));
-        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, getLabel(ToolsConstants.TITLE));
-        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, getLabel(ToolsConstants.DESCRIPTION), new KSTextArea());
-        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EFF_DATE_FIELD, getLabel(ToolsConstants.EFFECTIVE_DATE), new KSDatePicker());
-        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EXP_DATE_FIELD, getLabel(ToolsConstants.EXPIRATION_DATE), new KSDatePicker());
+        // ****** Add Clu Range *******
+        //TODO add cluset and clurange here
+        final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
+        final FieldDescriptor cluRangeFieldEditDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
+        final CluSetRangeLabel clusetRangeLabel = new CluSetRangeLabel();
+        final FieldDescriptor cluRangeFieldDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
+        cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
+        
+            @Override
+            public void exec(Boolean result) {
+                cluSetRangePicker.getSearchWindow().hide();
+                final LayoutController parent = LayoutController.findParentLayout(cluSetRangePicker);
+                if(parent != null){
+                    parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+                        @Override
+                        public void onModelReady(DataModel model) {
+//                            ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).setWidgetValue(widget, model, path)
+//                            CluSetHelper cluSetHelper = CluSetHelper.wrap(model.getRoot());
+//                            cluSetHelper.setCluRangeParams(value)
+                            SearchRequest searchRequest = cluSetRangePicker.getSearchWindow()
+                                .getSearchRequest();
+                            Data searchRequestData = CluSetRangeModelUtil.INSTANCE.
+                                toData(searchRequest, null);
+                            DataValue dataValue = new DataValue(searchRequestData);
+                            LookupMetadata lookupMetadata = null;
+                            
+                            // look for the lookupMetaData corresponding to the searchRequest
+                            List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
+                            lookupMDs.add(cluSetRangePicker.getInitLookupMetadata());
+                            lookupMetadata = findLookupMetadata(searchRequest.getSearchKey(), 
+                                    lookupMDs);
+                            if (lookupMetadata == null || 
+                                    !nullSafeEquals(lookupMetadata.getSearchTypeId(), 
+                                            searchRequest.getSearchKey())) {
+                                lookupMetadata = findLookupMetadata(searchRequest.getSearchKey(), 
+                                        cluSetRangePicker.getAdditionalLookupMetadata());
+                            }
+                            
+                            clusetRangeLabel.setLookupMetadata(lookupMetadata);
+                            clusetRangeLabel.setValue(dataValue);
+                        }
 
+                        @Override
+                        public void onRequestFail(Throwable cause) {
+                            GWT.log("Unable to retrieve model" + cluRangeFieldDescriptor.getFieldKey(), null);
+                        }
+                        
+                    });
+                }
+            }
+        });
+        // updates model when the value is changed
+        // this is done to allow data to be accessed to do cross field checks 
+        // in this case the checkboxes and the clusetRangeLabel
+        clusetRangeLabel.addValueChangeCallback(new Callback<Value>() {
+            @Override
+            public void exec(Value event) {
+              final LayoutController parent = LayoutController.findParentLayout(clusetRangeLabel);
+              if(parent != null){
+                  parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+                      @Override
+                      public void onModelReady(DataModel model) {
+                          ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).
+                          setModelValue(clusetRangeLabel, model, cluRangeFieldDescriptor.getFieldKey());
+                      }
+
+                      @Override
+                      public void onRequestFail(Throwable cause) {
+                          GWT.log("Unable to retrieve model" + cluRangeFieldDescriptor.getFieldKey(), null);
+                      }
+                      
+                  });
+              }
+          }
+        });
+        // END OF items related to Add Clu Range
+        
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD);
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, generateMessageInfo(ToolsConstants.ORGANIZATION));
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.TITLE));
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo(ToolsConstants.DESCRIPTION), new KSTextArea());
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EFF_DATE_FIELD, generateMessageInfo(ToolsConstants.EFFECTIVE_DATE), new KSDatePicker());
+        addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EXP_DATE_FIELD, generateMessageInfo(ToolsConstants.EXPIRATION_DATE), new KSDatePicker());
+        
         parentView.addSection(clusetDetails);
         parentView.addSection(defineCluSet);
     }
+    
+    private static boolean nullSafeEquals(Object obj1, Object obj2) {
+        return (obj1 == null && obj2 == null ||
+                obj1 != null && obj2 != null && obj1.equals(obj2));
+    }
+    
+    private static LookupMetadata findLookupMetadata(String lookupId, List<LookupMetadata> lookupMetadatas) {
+        LookupMetadata result = null;
+        if (lookupMetadatas != null) {
+            for (LookupMetadata lookupMetadata : lookupMetadatas) {
+                if (nullSafeEquals(lookupMetadata.getSearchTypeId(), lookupId)) {
+                    result = lookupMetadata;
+                }
+            }
+        }
+        return result;
+    }
 
     private SectionView createCluSetSection() {
-        NestedSectionView section = initNestedSectionView(CluSetSections.CREATE_CLU_SET, ToolsConstants.NEW_CLU_SET, CREATE_CLUSET_MGT_MODEL);
+        VerticalSectionView section = initNestedSectionView(CluSetSections.CREATE_CLU_SET, ToolsConstants.NEW_CLU_SET, CREATE_CLUSET_MGT_MODEL);
         addClusetDetailsSections(section, CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL);
         return section;
 	}
 
     private SectionView editCluSetSection() {
-        final NestedSectionView section = initNestedSectionView(CluSetSections.EDIT_CLU_SET, ToolsConstants.EDIT_CLU_SET, EDIT_CLUSET_MGT_MODEL);
+        final VerticalSectionView section = initNestedSectionView(CluSetSections.EDIT_CLU_SET, ToolsConstants.EDIT_CLU_SET, EDIT_CLUSET_MGT_MODEL);
         VerticalSection oversight = initSection(getH3Title(ToolsConstants.EDIT_CLU_SET_INFO), WITH_DIVIDER);
         Picker cluSetPicker = configureSearch(ToolsConstants.SEARCH_CLU_SET);
         cluSetPicker.addBasicSelectionCompletedCallback(new Callback<SelectedResults>() {
@@ -120,8 +221,7 @@ public class CluSetsConfigurer {
                         parent.requestModel(CluSetsConfigurer.EDIT_SEARCH_CLUSET_MGT_MODEL, new ModelRequestCallback<DataModel>() {
                             @Override
                             public void onModelReady(DataModel model) {
-                                section.updateView(model);
-                                section.redraw();
+                                section.updateWidgetData(model);
                             }
 
                             @Override
@@ -135,8 +235,8 @@ public class CluSetsConfigurer {
             }
         });
         //addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
-        addField(oversight, ToolsConstants.SEARCH_CLU_SET, "", cluSetPicker);
-
+        addField(oversight, ToolsConstants.SEARCH_CLU_SET, generateMessageInfo(""), cluSetPicker);
+        
         section.addSection(oversight);
         addClusetDetailsSections(section, CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
         return section;
@@ -158,8 +258,10 @@ public class CluSetsConfigurer {
                         parent.requestModel(CluSetsConfigurer.VIEW_SEARCH_CLUSET_MGT_MODEL, new ModelRequestCallback<DataModel>() {
                             @Override
                             public void onModelReady(DataModel model) {
-                                sectionView.updateView(model);
-                                sectionView.redraw();
+                                sectionView.updateWidgetData(model);
+                                
+                                //FIXME do something else here, rework logic
+                                //sectionView.redraw();
                             }
 
                             @Override
@@ -172,38 +274,32 @@ public class CluSetsConfigurer {
                 }
             }
         });
-        addField(sectionView, ToolsConstants.SEARCH_CLU_SET, "", cluSetPicker);
+        addField(sectionView, ToolsConstants.SEARCH_CLU_SET, generateMessageInfo(""), cluSetPicker);
 
         VerticalSection nameSection = initSection(null, WITH_DIVIDER);
-        addField(nameSection, ToolsConstants.CLU_SET_NAME_FIELD, "Name", new KSLabel());
+        addField(nameSection, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.CLU_SET_NAME), new KSLabel());
         sectionView.addSection(nameSection);
 
         VerticalSection expirationDateSection = initSection(null, WITH_DIVIDER);
-        addField(expirationDateSection, ToolsConstants.CLU_SET_EXP_DATE_FIELD, getLabel(ToolsConstants.EFFECTIVE_DATE), new KSLabel());
+        addField(expirationDateSection, ToolsConstants.CLU_SET_EXP_DATE_FIELD, generateMessageInfo(ToolsConstants.EFFECTIVE_DATE), new KSLabel());
         sectionView.addSection(expirationDateSection);
 
-//        VerticalSection clusSection = initSection(null, WITH_DIVIDER);
-//        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
-//        cluItemList.setEditable(false);
-//        FieldDescriptor clusFieldDescriptor = addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, "CLUs", cluItemList);
-//        final CluItemListFieldBinding cluItemListFieldBinding = new CluItemListFieldBinding();
-//        clusFieldDescriptor.setWidgetBinding(cluItemListFieldBinding);
-//        sectionView.addSection(clusSection);
+
         return sectionView;
     }
 
     private VerticalSectionView initVerticalSectionView(Enum<?> viewEnum, String labelKey, String modelId) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), modelId);
         section.addStyleName(LUConstants.STYLE_SECTION);
-        section.setSectionTitle(getH1Title(labelKey));
+        //section.setSectionTitle(getH1Title(labelKey));
 
         return section;
     }
 
-    private NestedSectionView initNestedSectionView (Enum<?> viewEnum, String labelKey, String modelId) {
-        NestedSectionView section = new NestedSectionView(viewEnum, getLabel(labelKey), modelId);
+    private VerticalSectionView initNestedSectionView (Enum<?> viewEnum, String labelKey, String modelId) {
+        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), modelId);
         section.addStyleName(LUConstants.STYLE_SECTION);
-        section.setSectionTitle(getH1Title(labelKey));
+        //section.setSectionTitle(getH1Title(labelKey));
 
         return section;
     }
@@ -211,7 +307,7 @@ public class CluSetsConfigurer {
     private static CluSetContentEditorSection initCluSetContentEditorSection(SectionTitle title, boolean withDivider, String modelId) {
         CluSetContentEditorSection cluSetContentEditorSection = new CluSetContentEditorSection(modelId);
         if (title !=  null) {
-            cluSetContentEditorSection.setSectionTitle(title);
+        	cluSetContentEditorSection = new CluSetContentEditorSection(title, modelId);
         }
         cluSetContentEditorSection.addStyleName(LUConstants.STYLE_SECTION);
         if (withDivider)
@@ -220,10 +316,7 @@ public class CluSetsConfigurer {
     }
 
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
-        VerticalSection section = new VerticalSection();
-        if (title !=  null) {
-          section.setSectionTitle(title);
-        }
+        VerticalSection section = new VerticalSection(title);
         section.addStyleName(LUConstants.STYLE_SECTION);
         if (withDivider)
             section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
@@ -231,29 +324,11 @@ public class CluSetsConfigurer {
     }
 
     private String getLabel(String labelKey) {
-        // TODO make the group, type and state configurable when framework is ready
-        // tried created a new message group clusetmanagement but the entries are not read for some reason
-        return Application.getApplicationContext().getUILabel("course", "course", "draft", labelKey);
-    }
-
-    private SectionTitle getH1Title(String labelKey) {
-        return SectionTitle.generateH1Title(getLabel(labelKey));
-    }
-
-    private SectionTitle getH2Title(String labelKey) {
-        return SectionTitle.generateH2Title(getLabel(labelKey));
+        return Application.getApplicationContext().getUILabel("clusetmanagement", "clusetmanagement", "draft", labelKey);
     }
 
     private SectionTitle getH3Title(String labelKey) {
         return SectionTitle.generateH3Title(getLabel(labelKey));
-    }
-
-    private SectionTitle getH4Title(String labelKey) {
-        return SectionTitle.generateH4Title(getLabel(labelKey));
-    }
-
-    private SectionTitle getH5Title(String labelKey) {
-        return SectionTitle.generateH5Title(getLabel(labelKey));
     }
 
     private Picker configureSearch(String fieldKey) {
@@ -261,13 +336,6 @@ public class CluSetsConfigurer {
         Metadata metaData = modelDefinition.getMetadata(path);
         Picker picker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
         return picker;
-    }
-
-    private SearchPanel configureSearchPanel(String fieldKey) {
-        QueryPath path = QueryPath.concat(null, fieldKey);
-        Metadata metaData = modelDefinition.getMetadata(path);
-        SearchPanel searchPanel = new SearchPanel(metaData.getAdditionalLookups());
-        return searchPanel;
     }
 
 //    public class CourseList extends UpdatableMultiplicityComposite {
@@ -291,9 +359,13 @@ public class CluSetsConfigurer {
     public static class Picker extends KSPicker {
 
         private String name;
+        private LookupMetadata initLookupMetadata;
+        private List<LookupMetadata> additionalLookupMetadata;
 
         public Picker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
             super(inLookupMetadata, additionalLookupMetadata);
+            this.initLookupMetadata = inLookupMetadata;
+            this.additionalLookupMetadata = additionalLookupMetadata;
         }
 
         public String getName() {
@@ -303,39 +375,55 @@ public class CluSetsConfigurer {
         public void setName(String name) {
             this.name = name;
         }
+
+        public LookupMetadata getInitLookupMetadata() {
+            return initLookupMetadata;
+        }
+
+        public void setInitLookupMetadata(LookupMetadata initLookupMetadata) {
+            this.initLookupMetadata = initLookupMetadata;
+        }
+
+        public List<LookupMetadata> getAdditionalLookupMetadata() {
+            return additionalLookupMetadata;
+        }
+
+        public void setAdditionalLookupMetadata(List<LookupMetadata> additionalLookupMetadata) {
+            this.additionalLookupMetadata = additionalLookupMetadata;
+        }
+        
+    }
+    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey) {
+    	return addField(modelIdObj, section, fieldKey, null, null, null);
+    }
+    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, MessageKeyInfo messageKey) {
+    	return addField(modelIdObj, section, fieldKey, messageKey, null, null);
+    }
+    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+    	return addField(modelIdObj, section, fieldKey, messageKey, widget, null);
     }
 
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
-    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey) {
-    	return addField(modelIdObj, section, fieldKey, null, null, null);
-    }
-    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, String fieldLabel) {
-    	return addField(modelIdObj, section, fieldKey, fieldLabel, null, null);
-    }
-    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, String fieldLabel, Widget widget) {
-    	return addField(modelIdObj, section, fieldKey, fieldLabel, widget, null);
-    }
-    private FieldDescriptor addField(ModelIdPlaceHolder modelIdObj, Section section, String fieldKey, String fieldLabel, String parentPath) {
-        return addField(modelIdObj, section, fieldKey, fieldLabel, null, parentPath);
-    }
-    private FieldDescriptor addField(Section section, String fieldKey) {
+    // TODO - when DOL is pushed farther down into LOBuilder,
+    // revert these 5 methods to returning void again.
+    protected FieldDescriptor addField(Section section, String fieldKey) {
     	return addField(null, section, fieldKey, null, null, null);
+    }    
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+    	return addField(null, section, fieldKey, messageKey, null, null);
     }
-    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel) {
-    	return addField(null, section, fieldKey, fieldLabel, null, null);
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+    	return addField(null, section, fieldKey, messageKey, widget, null);
     }
-    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
-    	return addField(null, section, fieldKey, fieldLabel, widget, null);
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+        return addField(null, section, fieldKey, messageKey, null, parentPath);
     }
-    private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
-        return addField(null, section, fieldKey, fieldLabel, null, parentPath);
-    }
-    private FieldDescriptor addField(ModelIdPlaceHolder modelId, Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
+    private FieldDescriptor addField(ModelIdPlaceHolder modelId, Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
     	Metadata meta = modelDefinition.getMetadata(path);
 
-    	FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
     	if (widget != null) {
     		fd.setFieldWidget(widget);
     	}
@@ -362,6 +450,10 @@ public class CluSetsConfigurer {
         this.viewSearchCluSetId = viewSearchCluSetId;
     }
     
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo("clusetmanagement", "clusetmanagement", "draft", labelKey);
+    }
+    
     class ModelIdPlaceHolder {
     	private String modelId;
     	
@@ -377,5 +469,4 @@ public class CluSetsConfigurer {
 			this.modelId = modelId;
 		}
     }
-
 }

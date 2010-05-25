@@ -33,13 +33,13 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FocusGroup implements HasBlurHandlers, HasFocusHandlers, HasHandlers {
-	private class SyntheticBlurEvent extends BlurEvent {
+	private static class SyntheticBlurEvent extends BlurEvent {
 		public SyntheticBlurEvent() {
 			// do nothing
 		}
 	}
 
-	private class SyntheticFocusEvent extends FocusEvent {
+	private static class SyntheticFocusEvent extends FocusEvent {
 		public SyntheticFocusEvent() {
 			// do nothing
 		}

@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.table;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
@@ -29,9 +28,8 @@ public class SimpleWidgetTable extends Composite{
 	private FlexTable simpleTable = new FlexTable();
 	private int rowCount = 0;
 	public List<String> columnList = new ArrayList<String>();
-	//private G
 	
-	public class TableRow{
+	private static class TableRow{
 
 		public List<Widget> widgetList = new ArrayList<Widget>();
 		public List<Widget> getWidgetList() {
@@ -52,7 +50,6 @@ public class SimpleWidgetTable extends Composite{
 		
 		
 		Element table = simpleTable.getElement();
-		//table.setAttribute("style", "border-collapse: collapse; ");
 		 DOM.appendChild(thead,tr); 
 		 for (String columnName: columnNames) {
 			 Element th = DOM.createTH(); 
@@ -62,8 +59,7 @@ public class SimpleWidgetTable extends Composite{
 		 }
 
 		DOM.insertChild(table,thead,0);
-		
-		//TODO fix style names here
+
 		simpleTable.setWidth("100%");
 		simpleTable.setStyleName("ks-table-plain");
 		this.initWidget(simpleTable);
@@ -79,13 +75,6 @@ public class SimpleWidgetTable extends Composite{
 		}
 		rowCount++;
 	}
-	
-/*	public void setRows(List<TableRow> rows){
-		clear();
-		for(TableRow row: rows){
-			addRow(row);
-		}
-	}*/
 	
 	public void clear(){
 		rowCount = 0;

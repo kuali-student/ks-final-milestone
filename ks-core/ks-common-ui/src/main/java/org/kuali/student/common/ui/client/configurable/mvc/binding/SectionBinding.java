@@ -85,7 +85,7 @@ public class SectionBinding extends ModelWidgetBindingSupport<Section> {
             }
         }
         for (Section s : section.getSections()) {
-            s.updateView(model);
+            s.updateWidgetData(model);
         }
     }
 

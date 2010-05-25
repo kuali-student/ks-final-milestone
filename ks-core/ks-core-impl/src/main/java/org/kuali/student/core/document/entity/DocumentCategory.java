@@ -36,7 +36,6 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.RichText;
 @Entity
 @Table(name = "KSDO_DOCUMENT_CATEGORY")
 @NamedQueries( {

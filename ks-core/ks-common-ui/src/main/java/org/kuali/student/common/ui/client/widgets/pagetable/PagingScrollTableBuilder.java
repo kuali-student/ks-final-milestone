@@ -157,7 +157,7 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
             pagingScrollTable = new PagingScrollTable<RowType>(tableModel,tableDefinition);
             pagingScrollTable.setPageSize(tableModel.getRowCount());
         }
-        pagingScrollTable.setPixelSize(tablePixelWidth,tablePixelHeight);//FIXME workaround for incubator bug
+        pagingScrollTable.setPixelSize(tablePixelWidth,tablePixelHeight);//FIXME workaround for incubator bug   [KSCOR-225] This table to be replaced in M6
         pagingScrollTable.setEmptyTableWidget(new HTML("There is no data to display"));
 
         pagingScrollTable.getDataTable().setSelectionPolicy(selectionPolicy);

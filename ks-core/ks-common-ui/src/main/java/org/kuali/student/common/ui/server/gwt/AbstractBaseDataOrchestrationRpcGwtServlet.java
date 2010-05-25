@@ -61,18 +61,18 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	// -Workflow filter should be combined with this for save
 	// -The exception handling here needs standardization.  Should RPC errors throw operation failed with just the message and log the message and exception?
 	// also should calls that return Boolean ever throw exceptions?
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	final Logger LOG = Logger.getLogger(AbstractBaseDataOrchestrationRpcGwtServlet.class);
-	
+
 	private Assembler<Data, Void> assembler;
 
     private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
 	private PermissionService permissionService;
 	private IdentityService identityService;
-	
+
 	@Override
 	public Data getData(String dataId) {
 		try {
@@ -125,7 +125,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             if(docDetail==null){
             	throw new OperationFailedException("Error found gettting document. " );
             }
-            
+
 	        String acknowledgeComment = "Acknowledged";
 
 	        StandardResponse stdResp = simpleDocService.acknowledge(docDetail.getRouteHeaderId().toString(), username, acknowledgeComment);
@@ -135,9 +135,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         	}
 
 		}catch(Exception e){
-            e.printStackTrace();
+            LOG.error("Error acknowledging Document with dataId:"+dataId,e);
+            throw new OperationFailedException("Could not acknowledge");
 		}
-        return new Boolean(true);
+        return Boolean.valueOf(true);
 	}
 
 	@Override
@@ -150,11 +151,11 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         try {
             //Get a user name
             String username = getCurrentUser();
-            
+
             String fyiAnnotation = "FYI";
             String approveAnnotation = "Approve";
             String ackAnnotation = "Ack";
-            
+
             if (RequestType.FYI.equals(requestType)) {
                 StandardResponse stdResp = simpleDocService.requestAdHocFyiToPrincipal(docId,recipientPrincipalId, username, fyiAnnotation);
                 if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
@@ -176,9 +177,9 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
         } catch (Exception e) {
             LOG.error("Error adhoc routing",e);
-            return new Boolean(false);
+            throw new OperationFailedException("Could not adhoc route");
         }
-        return new Boolean(true);
+        return  Boolean.valueOf(true);
 	}
 
 	@Override
@@ -189,13 +190,13 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			try{
 	            //get a user name
 	            String username = getCurrentUser();
-	            
+
 	            //Lookup the workflowId from the cluId
 	            DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), deriveAppIdFromData(data));
 	            if(docDetail==null){
 	            	throw new OperationFailedException("Error found getting document. " );
 	            }
-	            
+
 		        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), deriveDocContentFromData(data), "");
 	            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
 	        		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
@@ -211,7 +212,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	@Override
 	public Boolean approveDocumentWithId(String dataId) throws OperationFailedException {
-      
+
         if(simpleDocService==null){
         	throw new OperationFailedException("Workflow Service is unavailable");
         }
@@ -219,16 +220,16 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		try{
             //get a user name
             String username = getCurrentUser();
-            
+
             //Lookup the workflowId from the id
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
-			DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(docDetail.getAppDocId()));
             if(docDetail==null){
             	throw new OperationFailedException("Error found getting document. " );
             }
-            
+            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(docDetail.getAppDocId()));
+
 	        String approveComment = "Approved";
-	        
+
 	        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent.getApplicationContent(), approveComment);
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
@@ -335,7 +336,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             if(docDetail==null){
             	throw new OperationFailedException("Error found gettting document. " );
             }
-            
+
     		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
             LOG.debug("Calling action requested with user:"+principalId+" and docId:"+docDetail.getRouteHeaderId());
 
@@ -348,26 +349,32 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             }
 
             String actionsRequested = "";
+            //Use StringBuilder to avoid using string concatenations in the for loop.
+            StringBuilder actionsRequestedBuffer = new StringBuilder();
+            actionsRequestedBuffer.append(actionsRequested);
 
             String documentStatus = workflowUtilityService.getDocumentStatus(docDetail.getRouteHeaderId());
-            
+
             for(Map.Entry<String,String> entry:results.entrySet()){
             	// if saved or initiated status... must show only 'complete' button
             	if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(documentStatus) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(documentStatus)) {
             		// show only complete button if complete or approve code in this doc status
             		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
-            			actionsRequested+="S";
+            			actionsRequestedBuffer.append("S");
+//            			actionsRequested+="S";
             		}
             		// if not Complete or Approve code then show the standard buttons
             		else {
     	            	if("true".equals(entry.getValue())){
-    	            		actionsRequested+=entry.getKey();
+    	            		actionsRequestedBuffer.append(entry.getKey());
+//    	            		actionsRequested+=entry.getKey();
     	            	}
             		}
             	}
             	else {
                 	if("true".equals(entry.getValue())){
-                		actionsRequested+=entry.getKey();
+                		actionsRequestedBuffer.append(entry.getKey());
+//                		actionsRequested+=entry.getKey();
                 	}
             	}
             }
@@ -378,7 +385,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 //            	actionsRequested+="W";
             }
 
-            return actionsRequested;
+            return actionsRequestedBuffer.toString();
         } catch (Exception e) {
         	LOG.error("Error getting actions Requested",e);
             throw new OperationFailedException("Error getting actions Requested");
@@ -405,13 +412,13 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			throws OperationFailedException {
 		if (workflowId != null && !workflowId.isEmpty()){
 			try {
-				Long documentId = Long.valueOf(workflowId); 
+				Long documentId = Long.valueOf(workflowId);
 				return workflowUtilityService.getDocumentStatus(documentId);
 			} catch (Exception e) {
 				throw new OperationFailedException("Error getting document status. " + e.getMessage());
-			}	
+			}
 		}
-		
+
 		return null;
 	}
 
@@ -435,25 +442,25 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		}
 		return null;
 	}
-	
+
 	@Override
 	public List<String> getWorkflowNodes(String workflowId)
 			throws OperationFailedException {
 		List<String> routeNodeNames = new ArrayList<String>();
-		
+
 		Long documentId = Long.valueOf(workflowId);
 		try{
 			RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getActiveNodeInstances(documentId);
 			if (routeNodes != null){
 				for (RouteNodeInstanceDTO routeNodeInstanceDTO : routeNodes) {
-					routeNodeNames.add(routeNodeInstanceDTO.getName());										
+					routeNodeNames.add(routeNodeInstanceDTO.getName());
 				}
 			}
-			
+
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage());
 		}
-		
+
 		return routeNodeNames;
 	}
 
@@ -505,11 +512,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
             //Get the workflow ID
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
-            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(docDetail.getAppDocId()));
-            
             if(docDetail==null){
             	throw new OperationFailedException("Error found getting document. " );
             }
+            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(docDetail.getAppDocId()));
 
             String routeComment = "Routed";
 
@@ -584,7 +590,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	protected abstract String getDefaultWorkflowDocumentType();
 	protected abstract String getDefaultMetaDataState();
 	protected abstract String getDefaultMetaDataType();
-	
+
 	//POJO methods
 	public void setAssembler(Assembler<Data, Void> assembler) {
 		this.assembler = assembler;

@@ -326,17 +326,18 @@
 	background-color: white;
 }
 
-.KS-ViewCourseFlexTable {
+.KS-ViewCourseDisplayTable {
   border: thin solid #C0C0C0;
   border-collapse: collapse;
+  margin-left: 3px;
 }
 
-.KS-ViewCourseFlexTableHeaderCell {
+.KS-ViewCourseDisplayTableHeaderCell {
 	font-weight: bold;
 	background-color: #E6E6E6;
 }
 
-.KS-ViewCourseFlexTableCell {
+.KS-ViewCourseDisplayTableCell {
   border: 1px solid #C0C0C0;
   padding: 2px;
 }

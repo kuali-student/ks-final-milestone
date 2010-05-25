@@ -64,7 +64,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         @Override
         public String toString() {
             if (value == null) {
-                return null;
+                return "";
             } else {
                 return String.valueOf(value);
             }
@@ -710,7 +710,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
      */
     public Iterator<Property> realPropertyIterator(){
     	HashMap<Key, Value> propertyMap = new HashMap<Key, Value>(map);
-    	propertyMap.remove("_runtimeData");
+//    	propertyMap.remove("_runtimeData");
     	propertyMap.remove(new StringKey("_runtimeData"));
         final Iterator<Map.Entry<Key, Value>> impl = propertyMap.entrySet().iterator();
 

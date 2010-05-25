@@ -217,7 +217,7 @@ public class RiceContextLoaderListener implements ServletContextListener {
      */
     protected boolean shouldExecuteMessageFetcher() {
         String executeMessageFetcher = ConfigContext.getCurrentContextConfig().getProperty(RICE_STANDALONE_EXECUTE_MESSAGE_FETCHER);
-        return StringUtils.isBlank(executeMessageFetcher) ? true : new Boolean(executeMessageFetcher);
+        return StringUtils.isBlank(executeMessageFetcher) ? true :  Boolean.valueOf((executeMessageFetcher));
     }
 
     protected String findBasePath(ServletContext servletContext) {

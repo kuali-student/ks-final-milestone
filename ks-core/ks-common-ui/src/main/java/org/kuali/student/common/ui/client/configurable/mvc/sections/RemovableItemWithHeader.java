@@ -57,7 +57,6 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 	
 	@Override
 	public void clear() {
-		// TODO We need a clear/redraw interface to redraw decorated widget
         loaded = false;
 		
 	}
@@ -68,7 +67,6 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 
 	@Override
 	public void redraw() {
-		//TODO replace with icon link implementation
 		if (!loaded){
 			layout.clear();
 	    	if(style == StyleType.TOP_LEVEL){
@@ -101,9 +99,9 @@ public class RemovableItemWithHeader extends MultiplicityItem{
 	    	layout.add(body);
 		}
 		
-        if (this.getItemWidget() instanceof Section){
+/*        if (this.getItemWidget() instanceof Section){
             ((Section)this.getItemWidget()).redraw();
-        }
+        }*/
 		
 	}
 
