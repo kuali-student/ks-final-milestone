@@ -119,10 +119,10 @@ public class CourseDataGenerator {
 		}
 		if("type".equals(name)){
 			if("formats".equals(parentPropertyName)){
-				return CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE;
+				return CourseAssemblerConstants.COURSE_FORMAT_TYPE;
 			}
 			if("activities".equals(parentPropertyName)){
-				return CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE;
+				return CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE;
 			}
 			if(null==parentPropertyName){
 				return "kuali.lu.type.CreditCourse";
@@ -146,7 +146,7 @@ public class CourseDataGenerator {
 			throw new RuntimeException("Code what to do with this type");
 		}
 		if("activityType".equals(name)){
-			return CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE;
+			return CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE;
 		}
 		if("state".equals(name)){
 			return "draft";
