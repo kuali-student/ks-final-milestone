@@ -7,6 +7,7 @@ import java.util.jar.Manifest;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.cxf.common.util.StringUtils;
 
 /**
  * Copyright 2010 The Kuali Foundation Licensed under the
@@ -61,12 +62,16 @@ public class ManifestInspector {
 	 */
 	public String toString(Attributes attributes, String[] attributeNames) {
 		StringBuffer sb = new StringBuffer();
+		int count = 0;
 		for (int i = 0; i < attributeNames.length; i++) {
-			if (i != 0) {
+			if (count != 0) {
 				sb.append(" :: ");
 			}
 			String value = attributes.getValue(attributeNames[i]);
-			sb.append(value);
+			if (!StringUtils.isEmpty(value)) {
+				count++;
+				sb.append(value);
+			}
 		}
 		return sb.toString();
 	}
@@ -87,6 +92,11 @@ public class ManifestInspector {
 		Attributes attributes = manifest.getMainAttributes();
 
 		// Convert the ones we are interested in to a string
-		return toString(attributes, BUILD_ATTRIBUTES);
+		String buildInfo = toString(attributes, BUILD_ATTRIBUTES);
+		if (StringUtils.isEmpty(buildInfo)) {
+			return "No build information available";
+		} else {
+			return buildInfo;
+		}
 	}
 }
