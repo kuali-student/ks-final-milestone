@@ -113,6 +113,7 @@
             <enabled>false</enabled>
           </releases>
         </repository>
+        <!-- 
         <repository>
           <id>kuali.repo.old</id>
           <name>Kuali Repository Old</name>
@@ -121,6 +122,7 @@
             <enabled>false</enabled>
           </snapshots>
         </repository>
+         -->
       </repositories>
     </profile>
     <profile>
