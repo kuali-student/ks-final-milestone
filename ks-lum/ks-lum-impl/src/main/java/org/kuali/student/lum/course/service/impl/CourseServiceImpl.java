@@ -89,20 +89,21 @@ public class CourseServiceImpl implements CourseService {
 			OperationFailedException, PermissionDeniedException {
 		try {
 			BaseDTOAssemblyNode<CourseInfo,CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.CREATE);
-			CourseInfo course;
+			
 			try {
 				//Use the results to make the appropriate service calls here
-				course = courseServiceMethodInvoker.invokeServiceCalls(results);
-				return course;
+				courseServiceMethodInvoker.invokeServiceCalls(results);
 			} catch (Exception e) {
 				LOG.error("Error creating course",e);
 				throw new OperationFailedException("Error creating course");
 			}
+		
+			return results.getBusinessDTORef();
+			
 		} catch (AssemblyException e) {
 			LOG.error("Error disassembling course",e);
 			throw new OperationFailedException("Error disassembling course");
 		}
-
 	}
 
 	@Override
@@ -110,16 +111,47 @@ public class CourseServiceImpl implements CourseService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		try {
+			CourseInfo course = getCourse(courseId);
+			
+			BaseDTOAssemblyNode<CourseInfo,CluInfo> results = courseAssembler.disassemble(course, NodeOperation.DELETE);
+			
+			try {
+				//Use the results to make the appropriate service calls here
+				courseServiceMethodInvoker.invokeServiceCalls(results);
+			} catch (Exception e) {
+				LOG.error("Error creating course",e);
+				throw new OperationFailedException("Error creating course");
+			}
+		
+			StatusInfo status = new StatusInfo();
+			status.setSuccess(true);			
+			return status;
+			
+		} catch (AssemblyException e) {
+			LOG.error("Error disassembling course",e);
+			throw new OperationFailedException("Error disassembling course");
+		}
 	}
 
 	@Override
 	public CourseInfo getCourse(String courseId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CluInfo clu = luService.getClu(courseId);
+		
+		CourseInfo course;
+		try {
+			course = courseAssembler.assemble(clu, null, false);
+		} catch (AssemblyException e) {
+			LOG.error("Error assembling course",e);
+			throw new OperationFailedException("Error assembling course");
+		} 
+		
+		return course;
+	
 	}
 
 	@Override
@@ -160,8 +192,23 @@ public class CourseServiceImpl implements CourseService {
 			InvalidParameterException, MissingParameterException,
 			VersionMismatchException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			BaseDTOAssemblyNode<CourseInfo,CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.UPDATE);
+			
+			try {
+				//Use the results to make the appropriate service calls here
+				courseServiceMethodInvoker.invokeServiceCalls(results);
+			} catch (Exception e) {
+				LOG.error("Error creating course",e);
+				throw new OperationFailedException("Error creating course");
+			}
+		
+			return results.getBusinessDTORef();
+			
+		} catch (AssemblyException e) {
+			LOG.error("Error disassembling course",e);
+			throw new OperationFailedException("Error disassembling course");
+		}
 	}
 
 	@Override

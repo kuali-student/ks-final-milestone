@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.course.service.assembler.FormatAssembler;
 
 /**
  * Use this class to generate test data for a course

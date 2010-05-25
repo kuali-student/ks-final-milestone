@@ -32,7 +32,7 @@ public class CourseServiceMethodInvoker {
 	private AtpService atpService;
 	
 	@SuppressWarnings("unchecked")
-	public CourseInfo invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
+	public void invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
 		Object nodeData = results.getNodeData();
 		if(nodeData instanceof CluInfo){
 			CluInfo clu = (CluInfo) nodeData;
@@ -53,24 +53,28 @@ public class CourseServiceMethodInvoker {
 			CluCluRelationInfo  relation = (CluCluRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
+				CluCluRelationInfo newCluRel = luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
+				// Update the businessDTO if one exists for the cluclurelation (for e.g. CourseJointInfo)
+				if(null != results.getBusinessDTORef()) {
+					results.getAssembler().assemble(newCluRel, results.getBusinessDTORef(), true);
+				}				
 				break;
 			case UPDATE:
-				luService.updateCluCluRelation(relation.getId(), relation);
+				CluCluRelationInfo updatedCluRel = luService.updateCluCluRelation(relation.getId(), relation);				
+				// Update the businessDTO if one exists for the cluclurelation (for e.g. CourseJointInfo)
+				if(null != results.getBusinessDTORef()) {
+					results.getAssembler().assemble(updatedCluRel, results.getBusinessDTORef(), true);
+				}
 				break;
 			case DELETE:
 				luService.deleteCluCluRelation(relation.getId());
 				break;
-			}
-			
+			}			
 		}
 		
 		for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
 			invokeServiceCalls(childNode);
 		}
-
-		//TODO... instead of getting the object again we could build it back up from the return values here!
-		return null;
 	}
 
 	public LuService getLuService() {

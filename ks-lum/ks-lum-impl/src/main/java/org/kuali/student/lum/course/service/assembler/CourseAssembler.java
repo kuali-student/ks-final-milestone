@@ -156,6 +156,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				operation);
 		result.getChildNodes().addAll(formatResults);
 
+		// Use the CourseJoint assembler to disassemble the CourseJoints and relations
+		List<BaseDTOAssemblyNode<?,?>> courseJointResults = disassembleJoints(course,
+				operation);
+		result.getChildNodes().addAll(courseJointResults);
+
+		
 		return result;
 	}
 
@@ -288,7 +294,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 		}
 
-		// Loop through all the formats in this course
+		// Loop through all the joints in this course
 		for (CourseJointInfo joint : course.getJoints()) {
 
 			// If this is a course create then all joints will be created
@@ -298,7 +304,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// be deleted at the end
 				currentJointIds.remove(joint.getRelationId());
 			} else if (!NodeOperation.DELETE.equals(operation)) {
-				// the format does not exist, so create cluclurelation
+				// the joint does not exist, so create cluclurelation
 				BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo> jointNode = courseJointAssembler
 						.disassemble(joint, NodeOperation.CREATE);
 				jointNode.getNodeData().setCluId(course.getId());
