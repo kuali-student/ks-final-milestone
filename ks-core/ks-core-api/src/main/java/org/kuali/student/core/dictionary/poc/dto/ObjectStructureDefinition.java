@@ -1,5 +1,6 @@
 package org.kuali.student.core.dictionary.poc.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectStructureDefinition {
@@ -17,6 +18,9 @@ public class ObjectStructureDefinition {
 	}
 
 	public List<FieldDefinition> getAttributes() {
+		if(attributes==null){
+			attributes = new ArrayList<FieldDefinition>();
+		}
 		return attributes;
 	}
 

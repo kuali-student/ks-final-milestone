@@ -9,6 +9,9 @@ public class FieldDefinition extends Constraint {
 								// DATE,STRING,INTEGER,BOOLEAN,COMPLEX,...
 	protected ObjectStructureDefinition dataObjectStructure;
 
+	//Dynamic attribute flag (SG wanted incase user typos the field name and all of a sudden all fields are attributes)
+	protected boolean dynamic;
+	
 	// Default values
 	protected Object defaultValue;// Set the default value
 	protected String defaultValuePath;// obtain the default value from another
@@ -94,5 +97,11 @@ public class FieldDefinition extends Constraint {
 	}
 	public void setMaskFormatter(MaskFormatter maskFormatter) {
 		this.maskFormatter = maskFormatter;
+	}
+	public boolean isDynamic() {
+		return dynamic;
+	}
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
 	}
 }

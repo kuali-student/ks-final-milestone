@@ -7,6 +7,7 @@ public class Constraint extends BaseConstraint {
 	public static final String SINGLE = "1";
 	// Constraints
 	protected boolean serverSide;
+	protected CustomValidator customValidator;
 	protected String locale; //What is locale for?
 	protected String exclusiveMin;
 	protected String inclusiveMax;
@@ -111,5 +112,11 @@ public class Constraint extends BaseConstraint {
 	}
 	public void setLookupContextPath(String lookupContextPath) {
 		this.lookupContextPath = lookupContextPath;
+	}
+	public CustomValidator getCustomValidator() {
+		return customValidator;
+	}
+	public void setCustomValidator(CustomValidator customValidator) {
+		this.customValidator = customValidator;
 	}
 }
