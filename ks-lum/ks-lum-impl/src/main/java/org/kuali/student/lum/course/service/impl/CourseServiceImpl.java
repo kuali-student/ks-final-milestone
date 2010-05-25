@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.service.AtpService;
+import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.poc.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -41,6 +43,8 @@ public class CourseServiceImpl implements CourseService {
 	private CourseAssembler courseAssembler;
 	
 	private CourseServiceMethodInvoker courseServiceMethodInvoker;
+	
+	private DictionaryService dictionaryServiceDelegate;
 	
 	public LuService getLuService() {
 		return luService;
@@ -228,7 +232,17 @@ public class CourseServiceImpl implements CourseService {
 			PermissionDeniedException {
 		throw new UnsupportedOperationException("updateCourseStatements");
 	}
+	
+	@Override
+	public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+	}
 
+	@Override
+	public List<String> getObjectTypes() {
+		return dictionaryServiceDelegate.getObjectTypes();
+	}
+	
 	public CourseAssembler getCourseAssembler() {
 		return courseAssembler;
 	}
@@ -244,6 +258,17 @@ public class CourseServiceImpl implements CourseService {
 	public void setCourseServiceMethodInvoker(
 			CourseServiceMethodInvoker courseServiceMethodInvoker) {
 		this.courseServiceMethodInvoker = courseServiceMethodInvoker;
+	}
+
+
+
+	public DictionaryService getDictionaryServiceDelegate() {
+		return dictionaryServiceDelegate;
+	}
+
+	public void setDictionaryServiceDelegate(
+			DictionaryService dictionaryServiceDelegate) {
+		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
 	}
 	
 

@@ -21,6 +21,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.poc.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -46,7 +48,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
  */
 @WebService(name = "CourseService", targetNamespace = "http://student.kuali.org/wsdl/course") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseService { 
+public interface CourseService extends DictionaryService{ 
     /** 
      * Retrieves a Course
      * @param courseId Unique Id of the Course. Maps to cluId
@@ -171,5 +173,6 @@ public interface CourseService {
      * @throws PermissionDeniedException authorization failure
 	 */
     public List<StatementTreeViewInfo> updateCourseStatements(@WebParam(name="courseId")String courseId, @WebParam(name="statementTreeViewInfoList")List<StatementTreeViewInfo> statementTreeViewInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
 }

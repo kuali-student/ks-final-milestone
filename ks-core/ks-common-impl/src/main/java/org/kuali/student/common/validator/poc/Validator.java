@@ -405,7 +405,7 @@ public class Validator {
 	 * Process caseConstraint tag and sets any of the base constraint items if
 	 * any of the when condition matches
 	 * 
-	 * @param bcb
+	 * @param constraint
 	 * @param caseConstraint
 	 * @param field
 	 */
@@ -556,7 +556,7 @@ public class Validator {
 		}
 	}
 
-	private void validateBoolean(Object value, Constraint bcb,
+	private void validateBoolean(Object value, Constraint constraint,
 			String element, List<ValidationResultInfo> results) {
 		if (!(value instanceof Boolean)) {
 			try {
@@ -569,7 +569,7 @@ public class Validator {
 		}
 	}
 
-	private void validateDouble(Object value, Constraint bcb,
+	private void validateDouble(Object value, Constraint constraint,
 			String element, List<ValidationResultInfo> results) {
 		Double v = null;
 
@@ -586,24 +586,24 @@ public class Validator {
 		}
 
 		if (val.isOk()) {
-			Double maxValue = ValidatorUtils.getDouble(bcb.getInclusiveMax());
-			Double minValue = ValidatorUtils.getDouble(bcb.getExclusiveMin());
+			Double maxValue = ValidatorUtils.getDouble(constraint.getInclusiveMax());
+			Double minValue = ValidatorUtils.getDouble(constraint.getExclusiveMin());
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.outOfRange"), toMap(bcb)));
+							getMessage("validation.outOfRange"), toMap(constraint)));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.maxValueFailed"), toMap(bcb)));
+							getMessage("validation.maxValueFailed"), toMap(constraint)));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.minValueFailed"), toMap(bcb)));
+							getMessage("validation.minValueFailed"), toMap(constraint)));
 				}
 			}
 		}
@@ -613,7 +613,7 @@ public class Validator {
 		}
 	}
 
-	private void validateFloat(Object value, Constraint bcb,
+	private void validateFloat(Object value, Constraint constraint,
 			String element, List<ValidationResultInfo> results) {
 		Float v = null;
 
@@ -629,24 +629,24 @@ public class Validator {
 		}
 
 		if (val.isOk()) {
-			Float maxValue = ValidatorUtils.getFloat(bcb.getInclusiveMax());
-			Float minValue = ValidatorUtils.getFloat(bcb.getExclusiveMin());
+			Float maxValue = ValidatorUtils.getFloat(constraint.getInclusiveMax());
+			Float minValue = ValidatorUtils.getFloat(constraint.getExclusiveMin());
 			
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {					
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.outOfRange"), toMap(bcb)));
+							getMessage("validation.outOfRange"), toMap(constraint)));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.maxValueFailed"), toMap(bcb)));
+							getMessage("validation.maxValueFailed"), toMap(constraint)));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.minValueFailed"), toMap(bcb)));
+							getMessage("validation.minValueFailed"), toMap(constraint)));
 				}
 			}
 		}
@@ -656,7 +656,7 @@ public class Validator {
 		}
 	}
 
-	private void validateLong(Object value, Constraint bcb,
+	private void validateLong(Object value, Constraint constraint,
 			String element, List<ValidationResultInfo> results) {
 		Long v = null;
 
@@ -672,24 +672,24 @@ public class Validator {
 		}
 
 		if (val.isOk()) {
-			Long maxValue = ValidatorUtils.getLong(bcb.getInclusiveMax());
-			Long minValue = ValidatorUtils.getLong(bcb.getExclusiveMin());
+			Long maxValue = ValidatorUtils.getLong(constraint.getInclusiveMax());
+			Long minValue = ValidatorUtils.getLong(constraint.getExclusiveMin());
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.outOfRange"), toMap(bcb)));
+							getMessage("validation.outOfRange"), toMap(constraint)));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.maxValueFailed"), toMap(bcb)));
+							getMessage("validation.maxValueFailed"), toMap(constraint)));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.minValueFailed"), toMap(bcb)));
+							getMessage("validation.minValueFailed"), toMap(constraint)));
 				}
 			}
 		}
@@ -700,7 +700,7 @@ public class Validator {
 
 	}
 
-	private void validateInteger(Object value, Constraint bcb,
+	private void validateInteger(Object value, Constraint constraint,
 			String element, List<ValidationResultInfo> results) {
 		Integer v = null;
 
@@ -717,24 +717,24 @@ public class Validator {
 		}
 
 		if (val.isOk()) {
-			Integer maxValue = ValidatorUtils.getInteger(bcb.getInclusiveMax());
-			Integer minValue = ValidatorUtils.getInteger(bcb.getExclusiveMin());
+			Integer maxValue = ValidatorUtils.getInteger(constraint.getInclusiveMax());
+			Integer minValue = ValidatorUtils.getInteger(constraint.getExclusiveMin());
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.outOfRange"), toMap(bcb)));
+							getMessage("validation.outOfRange"), toMap(constraint)));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.maxValueFailed"), toMap(bcb)));
+							getMessage("validation.maxValueFailed"), toMap(constraint)));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.minValueFailed"), toMap(bcb)));
+							getMessage("validation.minValueFailed"), toMap(constraint)));
 				}
 			}
 		}
@@ -744,7 +744,7 @@ public class Validator {
 		}
 	}
 
-	private void validateDate(Object value, Constraint bcb,
+	private void validateDate(Object value, Constraint constraint,
 			String element, List<ValidationResultInfo> results,
 			DateParser dateParser) {
 		ValidationResultInfo val = new ValidationResultInfo(element);
@@ -762,25 +762,25 @@ public class Validator {
 		}
 
 		if (val.isOk()) {
-			Date maxValue = ValidatorUtils.getDate(bcb.getInclusiveMax(), dateParser);
-			Date minValue = ValidatorUtils.getDate(bcb.getExclusiveMin(), dateParser);
+			Date maxValue = ValidatorUtils.getDate(constraint.getInclusiveMax(), dateParser);
+			Date minValue = ValidatorUtils.getDate(constraint.getExclusiveMin(), dateParser);
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v.getTime() > maxValue.getTime()
 						|| v.getTime() < minValue.getTime()) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.outOfRange"), toMap(bcb)));
+							getMessage("validation.outOfRange"), toMap(constraint)));
 				}
 			} else if (maxValue != null) {
 				if (v.getTime() > maxValue.getTime()) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.maxValueFailed"), toMap(bcb)));
+							getMessage("validation.maxValueFailed"), toMap(constraint)));
 				}
 			} else if (minValue != null) {
 				if (v.getTime() < minValue.getTime()) {
 					val.setError(MessageUtils.interpolate(
-							getMessage("validation.minValueFailed"), toMap(bcb)));
+							getMessage("validation.minValueFailed"), toMap(constraint)));
 				}
 			}
 		}
