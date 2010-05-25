@@ -6028,7 +6028,6 @@
 		<property name="name" value="clus" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
-		<!-- <property name="dataObjectStructure" ref="clus" /> -->
 		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
@@ -6191,11 +6190,145 @@
 		<property name="name" value="clusets" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataObjectStructure" ref="clusets" />
-		<property name="dataType" value="DATA" />
+		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<!--  define configuration for a suggest box -->
+			<bean parent="lookup">
+				<property name="id" value="kuali.lu.lookup.findCluSet.suggest" />
+				<property name="searchTypeId" value="cluset.search.generic" />
+				<property name="name" value="Find CluSet" />
+				<property name="desc" value="Search for CluSets" />
+				<property name="widget" value="SUGGEST_BOX"/>
+				<property name="searchParamIdKey" value="cluset.queryParam.optionalId" />
+				<property name="params">
+					<list>
+						<bean parent="param">   <!-- suggest box entry definition -->
+							<property name="key" value="cluset.queryParam.optionalName" />
+							<property name="name" value="Name" />
+							<property name="desc" value="CLU Set Name." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="cluset.resultColumn.cluSetId" />
+				<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+				<property name="resultSortKey" value="" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="cluset.resultColumn.cluSetId" />
+							<property name="name" value="CLU Set Identifier" />
+							<property name="desc" value="Identifier for the Clu Set" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="true" />
+						</bean>
+						<!--  <bean parent="result">
+							<property name="key" value="org.resultColumn.orgShortName" />
+							<property name="name" value="Organization Short Name" />
+							<property name="desc" value="Short name for the organization, recorded as the default listing" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean> -->
+						<bean parent="result">
+							<property name="key" value="cluset.resultColumn.name" />
+							<property name="name" value="Name" />
+							<property name="desc" value="Clu Set Name." />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="cluset.resultColumn.description" />
+							<property name="name" value="Description" />						
+							<property name="desc" value="Clu Set Description." />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list>
+				<!-- definition of advanced search window -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
+					<property name="searchTypeId" value="cluset.search.generic"/>
+					<property name="name" value="Find Clu Set"/>
+					<property name="desc" value="Search for Clu Set"/>
+					<property name="title" value="Advanced CLU Set Search"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="cluset.queryParam.optionalName"/>
+								<property name="name" value="Name"/>
+								<property name="desc" value="Name of the Clu Set."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="cluset.queryParam.optionalDescription"/>
+								<property name="name" value="Description"/>
+								<property name="desc" value="Clu Set Description."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalLongName"/>
+								<property name="name" value="Course Name"/>
+								<property name="desc" value="Course Name"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="cluset.queryParam.optionalSubCluSetName"/>
+								<property name="name" value="Clu Set Name"/>
+								<property name="desc" value="Clu Set Name"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
+					<property name="resultDisplayKey" value="cluset.resultColumn.name"/>
+					<property name="resultSortKey" value="cluset.resultColumn.name"/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="cluset.resultColumn.cluSetId"/>
+								<property name="name" value="Identifier"/>
+								<property name="desc" value="Identifier for the Clu Set."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="cluset.resultColumn.name"/>
+								<property name="name" value="Name"/>
+								<property name="desc" value="Clu Set Name."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -6598,19 +6731,6 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
 		<property name="defaultValue" value="" />
-	</bean>
-
-	<bean id="clusets" parent="clusets-parent" />
-	
-	<bean id="clusets-parent" abstract="true" parent="dataObjectStructure">
-		<property name="name" value="clusets" />
-		<property name="fields">
-			<list>
-				<ref bean="clusets.id" />
-				<ref bean="clusets.name" />
-				<ref bean="clusets._runtimeData"/>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="clusets._runtimeData" parent="dataFieldDescriptor">

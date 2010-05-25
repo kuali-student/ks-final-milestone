@@ -101,7 +101,7 @@ public class CluSetContentEditorSection extends VerticalSection {
                                                 binding.setWidgetValue(
                                                         f.getFieldWidget(), dataModel, path);
                                                 cluSetEditOptions.deSelectItem(ToolsConstants.CLU_SET_CLUS_FIELD);
-                                                updateWidgetData(dataModel);
+                                                updateView(dataModel);
                                             }
                                         });
                                         warningDialog.show();
@@ -111,13 +111,34 @@ public class CluSetContentEditorSection extends VerticalSection {
                                 final String path = f.getFieldKey();
                                 final QueryPath qPath = QueryPath.parse(path);
                                 Data valueData = dataModel.get(qPath);
-                                CluSetRangeHelper cluSetRangeHelper = CluSetRangeHelper.wrap(valueData);
                                 if (!cluSetEditOptions.getSelectedItems().contains(f.getFieldKey())) {
-                                    
+                                    if (hasCluSetRange(valueData)) {
+                                        final WarningDialog warningDialog = new WarningDialog(
+                                                "Delete Courses",
+                                                "You are about to delete the course range in this CLU Set.",
+                                                "Do you want to continue", "Delete", "Cancel");
+                                        warningDialog.addConfirmationCallback(new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                ModelWidgetBinding binding = f.getModelWidgetBinding();
+                                                if (result.booleanValue()) {
+                                                    Data valueData = dataModel.get(qPath);
+                                                    CluSetHelper cluSetHelper = CluSetHelper.wrap(valueData.getParent());
+                                                    cluSetHelper.setCluRangeParams(null);
+                                                }
+                                                warningDialog.hide();
+                                                binding.setWidgetValue(
+                                                        f.getFieldWidget(), dataModel, path);
+                                                cluSetEditOptions.deSelectItem(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD);
+                                                updateView(dataModel);
+                                            }
+                                        });
+                                        warningDialog.show();
+                                    }
                                 }
                             }
                         }
-                        updateWidgetData(dataModel);
+                        updateView(dataModel);
                     }
                 });
             }
@@ -142,69 +163,73 @@ public class CluSetContentEditorSection extends VerticalSection {
             });
         }
     }
+    
+    /**
+     * used internally to refresh view.
+     * @param dataModel
+     */
+    private void updateView(DataModel dataModel) {
+        super.updateWidgetData(dataModel);
+        for(final FieldDescriptor f: fields){
+            layout.removeLayoutElement(f.getFieldElement());
+            // TODO distinguish between Approved CLUs and Proposed CLUs
+            // TODO implement course ranges
+            if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
+                String path = f.getFieldKey();
+                final QueryPath qPath = QueryPath.parse(path);
+                Data valueData = dataModel.get(qPath);
+                if (clusetNotEmpty(valueData)) {
+                    cluSetEditOptions.selectItem(path);
+                }
+                if (isFieldBeingEdited(f, dataModel)) {
+                    // if the field being edited is add courses
+                    if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
+                        layout.addField(f.getFieldElement());
+                    }
+                }
+            } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
+                String path = f.getFieldKey();
+                final QueryPath qPath = QueryPath.parse(path);
+                Data clusData = dataModel.get(qPath);
+                if (clusNotEmpty(clusData)) {
+                    cluSetEditOptions.selectItem(path);
+                }
+                if (isFieldBeingEdited(f, dataModel)) {
+                    // if the field being edited is add courses
+                    if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
+                        layout.addField(f.getFieldElement());
+                    }
+                }
+            } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD) ||
+                    f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD)) {
+                List<FieldDescriptor> fields = getFields();
+                FieldDescriptor cluSetRangeField = null;
+                String path = f.getFieldKey();
+                final QueryPath qPath = QueryPath.parse(path);
+                Data cluSetRangeData = dataModel.get(qPath);
+                if (fields != null) {
+                    for (FieldDescriptor field : fields) {
+                        if (field.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
+                            cluSetRangeField = field;
+                        }
+                    }
+                }
+                if (hasCluSetRange(cluSetRangeData)) {
+                    cluSetEditOptions.selectItem(path);
+                }
+                if (isFieldBeingEdited(cluSetRangeField, dataModel)) {
+                    layout.addField(f.getFieldElement());
+                }
+            } else {
+                layout.addField(f.getFieldElement());
+            }
+        }
+    }
 
     @Override
     public void updateWidgetData(DataModel dataModel) {
-           	super.updateWidgetData(dataModel);
-                
-                for(final FieldDescriptor f: fields){
-                	layout.removeLayoutElement(f.getFieldElement());
-                    // TODO distinguish between Approved CLUs and Proposed CLUs
-                    // TODO implement course ranges
-                    if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
-                        String path = f.getFieldKey();
-                        final QueryPath qPath = QueryPath.parse(path);
-                        Data valueData = dataModel.get(qPath);
-                        final List<?> items =
-                            ((ItemListFieldBinding<?>)
-                                    f.getModelWidgetBinding()).getItemList(valueData);
-                        // field is being edited if there are data in this field
-                        if (items != null && !items.isEmpty()) {
-                            cluSetEditOptions.selectItem(path);
-                        }
-                    } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
-                        String path = f.getFieldKey();
-                        final QueryPath qPath = QueryPath.parse(path);
-                        Data clusData = dataModel.get(qPath);
-                        if (clusNotEmpty(clusData)) {
-                            cluSetEditOptions.selectItem(path);
-                        }
-                        if (isFieldBeingEdited(f, dataModel)) {
-                            // if the field being edited is add courses
-                            if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
-                                layout.addField(f.getFieldElement());
-                            }
-                            if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
-                                Hyperlink addLink = new Hyperlink("Add CLU Set", "addCluSet");
-                                layout.addField(f.getFieldElement());
-                                layout.addWidget(addLink);
-                            }
-                        }
-                    } else if (f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD) ||
-                            f.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD)) {
-                        List<FieldDescriptor> fields = getFields();
-                        FieldDescriptor cluSetRangeField = null;
-                        String path = f.getFieldKey();
-                        final QueryPath qPath = QueryPath.parse(path);
-                        Data cluSetRangeData = dataModel.get(qPath);
-                        if (fields != null) {
-                            for (FieldDescriptor field : fields) {
-                                if (field.getFieldKey().equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
-                                    cluSetRangeField = field;
-                                }
-                            }
-                        }
-                        if (hasCluSetRange(cluSetRangeData)) {
-                            cluSetEditOptions.selectItem(path);
-                        }
-                        if (isFieldBeingEdited(cluSetRangeField, dataModel)) {
-                        	layout.addField(f.getFieldElement());
-                        }
-                    } else {
-                    	layout.addField(f.getFieldElement());
-                    }
-                }
-
+        cluSetEditOptions.clear();
+        updateView(dataModel);
     }
     
     private boolean hasCluSetRange(Data cluSetRangeData) {
@@ -231,6 +256,22 @@ public class CluSetContentEditorSection extends VerticalSection {
             }
         }
         return clusExist;
+    }
+    
+    private boolean clusetNotEmpty(Data clusetData) {
+        boolean cluSetsExist = false;
+        if (clusetData != null) {
+            for (Data.Property p : clusetData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluSetId = p.getValue();
+                    if (cluSetId != null && !cluSetId.trim().isEmpty()) {
+                        cluSetsExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return cluSetsExist;
     }
 
     private boolean nullSafeEquals(String str1, String str2) {

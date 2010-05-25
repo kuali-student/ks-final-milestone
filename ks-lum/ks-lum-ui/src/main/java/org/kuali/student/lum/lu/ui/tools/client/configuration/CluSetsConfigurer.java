@@ -176,6 +176,9 @@ public class CluSetsConfigurer {
           }
         });
         // END OF items related to Add Clu Range
+        // ****** Add cluSets *******
+        addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SETS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET)).setModelId(modelId);
+        // END OF items related to Add CluSets
         
         addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD);
         addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, generateMessageInfo(ToolsConstants.ORGANIZATION));

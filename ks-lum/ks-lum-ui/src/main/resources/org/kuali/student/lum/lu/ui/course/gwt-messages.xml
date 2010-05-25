@@ -339,6 +339,7 @@
 	<bean parent="enClusetmanagement" p:id="cluSetContent"                      p:value="Content"/>
 	<bean parent="enClusetmanagement" p:id="cluSetCourses"                      p:value="Courses"/>
 	<bean parent="enClusetmanagement" p:id="cluSetCourseRange"                      p:value="Course Range"/>
+	<bean parent="enClusetmanagement" p:id="clusetSubCluSet"                 p:value="CLUs and/or CLU Sets"/>
 	<bean parent="enClusetmanagement" p:id="cluSetOrganization"                      p:value="Organization"/>
 	<bean parent="enClusetmanagement" p:id="cluSetTitle"                      p:value="Title"/>
 	<bean parent="enClusetmanagement" p:id="cluSetDescription"                      p:value="Description"/>
