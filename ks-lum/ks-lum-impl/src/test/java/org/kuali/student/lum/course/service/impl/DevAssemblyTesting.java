@@ -30,7 +30,7 @@ public class DevAssemblyTesting {
 	@Test
 	public void testDctionary(){
 		List<String> types = courseService.getObjectTypes();
-		assertEquals(15,types.size());
+		assertEquals(18,types.size());
 		ObjectStructureDefinition def = courseService.getObjectStructure(types.get(0));
 		assertNotNull(def);
 	}

@@ -96,7 +96,7 @@
 	</bean>
 	
 	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.poc.DictionaryServiceImpl">
-		<constructor-arg index="0" value="classpath:ks-cluInfo-dictionary-context.xml" />	
+		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />	
 	</bean>
 	
 	<!-- Service Clients -->
