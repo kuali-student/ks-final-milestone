@@ -288,7 +288,7 @@ public class TestValidator {
     	objStruct.getAttributes().add(f2);
     	    	
 
-    	// GAP
+    	// GPA
     	FieldDefinition f3 = new FieldDefinition();
     	f3.setName("gpa");
     	f3.setDataType(DataType.DOUBLE);
