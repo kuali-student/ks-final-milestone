@@ -6024,7 +6024,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="cluset.clus" parent="dataFieldDescriptor">
+	<!-- this bean will be shared so changes are all in one place to ease maintenance -->
+	<bean id="clusFieldParent" parent="dataFieldDescriptor">
 		<property name="name" value="clus" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
@@ -6186,6 +6187,7 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="cluset.clus" parent="clusFieldParent" />
 	<bean id="cluset.clusets" parent="dataFieldDescriptor">
 		<property name="name" value="clusets" />
 		<property name="writeAccess" value="ALWAYS" />
