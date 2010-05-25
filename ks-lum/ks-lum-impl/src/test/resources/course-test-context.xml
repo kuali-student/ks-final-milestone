@@ -229,8 +229,7 @@
 	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
-				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
-				<value>classpath:org\kuali\student\lum\lu\ui\course\gwt-messages.xml</value>				
+				<value>classpath:gwt-messages.xml</value>
 			</list>
 		</property>
 	</bean>
