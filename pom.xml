@@ -79,6 +79,51 @@
     <!-- some of the xmlparsers dont like comments to appear before the ?xml processing instruction -->
     <!-- aslo non ascii characters like the japanese in statement.xml will get messed up by this plugin -->
     <profile>
+      <id>s3.repositories</id>
+      <repositories>
+        <repository>
+          <id>kuali.release</id>
+          <name>Kuali Release</name>
+          <url>http://s3.amazonaws.com/maven.kuali.org/release</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>kuali.external</id>
+          <name>Kuali External</name>
+          <url>http://s3.amazonaws.com/maven.kuali.org/external</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>kuali.private</id>
+          <name>Kuali Private</name>
+          <url>http://s3.amazonaws.com/maven.kuali.org/private</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>kuali.snapshot</id>
+          <name>Kuali Snapshot</name>
+          <url>https://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+        </repository>
+        <repository>
+          <id>kuali.repo.old</id>
+          <name>Kuali Repository Old</name>
+          <url>https://test.kuali.org/maven</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
       <id>generate-ecl</id>
       <activation>
         <activeByDefault>false</activeByDefault>
