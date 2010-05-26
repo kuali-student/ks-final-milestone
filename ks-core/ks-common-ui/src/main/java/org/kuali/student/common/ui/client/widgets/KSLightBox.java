@@ -113,7 +113,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 		// this is a hack for now
 		this.resizer = DEFAULT_RESIZER;
 		final SimplePanel titlePlaceHolder = new SimplePanel();
-		titlePlaceHolder.setSize("2em", "2em");
+		titlePlaceHolder.setSize("0.5em", "0.5em");
 		construct(titlePlaceHolder);
 	}
 	public KSLightBox(boolean addCloseLink) {
@@ -142,9 +142,6 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
         closeLink.setVisible(b);
     }
     protected void construct(Widget title) {
-
-        
-        
     	pop.setStyleName(Styles.LIGHTBOX.getStyle());
     	pop.addStyleName("KS-Drop-Shadow");
     	scroll.addStyleName(Styles.CONTENT.getStyle());
