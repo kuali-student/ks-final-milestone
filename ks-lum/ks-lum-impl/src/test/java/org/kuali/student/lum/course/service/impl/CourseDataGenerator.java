@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
@@ -20,6 +21,12 @@ import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
  * (it may need improvements for creating real relationships for more complex data elements)
  */
 public class CourseDataGenerator {
+	String activities[] = { CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_DISCUSSION_TYPE,
+							CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE,
+							CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /* CourseAssemblerConstants.COURSE_ACTIVITY_WEBDISCUSS_TYPE, */ // not in DB
+							CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE };
+	Random generator = new Random();
+
 	public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
 		CourseInfo testData = generateTestData(CourseInfo.class, 0, 0,null);
 		return testData;
@@ -96,10 +103,14 @@ public class CourseDataGenerator {
 	}
 	
 	private boolean ignoreProperty(PropertyDescriptor pd) {
-		if("class".equals(pd.getName())){
+		String name = pd.getName();
+		if("class".equals(name)){
 			return true;
 		}
-		if("metaInfo".equals(pd.getName())){
+		if("metaInfo".equals(name)){
+			return true;
+		}
+		if("joints".equals(name) || "crossListings".equals(name)) {
 			return true;
 		}
 		return false;
@@ -118,11 +129,11 @@ public class CourseDataGenerator {
 			return null;
 		}
 		if("type".equals(name)){
-			if("formats".equals(parentPropertyName)){
+			if("formats".equals(parentPropertyName)) {
 				return CourseAssemblerConstants.COURSE_FORMAT_TYPE;
 			}
 			if("activities".equals(parentPropertyName)){
-				return CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE;
+				return activities[generator.nextInt(activities.length)];
 			}
 			if(null==parentPropertyName){
 				return "kuali.lu.type.CreditCourse";
@@ -146,7 +157,7 @@ public class CourseDataGenerator {
 			throw new RuntimeException("Code what to do with this type");
 		}
 		if("activityType".equals(name)){
-			return CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE;
+			return activities[generator.nextInt(activities.length)];
 		}
 		if("state".equals(name)){
 			return "draft";

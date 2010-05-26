@@ -31,7 +31,9 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -143,9 +145,21 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		// Create the id if it's not there already(important for creating
 		// relations)
 		clu.setId(UUIDHelper.genStringUUID(course.getId()));
+		if (null == course.getId()) {
+			course.setId(clu.getId());
+		}
 		clu.setType(course.getType());
 		clu.setState(course.getState());
+		
+		CluIdentifierInfo identifier = new CluIdentifierInfo();
+		identifier.setCode(course.getCode());
+		identifier.setSuffixCode(course.getCourseNumberSuffix());
+		clu.setOfficialIdentifier(identifier);
 
+		AdminOrgInfo orgInfo = new AdminOrgInfo();
+		orgInfo.setOrgId(course.getDepartment());
+		clu.setPrimaryAdminOrg(orgInfo);
+		
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);

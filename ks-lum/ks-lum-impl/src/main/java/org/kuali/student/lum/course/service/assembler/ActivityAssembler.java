@@ -61,6 +61,9 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 	
 		//Copy all fields 
 		clu.setId(UUIDHelper.genStringUUID(activity.getId()));//Create the id if it's not there already(important for creating relations)
+		if (null == activity.getId()) {
+			activity.setId(clu.getId());
+		}
 		clu.setType(activity.getActivityType());
 		clu.setState(activity.getState());
 		clu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());

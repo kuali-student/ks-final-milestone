@@ -90,7 +90,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 		cluRel.setId(UUIDHelper.genStringUUID(joint.getRelationId()));
 		cluRel.setRelatedCluId(joint.getCourseId());
 		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
-		
+		result.setNodeData(cluRel);
 		// The caller is required to set the CluId on the cluCluRelation
 		
 		return result;

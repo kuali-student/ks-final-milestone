@@ -67,9 +67,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		//Use the luService to find activities, then convert and add to the format
 		try {
 			List<CluInfo> activities = luService.getRelatedClusByCluId(format.getId(), CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
-			for(CluInfo activity:activities){
-				ActivityInfo activityInfo = activityAssembler.assemble(activity, null, false);
-				format.getActivities().add(activityInfo);
+			if (null != activities) {
+				for(CluInfo activity:activities){
+					ActivityInfo activityInfo = activityAssembler.assemble(activity, null, false);
+					format.getActivities().add(activityInfo);
+				}
 			}
 		} catch (DoesNotExistException e) {
 		} catch (InvalidParameterException e) {
@@ -96,6 +98,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	
 		//Copy all fields 
 		clu.setId(UUIDHelper.genStringUUID(format.getId()));//Create the id if it's not there already(important for creating relations)
+		if (null == format.getId()) {
+			format.setId(clu.getId());
+		}
 		clu.setType(format.getType());
 		clu.setState(format.getState());
 		clu.setMetaInfo(format.getMetaInfo());

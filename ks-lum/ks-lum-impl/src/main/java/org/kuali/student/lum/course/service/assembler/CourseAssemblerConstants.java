@@ -21,4 +21,10 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 
 	public static final String COURSE_ACTIVITY_LAB_TYPE = "kuali.lu.type.activity.Lab";	
+	public static final String COURSE_ACTIVITY_DISCUSSION_TYPE = "kuali.lu.type.activity.Discussion";	
+	public static final String COURSE_ACTIVITY_TUTORIAL_TYPE= "kuali.lu.type.activity.Tutorial";	
+	public static final String COURSE_ACTIVITY_LECTURE_TYPE = "kuali.lu.type.activity.Lecture";	
+	public static final String COURSE_ACTIVITY_WEBLECTURE_TYPE = "kuali.lu.type.activity.WebLecture";	
+	public static final String COURSE_ACTIVITY_WEBDISCUSS_TYPE = "kuali.lu.type.activity.WebDiscussion";	
+	public static final String COURSE_ACTIVITY_DIRECTED_TYPE = "kuali.lu.type.activity.Directed";	
 }
