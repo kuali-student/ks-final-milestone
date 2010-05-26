@@ -136,28 +136,6 @@ public class DictionaryCreator {
 		}else if(List.class.equals(pt)){
 			pt = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
 			if(int.class.equals(pt) || Integer.class.equals(pt)){
-				parentField=BASE_SINGLE_INTEGER_FIELD;
-			}else if(long.class.equals(pt) || Long.class.equals(pt)){
-				parentField=BASE_SINGLE_LONG_FIELD;
-			}else if(double.class.equals(pt) || Double.class.equals(pt)){
-				parentField=BASE_SINGLE_DOUBLE_FIELD;
-			}else if(float.class.equals(pt) || Float.class.equals(pt)){
-				parentField=BASE_SINGLE_FLOAT_FIELD;
-			}else if(boolean.class.equals(pt) || Boolean.class.equals(pt)){
-				parentField=BASE_SINGLE_BOOLEAN_FIELD;
-			}else if(Date.class.equals(pt)){
-				parentField=BASE_SINGLE_DATE_FIELD;
-			}else if(String.class.equals(pt)){
-				parentField=BASE_SINGLE_STRING_FIELD;
-			}else if(List.class.equals(pt)){
-				throw new RuntimeException("Can't have a list of lists, List<List<?>> for property: "+fieldName);
-			}else{
-				parentField=BASE_SINGLE_COMPLEX_FIELD;
-				isComplex=true;
-				dependantStructures.add(pt);
-			}
-		}else{
-			if(int.class.equals(pt) || Integer.class.equals(pt)){
 				parentField=BASE_REPEATING_INTEGER_FIELD;
 			}else if(long.class.equals(pt) || Long.class.equals(pt)){
 				parentField=BASE_REPEATING_LONG_FIELD;
@@ -171,8 +149,30 @@ public class DictionaryCreator {
 				parentField=BASE_REPEATING_DATE_FIELD;
 			}else if(String.class.equals(pt)){
 				parentField=BASE_REPEATING_STRING_FIELD;
+			}else if(List.class.equals(pt)){
+				throw new RuntimeException("Can't have a list of lists, List<List<?>> for property: "+fieldName);
 			}else{
 				parentField=BASE_REPEATING_COMPLEX_FIELD;
+				isComplex=true;
+				dependantStructures.add(pt);
+			}
+		}else{
+			if(int.class.equals(pt) || Integer.class.equals(pt)){
+				parentField=BASE_SINGLE_INTEGER_FIELD;
+			}else if(long.class.equals(pt) || Long.class.equals(pt)){
+				parentField=BASE_SINGLE_LONG_FIELD;
+			}else if(double.class.equals(pt) || Double.class.equals(pt)){
+				parentField=BASE_SINGLE_DOUBLE_FIELD;
+			}else if(float.class.equals(pt) || Float.class.equals(pt)){
+				parentField=BASE_SINGLE_FLOAT_FIELD;
+			}else if(boolean.class.equals(pt) || Boolean.class.equals(pt)){
+				parentField=BASE_SINGLE_BOOLEAN_FIELD;
+			}else if(Date.class.equals(pt)){
+				parentField=BASE_SINGLE_DATE_FIELD;
+			}else if(String.class.equals(pt)){
+				parentField=BASE_SINGLE_STRING_FIELD;
+			}else{
+				parentField=BASE_SINGLE_COMPLEX_FIELD;
 				isComplex=true;
 				dependantStructures.add(pt);
 			}
