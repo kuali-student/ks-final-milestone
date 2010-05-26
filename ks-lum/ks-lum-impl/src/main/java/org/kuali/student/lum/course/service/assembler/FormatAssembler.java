@@ -126,7 +126,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		// Use the Activity assembler to disassemble the activities and
 		// relations
-		List<BaseDTOAssemblyNode<?, ?>> activityResults = disassembleActivities(
+		List<BaseDTOAssemblyNode<?, ?>> activityResults = disassembleActivities(clu.getId(),
 				format, operation);
 		result.getChildNodes().addAll(activityResults);
 
@@ -151,7 +151,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * @return List of Assembly nodes
 	 * @throws AssemblyException
 	 */
-	private List<BaseDTOAssemblyNode<?, ?>> disassembleActivities(
+	private List<BaseDTOAssemblyNode<?, ?>> disassembleActivities(String nodeId,
 			FormatInfo format, NodeOperation operation)
 			throws AssemblyException {
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
@@ -208,8 +208,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 				// Create the relationship and add it as well
 				CluCluRelationInfo relation = new CluCluRelationInfo();
-				relation.setCluId(format.getId());
-				relation.setRelatedCluId(activity.getId());// this should
+				relation.setCluId(nodeId);
+				relation.setRelatedCluId(activityNode.getNodeData().getId());// this should
 															// already be set
 															// even if it's a
 															// create

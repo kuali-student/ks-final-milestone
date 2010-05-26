@@ -31,7 +31,6 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -178,23 +177,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setOfferedAtpTypes(course.getOfferedAtpTypes());
 		clu.setPrimaryInstructor( course.getPrimaryInstructor() );
 		
-		
-   /**********************************/		
-		
-		
-   /*********************************/
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);
 		result.setBusinessDTORef(course);
 		
 		// Use the Format assembler to disassemble the formats and relations
-		List<BaseDTOAssemblyNode<?,?>> formatResults = disassembleFormats(course,
+		List<BaseDTOAssemblyNode<?,?>> formatResults = disassembleFormats(clu.getId(), course,
 				operation);
 		result.getChildNodes().addAll(formatResults);
 
 		// Use the CourseJoint assembler to disassemble the CourseJoints and relations
-		List<BaseDTOAssemblyNode<?,?>> courseJointResults = disassembleJoints(course,
+		List<BaseDTOAssemblyNode<?,?>> courseJointResults = disassembleJoints(clu.getId(), course,
 				operation);
 		result.getChildNodes().addAll(courseJointResults);
 
@@ -204,7 +198,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 	// TODO This is pretty much a copy of the FormatAssembler's
 	// disassembleActivities code... maybe can be made generic
-	private List<BaseDTOAssemblyNode<?,?>> disassembleFormats(CourseInfo course,
+	private List<BaseDTOAssemblyNode<?,?>> disassembleFormats(String nodeId, CourseInfo course,
 			NodeOperation operation) throws AssemblyException {
 
 		List<BaseDTOAssemblyNode<?,?>> results = new ArrayList<BaseDTOAssemblyNode<?,?>>();
@@ -258,8 +252,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 				// Create the relationship and add it as well
 				CluCluRelationInfo relation = new CluCluRelationInfo();
-				relation.setCluId(course.getId());
-				relation.setRelatedCluId(format.getId());// this should already
+				relation.setCluId(nodeId);
+				relation.setRelatedCluId(formatNode.getNodeData().getId());// this should already
 															// be set even if
 															// it's a create
 				relation.setType(CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
@@ -301,7 +295,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			
 	// TODO This is pretty much a copy of the disassembleJoints 
 	// code... maybe can be made generic
-	private List<BaseDTOAssemblyNode<?,?>> disassembleJoints(CourseInfo course,
+	private List<BaseDTOAssemblyNode<?,?>> disassembleJoints(String nodeId, CourseInfo course,
 			NodeOperation operation) throws AssemblyException {
 
 		List<BaseDTOAssemblyNode<?,?>> results = new ArrayList<BaseDTOAssemblyNode<?,?>>();
@@ -344,7 +338,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// the joint does not exist, so create cluclurelation
 				BaseDTOAssemblyNode<CourseJointInfo,CluCluRelationInfo> jointNode = courseJointAssembler
 						.disassemble(joint, NodeOperation.CREATE);
-				jointNode.getNodeData().setCluId(course.getId());
+				jointNode.getNodeData().setCluId(nodeId);
 				results.add(jointNode);
 			}
 
