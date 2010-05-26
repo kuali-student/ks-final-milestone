@@ -18,29 +18,6 @@ public class TestCourseServiceImpl {
 	@Autowired
 	CourseService courseService;
 	
-	@Test 
-	public void testGetCourse() {
-		try {
-			assertNotNull(courseService);
-			/*
-			CourseInfo course = courseService.getCourse("0");
-			assertNotNull(course);
-			*/
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	@Test 
-	public void testUpdateCourse() {
-		
-	}
-	
-	@Test 
-	public void testDeleteCourse() {
-		
-	}
-	
 	@Test
 	public void testCreateCourse(){
 		CourseDataGenerator generator = new CourseDataGenerator();
@@ -54,5 +31,36 @@ public class TestCourseServiceImpl {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+	}
+	
+	@Test 
+	public void testGetCourse() {
+		try {
+			CourseDataGenerator generator = new CourseDataGenerator();
+			CourseInfo cInfo = generator.getCourseTestData();
+			assertNotNull(cInfo);
+			CourseInfo createdCourse = courseService.createCourse(cInfo);
+			assertNotNull(createdCourse);
+			assertEquals("draft", createdCourse.getState());
+			assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
+			CourseInfo retrievedCourse = courseService.getCourse(createdCourse.getId());
+			assertNotNull(retrievedCourse);
+			assertEquals(createdCourse.getDepartment(), retrievedCourse.getDepartment());
+			assertEquals(createdCourse.getCourseNumberSuffix(), retrievedCourse.getCourseNumberSuffix());
+			assertEquals("draft", retrievedCourse.getState());
+			assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test 
+	public void testUpdateCourse() {
+		
+	}
+	
+	@Test 
+	public void testDeleteCourse() {
+		
 	}
 }

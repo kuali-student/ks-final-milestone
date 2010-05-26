@@ -80,8 +80,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		//TODO: Fee
 		//course.setFeeInfo(feeInfo)
 		
-		course.setFirstExpectedOffering(clu.getExpectedFirstAtp());
 		course.setId(clu.getId());
+		course.setType(clu.getType());
+		course.setFirstExpectedOffering(clu.getExpectedFirstAtp());
 		course.setOfferedAtpTypes(clu.getOfferedAtpTypes());
 		course.setPrimaryInstructor(clu.getPrimaryInstructor());
 		course.setState(clu.getState());
