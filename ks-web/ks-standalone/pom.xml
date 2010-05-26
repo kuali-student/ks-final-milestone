@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-standalone</artifactId>
   <packaging>war</packaging>
-  <name>ks-standalone</name>
+  <name>Kuali Student Standalone</name>
   <description>All KS modules combined into one application.</description>
   <parent>
     <groupId>org.kuali.student.web</groupId>

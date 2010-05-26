@@ -1,14 +1,3 @@
-package org.kuali.student.common.util;
-
-import java.io.InputStream;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
-
-import javax.servlet.ServletContext;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.cxf.common.util.StringUtils;
-
 /**
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -24,6 +13,17 @@ import org.apache.cxf.common.util.StringUtils;
  * permissions and limitations under the License.
  */
 
+package org.kuali.student.common.util;
+
+import java.io.InputStream;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
+import javax.servlet.ServletContext;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.cxf.common.util.StringUtils;
+
 /**
  * Obtains version information about the application from the META-INF/MANIFEST.MF file contained inside a .war file
  */
@@ -36,7 +36,7 @@ public class ManifestInspector {
 	/**
 	 * Manifest attributes that contain build information
 	 */
-	private static final String[] BUILD_ATTRIBUTES = { "Kuali-Student-Type", "Kuali-Student-Version", "Build-Timestamp" };
+	private static final String[] DISPLAY_ATTRIBUTES = { "Bundle-Name", "Bundle-Version", "Bundle-Timestamp" };
 
 	/**
 	 * Return a Manifest object
@@ -92,7 +92,7 @@ public class ManifestInspector {
 		Attributes attributes = manifest.getMainAttributes();
 
 		// Convert the ones we are interested in to a string
-		String buildInfo = toString(attributes, BUILD_ATTRIBUTES);
+		String buildInfo = toString(attributes, DISPLAY_ATTRIBUTES);
 		if (StringUtils.isEmpty(buildInfo)) {
 			return "No build information available";
 		} else {
