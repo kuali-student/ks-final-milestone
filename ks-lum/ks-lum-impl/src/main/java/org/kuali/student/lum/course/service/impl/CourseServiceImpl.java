@@ -3,6 +3,7 @@ package org.kuali.student.lum.course.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.validator.poc.Validator;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
@@ -19,6 +20,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -45,6 +47,7 @@ public class CourseServiceImpl implements CourseService {
 	private CourseServiceMethodInvoker courseServiceMethodInvoker;
 	
 	private DictionaryService dictionaryServiceDelegate;
+	private Validator validator;
 	
 	public LuService getLuService() {
 		return luService;
@@ -91,6 +94,18 @@ public class CourseServiceImpl implements CourseService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+		
+		if(courseInfo==null){
+			throw new MissingParameterException("CourseInfo can not be null");
+		}
+		
+		// Validate
+		ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
+		List<ValidationResultInfo> validationResults = validator.validateObject(courseInfo, objStructure);
+		if(null != validationResults && validationResults.size() > 0) {
+			throw new DataValidationErrorException("Validation error!", validationResults);
+		}
+		
 		try {
 			BaseDTOAssemblyNode<CourseInfo,CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.CREATE);
 			
@@ -196,6 +211,18 @@ public class CourseServiceImpl implements CourseService {
 			InvalidParameterException, MissingParameterException,
 			VersionMismatchException, OperationFailedException,
 			PermissionDeniedException {
+		
+		if(courseInfo==null){
+			throw new MissingParameterException("CourseInfo can not be null");
+		}
+		
+		// Validate
+		ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
+		List<ValidationResultInfo> validationResults = validator.validateObject(courseInfo, objStructure);
+		if(null != validationResults && validationResults.size() > 0) {
+			throw new DataValidationErrorException("Validation error!", validationResults);
+		}
+		
 		try {
 			BaseDTOAssemblyNode<CourseInfo,CluInfo> results = courseAssembler.disassemble(courseInfo, NodeOperation.UPDATE);
 			
@@ -269,6 +296,20 @@ public class CourseServiceImpl implements CourseService {
 	public void setDictionaryServiceDelegate(
 			DictionaryService dictionaryServiceDelegate) {
 		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+	}
+
+	/**
+	 * @param validator the validator to set
+	 */
+	public void setValidator(Validator validator) {
+		this.validator = validator;
+	}
+
+	/**
+	 * @return the validator
+	 */
+	public Validator getValidator() {
+		return validator;
 	}
 	
 

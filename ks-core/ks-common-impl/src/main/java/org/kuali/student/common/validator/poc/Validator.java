@@ -251,7 +251,7 @@ public class Validator {
 				}
 
 				String xPath = getElementXpath(elementStack) + field.getName() + "/";
-				if (field.getMinOccurs() > ((Collection<?>) value).size()) {
+				if (field.getMinOccurs()!=null && field.getMinOccurs() > ((Collection<?>) value).size()) {
 					ValidationResultInfo valRes = new ValidationResultInfo(
 							xPath);
 					valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
@@ -812,7 +812,7 @@ public class Validator {
 				val.setError(MessageUtils.interpolate(
 						getMessage("validation.maxLengthFailed"), toMap(constraint)));
 			}
-		} else if (constraint.getMinLength() > 0) {
+		} else if (constraint.getMinLength()!= null && constraint.getMinLength() > 0) {
 			if (s.length() < constraint.getMinLength()) {
 				val.setError(MessageUtils.interpolate(
 						getMessage("validation.minLengthFailed"), toMap(constraint)));
