@@ -54,6 +54,9 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
 			throw new AssemblyException("Activity can not be null");
 		}
+		if (NodeOperation.CREATE != operation && null == activity.getId()) {
+			throw new AssemblyException("Activity's id can not be null");
+		}
 		
 		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>(this);
 		
@@ -61,9 +64,6 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 	
 		//Copy all fields 
 		clu.setId(UUIDHelper.genStringUUID(activity.getId()));//Create the id if it's not there already(important for creating relations)
-		if (null == activity.getId()) {
-			activity.setId(clu.getId());
-		}
 		clu.setType(activity.getActivityType());
 		clu.setState(activity.getState());
 		clu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());

@@ -105,6 +105,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// empty assemblyNode
 			throw new AssemblyException("Format can not be null");
 		}
+		if (NodeOperation.CREATE != operation && null == format.getId()) {
+			throw new AssemblyException("Course Format Shell's id can not be null");
+		}
 
 		CluInfo clu = new CluInfo();
 
