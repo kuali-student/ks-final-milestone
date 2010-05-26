@@ -3,7 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
 	<import resource="classpath:ks-base-dictionary-context.xml" />
-
+	<import resource="classpath:ks-cluInfo-dictionary-context.xml" />
+	
 	<!-- CourseInfo-->
 	<bean id="org.kuali.student.lum.course.dto.CourseInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
@@ -42,7 +43,7 @@
 	<bean id="org.kuali.student.lum.course.dto.CourseInfo" parent="org.kuali.student.lum.course.dto.CourseInfo-parent" />
 
 	<bean id="courseInfo.academicSubjectOrgs-parent" abstract="true"
-		parent="baseRepeatingComplex">
+		parent="cluInfo.academicSubjectOrgs-parent">
 		<property name="name" value="academicSubjectOrgs" />
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" />
@@ -50,18 +51,18 @@
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 
 	<bean id="courseInfo.campusLocations-parent" abstract="true"
-		parent="baseRepeatingString">
+		parent="cluInfo.campusLocations-parent">
 		<property name="name" value="campusLocations" />
 	</bean>
 	<bean id="courseInfo.campusLocations" parent="courseInfo.campusLocations-parent" />
 
-	<bean id="courseInfo.code-parent" abstract="true" parent="baseSingleString">
+	<bean id="courseInfo.code-parent" abstract="true" parent="cluIdentifierInfo.code-parent">
 		<property name="name" value="code" />
 	</bean>
 	<bean id="courseInfo.code" parent="courseInfo.code-parent" />
 
 	<bean id="courseInfo.courseNumberSuffix-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluIdentifierInfo.suffixCode-parent">
 		<property name="name" value="courseNumberSuffix" />
 	</bean>
 	<bean id="courseInfo.courseNumberSuffix" parent="courseInfo.courseNumberSuffix-parent" />
@@ -89,7 +90,7 @@
 	<bean id="courseInfo.crossListings" parent="courseInfo.crossListings-parent" />
 
 	<bean id="courseInfo.department-parent" abstract="true"
-		parent="baseSingleString">
+		parent="adminOrgInfo.id-parent">
 		<property name="name" value="department" />
 	</bean>
 	<bean id="courseInfo.department" parent="courseInfo.department-parent" />
@@ -728,19 +729,19 @@
 		parent="org.kuali.student.lum.course.dto.CourseJointInfo-parent" />
 
 	<bean id="courseJointInfo.courseId-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluInfo.id-parent">
 		<property name="name" value="courseId" />
 	</bean>
 	<bean id="courseJointInfo.courseId" parent="courseJointInfo.courseId-parent" />
 
 	<bean id="courseJointInfo.courseNumberSuffix-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluIdentifierInfo.suffixCode-parent">
 		<property name="name" value="courseNumberSuffix" />
 	</bean>
 	<bean id="courseJointInfo.courseNumberSuffix" parent="courseJointInfo.courseNumberSuffix-parent" />
 
 	<bean id="courseJointInfo.courseTitle-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluIdentifierInfo.longName-parent">
 		<property name="name" value="courseTitle" />
 	</bean>
 	<bean id="courseJointInfo.courseTitle" parent="courseJointInfo.courseTitle-parent" />
@@ -752,12 +753,12 @@
 	<bean id="courseJointInfo.relationId" parent="courseJointInfo.relationId-parent" />
 
 	<bean id="courseJointInfo.subjectArea-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluIdentifierInfo.division-parent">
 		<property name="name" value="subjectArea" />
 	</bean>
 	<bean id="courseJointInfo.subjectArea" parent="courseJointInfo.subjectArea-parent" />
 
-	<bean id="courseJointInfo.type-parent" abstract="true" parent="baseSingleString">
+	<bean id="courseJointInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
 		<property name="name" value="type" />
 	</bean>
 	<bean id="courseJointInfo.type" parent="courseJointInfo.type-parent" />
@@ -786,17 +787,17 @@
 	</bean>
 	<bean id="formatInfo.activities" parent="formatInfo.activities-parent" />
 
-	<bean id="formatInfo.id-parent" abstract="true" parent="baseSingleString">
+	<bean id="formatInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
 		<property name="name" value="id" />
 	</bean>
 	<bean id="formatInfo.id" parent="formatInfo.id-parent" />
 
-	<bean id="formatInfo.state-parent" abstract="true" parent="baseSingleString">
+	<bean id="formatInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
 		<property name="name" value="state" />
 	</bean>
 	<bean id="formatInfo.state" parent="formatInfo.state-parent" />
 
-	<bean id="formatInfo.type-parent" abstract="true" parent="baseSingleString">
+	<bean id="formatInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
 		<property name="name" value="type" />
 	</bean>
 	<bean id="formatInfo.type" parent="formatInfo.type-parent" />
@@ -830,7 +831,7 @@
 	<bean id="activityInfo.academicSubjectOrgs" parent="activityInfo.academicSubjectOrgs-parent" />
 
 	<bean id="activityInfo.activityType-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluInfo.type-parent">
 		<property name="name" value="activityType" />
 	</bean>
 	<bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
@@ -843,24 +844,24 @@
 	<bean id="activityInfo.contactHours" parent="activityInfo.contactHours-parent" />
 
 	<bean id="activityInfo.defaultEnrollmentEstimate-parent" abstract="true"
-		parent="baseSingleInteger">
+		parent="cluInfo.defaultEnrollmentEstimate-parent">
 		<property name="name" value="defaultEnrollmentEstimate" />
 	</bean>
 	<bean id="activityInfo.defaultEnrollmentEstimate" parent="activityInfo.defaultEnrollmentEstimate-parent" />
 
 	<bean id="activityInfo.duration-parent" abstract="true"
-		parent="baseSingleComplex">
+		parent="cluInfo.stdDuration-parent">
 		<property name="name" value="duration" />
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
 	</bean>
 	<bean id="activityInfo.duration" parent="activityInfo.duration-parent" />
 
-	<bean id="activityInfo.id-parent" abstract="true" parent="baseSingleString">
+	<bean id="activityInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
 		<property name="name" value="id" />
 	</bean>
 	<bean id="activityInfo.id" parent="activityInfo.id-parent" />
 
-	<bean id="activityInfo.state-parent" abstract="true" parent="baseSingleString">
+	<bean id="activityInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
 		<property name="name" value="state" />
 	</bean>
 	<bean id="activityInfo.state" parent="activityInfo.state-parent" />
