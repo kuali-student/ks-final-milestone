@@ -91,8 +91,9 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     private final Anchor closeLink = new Anchor();
     private boolean addCloseLink = true;
     private boolean showing = false;
-    
-
+    private int width = 400;
+    private int height = 300;     
+/*
     private final Timer resizeTimer = new Timer() {
 		@Override
 		public void run() {
@@ -104,7 +105,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 			}
 		}
 	};
-	
+	*/
 	private final HandlerManager handlers = new HandlerManager(this);
 	
 	public KSLightBox() {
@@ -141,7 +142,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
         closeLink.setVisible(b);
     }
     protected void construct(Widget title) {
-        scroll.setPixelSize(200, 200);
+
         
         
     	pop.setStyleName(Styles.LIGHTBOX.getStyle());
@@ -171,16 +172,17 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 			}
 		});
     	
-
+        scroll.setPixelSize(width, height);
     }
     
     protected void adjust() {
       //  resizer.resize(scroll);
-       // scroll.setPixelSize(400, 200);
+        scroll.setPixelSize(width, height);
         pop.center();
     }
     public void setSize(int width, int height){
-        scroll.setPixelSize(width, height);
+       this.width = width;
+       this.height = height;
     }
     public void show() {
         if (!showing) {
@@ -197,7 +199,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     }
 
     public void hide() {
-    	resizeTimer.cancel();
+    //	resizeTimer.cancel();
     	if (showing) {
 	        pop.hide();
 	        KSZIndexStack.push();
@@ -213,6 +215,23 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     }
 
     public void setWidget(Widget w) {
+        if(w != null){
+           width = w.getOffsetWidth();
+           height = w.getOffsetHeight();
+        }
+        if(width > 800){
+            width = 800;
+        }
+        if(height > 600){
+            height = 600;
+        }
+        if(width < 200){
+            width = 200;
+        }
+        if(height < 100){
+            height = 100;
+        }
+        scroll.setPixelSize(width, height);
     	scroll.setWidget(w);
     }
     public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
