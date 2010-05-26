@@ -7,11 +7,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.validator.poc.ConstraintMockAddress;
-import org.kuali.student.common.validator.poc.ConstraintMockPerson;
-import org.kuali.student.common.validator.poc.ServerDateParser;
-import org.kuali.student.common.validator.poc.Validator;
-import org.kuali.student.core.dictionary.dto.ConstraintSelector;
 import org.kuali.student.core.dictionary.poc.dto.DataType;
 import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
