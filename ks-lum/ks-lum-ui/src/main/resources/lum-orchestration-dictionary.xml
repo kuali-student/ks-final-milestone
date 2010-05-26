@@ -6188,7 +6188,7 @@
 		</property>
 	</bean>
 	<bean id="cluset.clus" parent="clusFieldParent" />
-	<bean id="cluset.clusets" parent="dataFieldDescriptor">
+	<bean id="clusetsFieldParent" parent="dataFieldDescriptor">
 		<property name="name" value="clusets" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
@@ -6334,6 +6334,7 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="cluset.clusets" parent="clusetsFieldParent"/>
 	<bean id="cluset.type" parent="dataFieldDescriptor">
 		<property name="name" value="type" />
 		<property name="writeAccess" value="NEVER" />
