@@ -31,6 +31,7 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -155,12 +156,33 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
 		identifier.setCode(course.getCode());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
+		identifier.setLongName(course.getCourseTitle());
+
+		identifier.setDivision(course.getSubjectArea());
+		identifier.setShortName(course.getTranscriptTitle());
 		clu.setOfficialIdentifier(identifier);
 
 		AdminOrgInfo orgInfo = new AdminOrgInfo();
 		orgInfo.setOrgId(course.getDepartment());
 		clu.setPrimaryAdminOrg(orgInfo);
 		
+		clu.setAcademicSubjectOrgs(course.getAcademicSubjectOrgs() );
+		clu.setAttributes( course.getAttributes() );
+		clu.setCampusLocations(course.getCampusLocations() );
+		clu.setDescr(course.getDescription());
+		clu.setStdDuration(course.getDuration());
+		clu.setEffectiveDate(course.getEffectiveDate());
+		clu.setExpirationDate(course.getExpirationDate());
+
+		clu.setExpectedFirstAtp(course.getFirstExpectedOffering());
+		clu.setOfferedAtpTypes(course.getOfferedAtpTypes());
+		clu.setPrimaryInstructor( course.getPrimaryInstructor() );
+		
+		
+   /**********************************/		
+		
+		
+   /*********************************/
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);

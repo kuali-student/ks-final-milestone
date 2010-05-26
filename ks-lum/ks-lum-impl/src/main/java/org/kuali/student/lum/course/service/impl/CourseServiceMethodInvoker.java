@@ -16,7 +16,6 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
