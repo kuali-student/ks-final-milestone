@@ -6341,7 +6341,7 @@
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
 	</bean>
-	<bean id="cluset.clusetRangeEdit" parent="dataFieldDescriptor">
+	<bean id="clusetRangeEditFieldParent" parent="dataFieldDescriptor">
 		<property name="name" value="clusetRangeEdit" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
@@ -6537,6 +6537,7 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="cluset.clusetRangeEdit" parent="clusetRangeEditFieldParent"/>
 	<bean id="cluset.clusetRange" parent="dataFieldDescriptor">
 		<property name="name" value="clusetRange" />
 		<property name="writeAccess" value="ALWAYS" />
