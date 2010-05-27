@@ -2,20 +2,17 @@ package org.kuali.student.common.validator.poc;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.core.dictionary.poc.dto.DataType;
-import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.poc.dto.RequiredConstraint;
-import org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint;
+import org.kuali.student.core.dictionary.service.impl.poc.DictionaryServiceImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class TestValidator {
 	Validator val = null;
+	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:poc/test-validator-context.xml");
 	
 	@Before
 	public void init() {
@@ -145,152 +142,24 @@ public class TestValidator {
     
     
     public ConstraintMockPerson buildTestPerson1() {
-    	ConstraintMockPerson person = new ConstraintMockPerson();
-    	
-    	person.setFirstName("first");
-    	person.setLastName("last");
-    	person.setEmail("first@test.com");
-    	person.setType("STUDENT");
-    	person.setState("CREATE");
-    	person.setId("P1");
-    	    	
-    	return person;
+    	return ValidatorMockObjectGenerator.buildTestPerson1();
     }
 
     
     public ConstraintMockPerson buildTestPerson2() {
-    	ConstraintMockPerson person = new ConstraintMockPerson();
-    	
-    	person.setFirstName("first");
-    	person.setLastName("last");
-    	person.setEmail("first@test.com");
-    	person.setType("STUDENT");
-    	person.setState("CREATE");
-    	person.setId("P1");
-    	person.setGpa(3.5);
-    	ServerDateParser dp = new ServerDateParser();    	
-    	person.setDob(dp.parseDate("1978-01-01"));
-    	
-    	
-    	return person;
+    	return ValidatorMockObjectGenerator.buildTestPerson2();
     }
 
     
     public ConstraintMockPerson buildTestPerson3() {
-    	ConstraintMockPerson person = new ConstraintMockPerson();
-    	
-    	person.setFirstName("first");
-    	person.setLastName("last");
-    	person.setEmail("first@test.com");
-    	person.setType("STUDENT");
-    	person.setState("CREATE");
-    	person.setId("P1");
-    	ServerDateParser dp = new ServerDateParser();    	
-    	person.setDob(dp.parseDate("1978-01-01"));
-    	
-    	ConstraintMockAddress address = new ConstraintMockAddress();
-    	address.setState("ACTIVE");
-    	address.setType("MAILING");
-    	address.setId("A1");
-    	address.setCity("TLH");
-    	address.setStateCode("FL");
-    	address.setCountry("US");
-    	address.setLine1("");
-    	address.setLine2("line2value");
-    	address.setPostalCode("32306");
-    	    	
-    	List<ConstraintMockAddress> addressL = new ArrayList<ConstraintMockAddress>();
-    	addressL.add(address);
-    	
-    	person.setAddress(addressL);
-
-    	return person;
+    	return ValidatorMockObjectGenerator.buildTestPerson3();
     }
     
-    public ObjectStructureDefinition buildObjectStructure2() {
-    	
-    	ObjectStructureDefinition addrStruct = new ObjectStructureDefinition();
-    	addrStruct.setName("addressInfo");
-    	
-    	// Line 1 Field
-    	FieldDefinition f1 = new FieldDefinition();
-    	f1.setName("line1");
-    	f1.setDataType(DataType.STRING);
-    	f1.setMaxLength("20");
-    	f1.setMinLength(2);
-    	f1.setMinOccurs(1);
-    	ValidCharsConstraint vcs1 = new ValidCharsConstraint();
-    	vcs1.setValue("regex:[a-z]*");
-    	f1.setValidChars(vcs1);
-    	
-    	addrStruct.getAttributes().add(f1);
-
-    	// Line 2 Field
-    	FieldDefinition f2 = new FieldDefinition();
-    	f2.setName("line2");
-    	f2.setDataType(DataType.STRING);
-    	f2.setMaxLength("20");
-    	f2.setMinLength(2);
-    	f2.setMinOccurs(0);
-    	
-    	RequiredConstraint rc2 = new RequiredConstraint();
-    	rc2.setFieldPath("line1");
-    	List<RequiredConstraint> rcList2 = new ArrayList<RequiredConstraint>();
-    	rcList2.add(rc2);
-    	f2.setRequireConstraint(rcList2);
-    	
-    	ValidCharsConstraint vcs2 = new ValidCharsConstraint();
-    	vcs2.setValue("regex:[a-z]*");
-    	f2.setValidChars(vcs1);
-    	
-    	addrStruct.getAttributes().add(f2);
-    	
-    	ObjectStructureDefinition objStruct = buildObjectStructure1();
-    	
-    	// Complex nested obj struct
-    	FieldDefinition f3 = new FieldDefinition();
-    	f3.setName("address");
-       	f3.setDataType(DataType.COMPLEX);
-    	f3.setDataObjectStructure(addrStruct);
-    	
-    	objStruct.getAttributes().add(f3);
-    	
-    	return objStruct;
+    public ObjectStructureDefinition buildObjectStructure1() { 
+    	return dictionaryDelegate.getObjectStructure("objectStructure1");
     }
 
-    public ObjectStructureDefinition buildObjectStructure1() {    
-    	ObjectStructureDefinition objStruct = new ObjectStructureDefinition();
-    	objStruct.setName("personInfo");
-    	    	
-    	// Line 1 Field
-    	FieldDefinition f1 = new FieldDefinition();
-    	f1.setName("firstName");
-    	f1.setDataType(DataType.STRING);
-    	f1.setMaxLength("20");
-    	f1.setMinLength(2);
-    	f1.setMinOccurs(1);
-    	ValidCharsConstraint vcs1 = new ValidCharsConstraint();
-    	vcs1.setValue("regex:[a-z]*");
-    	f1.setValidChars(vcs1);
-    	objStruct.getAttributes().add(f1);
-    	    	    	
-    	// DOB Field
-    	FieldDefinition f2 = new FieldDefinition();
-    	f2.setName("dob");
-    	f2.setDataType(DataType.DATE);
-    	f2.setExclusiveMin("1970-01-01");
-    	f2.setMinOccurs(1);
-    	objStruct.getAttributes().add(f2);
-    	    	
-
-    	// GPA
-    	FieldDefinition f3 = new FieldDefinition();
-    	f3.setName("gpa");
-    	f3.setDataType(DataType.DOUBLE);
-    	f3.setExclusiveMin("1.0");
-    	f3.setInclusiveMax("4.0");
-    	objStruct.getAttributes().add(f3);
-
-    	return objStruct;    	
+    public ObjectStructureDefinition buildObjectStructure2() {
+    	return dictionaryDelegate.getObjectStructure("objectStructure2");
     }
 }
