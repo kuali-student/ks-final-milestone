@@ -13,8 +13,10 @@ import org.junit.runner.RunWith;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -93,8 +95,38 @@ public class TestCourseServiceImpl {
 			assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
 			assertEquals(20, timeInfo.getTimeQuantity().intValue());
 			
+			// TODO - check effective/expiration dates
+			
+			// TODO - check feeInfo
+			
+			assertEquals("firstExpectedOffering-22", retrievedCourse.getFirstExpectedOffering());
+			
+			assertEquals(2, retrievedCourse.getFormats().size());
+			FormatInfo info = retrievedCourse.getFormats().get(0);
+			assertEquals("kuali.lu.type.CreditCourseFormatShell", info.getType());
+			assertEquals(2, info.getActivities().size());
+			assertTrue(info.getActivities().get(1).getActivityType().startsWith("kuali.lu.type.activity."));
+			
+			// TODO - check joints
+			// TODO - check metaInfo
+			
+			assertEquals(2, retrievedCourse.getOfferedAtpTypes().size());
+			String atpType = retrievedCourse.getOfferedAtpTypes().get(1);
+			assertTrue("offeredAtpTypes-29".equals(atpType) || "offeredAtpTypes-30".equals(atpType));
+			
+			CluInstructorInfo instructor = retrievedCourse.getPrimaryInstructor();
+			assertEquals("orgId-34", instructor.getOrgId());
+			assertEquals("personId-35", instructor.getPersonId());
+			
 			assertEquals("draft", retrievedCourse.getState());
+			assertEquals("subjectArea-32", retrievedCourse.getSubjectArea());
+			
+			// TODO - check termsOffered
+			
+			assertEquals("transcriptTitle-36", retrievedCourse.getTranscriptTitle());
 			assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
+			
+			// TODO - check variotions
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
