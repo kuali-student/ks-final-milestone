@@ -14,30 +14,35 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="firstName" class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
-		<property name="name" value="firstName"/>
-		<property name="dataType" value="STRING"/>
-		<property name="maxLength" value="20"/>
-		<property name="minLength" value="2"/>
-		<property name="minOccurs" value="1"/>
+
+	<bean id="firstName"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		<property name="name" value="firstName" />
+		<property name="dataType" value="STRING" />
+		<property name="maxLength" value="20" />
+		<property name="minLength" value="2" />
+		<property name="minOccurs" value="1" />
 		<property name="validChars">
-			<bean class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint" p:value="regex:[a-z]*"/>
+			<bean
+				class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint"
+				p:value="regex:[a-z]*" />
 		</property>
 	</bean>
-	
-	<bean id="dob" class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
-		<property name="name" value="dob"/>
-		<property name="dataType" value="DATE"/>
-		<property name="exclusiveMin" value="1970-01-01"/>
-		<property name="minOccurs" value="1"/>
+
+	<bean id="dob"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		<property name="name" value="dob" />
+		<property name="dataType" value="DATE" />
+		<property name="exclusiveMin" value="1970-01-01" />
+		<property name="minOccurs" value="1" />
 	</bean>
-	
-	<bean id="gpa" class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
-		<property name="name" value="gpa"/>
-		<property name="dataType" value="DOUBLE"/>
-		<property name="exclusiveMin" value="1.0"/>
-		<property name="inclusiveMax" value="4.0"/>
+
+	<bean id="gpa"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		<property name="name" value="gpa" />
+		<property name="dataType" value="DOUBLE" />
+		<property name="exclusiveMin" value="1.0" />
+		<property name="inclusiveMax" value="4.0" />
 	</bean>
 
 	<bean id="addrStruct"
@@ -50,32 +55,39 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="line1" class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
-		<property name="name" value="line1"/>
-		<property name="dataType" value="STRING"/>
-		<property name="maxLength" value="20"/>
-		<property name="minLength" value="2"/>
-		<property name="minOccurs" value="1"/>
+	<bean id="line1"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		<property name="name" value="line1" />
+		<property name="dataType" value="STRING" />
+		<property name="maxLength" value="20" />
+		<property name="minLength" value="2" />
+		<property name="minOccurs" value="1" />
 		<property name="validChars">
-			<bean class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint" p:value="regex:[a-z]*"/>
+			<bean
+				class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint"
+				p:value="regex:[a-z]*" />
 		</property>
 	</bean>
-	<bean id="line2" class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
-		<property name="name" value="line2"/>
-		<property name="dataType" value="STRING"/>
-		<property name="maxLength" value="20"/>
-		<property name="minLength" value="2"/>
-		<property name="minOccurs" value="0"/>
+	<bean id="line2"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		<property name="name" value="line2" />
+		<property name="dataType" value="STRING" />
+		<property name="maxLength" value="20" />
+		<property name="minLength" value="2" />
+		<property name="minOccurs" value="0" />
 		<property name="validChars">
-			<bean class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint" p:value="regex:[a-z]*"/>
+			<bean
+				class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint"
+				p:value="regex:[a-z]*" />
 		</property>
 		<property name="requireConstraint">
 			<list>
-				<bean class="org.kuali.student.core.dictionary.poc.dto.RequiredConstraint" p:fieldPath="line1"/>
+				<bean class="org.kuali.student.core.dictionary.poc.dto.RequiredConstraint"
+					p:fieldPath="line1" />
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="objectStructure2"
 		class="org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition">
 		<property name="name" value="objectStructure2" />
@@ -84,64 +96,15 @@
 				<ref bean="firstName" />
 				<ref bean="dob" />
 				<ref bean="gpa" />
-				<ref bean="address"/>
+				<ref bean="address" />
 			</list>
 		</property>
 	</bean>
-	<bean id="address" class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
-		<property name="name" value="address"/>
-		<property name="dataType" value="COMPLEX"/>
-		<property name="dataObjectStructure" ref="addrStruct"/>
+	<bean id="address"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		<property name="name" value="address" />
+		<property name="dataType" value="COMPLEX" />
+		<property name="dataObjectStructure" ref="addrStruct" />
 	</bean>
-	
-<!-- 
-//    	ObjectStructureDefinition addrStruct = new ObjectStructureDefinition();
-//    	addrStruct.setName("addressInfo");
-//    	
-//    	// Line 1 Field
-//    	FieldDefinition f1 = new FieldDefinition();
-//    	f1.setName("line1");
-//    	f1.setDataType(DataType.STRING);
-//    	f1.setMaxLength("20");
-//    	f1.setMinLength(2);
-//    	f1.setMinOccurs(1);
-//    	ValidCharsConstraint vcs1 = new ValidCharsConstraint();
-//    	vcs1.setValue("regex:[a-z]*");
-//    	f1.setValidChars(vcs1);
-//    	
-//    	addrStruct.getAttributes().add(f1);
-//
-//    	// Line 2 Field
-//    	FieldDefinition f2 = new FieldDefinition();
-//    	f2.setName("line2");
-//    	f2.setDataType(DataType.STRING);
-//    	f2.setMaxLength("20");
-//    	f2.setMinLength(2);
-//    	f2.setMinOccurs(0);
-//    	
-//    	RequiredConstraint rc2 = new RequiredConstraint();
-//    	rc2.setFieldPath("line1");
-//    	List<RequiredConstraint> rcList2 = new ArrayList<RequiredConstraint>();
-//    	rcList2.add(rc2);
-//    	f2.setRequireConstraint(rcList2);
-//    	
-//    	ValidCharsConstraint vcs2 = new ValidCharsConstraint();
-//    	vcs2.setValue("regex:[a-z]*");
-//    	f2.setValidChars(vcs1);
-//    	
-//    	addrStruct.getAttributes().add(f2);
-//    	
-//    	ObjectStructureDefinition objStruct = buildObjectStructure1();
-//    	
-//    	// Complex nested obj struct
-//    	FieldDefinition f3 = new FieldDefinition();
-//    	f3.setName("address");
-//       	f3.setDataType(DataType.COMPLEX);
-//    	f3.setDataObjectStructure(addrStruct);
-//    	
-//    	objStruct.getAttributes().add(f3);
-//    	
-//    	return objStruct;
 
- -->
 </beans>
