@@ -28,8 +28,8 @@
         <column name="NEXT_REVIEW_PRD" size="255" type="VARCHAR"/>
         <column name="REF_URL" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
-        <column name="ATPDURATIONTYPEKEY" size="255" type="VARCHAR"/>
-        <column name="TIMEQUANTITY" size="10" type="DECIMAL"/>
+        <column name="ATP_DUR_TYP_KEY" size="255" type="VARCHAR"/>
+        <column name="TM_QUANTITY" size="10" type="DECIMAL"/>
         <column name="STDY_SUBJ_AREA" size="255" type="VARCHAR"/>
         <column name="ACCT_ID" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>

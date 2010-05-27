@@ -644,8 +644,8 @@
         <column name="DESCR" size="2000" type="VARCHAR"/>
         <column name="MAX_NUM_RELTN" size="255" type="VARCHAR"/>
         <column name="MIN_NUM_RELTN" size="10" type="DECIMAL"/>
-        <column name="ATPDURATIONTYPEKEY" size="255" type="VARCHAR"/>
-        <column name="TIMEQUANTITY" size="10" type="DECIMAL"/>
+        <column name="ATP_DUR_TYP_KEY" size="255" type="VARCHAR"/>
+        <column name="TM_QUANTITY" size="10" type="DECIMAL"/>
         <column name="TTL" size="255" type="VARCHAR"/>
         <column name="ORG" size="255" type="VARCHAR"/>
         <column name="PERS_RELTN_TYPE" size="255" type="VARCHAR"/>
