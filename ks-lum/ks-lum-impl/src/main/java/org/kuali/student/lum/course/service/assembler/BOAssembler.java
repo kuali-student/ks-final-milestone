@@ -20,7 +20,7 @@ import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOp
 
 
 /**
- * An assembler that provides assembly and disassembly of business DTO from
+ * An assembler that provides assembly and disassembly of business DTO from/to
  * their base DTO.
  * 
  * During disassembly of business DTO, it is required that all implementations

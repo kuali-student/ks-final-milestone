@@ -24,7 +24,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
 /**
- * Assembles/Disassembles ActivityInfo DTO from/To CluInfo 
+ * Assembles/Disassembles CourseJointInfo DTO from/to CluCluRelationInfo 
  * 
  * @author Kuali Student Team
  *
