@@ -4,7 +4,7 @@
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
 	<import resource="classpath:ks-base-dictionary-context.xml" />
 	<import resource="classpath:ks-cluInfo-dictionary-context.xml" />
-	<import resource="ks-constraints-dictionary-context.xml" />
+	
 	<!-- CourseInfo-->
 	<bean id="org.kuali.student.lum.course.dto.CourseInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
@@ -47,25 +47,12 @@
 		<property name="name" value="academicSubjectOrgs" />
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.repeating" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 
 	<bean id="courseInfo.campusLocations-parent" abstract="true"
 		parent="cluInfo.campusLocations-parent">
 		<property name="name" value="campusLocations" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.repeating" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.code" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.campusLocations" parent="courseInfo.campusLocations-parent" />
 
@@ -105,13 +92,6 @@
 	<bean id="courseInfo.department-parent" abstract="true"
 		parent="adminOrgInfo.id-parent">
 		<property name="name" value="department" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.related.orgId" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.department" parent="courseInfo.department-parent" />
 
@@ -125,42 +105,18 @@
 	<bean id="courseInfo.duration-parent" abstract="true" parent="baseSingleComplex">
 		<property name="name" value="duration" />
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.single" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.duration" parent="courseInfo.duration-parent" />
 
 	<bean id="courseInfo.effectiveDate-parent" abstract="true"
 		parent="baseSingleDate">
 		<property name="name" value="effectiveDate" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.default.today" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.date.time" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.effectiveDate" parent="courseInfo.effectiveDate-parent" />
 
 	<bean id="courseInfo.expirationDate-parent" abstract="true"
 		parent="baseSingleDate">
 		<property name="name" value="expirationDate" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.date.time" />
-				<ref bean="constraint.cross.greaterthan.effective.date" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.expirationDate" parent="courseInfo.expirationDate-parent" />
 
@@ -180,15 +136,6 @@
 		parent="baseRepeatingComplex">
 		<property name="name" value="formats" />
 		<property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.FormatInfo" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.atp.in.future" />
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.atp.types" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.formats" parent="courseInfo.formats-parent" />
 
@@ -216,12 +163,6 @@
 		<property name="name" value="primaryInstructor" />
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.optional" />
-			</list>
-		</property>
 	</bean>
 	<bean id="courseInfo.primaryInstructor" parent="courseInfo.primaryInstructor-parent" />
 
@@ -528,32 +469,12 @@
 	<bean id="timeAmountInfo.atpDurationTypeKey-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="atpDurationTypeKey" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.valid.duration.types" />
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.duration.types" />
-			</list>
-		</property>
 	</bean>
 	<bean id="timeAmountInfo.atpDurationTypeKey" parent="timeAmountInfo.atpDurationTypeKey-parent" />
 
 	<bean id="timeAmountInfo.timeQuantity-parent" abstract="true"
 		parent="baseSingleInteger">
 		<property name="name" value="timeQuantity" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.hard.coded.one" />
-				<ref bean="constraint.read.only" />
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.integer" />
-			</list>
-		</property>
 	</bean>
 	<bean id="timeAmountInfo.timeQuantity" parent="timeAmountInfo.timeQuantity-parent" />
 
@@ -868,27 +789,11 @@
 
 	<bean id="formatInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
 		<property name="name" value="id" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.hidden" />
-				<ref bean="constraint.read.only" />
-				<ref bean="constraint.kuali.id" />
-			</list>
-		</property>
 	</bean>
 	<bean id="formatInfo.id" parent="formatInfo.id-parent" />
 
 	<bean id="formatInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
 		<property name="name" value="state" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.kuali.state" />
-				<ref bean="constraint.lu.states" />
-			</list>
-		</property>
 	</bean>
 	<bean id="formatInfo.state" parent="formatInfo.state-parent" />
 
@@ -928,16 +833,6 @@
 	<bean id="activityInfo.activityType-parent" abstract="true"
 		parent="cluInfo.type-parent">
 		<property name="name" value="activityType" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.lu.activity.types" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.kuali.type" />
-				<ref bean="constraint.lu.types" />
-			</list>
-		</property>
 	</bean>
 	<bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
 
@@ -945,14 +840,6 @@
 		parent="baseSingleComplex">
 		<property name="name" value="contactHours" />
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.AmountInfo" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.single" />
-			</list>
-		</property>
 	</bean>
 	<bean id="activityInfo.contactHours" parent="activityInfo.contactHours-parent" />
 
@@ -966,41 +853,16 @@
 		parent="cluInfo.stdDuration-parent">
 		<property name="name" value="duration" />
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.optional" />
-				<ref bean="constraint.single" />
-			</list>
-		</property>
 	</bean>
 	<bean id="activityInfo.duration" parent="activityInfo.duration-parent" />
 
 	<bean id="activityInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
 		<property name="name" value="id" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.hidden" />
-				<ref bean="constraint.read.only" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.kuali.id" />
-			</list>
-		</property>
 	</bean>
 	<bean id="activityInfo.id" parent="activityInfo.id-parent" />
 
 	<bean id="activityInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
 		<property name="name" value="state" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.kuali.state" />
-				<ref bean="constraint.lu.states" />
-			</list>
-		</property>
 	</bean>
 	<bean id="activityInfo.state" parent="activityInfo.state-parent" />
 
@@ -1021,34 +883,11 @@
 	<bean id="amountInfo.unitQuantity-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="unitQuantity" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.non-negative.integer" />
-				<bean parent="constraint">
-					<property name="serverSide" value="false" />
-					<property name="minLength" value="1" />
-					<property name="maxLength" value="2" />
-					<property name="minValue" value="0" />
-					<property name="maxValue" value="40" />
-				</bean>
-				<ref bean="constraint.required" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.decimal" />
-			</list>
-		</property>
 	</bean>
 	<bean id="amountInfo.unitQuantity" parent="amountInfo.unitQuantity-parent" />
 
 	<bean id="amountInfo.unitType-parent" abstract="true" parent="baseSingleString">
 		<property name="name" value="unitType" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.unit.types" />
-			</list>
-		</property>
 	</bean>
 	<bean id="amountInfo.unitType" parent="amountInfo.unitType-parent" />
 
