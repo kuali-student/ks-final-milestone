@@ -24,15 +24,15 @@ public class LumCssImpl implements LumCss{
 
 	@Override
 	public String getCssString() {
-       String injectString = "";
+       StringBuffer injectString = new StringBuffer("");
         for(ResourcePrototype r: LumClientBundle.INSTANCE.getResources()){
             if(r instanceof CssResource){
                 if(((CssResource)r).getText() != null){
-                    injectString = injectString + "\n" + (((CssResource)r).getText());
+                    injectString.append("\n" + (((CssResource)r).getText()));
                 }
             }
         }
-        return injectString;
+        return injectString.toString();
 	}
 
 }

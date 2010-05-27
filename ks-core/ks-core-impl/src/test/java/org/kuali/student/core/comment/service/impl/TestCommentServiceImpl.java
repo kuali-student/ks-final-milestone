@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -57,6 +58,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 @Daos( { @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl",testSqlFile="classpath:ks-comment.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentServiceImpl extends AbstractServiceTest {
+	final Logger LOG = Logger.getLogger(TestCommentServiceImpl.class);
     @Client(value = "org.kuali.student.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
     public CommentService client;
 
@@ -287,7 +289,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
             TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
             assertEquals(tagInfoTest.getId(), createdTagInfo.getId());
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
 
         assertEquals("UnitedStates3",createdTagInfo.getNamespace());

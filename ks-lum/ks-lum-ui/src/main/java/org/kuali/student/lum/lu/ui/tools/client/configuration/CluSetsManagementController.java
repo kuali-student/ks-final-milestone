@@ -20,7 +20,6 @@ import java.util.List;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -58,7 +57,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class CluSetsManagementController extends TabbedSectionLayout { //PagedSectionLayout {  FIXME should be paged layout? 
+public class CluSetsManagementController extends TabbedSectionLayout {  
 
     private final DataModel createCluSetModel = new DataModel();    
     private final DataModel editCluSetModel = new DataModel();
@@ -384,32 +383,33 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
             modelToBeSaved = null;
             clearData = false;
         }
-
-        modelToBeSaved.validate(new Callback<List<ValidationResultInfo>>() {
-            @Override
-            public void exec(List<ValidationResultInfo> result) {
-
-                boolean save = true;
-                View v = getCurrentView();
-                if(v instanceof Section){
-                    ((Section) v).setFieldHasHadFocusFlags(true);
-                    ErrorLevel status = ((Section) v).processValidationResults(result);
-                    if(status == ErrorLevel.ERROR){
-                        save = false;
-                    }
-                }
-
-                if(save){
-                    getCurrentView().updateModel();
-                    CluSetsManagementController.this.updateModel();
-                    saveModel(modelToBeSaved, saveActionEvent, clearData);
-                }
-                else{
-                    Window.alert("Save failed.  Please check fields for errors.");
-                }
-
-            }
-        });
+        if(modelToBeSaved!=null){
+	        modelToBeSaved.validate(new Callback<List<ValidationResultInfo>>() {
+	            @Override
+	            public void exec(List<ValidationResultInfo> result) {
+	
+	                boolean save = true;
+	                View v = getCurrentView();
+	                if(v instanceof Section){
+	                    ((Section) v).setFieldHasHadFocusFlags(true);
+	                    ErrorLevel status = ((Section) v).processValidationResults(result);
+	                    if(status == ErrorLevel.ERROR){
+	                        save = false;
+	                    }
+	                }
+	
+	                if(save){
+	                    getCurrentView().updateModel();
+	                    CluSetsManagementController.this.updateModel();
+	                    saveModel(modelToBeSaved, saveActionEvent, clearData);
+	                }
+	                else{
+	                    Window.alert("Save failed.  Please check fields for errors.");
+	                }
+	
+	            }
+	        });
+        }
     }
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent,
@@ -462,11 +462,7 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
                         dataModel.setRoot(new Data());
                     } else {
                         dataModel.setRoot(result.getValue());
-                    }
-                    View currentView = getCurrentView(); 
-                    if (currentView instanceof VerticalSectionView){
-                        ((VerticalSectionView) currentView).redraw();
-                    }
+                    } 
                     if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");
                         buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
@@ -512,13 +508,11 @@ public class CluSetsManagementController extends TabbedSectionLayout { //PagedSe
 
     @Override
     public Enum<?> getViewEnumValue(String enumValue) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setParentController(Controller controller) {
-        // TODO Auto-generated method stub
         super.setParentController(controller);    
     }
 }

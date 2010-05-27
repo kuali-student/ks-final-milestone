@@ -83,9 +83,6 @@
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
 				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/PersonRpcService">
-					<ref bean="personRpcGwtServletController"/>
-				</entry>
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/AuthorizationRpcService">
 					<ref bean="authorizationRpcGwtServletController"/>
 				</entry>
@@ -121,11 +118,6 @@
 	<bean id="orgRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="orgRpcGwtServlet"/>
 		<property name="servletInstance" ref="orgRpcGwtServlet"/>
-	</bean>
-
-	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="personRpcGwtServlet"/>
-		<property name="servletInstance" ref="personRpcGwtServlet"/>
 	</bean>
 
 	<bean id="authorizationRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -171,9 +163,6 @@
 		<property name="service" ref="orgClient"/>
 		<property name="identityService" ref="identityServiceClient"/>
 		<property name="assembler" ref="orgAssemblerFilterManager"/>
-	</bean>
-
-	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
 	</bean>
 
 	<bean id="authorizationRpcGwtServlet"

@@ -145,12 +145,11 @@ public class ViewCourseProposalSummaryConfigurer implements
     	
         VerticalSectionView summaryTableSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
         summaryTableSection.addStyleName(LUConstants.STYLE_SECTION);
-        summaryTableSection.getSectionTitle().addStyleName("ks-heading-page-title");
             	
     	QueryPath path = QueryPath.concat(null, null);
     	Metadata meta = modelDefinition.getMetadata(path);
 
-    	FieldDescriptor fd = new FieldDescriptor(path.toString(), "", meta);
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), null, meta);
         fd.setWidgetBinding(new SummaryTableBinding());
         fd.setFieldWidget(new SummaryTable());
    		summaryTableSection.addField(fd);
@@ -182,7 +181,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField(getLabel(LUConstants.BRIEF_LABEL_KEY), 0);
 				summaryTable.addField(LUConstants.TITLE_LABEL_KEY, PROPOSAL + "/" + TITLE, model, 1);
 				summaryTable.addField(LUConstants.DIVISION_LABEL_KEY, COURSE + "/" + SUBJECT_AREA, model, 1);
-				summaryTable.addField(LUConstants.SUFFIX_CODE_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
+				summaryTable.addField(LUConstants.COURSE_NUMBER_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
 				summaryTable.addField(LUConstants.CREATED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, model, 1);
 				summaryTable.addField(LUConstants.LAST_CHANGED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + UPDATE_TIME, model, 1);
 
@@ -336,7 +335,7 @@ public class ViewCourseProposalSummaryConfigurer implements
         				summaryTable.addField(getLabel(LUConstants.FORMAT_LABEL_KEY) + " " + formatProp.getKey(), 2);
         			}
         			Data activitiesData = ((Data)formatProp.getValue()).get(ACTIVITIES);
-        			if(activitiesData != null && activitiesData instanceof Data){
+        			if(activitiesData != null){
         				Iterator<Data.Property> activityIter = activitiesData.realPropertyIterator();
         				while(activityIter.hasNext()){
         					Data.Property activityProp = activityIter.next();
@@ -468,29 +467,29 @@ public class ViewCourseProposalSummaryConfigurer implements
 									nameString = person.getPrincipalId();
 								}
 								
-								String permString = "";
+								StringBuffer permString = new StringBuffer("");
 								int count = 0;
 								for(String perm: person.getPermList()){
 									if(perm != null){
 										if(count > 0){
-											permString = permString + ", " + perm;
+											permString.append(", " + perm);
 										}
 										else{
-											permString = permString + perm;
+											permString.append(perm);
 										}
 										count++;
 									}
 								}
 								
-								String actionString = "";
+								StringBuffer actionString = new StringBuffer("");
 								count = 0;
 								for(String action: person.getActionList()){
 									if(action != null){
 										if(count > 0){
-											actionString = actionString + ", " + action;
+											actionString.append(", " + action);
 										}
 										else{
-											actionString = actionString + action;
+											actionString.append(action);
 										}
 										count++;
 									}
@@ -498,8 +497,8 @@ public class ViewCourseProposalSummaryConfigurer implements
 								
 								if(summaryTable!=null){
 									summaryTable.addField("Name",nameString, nestLevel+1);
-									summaryTable.addField("Permissions", permString, nestLevel+2);
-									summaryTable.addField("Workflow Action", actionString, nestLevel+2);
+									summaryTable.addField("Permissions", permString.toString(), nestLevel+2);
+									summaryTable.addField("Workflow Action", actionString.toString(), nestLevel+2);
 								}
 							}
 						}
@@ -606,9 +605,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 		        	        	stringValue = translation;
 		        	        }
 		    				addField(propertyLabel, stringValue, indent+1);
-						}else if(value instanceof Data){
-							addField(propertyLabel,propertyPath,model,indent+1);//added this in
-                    	}else{
+						} else {
 							addField(propertyLabel,propertyPath,model,indent+1);
 						}
                     }

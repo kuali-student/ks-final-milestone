@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.naturallanguage.AbstractContext;
+import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.brms.statement.entity.ReqComponent;
-import org.kuali.student.brms.statement.naturallanguage.AbstractContext;
-import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentTypes;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -135,11 +135,11 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public NLCluSetInfo getCluSet(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqCompField(reqComponent);
     	NLCluSetInfo cluSet = null;
-    	if(map.containsKey(ReqComponentTypes.ReqCompFieldTypes.CLU_KEY.getKey())) {
-        	String cluIds = map.get(ReqComponentTypes.ReqCompFieldTypes.CLU_KEY.getKey());
+    	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getKey())) {
+        	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getKey());
         	cluSet = getClusAsCluSet(cluIds);
-        } else if(map.containsKey(ReqComponentTypes.ReqCompFieldTypes.CLUSET_KEY.getKey())) {
-        	String cluSetId = map.get(ReqComponentTypes.ReqCompFieldTypes.CLUSET_KEY.getKey());
+        } else if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
+        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getKey());
             cluSet = getCluSet(cluSetId);
         }
     	return cluSet;

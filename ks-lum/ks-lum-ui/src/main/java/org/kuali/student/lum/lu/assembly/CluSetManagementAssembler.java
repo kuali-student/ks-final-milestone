@@ -26,11 +26,19 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -59,7 +67,14 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         Data resultData = null;
 
         try {
+            List<String> cluIds = null;
             CluSetInfo cluSetInfo = luService.getCluSetInfo(id);
+            // note: the cluIds returned by luService.getCluSetInfo also contains the clus
+            //       that are the result of query parameter search.  Set to null here and
+            //       retrieve the clus that are direct members.
+            cluSetInfo.setCluIds(null);
+            cluIds = luService.getCluIdsFromCluSet(id);
+            cluSetInfo.setCluIds(cluIds);
             resultCluSetHelper = toCluSetHelper(cluSetInfo);
             if (resultCluSetHelper == null) {
                 resultData = null;
@@ -133,14 +148,12 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         CluSetInfo cluSetInfo = toCluSetInfo(cluSetHelper);
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
-        CluSetInfo origCluSetInfo = null;
         Data resultData = null;
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
                 updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
             } catch (Exception e) {
-                System.out.println("Failed to update cluset");
-                e.printStackTrace();
+            	LOG.error("Failed to update cluset",e);
                 throw new AssemblyException(e);
             }
         } else {
@@ -151,8 +164,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 // end of test code
                 updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
             } catch (Exception e) {
-                System.out.println("Failed to create cluset");
-                e.printStackTrace();
+                LOG.error("Failed to create cluset",e);
                 throw new AssemblyException(e);
             }
         }
@@ -171,6 +183,29 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         return result;
     }
     
+    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException {
+        if(query == null) {
+            return null;
+        }
+        SearchRequest sr = new SearchRequest();
+        sr.setSearchKey(query.getSearchTypeKey());
+        sr.setParams(query.getQueryParamValueList());
+
+        SearchResult result = luService.search(sr);
+        
+        List<String> cluIds = new ArrayList<String>();
+        List<SearchResultRow> rows = result.getRows();
+        for(SearchResultRow row : rows) {
+            List<SearchResultCell> cells = row.getCells();
+            for(SearchResultCell cell : cells) {
+                if(cell.getKey().equals("lu.resultColumn.cluId")) {
+                    cluIds.add(cell.getValue());
+                }
+            }
+        }
+        return cluIds;
+    }
+
     private CluSetHelper toCluSetHelper(CluSetInfo cluSetInfo) throws Exception {
         Data data = new Data();
         Data cluSetDetailData = new Data();
@@ -184,6 +219,22 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                     result.getClus().add(cluId);
                 }
             }
+            if (cluSetInfo.getCluSetIds() != null) {
+                result.setCluSets(new Data());
+                for (String cluSetId : cluSetInfo.getCluSetIds()) {
+                    result.getCluSets().add(cluSetId);
+                }
+            }
+            if (cluSetInfo.getMembershipQuery() != null) {
+                MembershipQueryInfo mq = cluSetInfo.getMembershipQuery();
+                List<String> cluRangeCluIds = getMembershipQuerySearchResult(mq);
+                if (cluRangeCluIds != null) {
+                    result.setCluRangeViewDetails(new Data());
+                    for (String cluRangeCluId : cluRangeCluIds) {
+                        result.getCluRangeViewDetails().add(cluRangeCluId);
+                    }
+                }
+            }
             result.setDescription(richTextToString(cluSetInfo.getDescr()));
             result.setEffectiveDate(cluSetInfo.getEffectiveDate());
             result.setExpirationDate(cluSetInfo.getExpirationDate());
@@ -193,6 +244,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             result.setOrganization(cluSetInfo.getAdminOrg());
             result.setState(cluSetInfo.getState());
             result.setType(cluSetInfo.getType());
+            result.setCluRangeParams(CluSetRangeModelUtil.INSTANCE.toData(
+                    cluSetInfo.getMembershipQuery()));
         }
         return result;
     }
@@ -200,7 +253,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     private CluSetInfo toCluSetInfo(CluSetHelper cluSetHelper) {
         CluSetInfo cluSetInfo = new CluSetInfo();
         Data clusData = cluSetHelper.getClus();
+        Data cluSetsData = cluSetHelper.getCluSets();
         List<String> cluIds = null;
+        List<String> cluSetIds = null;
         
         cluSetInfo.setId(cluSetHelper.getId());
         if (clusData != null) {
@@ -216,10 +271,24 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         if (cluIds != null) {
             cluSetInfo.setCluIds(cluIds);
         }
+        if (cluSetsData != null) {
+            for (Data.Property p : cluSetsData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluSetId = p.getValue();
+                    cluSetIds = (cluSetIds == null)? new ArrayList<String>(3) :
+                        cluSetIds;
+                    cluSetIds.add(cluSetId);
+                }
+            }
+        }
+        if (cluSetIds != null) {
+            cluSetInfo.setCluSetIds(cluSetIds);
+        }
         cluSetInfo.setAdminOrg(cluSetHelper.getOrganization());
         cluSetInfo.setDescr(toRichTextInfo(cluSetHelper.getDescription()));
         cluSetInfo.setEffectiveDate(cluSetHelper.getEffectiveDate());
         cluSetInfo.setExpirationDate(cluSetHelper.getExpirationDate());
+        cluSetInfo.setMembershipQuery(toMembershipQueryInfo(cluSetHelper.getCluRangeParams()));
         
         // TODO cluSetInfo.setMembershipQuery(membershipQuery)
 //        TODO should metainfo be set here? cluSetInfo.setMetaInfo(cluSetHelper.getMetaInfo());
@@ -228,6 +297,10 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setState(cluSetHelper.getState());
         cluSetInfo.setType(cluSetHelper.getType());
         return cluSetInfo;
+    }
+    
+    private MembershipQueryInfo toMembershipQueryInfo(CluSetRangeHelper cluSetRangeHelper) {
+        return CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(cluSetRangeHelper.getData());
     }
     
     private RichTextInfo toRichTextInfo(String text) {

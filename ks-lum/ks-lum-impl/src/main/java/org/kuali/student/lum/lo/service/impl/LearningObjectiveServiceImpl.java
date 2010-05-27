@@ -715,22 +715,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-	}
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
 	 */
     @Override

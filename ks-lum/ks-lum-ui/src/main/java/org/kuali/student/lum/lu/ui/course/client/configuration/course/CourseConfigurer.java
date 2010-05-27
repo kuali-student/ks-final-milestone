@@ -29,7 +29,9 @@
 	 */
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 	
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
@@ -48,11 +50,11 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -78,7 +80,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObj
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
@@ -90,10 +91,6 @@ import com.google.gwt.user.client.ui.Widget;
 	
 	/**
 	 * This is the configuration factory class for creating a proposal.
-	 *
-	 * TODO: The following is a list of items that need to be fixed.
-	 * 	1) All hardcoded drop downs need to be replaced with one populated via an enumeration lookup
-	 *  2) Any pickers (eg. org, course, needs to be replaced wtih proper lookup based search pickers
 	 *
 	 * @author Kuali Student Team
 	 *
@@ -113,7 +110,7 @@ import com.google.gwt.user.client.ui.Widget;
 	 CreditCourseRevenueInfoConstants,
 	 CreditCourseExpenditureInfoConstants {
 	
-		//FIXME:  Initialize type and state
+		//FIXME:  [KSCOR-225] Initialize type and state
 		protected String type = "course";
 	    protected String state = "draft";
 	    protected String groupName;
@@ -174,51 +171,12 @@ import com.google.gwt.user.client.ui.Widget;
 	        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
 	        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
 	    }
-	
-	    public SectionView generateSummarySection(){
-	        VerticalSectionView section = initSectionView(CourseSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
-	
-	    	section.enableValidation(false);
-	        section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
-	        section.addSection(generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
-	        return section;
-	    }
-	
-	    protected VerticalSection generateSummaryDetails(SectionTitle title) {
-	       return  ViewCluConfigurer.generateSummaryDetails(title);
-		}
-	
-	    protected VerticalSection generateSummaryBrief(SectionTitle title) {
-	        VerticalSection section = new VerticalSection(title);
-	        section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-	        section.addStyleName(LUConstants.STYLE_SECTION);
-	        addField(section, PROPOSAL + "/" + TITLE, getLabel(LUConstants.TITLE_LABEL_KEY) +":    ", new KSLabel());
-	        addField(section, COURSE + "/" + SUBJECT_AREA, getLabel(LUConstants.DIVISION_LABEL_KEY), new KSLabel());
-	        addField(section, COURSE + "/" + COURSE_NUMBER_SUFFIX, getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), new KSLabel());
-	
-	
-	        // FIXME wilj: add proposal/delegate/collab person info to assembly
-	        addField(section, PROPOSAL + "/" + PROPOSER_PERSON, getLabel(LUConstants.PROPOSER_LABEL_KEY), new ProposerPersonList());
-	        addField(section, "proposalInfo/todo", getLabel(LUConstants.DELEGATE_LABEL_KEY), new KSLabel());
-	        addField(section, "proposalInfo/todo", getLabel(LUConstants.COLLABORATORS_LABEL_KEY), new KSLabel());
-	
-	        // FIXME wilj: add create/update meta info to assembly
-	        addField(section, PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, getLabel(LUConstants.CREATED_DATE_LABEL_KEY), new KSLabel());
-	        addField(section, PROPOSAL + "/" + META_INFO + "/" + UPDATE_TIME, getLabel(LUConstants.LAST_CHANGED_DATE_LABEL_KEY), new KSLabel());
-	
-	        addField(section, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, getLabel(LUConstants.DESCRIPTION_LABEL_LABEL_KEY), new KSLabel());
-	       // TODO: Norm: find out why was this prefixed with proposal there is no state on proposal it is on the main object
-	        addField(section, CreditCourseProposalConstants.STATE, getLabel(LUConstants.STATUS_LABEL_KEY), new KSLabel());
-	        return section;
-	    }
-		
+			
 		public void addCluStartSection(ConfigurableLayout layout){
 	        VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 	
-	        addField(section, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-	        //This will need to be a person picker
-	        // FIXME wilj: add proposal/delegate/collab person info to assembly
-	        addField(section, PROPOSAL + "/" + PROPOSER_PERSON, getLabel(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
+	        addField(section, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+	        addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
 	        layout.addStartSection(section);
 	    }
 	
@@ -227,8 +185,8 @@ import com.google.gwt.user.client.ui.Widget;
 			VerticalSectionView section = initSectionView(CourseSections.AUTHORS_RATIONALE, LUConstants.AUTHORS_RATIONAL);
 			
 		VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
-		addField(titleRationale, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-		addField(titleRationale, PROPOSAL + "/" + RATIONALE, getLabel(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+		addField(titleRationale, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+		addField(titleRationale, PROPOSAL + "/" + RATIONALE, generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
 		
 		section.addSection(titleRationale);
 			
@@ -242,11 +200,16 @@ import com.google.gwt.user.client.ui.Widget;
 	     * @return
 	     */
 	    protected SectionView generateCourseRequisitesSection() {
-	        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CLU_PROPOSAL_MODEL);
+	        
+	        List<Metadata> searchMetadata = new ArrayList<Metadata>();	        
+	        
+            searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCourse")));
+            searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCluSet")));
+            searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findProgram")));            
+            
+	        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CLU_PROPOSAL_MODEL, searchMetadata);
 	        //Setting the section title after initializing the widget won't do anything
-	        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-	        addField(section, SEARCH + "/" + "findCourse");
-            addField(section, SEARCH + "/" + "findCluSet");
+	        section.getLayout().setLayoutTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
 	        return section;
 	    }
 	
@@ -265,30 +228,28 @@ import com.google.gwt.user.client.ui.Widget;
 	
 	    protected VerticalSection generateActiveDateEndSection() {
 	        VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
-	        addField(endDate, COURSE + "/" + EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY));
+	        addField(endDate, COURSE + "/" + EXPIRATION_DATE, generateMessageInfo(LUConstants.EXPIRATION_DATE_LABEL_KEY));
 	        return endDate;
 		}
 	
 	    protected VerticalSection generateActiveDateStartSection() {
 	        VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
-	        addField(startDate, COURSE + "/" + CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY));
+	        addField(startDate, COURSE + "/" + CreditCourseConstants.EFFECTIVE_DATE, generateMessageInfo(LUConstants.EFFECTIVE_DATE_LABEL_KEY));
 	        return startDate;
 		}
 	
 	    protected SectionView generateGovernanceSection(){
 	        VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 	
-	        addField(section, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
-	        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY));
-	        addField(section, COURSE + "/" + DEPARTMENT, getLabel(LUConstants.ADMIN_ORG_LABEL_KEY));
+	        addField(section, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
+	        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY));
+	        addField(section, COURSE + "/" + DEPARTMENT, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY));
 	
 	        return section;
 	    }
 	
 		public SectionView generateCourseInfoSection(){
 	        VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
-	
-	        //FIXME: Label should be key to messaging, field type should come from dictionary?
 	
 	        section.addSection(generateCourseNumberSection());
 	        section.addSection(generateCourseInfoShortTitleSection());
@@ -304,8 +265,8 @@ import com.google.gwt.user.client.ui.Widget;
 	        GroupSection courseNumber = new GroupSection(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY));
 	        courseNumber.addStyleName(LUConstants.STYLE_SECTION);
 	        courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-	        addField(courseNumber, COURSE + "/" + SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
-	        addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
+	        addField(courseNumber, COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY));
+	        addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY));
 	
 	        // TODO - hide cross-listed, offered jointly and version codes initially, with
 	        // clickable label to disclose them
@@ -355,7 +316,7 @@ import com.google.gwt.user.client.ui.Widget;
 	
 		protected VerticalSection generateDescriptionSection() {
 	        VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
-	        //FIXME Temporary fix til we have a real rich text editor
+	        //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
 	        //addField(description, COURSE + "/" + DESCRIPTION, null);
 	        addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, null);
 	        return description;
@@ -384,15 +345,14 @@ import com.google.gwt.user.client.ui.Widget;
 	    protected VerticalSection generateSchedulingSection() {
 	        VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
 	        GroupSection duration = new GroupSection();
-	        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-	        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY));
+	        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
+	        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
 	        scheduling.addSection(duration);
 	        return scheduling;
 		}
 	
 	    protected VerticalSection generateInstructorsSection() {
 	        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
-	        // FIXME wilj: do we need to set the instructor's orgId? or can we default it at the assembler level?
 	        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR);
 	        return instructors;
 		}
@@ -409,7 +369,7 @@ import com.google.gwt.user.client.ui.Widget;
 	        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
 	    	Metadata meta = modelDefinition.getMetadata(path);
 	        
-	        // FIXME - where should repo key come from?
+	        // FIXME [KSCOR-225]  where should repo key come from?
 	        FieldDescriptor fd = addField(los,
 	        								CreditCourseConstants.COURSE_SPECIFIC_LOS,
 	        								null,
@@ -459,16 +419,16 @@ import com.google.gwt.user.client.ui.Widget;
 	        public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
 	            GroupSection activity = new GroupSection();
-	            addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
+	            addField(activity, ACTIVITY_TYPE, generateMessageInfo(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
 	            activity.nextLine();
 		
-	            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-	            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
+	            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
+	            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
 	
 	            activity.nextLine();
-	            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
+	            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, generateMessageInfo(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
 	            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  null, path);
-	            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
+	            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, generateMessageInfo(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 	
 	            return activity;
 	        }
@@ -482,7 +442,7 @@ import com.google.gwt.user.client.ui.Widget;
 	            final PersonList us = this;
 	            final String userId = Application.getApplicationContext().getUserId();
 	            
-	            //FIXME: Commented out search code to display drop down with only current user, and disable select            
+	            //FIXME: [KSCOR-225] Commented out search code to display drop down with only current user, and disable select            
 	            people.addItem(userId, userId);
 	            us.setListItems(people);
 	            us.selectItem(userId);
@@ -552,7 +512,7 @@ import com.google.gwt.user.client.ui.Widget;
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, CreditCourseJointsConstants.COURSE_ID, getLabel(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), null, path);
+            addField(ns, CreditCourseJointsConstants.COURSE_ID, generateMessageInfo(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), null, path);
             return ns;
         }
     }    
@@ -578,10 +538,10 @@ import com.google.gwt.user.client.ui.Widget;
         public Widget createItem() {
     	String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), null, path);
+            addField(ns, DEPARTMENT, generateMessageInfo(LUConstants.DEPT_LABEL_KEY), null, path);
             ns.nextLine();
-            addField(ns, SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), path);
-            addField(ns, COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), path);
+            addField(ns, SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY), path);
+            addField(ns, COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY), path);
 
             return ns;
         }
@@ -607,8 +567,8 @@ import com.google.gwt.user.client.ui.Widget;
 	        public Widget createItem() {
         	String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
 	            GroupSection ns = new GroupSection();
-	            addField(ns, "versionCode", getLabel(LUConstants.CODE_LABEL_KEY), path);
-	            addField(ns, "versionTitle", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY), path);
+	            addField(ns, "versionCode", generateMessageInfo(LUConstants.CODE_LABEL_KEY), path);
+	            addField(ns, "versionTitle", generateMessageInfo(LUConstants.TITLE_LITERAL_LABEL_KEY), path);
 	
 	            return ns;
 	        }
@@ -647,7 +607,6 @@ import com.google.gwt.user.client.ui.Widget;
 	    protected VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
 	        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
 	        section.addStyleName(LUConstants.STYLE_SECTION);
-	        section.getSectionTitle().addStyleName("ks-heading-page-title");
 	        return section;
 	    }
 	
@@ -656,7 +615,6 @@ import com.google.gwt.user.client.ui.Widget;
 	        VerticalSection section;
 	    	if(title!=null){
 	        	section = new VerticalSection(title);
-	        	section.getSectionTitle().addStyleName("ks-heading-page-section");
 	        }else{
 	        	section = new VerticalSection();
 	        }
@@ -666,6 +624,10 @@ import com.google.gwt.user.client.ui.Widget;
 	        return section;
 	    }
 	
+	    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+	        return new MessageKeyInfo(groupName, type, state, labelKey);
+	    }
+	    
 	    protected String getLabel(String labelKey) {
 	        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
 	    }
@@ -695,20 +657,20 @@ import com.google.gwt.user.client.ui.Widget;
 	    protected FieldDescriptor addField(Section section, String fieldKey) {
 	    	return addField(section, fieldKey, null, null, null);
 	    }    
-	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel) {
-	    	return addField(section, fieldKey, fieldLabel, null, null);
+	    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+	    	return addField(section, fieldKey, messageKey, null, null);
 	    }
-	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
-	    	return addField(section, fieldKey, fieldLabel, widget, null);
+	    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+	    	return addField(section, fieldKey, messageKey, widget, null);
 	    }
-	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
-	        return addField(section, fieldKey, fieldLabel, null, parentPath);
+	    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+	        return addField(section, fieldKey, messageKey, null, parentPath);
 	    }
-	    protected FieldDescriptor addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
+	    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
 	        QueryPath path = QueryPath.concat(parentPath, fieldKey);
 	    	Metadata meta = modelDefinition.getMetadata(path);
 	
-	    	FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
+	    	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
 	    	if (widget != null) {
 	    		fd.setFieldWidget(widget);
 	    	}
@@ -719,7 +681,7 @@ import com.google.gwt.user.client.ui.Widget;
 			VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 			
 			VerticalSection justiFee = initSection(getH3Title(LUConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
-			addField(justiFee, COURSE + "/" + FEES + "/0/" + JUSTIFICATION,  getLabel(LUConstants.JUSTIFICATION_FEE), new KSTextArea()); 
+			addField(justiFee, COURSE + "/" + FEES + "/0/" + JUSTIFICATION,  generateMessageInfo(LUConstants.JUSTIFICATION_FEE), new KSTextArea()); 
 			        
 			FeeMultiplicity feeList = new FeeMultiplicity(COURSE + "/" + FEES, groupName, type, state);
 			FieldDescriptor feeFD = addField(justiFee, COURSE + "/" + FEES, null, feeList);
@@ -732,11 +694,11 @@ import com.google.gwt.user.client.ui.Widget;
 			        
 			FinancialInformationList finInfoList = new FinancialInformationList(COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, LUConstants.REVENUE);
 			finInfoList.setMinEmptyItems(1);
-			addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, getLabel(LUConstants.REVENUE) , finInfoList);
+			addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, generateMessageInfo(LUConstants.REVENUE) , finInfoList);
 			        
 			// ExpenditureList expInfoList = new ExpenditureList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG);
 			FinancialInformationList expInfoList = new FinancialInformationList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, LUConstants.EXPENDITURE);
-			addField(financialSection, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, getLabel(LUConstants.EXPENDITURE), expInfoList);
+			addField(financialSection, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, generateMessageInfo(LUConstants.EXPENDITURE), expInfoList);
 			        
 			section.addSection(financialSection);
 			
@@ -767,18 +729,20 @@ import com.google.gwt.user.client.ui.Widget;
                 		String errMsg = "Unable to find non-deleted item in removal callback";
                 		GWT.log(errMsg, new RuntimeException(errMsg));
                 	}
-                	// So, how's this for sleazy? Even sleazier than the addItem() sleaziness below
-                	Object itemWithHeader = currItem.getItemWidget();
-                	GroupSection gSection = null;
-                	// let's be paranoid
-                	if (itemWithHeader instanceof RemovableItemWithHeader && ((RemovableItemWithHeader) itemWithHeader).getItemWidget() instanceof GroupSection)
-                	{
-	                	gSection = (GroupSection) ((RemovableItemWithHeader) itemWithHeader).getItemWidget();
-	                	if (gSection.getFields().size() >= 2) {
-	                		Widget txtBox = gSection.getFields().get(1).getFieldWidget();
-	                		if (txtBox instanceof KSTextBox) {
-			                	((KSTextBox) txtBox).setValue("100.00%");
-	                		}
+                	if(currItem!=null){
+	                	// So, how's this for sleazy? Even sleazier than the addItem() sleaziness below
+	                	Object itemWithHeader = currItem.getItemWidget();
+	                	GroupSection gSection = null;
+	                	// let's be paranoid
+	                	if (itemWithHeader instanceof RemovableItemWithHeader && ((RemovableItemWithHeader) itemWithHeader).getItemWidget() instanceof GroupSection)
+	                	{
+		                	gSection = (GroupSection) ((RemovableItemWithHeader) itemWithHeader).getItemWidget();
+		                	if (gSection.getFields().size() >= 2) {
+		                		Widget txtBox = gSection.getFields().get(1).getFieldWidget();
+		                		if (txtBox instanceof KSTextBox) {
+				                	((KSTextBox) txtBox).setValue("100.00%");
+		                		}
+		                	}
 	                	}
                 	}
                 }
@@ -800,8 +764,8 @@ import com.google.gwt.user.client.ui.Widget;
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, AffiliatedOrgInfoConstants.ORG_ID, getLabel(LUConstants.REVENUE), path );
-            FieldDescriptor fd = addField(ns, PERCENTAGE, getLabel(LUConstants.AMOUNT), path);
+            addField(ns, AffiliatedOrgInfoConstants.ORG_ID, generateMessageInfo(LUConstants.REVENUE), path );
+            FieldDescriptor fd = addField(ns, PERCENTAGE, generateMessageInfo(LUConstants.AMOUNT), path);
             fd.getFieldWidget();
             
             // Do our own validationCallback to make sure they add up to 100%?

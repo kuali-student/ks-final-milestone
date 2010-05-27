@@ -126,7 +126,7 @@ public class LUMApplicationManager extends Controller {
             case MODIFY_COURSE:
                 return createCourseView; 
 			case CREATE_PROGRAM:
-				// FIXME replace with program view
+				// FIXME [KSCOR-225] replace with program view
 				return createCourseView; // createProgramView;
 			case MANAGE_CLU_SETS:
 				manageCluSetsController = new CluSetsManagementController();

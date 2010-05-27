@@ -16,8 +16,6 @@
 package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 

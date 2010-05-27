@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.brms.statement.entity.ReqComponent;
-import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentTypes;
+import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 
 /**
  * This class creates the template context for course list types.
@@ -36,9 +36,9 @@ public class CourseListContextImpl extends AbstractLuContext<ReqComponent> {
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         
-        contextMap.put(EXPECTED_VALUE_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentTypes.ReqCompFieldTypes.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(EXPECTED_VALUE_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey()));
         contextMap.put(FIELDS_TOKEN, getReqCompField(reqComponent));
-        contextMap.put(OPERATOR_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentTypes.ReqCompFieldTypes.OPERATOR_KEY.getKey()));
+        contextMap.put(OPERATOR_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getKey()));
         contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
 
         return contextMap;

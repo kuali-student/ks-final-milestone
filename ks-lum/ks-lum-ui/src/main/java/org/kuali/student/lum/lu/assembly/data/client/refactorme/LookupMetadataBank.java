@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
@@ -2119,17 +2120,18 @@ public class LookupMetadataBank
 		if (lookup == null)
 		{
 			Window.alert ("Could not find lookupKey=" + lookupKey);
+			return null;
 		}
 		return findParam (lookup, paramKey);
 	}
 	
 	private static LookupParamMetadata findParam (LookupMetadata lookup, String paramKey)
 	{
-		for (LookupParamMetadata param : lookup.getParams ())
-		{
-			if (param.getKey ().equalsIgnoreCase (paramKey))
-			{
-				return param;
+		if(lookup!=null){
+			for (LookupParamMetadata param : lookup.getParams ()){
+				if (param.getKey ().equalsIgnoreCase (paramKey)){
+					return param;
+				}
 			}
 		}
 		Window.alert ("Could not find paramKey=" + paramKey + " in lookup=" + lookup.getId());

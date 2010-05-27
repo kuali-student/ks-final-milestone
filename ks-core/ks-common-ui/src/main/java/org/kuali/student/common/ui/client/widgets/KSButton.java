@@ -43,6 +43,16 @@ public class KSButton extends KSButtonAbstract{
 		button.setEnabled(enabled);
 	}
 	
+	public KSButton(){
+		this.init();
+		this.initWidget(button);
+	}
+	
+	public KSButton(String text, ClickHandler handler){
+		this.init(text, handler);
+		this.initWidget(button);
+	}	
+	
 	public KSButton(String text){
 		this.init(text);
 		this.initWidget(button);
@@ -52,6 +62,11 @@ public class KSButton extends KSButtonAbstract{
 		this.init(text, style);
 		this.initWidget(button);
 	}
+
+    public KSButton(String text, ButtonStyle style, ClickHandler handler){
+        this.init(text, style, handler);
+        this.initWidget(button);
+    }   
 	
 	@Override
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
@@ -60,16 +75,6 @@ public class KSButton extends KSButtonAbstract{
 	
 	public void setText(String text){
 		button.setText(text);
-	}
-	
-	public KSButton(){
-		this.init();
-		this.initWidget(button);
-	}
-	
-	public KSButton(String text, ClickHandler handler){
-		this.init(text, handler);
-		this.initWidget(button);
 	}
 
 	@Override
@@ -82,27 +87,27 @@ public class KSButton extends KSButtonAbstract{
 		return button.addMouseOutHandler(handler);
 	}
 
+    @Override
+    public void init() {
+        button.init();
+    }	
+	
 	@Override
 	public void init(String text) {
 		button.init(text);
 	}
 
 	@Override
-	public void init(
-			String text, ButtonStyle style) {
-		button.init(text, style);
-		
+	public void init(String text, ButtonStyle style) {
+		button.init(text, style);		
 	}
 
-	@Override
-	public void init() {
-		button.init();
-	}
-
+    public void init(String text, ButtonStyle style, ClickHandler handler) {
+        button.init(text, style, handler);       
+    }	
+	
 	@Override
 	public void init(String text, ClickHandler handler) {
 		button.init(text, handler);
 	}
-	
-	
 }

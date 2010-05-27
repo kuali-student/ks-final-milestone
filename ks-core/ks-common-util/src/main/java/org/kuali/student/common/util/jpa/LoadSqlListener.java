@@ -18,6 +18,7 @@ package org.kuali.student.common.util.jpa;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -110,6 +111,13 @@ public class LoadSqlListener implements ApplicationListener,
 		} catch (Exception e) {
 			logger.error("Error loading sql file "+sqlFileName+". Failing statement was '" + ln + "'",e);
 			jtaTxManager.rollback(txStatus);
+		}
+		finally{
+			try {
+				in.close();
+			} catch (IOException e) {
+				logger.error("IO Stream closed " + e);
+			}
 		}
 	}
 

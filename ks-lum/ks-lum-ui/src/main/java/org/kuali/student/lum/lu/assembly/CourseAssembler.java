@@ -31,7 +31,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -87,7 +87,6 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
-import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -312,7 +311,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				result.getTermsOffered().add(atpType);
 			}
 
-			result.setFirstExpectedOffering(new String());
+			result.setFirstExpectedOffering("");
 			String atp = course.getExpectedFirstAtp();
 			if (atp != null && !atp.isEmpty()) {
 				result.setFirstExpectedOffering(atp);
@@ -411,7 +410,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 
 	private void buildRelatedCourse(CluInfoHierarchy currentClu, RelationshipHierarchy currentRel) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		System.out.println("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
+		LOG.info("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
@@ -768,7 +767,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			rel.setRelatedCluId(input.getCluInfo().getId());
 			rel.setType(input.getParentRelationType());
 			rel.setState(input.getParentRelationState());
-			System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
+			LOG.info("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
 			try {
 				luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
 			} catch (CircularRelationshipException e) {
