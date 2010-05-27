@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -46,6 +47,8 @@ import org.kuali.student.lum.lu.service.LuService;
  */
 public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
+    final static Logger LOG = Logger.getLogger(CourseAssembler.class);
+    
 	private LuService luService;
 	private FormatAssembler formatAssembler;
 	private CourseJointAssembler courseJointAssembler;
@@ -144,6 +147,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		if (course == null) {
 			// FIXME Unsure now if this is an exception or just return null or
 			// empty assemblyNode
+		    LOG.error("Course to disassemble is null!");
 			throw new AssemblyException("Course can not be null");
 		}
 
@@ -162,6 +166,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setState(course.getState());
 
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
+		identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
+		identifier.setState(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_STATE);
 		identifier.setCode(course.getCode());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());

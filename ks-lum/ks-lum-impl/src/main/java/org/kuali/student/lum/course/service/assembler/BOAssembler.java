@@ -27,6 +27,10 @@ import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOp
  * generate the id (if newly created base DTO) from UUID and use that in mapping
  * relations.
  * 
+ * Generic Mapping:
+ * E -> Business DTO e.g. CourseInfo
+ * T -> Base DTO e.g. CluInfo
+ * 
  * @author Kuali Student Team
  * 
  */
