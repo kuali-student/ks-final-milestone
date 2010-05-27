@@ -3,17 +3,27 @@ package org.kuali.student.core.dictionary.poc.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObjectStructureDefinition {
-	protected String name;// TODO do we need this?
-	protected Class<?> businessObjectClass;
-	protected List<FieldDefinition> attributes;
-	protected boolean hasMetaData;//TODO do we need this?
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
-	public Class<?> getBusinessObjectClass() {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ObjectStructureDefinition {
+	@XmlAttribute(required = true)
+	protected String name;// TODO do we need this?
+	@XmlElement
+	protected String businessObjectClass;
+    @XmlElement
+    protected List<FieldDefinition> attributes;
+    @XmlElement
+    protected boolean hasMetaData;//TODO do we need this?
+
+	public String getBusinessObjectClass() {
 		return businessObjectClass;
 	}
 
-	public void setBusinessObjectClass(Class<?> businessObjectClass) {
+	public void setBusinessObjectClass(String businessObjectClass) {
 		this.businessObjectClass = businessObjectClass;
 	}
 

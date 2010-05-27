@@ -1,5 +1,9 @@
 package org.kuali.student.core.dictionary.poc.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class FieldDefinition extends Constraint {
 	// name (used in the path to identify this field within an object structure)
 	protected String name;
