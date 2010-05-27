@@ -30,8 +30,8 @@ public class FieldDefinition extends Constraint {
 	boolean hide = false;
 	boolean mask = false;
 	boolean partialMask = false;
-	MaskFormatter partialMaskFormatter;
-	MaskFormatter maskFormatter;
+	String partialMaskFormatter;//Regex replace to do a partial mask  
+	String maskFormatter;//Regex replace to do a mask
 	public String getName() {
 		return name;
 	}
@@ -86,22 +86,23 @@ public class FieldDefinition extends Constraint {
 	public void setPartialMask(boolean partialMask) {
 		this.partialMask = partialMask;
 	}
-	public MaskFormatter getPartialMaskFormatter() {
-		return partialMaskFormatter;
-	}
-	public void setPartialMaskFormatter(MaskFormatter partialMaskFormatter) {
-		this.partialMaskFormatter = partialMaskFormatter;
-	}
-	public MaskFormatter getMaskFormatter() {
-		return maskFormatter;
-	}
-	public void setMaskFormatter(MaskFormatter maskFormatter) {
-		this.maskFormatter = maskFormatter;
-	}
+
 	public boolean isDynamic() {
 		return dynamic;
 	}
 	public void setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;
+	}
+	public String getPartialMaskFormatter() {
+		return partialMaskFormatter;
+	}
+	public void setPartialMaskFormatter(String partialMaskFormatter) {
+		this.partialMaskFormatter = partialMaskFormatter;
+	}
+	public String getMaskFormatter() {
+		return maskFormatter;
+	}
+	public void setMaskFormatter(String maskFormatter) {
+		this.maskFormatter = maskFormatter;
 	}
 }
