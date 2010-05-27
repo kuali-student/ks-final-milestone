@@ -398,11 +398,7 @@
 	
 	<!-- CourseService -->
 	<bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
-		<property name="atpService" ref="atpServiceImpl"/>
-		<property name="loService" ref="loServiceImpl"/>
 		<property name="luService" ref="luServiceImpl"/>
-		<property name="orgService" ref="orgServiceImpl"/>
-		<property name="statementService" ref="statementServiceImpl"/>
 	</bean>
 	
 </beans>

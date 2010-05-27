@@ -64,11 +64,7 @@
 	
 	<!-- CourseService -->
 	<bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
-		<property name="atpService" ref="atpClient"/>
-		<property name="loService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
-		<property name="orgService" ref="orgClient"/>
-		<property name="statementService" ref="statementServiceClient"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
