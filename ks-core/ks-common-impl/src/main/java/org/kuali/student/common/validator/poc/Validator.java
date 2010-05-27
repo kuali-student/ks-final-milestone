@@ -310,7 +310,7 @@ public class Validator {
 			Stack<String> elementStack) {
 
 		// If constraint is only to be processed on server side
-		if (constraint.getCustomValidator()!=null || constraint.isServerSide()
+		if (constraint.getCustomValidatorClass()!=null || constraint.isServerSide()
 				&& !serverSide) {
 			return;
 		}
