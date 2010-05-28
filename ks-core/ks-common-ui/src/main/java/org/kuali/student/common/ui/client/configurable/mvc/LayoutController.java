@@ -20,13 +20,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
+import org.kuali.student.common.ui.client.event.SectionUpdateEvent;
+import org.kuali.student.common.ui.client.event.SectionUpdateHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class LayoutController extends Controller implements ConfigurableLayout {
@@ -43,6 +49,28 @@ public abstract class LayoutController extends Controller implements Configurabl
                LayoutController.this.processValidationResults(list);
             }
         });
+		addApplicationEventHandler(SectionUpdateEvent.TYPE, new SectionUpdateHandler(){
+
+			@Override
+			public void onSectionUpdate(final SectionUpdateEvent event) {
+				LayoutController.this.requestModel(new ModelRequestCallback<DataModel>(){
+
+					@Override
+					public void onRequestFail(Throwable cause) {
+						GWT.log("Unable to retrieve model for section update", cause);
+						
+					}
+
+					@Override
+					public void onModelReady(DataModel model) {
+						event.getSection().updateModel(model);
+						event.getSection().updateWidgetData(model);
+						
+					}
+				});
+				
+			}
+		});
     }
     
     public void processValidationResults(List<ValidationResultInfo> list){
