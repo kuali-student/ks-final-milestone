@@ -95,7 +95,7 @@ import com.google.gwt.user.client.ui.Widget;
 	 * @author Kuali Student Team
 	 *
 	 */
-	public class CourseConfigurer
+	public class CourseConfigurer extends org.kuali.student.common.ui.client.configurable.mvc.Configurer
 	 implements Configurer, CreditCourseProposalConstants,
 	 CreditCourseProposalInfoConstants,
 	 CreditCourseConstants,
@@ -111,9 +111,9 @@ import com.google.gwt.user.client.ui.Widget;
 	 CreditCourseExpenditureInfoConstants {
 	
 		//FIXME:  [KSCOR-225] Initialize type and state
-		protected String type = "course";
-	    protected String state = "draft";
-	    protected String groupName;
+	//	protected String type = "course";
+	  //  protected String state = "draft";
+	   // protected String groupName;
 	
 	    protected boolean WITH_DIVIDER = true;
 	    protected boolean NO_DIVIDER = false;
@@ -131,13 +131,17 @@ import com.google.gwt.user.client.ui.Widget;
 	        PROGRAM_INFO, ASSEMBLER_TEST
 	    }
 	
-	    protected DataModelDefinition modelDefinition;
-	
-	    public void setModelDefinition(DataModelDefinition modelDefinition){
-	    	this.modelDefinition = modelDefinition;
-	    }
+	//    protected DataModelDefinition modelDefinition;
+	    public CourseConfigurer(){
+	    type = "course";
+        state = "draft";
+	    }        
+	 //   public void setModelDefinition(DataModelDefinition modelDefinition){
+	   // 	this.modelDefinition = modelDefinition;
+	   // }
 	
 	    public void configure(ConfigurableLayout layout) {
+
 	    	groupName = LUConstants.COURSE_GROUP_NAME;
 	
 	        addCluStartSection(layout);
@@ -623,7 +627,7 @@ import com.google.gwt.user.client.ui.Widget;
 	            section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
 	        return section;
 	    }
-	
+	    /*
 	    protected MessageKeyInfo generateMessageInfo(String labelKey) {
 	        return new MessageKeyInfo(groupName, type, state, labelKey);
 	    }
@@ -677,6 +681,7 @@ import com.google.gwt.user.client.ui.Widget;
 	    	section.addField(fd);
 	    	return fd;
 	    }
+	    */
 	    protected SectionView generateFinancialsSection() {
 			VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 			
