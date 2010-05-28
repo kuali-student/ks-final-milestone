@@ -24,12 +24,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.dictionary.poc.dto.CaseConstraint;
 import org.kuali.student.core.dictionary.poc.dto.Constraint;
 import org.kuali.student.core.dictionary.poc.dto.DataType;
 import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.poc.dto.LookupConstraint;
+import org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping;
 import org.kuali.student.core.dictionary.poc.dto.MustOccurConstraint;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.poc.dto.RequiredConstraint;
@@ -37,10 +39,15 @@ import org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint;
 import org.kuali.student.core.dictionary.poc.dto.WhenConstraint;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.messages.service.MessageService;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class Validator {
-
+	final static Logger LOG = Logger.getLogger(Validator.class);
+	
 	//TODO: Change this to 'default' when the change is made in xml
 	private static final String DEFAULT_STATE = "*";
 
@@ -48,6 +55,8 @@ public class Validator {
 
 	private MessageService messageService = null;
 
+	private SearchService searchService;
+	
 	private String messageLocaleKey = "en";
 
 	private String messageGroupKey = "validation";
@@ -357,7 +366,7 @@ public class Validator {
 
 		// Process lookup Constraint
 		if (null != constraint.getLookupDefinition()) {
-			processLookupConstraint(valResults,constraint.getLookupDefinition(),field,elementStack);
+			processLookupConstraint(valResults,constraint.getLookupDefinition(),field,elementStack,dataProvider);
 		}
 
 		// Process Case Constraint
@@ -515,7 +524,53 @@ public class Validator {
 	}
 
 	// TODO: Implement lookup constraint
-	private void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack) {
+	private void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider) {
+		if(lookupConstraint==null){
+			return;
+		}
+		
+		//Create search params based on the param mapping
+		List<SearchParam> params = new ArrayList<SearchParam>();
+		for(LookupConstraintParamMapping paramMapping:lookupConstraint.getLookupParams()){
+			SearchParam param = new SearchParam();
+
+			param.setKey(paramMapping.getParamKey());
+			
+			//If the value of the search param comes form another field then get it
+			if(paramMapping.getFieldPath()!=null&&!paramMapping.getFieldPath().isEmpty()){
+				Object fieldValue = dataProvider.getValue(paramMapping.getFieldPath());
+				if(fieldValue instanceof String){
+					param.setValue((String) fieldValue);
+				}else if(fieldValue instanceof List<?>){
+					param.setValue((List<String>)fieldValue);
+				}
+			} else if(paramMapping.getDefaultValueString()!=null){
+				param.setValue(paramMapping.getDefaultValueString());
+			} else {
+				param.setValue(paramMapping.getDefaultValueList());
+			}
+			params.add(param);
+		}
+		
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setMaxResults(1);
+		searchRequest.setStartAt(0);
+		searchRequest.setNeededTotalResults(false);
+		searchRequest.setSearchKey(lookupConstraint.getSearchTypeId());
+		searchRequest.setParams(params);
+		
+		SearchResult searchResult = null;
+		try {
+			searchResult = searchService.search(searchRequest);
+		} catch (Exception e) {
+			LOG.info("Error calling Search",e);
+		}
+		if(searchResult==null||searchResult.getRows()==null||searchResult.getRows().isEmpty()){
+			ValidationResultInfo val = new ValidationResultInfo(
+					getElementXpath(elementStack) + field.getName());
+			val.setError(getMessage("validation.lookup"));
+			valResults.add(val);
+		}		
 	}
 
 
@@ -877,5 +932,13 @@ public class Validator {
 		//result.put("dataType", c.getDataType());
 
 		return result;
+	}
+
+	public SearchService getSearchService() {
+		return searchService;
+	}
+
+	public void setSearchService(SearchService searchService) {
+		this.searchService = searchService;
 	}
 }

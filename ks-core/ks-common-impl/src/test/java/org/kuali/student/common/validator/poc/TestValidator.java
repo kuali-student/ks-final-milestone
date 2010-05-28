@@ -8,6 +8,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.impl.poc.DictionaryServiceImpl;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class TestValidator {
@@ -138,8 +149,94 @@ public class TestValidator {
     	assertEquals(results.get(1).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(1).getMessage(), "validation.validCharsFailed");    	
     	assertEquals(results.get(2).getMessage(), "validation.requiresField");
+    	
+    	val.setSearchService(new MockSearchService());
+    	p.getAddress().get(0).setLine1("something");
+    	results = val.validateObject( p, o);    
+    	assertEquals(results.size(), 1);
+
+    	p.getAddress().get(0).setLine2("notrightlookupvalue");
+    	results = val.validateObject( p, o);    
+    	assertEquals(results.size(), 1);
+    	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(0).getMessage(), "validation.lookup");   
     }
     
+    public class MockSearchService implements SearchService{
+
+		@Override
+		public SearchCriteriaTypeInfo getSearchCriteriaType(
+				String searchCriteriaTypeKey) throws DoesNotExistException,
+				InvalidParameterException, MissingParameterException,
+				OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+				throws OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public SearchResultTypeInfo getSearchResultType(
+				String searchResultTypeKey) throws DoesNotExistException,
+				InvalidParameterException, MissingParameterException,
+				OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public List<SearchResultTypeInfo> getSearchResultTypes()
+				throws OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public SearchTypeInfo getSearchType(String searchTypeKey)
+				throws DoesNotExistException, InvalidParameterException,
+				MissingParameterException, OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public List<SearchTypeInfo> getSearchTypes()
+				throws OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public List<SearchTypeInfo> getSearchTypesByCriteria(
+				String searchCriteriaTypeKey) throws DoesNotExistException,
+				InvalidParameterException, MissingParameterException,
+				OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public List<SearchTypeInfo> getSearchTypesByResult(
+				String searchResultTypeKey) throws DoesNotExistException,
+				InvalidParameterException, MissingParameterException,
+				OperationFailedException {
+			return null;
+		}
+
+		@Override
+		public SearchResult search(SearchRequest searchRequest)
+				throws MissingParameterException {
+			if(searchRequest!=null && searchRequest.getParams()!=null
+					&&"param1".equals(searchRequest.getParams().get(0).getKey())
+					&&"line2value".equals(searchRequest.getParams().get(0).getValue())
+					){
+				SearchResult result = new SearchResult();
+				SearchResultRow row = new SearchResultRow();
+				result.getRows().add(row);
+				return result;
+			}
+			return null;
+		}
+    	
+    }
     
     public ConstraintMockPerson buildTestPerson1() {
     	return ValidatorMockObjectGenerator.buildTestPerson1();

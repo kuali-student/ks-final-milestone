@@ -67,6 +67,23 @@
 				class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint"
 				p:value="regex:[a-z]*" />
 		</property>
+		<property name="lookupDefinition">
+			<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraint">
+				<property name="searchTypeId" value="testAddrLine1Search"/>
+				<property name="lookupParams">
+					<list>
+						<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping">
+							<property name="fieldPath" value="line2"/>
+							<property name="paramKey" value="param1"/>
+						</bean>
+						<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping">
+							<property name="defaultValueString" value="PARAM_2_DEFAULT"/>
+							<property name="paramKey" value="param2"/>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 	<bean id="line2"
 		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
