@@ -379,6 +379,30 @@
             <index-column name="DOC_HDR_ID"/>
         </index>
     </table>
+    <table name="KREW_APP_DOC_STAT_TRAN_T">
+        <column name="APP_DOC_STAT_TRAN_ID" primaryKey="true" size="19" type="DECIMAL"/>
+        <column name="DOC_HDR_ID" size="14" type="DECIMAL"/>
+        <column name="APP_DOC_STAT_FROM" size="64" type="VARCHAR"/>
+        <column name="APP_DOC_STAT_TO" size="64" type="VARCHAR"/>
+        <column name="STAT_TRANS_DATE" type="DATE"/>
+        <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <unique name="KREW_APP_DOC_STAT_TRAN_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+        <index name="KREW_APP_DOC_STAT_TI1">
+            <index-column name="DOC_HDR_ID"/>
+            <index-column name="STAT_TRANS_DATE"/>
+        </index>
+        <index name="KREW_APP_DOC_STAT_TI2">
+            <index-column name="DOC_HDR_ID"/>
+            <index-column name="APP_DOC_STAT_FROM"/>
+        </index>
+        <index name="KREW_APP_DOC_STAT_TI3">
+            <index-column name="DOC_HDR_ID"/>
+            <index-column name="APP_DOC_STAT_TO"/>
+        </index>
+    </table>
     <table name="KREW_ATT_T">
         <column name="ATTACHMENT_ID" primaryKey="true" size="19" type="DECIMAL"/>
         <column name="NTE_ID" required="true" size="19" type="DECIMAL"/>
@@ -485,9 +509,17 @@
         <column name="RTE_PRNCPL_ID" size="40" type="VARCHAR"/>
         <column name="DTYPE" size="50" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="APP_DOC_STAT" size="64" type="VARCHAR"/>
+        <column name="APP_DOC_STAT_MDFN_DT" type="DATE"/>
         <unique name="KREW_DOC_HDR_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <index name="KREW_DOC_HDR_T10">
+            <index-column name="APP_DOC_STAT"/>
+        </index>
+        <index name="KREW_DOC_HDR_T12">
+            <index-column name="APP_DOC_STAT_MDFN_DT"/>
+        </index>
         <index name="KREW_DOC_HDR_TI1">
             <index-column name="DOC_TYP_ID"/>
         </index>
@@ -516,6 +548,14 @@
             <index-column name="APP_DOC_ID"/>
         </index>
     </table>
+    <table name="KREW_DOC_LNK_T">
+        <column name="DOC_LNK_ID" primaryKey="true" size="19" type="DECIMAL"/>
+        <column name="ORGN_DOC_ID" required="true" size="14" type="DECIMAL"/>
+        <column name="DEST_DOC_ID" required="true" size="14" type="DECIMAL"/>
+        <index name="KREW_DOC_LNK_TI1">
+            <index-column name="ORGN_DOC_ID"/>
+        </index>
+    </table>
     <table name="KREW_DOC_NTE_T">
         <column name="DOC_NTE_ID" primaryKey="true" size="19" type="DECIMAL"/>
         <column name="DOC_HDR_ID" required="true" size="14" type="DECIMAL"/>
@@ -525,6 +565,18 @@
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <index name="KREW_DOC_NTE_TI1">
             <index-column name="DOC_HDR_ID"/>
+        </index>
+    </table>
+    <table name="KREW_DOC_TYP_APP_DOC_STAT_T">
+        <column name="DOC_TYP_ID" primaryKey="true" size="19" type="DECIMAL"/>
+        <column name="DOC_STAT_NM" primaryKey="true" size="64" type="VARCHAR"/>
+        <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <unique name="KREW_DOC_TYP_APP_DOC_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+        <index name="KREW_DOC_TYP_APP_DOC_STAT_T1">
+            <index-column name="DOC_TYP_ID"/>
         </index>
     </table>
     <table name="KREW_DOC_TYP_ATTR_T">
@@ -542,6 +594,7 @@
         <column name="PLCY_NM" required="true" size="1" type="DECIMAL"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="PLCY_VAL" size="64" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_PLCY_RELN_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -867,6 +920,7 @@
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="CONTENT_FRAGMENT" size="4000" type="VARCHAR"/>
         <column name="GRP_ID" size="40" type="VARCHAR"/>
+        <column name="NEXT_DOC_STAT" size="64" type="VARCHAR"/>
         <index name="KREW_RTE_NODE_TI1">
             <index-column name="NM"/>
             <index-column name="DOC_TYP_ID"/>
@@ -5356,6 +5410,7 @@
     <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
     <sequence name="KREW_ACTN_TKN_S" nextval="2329"/>
     <sequence name="KREW_DOC_HDR_S" nextval="3000"/>
+    <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2009"/>
     <sequence name="KREW_EDL_FLD_DMP_S" nextval="5000"/>
