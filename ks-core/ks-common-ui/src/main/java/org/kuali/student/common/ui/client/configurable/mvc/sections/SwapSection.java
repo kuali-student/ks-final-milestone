@@ -123,6 +123,7 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			if(deleted.contains(section)){
 				deleted.remove(section);
 			}
+			section.enableValidation(true);
 			section.getLayout().setVisible(true);
 		}
 	}
@@ -133,6 +134,7 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			if(!deleted.contains(section)){
 				deleted.add(section);
 			}
+			section.enableValidation(false);
 			section.getLayout().setVisible(false);
 		}
 	}
