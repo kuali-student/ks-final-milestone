@@ -49,21 +49,13 @@ public class RiceConfigFactoryBean implements FactoryBean {
 			throw new ConfigurationException(
 					"No config locations declared, at least one is required");
 		}
-		Properties baseProperties = new Properties();
-		if (ConfigContext.getCurrentContextConfig() != null) {
-			baseProperties = ConfigContext.getCurrentContextConfig()
-					.getProperties();
-		}
-		JAXBConfigImpl config = new JAXBConfigImpl(getConfigLocations(), baseProperties);
+		// we don't have to worry about a null config below because the JAXBConfigImpl class handles that scenario
+		JAXBConfigImpl config = new JAXBConfigImpl(getConfigLocations(), ConfigContext.getCurrentContextConfig());
 		config.setSystemOverride(true);
 		config.parseConfig();
-		
-		if(ConfigContext.getCurrentContextConfig() != null) {
-			ConfigContext.getCurrentContextConfig().getProperties().putAll(config.getProperties());
-		}
-		else {
-			ConfigContext.init(config);
-		}
+		// we always want to call init for this config as it should be overriding any existing config object and any
+		// existing config object should have already been merged into our new config object already from above
+		ConfigContext.init(config);
 		
 		return config;
 	}
