@@ -593,6 +593,7 @@
         <column name="GRP_ID" size="40" type="VARCHAR"/>
         <column name="HELP_DEF_URL" size="4000" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="DOC_SEARCH_HELP_URL" size="4000" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1076,7 +1077,6 @@
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <column name="NMSPC_CD" size="40" type="VARCHAR"/>
         <column name="CMPNT_NM" size="100" type="VARCHAR"/>
-        <column name="APPL_URL" size="2000" type="VARCHAR"/>
         <unique name="KRIM_ATTR_DEFN_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1402,6 +1402,9 @@
         <column name="SUB_ETHNCTY_CD" size="40" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KRIM_ENTITY_T" name="KRIM_ENTITY_ETHNIC_TR1">
+            <reference foreign="ENTITY_ID" local="ENTITY_ID"/>
+        </foreign-key>
         <unique name="KRIM_ENTITY_ETHNIC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1502,6 +1505,9 @@
         <column name="IN_STATE" size="40" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KRIM_ENTITY_T" name="KRIM_ENTITY_RESIDENCY_TR1">
+            <reference foreign="ENTITY_ID" local="ENTITY_ID"/>
+        </foreign-key>
         <unique name="KRIM_ENTITY_RESIDENCY_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1524,6 +1530,9 @@
         <column name="VISA_ID" size="40" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KRIM_ENTITY_T" name="KRIM_ENTITY_VISA_TR1">
+            <reference foreign="ENTITY_ID" local="ENTITY_ID"/>
+        </foreign-key>
         <unique name="KRIM_ENTITY_VISA_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -2511,6 +2520,10 @@
             <index-column name="SVC_NM"/>
         </index>
     </table>
+    <table name="KRSB_FLT_SVC_DEF_T">
+        <column name="FLT_SVC_DEF_ID" primaryKey="true" size="14" type="DECIMAL"/>
+        <column name="FLT_SVC_DEF" required="true" type="CLOB"/>
+    </table>
     <table name="KRSB_MSG_PYLD_T">
         <column name="MSG_QUE_ID" primaryKey="true" size="14" type="DECIMAL"/>
         <column name="MSG_PYLD" required="true" type="CLOB"/>
@@ -2697,8 +2710,12 @@
         <column name="SRVR_IP" required="true" size="40" type="VARCHAR"/>
         <column name="SVC_NMSPC" required="true" size="255" type="VARCHAR"/>
         <column name="SVC_ALIVE" required="true" size="1" type="DECIMAL"/>
-        <column name="SVC_DEF" required="true" type="CLOB"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="FLT_SVC_DEF_ID" required="true" size="14" type="DECIMAL"/>
+        <column name="SVC_DEF_CHKSM" required="true" size="30" type="VARCHAR"/>
+        <unique name="KRSB_SVC_DEF_TI2">
+            <unique-column name="FLT_SVC_DEF_ID"/>
+        </unique>
         <index name="KRSB_SVC_DEF_TI1">
             <index-column name="SRVR_IP"/>
             <index-column name="SVC_NMSPC"/>
@@ -2856,6 +2873,7 @@
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>
     <sequence name="KRSB_BAM_S" nextval="2000"/>
+    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="463"/>
     <sequence name="KRSB_SVC_DEF_S" nextval="4058"/>
 </database>
