@@ -25,6 +25,7 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 	private List<Section> deleted = new ArrayList<Section>();
 	private ConfirmationDialog dialog; 
 	private boolean showConfirmation = true;
+	private List<String> lastSelection = new ArrayList<String>();
 	
 	/**
 	 * Constructor for SwapSection, note that the SelectableWidget passed in is not added to the
@@ -62,7 +63,15 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 				if(event.isUserInitiated() && showConfirmation){
-					dialog.show();
+					if(SwapSection.this.selectableWidget.getSelectedItems().size() < lastSelection.size()){
+						dialog.show();
+					}
+					else if(!SwapSection.this.selectableWidget.getSelectedItems().containsAll(lastSelection)){
+						dialog.show();
+					}
+					else{
+						handleUserSelection();
+					}
 				}
 				else if(event.isUserInitiated()){
 					handleUserSelection();
@@ -70,7 +79,8 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 				else{
 					handleSelection();
 				}
-
+				lastSelection.clear();
+				lastSelection.addAll(SwapSection.this.selectableWidget.getSelectedItems());
 			}
 		});
 		layout = new VerticalFieldLayout();
@@ -123,8 +133,10 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			if(deleted.contains(section)){
 				deleted.remove(section);
 			}
-			section.enableValidation(true);
-			section.getLayout().setVisible(true);
+			if(!section.getLayout().isVisible()){
+				section.enableValidation(true);
+				section.getLayout().setVisible(true);
+			}
 		}
 	}
 	
@@ -134,8 +146,11 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			if(!deleted.contains(section)){
 				deleted.add(section);
 			}
-			section.enableValidation(false);
-			section.getLayout().setVisible(false);
+			if(section.getLayout().isVisible()){
+				section.enableValidation(false);
+				section.getLayout().setVisible(false);
+			}
+
 		}
 	}
 	
