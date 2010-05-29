@@ -75,6 +75,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             cluSetInfo.setCluIds(null);
             cluIds = luService.getCluIdsFromCluSet(id);
             cluSetInfo.setCluIds(cluIds);
+            upWrap(cluSetInfo);
             resultCluSetHelper = toCluSetHelper(cluSetInfo);
             if (resultCluSetHelper == null) {
                 resultData = null;
@@ -142,6 +143,116 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         }
     }
     
+    private void upWrap(CluSetInfo cluSetInfo) throws AssemblyException {
+        List<String> cluSetIds = (cluSetInfo == null)? null : cluSetInfo.getCluSetIds();
+        List<String> unWrappedCluSetIds = null;
+        List<CluSetInfo> wrappedCluSets = null;
+        List<CluSetInfo> subCluSets = null;
+        
+        try {
+            if (cluSetIds != null && !cluSetIds.isEmpty()) {
+                subCluSets = luService.getCluSetInfoByIdList(cluSetIds);
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            throw new AssemblyException("Failed to retrieve the sub clusets of cluset " +
+                    cluSetInfo.getId());
+        }
+        // goes through the list of sub clusets and ignore the ones that are not reusable
+        if (subCluSets != null) {
+            for (CluSetInfo subCluSet : subCluSets) {
+                if (subCluSet.getIsReusable()) {
+                    unWrappedCluSetIds = (unWrappedCluSetIds == null)? 
+                            new ArrayList<String>() : unWrappedCluSetIds;
+                            unWrappedCluSetIds.add(subCluSet.getId());
+                } else {
+                    wrappedCluSets = (wrappedCluSets == null)?
+                            new ArrayList<CluSetInfo>() : wrappedCluSets;
+                            wrappedCluSets.add(subCluSet);
+                }
+            }
+        }
+        cluSetInfo.setCluSetIds(unWrappedCluSetIds);
+        if (wrappedCluSets != null) {
+            for (CluSetInfo wrappedCluSet : wrappedCluSets) {
+                MembershipQueryInfo mqInfo = wrappedCluSet.getMembershipQuery();
+                if (wrappedCluSet.getCluIds() != null && !wrappedCluSet.getCluIds().isEmpty()) {
+                    cluSetInfo.setCluIds(wrappedCluSet.getCluIds());
+                }
+                if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
+                    cluSetInfo.setMembershipQuery(mqInfo);
+                }
+            }
+        }
+    }
+    
+    private void wrap(CluSetInfo cluSetInfo) throws AssemblyException {
+        int numCluSetElementTypes = 0;
+        boolean hasCluIds = false;
+        boolean hasCluSetIds = false;
+        boolean hasMembershipQuery = false;
+        List<String> wrapperCluSetIds = new ArrayList<String>();
+        MembershipQueryInfo mqInfo = null;
+        if (cluSetInfo.getCluIds() != null && !cluSetInfo.getCluIds().isEmpty()) {
+            numCluSetElementTypes++;
+            hasCluIds = true;
+        }
+        if (cluSetInfo.getCluSetIds() != null && !cluSetInfo.getCluSetIds().isEmpty()) {
+            numCluSetElementTypes++;
+            hasCluSetIds = true;
+        }
+        mqInfo = cluSetInfo.getMembershipQuery();
+        if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
+            numCluSetElementTypes++;
+            hasMembershipQuery = true;
+        }
+        // if more than one type
+        if (numCluSetElementTypes > 1) {
+            if (hasCluIds) {
+                CluSetInfo wrapperCluSet = new CluSetInfo();
+                setWrapperCluSetInfoValues(wrapperCluSet, cluSetInfo);
+                // copy the clus into the wrapper CluSet
+                wrapperCluSet.setCluIds(cluSetInfo.getCluIds());
+                cluSetInfo.setCluIds(null);
+                try {
+                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
+                } catch (Exception e) {
+                    LOG.error("Failed to create wrapper cluset",e);
+                    throw new AssemblyException(e);
+                }
+                wrapperCluSetIds.add(wrapperCluSet.getId());
+            }
+            if (hasMembershipQuery) {
+                CluSetInfo wrapperCluSet = new CluSetInfo();
+                setWrapperCluSetInfoValues(wrapperCluSet, cluSetInfo);
+                // copy the MembershipQuery into the wrapper CluSet
+                wrapperCluSet.setMembershipQuery(mqInfo);
+                cluSetInfo.setMembershipQuery(null);
+                try {
+                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
+                } catch (Exception e) {
+                    LOG.error("Failed to create wrapper cluset",e);
+                    throw new AssemblyException(e);
+                }
+                wrapperCluSetIds.add(wrapperCluSet.getId());
+            }
+            if (hasCluSetIds) {
+                wrapperCluSetIds.addAll(cluSetInfo.getCluSetIds());
+            }
+            cluSetInfo.setCluSetIds(wrapperCluSetIds);
+        }
+    }
+    
+    private void setWrapperCluSetInfoValues(CluSetInfo wrapperCluSet, CluSetInfo cluSetInfo) {
+        wrapperCluSet.setAdminOrg(cluSetInfo.getAdminOrg());
+        wrapperCluSet.setEffectiveDate(cluSetInfo.getEffectiveDate());
+        wrapperCluSet.setExpirationDate(cluSetInfo.getExpirationDate());
+        wrapperCluSet.setIsReusable(false);
+        wrapperCluSet.setName(cluSetInfo.getName());
+        wrapperCluSet.setState(cluSetInfo.getState());
+        wrapperCluSet.setType(cluSetInfo.getType());
+    }
+    
     private SaveResult<Data> saveCluSet(Data input) throws AssemblyException {
         SaveResult<Data> result = new SaveResult<Data>();
         CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
@@ -149,6 +260,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
         Data resultData = null;
+        cluSetInfo.setIsReusable(true);
+        wrap(cluSetInfo);
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
                 updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);

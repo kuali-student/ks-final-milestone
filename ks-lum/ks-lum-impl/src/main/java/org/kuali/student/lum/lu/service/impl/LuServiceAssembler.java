@@ -335,6 +335,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		MembershipQueryInfo mqInfo = toMembershipQueryInfo(entity.getMembershipQuery());
 		dto.setMembershipQuery(mqInfo);
+		dto.setIsReusable(entity.getIsReusable());
 		
 		return dto;
 	}

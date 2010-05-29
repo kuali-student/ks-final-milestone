@@ -2197,6 +2197,23 @@ public class LuServiceImpl implements LuService {
 			cluSet.setClus(cluList);
 		}
 
+        // clean up existing wrappers if any
+        if (cluSetInfo.getId() != null) {
+            CluSetInfo originalCluSet = getCluSetInfo(cluSetInfo.getId());
+            List<CluSetInfo> origSubCSs = null;
+            List<String> origSubCSIds = originalCluSet.getCluSetIds();
+            if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
+                origSubCSs = getCluSetInfoByIdList(origSubCSIds);
+            }
+            if (origSubCSs != null) {
+                for (CluSetInfo origSubCS : origSubCSs) {
+                    if (!origSubCS.getIsReusable()) {
+                        deleteCluSet(origSubCS.getId());
+                    }
+                }
+            }
+        }
+		
 		// update the cluSetIds
 		cluSet.setCluSets(null);
 		if(!cluSetInfo.getCluSetIds().isEmpty()) {

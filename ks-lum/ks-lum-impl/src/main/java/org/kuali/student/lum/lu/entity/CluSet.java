@@ -94,7 +94,10 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@JoinColumn(name="MEM_QUERY_ID")
 	private MembershipQuery membershipQuery;
 	
-	@Override
+    @Column(name = "REUSABLE")
+    private Boolean isReusable;
+
+    @Override
     public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
@@ -203,4 +206,13 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	public void setMembershipQuery(MembershipQuery membershipQuery) {
 		this.membershipQuery = membershipQuery;
 	}
+
+    public Boolean getIsReusable() {
+        return isReusable;
+    }
+
+    public void setIsReusable(Boolean isReusable) {
+        this.isReusable = isReusable;
+    }
+
 }

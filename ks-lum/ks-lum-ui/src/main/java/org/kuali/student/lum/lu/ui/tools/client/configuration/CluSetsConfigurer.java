@@ -306,6 +306,13 @@ public class CluSetsConfigurer {
                 new TranslatedStringList(ToolsConstants.CLU_SET_CLUS_FIELD));
         sectionView.addSection(clusSection);
         
+        VerticalSection cluSetsSection = initSection(null, !WITH_DIVIDER);
+        cluSetsSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
+        addField(cluSetsSection, ToolsConstants.CLU_SET_CLU_SETS_FIELD, 
+                generateMessageInfo("CLU Sets"),
+                new TranslatedStringList(ToolsConstants.CLU_SET_CLU_SETS_FIELD));
+        sectionView.addSection(cluSetsSection);
+        
         VerticalSection cluRangeDetailsSection = initSection(null, !WITH_DIVIDER);
         cluRangeDetailsSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
         addField(cluRangeDetailsSection, ToolsConstants.CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD, 

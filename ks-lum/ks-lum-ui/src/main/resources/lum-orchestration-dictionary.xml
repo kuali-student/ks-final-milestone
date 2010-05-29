@@ -6216,6 +6216,15 @@
 							<property name="writeAccess" value="ALWAYS" />
 							<property name="usage" value="DEFAULT" />
 						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key"
+								value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="cluset.isReusable = true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="cluset.resultColumn.cluSetId" />
@@ -6306,6 +6315,17 @@
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param"><!-- limit search to only return reusable clusets -->
+								<property name="key"
+									value="cluset.queryParam.optionalReusable" />
+								<property name="name" value="Reusable" />
+								<property name="desc" value="Reusable" />
+								<property name="writeAccess"
+									value="NEVER" />
+								<property name="defaultValueString" value="cluset.isReusable = true" />
+								<property name="caseSensitive"
+									value="true" />
 							</bean>
 						</list>
 					</property>
@@ -7229,6 +7249,15 @@
 							<property name="writeAccess" value="ALWAYS" />
 							<property name="usage" value="DEFAULT" />
 						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key"
+								value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="cluset.isReusable = true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="cluset.resultColumn.cluSetId" />
@@ -7319,6 +7348,17 @@
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param"><!-- limit search to only return reusable clusets -->
+								<property name="key"
+									value="cluset.queryParam.optionalReusable" />
+								<property name="name" value="Reusable" />
+								<property name="desc" value="Reusable" />
+								<property name="writeAccess"
+									value="NEVER" />
+							<property name="defaultValueString" value="cluset.isReusable = true" />
+								<property name="caseSensitive"
+									value="true" />
 							</bean>
 						</list>
 					</property>
