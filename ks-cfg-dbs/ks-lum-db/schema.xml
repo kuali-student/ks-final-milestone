@@ -585,6 +585,7 @@
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="MEM_QUERY_ID" size="255" type="VARCHAR"/>
+        <column name="REUSABLE" size="1" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_MEMSHIP" name="FK33138D4153280327">
             <reference foreign="ID" local="MEM_QUERY_ID"/>
         </foreign-key>
