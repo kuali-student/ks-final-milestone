@@ -127,7 +127,7 @@
 	<bean id="courseInfo.feeInfo" parent="courseInfo.feeInfo-parent" />
 
 	<bean id="courseInfo.firstExpectedOffering-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluInfo.expectedFirstAtp-parent">
 		<property name="name" value="firstExpectedOffering" />
 	</bean>
 	<bean id="courseInfo.firstExpectedOffering" parent="courseInfo.firstExpectedOffering-parent" />
@@ -247,13 +247,13 @@
 	<bean id="courseVariationInfo.type" parent="courseVariationInfo.type-parent" />
 
 	<bean id="courseVariationInfo.variationCode-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluIdentifierInfo.variation-parent">
 		<property name="name" value="variationCode" />
 	</bean>
 	<bean id="courseVariationInfo.variationCode" parent="courseVariationInfo.variationCode-parent" />
 
 	<bean id="courseVariationInfo.variationTitle-parent" abstract="true"
-		parent="baseSingleString">
+		parent="cluIdentifierInfo.longName-parent">
 		<property name="name" value="variationTitle" />
 	</bean>
 	<bean id="courseVariationInfo.variationTitle" parent="courseVariationInfo.variationTitle-parent" />

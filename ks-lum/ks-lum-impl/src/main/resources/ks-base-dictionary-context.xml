@@ -8,14 +8,40 @@
 	<bean id="FieldDefinition"
 		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
 		abstract="true" />
+	<bean id="constraint" abstract="true"
+		class="org.kuali.student.core.dictionary.poc.dto.Constraint" />
+		
+	<bean id="ValidCharDefinition" abstract="true"
+		class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint" />
 
+	<bean id="alphanumbericHyphenPeriod" parent="ValidCharDefinition">
+		<property name="value" value="regex:[A-Za-z0-9.\-]*" />
+	</bean>
+	<bean id="numberic" parent="ValidCharDefinition">
+		<property name="value" value="regex:[0-9]*"/>
+	</bean>
+	<bean id="alpha" parent="ValidCharDefinition">
+		<property name="value" value="regex:[A-Za-z]*"/>
+	</bean>
+	<bean id="upperCase" parent="ValidCharDefinition">
+		<property name="value" value="regex:[A-Z0-9.\-]*"/>
+	</bean>
+	<bean id="upperAlpha" parent="ValidCharDefinition">
+		<property name="value" value="regex:[A-Z]*"/>
+	</bean>
+	<bean id="lineText" parent="ValidCharDefinition">
+		<property name="value" value="regex:[A-Za-z0-9.\-;:&#34;'&amp;%$#@!\t ]*"/>
+	</bean>
+	
 	<bean id="customEditorConfigurer"
 		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
 			<map>
 				<entry key="org.kuali.student.core.dictionary.poc.dto.DataType">
-					<bean class="org.kuali.student.common.util.spring.SimpleEnumPropertyEditor">
-						<constructor-arg value="org.kuali.student.core.dictionary.poc.dto.DataType"/>
+					<bean
+						class="org.kuali.student.common.util.spring.SimpleEnumPropertyEditor">
+						<constructor-arg
+							value="org.kuali.student.core.dictionary.poc.dto.DataType" />
 					</bean>
 				</entry>
 			</map>
@@ -30,6 +56,19 @@
 	<bean id="baseRepeatingFieldDefinition"
 		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
 		abstract="true">
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	
+	<bean id="baseRequiredRepeatingFieldDefinition"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
+		abstract="true">
+		<property name="minOccurs" value="1" />
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="baseOptionalRepeatingFieldDefinition"
+		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
+		abstract="true">
+		<property name="minOccurs" value="0" />
 		<property name="maxOccurs" value="unbounded" />
 	</bean>
 
@@ -61,11 +100,18 @@
 		abstract="true">
 		<property name="dataType" value="STRING" />
 	</bean>
+	<bean id="baseRequiredRepeatingString" parent="baseRequiredRepeatingFieldDefinition"
+		abstract="true">
+		<property name="dataType" value="STRING" />
+	</bean>
 	<bean id="baseRepeatingComplex" parent="baseRepeatingFieldDefinition"
 		abstract="true">
 		<property name="dataType" value="COMPLEX" />
 	</bean>
-
+	<bean id="baseOptionalRepeatingComplex" parent="baseOptionalRepeatingFieldDefinition"
+		abstract="true">
+		<property name="dataType" value="COMPLEX" />
+	</bean>
 	<bean id="baseSingleInteger" parent="baseSingleFieldDefinition"
 		abstract="true">
 		<property name="dataType" value="INTEGER" />
@@ -101,5 +147,34 @@
 	</bean>
 
 	<bean id="baseId" parent="baseSingleString" abstract="true">
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="36" />
 	</bean>
+	<bean id="baseCluId" parent="baseId">
+		<property name="minOccurs" value="1" />
+		<property name="maxOccurs" value="1" />
+	</bean>
+	<bean id="baseEffectiveDate" parent="baseSingleDate">
+		<property name="minOccurs" value="1" />
+		<property name="minLength" value="19" />
+		<property name="maxLength" value="19" />
+	</bean>
+	<!--Need to add	cross field field validation with effective date-->
+	<bean id="baseExpirationDate" parent="baseSingleDate">
+		<property name="minOccurs" value="0" />
+		<property name="minLength" value="19" />
+		<property name="maxLength" value="19" />
+	</bean>
+	<bean id="baseATPType" parent="baseSingleString">
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="60" />
+	</bean>	
+	
+	<bean id="baseCode" parent="baseSingleString" abstract="true">
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="60" />
+		<property name="validChars" ref="alphanumbericHyphenPeriod"/>
+	</bean>
+	
+
 </beans>
