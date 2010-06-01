@@ -54,7 +54,8 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 
 			@Override
 			public void onClick(ClickEvent event) {
-				handleUserSelection();	
+				handleUserSelection();
+				dialog.hide();
 			}
 		});
 		
