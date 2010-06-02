@@ -23,8 +23,11 @@
       <id>kuali.release</id>
       <url>https://test.kuali.org/maven</url>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
     <repository>
       <id>kuali.snapshot</id>
