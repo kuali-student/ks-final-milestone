@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
+        NAME="Curriculum Child"
+        ORG_HIRCHY="kuali.org.hierarchy.UBCCurriculum"
+        REV_DESCR="is parent of" REV_NAME="is parent of"
+        TYPE_DESC="Indicates that one organization is the child of another organization in the curriculum Hierarchy" TYPE_KEY="kuali.org.UBCCurriculumChild"/>
+</dataset>
