@@ -65,6 +65,11 @@ public class ToolsConstants {
     public static final String CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD = "cluset/cluSetRangeViewDetails";
     public static final String CLU_SET_TYPE_FIELD = "cluset/type";
     
+    // Swappable Section Keys
+    public static final String CLU_SET_SWAP_CLUS = "clus";
+    public static final String CLU_SET_SWAP_CLU_SETS = "clusets";
+    public static final String CLU_SET_SWAP_CLU_SET_RANGE = "clusetRange";
+    
     
     // widget constants
     public static final String CONTENT_BY_APPROVED_COURSES = CLU_SET_CLUS_FIELD;

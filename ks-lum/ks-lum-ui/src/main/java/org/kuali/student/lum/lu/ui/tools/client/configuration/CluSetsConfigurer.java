@@ -16,7 +16,9 @@
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -27,6 +29,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableL
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -37,8 +40,10 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
+import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.Data;
@@ -49,6 +54,7 @@ import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeLabel;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
@@ -67,6 +73,8 @@ public class CluSetsConfigurer {
     public static final String VIEW_SEARCH_CLUSET_MGT_MODEL = "viewSearchCluSetManagementModel";
     private String editSearchCluSetId = null;
     private String viewSearchCluSetId = null;
+    private Map<String, CluSetEditOptionList> cluSetEditOptionsMap =
+        new HashMap<String, CluSetEditOptionList>();
 
 
     private DataModelDefinition modelDefinition;
@@ -80,32 +88,49 @@ public class CluSetsConfigurer {
     }
 
     public void configureCluSetManager(ConfigurableLayout layout) {
+        SectionView createCluSetView = createCluSetSection();
+        SectionView editCluSetView = editCluSetSection();
+        CluSetsModelDispatcher createCluSetModelDispatcher = new CluSetsModelDispatcher();
+        CluSetsModelDispatcher editCluSetModelDispatcher = new CluSetsModelDispatcher();
+
+        createCluSetModelDispatcher.setModelId(CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL);
+        createCluSetView.setLayoutController(createCluSetModelDispatcher);
+        createCluSetView.setController(createCluSetModelDispatcher);
+
+        editCluSetModelDispatcher.setModelId(CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
+        editCluSetView.setLayoutController(editCluSetModelDispatcher);
+        editCluSetView.setController(editCluSetModelDispatcher);
 //        addStartSection(layout);
-        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, createCluSetSection());
-        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, editCluSetSection());
+        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, createCluSetView);
+        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, editCluSetView);
         layout.addSection(new String[] {"View CLU Sets"}, viewCluSetSection());
     }
 
     private void addClusetDetailsSections(SectionView parentView, final String modelId) {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), WITH_DIVIDER);
-        final CluSetContentEditorSection clusetDetails = initCluSetContentEditorSection(getH3Title(ToolsConstants.NEW_CLU_SET_CONTENT), !WITH_DIVIDER, modelId);
+        CluSetEditOptionList cluSetEditOptions = new CluSetEditOptionList();
+        cluSetEditOptionsMap.put(modelId, cluSetEditOptions);
+        SwapSection clusetDetails = new SwapSection(
+                cluSetEditOptions,
+                new ConfirmationDialog("Delete Clu Set Details",
+                        "You are about to delete clu set details.  Continue?")
+                );
+        
         ModelIdPlaceHolder modelIdObj = new ModelIdPlaceHolder(modelId);
-//        AddCluLightBox addCourseLightBox = new AddCluLightBox(configureSearch(ToolsConstants.SEARCH_COURSE));
-//        clusetDetails.setAddApprovedCourseWidget(addCourseLightBox);
-//
-//        final ItemList<CluItemValue> cluItemList = new ItemList<CluItemValue>();
 
         // ****** Add Clus *******
-//        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo("Courses")).setModelId(modelId);
-        addField(clusetDetails, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_COURSE)).setModelId(modelId);
+        Section clusSection = new VerticalSection();
+        addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_COURSE)).setModelId(modelId);
+        clusetDetails.addSection(clusSection, ToolsConstants.CLU_SET_SWAP_CLUS);
         // END OF items related to Add Clus
 
         // ****** Add Clu Range *******
         //TODO add cluset and clurange here
+        Section cluRangeSection = new VerticalSection();
         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
-        final FieldDescriptor cluRangeFieldEditDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
+        final FieldDescriptor cluRangeFieldEditDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
         final CluSetRangeLabel clusetRangeLabel = new CluSetRangeLabel();
-        final FieldDescriptor cluRangeFieldDescriptor = addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
+        final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
         cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
         
             @Override
@@ -175,9 +200,12 @@ public class CluSetsConfigurer {
               }
           }
         });
+        clusetDetails.addSection(cluRangeSection, ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE);
         // END OF items related to Add Clu Range
         // ****** Add cluSets *******
-        addField(clusetDetails, ToolsConstants.CLU_SET_CLU_SETS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET)).setModelId(modelId);
+        Section cluSetSection = new VerticalSection();
+        addField(cluSetSection, ToolsConstants.CLU_SET_CLU_SETS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET)).setModelId(modelId);
+        clusetDetails.addSection(cluSetSection, ToolsConstants.CLU_SET_SWAP_CLU_SETS);
         // END OF items related to Add CluSets
         
         addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD);
@@ -187,6 +215,7 @@ public class CluSetsConfigurer {
         addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EFF_DATE_FIELD, generateMessageInfo(ToolsConstants.EFFECTIVE_DATE), new KSDatePicker());
         addField(modelIdObj, defineCluSet, ToolsConstants.CLU_SET_EXP_DATE_FIELD, generateMessageInfo(ToolsConstants.EXPIRATION_DATE), new KSDatePicker());
         
+        parentView.addWidget(cluSetEditOptions);
         parentView.addSection(clusetDetails);
         parentView.addSection(defineCluSet);
     }
@@ -209,12 +238,90 @@ public class CluSetsConfigurer {
     }
 
     private SectionView createCluSetSection() {
+        // TODO change this to custom layoutcontroller here to support multiple model ids?
         VerticalSectionView section = initNestedSectionView(CluSetSections.CREATE_CLU_SET, ToolsConstants.NEW_CLU_SET, CREATE_CLUSET_MGT_MODEL);
         addClusetDetailsSections(section, CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL);
         return section;
 	}
 
+    private boolean hasCluSetRange(Data cluSetRangeData) {
+        boolean hasCluSetRange = false;
+        MembershipQueryInfo membershipQueryInfo = 
+            CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(cluSetRangeData);
+        if (membershipQueryInfo != null) {
+            hasCluSetRange = true;
+        }
+        return hasCluSetRange;
+    }
+    
+    private boolean hasClus(Data clusData) {
+        boolean clusExist = false;
+        if (clusData != null) {
+            for (Data.Property p : clusData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluId = p.getValue();
+                    if (cluId != null && !cluId.trim().isEmpty()) {
+                        clusExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return clusExist;
+    }
+    
+    private boolean hasCluSets(Data clusetData) {
+        boolean cluSetsExist = false;
+        if (clusetData != null) {
+            for (Data.Property p : clusetData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluSetId = p.getValue();
+                    if (cluSetId != null && !cluSetId.trim().isEmpty()) {
+                        cluSetsExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return cluSetsExist;
+    }
+    
+    private boolean hasData(String queryPath, Data queryData) {
+        boolean hasData = false;
+        if (queryPath != null && queryPath.equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
+            hasData = hasClus(queryData);
+        } else if (queryPath != null && queryPath.equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
+            hasData = hasCluSets(queryData);
+        } else if (queryPath != null && queryPath.equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
+            hasData = hasCluSetRange(queryData);
+        } else {
+            throw new IllegalArgumentException("Unexpected queryPath: " + queryPath);
+        }
+        return hasData;
+    }
+    
+    private void selectCluSetOptionList(DataModel model, CluSetEditOptionList cluSetEditOptions) {
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLUS_FIELD, 
+                ToolsConstants.CLU_SET_SWAP_CLUS);
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
+                ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE);
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLU_SETS_FIELD,
+                ToolsConstants.CLU_SET_SWAP_CLU_SETS);
+    }
+    
+    private void selectCluSetOption(DataModel model, CluSetEditOptionList cluSetEditOptions,
+            String queryPath, String selectionId) {
+        final QueryPath qPath = QueryPath.parse(queryPath);
+        Data queryData = model.get(qPath);
+        if (hasData(queryPath, queryData)) {
+            cluSetEditOptions.selectItem(selectionId);
+        } else {
+            cluSetEditOptions.deSelectItem(selectionId);
+        }
+    }
+    
     private SectionView editCluSetSection() {
+        // TODO change this to custom layoutcontroller here to support multiple model ids?
         final VerticalSectionView section = initNestedSectionView(CluSetSections.EDIT_CLU_SET, ToolsConstants.EDIT_CLU_SET, EDIT_CLUSET_MGT_MODEL);
         VerticalSection oversight = initSection(getH3Title(ToolsConstants.EDIT_CLU_SET_INFO), WITH_DIVIDER);
         Picker cluSetPicker = configureSearch(ToolsConstants.SEARCH_CLU_SET);
@@ -223,12 +330,15 @@ public class CluSetsConfigurer {
             public void exec(SelectedResults result) {
                 if (result != null && result.getReturnKey() != null && result.getReturnKey().trim().length() > 0) {
                     editSearchCluSetId = result.getReturnKey();
+                    final CluSetEditOptionList cluSetEditOptions = 
+                        cluSetEditOptionsMap.get(CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
                     // TODO retrieve cluset by id and
                     final LayoutController parent = LayoutController.findParentLayout(section);
                     if(parent != null){
                         parent.requestModel(CluSetsConfigurer.EDIT_SEARCH_CLUSET_MGT_MODEL, new ModelRequestCallback<DataModel>() {
                             @Override
                             public void onModelReady(DataModel model) {
+                                selectCluSetOptionList(model, cluSetEditOptions);
                                 section.updateWidgetData(model);
                             }
 
@@ -352,17 +462,6 @@ public class CluSetsConfigurer {
         //section.setSectionTitle(getH1Title(labelKey));
 
         return section;
-    }
-
-    private static CluSetContentEditorSection initCluSetContentEditorSection(SectionTitle title, boolean withDivider, String modelId) {
-        CluSetContentEditorSection cluSetContentEditorSection = new CluSetContentEditorSection(modelId);
-        if (title !=  null) {
-        	cluSetContentEditorSection = new CluSetContentEditorSection(title, modelId);
-        }
-        cluSetContentEditorSection.addStyleName(LUConstants.STYLE_SECTION);
-        if (withDivider)
-            cluSetContentEditorSection.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-        return cluSetContentEditorSection;
     }
 
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
@@ -522,4 +621,20 @@ public class CluSetsConfigurer {
 			this.modelId = modelId;
 		}
     }
+
+    public class CluSetEditOptionList extends KSCheckBoxList{
+        public CluSetEditOptionList(){
+            SimpleListItems editOptions = new SimpleListItems();
+
+            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLUS, "Courses");
+            // TODO distinguish between Approved CLUs and Proposed CLUs
+            // TODO implement course ranges
+//            editOptions.addItem("ProposedCourses", "Proposed Courses");
+            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLU_SETS, "CLU Sets");
+            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
+
+            super.setListItems(editOptions);
+        }
+    }
+
 }
