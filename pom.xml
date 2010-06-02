@@ -31,8 +31,11 @@
       <name>Main Kuali Repository</name>
       <url>https://test.kuali.org/maven</url>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
   </repositories>
   <ciManagement>
