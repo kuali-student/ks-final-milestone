@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -69,9 +69,9 @@
       <!-- Required dependencies for testing core-ui -->
       <dependencies>
         <dependency>
-          <!-- 
+          <!--
 						Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
-						which has problems finding exception beans. 
+						which has problems finding exception beans.
 					-->
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-cxf</artifactId>
