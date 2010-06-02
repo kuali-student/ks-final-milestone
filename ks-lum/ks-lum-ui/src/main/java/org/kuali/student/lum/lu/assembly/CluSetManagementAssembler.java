@@ -219,6 +219,12 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                     result.getClus().add(cluId);
                 }
             }
+            if (cluSetInfo.getCluSetIds() != null) {
+                result.setCluSets(new Data());
+                for (String cluSetId : cluSetInfo.getCluSetIds()) {
+                    result.getCluSets().add(cluSetId);
+                }
+            }
             if (cluSetInfo.getMembershipQuery() != null) {
                 MembershipQueryInfo mq = cluSetInfo.getMembershipQuery();
                 List<String> cluRangeCluIds = getMembershipQuerySearchResult(mq);
@@ -229,7 +235,6 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                     }
                 }
             }
-//            luService.search(searchRequest)
             result.setDescription(richTextToString(cluSetInfo.getDescr()));
             result.setEffectiveDate(cluSetInfo.getEffectiveDate());
             result.setExpirationDate(cluSetInfo.getExpirationDate());
@@ -248,7 +253,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     private CluSetInfo toCluSetInfo(CluSetHelper cluSetHelper) {
         CluSetInfo cluSetInfo = new CluSetInfo();
         Data clusData = cluSetHelper.getClus();
+        Data cluSetsData = cluSetHelper.getCluSets();
         List<String> cluIds = null;
+        List<String> cluSetIds = null;
         
         cluSetInfo.setId(cluSetHelper.getId());
         if (clusData != null) {
@@ -263,6 +270,19 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         }
         if (cluIds != null) {
             cluSetInfo.setCluIds(cluIds);
+        }
+        if (cluSetsData != null) {
+            for (Data.Property p : cluSetsData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluSetId = p.getValue();
+                    cluSetIds = (cluSetIds == null)? new ArrayList<String>(3) :
+                        cluSetIds;
+                    cluSetIds.add(cluSetId);
+                }
+            }
+        }
+        if (cluSetIds != null) {
+            cluSetInfo.setCluSetIds(cluSetIds);
         }
         cluSetInfo.setAdminOrg(cluSetHelper.getOrganization());
         cluSetInfo.setDescr(toRichTextInfo(cluSetHelper.getDescription()));

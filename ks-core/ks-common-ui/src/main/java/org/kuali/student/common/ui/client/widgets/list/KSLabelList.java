@@ -98,10 +98,6 @@ public class KSLabelList extends KSSelectItemWidgetAbstract {
         return selectItemWidget.addSelectionChangeHandler(handler);
     }
 
-    protected void fireChangeEvent() {
-        selectItemWidget.fireChangeEvent();
-    }
-
     public ListItems getListItems() {
         return selectItemWidget.getListItems();
     }

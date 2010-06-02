@@ -184,12 +184,12 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static List<CluInfo> toCluInfos(List<Clu> entities) {
-		if (entities == null) {
-			return null;
-		}
 		List<CluInfo> dtos = new ArrayList<CluInfo>(entities.size());
-		for (Clu entity : entities) {
-			dtos.add(toCluInfo(entity));
+		// return an empty list (Effective Java 2ndEd, item #43)
+		if (entities != null) {
+			for (Clu entity : entities) {
+				dtos.add(toCluInfo(entity));
+			}
 		}
 		return dtos;
 

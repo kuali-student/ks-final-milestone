@@ -91,8 +91,9 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     private final Anchor closeLink = new Anchor();
     private boolean addCloseLink = true;
     private boolean showing = false;
-    
-
+    private int width = 400;
+    private int height = 300;     
+/*
     private final Timer resizeTimer = new Timer() {
 		@Override
 		public void run() {
@@ -104,7 +105,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 			}
 		}
 	};
-	
+	*/
 	private final HandlerManager handlers = new HandlerManager(this);
 	
 	public KSLightBox() {
@@ -112,16 +113,15 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 		// this is a hack for now
 		this.resizer = DEFAULT_RESIZER;
 		final SimplePanel titlePlaceHolder = new SimplePanel();
-		titlePlaceHolder.setSize("2em", "2em");
+		titlePlaceHolder.setSize("0.5em", "0.5em");
 		construct(titlePlaceHolder);
 	}
-	
 	public KSLightBox(boolean addCloseLink) {
 	        // TODO review with UX what the expected look/behavior is when no title is specified, right now the close image can get in the way of the scroll-up button
 	        // this is a hack for now
 	        this.resizer = DEFAULT_RESIZER;
 	        final SimplePanel titlePlaceHolder = new SimplePanel();
-	        titlePlaceHolder.setSize("2em", "2em");
+	       // titlePlaceHolder.setSize("2em", "2em");
 	        this.addCloseLink=addCloseLink;
 	        construct(titlePlaceHolder);
 	}
@@ -137,6 +137,9 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     public KSLightBox(Widget title, Resizer resizer) {
     	this.resizer = resizer;
     	construct(title);
+    }
+    public void setShowCloseLink(boolean b){
+        closeLink.setVisible(b);
     }
     protected void construct(Widget title) {
     	pop.setStyleName(Styles.LIGHTBOX.getStyle());
@@ -166,22 +169,24 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 			}
 		});
     	
-
+        scroll.setPixelSize(width, height);
     }
     
     protected void adjust() {
-        resizer.resize(scroll);
+      //  resizer.resize(scroll);
+        scroll.setPixelSize(width, height);
         pop.center();
     }
-    
-
-
+    public void setSize(int width, int height){
+       this.width = width;
+       this.height = height;
+    }
     public void show() {
         if (!showing) {
             glass.getElement().setAttribute("zIndex", "" + KSZIndexStack.pop());
             parentPanel.add(glass, 0, 0);
             pop.getElement().setAttribute("zIndex", "" + KSZIndexStack.pop());
-            resizeTimer.scheduleRepeating(500);
+           // resizeTimer.scheduleRepeating(500);
             Elements.setOpacity(pop, 0);
             adjust();
             Elements.setOpacity(pop, 100);
@@ -191,7 +196,7 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     }
 
     public void hide() {
-    	resizeTimer.cancel();
+    //	resizeTimer.cancel();
     	if (showing) {
 	        pop.hide();
 	        KSZIndexStack.push();
@@ -207,6 +212,23 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
     }
 
     public void setWidget(Widget w) {
+        if(w != null){
+           width = w.getOffsetWidth();
+           height = w.getOffsetHeight();
+        }
+        if(width > 800){
+            width = 800;
+        }
+        if(height > 600){
+            height = 600;
+        }
+        if(width < 200){
+            width = 200;
+        }
+        if(height < 100){
+            height = 100;
+        }
+        scroll.setPixelSize(width, height);
     	scroll.setWidget(w);
     }
     public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){

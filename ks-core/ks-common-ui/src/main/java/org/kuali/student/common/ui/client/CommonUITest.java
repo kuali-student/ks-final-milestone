@@ -18,9 +18,9 @@ package org.kuali.student.common.ui.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.demo.KSLightBoxDemo;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
@@ -45,16 +45,8 @@ public class CommonUITest implements EntryPoint {
     @Override
     public void onModuleLoad() {
 		final AbsolutePanel panel = ApplicationPanel.get();
-		final KSButton button = new KSButton("show lightbox", new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				final KSLightBox box = new KSLightBox(new HTML("Proposal Comments"));
-				box.setWidget(new TestLightboxContent());
-				box.show();
-			}
-		});
-		panel.add(button);
-		
+		panel.add(new KSLightBoxDemo());
+		/*
     	panel.add(new Button("Test Notifications", new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
@@ -80,7 +72,7 @@ public class CommonUITest implements EntryPoint {
 		for (int i=0; i<500; i++) {
 			panel.add(new Label("label " + i));
 		}
-		
+		*/
 	}
 	
 	public static class TestLightboxContent extends Composite {

@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -50,6 +50,22 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.snapshot</id>
+      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.kuali.rice</groupId>

@@ -117,7 +117,6 @@
     <param name="lum.application.url" override="false">${application.url}</param>
     <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
 
-    <param name="ks.application.version">Kuali Student Version : 1.0.0-rc1</param>
     <param name="ks.embedded.doDataLoad">false</param>
 
     <!-- Set all services to /services instead of /remoting -->

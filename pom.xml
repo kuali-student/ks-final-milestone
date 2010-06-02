@@ -14,13 +14,27 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>6</version>
+    <version>8</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>ks</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0-poc-1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
+  <organization>
+    <name>The Kuali Foundation</name>
+    <url>http://student.kuali.org/</url>
+  </organization>
+  <repositories>
+    <repository>
+      <id>kuali.release</id>
+      <name>Main Kuali Repository</name>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <ciManagement>
     <system>hudson</system>
     <url>https://ci.ks.kuali.org</url>
@@ -32,8 +46,8 @@
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</developerConnection>
   </scm>
   <properties>
     <!-- artifact versions -->
@@ -47,7 +61,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.1</kuali.rice.version>
+    <kuali.rice.version>1.0.2</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -70,57 +84,108 @@
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
-    <!-- License plugin -->
-    <!-- to run, use mvn -Pgenerate-ecl license:format -Dyear=2010 -->
-    <!-- some of the xmlparsers dont like comments to appear before the ?xml processing instruction -->
-    <!-- aslo non ascii characters like the japanese in statement.xml will get messed up by this plugin -->
+
+    <!-- External Repository Profiles -->
     <profile>
-      <id>s3.repositories</id>
+      <id>external.repositories</id>
+      <activation>
+        <property>
+          <name>!ks.use.proxy</name>
+        </property>
+      </activation>
       <repositories>
+        <!--
+                    central defined here to ensure maven checks it first as it has the best chance
+                    at finding dependencies
+                -->
         <repository>
-          <id>kuali.release</id>
-          <name>Kuali Release</name>
-          <url>http://s3.amazonaws.com/maven.kuali.org/release</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>kuali.external</id>
-          <name>Kuali External</name>
-          <url>http://s3.amazonaws.com/maven.kuali.org/external</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>kuali.private</id>
-          <name>Kuali Private</name>
-          <url>http://s3.amazonaws.com/maven.kuali.org/private</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>kuali.snapshot</id>
-          <name>Kuali Snapshot</name>
-          <url>https://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+          <id>central</id>
+          <url>http://repo1.maven.org/maven2/</url>
           <releases>
-            <enabled>false</enabled>
+            <enabled>true</enabled>
           </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
         </repository>
         <repository>
-          <id>kuali.repo.old</id>
-          <name>Kuali Repository Old</name>
-          <url>https://test.kuali.org/maven</url>
+          <id>maven2-repository.dev.java.net</id>
+          <url>http://download.java.net/maven/2</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>ks.public</id>
+          <url>http://archiva.kuali.umd.edu/repository/public/</url>
+        </repository>
+        <!--
+                    adding until maven repository resolution fixed (does not work in 2.0.9 or
+                    2.1.0.20080530 embedded)
+                -->
+        <repository>
+          <id>repository.jboss.org</id>
+          <url>http://repository.jboss.org/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>EclipseLink Repo</id>
+          <url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
         </repository>
       </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://repo1.maven.org/maven2/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>kuali.release</id>
+          <url>http://archiva.kuali.umd.edu/repository/release</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>codehaus</id>
+          <url>http://repository.codehaus.org/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>ks-public</id>
+          <url>http://archiva.kuali.umd.edu/repository/public</url>
+        </pluginRepository>
+      </pluginRepositories>
     </profile>
+
+    <!-- License plugin -->
+    <!-- to run, use mvn -Pgenerate-ecl license:format -Dyear=2010 -->
+    <!-- some of the xmlparsers dont like comments to appear before the ?xml processing instruction -->
+    <!-- aslo non ascii characters like the japanese in statement.xml will get messed up by this plugin -->
     <profile>
       <id>generate-ecl</id>
       <activation>
@@ -153,15 +218,6 @@
     </profile>
   </profiles>
   <build>
-    <!-- 
-    <extensions>
-      <extension>
-        <groupId>org.kuali.maven</groupId>
-        <artifactId>kuali-wagon-s3</artifactId>
-        <version>1.0.4</version>
-      </extension>
-    </extensions>
-     -->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -242,9 +298,15 @@
             <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
             <archive>
               <manifestEntries>
-                <Kuali-Student-Type>${project.artifactId}</Kuali-Student-Type>
-                <Kuali-Student-Version>${project.version}</Kuali-Student-Version>
-                <Maven-Build-Timestamp>${maven.build.timestamp}</Maven-Build-Timestamp>
+                <Bundle-Version>${project.version}</Bundle-Version>
+                <Bundle-Name>${project.name}</Bundle-Name>
+                <Bundle-Description>${project.description}</Bundle-Description>
+                <Bundle-License>http://www.osedu.org/licenses/ECL-2.0/ecl2.txt</Bundle-License>
+                <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+                <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
+                <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
+                <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                <Hudson-Build-Number>${env.BUILD_NUMBER}</Hudson-Build-Number>
               </manifestEntries>
             </archive>
           </configuration>

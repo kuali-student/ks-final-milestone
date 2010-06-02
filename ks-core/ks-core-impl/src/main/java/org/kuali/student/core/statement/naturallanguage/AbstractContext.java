@@ -22,6 +22,12 @@ import java.util.Map;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
 
+/**
+ * This is an abstract class for creating a map (containing token/data) used
+ * in template translations.
+ * 
+ * @param <T> Type of context to create
+ */
 public abstract class AbstractContext<T> implements Context<T> {
 	/**
 	 * <p>These common shared tokens are needed since velocity doesn't 
@@ -66,12 +72,4 @@ public abstract class AbstractContext<T> implements Context<T> {
     public String getReqCompFieldValue(ReqComponent reqComponent, String key) {
         return getReqCompField(reqComponent).get(key);
     }
-
-    /**
-     * Creates the data context map (template data) for a specific context.
-     * 
-     * @param context Context to create the map from
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
-     */
-	//public abstract Map<String, Object> createContextMap(T context) throws OperationFailedException;
 }

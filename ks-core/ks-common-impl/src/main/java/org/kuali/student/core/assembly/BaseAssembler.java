@@ -81,6 +81,11 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     @Override
     public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
         Metadata metadata = metadataService.getMetadata(getDataType(), type, state);
+        applyPermissionsToMetadata(metadata,idType, id);
+        return metadata;
+    }
+
+    protected void applyPermissionsToMetadata(Metadata metadata, String idType, String id){
         Boolean authorized = null;
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             AttributeSet qualification = getQualification(idType, id);
@@ -127,7 +132,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
 	            }
 	        }
         }
-        return metadata;
+    	
     }
 
     public Metadata getDefaultMetadata() {
@@ -192,10 +197,13 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
      * @return the qualifications in at AttributeSet
      */
     protected abstract AttributeSet getQualification(String idType, String id);
+    
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
+    
     public void setMetadataService(MetadataServiceImpl metadataService) {
         this.metadataService = metadataService;
     }
+    
 }

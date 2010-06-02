@@ -309,7 +309,13 @@
 		<property name="proposalService" ref="proposalClient"/>
 		<property name="orgService" ref="orgClient"/>
 		<property name="courseAssembler" ref="courseAssembler" />
-		<property name="atpService" ref="atpClient"/>
+		<property name="atpService" ref="atpClient"/>		
+	</bean>
+
+	<bean id="creditCourseProposalAssemblerPOC" class="org.kuali.student.lum.lu.assembly.poc.CreditCourseProposalAssembler">
+		<property name="permissionService" ref="permissionServiceClient" />
+		<property name="metadataService" ref="metadataServiceImplPOC" />
+		<property name="courseService" ref="courseClient"/>
 	</bean>
 
 	<bean id="CluSetManagementRpcGwtServlet" class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
@@ -341,6 +347,13 @@
         </constructor-arg>
 	</bean>
 
+	<bean id="metadataServiceImplPOC" class="org.kuali.student.core.assembly.dictionary.poc.MetadataServiceImpl">
+        <constructor-arg>
+        	<list>
+        		<ref bean="courseClient"/>
+        	</list>
+        </constructor-arg>
+	</bean>
 
 	<!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
 	<bean id="workflowAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter">
@@ -358,7 +371,7 @@
 
 	<!-- Filter manager that targets the credit course proposal assembler -->
 	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
-		<constructor-arg ref="creditCourseProposalAssembler"/>
+		<constructor-arg ref="creditCourseProposalAssemblerPOC"/>
 		<property name="filters">
 			<list>
 				<ref bean="idTranslatorAssemblerFilter" />
@@ -472,6 +485,11 @@
 	</bean>
 	
 	<!-- Service clients -->
+	<bean id="courseClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.lum.course.service.CourseService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/course}CourseService" />
+	</bean>
+
 	<bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />

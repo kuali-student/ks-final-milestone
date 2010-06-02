@@ -36,6 +36,7 @@ public class ToolsConstants {
     public static final String NEW_CLU_SET_CONTENT = "cluSetContent";
     public static final String NEW_CLU_SET_CONTENT_COURSE = "cluSetCourses";
     public static final String NEW_CLU_SET_CONTENT_RANGE = "cluSetCourseRange";
+    public static final String NEW_CLU_SET_CONTENT_CLUSET = "clusetSubCluSet";
     public static final String EDIT_CLU_SET = "cluSetEditCluSet";
     public static final String VIEW_CLU_SET = "cluSetViewCluSet";
     public static final String EDIT_CLU_SET_INFO = "cluSetEditInformation";
