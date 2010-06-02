@@ -51,37 +51,37 @@
         OWNER="kuali.reqCompType.courseList.all" TEMPLATE="Student must have completed all of $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="201" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqCompType.courseList.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="202" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqCompType.courseList.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="203" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.1of2" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.clu;reqCompFieldLabel=Course 1> or &lt;reqCompFieldType=reqCompFieldType.clu;reqCompFieldLabel=Course 2>"/>
+        OWNER="kuali.reqCompType.courseList.1of2" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.clu.id;reqCompFieldLabel=Course 1> or &lt;reqCompFieldType=reqCompFieldType.clu.id;reqCompFieldLabel=Course 2>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="204" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="205" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.gradecheck" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gpa;reqCompFieldLabel=GPA>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="206" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.totalCredits;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.totalCredits;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="207" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="208" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="209" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Programs>"/>
+        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="210" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Programs>"/>
+        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="211" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.1of1" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.clu;reqCompFieldLabel=Course 1>"/>
+        OWNER="kuali.reqCompType.courseList.1of1" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.clu.id;reqCompFieldLabel=Course 1>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.courseList.1of2" TEMPLATE="Student must have completed $cluSet.getCluAsCode(0) or $cluSet.getCluAsCode(1)"/>
