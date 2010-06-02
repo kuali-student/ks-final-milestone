@@ -131,8 +131,26 @@ public class KSButtonImpl extends KSButtonAbstract{
 
 		this.initWidget(panel);
 	}
-
+	
 	@Override
+    public void addStyleName(String style) {
+        anchor.addStyleName(style);
+        disabledLabel.addStyleName(style);
+    }
+
+    @Override
+    public void removeStyleName(String style) {
+        anchor.removeStyleName(style);
+        disabledLabel.removeStyleName(style);        
+    }
+
+    @Override
+    public void setStyleName(String style) {
+        anchor.setStyleName(style);
+        disabledLabel.setStyleName(style);        
+    }
+
+    @Override
 	public void init() {
 		init("", ButtonStyle.PRIMARY);
 	}
