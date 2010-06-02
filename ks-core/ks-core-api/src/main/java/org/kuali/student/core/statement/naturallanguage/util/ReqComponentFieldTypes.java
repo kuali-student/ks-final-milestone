@@ -33,8 +33,8 @@ package org.kuali.student.core.statement.naturallanguage.util;
  * </p>
  */
 public enum ReqComponentFieldTypes {
-	CLU_KEY("reqCompFieldType.clu"),
-	CLUSET_KEY("reqCompFieldType.cluSet"),
+	CLU_KEY("reqCompFieldType.clu.id"),
+	CLUSET_KEY("reqCompFieldType.cluSet.id"),
 	REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
     GPA_KEY("reqCompFieldType.gpa"),
     TOTAL_CREDIT_KEY("reqCompFieldType.totalCredits"),
