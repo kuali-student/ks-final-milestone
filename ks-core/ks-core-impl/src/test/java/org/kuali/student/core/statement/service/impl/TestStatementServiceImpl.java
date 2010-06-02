@@ -565,7 +565,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         
         assertNotNull(rqt);
         assertEquals(rqt.getId(), "kuali.reqCompType.courseList.all");
-        assertEquals(rqt.getDescr(), "Student must have completed all of <reqCompFieldType.cluSet>");
+        assertEquals(rqt.getDescr(), "Student must have completed all of <reqCompFieldType.cluSet.id>");
         assertEquals(rqt.getName(), "All of required courses");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20001231"));                
