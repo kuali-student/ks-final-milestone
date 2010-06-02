@@ -12,7 +12,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.DefaultDataBeanMapper;
+import org.kuali.student.core.assembly.util.DefaultDataBeanMapper;
 
 public class TestDataMapper {
 
