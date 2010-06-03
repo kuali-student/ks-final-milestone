@@ -62,7 +62,7 @@
     <repository>
       <id>kuali.snapshot</id>
       <name>Kuali Snapshot Repository</name>
-      <url>https://maven.kuali.org/snapshot</url>
+      <url>http://maven.kuali.org/snapshot</url>
       <releases>
         <enabled>false</enabled>
       </releases>
