@@ -13,10 +13,6 @@
   <modules>
     <module>ks-standard-sec</module>
   </modules>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</developerConnection>
-  </scm>
   <repositories>
     <repository>
       <id>kuali.release</id>

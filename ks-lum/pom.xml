@@ -90,10 +90,6 @@
       </releases>
     </repository>
   </repositories>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-lum</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-lum</developerConnection>
-  </scm>
   <reporting>
     <plugins>
       <plugin>
