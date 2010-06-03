@@ -2,9 +2,10 @@ package org.kuali.student.lum.course.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -130,10 +132,70 @@ public class TestCourseServiceImpl {
 	
 	@Test 
 	public void testUpdateCourse() {
-		
+		try {
+			CourseDataGenerator generator = new CourseDataGenerator();
+			CourseInfo cInfo = generator.getCourseTestData();
+			assertNotNull(cInfo);
+			CourseInfo createdCourse = courseService.createCourse(cInfo);
+			
+			// minimal sanity check
+			assertNotNull(createdCourse);
+			assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
+			assertEquals("courseTitle-15", createdCourse.getCourseTitle());
+			assertEquals(2, createdCourse.getAcademicSubjectOrgs().size());
+			assertEquals(2, createdCourse.getAttributes().size());
+			
+			// update some fields
+			createdCourse.getAcademicSubjectOrgs().clear();
+			AcademicSubjectOrgInfo newOrg = new AcademicSubjectOrgInfo();
+			newOrg.setOrgId("testOrgId");
+			createdCourse.getAcademicSubjectOrgs().add(newOrg);
+			
+			Map<String, String> attributes = createdCourse.getAttributes();
+			attributes.put("testKey", "testValue");
+			createdCourse.setAttributes(attributes);
+			
+			CourseInfo updatedCourse = courseService.updateCourse(createdCourse);
+			// Test what was returned by updateCourse
+			verifyUpdate(updatedCourse);
+			
+			// Now explicitly get it
+			CourseInfo retrievedCourse = courseService.getCourse(createdCourse.getId());
+			verifyUpdate(retrievedCourse);
+			
+			// and test for optimistic lock exception
+			// NOTE: CourseService.updateCourse(CourseInfo courseInfo) modifies its parameter,
+			// as the 'results' BusinessDTORef (our CourseInfo) is simply updated to reflect
+			// the new contents of the updated Clu (see the
+			// results.getAssembler().assemble(updatedClu, results.getBusinessDTORef(), true);
+			// line in CourseServiceMethodInvoker.invokeServiceCalls()
+			int currVersion = Integer.parseInt(retrievedCourse.getMetaInfo().getVersionInd());
+			if (currVersion > 0) {
+				retrievedCourse.getMetaInfo().setVersionInd(Integer.toString(--currVersion));
+			}
+			try {
+			    courseService.updateCourse(retrievedCourse);
+				fail("Failed to throw VersionMismatchException");
+	        } catch (Exception e) {
+	            System.out.println("Correctly received " + e.getMessage());
+	        } // TODO - should be a VersionMismatchException
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 	
-	@Test 
+	private void verifyUpdate(CourseInfo updatedCourse) {
+		assertNotNull(updatedCourse);
+		
+		assertEquals(1, updatedCourse.getAcademicSubjectOrgs().size());
+		assertEquals("testOrgId",  updatedCourse.getAcademicSubjectOrgs().get(0).getOrgId());
+		
+		assertEquals(3, updatedCourse.getAttributes().size());
+		assertNotNull(updatedCourse.getAttributes().get("testKey"));
+		assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
+    }
+
+    @Test 
 	public void testDeleteCourse() {
 		try {
 			CourseDataGenerator generator = new CourseDataGenerator();
@@ -157,5 +219,10 @@ public class TestCourseServiceImpl {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+	}
+	
+	@Test
+	public void testCluIsUpdated() {
+	    
 	}
 }

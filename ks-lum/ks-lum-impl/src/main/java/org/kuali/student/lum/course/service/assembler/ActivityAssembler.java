@@ -17,9 +17,14 @@ package org.kuali.student.lum.course.service.assembler;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.service.LuService;
 
 /**
  * Assembles/Disassembles ActivityInfo DTO from/To CluInfo 
@@ -29,6 +34,8 @@ import org.kuali.student.lum.lu.dto.CluInfo;
  */
 public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
+    private LuService luService;
+    
 	@Override
 	public ActivityInfo assemble(CluInfo clu, ActivityInfo activity, boolean shallowBuild) {
 		if(clu == null){
@@ -50,7 +57,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 	@Override
 	public BaseDTOAssemblyNode<ActivityInfo,CluInfo> disassemble(
 			ActivityInfo activity, NodeOperation operation) throws AssemblyException {
-		if(activity==null){
+		if (activity==null) {
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
 			throw new AssemblyException("Activity can not be null");
 		}
@@ -60,7 +67,12 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		
 		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>(this);
 		
-		CluInfo clu = new CluInfo();
+		CluInfo clu;
+        try {
+            clu = (NodeOperation.UPDATE == operation) ? luService.getClu(activity.getId()) : new CluInfo();
+        } catch (Exception e) {
+            throw new AssemblyException("Error retrieving activity learning unit during update", e);
+        }
 	
 		//Copy all fields 
 		clu.setId(UUIDHelper.genStringUUID(activity.getId()));//Create the id if it's not there already(important for creating relations)
@@ -81,4 +93,12 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
 		return result;
 	}
+
+    public void setLuService(LuService luService) {
+        this.luService = luService;
+    }
+
+    public LuService getLuService() {
+        return luService;
+    }
 }

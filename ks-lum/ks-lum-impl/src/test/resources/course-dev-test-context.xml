@@ -86,7 +86,9 @@
 		<property name="luService" ref="luClient"/>
 	</bean>
 	
-	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler"/>
+	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
+		<property name="luService" ref="luClient"/>
+	</bean>
 
 	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
 		<property name="luService" ref="luClient"/>
