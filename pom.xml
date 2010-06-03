@@ -40,7 +40,7 @@
   </repositories>
   <ciManagement>
     <system>hudson</system>
-    <url>https://ci.ks.kuali.org</url>
+    <url>http://ci.ks.kuali.org</url>
   </ciManagement>
   <modules>
     <module>ks-security</module>
