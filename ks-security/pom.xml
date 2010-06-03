@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
-    <artifactId>ks</artifactId>
+    <artifactId>student</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.security</groupId>
@@ -10,7 +10,6 @@
   <packaging>pom</packaging>
   <name>KS Security</name>
   <description>KS Security Parent POM</description>
-  <url>http://student.kuali.org/site/security/${project.version}</url>
   <modules>
     <module>ks-standard-sec</module>
   </modules>
@@ -38,10 +37,4 @@
       </releases>
     </repository>
   </repositories>
-  <distributionManagement>
-    <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/security/${project.version}</url>
-    </site>
-  </distributionManagement>
 </project>

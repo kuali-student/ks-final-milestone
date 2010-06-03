@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
-    <artifactId>ks</artifactId>
+    <artifactId>student</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.core</groupId>
@@ -10,7 +10,6 @@
   <packaging>pom</packaging>
   <name>KS Core</name>
   <description>Kuali Student Parent POM</description>
-  <url>http://student.kuali.org/site/core/${project.version}</url>
   <issueManagement>
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
@@ -159,10 +158,4 @@
       </releases>
     </repository>
   </repositories>
-  <distributionManagement>
-    <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/core/${project.version}</url>
-    </site>
-  </distributionManagement>
 </project>
