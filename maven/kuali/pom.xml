@@ -92,6 +92,11 @@
       <name>Main Kuali Repository</name>
       <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
+    <snapshotRepository>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>s3://maven.kuali.org/snapshot</url>
+    </snapshotRepository>
   </distributionManagement>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</connection>
