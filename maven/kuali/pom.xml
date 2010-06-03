@@ -44,7 +44,7 @@
     <name>The Kuali Foundation</name>
     <url>http://www.kuali.org/</url>
   </organization>
-  <url>http://maven.kuali.org/site</url>
+  <url>http://maven.kuali.org</url>
   <properties>
     <extraReleaseArguments />
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -85,18 +85,13 @@
     <site>
       <id>kuali.site</id>
       <name>Kuali Maven Site</name>
-      <url>s3://maven.kuali.org/site</url>
+      <url>s3://maven.kuali.org</url>
     </site>
     <repository>
       <id>kuali.release</id>
       <name>Main Kuali Repository</name>
       <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
-    <snapshotRepository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>s3://maven.kuali.org/snapshot</url>
-    </snapshotRepository>
   </distributionManagement>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</connection>
@@ -268,6 +263,12 @@
     </plugins>
   </reporting>
   <profiles>
+    <profile>
+      <id>kuali-modules</id>
+      <modules>
+        <module>../../student</module>
+      </modules>
+    </profile>
     <profile>
       <id>kuali-release</id>
       <build>
