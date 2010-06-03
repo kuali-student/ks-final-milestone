@@ -39,7 +39,8 @@ public class CluSetHelper {
         META_INFO ("metaInfo"),
         NAME ("name"),
         STATE ("state"),
-        TYPE ("type");
+        TYPE ("type"),
+        REUSABLE ("reusable");
 
         private final String key;
 
@@ -131,6 +132,21 @@ public class CluSetHelper {
     }
     public String getType() {
         return (String) data.get(Properties.TYPE.getKey());
+    }
+
+    public void setReusable(Boolean reusable) {
+        Boolean newValue = reusable;
+        if (reusable == null) {
+            newValue = new Boolean(false);
+        }
+        data.set(Properties.REUSABLE.getKey(), newValue);
+    }
+    public Boolean getReusable() {
+        Boolean reUsable = (Boolean) data.get(Properties.REUSABLE.getKey());
+        if (reUsable == null) {
+            reUsable = new Boolean(false);
+        }
+        return reUsable;
     }
 
     public void setClus(Data value) {

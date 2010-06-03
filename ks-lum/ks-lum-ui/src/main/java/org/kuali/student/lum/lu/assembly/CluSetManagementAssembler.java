@@ -260,7 +260,6 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
         Data resultData = null;
-        cluSetInfo.setIsReusable(true);
         wrap(cluSetInfo);
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
@@ -403,12 +402,11 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setExpirationDate(cluSetHelper.getExpirationDate());
         cluSetInfo.setMembershipQuery(toMembershipQueryInfo(cluSetHelper.getCluRangeParams()));
         
-        // TODO cluSetInfo.setMembershipQuery(membershipQuery)
-//        TODO should metainfo be set here? cluSetInfo.setMetaInfo(cluSetHelper.getMetaInfo());
         cluSetInfo.setMetaInfo(toMetaInfo(cluSetHelper.getMetaInfo()));
         cluSetInfo.setName(cluSetHelper.getName());
         cluSetInfo.setState(cluSetHelper.getState());
         cluSetInfo.setType(cluSetHelper.getType());
+        cluSetInfo.setIsReusable(cluSetHelper.getReusable());
         return cluSetInfo;
     }
     
