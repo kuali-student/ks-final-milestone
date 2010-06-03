@@ -41,7 +41,7 @@ public class RuleNodeWidget extends FocusPanel {
     
     public RuleNodeWidget(Node n) {
         init(n, true);
-        this.setStyleName("KS-Rules-Table");
+      //  this.setStyleName("KS-Rules-Table-Cell");
     }
     
     public RuleNodeWidget(Node n, boolean showControls) {
@@ -86,21 +86,19 @@ public class RuleNodeWidget extends FocusPanel {
         }
     }
     
-    public void drawNode(Node n, RuleTable ruleTable,
-            int rowIndex, int columnIndex) {
+    public void drawNode(Node n, RuleTable ruleTable, int rowIndex, int columnIndex) {
         Object userObject = null;
         node = n;
         userObject = node.getUserObject();
 
         if (userObject instanceof StatementVO) {
+            checkBox.setStyleName("KS-Rules-Table-Cell-ANDOR-Checkbox");
             StatementVO statementVO = (StatementVO) userObject;
             VerticalPanel checkBoxAndToggle = new VerticalPanel();
             super.setWidget(checkBoxAndToggle);
             if (showControls) {
                 checkBoxAndToggle.add(checkBox);
-                if (statementVO.getStatementInfo() != null &&
-                        statementVO.getStatementInfo().getOperator() ==
-                            StatementOperatorTypeKey.OR) {
+                if (statementVO.getStatementInfo() != null && statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.OR) {
                     toggle.setValue(AndOrButton.Or);
                 } else {
                     toggle.setValue(AndOrButton.And);
@@ -108,45 +106,57 @@ public class RuleNodeWidget extends FocusPanel {
                 checkBoxAndToggle.add(toggle);
                 if (ruleTable != null) {
                     String selectionStyle = (statementVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");
-                    ruleTable.getCellFormatter().setStyleName(
-                            rowIndex, columnIndex, selectionStyle);
+                    ruleTable.getCellFormatter().setStyleName(rowIndex, columnIndex, selectionStyle);
+                    ruleTable.getCellFormatter().addStyleName(rowIndex, columnIndex, "KS-Toggle");
                 }
             } else {
                 checkBoxAndToggle.add(html);
+              //  checkBoxAndToggle.setStyleName("KS-Rules-Table-Cell");
                 checkBoxAndToggle.setStyleName("KS-ReqComp-DeSelected");
+               // checkBoxAndToggle.addStyleName("KS-Toggle");
             }
             html.setHTML(node.getUserObject().toString());
             checkBox.setValue(statementVO.isCheckBoxOn(), false);
+            
         } else if (userObject instanceof ReqComponentVO) {
+            
             ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
             KSLabel rcLabel = null;
+            HorizontalPanel tableCell = new HorizontalPanel();
             checkBoxAndEdit= new HorizontalPanel();
-            super.setWidget(checkBoxAndEdit);
+            super.setWidget(tableCell);
             if (reqComponentVO.getGuiReferenceLabelId() != null) {
                 Node parent = node.getParent();
                 if (parent != null) {
                     rcLabel = new KSLabel(reqComponentVO.getGuiReferenceLabelId());
-                    rcLabel.getElement().getStyle().setProperty("fontWeight", "bold");
-                    rcLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
-                    checkBoxAndEdit.add(rcLabel);
+                    rcLabel.setStyleName("KS-Rules-Table-Cell-ID");
+                    tableCell.add(rcLabel);
+        //            checkBoxAndEdit.add(rcLabel);
                 }
             }
+            
+            tableCell.add(checkBoxAndEdit);
+            
             if (showControls) {
                 checkBoxAndEdit.add(checkBox);
                 edit.addStyleName("KS-Rules-URL-Link");
                 checkBoxAndEdit.add(edit);
                 if (ruleTable != null) {
                     String selectionStyle = (reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");
-                    ruleTable.getCellFormatter().setStyleName(
-                            rowIndex, columnIndex, selectionStyle);
+                    //ruleTable.getCellFormatter().setStyleName(rowIndex, columnIndex, selectionStyle);  this does not work all the time
+                    checkBoxAndEdit.setStyleName(selectionStyle);
                 }
             } else {
                 checkBoxAndEdit.add(html);
+             //   checkBoxAndEdit.setStyleName("KS-Rules-Table-Cell");
+                checkBoxAndEdit.setStyleName("KS-ReqComp-DeSelected");                
             }
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(reqComponentVO.isCheckBoxOn());
+            
         } else {
+            
             super.setWidget(html);
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());
