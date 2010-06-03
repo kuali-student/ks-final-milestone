@@ -69,7 +69,7 @@
     <repository>
       <id>kuali.snapshot</id>
       <name>Kuali Snapshot Repository</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+      <url>http://s3.amazonaws.com/repository.kuali.org/snapshot</url>
       <releases>
         <enabled>false</enabled>
       </releases>
