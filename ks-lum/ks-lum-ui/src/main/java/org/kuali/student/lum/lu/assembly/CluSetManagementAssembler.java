@@ -35,6 +35,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -324,11 +325,16 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         data.set("cluset", cluSetDetailData);
         CluSetHelper result = CluSetHelper.wrap(cluSetDetailData);
         if (cluSetInfo != null) {
-//          result.setClus
             if (cluSetInfo.getCluIds() != null) {
-                result.setClus(new Data());
-                for (String cluId : cluSetInfo.getCluIds()) {
-                    result.getClus().add(cluId);
+                List<CluInfo> cluInfos = luService.getClusByIdList(cluSetInfo.getCluIds());
+                result.setApprovedClus(new Data());
+                for (CluInfo cluInfo : cluInfos) {
+                    if (cluInfo.getState().equals("activated")) {
+                        result.getApprovedClus().add(cluInfo.getId());
+                    } else {
+                        result.getProposedClus().add(cluInfo.getId());
+                    }
+                    result.getAllClus().add(cluInfo.getId());
                 }
             }
             if (cluSetInfo.getCluSetIds() != null) {
@@ -362,25 +368,33 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         return result;
     }
     
-    private CluSetInfo toCluSetInfo(CluSetHelper cluSetHelper) {
-        CluSetInfo cluSetInfo = new CluSetInfo();
-        Data clusData = cluSetHelper.getClus();
-        Data cluSetsData = cluSetHelper.getCluSets();
-        List<String> cluIds = null;
-        List<String> cluSetIds = null;
-        
-        cluSetInfo.setId(cluSetHelper.getId());
+    private void addToCluIds(Data clusData, final List<String> cluIds) {
         if (clusData != null) {
             for (Data.Property p : clusData) {
                 if(!"_runtimeData".equals(p.getKey())){
                     String cluId = p.getValue();
-                    cluIds = (cluIds == null)? new ArrayList<String>(3) :
-                        cluIds;
                     cluIds.add(cluId);
                 }
             }
         }
-        if (cluIds != null) {
+    }
+    
+    private CluSetInfo toCluSetInfo(CluSetHelper cluSetHelper) {
+        CluSetInfo cluSetInfo = new CluSetInfo();
+        Data approvedClusData = cluSetHelper.getApprovedClus();
+        Data proposedClusData = cluSetHelper.getProposedClus();
+        Data cluSetsData = cluSetHelper.getCluSets();
+        final List<String> cluIds = new ArrayList<String>();
+        List<String> cluSetIds = null;
+        
+        cluSetInfo.setId(cluSetHelper.getId());
+        if (approvedClusData != null) {
+            addToCluIds(approvedClusData, cluIds);
+        }
+        if (proposedClusData != null) {
+            addToCluIds(proposedClusData, cluIds);
+        }
+        if (cluIds != null && !cluIds.isEmpty()) {
             cluSetInfo.setCluIds(cluIds);
         }
         if (cluSetsData != null) {

@@ -57,6 +57,7 @@
 			<ref bean="lu.queryParam.luOptionalCrsNoRange"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate1"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate2"/>
+			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 

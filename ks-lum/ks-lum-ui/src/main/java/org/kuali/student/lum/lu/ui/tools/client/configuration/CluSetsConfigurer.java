@@ -118,11 +118,17 @@ public class CluSetsConfigurer {
         
         ModelIdPlaceHolder modelIdObj = new ModelIdPlaceHolder(modelId);
 
-        // ****** Add Clus *******
-        Section clusSection = new VerticalSection();
-        addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_COURSE)).setModelId(modelId);
-        clusetDetails.addSection(clusSection, ToolsConstants.CLU_SET_SWAP_CLUS);
-        // END OF items related to Add Clus
+        // ****** Add Approved Clus *******
+        Section approvedClusSection = new VerticalSection();
+        addField(approvedClusSection, ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE)).setModelId(modelId);
+        clusetDetails.addSection(approvedClusSection, ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS);
+        // END OF items related to Add Approved Clus
+
+        // ****** Add Proposed Clus *******
+        Section proposedClusSection = new VerticalSection();
+        addField(proposedClusSection, ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE)).setModelId(modelId);
+        clusetDetails.addSection(proposedClusSection, ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS);
+        // END OF items related to Add Approved Clus
 
         // ****** Add Clu Range *******
         //TODO add cluset and clurange here
@@ -288,7 +294,8 @@ public class CluSetsConfigurer {
     
     private boolean hasData(String queryPath, Data queryData) {
         boolean hasData = false;
-        if (queryPath != null && queryPath.equals(ToolsConstants.CLU_SET_CLUS_FIELD)) {
+        if (queryPath != null && (queryPath.equals(ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD) ||
+                queryPath.equals(ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD))) {
             hasData = hasClus(queryData);
         } else if (queryPath != null && queryPath.equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
             hasData = hasCluSets(queryData);
@@ -301,8 +308,10 @@ public class CluSetsConfigurer {
     }
     
     private void selectCluSetOptionList(DataModel model, CluSetEditOptionList cluSetEditOptions) {
-        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLUS_FIELD, 
-                ToolsConstants.CLU_SET_SWAP_CLUS);
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD,
+                ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS);
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, 
+                ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS);
         selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
                 ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE);
         selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLU_SETS_FIELD,
@@ -322,8 +331,9 @@ public class CluSetsConfigurer {
     
     private SectionView editCluSetSection() {
         // TODO change this to custom layoutcontroller here to support multiple model ids?
+        ModelIdPlaceHolder modelIdObj = new ModelIdPlaceHolder(CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
         final VerticalSectionView section = initNestedSectionView(CluSetSections.EDIT_CLU_SET, ToolsConstants.EDIT_CLU_SET, EDIT_CLUSET_MGT_MODEL);
-        VerticalSection oversight = initSection(getH3Title(ToolsConstants.EDIT_CLU_SET_INFO), WITH_DIVIDER);
+        VerticalSection oversight = initSection(getH3Title(""), WITH_DIVIDER);
         Picker cluSetPicker = configureSearch(ToolsConstants.SEARCH_CLU_SET);
         cluSetPicker.addBasicSelectionCompletedCallback(new Callback<SelectedResults>() {
             @Override
@@ -353,7 +363,7 @@ public class CluSetsConfigurer {
             }
         });
         //addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
-        addField(oversight, ToolsConstants.SEARCH_CLU_SET, generateMessageInfo(""), cluSetPicker);
+        addField(modelIdObj, oversight, ToolsConstants.SEARCH_CLU_SET, generateMessageInfo("Search Clu Set"), cluSetPicker);
         
         section.addSection(oversight);
         addClusetDetailsSections(section, CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
@@ -411,9 +421,9 @@ public class CluSetsConfigurer {
         
         VerticalSection clusSection = initSection(null, !WITH_DIVIDER);
         clusSection.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
-        addField(clusSection, ToolsConstants.CLU_SET_CLUS_FIELD, 
+        addField(clusSection, ToolsConstants.CLU_SET_ALL_CLUS_FIELD, 
                 generateMessageInfo("Individual Courses"),
-                new TranslatedStringList(ToolsConstants.CLU_SET_CLUS_FIELD));
+                new TranslatedStringList(ToolsConstants.CLU_SET_ALL_CLUS_FIELD));
         sectionView.addSection(clusSection);
         
         VerticalSection cluSetsSection = initSection(null, !WITH_DIVIDER);
@@ -626,10 +636,8 @@ public class CluSetsConfigurer {
         public CluSetEditOptionList(){
             SimpleListItems editOptions = new SimpleListItems();
 
-            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLUS, "Courses");
-            // TODO distinguish between Approved CLUs and Proposed CLUs
-            // TODO implement course ranges
-//            editOptions.addItem("ProposedCourses", "Proposed Courses");
+            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Courses");
+            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Courses");
             editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLU_SETS, "CLU Sets");
             editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
 
