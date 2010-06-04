@@ -44,24 +44,4 @@
   <properties>
     <derby.version>10.4.2.0</derby.version>
   </properties>
-  <repositories>
-    <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
 </project>

@@ -50,25 +50,6 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <url>http://maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.kuali.rice</groupId>
