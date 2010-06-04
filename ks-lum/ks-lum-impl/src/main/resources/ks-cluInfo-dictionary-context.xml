@@ -159,8 +159,8 @@
 
 	<bean id="cluInfo.id-parent" abstract="true" parent="baseId">
 		<property name="name" value="id" />
-		<property name="minOccurs" value="1" />
-		<property name="maxOccurs" value="1" />
+<!--		<property name="minOccurs" value="1" />-->
+<!--		<property name="maxOccurs" value="1" />-->
 	</bean>
 	<bean id="cluInfo.id" parent="cluInfo.id-parent" />
 

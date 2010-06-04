@@ -47,6 +47,7 @@
 		<property name="name" value="academicSubjectOrgs" />
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" />
+		
 	</bean>
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 
@@ -139,7 +140,7 @@
 	</bean>
 	<bean id="courseInfo.formats" parent="courseInfo.formats-parent" />
 
-	<bean id="courseInfo.id-parent" abstract="true" parent="baseSingleString">
+	<bean id="courseInfo.id-parent" abstract="true" parent="cluInfo.id">
 		<property name="name" value="id" />
 	</bean>
 	<bean id="courseInfo.id" parent="courseInfo.id-parent" />
