@@ -17,6 +17,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode;
+import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -31,8 +32,16 @@ public class CourseServiceMethodInvoker {
 	private AtpService atpService;
 	
 	@SuppressWarnings("unchecked")
-	public void invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
-		Object nodeData = results.getNodeData();
+	public void invokeServiceCalls(BaseDTOAssemblyNode results, NodeOperation srvOperation) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
+
+	    // For Delete operation process the tree from bottom up 
+	    if(NodeOperation.DELETE == srvOperation) {
+            for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
+                invokeServiceCalls(childNode, srvOperation);
+            }
+	    }
+	    
+	    Object nodeData = results.getNodeData();
 		if(nodeData instanceof CluInfo){
 			CluInfo clu = (CluInfo) nodeData;
 			switch(results.getOperation()){
@@ -71,8 +80,11 @@ public class CourseServiceMethodInvoker {
 			}			
 		}
 		
-		for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
-			invokeServiceCalls(childNode);
+		// For create/update process the child nodes from top to bottom
+		if(NodeOperation.DELETE != srvOperation) {
+		    for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
+		        invokeServiceCalls(childNode, srvOperation);
+		    }
 		}
 	}
 

@@ -35,7 +35,7 @@
 				<ref bean="courseInfo.termsOffered" />
 				<ref bean="courseInfo.transcriptTitle" />
 				<ref bean="courseInfo.type" />
-				<ref bean="courseInfo.variations" />
+				<!-- <ref bean="courseInfo.variations" /> -->
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -47,7 +47,6 @@
 		<property name="name" value="academicSubjectOrgs" />
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" />
-		
 	</bean>
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 

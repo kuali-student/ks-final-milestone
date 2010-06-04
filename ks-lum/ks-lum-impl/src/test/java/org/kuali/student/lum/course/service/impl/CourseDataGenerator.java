@@ -173,7 +173,10 @@ public class CourseDataGenerator {
 		}
 		if("duration".equals(parentPropertyName)&&"timeQuantity".equals(name)){
 			return propertyIndex.toString();
-		}
+		} 
+        if("courseNumberSuffix".equals(name)){
+            return "323";
+        } 
 		
 		//Default
 		return name+"-"+propertyIndex;
