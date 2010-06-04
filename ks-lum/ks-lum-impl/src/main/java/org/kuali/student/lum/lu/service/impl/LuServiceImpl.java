@@ -927,41 +927,9 @@ public class LuServiceImpl implements LuService {
 		clu.setLuType(luType);
 
 		if (cluInfo.getOfficialIdentifier() != null) {
-			CluIdentifier officialIdentifier = new CluIdentifier();
-			BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
-					officialIdentifier, new String[] { "code" });
-
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			officialIdentifier
-					.setCode(new StringBuilder().append(
-							cluInfo.getOfficialIdentifier().getDivision())
-							.append(
-									cluInfo.getOfficialIdentifier()
-											.getSuffixCode()).toString());
-
-			clu.setOfficialIdentifier(officialIdentifier);
+			clu.setOfficialIdentifier(LuServiceAssembler.createOfficialIdentifier(cluInfo));
 		}
-
-		if (clu.getAlternateIdentifiers() == null) {
-			clu.setAlternateIdentifiers(new ArrayList<CluIdentifier>(0));
-		}
-		List<CluIdentifier> alternateIdentifiers = clu
-				.getAlternateIdentifiers();
-
-		for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
-			CluIdentifier identifier = new CluIdentifier();
-			BeanUtils.copyProperties(cluIdInfo, identifier,
-					new String[] { "code" });
-
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			identifier.setCode(new StringBuilder().append(
-					cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
-					.toString());
-			alternateIdentifiers.add(identifier);
-		}
-
+		clu.setAlternateIdentifiers(LuServiceAssembler.createAlternateIdentifiers(cluInfo));
 		if (cluInfo.getDescr() != null) {
 		    LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, cluInfo.getDescr());
 		    if (descr.getPlain() != null || descr.getFormatted() != null) {
@@ -1163,21 +1131,7 @@ public class LuServiceImpl implements LuService {
 		clu.setLuType(luType);
 
 		if (cluInfo.getOfficialIdentifier() != null) {
-			if (clu.getOfficialIdentifier() == null) {
-				clu.setOfficialIdentifier(new CluIdentifier());
-			}
-			BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
-					.getOfficialIdentifier(), new String[] { "id", "code" });
-
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			clu.getOfficialIdentifier().setCode(
-					new StringBuilder().append(
-							cluInfo.getOfficialIdentifier().getDivision())
-							.append(
-									cluInfo.getOfficialIdentifier()
-											.getSuffixCode()).toString());
-
+		    LuServiceAssembler.updateOfficialIdentifier(clu, cluInfo);
 		} else if (clu.getOfficialIdentifier() != null) {
 			luDao.delete(clu.getOfficialIdentifier());
 		}
@@ -1186,30 +1140,7 @@ public class LuServiceImpl implements LuService {
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
 		Map<String, CluIdentifier> oldAltIdMap = new HashMap<String, CluIdentifier>();
-		for (CluIdentifier altIdentifier : clu.getAlternateIdentifiers()) {
-			oldAltIdMap.put(altIdentifier.getId(), altIdentifier);
-		}
-		clu.getAlternateIdentifiers().clear();
-
-		// Loop through the new list, if the item exists already update and
-		// remove from the list
-		// otherwise create a new entry
-		for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
-			CluIdentifier identifier = oldAltIdMap.remove(cluIdInfo.getId());
-			if (identifier == null) {
-				identifier = new CluIdentifier();
-			}
-			// Do Copy
-			BeanUtils.copyProperties(cluIdInfo, identifier,
-					new String[] { "code" });
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			identifier.setCode(new StringBuilder().append(
-					cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
-					.toString());
-			clu.getAlternateIdentifiers().add(identifier);
-		}
-
+		LuServiceAssembler.updateAlternateIdentifier(oldAltIdMap, clu, cluInfo);
 		// Now delete anything left over
 		for (Entry<String, CluIdentifier> entry : oldAltIdMap.entrySet()) {
 			luDao.delete(entry.getValue());
