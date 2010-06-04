@@ -80,7 +80,7 @@
     <!-- plugin versions -->
     <cobertura.plugin.version>2.2</cobertura.plugin.version>
     <javadoc.plugin.version>2.6.1</javadoc.plugin.version>
-    <site.plugin.version>2.1-kuali-breadcrumbs-1</site.plugin.version>
+    <site.plugin.version>2.0.1</site.plugin.version>
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
