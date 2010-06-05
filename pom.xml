@@ -14,13 +14,25 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>13</version>
+    <version>14-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
   <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
+  <repositories>
+    <repository>
+      <id>kuali.central</id>
+      <url>http://ec2-72-44-59-64.compute-1.amazonaws.com/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <organization>
     <name>The Kuali Foundation</name>
     <url>http://student.kuali.org/</url>
