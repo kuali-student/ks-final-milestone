@@ -5,11 +5,9 @@ set VERSION=%1
 set AMI=%2
 
 echo -----------------------------------------------------
-@echo on
-as-version
-as-create-launch-config kuali-nexus-lc-%VERSION% --image-id %AMI% --instance-type m1.small --group nexus.ks,default --key ks-key
-as-update-auto-scaling-group kuali-nexus-as --launch-configuration kuali-nexus-lc-%VERSION%
-@echo off
+call as-version
+call as-create-launch-config kuali-nexus-lc-%VERSION% --image-id %AMI% --instance-type m1.small --group nexus.ks,default --key ks-key
+call as-update-auto-scaling-group kuali-nexus-as --launch-configuration kuali-nexus-lc-%VERSION%
 echo -----------------------------------------------------
 
 goto end
