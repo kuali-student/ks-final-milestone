@@ -13,7 +13,7 @@ goto end
 
 :oops
 
-echo -------------------------------------
-echo Error!!! You must supply version: 001
-echo -------------------------------------
+echo ------------------------------------
+echo Error!!! You must supply version: 01
+echo ------------------------------------
 :end
