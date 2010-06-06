@@ -4,11 +4,11 @@ if "%2"=="" goto oops
 set VERSION=%1
 set AMI=%2
 
-echo -----------------------------------------------------
+echo -------------------------------------------------------
 call as-version
 call as-create-launch-config kuali-nexus-lc-%VERSION% --image-id %AMI% --instance-type m1.small --group nexus.ks,default --key ks-key
 call as-update-auto-scaling-group kuali-nexus-as --launch-configuration kuali-nexus-lc-%VERSION%
-echo -----------------------------------------------------
+echo -------------------------------------------------------
 
 goto end
 
