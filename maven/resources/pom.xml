@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2009 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.osedu.org/licenses/ECL-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!-- Simple comment -->
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali</groupId>
+    <artifactId>kuali-parent</artifactId>
+    <version>2</version>
+    <relativePath>../kuali/pom.xml</relativePath>
+  </parent>
+  <groupId>org.kuali.resources</groupId>
+  <artifactId>kuali-resource-bundles</artifactId>
+  <version>3-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Kuali Resource Bundles</name>
+  <inceptionYear>2007</inceptionYear>
+  <modules>
+    <module>kuali-jar-resource-bundle</module>
+  </modules>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>      
+        <artifactId>maven-remote-resources-plugin</artifactId>        
+        <executions>
+          <execution>
+            <goals>
+              <goal>bundle</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

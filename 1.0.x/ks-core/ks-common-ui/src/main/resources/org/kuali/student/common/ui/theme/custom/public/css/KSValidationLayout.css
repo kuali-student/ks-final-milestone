@@ -1,0 +1,74 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+.KS-Validation-Error-Message{
+	color: red;
+}
+
+.KS-Validation-Ok-Message{
+	color: black;
+}
+
+.KS-Validation-Warning-Message{
+	color: orange;
+}
+
+.KS-Validation-Message{
+	width: 260px;
+	font-size: small;
+}
+
+.KS-Validation-Image{
+	vertical-align: text-top;
+}
+
+@if user.agent ie6 ie7 {
+	/*TODO Temporary fix do not display error image for IE*/
+	.KS-Validation-Image{
+		visibility:hidden;
+	}
+}
+
+.KS-Validation-Image-Panel{
+	vertical-align: top;
+	width:20px;	
+}
+
+@if user.agent ie6 ie7 {
+	/*TODO Temporary fix do not display error image for IE*/
+	.KS-Validation-Image-Panel{
+		width:0px;
+		visibility:hidden;
+	}
+}
+
+.KS-Field-Column{
+	width: 525px;
+	vertical-align: top;
+}
+
+.KS-Validation-Column{
+	vertical-align: top;
+	width: 300px;
+}
+
+.KS-Configurable-Row{
+	width: 860px;
+}
+
+.KS-Validation-Line{
+	width:300px;
+}
+
