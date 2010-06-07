@@ -18,20 +18,29 @@ package org.kuali.student.core.assembly.dictionary.poc;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.core.assembly.data.CommonLookup;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.UILookupConfig;
 import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.poc.DictionaryService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * This class provides metadata lookup for service dto objects.
@@ -45,6 +54,8 @@ public class MetadataServiceImpl {
     private Map<String, Object> metadataRepository = null;
     
     private Map<String, DictionaryService> dictionaryServiceMap;
+    private Map<String, UILookupConfig> lookupObjectStructures;
+    private String uiLookupContext; 
     
     private static class RecursionCounter{
         public static final int MAX_DEPTH = 4;
@@ -129,7 +140,7 @@ public class MetadataServiceImpl {
         
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
-        
+        addLookupstoMetadata(metadata);
         return metadata;
     }
     
@@ -357,5 +368,55 @@ public class MetadataServiceImpl {
         }
         
         return null;        
+    }
+    
+    public void setUiLookupContext(String uiLookupContext){
+    	this.uiLookupContext=uiLookupContext;
+    	init();
+    	
+    }
+    
+    private void init(){
+    	ApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
+
+		Map<String, UILookupConfig> beansOfType = (Map<String, UILookupConfig>) ac.getBeansOfType(UILookupConfig.class);
+		lookupObjectStructures = new HashMap<String, UILookupConfig>();
+		for (UILookupConfig objStr : beansOfType.values()){
+			lookupObjectStructures.put(objStr.getName(), objStr);
+		}
+		System.out.println("UILookup loaded");
+    }
+    
+    private void addLookupstoMetadata(Metadata metadata){
+    	Collection<UILookupConfig> lookups = lookupObjectStructures.values();
+    	for(UILookupConfig lookup: lookups){
+    		String lookupFieldPath = lookup.getPath();
+    		String[] lookupPathTokens = getPathTokens(lookupFieldPath);
+            for(int i = 1; i < lookupPathTokens.length; i++) {
+                if(metadata == null) {
+                    break;
+                }
+                if(metadata.getProperties().get(lookupPathTokens[i])!=null){
+                	metadata = metadata.getProperties().get(lookupPathTokens[i]);
+                }
+                else if(metadata.getProperties().get("*")!=null){
+                	//Lookup wildcard in case of unbounded elements in metadata.
+                	metadata = metadata.getProperties().get("*");
+                	i--;
+                }
+
+            }
+            if (metadata != null) {
+            	metadata.setInitialLookup(lookup.getInitialLookup());
+            	metadata.setAdditionalLookups(lookup.getAdditionalLookups());
+            }
+    	}
+
+          
+          
+    }
+    
+    private static String[] getPathTokens(String fieldPath) {
+        return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
 }
