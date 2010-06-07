@@ -95,7 +95,8 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 		if (keySet != null && attrProperty != null){
 			Map<String,String> attributes = new HashMap<String,String>();
 			for (Key k:keySet){
-				if (!staticProperties.contains(k)){
+				String keyString = k.toString();
+				if (!staticProperties.contains(k) && !keyString.startsWith("_run")){
 					attributes.put((String)k.get(),(String)data.get(k));
 				}
 			}
@@ -157,6 +158,8 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 				data.set(propertyKey, (Boolean)value);
 			} else if (value instanceof Date){
 				data.set(propertyKey, (Date)value);
+			} else if (value instanceof Integer){
+				data.set(propertyKey, (Integer)value);
 			} else if (value instanceof Double){
 				data.set(propertyKey, (Double)value);
 			} else if (value instanceof Float){
@@ -208,6 +211,8 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 				data.add((Boolean)value);
 			} else if (value instanceof Date){
 				data.add((Date)value);
+			} else if (value instanceof Integer){
+				data.add((Integer)value);
 			} else if (value instanceof Double){
 				data.add((Double)value);
 			} else if (value instanceof Float){
