@@ -353,6 +353,7 @@
         		<ref bean="courseClient"/>
         	</list>
         </constructor-arg>
+        <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
 	</bean>
 
 	<!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
