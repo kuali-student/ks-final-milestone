@@ -222,11 +222,11 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
         if(height > 600){
             height = 600;
         }
-        if(width < 200){
-            width = 200;
+        if(width < 320){
+            width = 320;
         }
-        if(height < 100){
-            height = 100;
+        if(height < 240){
+            height = 240;
         }
         scroll.setPixelSize(width, height);
     	scroll.setWidget(w);
