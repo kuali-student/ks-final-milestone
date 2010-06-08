@@ -13,15 +13,18 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.DataBeanMapper;
 import org.kuali.student.core.assembly.data.Data.IntegerKey;
 import org.kuali.student.core.assembly.data.Data.Key;
+import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
 
 
@@ -127,16 +130,17 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 			ParameterizedType propType = (ParameterizedType)propField.getGenericType();
 			Type itemType = propType.getActualTypeArguments()[0];
 			
+			
 			List<Object> resultList = new ArrayList<Object>();
-			@SuppressWarnings("unchecked")
-			Set<IntegerKey> keySet = (Set<IntegerKey>)data.keySet();
-			for (IntegerKey key:keySet){
-				Object itemValue = data.get(key);
-				if (itemValue instanceof Data ){
-					itemValue = convertFromData((Data)itemValue, (Class<?>)itemType);
+			for(Iterator<Property> listIter = data.realPropertyIterator(); listIter.hasNext();){
+				Property listItem = listIter.next();
+				Object listItemData = listItem.getValue();
+				if (listItemData instanceof Data ){
+					listItemData = convertFromData((Data)listItemData, (Class<?>)itemType);
 				}
-				resultList.add(((Integer)key.get()).intValue(),itemValue);
+				resultList.add(((Integer)listItem.getKey()).intValue(),listItemData);
 			}
+
 			result = resultList;
 		} else {
 			result = convertFromData(data, propClass);
