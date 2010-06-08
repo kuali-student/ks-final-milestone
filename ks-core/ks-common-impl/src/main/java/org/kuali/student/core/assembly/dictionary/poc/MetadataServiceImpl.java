@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.data.CommonLookup;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -390,25 +389,31 @@ public class MetadataServiceImpl {
     private void addLookupstoMetadata(Metadata metadata){
     	Collection<UILookupConfig> lookups = lookupObjectStructures.values();
     	for(UILookupConfig lookup: lookups){
+    		Map<String,Metadata> parsedMetadataMap = metadata.getProperties();
+    		Metadata parsedMetadata = null;
+//    		Metadata parsedMetadata = metadata;
     		String lookupFieldPath = lookup.getPath();
     		String[] lookupPathTokens = getPathTokens(lookupFieldPath);
             for(int i = 1; i < lookupPathTokens.length; i++) {
-                if(metadata == null) {
+                if(parsedMetadataMap == null) {
                     break;
                 }
-                if(metadata.getProperties().get(lookupPathTokens[i])!=null){
-                	metadata = metadata.getProperties().get(lookupPathTokens[i]);
+                if(i==lookupPathTokens.length-1){
+                	parsedMetadata=parsedMetadataMap.get(lookupPathTokens[i]);
                 }
-                else if(metadata.getProperties().get("*")!=null){
+                if(parsedMetadataMap.get(lookupPathTokens[i])!=null){
+                	parsedMetadataMap = parsedMetadataMap.get(lookupPathTokens[i]).getProperties();
+                }
+                else if(parsedMetadataMap.get("*")!=null){
                 	//Lookup wildcard in case of unbounded elements in metadata.
-                	metadata = metadata.getProperties().get("*");
+                	parsedMetadataMap = parsedMetadataMap.get("*").getProperties();
                 	i--;
                 }
 
             }
-            if (metadata != null) {
-            	metadata.setInitialLookup(lookup.getInitialLookup());
-            	metadata.setAdditionalLookups(lookup.getAdditionalLookups());
+            if (parsedMetadata != null) {
+            	parsedMetadata.setInitialLookup(lookup.getInitialLookup());
+            	parsedMetadata.setAdditionalLookups(lookup.getAdditionalLookups());
             }
     	}
 
