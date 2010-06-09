@@ -2,13 +2,13 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>ks</artifactId>
-    <version>1.0.0-rc3-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student.security</groupId>
   <artifactId>ks-security</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.0-rc3-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>KS Security</name>
   <description>KS Security Parent POM</description>
   <url>http://student.kuali.org/site/security/${project.version}</url>
