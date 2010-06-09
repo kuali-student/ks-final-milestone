@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="EnumerationTableContextViewMaintenanceDocument" parent="EnumerationTableContextViewMaintenanceDocument-parentBean" />
+
+    <bean id="EnumerationTableContextViewMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+        p:businessObjectClass="org.kuali.student.core.enumerationmanagement.bo.EnumerationTableContextView"
+        p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+        <property name="maintainableSections">
+            <list>
+                <ref bean="EnumerationTableContextViewMaintenanceDocument-EnumerationTableMaintenance" />
+                <ref bean="EnumerationTableContextViewMaintenanceDocument-EnumerationContextMaintenance" />
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="EnumerationTableDocumentType" />
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="EnumerationTableContextViewMaintenanceDocument-EnumerationTableMaintenance" parent="EnumerationTableMaintenanceDocument-EnumerationTableMaintenance-parentBean" />
+    
+    <bean id="EnumerationTableContextViewMaintenanceDocument-EnumerationContextMaintenance" parent="EnumerationTableContextViewMaintenanceDocument-EnumerationContextMaintenance-parentBean"/>
+
+    <bean id="EnumerationTableContextViewMaintenanceDocument-EnumerationContextMaintenance-parentBean"
+        abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="enumerationContextList" />
+        <property name="title" value="Enumeration Contexts" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="enumerationContextList" />
+                    <property name="businessObjectClass"
+                        value="org.kuali.student.core.enumerationmanagement.bo.EnumerationContext" />
+                    <property name="summaryTitle" value="Enumeration Context" />
+                    <property name="summaryFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="contextKey" />
+                            <bean parent="MaintainableFieldDefinition" p:name="contextValue" />
+                        </list>
+                    </property>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="contextKey" p:required="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="contextValue" p:required="true"/>
+                        </list>
+                    </property>
+                    <property name="maintainableCollections">
+                        <list>
+                            <bean parent="MaintainableCollectionDefinition">
+                                <property name="name" value="enumerationContextValueList" />
+                                <property name="businessObjectClass"
+                                    value="org.kuali.student.core.enumerationmanagement.bo.EnumerationContextValue" />
+                                <property name="sourceClassName"
+                                    value="org.kuali.student.core.enumerationmanagement.bo.EnumerationValue" />
+                                <property name="summaryTitle" value="Context" />
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="MaintainableFieldDefinition" p:name="contextId" />
+                                        <bean parent="MaintainableFieldDefinition" p:name="enumerationValueId" />
+                                    </list>
+                                </property>
+                                <property name="maintainableFields">
+                                    <list>
+                                        <bean parent="MaintainableFieldDefinition" p:name="enumerationValueId"
+                                            p:template="id" p:lookupReadOnly="true"
+                                            p:overrideLookupClass="org.kuali.student.core.enumerationmanagement.bo.EnumerationValue"
+                                            p:overrideFieldConversions="id:enumerationValueId" p:required="true" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+  
+</beans>

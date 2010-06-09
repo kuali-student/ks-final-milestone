@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="EnumerationTable" parent="EnumerationTable-parentBean" />
+
+    <bean id="EnumerationTable-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.enumerationmanagement.bo.EnumerationTable" />
+        <property name="titleAttribute" value="name" />
+        <property name="objectLabel" value="Enumeration Table" />
+        <property name="lookupDefinition">
+            <ref bean="EnumerationTable-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="EnumerationTable-inquiryDefinition" />
+        </property>
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition" p:name="enumerationValueList" p:shortLabel="Enumeration Values"
+                    p:summary="Enumeration Value" p:label="Enumeration Value List"
+                    p:description="Enumeration Values that are a member of this Enumeration Table." />
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="EnumerationTable-id" />
+                <ref bean="EnumerationTable-enumerationKey" />
+                <ref bean="EnumerationTable-name" />
+                <ref bean="EnumerationTable-description" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EnumerationTable-id" parent="EnumerationTable-id-parentBean" />
+
+    <bean id="EnumerationTable-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="19" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" />
+        </property>
+        <property name="name" value="id" />
+        <property name="label" value="Id" />
+    </bean>
+
+    <bean id="EnumerationTable-enumerationKey" parent="EnumerationTable-enumerationKey-parentBean" />
+
+    <bean id="EnumerationTable-enumerationKey-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Enumeration Key" />
+        <property name="maxLength" value="255" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+        <property name="name" value="enumerationKey" />
+        <property name="label" value="Enumeration Key" />
+    </bean>
+
+    <bean id="EnumerationTable-name" parent="EnumerationTable-name-parentBean" />
+
+    <bean id="EnumerationTable-name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Name" />
+        <property name="maxLength" value="255" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+        <property name="name" value="name" />
+        <property name="label" value="Enumeration Name" />
+    </bean>
+
+    <bean id="EnumerationTable-description" parent="EnumerationTable-description-parentBean" />
+
+    <bean id="EnumerationTable-description-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="255" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+        <property name="name" value="description" />
+        <property name="label" value="Enumeration Description" />
+    </bean>
+
+    <!-- Lookup Definition -->
+    <bean id="EnumerationTable-lookupDefinition" parent="EnumerationTable-lookupDefinition-parentBean" />
+
+    <bean id="EnumerationTable-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="enumerationKey" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="enumerationKey" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+            </list>
+        </property>
+        <property name="title" value="Enumeration Table Lookup" />
+    </bean>
+
+    <!-- Inquiry Definition -->
+    <bean id="EnumerationTable-inquiryDefinition" parent="EnumerationTable-inquiryDefinition-parentBean" />
+
+    <bean id="EnumerationTable-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Enumeration Table" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" />
+                            <bean parent="FieldDefinition" p:attributeName="enumerationKey" />
+                            <bean parent="FieldDefinition" p:attributeName="name" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Enumeration Contexts" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="enumerationContextList" />
+                                <property name="businessObjectClass"
+                                    value="org.kuali.student.core.enumerationmanagement.bo.EnumerationContext" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Enumeration Context" />
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="id" />
+                                        <bean parent="FieldDefinition" p:attributeName="contextKey" />
+                                        <bean parent="FieldDefinition" p:attributeName="contextValue" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="contextKey" />
+                                        <bean parent="FieldDefinition" p:attributeName="contextValue" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Enumeration Values" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="enumerationValueList" />
+                                <property name="businessObjectClass"
+                                    value="org.kuali.student.core.enumerationmanagement.bo.EnumerationValue" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Enumeration Value" />
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="id" />
+                                        <bean parent="FieldDefinition" p:attributeName="code" />
+                                        <bean parent="FieldDefinition" p:attributeName="abbrevValue" />
+                                        <bean parent="FieldDefinition" p:attributeName="value" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="code" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

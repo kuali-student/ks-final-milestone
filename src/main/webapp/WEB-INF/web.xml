@@ -1,42 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>Kuali Rice Standalone</display-name>
-
-	<context-param>
-	    <param-name>contextConfigLocation</param-name>
-      	<param-value>classpath:ks-spring-security.xml</param-value>
-    </context-param>
-
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-    <filter>
-	  	<filter-name>springSecurityFilterChain</filter-name>
-	  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-
-	<filter-mapping>
-	  <filter-name>springSecurityFilterChain</filter-name>
-	  <url-pattern>/*</url-pattern>
-	</filter-mapping>
 
     <context-param>
       <param-name>environment</param-name>
       <param-value>dev</param-value>
     </context-param>
 
-<!--    <context-param>-->
-<!--	    <param-name>contextConfigLocation</param-name>-->
-<!--      	<param-value>classpath:ksb/ks-lu-context.xml</param-value>-->
-<!--    </context-param>	-->
-
 
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
       <param-name>kew.bootstrap.spring.file</param-name>
-      <param-value>${bootstrap.spring.file}</param-value>
+      <param-value>SpringBeans.xml</param-value>
     </context-param>
 
 	<filter>
@@ -210,6 +186,28 @@
 		<servlet-name>edoclite</servlet-name>
 		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
 	</servlet>
+	
+	<!--  
+	
+		Following servlet and servlet mapping for the PostDataLoadEncryptionServlet are commented out.
+		Uncomment these if you want to run the servlet in order to encrypt some data in the Rice database
+		(this would most likely be used for external identifiers in KIM that require encryption)
+		
+		It is not recommended to enable this service for a production instance except during initial
+		data load.  It is not secured in any way and would allow for easy corruption of data if mishandled.
+	
+	-->
+	<!--
+	<servlet>
+	    <servlet-name>postDataLoadEncryption</servlet-name>
+	    <servlet-class>org.kuali.rice.kns.web.servlet.PostDataLoadEncryptionServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>postDataLoadEncryption</servlet-name>
+		<url-pattern>/postDataLoadEncryption</url-pattern>
+	</servlet-mapping>
+	-->
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
@@ -255,49 +253,6 @@
 		<servlet-name>edoclite</servlet-name>
 		<url-pattern>/kew/EDocLite</url-pattern>
 	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>GWT-CORE</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:core-gwt-context.xml</param-value>
-		</init-param>		
-	</servlet>
-	<servlet>
-		<servlet-name>GWT-LUM</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:lum-gwt-context.xml</param-value>
-		</init-param>		
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>GWT-LUM</servlet-name>
-		<url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>GWT-LUM</servlet-name>
-		<url-pattern>/org.kuali.student.lum.lu.ui.course.Course/rpcservices/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>GWT-LUM</servlet-name>
-		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/*</url-pattern>
-	</servlet-mapping>	
-	
-	<servlet-mapping>
-		<servlet-name>GWT-LUM</servlet-name>
-		<url-pattern>/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/*</url-pattern>
-	</servlet-mapping>	
-	
-	<servlet-mapping>
-		<servlet-name>GWT-CORE</servlet-name>
-		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/*</url-pattern>
-	</servlet-mapping>	
 
 	<session-config>
 		<session-timeout>60</session-timeout>

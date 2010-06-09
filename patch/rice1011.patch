@@ -1,0 +1,15 @@
+### Eclipse Workspace Patch 1.0
+#P rice-1.0.1.1
+Index: impl/src/main/java/org/kuali/rice/kns/web/ui/SectionBridge.java
+===================================================================
+--- impl/src/main/java/org/kuali/rice/kns/web/ui/SectionBridge.java	(revision 12978)
++++ impl/src/main/java/org/kuali/rice/kns/web/ui/SectionBridge.java	(working copy)
+@@ -362,7 +362,7 @@
+                          */  
+                         boolean setRowHidden = false;
+                         BusinessObject oldLineBusinessObject = null;
+-                        if (oldObj != null) {
++                        if (oldObj != null && ((List) oldObj).size() > i) {
+                             oldLineBusinessObject = (BusinessObject) ((List) oldObj).get(i);
+                         }
+                         
