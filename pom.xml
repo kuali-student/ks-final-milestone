@@ -23,6 +23,24 @@
     <module>ks-lum</module>
     <module>ks-web</module>
   </modules>
+  <repositories>
+    <repository>
+      <id>kuali.release</id>
+      <name>Main Kuali Repository</name>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.s3.release</id>
+      <name>Main Kuali Repository</name>
+      <url>http://maven.kuali.org/release</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x</developerConnection>
@@ -30,13 +48,22 @@
   <distributionManagement>
     <repository>
       <id>kuali.release</id>
-      <name>Internal Release Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <name>Main Kuali Repository</name>
+      <url>s3://maven.kuali.org/release</url>
     </repository>
     <snapshotRepository>
-      <id>kuali.snapshots</id>
-      <name>Internal Snapshot Repository</name>
-      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>s3://maven.kuali.org/snapshot</url>
     </snapshotRepository>
   </distributionManagement>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.kuali.maven</groupId>
+        <artifactId>kuali-wagon-s3</artifactId>
+        <version>1.0.6</version>
+      </extension>
+    </extensions>
+  </build>
 </project>

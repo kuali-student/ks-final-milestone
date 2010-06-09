@@ -44,6 +44,20 @@
     </distributionManagement>
     
     <repositories>
+    <repository>
+      <id>kuali.s3.release</id>
+      <url>http://maven.kuali.org/release</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.s3.snapshot</id>
+      <url>http://maven.kuali.org/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
         <repository>
             <id>kuali.release</id>
             <url>https://test.kuali.org/maven</url>

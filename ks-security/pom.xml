@@ -21,6 +21,20 @@
 
 
     <repositories>
+    <repository>
+      <id>kuali.s3.release</id>
+      <url>http://maven.kuali.org/release</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.s3.snapshot</id>
+      <url>http://maven.kuali.org/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
         <repository>
             <id>kuali.release</id>
             <url>https://test.kuali.org/maven</url>
@@ -86,6 +100,20 @@
                         <enabled>false</enabled>
                     </snapshots>
                 </repository>
+    <repository>
+      <id>kuali.s3.release</id>
+      <url>http://maven.kuali.org/release</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.s3.snapshot</id>
+      <url>http://maven.kuali.org/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
                 <repository>
                     <id>maven2-repository.dev.java.net</id>
                     <url>http://download.java.net/maven/2</url>
@@ -177,6 +205,11 @@
                 <artifactId>wagon-webdav</artifactId>
                 <version>1.0-beta-2</version>
             </extension>
+            <extension>
+              <groupId>org.kuali.maven</groupId>
+              <artifactId>kuali-wagon-s3</artifactId>
+              <version>1.0.6</version>
+            </extension>
         </extensions>
 
         <plugins>
@@ -260,12 +293,12 @@
         <repository>
             <id>kuali.release</id>
             <name>Release Repository</name>
-            <url>scp://test.kuali.org:/opt/m2/repository</url>
+            <url>s3://maven.kuali.org/release</url>
         </repository>
         <snapshotRepository>
-            <id>kuali.snapshots</id>
-            <name>Internal Snapshot Repository</name>
-            <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+           <id>kuali.snapshot</id>
+           <name>Kuali Snapshot Repository</name>
+           <url>s3://maven.kuali.org/snapshot</url>
         </snapshotRepository>
         <site>
             <id>ks.site</id>
