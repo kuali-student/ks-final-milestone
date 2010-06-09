@@ -238,7 +238,7 @@ public class MetadataServiceImpl {
     
           
     protected List<ConstraintMetadata> getConstraints(FieldDefinition fd){
-        List<ConstraintMetadata> constraints = null;
+        List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
        
         //For now ignoring the serverSide flag and making determination of which constraints
         //should be passed up to the UI via metadata.
@@ -254,7 +254,8 @@ public class MetadataServiceImpl {
     		//Do we need to add another constraint and label it required if minOccurs = 1
         } catch (NumberFormatException nfe) {
 			// Ignoring an unbounded length, cannot be handled in metadata structure, maybe change Metadata to string or set to -1
-		}
+        	constraintMetadata.setMaxLength(9999);
+        }
         
         //Min Occurs
         constraintMetadata.setMinOccurs(fd.getMinOccurs());
@@ -267,7 +268,11 @@ public class MetadataServiceImpl {
         		constraintMetadata.setId("repeating");
         	}
         } catch (NumberFormatException nfe){
-        	// Ignoring unbounded max occurs, cannot be handled in metadata structure, mabe change metadata to string or set to -1
+        	// Setting unbounded to a value of 9999, since unbounded not handled by metadata
+        	if (FieldDefinition.UNBOUNDED.equals(maxOccurs)){
+	        	constraintMetadata.setId("repeating");
+	        	constraintMetadata.setMaxOccurs(9999);
+        	}
         }
         
         //Min Value
@@ -280,6 +285,7 @@ public class MetadataServiceImpl {
         	constraintMetadata.setValidChars(fd.getValidChars().getValue());
         }
         
+        constraints.add(constraintMetadata);
        return constraints;
     }
     
@@ -381,7 +387,7 @@ public class MetadataServiceImpl {
 		Map<String, UILookupConfig> beansOfType = (Map<String, UILookupConfig>) ac.getBeansOfType(UILookupConfig.class);
 		lookupObjectStructures = new HashMap<String, UILookupConfig>();
 		for (UILookupConfig objStr : beansOfType.values()){
-			lookupObjectStructures.put(objStr.getName(), objStr);
+			lookupObjectStructures.put(objStr.getPath(), objStr);
 		}
 		System.out.println("UILookup loaded");
     }
