@@ -25,6 +25,7 @@ public class CourseDataGenerator {
 							CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE,
 							CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /* CourseAssemblerConstants.COURSE_ACTIVITY_WEBDISCUSS_TYPE, */ // not in DB
 							CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE };
+	public static String subjectAreas[] = { "GEOG", "COMP", "BIOL", "ENGL", "SOCY" };
 	Random generator = new Random();
 
 	public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
@@ -177,6 +178,9 @@ public class CourseDataGenerator {
         if("courseNumberSuffix".equals(name)){
             return "323";
         } 
+        if ("subjectArea".equals(name)) {
+			return subjectAreas[generator.nextInt(subjectAreas.length)];
+        }
 		
 		//Default
 		return name+"-"+propertyIndex;

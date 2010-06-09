@@ -5,7 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,18 +17,18 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.kuali.student.lum.course.service.impl.CourseDataGenerator;
-            
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:course-dev-test-context.xml"})
 public class TestCourseServiceImpl {
 	@Autowired
 	CourseService courseService;
+	
+    Set<String> subjectAreaSet = new TreeSet<String>(Arrays.asList(CourseDataGenerator.subjectAreas));
 	
 	@Test
 	public void testCreateCourse() {
@@ -50,14 +53,34 @@ public class TestCourseServiceImpl {
 			assertNotNull(cInfo);
 			CourseInfo createdCourse = courseService.createCourse(cInfo);
 			assertNotNull(createdCourse);
-			assertEquals("draft", createdCourse.getState());
-			assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
+			
+			// get it fresh from database
 			CourseInfo retrievedCourse = courseService.getCourse(createdCourse.getId());
 			assertNotNull(retrievedCourse);
 			
+			// confirm it has the right contents
+			assertEquals("323", retrievedCourse.getCode().substring(4));
+			assertEquals("323", retrievedCourse.getCourseNumberSuffix());
+			
+			assertEquals("courseTitle-15", retrievedCourse.getCourseTitle());
+			assertEquals("transcriptTitle-33", retrievedCourse.getTranscriptTitle());
+			
+			assertEquals("plain-19", retrievedCourse.getDescription().getPlain());
+			assertEquals("formatted-18", retrievedCourse.getDescription().getFormatted());
+			
+			assertEquals(2, retrievedCourse.getFormats().size());
+			FormatInfo info = retrievedCourse.getFormats().get(0);
+			assertEquals("kuali.lu.type.CreditCourseFormatShell", info.getType());
+			assertEquals(2, info.getActivities().size());
+			assertTrue(info.getActivities().get(1).getActivityType().startsWith("kuali.lu.type.activity."));
+			
+			assertEquals(2, retrievedCourse.getTermsOffered().size());
+			String termOffered = retrievedCourse.getTermsOffered().get(0);
+			assertTrue("termsOffered-32".equals(termOffered) || "termsOffered-33".equals(termOffered));
+			
 			assertEquals(2, retrievedCourse.getAcademicSubjectOrgs().size());
-			String orgId = retrievedCourse.getAcademicSubjectOrgs().get(0).getOrgId();
-			assertTrue("orgId-3".equals(orgId) || "orgId-4".equals(orgId));
+			String orgId = retrievedCourse.getAcademicSubjectOrgs().get(0);
+			assertTrue("academicSubjectOrgs-3".equals(orgId) || "academicSubjectOrgs-4".equals(orgId));
 			
 			assertEquals(2, retrievedCourse.getAttributes().size());
 			String[] attrKeys = { "attributes-6", "attributes-7" };
@@ -71,8 +94,7 @@ public class TestCourseServiceImpl {
 			String campus = retrievedCourse.getCampusLocations().get(1);
 			assertTrue("campusLocations-9".equals(campus) || "campusLocations-10".equals(campus));
 			
-			assertEquals("subjectArea-29323", retrievedCourse.getCode());
-			assertEquals("323", retrievedCourse.getCourseNumberSuffix());
+
 			
 			/* Test LO
 			assertEquals(2, retrievedCourse.getCourseSpecificLOs().size());
@@ -80,7 +102,6 @@ public class TestCourseServiceImpl {
 			// TODO - check its contents
 			*/
 			
-			assertEquals("courseTitle-15", retrievedCourse.getCourseTitle());
 			
 			/*
 			assertEquals(2, retrievedCourse.getCrossListings().size());
@@ -89,7 +110,6 @@ public class TestCourseServiceImpl {
 			 */
 			
 			assertEquals("department-16", retrievedCourse.getDepartment());
-			assertEquals("formatted-18", retrievedCourse.getDescription().getFormatted());
 			
 			TimeAmountInfo timeInfo = retrievedCourse.getDuration();
 			assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
@@ -101,12 +121,6 @@ public class TestCourseServiceImpl {
 			
 			assertEquals("firstExpectedOffering-22", retrievedCourse.getFirstExpectedOffering());
 			
-			assertEquals(2, retrievedCourse.getFormats().size());
-			FormatInfo info = retrievedCourse.getFormats().get(0);
-			assertEquals("kuali.lu.type.CreditCourseFormatShell", info.getType());
-			assertEquals(2, info.getActivities().size());
-			assertTrue(info.getActivities().get(1).getActivityType().startsWith("kuali.lu.type.activity."));
-			
 			// TODO - check joints
 			// TODO - check metaInfo
 			
@@ -114,16 +128,14 @@ public class TestCourseServiceImpl {
 			String atpType = retrievedCourse.getTermsOffered().get(1);
 			assertTrue("termsOffered-32".equals(atpType) || "termsOffered-33".equals(atpType));
 			
+			
 			CluInstructorInfo instructor = retrievedCourse.getPrimaryInstructor();
 			assertEquals("orgId-31", instructor.getOrgId());
 			assertEquals("personId-32", instructor.getPersonId());
 			
 			assertEquals("draft", retrievedCourse.getState());
-			assertEquals("subjectArea-29", retrievedCourse.getSubjectArea());
+			assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
 			
-			// TODO - check termsOffered
-			
-			assertEquals("transcriptTitle-33", retrievedCourse.getTranscriptTitle());
 			assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
 			
 			// TODO - check variotions
@@ -151,9 +163,7 @@ public class TestCourseServiceImpl {
 			
 			// update some fields
 			createdCourse.getAcademicSubjectOrgs().clear();
-			AcademicSubjectOrgInfo newOrg = new AcademicSubjectOrgInfo();
-			newOrg.setOrgId("testOrgId");
-			createdCourse.getAcademicSubjectOrgs().add(newOrg);
+			createdCourse.getAcademicSubjectOrgs().add("testOrgId");
 			
 			FormatInfo newFormat = new FormatInfo();
 			newFormat.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
@@ -199,14 +209,14 @@ public class TestCourseServiceImpl {
 		assertNotNull(updatedCourse);
 		
 		assertEquals(1, updatedCourse.getAcademicSubjectOrgs().size());
-		assertEquals("testOrgId",  updatedCourse.getAcademicSubjectOrgs().get(0).getOrgId());
+		assertEquals("testOrgId",  updatedCourse.getAcademicSubjectOrgs().get(0));
 		
 		assertEquals(3, updatedCourse.getAttributes().size());
 		assertNotNull(updatedCourse.getAttributes().get("testKey"));
 		assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
     }
 
-    //@Test 
+    @Test 
 	public void testDeleteCourse() {
 		try {
 			CourseDataGenerator generator = new CourseDataGenerator();
@@ -234,6 +244,6 @@ public class TestCourseServiceImpl {
 	
 	@Test
 	public void testCluIsUpdated() {
-	    
+	       
 	}
 }
