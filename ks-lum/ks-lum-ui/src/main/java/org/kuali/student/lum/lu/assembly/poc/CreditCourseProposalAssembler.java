@@ -28,6 +28,7 @@ import org.kuali.student.core.assembly.dictionary.poc.MetadataServiceImpl;
 import org.kuali.student.core.assembly.util.DefaultDataBeanMapper;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor={Throwable.class})
 public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "org.kuali.student.lum.course.dto.CourseInfo";
+    
+    //Should these constants be in the api package (CreditCourseAssemblerConstants are in 
+	public static final String COURSE_TYPE = "kuali.lu.type.CreditCourse";
+	public static final String COURSE_FORMAT_TYPE = "kuali.lu.type.CreditCourseFormatShell";    
     
     private CourseService courseService;
     private DataBeanMapper dataMapper = new DefaultDataBeanMapper();
@@ -57,13 +62,23 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 	@Override
     public SaveResult<Data> save(Data data) throws AssemblyException {
     	try {
-            CourseInfo course = (CourseInfo)dataMapper.convertFromData(data, CourseInfo.class);
+            //Convert data map to business service dto
+    		CourseInfo course = (CourseInfo)dataMapper.convertFromData(data, CourseInfo.class);
+            
+    		//Set types (should this happen here)
+            course.setType(COURSE_TYPE);
+            for (FormatInfo format:course.getFormats()){
+            	format.setType(COURSE_FORMAT_TYPE);
+            }            
+            
+            //Call course service to save data
             if (course.getId() == null || course.getId().isEmpty()){
             	course = courseService.createCourse(course);
             } else {
             	course = courseService.updateCourse(course);
             }
             
+            //Convert dto back to map to send back to client
             Data persistedData = dataMapper.convertFromBean(course);
             SaveResult<Data> result = new SaveResult<Data>();
             result.setValue(persistedData);
@@ -81,7 +96,10 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         
         return metadata;
     }
-
+    
+    public Metadata getDefaultMetadata() {
+        return metadataService.getMetadata(getDataType());
+    }
 
     @Override
     public List<ValidationResultInfo> validate(Data data)

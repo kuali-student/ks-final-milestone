@@ -376,8 +376,8 @@
 		<property name="filters">
 			<list>
 				<ref bean="idTranslatorAssemblerFilter" />
-				<ref bean="workflowAssemblerFilter"/>
-				<ref bean="creditCourseProposalAssemblerFilter" />
+				<!--  <ref bean="workflowAssemblerFilter"/> -->
+				<!--  <ref bean="creditCourseProposalAssemblerFilter" /> -->
 			</list>
 		</property>
 	</bean>
