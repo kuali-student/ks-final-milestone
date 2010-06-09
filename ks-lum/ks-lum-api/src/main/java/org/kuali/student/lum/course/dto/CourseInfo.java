@@ -99,7 +99,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private String department;
 
     @XmlElement
-    private List<AcademicSubjectOrgInfo> academicSubjectOrgs;
+    private List<String> academicSubjectOrgs;
 
     @XmlElement
     private CluInstructorInfo primaryInstructor;
@@ -318,14 +318,14 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * The organizations that represents the Subject area of the course.
      */
-    public List<AcademicSubjectOrgInfo> getAcademicSubjectOrgs() {
+    public List<String> getAcademicSubjectOrgs() {
         if (academicSubjectOrgs == null) {
-            academicSubjectOrgs = new ArrayList<AcademicSubjectOrgInfo>(0);
+            academicSubjectOrgs = new ArrayList<String>(0);
         }
         return academicSubjectOrgs;
     }
 
-    public void setAcademicSubjectOrgs(List<AcademicSubjectOrgInfo> academicSubjectOrgs) {
+    public void setAcademicSubjectOrgs(List<String> academicSubjectOrgs) {
         this.academicSubjectOrgs = academicSubjectOrgs;
     }
 

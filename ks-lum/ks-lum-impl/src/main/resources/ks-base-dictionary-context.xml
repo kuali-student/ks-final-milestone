@@ -62,7 +62,7 @@
 	<bean id="baseRequiredRepeatingFieldDefinition"
 		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
 		abstract="true">
-		<property name="minOccurs" value="1" />
+		<property name="minOccurs" value="0" />
 		<property name="maxOccurs" value="unbounded" />
 	</bean>
 	<bean id="baseOptionalRepeatingFieldDefinition"
@@ -140,6 +140,12 @@
 	<bean id="baseSingleString" parent="baseSingleFieldDefinition"
 		abstract="true">
 		<property name="dataType" value="STRING" />
+		<property name="maxLength" value="255" />
+	</bean>
+	<bean id="baseSingleLongString" parent="baseSingleFieldDefinition"
+		abstract="true">
+		<property name="dataType" value="STRING" />
+		<property name="maxLength" value="1999" />
 	</bean>
 	<bean id="baseSingleComplex" parent="baseSingleFieldDefinition"
 		abstract="true">

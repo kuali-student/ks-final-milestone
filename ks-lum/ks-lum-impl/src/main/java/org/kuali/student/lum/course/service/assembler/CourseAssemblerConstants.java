@@ -2,6 +2,8 @@ package org.kuali.student.lum.course.service.assembler;
 
 public class CourseAssemblerConstants {
 
+	public static final String COURSE_TYPE = "kuali.lu.type.CreditCourse";
+		
 	public static final String COURSE_FORMAT_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 	
 	public static final String COURSE_FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";

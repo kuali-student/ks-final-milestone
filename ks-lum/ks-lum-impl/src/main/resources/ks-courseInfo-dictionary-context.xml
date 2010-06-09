@@ -43,10 +43,8 @@
 	<bean id="org.kuali.student.lum.course.dto.CourseInfo" parent="org.kuali.student.lum.course.dto.CourseInfo-parent" />
 
 	<bean id="courseInfo.academicSubjectOrgs-parent" abstract="true"
-		parent="cluInfo.academicSubjectOrgs-parent">
+		parent="baseRequiredRepeatingString">
 		<property name="name" value="academicSubjectOrgs" />
-		<property name="dataObjectStructure"
-			ref="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" />
 	</bean>
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 
@@ -78,6 +76,7 @@
 	<bean id="courseInfo.courseTitle-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="courseTitle" />
+		<property name="maxLength" value="60"/>
 	</bean>
 	<bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
@@ -174,6 +173,9 @@
 	<bean id="courseInfo.subjectArea-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="subjectArea" />
+		<property name="minLength" value="4" />
+		<property name="maxLength" value="4" />
+		<property name="validChars" ref="upperAlpha" />
 	</bean>
 	<bean id="courseInfo.subjectArea" parent="courseInfo.subjectArea-parent" />
 
@@ -186,6 +188,7 @@
 	<bean id="courseInfo.transcriptTitle-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="transcriptTitle" />
+		<property name="maxLength" value="60"/>
 	</bean>
 	<bean id="courseInfo.transcriptTitle" parent="courseInfo.transcriptTitle-parent" />
 
@@ -423,8 +426,8 @@
 		parent="org.kuali.student.lum.course.dto.CourseCrossListingInfo-parent" />
 
 	<bean id="courseCrossListingInfo.courseNumberSuffix-parent"
-		abstract="true" parent="baseSingleString">
-		<property name="name" value="courseNumberSuffix" />
+		abstract="true" parent="cluIdentifierInfo.suffixCode-parent">
+		<property name="name" value="courseNumberSuffix" />		
 	</bean>
 	<bean id="courseCrossListingInfo.courseNumberSuffix" parent="courseCrossListingInfo.courseNumberSuffix-parent" />
 
@@ -443,6 +446,9 @@
 	<bean id="courseCrossListingInfo.subjectArea-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="subjectArea" />
+		<property name="minLength" value="4" />
+		<property name="maxLength" value="4" />
+		<property name="validChars" ref="upperAlpha" />		
 	</bean>
 	<bean id="courseCrossListingInfo.subjectArea" parent="courseCrossListingInfo.subjectArea-parent" />
 
@@ -506,8 +512,10 @@
 	<bean id="loDisplayInfo.loDisplayInfoList-parent" abstract="true"
 		parent="baseRepeatingComplex">
 		<property name="name" value="loDisplayInfoList" />
+		<!-- 
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+			-->
 	</bean>
 	<bean id="loDisplayInfo.loDisplayInfoList" parent="loDisplayInfo.loDisplayInfoList-parent" />
 
@@ -755,6 +763,7 @@
 	<bean id="courseJointInfo.subjectArea-parent" abstract="true"
 		parent="cluIdentifierInfo.division-parent">
 		<property name="name" value="subjectArea" />
+		<property name="minOccurs" value="0"/>
 	</bean>
 	<bean id="courseJointInfo.subjectArea" parent="courseJointInfo.subjectArea-parent" />
 

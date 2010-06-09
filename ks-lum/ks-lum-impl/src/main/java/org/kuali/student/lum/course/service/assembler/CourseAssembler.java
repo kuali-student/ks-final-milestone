@@ -34,6 +34,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -63,7 +64,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				: new CourseInfo();
 
 		// Copy all the data from the clu to the course
-		course.setAcademicSubjectOrgs(clu.getAcademicSubjectOrgs());
+		
+		List<String> academicSubjectOrgs = new ArrayList<String>();
+		for(AcademicSubjectOrgInfo orgInfo:clu.getAcademicSubjectOrgs()){
+			academicSubjectOrgs.add(orgInfo.getOrgId());
+		}
+		course.setAcademicSubjectOrgs(academicSubjectOrgs);
+		
 		course.setAttributes(clu.getAttributes());
 		course.setCampusLocations(clu.getCampusLocations());
 		course.setCode(clu.getOfficialIdentifier().getCode());
@@ -194,7 +201,15 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		orgInfo.setOrgId(course.getDepartment());
 		clu.setPrimaryAdminOrg(orgInfo);
 
-		clu.setAcademicSubjectOrgs(course.getAcademicSubjectOrgs());
+		List<AcademicSubjectOrgInfo> subjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
+		for (String orgId : course.getAcademicSubjectOrgs()) {
+			AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
+			info.setOrgId(orgId);
+			subjectOrgs.add(info);
+		}
+		clu.setAcademicSubjectOrgs(subjectOrgs);
+
+		
 		clu.setAttributes(course.getAttributes());
 		clu.setCampusLocations(course.getCampusLocations());
 		clu.setDescr(course.getDescription());
