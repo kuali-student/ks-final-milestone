@@ -115,19 +115,23 @@
 	<bean id="baseSingleInteger" parent="baseSingleFieldDefinition"
 		abstract="true">
 		<property name="dataType" value="INTEGER" />
+		<property name="maxLength" value="10"/>
 	</bean>
 	<bean id="baseSingleLong" parent="baseSingleFieldDefinition"
 		abstract="true">
 		<property name="dataType" value="LONG" />
+		<property name="maxLength" value="10"/>
 	</bean>
 	<bean id="baseSingleDouble" parent="baseSingleFieldDefinition"
 		abstract="true">
 		<property name="maxOccurs" value="1" />
 		<property name="dataType" value="DOUBLE" />
+		<property name="maxLength" value="10"/>
 	</bean>
 	<bean id="baseSingleFloat" parent="baseSingleFieldDefinition"
 		abstract="true">
 		<property name="dataType" value="FLOAT" />
+		<property name="maxLength" value="10"/>
 	</bean>
 	<bean id="baseSingleBoolean" parent="baseSingleFieldDefinition"
 		abstract="true">

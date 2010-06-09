@@ -244,7 +244,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         //courseNumber.addSection(generateCrossListedSection());
         courseNumber.addSection(generateOfferedJointlySection());
-        courseNumber.addSection(generateVersionCodesSection());
+        //courseNumber.addSection(generateVersionCodesSection());
 
 		return courseNumber;
 	}
@@ -316,15 +316,15 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	protected VerticalSection generateSchedulingSection() {
 		VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
 		GroupSection duration = new GroupSection();
-		addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-		addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
+		addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
+		addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
 		scheduling.addSection(duration);
 		return scheduling;
 	}
 
 	protected VerticalSection generateInstructorsSection() {
 		VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
-		addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR);
+		addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR + "/personId");
 		return instructors;
 	}
 

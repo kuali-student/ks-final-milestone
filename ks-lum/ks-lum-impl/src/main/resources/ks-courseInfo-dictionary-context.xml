@@ -188,7 +188,7 @@
 	<bean id="courseInfo.transcriptTitle-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="transcriptTitle" />
-		<property name="maxLength" value="60"/>
+		<property name="maxLength" value="20"/>
 	</bean>
 	<bean id="courseInfo.transcriptTitle" parent="courseInfo.transcriptTitle-parent" />
 
@@ -848,6 +848,7 @@
 	<bean id="activityInfo.contactHours-parent" abstract="true"
 		parent="baseSingleComplex">
 		<property name="name" value="contactHours" />
+		<!-- Should this be new ContactHourInfo data structure object? -->
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.AmountInfo" />
 	</bean>
 	<bean id="activityInfo.contactHours" parent="activityInfo.contactHours-parent" />
@@ -890,8 +891,10 @@
 	<bean id="org.kuali.student.core.dto.AmountInfo" parent="org.kuali.student.core.dto.AmountInfo-parent" />
 
 	<bean id="amountInfo.unitQuantity-parent" abstract="true"
-		parent="baseSingleString">
+		parent="baseSingleString"> 
 		<property name="name" value="unitQuantity" />
+		<property name="validChars" ref="numberic"/>
+		<property name="maxLength" value="10"/>		
 	</bean>
 	<bean id="amountInfo.unitQuantity" parent="amountInfo.unitQuantity-parent" />
 
