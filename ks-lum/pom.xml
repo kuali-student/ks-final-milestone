@@ -63,8 +63,8 @@
     </repositories>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-lum/tags/ks-lum-1.0.0-rc3-SNAPSHOT</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-lum/tags/ks-lum-1.0.0-rc3-SNAPSHOT</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-lum</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-lum</developerConnection>
     </scm>
 
     <distributionManagement>

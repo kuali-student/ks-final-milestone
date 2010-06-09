@@ -77,8 +77,8 @@
     </repositories>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-rc3-SNAPSHOT</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-rc3-SNAPSHOT</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/brms</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/brms</developerConnection>
     </scm>
 
     <distributionManagement>

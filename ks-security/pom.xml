@@ -16,8 +16,8 @@
     <module>ks-standard-sec</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/tags/ks-security-1.0.0-rc3-SNAPSHOT</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/tags/ks-security-1.0.0-rc3-SNAPSHOT</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-security</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-security</developerConnection>
   </scm>
   <repositories>
     <repository>
