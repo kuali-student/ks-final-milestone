@@ -81,9 +81,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private TimeAmountInfo duration;
 
     @XmlElement
-    private List<String> offeredAtpTypes;
-
-    @XmlElement
     private List<CourseJointInfo> joints;
 
     @XmlElement
@@ -238,20 +235,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     public void setDuration(TimeAmountInfo duration) {
         this.duration = duration;
-    }
-
-    /**
-     * The academic time period types in which this Course is typically offered. Standard usage would equate to terms. It can define a timeframe that a course with of a certain stdDuration would fall in.
-     */
-    public List<String> getOfferedAtpTypes() {
-        if (offeredAtpTypes == null) {
-            offeredAtpTypes = new ArrayList<String>(0);
-        }
-        return offeredAtpTypes;
-    }
-
-    public void setOfferedAtpTypes(List<String> offeredAtpTypes) {
-        this.offeredAtpTypes = offeredAtpTypes;
     }
 
     /**

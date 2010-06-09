@@ -23,6 +23,9 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.assembly.BOAssembler;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -31,7 +34,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -75,6 +77,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				List<CluInfo> activities = luService.getRelatedClusByCluId(
 						format.getId(),
 						CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+				activities = (null == activities) ? new ArrayList<CluInfo>() : activities;
 				for (CluInfo activity : activities) {
 					ActivityInfo activityInfo = activityAssembler.assemble(
 							activity, null, false);
@@ -176,6 +179,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			try {
 				List<CluCluRelationInfo> activityRelationships = luService
 						.getCluCluRelationsByClu(format.getId());
+				
+				activityRelationships = (null == activityRelationships) ? new ArrayList<CluCluRelationInfo>() : activityRelationships;
+				
 				for (CluCluRelationInfo activityRelation : activityRelationships) {
 					if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE
 							.equals(activityRelation.getType())) {
@@ -199,8 +205,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		// Loop through all the activities in this format
 		for (ActivityInfo activity : format.getActivities()) {
 
-			// If this is a format create then all activities will be created
-		    if (NodeOperation.CREATE == operation) {
+			// If this is a format create/new activity update then all activities will be created
+		    if (NodeOperation.CREATE == operation
+		            || (NodeOperation.UPDATE == operation &&  !currentActivityIds.containsKey(activity.getId()))) {
+		        
                 // the activity does not exist, so create
                 // Assemble and add the activity
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler

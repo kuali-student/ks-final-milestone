@@ -23,6 +23,9 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.assembly.BOAssembler;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -31,7 +34,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -88,7 +90,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		course.setId(clu.getId());
 		course.setType(clu.getType());
 		course.setFirstExpectedOffering(clu.getExpectedFirstAtp());
-		course.setOfferedAtpTypes(clu.getOfferedAtpTypes());
+		course.setTermsOffered(clu.getOfferedAtpTypes());
 		course.setPrimaryInstructor(clu.getPrimaryInstructor());
 		course.setState(clu.getState());
 		course.setSubjectArea(clu.getOfficialIdentifier().getDivision());
@@ -102,6 +104,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// course
 				List<CluCluRelationInfo> cluClus = luService
 						.getCluCluRelationsByClu(clu.getId());
+				
+				cluClus = (null == cluClus) ? new ArrayList<CluCluRelationInfo>() : cluClus;
+				
 				for (CluCluRelationInfo cluRel : cluClus) {
 					if (cluRel.getType().equals(
 							CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
@@ -121,6 +126,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				List<CluInfo> formats = luService.getRelatedClusByCluId(course
 						.getId(),
 						CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
+				
+				formats = (null == formats) ? new ArrayList<CluInfo>() : formats;
+				
 				for (CluInfo format : formats) {
 					FormatInfo formatInfo = formatAssembler.assemble(format,
 							null, false);
@@ -195,7 +203,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setExpirationDate(course.getExpirationDate());
 
 		clu.setExpectedFirstAtp(course.getFirstExpectedOffering());
-		clu.setOfferedAtpTypes(course.getOfferedAtpTypes());
+		clu.setOfferedAtpTypes(course.getTermsOffered());
 		clu.setPrimaryInstructor(course.getPrimaryInstructor());
 		
 		clu.setMetaInfo(course.getMetaInfo());
@@ -242,6 +250,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			try {
 				List<CluCluRelationInfo> formatRelationships = luService
 						.getCluCluRelationsByClu(course.getId());
+				
+				formatRelationships = (null == formatRelationships) ? new ArrayList<CluCluRelationInfo>() : formatRelationships;
+				
 				for (CluCluRelationInfo formatRelation : formatRelationships) {
 					if (CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE
 							.equals(formatRelation.getType())) {
@@ -262,8 +273,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		// Loop through all the formats in this course
 		for (FormatInfo format : course.getFormats()) {
 
-		    //  If this is a course create then all formats will be created
-		    if (NodeOperation.CREATE == operation) {
+		    //  If this is a course create/new format update then all formats will be created
+		    if (NodeOperation.CREATE == operation
+		            || (NodeOperation.UPDATE == operation && !currentformatIds.containsKey(format.getId()) )) {
                 // the format does not exist, so create
                 // Assemble and add the format
                 BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler

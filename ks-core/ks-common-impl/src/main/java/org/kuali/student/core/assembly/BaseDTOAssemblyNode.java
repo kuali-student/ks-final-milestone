@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.lum.course.service.assembler;
+package org.kuali.student.core.assembly;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * A node in the sorted map of disassembled base DTOs. The node provides the
