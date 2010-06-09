@@ -2,7 +2,6 @@
 
 	<modelVersion>4.0.0</modelVersion>
     
-	<groupId>org.kuali.student.web</groupId>
 	<artifactId>ks-standalone</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -11,7 +10,7 @@
 	<description>All KS modules combined into one application.</description>
     
 	<parent>
-		<groupId>org.kuali.student</groupId>
+		<groupId>org.kuali.student.web</groupId>
 		<artifactId>ks-web</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
