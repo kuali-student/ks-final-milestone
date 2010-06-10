@@ -23,8 +23,8 @@
   <name>Kuali Student</name>
   <repositories>
     <repository>
-      <id>kuali.central</id>
-      <url>http://ec2-72-44-59-64.compute-1.amazonaws.com/content/groups/public</url>
+      <id>kuali.nexus</id>
+      <url>http://ec2-174-129-168-28.compute-1.amazonaws.com</url>
       <releases>
         <enabled>true</enabled>
       </releases>
