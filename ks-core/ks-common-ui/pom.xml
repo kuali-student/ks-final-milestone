@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -63,58 +63,58 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-rice</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-impl</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-rice</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-rice-lessdep</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 			<type>pom</type>
 		</dependency>
 
