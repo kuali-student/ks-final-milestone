@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-cxf</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>KS CXF Pom</name>
 	<description>KS CXF dependencies</description>

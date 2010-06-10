@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-ui</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS Core UI</name>
 	<description>KS Core UI</description>

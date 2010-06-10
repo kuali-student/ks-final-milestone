@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
 	<artifactId>ks-lum-impl</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS LUM Impl</name>
 	<description>KS Learning Unit Management Impl</description>

@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-common-util</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>KS Common Util</name>
     <description>KS common utilitiy classes</description>
