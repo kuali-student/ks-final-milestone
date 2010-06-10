@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student.security</groupId>
@@ -15,8 +15,8 @@
     <module>ks-standard-sec</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-security</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-security</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.0.0/ks-security</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.0.0/ks-security</developerConnection>
   </scm>
   <repositories>
     <repository>

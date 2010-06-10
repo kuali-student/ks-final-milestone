@@ -13,7 +13,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <modules>
@@ -42,8 +42,8 @@
     </repository>
   </repositories>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.0.0</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.0.0</developerConnection>
   </scm>
   <distributionManagement>
     <repository>

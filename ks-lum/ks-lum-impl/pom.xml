@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<build>
@@ -36,28 +36,28 @@
         <dependency>
           <groupId>org.kuali.student.brms.statement</groupId>
           <artifactId>ks-statement-api</artifactId>
-          <version>1.0.0-SNAPSHOT</version>
+          <version>1.0.0</version>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.brms.statement</groupId>
           <artifactId>ks-statement-impl</artifactId>
-          <version>1.0.0-SNAPSHOT</version>
+          <version>1.0.0</version>
         </dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -73,19 +73,19 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
 
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
 
