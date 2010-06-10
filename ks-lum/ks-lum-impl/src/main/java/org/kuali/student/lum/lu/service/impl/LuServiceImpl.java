@@ -58,7 +58,6 @@ import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
@@ -536,8 +535,7 @@ public class LuServiceImpl implements LuService {
 	public List<CluPublicationInfo> getCluPublicationsByCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -545,16 +543,14 @@ public class LuServiceImpl implements LuService {
 			String luPublicationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
 	public CluPublicationInfo getCluPublication(String cluPublicationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	// **** Results
@@ -637,8 +633,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> getResourceRequirementsForCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	// *** Sets
@@ -685,8 +680,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("isCluSetDynamic");
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -787,8 +781,7 @@ public class LuServiceImpl implements LuService {
 	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -1517,7 +1510,6 @@ public class LuServiceImpl implements LuService {
 			String validationType, CluCluRelationInfo cluCluRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
@@ -1664,8 +1656,7 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -1673,8 +1664,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, DependentObjectsExistException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -1961,8 +1951,7 @@ public class LuServiceImpl implements LuService {
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -2663,15 +2652,6 @@ public class LuServiceImpl implements LuService {
 		for (CluSet cluSet : parentCluSet.getCluSets()) {
 			findClusInCluSet(clus, cluSet);
 		}
-	}
-
-	private Validator createValidator() {
-		// Validator validator = new Validator();
-		// validator.setDateParser(new ServerDateParser());
-		// // validator.addMessages(null); //TODO this needs to be loaded
-		// somehow
-		// return validator;
-		return null;
 	}
 
 	@Override
