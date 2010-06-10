@@ -417,6 +417,11 @@ public class RuleComponentEditorView extends ViewComposite {
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
 			@Override
             public void onSelectionChange(SelectionChangeEvent event) {
+			    
+			    if (!event.isUserInitiated()) {
+			        return;
+			    }
+			    
                  confirmButton.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
                      button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);
