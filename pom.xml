@@ -24,7 +24,7 @@
   <repositories>
     <repository>
       <id>kuali.nexus</id>
-      <url>http://ec2-174-129-168-28.compute-1.amazonaws.com</url>
+      <url>http://ec2-174-129-168-28.compute-1.amazonaws.com/content/groups/public</url>
       <releases>
         <enabled>true</enabled>
       </releases>
