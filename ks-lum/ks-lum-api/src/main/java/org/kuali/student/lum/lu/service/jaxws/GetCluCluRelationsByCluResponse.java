@@ -16,6 +16,8 @@
 
 package org.kuali.student.lum.lu.service.jaxws;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -44,6 +46,9 @@ public class GetCluCluRelationsByCluResponse {
     }
 
     public void setReturn(java.util.List<CluCluRelationInfo> new_return)  {
+        if(null == _return) {
+            _return = new ArrayList<CluCluRelationInfo>();
+        }
         this._return = new_return;
     }
 }

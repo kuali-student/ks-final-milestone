@@ -266,7 +266,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				List<CluCluRelationInfo> formatRelationships = luService
 						.getCluCluRelationsByClu(course.getId());
 				
-				formatRelationships = (null == formatRelationships) ? new ArrayList<CluCluRelationInfo>() : formatRelationships;
+				//formatRelationships = (null == formatRelationships) ? new ArrayList<CluCluRelationInfo>() : formatRelationships;
 				
 				for (CluCluRelationInfo formatRelation : formatRelationships) {
 					if (CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE

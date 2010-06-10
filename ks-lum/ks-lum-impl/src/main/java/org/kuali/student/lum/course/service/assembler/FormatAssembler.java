@@ -180,7 +180,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				List<CluCluRelationInfo> activityRelationships = luService
 						.getCluCluRelationsByClu(format.getId());
 				
-				activityRelationships = (null == activityRelationships) ? new ArrayList<CluCluRelationInfo>() : activityRelationships;
+				// activityRelationships = (null == activityRelationships) ? new ArrayList<CluCluRelationInfo>() : activityRelationships;
 				
 				for (CluCluRelationInfo activityRelation : activityRelationships) {
 					if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE

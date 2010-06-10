@@ -856,7 +856,7 @@ public class Validator {
 		ValidationResultInfo val = new ValidationResultInfo(element);
 
 		Integer maxLength = tryParse(constraint.getMaxLength());
-		if (maxLength != null && constraint.getMinLength()!= null && constraint.getMinLength() > 0) {
+		if (maxLength != null && constraint.getMinLength() != null && constraint.getMinLength() > 0) {
 			if (s.length() > maxLength || s.length() < constraint.getMinLength()) {
 				val
 						.setError(MessageUtils.interpolate(

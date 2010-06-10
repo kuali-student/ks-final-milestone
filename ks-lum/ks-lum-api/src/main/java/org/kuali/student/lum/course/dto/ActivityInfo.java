@@ -56,7 +56,7 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
     private List<AcademicSubjectOrgInfo> academicSubjectOrgs;
 
     @XmlElement
-    private Integer defaultEnrollmentEstimate;
+    private int defaultEnrollmentEstimate;
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -105,11 +105,11 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
     /**
      * Default enrollment estimate for this CLU.
      */
-    public Integer getDefaultEnrollmentEstimate() {
+    public int getDefaultEnrollmentEstimate() {
         return defaultEnrollmentEstimate;
     }
 
-    public void setDefaultEnrollmentEstimate(Integer defaultEnrollmentEstimate) {
+    public void setDefaultEnrollmentEstimate(int defaultEnrollmentEstimate) {
         this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
     }
 
