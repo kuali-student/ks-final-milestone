@@ -71,6 +71,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.0</version>
         <configuration>
+          <preparationGoals>clean install</preparationGoals>
           <arguments>-Dmaven.test.skip=true -Dks.gwt.module.org=org.kuali.student.core.organization.ui.OrgEntryFirefox -Dks.gwt.module.lum=org.kuali.student.lum.lu.ui.main.LUMMainFirefox</arguments>
         </configuration>
       </plugin>
