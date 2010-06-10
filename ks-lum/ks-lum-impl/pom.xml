@@ -37,12 +37,12 @@
         <dependency>
           <groupId>org.kuali.student.brms.statement</groupId>
           <artifactId>ks-statement-api</artifactId>
-          <version>${ks-brms.version}</version>
+          <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.brms.statement</groupId>
           <artifactId>ks-statement-impl</artifactId>
-          <version>${ks-brms.version}</version>
+          <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
 		<dependency>
