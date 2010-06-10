@@ -11,7 +11,7 @@
     <parent>
 		<groupId>org.kuali.student.web</groupId>
 		<artifactId>ks-web</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -104,12 +104,12 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
         
         <!-- these are needed for rice jsp's to work properly -->
@@ -147,12 +147,12 @@
          <dependency>
             <groupId>org.kuali.student.security</groupId>
             <artifactId>ks-standard-sec</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
          <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
         	<artifactId>servlet-api</artifactId>
