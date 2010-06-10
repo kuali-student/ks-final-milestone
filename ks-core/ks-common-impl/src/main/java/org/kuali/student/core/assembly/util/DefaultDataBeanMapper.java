@@ -19,10 +19,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.DataBeanMapper;
-import org.kuali.student.core.assembly.data.Data.IntegerKey;
 import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
@@ -134,11 +132,17 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 			List<Object> resultList = new ArrayList<Object>();
 			for(Iterator<Property> listIter = data.realPropertyIterator(); listIter.hasNext();){
 				Property listItem = listIter.next();
-				Object listItemData = listItem.getValue();
-				if (listItemData instanceof Data ){
-					listItemData = convertFromData((Data)listItemData, (Class<?>)itemType);
+				Object listItemValue = listItem.getValue();
+				if (listItemValue instanceof Data ){
+					Data listItemData = (Data)listItemValue;
+					Boolean isDeleted = listItemData.query("_runtimeData/deleted");
+					if (isDeleted == null || !isDeleted){
+						listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType);
+						resultList.add(listItemValue);
+					}
+				} else {
+					resultList.add(listItemValue);
 				}
-				resultList.add(((Integer)listItem.getKey()).intValue(),listItemData);
 			}
 
 			result = resultList;
