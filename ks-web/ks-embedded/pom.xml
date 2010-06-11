@@ -114,6 +114,12 @@
       <artifactId>ks-common-ui</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+     <dependency>
+      <groupId>org.kuali.student.security</groupId>
+      <artifactId>ks-sts</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- these are needed for rice jsp's to work properly -->
     <dependency>
