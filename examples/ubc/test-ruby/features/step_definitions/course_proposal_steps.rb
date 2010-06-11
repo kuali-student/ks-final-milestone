@@ -81,7 +81,7 @@ end
 
 When /^I fill in Course Identifier with "([^\"]*)" and "([^\"]*)"$/ do |code, number|
   type_each("jquery=div.KS-LUM-Section:contains('Course Identifier') input[type=text]:eq(0)", code)
-  When "I select \"BIOL\" from an autocomplete list"
+  When "I select \"#{code}\" from an autocomplete list"
   selenium.type("jquery=div.KS-LUM-Section:contains('Course Identifier') input[type=text]:eq(1)", number)
 end
 
@@ -138,7 +138,7 @@ When /^I submit the proposal$/ do
 end
 
 When /^I fill in the Proposal Title with "([^\"]*)"$/ do |text|
-  When "I fill in a text area div labeled \"Proposal Title\" with \"#{text + Time.now.to_formatted_s(:number)}\""
+  When "I fill in a text area div labeled \"Proposal Title\" with \"#{text} - #{Time.now.to_formatted_s(:number)}\""
 end
 
 When /^I log in with user "([^\"]*)" and password "([^\"]*)"$/ do |user, password|
@@ -167,4 +167,10 @@ end
 When /^I approve the proposal$/ do
   selenium.click("jquery=div.KS-CutomDropDown-TitleLabel:contains('Workflow Actions')")
   selenium.click("jquery=div.KS-Basic-Menu-Clickable-Item-Label:contains('Approve Proposal')")
+end
+
+When /^I logout from "([^\"]*)"$/ do |user|
+  "When I click the link \"#{user}\""
+  selenium.click("jquery=div.KS-Basic-Menu-Item-Label:contains('Logout')")
+  "When I wait for text \"Password\""
 end

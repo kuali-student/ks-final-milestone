@@ -15,6 +15,9 @@ test: &TEST
   adapter: oracle_enhanced
   host: 127.0.0.1
   port: 1521
+
+
+
   database: xe
   username: ks_rc2_dev
   password: ks_rc2_dev

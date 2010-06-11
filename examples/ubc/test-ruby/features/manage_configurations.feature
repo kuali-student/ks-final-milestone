@@ -44,11 +44,34 @@ Feature: Manage configurations
     When I click the link "Course Logistics"
     Then I should see "UBC Instructor"
 
-  Scenario: See customized button
+  Scenario: Configure Learning Objectives
     Given I am logged out
     And I am on the home page
     When I log in as an administrator
     And I wait for the page to load
     When I go to "curriculum management"
-    And take a desktop screenshot
-    Then I should see "Start Blank Proposal - CDM"
+    And I follow "Start Blank Proposal"
+    And I wait for no text "Loading"
+    Then I should see "Authors & Rationale"
+    And I click the link "Authors & Rationale"
+    Then I should see "Proposal Title and Rationale"
+    #When I fill in "Proposal Title" with "Biology 200"
+    When I fill in the Proposal Title with "Biology 200"
+    #And I fill in "Proposal Rationale" with "Replaces Biology 201"
+    And I fill in a text area div labeled "Proposal Rationale" with "Replaces Biology 201"
+    And I follow "Save & Continue"
+    And I click the link "Save"
+    Then I should see "Save Successful"
+    And I click the link "Ok"
+    When I click the link "Learning Objectives"
+    Then I should see "Search for Learning Objectives"
+    When I click the link "Save & Continue"
+    Then I should not see "Save Successful"
+
+#  Scenario: See customized button
+#    Given I am logged out
+#    And I am on the home page
+#    When I log in as an administrator
+#    And I wait for the page to load
+#    When I go to "curriculum management"
+#    Then I should see "Start Blank Proposal - CDM"

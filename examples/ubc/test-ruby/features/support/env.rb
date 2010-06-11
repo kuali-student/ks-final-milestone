@@ -23,6 +23,7 @@ Webrat.configure do |config|
   config.mode = :selenium
   # put your address to CDM application
   #config.application_address = '137.82.182.56:8080/ks-embeddedM3/'
+  #config.application_address = 'ksdevl1.adm.ubc.ca:8120/cdm-embedded-rc2/'
   config.application_address = 'localhost:8080/cdm-embedded/'
   #config.application_address = '137.82.182.177:8080/cdm-embedded/'
   #config.application_port = 8080

@@ -2,6 +2,10 @@ Given /^I am logged out$/ do
   visit path_to("logout")
 end
 
+When /^I log out$/ do
+  "Given I am logged out"
+end
+
 When /^I log in as an administrator$/ do
   selenium.type "j_username", "admin"
   selenium.type "j_password", "admin"
