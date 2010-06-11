@@ -1,0 +1,41 @@
+Testing Membership Positions
+jim - Chair of the Department of Statistics
+bonnie - Chair of the Statistics Curriculum Committee
+dan - Member of the Statistics Curriculum Committee
+linda - Administrative Member of the Statistics Curriculum Committee
+brian - Chair of the Department of Botany
+susan - Chair of the Botany Curriculum Committee
+sarah - Member of the Botany Curriculum Committee
+joe - Administrative Member of the Botany Curriculum Committee
+warren - Chair of the Department of Chemistry
+lesley - Chair of the Chemistry Curriculum Committee
+rick - Member of the Chemistry Curriculum Committee
+peter - Administrative Member of the Chemistry Curriculum Committee
+clark - Chair of the Department of Computer Science
+natasha - Chair of the Computer Science Curriculum Committee
+natalie - Member of the Computer Science Curriculum Committee
+jennifer - Administrative Member of the Computer Science Curriculum Committee
+jane - Chair of the Department of Earth and Ocean Sciences
+john - Chair of the Earth and Ocean Sciences Curriculum Committee
+kevin - Member of the Earth and Ocean Sciences Curriculum Committee
+brad - Administrative Member of the Earth and Ocean Sciences Curriculum Committee
+mary - Chair of the Department of Mathematics
+jerry - Chair of the Mathematics Undergraduate Curriculum Committee
+larry - Member of the Mathematics Undergraduate Curriculum Committe
+matt - Chair of the Mathematics Graduate Curriculum Committee
+howard - Member of the Mathematics Graduate Curriculum Committee
+sandy - Chair of the Department of Microbiology and Immunology
+betty - Chair of the Microbiology and Immunology Curriculum Committee
+wilma - Member of the Microbiology and Immunology Curriculum Committee
+candace - Chair of the Department of Physics and Astronomy
+harry - Chair of the Microbiology and Immunology Curriculum Committee
+hal - Member of the Microbiology and Immunology Curriculum Committee
+jordon - Chair of the Department of Zoology
+kent - Chair of the Zoology Curriculum Committee
+jerome - Member of the Zoology Curriculum Committee
+eva - Chair of the Faculty of Science Curriculum Committee
+anthony - Member of the Faculty of Science Curriculum Committee
+wally - Dean of the Faculty of Science
+perry
+elaine
+ryan
