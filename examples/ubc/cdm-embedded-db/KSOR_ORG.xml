@@ -4,7 +4,7 @@
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="1000"
         LNG_DESCR="Recommends and develops policies and procedures for university-wide curricular standards, reviews catalog offerings and degree requirements, and initiates discussions on future curricular matters. The committee reviews college proposals and makes recommen"
-        LNG_NAME="UBC Senate Subcommittee on Curricula" SHRT_NAME="COC"
+        LNG_NAME="Senate Curriculum Committee" SHRT_NAME="COC"
         TYPE="kuali.org.COC" UPDATEID="TESTUSER"
         UPDATETIME="20090122000000" VERSIONIND="2"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
@@ -181,4 +181,11 @@
         SHRT_NAME="MathematicsGraduateCurriculumCommittee"
         TYPE="kuali.org.COC" UPDATEID="TESTUSER"
         UPDATETIME="20100416133932" VERSIONIND="2"/>
+    <KSOR_ORG CREATEID="admin" CREATETIME="20100531155224"
+        EFF_DT="20000101000000"
+        ID="dfbcd6e2-5fd9-4a6e-a208-f9f2ec9fac9d"
+        LNG_DESCR="The publication office reviews and approves courses before they are submitted to the course catalogue."
+        LNG_NAME="Publication Office" SHRT_NAME="PublicationOffice"
+        TYPE="kuali.org.Office" UPDATEID="admin"
+        UPDATETIME="20100604124643" VERSIONIND="11"/>		
 </dataset>

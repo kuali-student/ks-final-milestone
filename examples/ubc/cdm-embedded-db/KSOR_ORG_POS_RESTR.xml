@@ -3,24 +3,63 @@
 <dataset>
     <KSOR_ORG_POS_RESTR ATPDURATIONTYPEKEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" DESCR="Chair of the COC" ID="1000"
-        MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1000"
+        MAX_NUM_RELTN="100" MIN_NUM_RELTN="0" ORG="1000"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TIMEQUANTITY="1" TTL="Chair of the COC" UPDATEID="TESTUSER"
-        UPDATETIME="20100415102212" VERSIONIND="2"/>
+        TIMEQUANTITY="1" TTL="Chair of the COC" UPDATEID="admin"
+        UPDATETIME="20100604124544" VERSIONIND="15"/>
     <KSOR_ORG_POS_RESTR ATPDURATIONTYPEKEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" DESCR="Member of the COC" ID="1001"
-        MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1000"
+        MAX_NUM_RELTN="100" MIN_NUM_RELTN="0" ORG="1000"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
-        TIMEQUANTITY="1" TTL="Member of the COC" UPDATEID="TESTUSER"
-        UPDATETIME="20100415102212" VERSIONIND="2"/>
-<!--		
-    <KSOR_ORG_POS_RESTR ATPDURATIONTYPEKEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000" ID="1002" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" ORG="1001"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Dean" TIMEQUANTITY="1"
-        TTL="Dean of the Land and Food Systems Faculty"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
--->		
+        TIMEQUANTITY="1" TTL="Member of the COC" UPDATEID="admin"
+        UPDATETIME="20100604124544" VERSIONIND="15"/>
+    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20100601125437"
+        DESCR="Member of the Department of Chemistry"
+        ID="11d46ee4-ca61-433b-92e7-4752f1ca2490" MAX_NUM_RELTN="100"
+        MIN_NUM_RELTN="0" ORG="1013"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
+        TTL="Member of the Department of Chemistry" UPDATEID="admin"
+        UPDATETIME="20100601160704" VERSIONIND="2"/>
+    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20100531155224"
+        DESCR="Administrator" ID="129cdc56-a451-4682-9c25-44421e34af3a"
+        MAX_NUM_RELTN="100" MIN_NUM_RELTN="0"
+        ORG="dfbcd6e2-5fd9-4a6e-a208-f9f2ec9fac9d"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.AdministrativeOfficer"
+        TTL="Administrator" UPDATEID="admin" UPDATETIME="20100604124643" VERSIONIND="11"/>
+    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20100601130339"
+        DESCR="Member of the Department of Chemistry"
+        ID="2e2661fd-c489-4f26-93b5-b945a31111e6" MAX_NUM_RELTN="100"
+        MIN_NUM_RELTN="0" ORG="1013"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
+        TTL="Member of the Department of Chemistry" UPDATEID="admin"
+        UPDATETIME="20100601160704" VERSIONIND="2"/>
+    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20100604130316"
+        DESCR="Chair of the Faculty of Science"
+        ID="90f05a6a-2677-48c8-b983-afea10224e13" MAX_NUM_RELTN="100"
+        MIN_NUM_RELTN="0" ORG="1009"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
+        TTL="Chair of the Faculty of Science" UPDATEID="admin"
+        UPDATETIME="20100604130316" VERSIONIND="0"/>
+    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20100601130400"
+        DESCR="Member of the Department of Chemistry"
+        ID="b70465d5-ccf8-441b-8eb6-01b4a4ae4951" MAX_NUM_RELTN="100"
+        MIN_NUM_RELTN="0" ORG="1013"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
+        TTL="Member of the Department of Chemistry" UPDATEID="admin"
+        UPDATETIME="20100601160704" VERSIONIND="2"/>
+    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20100604130316"
+        DESCR="Member of the Faculty of Science"
+        ID="ec81d619-5d89-474d-b3b3-37dce5be81d3" MAX_NUM_RELTN="100"
+        MIN_NUM_RELTN="0" ORG="1009"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
+        TTL="Member of the Faculty of Science" UPDATEID="admin"
+        UPDATETIME="20100604130316" VERSIONIND="0"/>
+    <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160135"
+        DESCR="Chair of the Chemistry Curriculum Committee" ID="1017"
+        MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1014"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
+        TTL="Chair of the Chemistry Curriculum Committee"
+        UPDATEID="admin" UPDATETIME="20100601132304" VERSIONIND="3"/>
     <KSOR_ORG_POS_RESTR ATPDURATIONTYPEKEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="1003" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="1002"
@@ -57,39 +96,24 @@
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
         TIMEQUANTITY="1"
         TTL="Administrative Member of the Land and Food Sytems COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-<!--		
-    <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415153257"
-        DESCR="Dean of the Faculty of Science" ID="1009"
-        MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1009"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Dean"
-        TTL="Dean of the Faculty of Science" UPDATEID="TESTUSER"
-        UPDATETIME="20100415153257" VERSIONIND="0"/>
--->		
-    <KSOR_ORG_POS_RESTR ATPDURATIONTYPEKEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000" ID="101" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" ORG="167"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TIMEQUANTITY="1" TTL="Chair of the GenderStudies COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415153553"
+        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>    <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415153553"
         DESCR="Chair of the Faculty of Science Curriculum Committee"
         ID="1010" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1010"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Faculty of Science Curriculum Committee"
-        UPDATEID="TESTUSER" UPDATETIME="20100415153553" VERSIONIND="0"/>
+        UPDATEID="admin" UPDATETIME="20100601160209" VERSIONIND="4"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415153553"
         DESCR="Member of the Faculty of Science Curriculum Committee"
         ID="1011" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1010"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
         TTL="Member of the Faculty of Science Curriculum Committee"
-        UPDATEID="TESTUSER" UPDATETIME="20100415153553" VERSIONIND="0"/>
+        UPDATEID="admin" UPDATETIME="20100601160209" VERSIONIND="4"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415155356"
         DESCR="Chair of the Department of Botany" ID="1012"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1011"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of the Department of Botany" UPDATEID="TESTUSER"
-        UPDATETIME="20100416132706" VERSIONIND="1"/>
+        TTL="Chair of the Department of Botany" UPDATEID="admin"
+        UPDATETIME="20100601160913" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415155638"
         DESCR="Chair of the Botany Curriculum Committee" ID="1013"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1012"
@@ -112,32 +136,32 @@
         DESCR="Chair of the Department of Chemistry" ID="1016"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1013"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of the Department of Chemistry" UPDATEID="TESTUSER"
-        UPDATETIME="20100416132920" VERSIONIND="1"/>
+        TTL="Chair of the Department of Chemistry" UPDATEID="admin"
+        UPDATETIME="20100601160704" VERSIONIND="6"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160135"
         DESCR="Chair of the Chemistry Curriculum Committee" ID="1017"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1014"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Chemistry Curriculum Committee"
-        UPDATEID="TESTUSER" UPDATETIME="20100416133100" VERSIONIND="1"/>
+        UPDATEID="admin" UPDATETIME="20100601132304" VERSIONIND="3"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160135"
         DESCR="Member of the Chemistry Curriculum Committee" ID="1018"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1014"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
         TTL="Member of the Chemistry Curriculum Committee"
-        UPDATEID="TESTUSER" UPDATETIME="20100416133100" VERSIONIND="1"/>
+        UPDATEID="admin" UPDATETIME="20100601132304" VERSIONIND="3"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160135"
         DESCR="Administrative Member of the Chemistry Curriculum Committee"
         ID="1019" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1014"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
         TTL="Administrative Member of the Chemistry Curriculum Committee"
-        UPDATEID="TESTUSER" UPDATETIME="20100416133100" VERSIONIND="1"/>
+        UPDATEID="admin" UPDATETIME="20100601132304" VERSIONIND="3"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160241"
         DESCR="Chair of the Department of Computer Science" ID="1020"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1015"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Department of Computer Science"
-        UPDATEID="TESTUSER" UPDATETIME="20100416133210" VERSIONIND="1"/>
+        UPDATEID="admin" UPDATETIME="20100601160820" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160357"
         DESCR="Chair of the Computer Science Curriculum Committee"
         ID="1021" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1016"
@@ -161,7 +185,7 @@
         ID="1024" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1017"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Department of Earth and Ocean Sciences"
-        UPDATEID="TESTUSER" UPDATETIME="20100416133440" VERSIONIND="1"/>
+        UPDATEID="admin" UPDATETIME="20100601160958" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100416081019"
         DESCR="Chair of the Earth and Ocean Sciences Curriculum Committee"
         ID="1025" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1018"
@@ -184,8 +208,8 @@
         DESCR="Chair of the Department of Mathematics" ID="1028"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1019"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of the Department of Mathematics" UPDATEID="TESTUSER"
-        UPDATETIME="20100416133716" VERSIONIND="1"/>
+        TTL="Chair of the Department of Mathematics" UPDATEID="admin"
+        UPDATETIME="20100601160426" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100416082139"
         DESCR="Chair of the Mathematics Undergraduate Curriculum Committee"
         ID="1029" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1020"
@@ -209,7 +233,7 @@
         ID="1032" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1021"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Department of Microbiology and Immunology"
-        UPDATEID="TESTUSER" UPDATETIME="20100416134011" VERSIONIND="1"/>
+        UPDATEID="admin" UPDATETIME="20100601160508" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100416082932"
         DESCR="Chair of the Mathematics Graduate Curriculum Committee"
         ID="1033" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1029"
@@ -251,7 +275,7 @@
         ID="1039" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1023"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Department of Physics and Astronomy"
-        UPDATEID="TESTUSER" UPDATETIME="20100416134157" VERSIONIND="1"/>
+        UPDATEID="admin" UPDATETIME="20100601160602" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100416083446"
         DESCR="Chair of the Physics and Astronomy Curriculum Committee"
         ID="1040" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1024"
@@ -274,8 +298,8 @@
         DESCR="Chair of the Department of Statistics" ID="1043"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1025"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of the Department of Statistics" UPDATEID="TESTUSER"
-        UPDATETIME="20100416131848" VERSIONIND="1"/>
+        TTL="Chair of the Department of Statistics" UPDATEID="admin"
+        UPDATETIME="20100601160343" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100416083700"
         DESCR="Chair of the Statistics Curriculum Committee" ID="1044"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1028"
@@ -298,8 +322,8 @@
         DESCR="Chair of the Department of Zoology" ID="1047"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1026"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of the Department of Zoology" UPDATEID="TESTUSER"
-        UPDATETIME="20100416134405" VERSIONIND="1"/>
+        TTL="Chair of the Department of Zoology" UPDATEID="admin"
+        UPDATETIME="20100601160741" VERSIONIND="2"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100416084023"
         DESCR="Chair of the Zoology Curriculum Committee" ID="1048"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1027"
