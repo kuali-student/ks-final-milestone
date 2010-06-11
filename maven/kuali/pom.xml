@@ -52,33 +52,28 @@
   </properties>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <name>Main Kuali Repository</name>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://maven.kuali.org/snapshot</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://kuali-nexus-lb-287160402.us-east-1.elb.amazonaws.com/content/groups/public</url>
       <releases>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>kuali.release</id>
-      <name>Main Kuali Repository</name>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://kuali-nexus-lb-287160402.us-east-1.elb.amazonaws.com/content/groups/public</url>
       <releases>
         <enabled>true</enabled>
       </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
   <distributionManagement>
@@ -89,8 +84,8 @@
     </site>
     <repository>
       <id>kuali.release</id>
-      <name>Main Kuali Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <name>Kuali Release Repository</name>
+      <url>s3://maven.kuali.org/release</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshot</id>
@@ -108,7 +103,7 @@
       <extension>
         <groupId>org.kuali.maven</groupId>
         <artifactId>kuali-wagon-s3</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
       </extension>
     </extensions>
     <pluginManagement>
@@ -141,13 +136,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.5</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-ssh</artifactId>
-              <version>1.0-beta-6</version>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
