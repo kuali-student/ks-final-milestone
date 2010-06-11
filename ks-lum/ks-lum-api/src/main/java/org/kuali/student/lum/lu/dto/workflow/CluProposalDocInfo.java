@@ -17,9 +17,7 @@ package org.kuali.student.lum.lu.dto.workflow;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class CluProposalDocInfo implements Serializable {
 
 	private static final long serialVersionUID = -1582972991931504097L;

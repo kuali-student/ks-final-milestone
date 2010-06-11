@@ -18,24 +18,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SearchResultTypeInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement
-	private String name; 
-	@XmlElement
-	private String desc; 
-	@XmlElement(name="resultColumn")
-	@XmlElementWrapper(name="resultColumns")
-	private List<ResultColumnInfo> resultColumns; 
-	@XmlAttribute
+	private String name;
+	private String desc;
+	private List<ResultColumnInfo> resultColumns;
 	private String key; 
 	public String getName(){
 		return name;
