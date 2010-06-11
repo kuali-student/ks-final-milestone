@@ -202,7 +202,7 @@ public class CourseServiceImpl implements CourseService {
 
         try {
             // Use the results to make the appropriate service calls here
-            courseServiceMethodInvoker.invokeServiceCalls(results, operation);
+            courseServiceMethodInvoker.invokeServiceCalls(results);
         } catch (Exception e) {
             LOG.error("Error creating course", e);
             throw new OperationFailedException("Error creating course");
@@ -227,7 +227,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public LuService getLuService() {
-        return luService;
+        return luService;   
     }
 
     public void setLuService(LuService luService) {

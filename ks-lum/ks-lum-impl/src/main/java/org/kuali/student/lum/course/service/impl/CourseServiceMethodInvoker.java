@@ -32,12 +32,12 @@ public class CourseServiceMethodInvoker {
 	private AtpService atpService;
 	
 	@SuppressWarnings("unchecked")
-	public void invokeServiceCalls(BaseDTOAssemblyNode results, NodeOperation srvOperation) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
+	public void invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException {
 
 	    // For Delete operation process the tree from bottom up 
-	    if(NodeOperation.DELETE == srvOperation) {
+	    if(NodeOperation.DELETE == results.getOperation()) {
             for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
-                invokeServiceCalls(childNode, srvOperation);
+                invokeServiceCalls(childNode);
             }
 	    }
 	    
@@ -81,9 +81,9 @@ public class CourseServiceMethodInvoker {
 		}
 		
 		// For create/update process the child nodes from top to bottom
-		if(NodeOperation.DELETE != srvOperation) {
+		if(NodeOperation.DELETE != results.getOperation()) {
 		    for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
-		        invokeServiceCalls(childNode, srvOperation);
+		        invokeServiceCalls(childNode);
 		    }
 		}
 	}
