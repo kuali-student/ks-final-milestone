@@ -65,10 +65,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
-
-	// TODO: remove criteriaSet since it is not being used
-	@Column(name = "CRIT_SET")
-	private boolean criteriaSet;
 	
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
@@ -94,7 +90,10 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@JoinColumn(name="MEM_QUERY_ID")
 	private MembershipQuery membershipQuery;
 	
-	@Override
+    @Column(name = "REUSABLE")
+    private Boolean isReusable;
+
+    @Override
     public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
@@ -203,4 +202,13 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	public void setMembershipQuery(MembershipQuery membershipQuery) {
 		this.membershipQuery = membershipQuery;
 	}
+
+    public Boolean getIsReusable() {
+        return isReusable;
+    }
+
+    public void setIsReusable(Boolean isReusable) {
+        this.isReusable = isReusable;
+    }
+
 }

@@ -37,7 +37,7 @@ public class GradeCheckContextImpl extends AbstractLuContext<ReqComponent> {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
     	Map<String, Object> contextMap = new HashMap<String, Object>();
-    	contextMap.put(GPA_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getKey()));
+    	contextMap.put(GPA_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getKey()));
 
         return contextMap;
     }

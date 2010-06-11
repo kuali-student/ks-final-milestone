@@ -20,6 +20,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.Statement;
 
+/**
+ * This class translates requirement components and statements into 
+ * natural language.
+ */
 public interface NaturalLanguageTranslator {
 
 	/**

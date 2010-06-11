@@ -15,15 +15,12 @@
 
 package org.kuali.student.core.atp.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.kuali.student.core.dto.TypeInfo;
 
 /**
- *Information about a milestone type.
- */ 
-@XmlAccessorType(XmlAccessType.FIELD)
+ * Information about a milestone type.
+ */
 public class MilestoneTypeInfo extends TypeInfo {
 
     private static final long serialVersionUID = 1L;

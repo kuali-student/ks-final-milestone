@@ -30,6 +30,9 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
@@ -80,9 +83,9 @@ public class RuleComponentEditorView extends ViewComposite {
     private VerticalPanel mainPanel = new VerticalPanel();
     private VerticalPanel addEditRuleView = new VerticalPanel();
     private HorizontalPanel ruleDetailsPanel = new HorizontalPanel();
-    private KSButton btnCancelView = new KSButton("Cancel");
-    private KSButton addReqComp = new KSButton("Add Rule");
-    private KSButton updateReqComp = new KSButton("Update Rule");
+    private ConfirmCancelGroup confirmCancelButtons = new ConfirmCancelGroup();
+    private KSButton confirmButton;
+    private KSButton cancelButton;
     private KSDropDown compReqTypesList = new KSDropDown();
     private SimplePanel reqCompDesc = new SimplePanel();
     private KSLabel exampleText = new KSLabel();
@@ -109,6 +112,8 @@ public class RuleComponentEditorView extends ViewComposite {
     public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
         super.initWidget(mainPanel);
+        confirmButton = confirmCancelButtons.getButton(ConfirmCancelEnum.CONFIRM);
+        cancelButton = confirmCancelButtons.getButton(ConfirmCancelEnum.CANCEL);        
         setupHandlers();
     }
 
@@ -177,22 +182,17 @@ public class RuleComponentEditorView extends ViewComposite {
 
     public void redraw() {
 
-        //1. show view HEADING
-        SimplePanel headingPanel = new SimplePanel();
+        VerticalPanel bodyPanel = new VerticalPanel();
+        
+        //1. show editor HEADING
         KSLabel heading = new KSLabel((addingNewReqComp ? "Add " : "Edit ") + getRuleTypeName() + " Rule");
-        heading.setStyleName("KS-Rules-FullWidth");
         heading.setStyleName("KS-ReqMgr-Heading");
-        headingPanel.add(heading);
+        bodyPanel.add(heading);
 
         //2. show RULE TYPES
-        HorizontalPanel ruleTypesPanel = new HorizontalPanel();
-
-        //show requirement component label
-        SimplePanel labelPanel = new SimplePanel();
-        KSLabel reqTypeLabel = new KSLabel("Rule");
+        KSLabel reqTypeLabel = new KSLabel("Step 1: Select " + getRuleTypeName() + " rule type");
         reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading");
-        labelPanel.add(reqTypeLabel);
-        ruleTypesPanel.add(labelPanel);
+        bodyPanel.add(reqTypeLabel);
 
         addEditRuleView.clear();
         addEditRuleView.setStyleName("KS-Rules-FullWidth");
@@ -209,35 +209,21 @@ public class RuleComponentEditorView extends ViewComposite {
         addEditRuleView.add(ruleDetailsPanel);
 
         //buttons at the bottom
-        SimplePanel horizSpacer = new SimplePanel();
-        horizSpacer.setWidth("30px");
-        HorizontalPanel tempPanelButtons = new HorizontalPanel();
-        tempPanelButtons.setSpacing(0);
-        tempPanelButtons.setStyleName("KS-ReqCompEditor-BottomButtons");
-        btnCancelView.setStyleName("KS-Rules-Tight-Button");
         if (addingNewReqComp) {
-            tempPanelButtons.add(addReqComp);
-            addReqComp.setStyleName("KS-Rules-Tight-Button");
-            addReqComp.setEnabled(false);
+            confirmButton.setText("Add Rule");
+            confirmButton.setEnabled(false);
         } else {
-            tempPanelButtons.add(updateReqComp);
-            updateReqComp.setStyleName("KS-Rules-Tight-Button");
-            updateReqComp.setEnabled(true);
-            if (selectedReqType == null) {
-                updateReqComp.setEnabled(false);
+            confirmButton.setText("Update Rule");
+            confirmButton.setEnabled(false);
+            if (selectedReqType != null) {
+                confirmButton.setEnabled(true);
             }
         }
-        tempPanelButtons.add(horizSpacer);
-        tempPanelButtons.add(btnCancelView);
-        addEditRuleView.add(tempPanelButtons);
-
-        HorizontalPanel bodyPanel = new HorizontalPanel();
-        bodyPanel.add(ruleTypesPanel);
+        addEditRuleView.add(confirmCancelButtons);
         bodyPanel.add(addEditRuleView);
 
         mainPanel.clear();
         mainPanel.setStyleName("Content-Margin");
-        mainPanel.add(headingPanel);
         mainPanel.add(bodyPanel);
 
         //updateExampleContext(); TODO - download all necessary contexts?
@@ -257,8 +243,7 @@ public class RuleComponentEditorView extends ViewComposite {
             newButton.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
                 @Override
                 public void onValueChange(ValueChangeEvent<Boolean> event) {
-                	addReqComp.setEnabled(true);
-                	updateReqComp.setEnabled(true);
+                    confirmButton.setEnabled(true);
                 	if (compReqTypesList.getSelectedItem() != null) {
                         compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
                     }
@@ -285,6 +270,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
         //now add a drop down for advanced Requirement Component Types
         HorizontalPanel hodler = new HorizontalPanel();
+        hodler.setSpacing(5);
         KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, RULE_TYPES_OTHER);
         rbRuleType.add(newButton);
         hodler.add(newButton);
@@ -294,7 +280,7 @@ public class RuleComponentEditorView extends ViewComposite {
         	int i = 0;
             for (ReqComponentTypeInfo comp : advReqCompTypeList) {
                 if (comp.getId().equals(selectedReqType.getId())) {
-                    compReqTypesList.selectItem(Integer.toString(i));    //comp.getId());
+                    compReqTypesList.selectItem(Integer.toString(i)); 
                     newButton.setValue(true);
                     break;
                 }
@@ -324,7 +310,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private void displayReqComponentDetailsCont() {
         //show heading
         VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel();
-        KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDescr() + ":");
+        KSLabel reqCompTypeName = new KSLabel("Step 2: " + selectedReqType.getDescr());
         reqCompTypeName.setStyleName("KS-ReqMgr-SubHeading");
         reqCompDetailsExampleContainerPanel.add(reqCompTypeName);
 
@@ -388,7 +374,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     private void setupHandlers() {
 
-        btnCancelView.addClickHandler(new ClickHandler() {
+        cancelButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 //if rule has not been created, cancel should return user back to initial rules summary screen
                 if (editedStatementVO.getReqComponentVOs().size() == 0) {
@@ -407,7 +393,7 @@ public class RuleComponentEditorView extends ViewComposite {
             }
         });
 
-        addReqComp.addClickHandler(new ClickHandler() {
+        confirmButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
 
@@ -421,23 +407,9 @@ public class RuleComponentEditorView extends ViewComposite {
                 editedReqComp.setType(selectedReqType.getId());
 
                 //3. create new req. component and possibly new statement if none exists yet
-                editedStatementVO.addReqComponentVO(editedReqCompVO);
-                updateNLAndExit();
-            }
-        });
-
-        updateReqComp.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-
-            	//1. check that all fields have values
-                if (retrieveReqCompFields() == false) {
-                    return;
+                if (addingNewReqComp) {
+                    editedStatementVO.addReqComponentVO(editedReqCompVO);
                 }
-
-            	//2. update req. component being edited (type was updated already)
-                editedReqComp.setReqCompFields(editedFields);
-
-                //3. update rule
                 updateNLAndExit();
             }
         });
@@ -445,8 +417,12 @@ public class RuleComponentEditorView extends ViewComposite {
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
 			@Override
             public void onSelectionChange(SelectionChangeEvent event) {
-                 addReqComp.setEnabled(true);
-                 updateReqComp.setEnabled(true);
+			    
+			    if (!event.isUserInitiated()) {
+			        return;
+			    }
+			    
+                 confirmButton.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
                      button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);
                  }

@@ -67,14 +67,14 @@ public class KSButton extends KSButtonAbstract{
         this.init(text, style, handler);
         this.initWidget(button);
     }   
-	
+    
+    public void setText(String text){
+        button.setText(text);
+    }
+    
 	@Override
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
 		return button.addClickHandler(handler);
-	}
-	
-	public void setText(String text){
-		button.setText(text);
 	}
 
 	@Override
@@ -110,4 +110,19 @@ public class KSButton extends KSButtonAbstract{
 	public void init(String text, ClickHandler handler) {
 		button.init(text, handler);
 	}
+	
+    @Override
+    public void addStyleName(String style) {
+        button.addStyleName(style);
+    }
+
+    @Override
+    public void removeStyleName(String style) {
+        button.removeStyleName(style);
+    }
+
+    @Override
+    public void setStyleName(String style) {
+        button.setStyleName(style);
+    }	
 }

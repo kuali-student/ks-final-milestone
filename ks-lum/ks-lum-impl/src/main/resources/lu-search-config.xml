@@ -57,6 +57,7 @@
 			<ref bean="lu.queryParam.luOptionalCrsNoRange"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate1"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate2"/>
+			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -406,6 +407,7 @@
 			<ref bean="cluset.queryParam.optionalDescription"/>
 			<ref bean="lu.queryParam.luOptionalLongName"/>
 			<ref bean="cluset.queryParam.optionalSubCluSetName"/>
+			<ref bean="cluset.queryParam.optionalReusable"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -447,6 +449,15 @@
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
 	</search:queryParam>			
+	<search:queryParam id="cluset.queryParam.optionalReusable" parent="cluset.queryParam.optionalReusable-parent"/>
+	<search:queryParam id="cluset.queryParam.optionalReusable-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Reusable Clu Set</dict:name>
+			<dict:desc>Whether a Clu Set can be reused.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>
 
     <search:searchType id="lu.search.all.lu.Types" parent="lu.search.all.lu.Types-parent"/>
 	<search:searchType id="lu.search.all.lu.Types-parent"  abstract="true">
@@ -683,6 +694,9 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalEffectiveDate2">
 				    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalEffectiveDate2</value>
+				</entry>
+				<entry key="cluset.queryParam.optionalReusable">
+				    <value>!!</value>
 				</entry>
             </map>
 		</property>

@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author wilj
@@ -39,7 +38,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         STRING, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, DATE, TRUNCATED_DATE, DATA, LIST
     }
 
-    @XmlRootElement
     public static class BooleanValue implements Value {
         private Boolean value;
 
@@ -71,7 +69,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         }
     }
 
-    @XmlRootElement
     public static class DataValue implements Value {
         private Data value;
 
@@ -103,7 +100,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         }
     }
 
-    @XmlRootElement
     public static class DateValue implements Value {
         private Date value;
 
@@ -135,7 +131,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         }
     }
 
-    @XmlRootElement
     public static class DoubleValue implements Value {
         private Double value;
 
@@ -167,7 +162,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         }
     }
 
-    @XmlRootElement
     public static class FloatValue implements Value {
         private Float value;
 
@@ -252,7 +246,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     }
 
-    @XmlRootElement
     public static class IntegerValue implements Value {
         private Integer value;
 
@@ -291,7 +284,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         Class getType();
     }
 
-    @XmlRootElement
     public static class LongValue implements Value {
         private Long value;
 
@@ -337,7 +329,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         Value getWrappedValue();
     }
 
-    @XmlRootElement
     public static class ShortValue implements Value {
         private Short value;
 
@@ -369,7 +360,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         }
     }
 
-    @XmlRootElement
     public static class StringKey implements Key {
         private String key;
 
@@ -423,7 +413,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     }
 
-    @XmlRootElement
     public static class StringValue implements Value {
         private String value;
 
@@ -455,7 +444,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		}
     }
 
-    @XmlRootElement
     public static class TimestampValue implements Value {
         private Timestamp value;
 
@@ -487,7 +475,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         }
     }
 
-    @XmlRootElement
     public static class TimeValue implements Value {
         private Time value;
 

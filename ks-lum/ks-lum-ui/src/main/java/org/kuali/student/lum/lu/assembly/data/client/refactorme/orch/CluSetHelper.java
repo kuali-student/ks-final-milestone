@@ -32,14 +32,18 @@ public class CluSetHelper {
         DESCRIPTION ("description"),
         EFFECTIVE_DATE ("effectiveDate"),
         EXPIRATION_DATE ("expirationDate"),
-        CLUS ("clus"),
+        APPROVED_CLUS ("approvedClus"),
+        PROPOSED_CLUS ("proposedClus"),
+        // This is the union of APPROVED_CLUS, and PROPOSED_CLUS
+        ALL_CLUS ("allClus"),
         CLUSETS ("clusets"),
         CLU_SET_RANGE ("clusetRange"),
         CLU_SET_RANGE_VIEW_DETAILS ("cluSetRangeViewDetails"),
         META_INFO ("metaInfo"),
         NAME ("name"),
         STATE ("state"),
-        TYPE ("type");
+        TYPE ("type"),
+        REUSABLE ("reusable");
 
         private final String key;
 
@@ -133,16 +137,53 @@ public class CluSetHelper {
         return (String) data.get(Properties.TYPE.getKey());
     }
 
-    public void setClus(Data value) {
-        data.set(Properties.CLUS.getKey(), value);
-    }
-    public Data getClus() {
-        Data clusData = data.get(Properties.CLUS.getKey());
-        if (clusData == null) {
-            clusData = new Data();
-            setClus(clusData);
+    public void setReusable(Boolean reusable) {
+        Boolean newValue = reusable;
+        if (reusable == null) {
+            newValue = new Boolean(false);
         }
-        return clusData;
+        data.set(Properties.REUSABLE.getKey(), newValue);
+    }
+    public Boolean getReusable() {
+        Boolean reUsable = (Boolean) data.get(Properties.REUSABLE.getKey());
+        if (reUsable == null) {
+            reUsable = new Boolean(false);
+        }
+        return reUsable;
+    }
+
+    public void setApprovedClus(Data value) {
+        data.set(Properties.APPROVED_CLUS.getKey(), value);
+    }
+    public Data getApprovedClus() {
+        Data approvedClusData = data.get(Properties.APPROVED_CLUS.getKey());
+        if (approvedClusData == null) {
+            approvedClusData = new Data();
+            setApprovedClus(approvedClusData);
+        }
+        return approvedClusData;
+    }
+    public void setProposedClus(Data value) {
+        data.set(Properties.PROPOSED_CLUS.getKey(), value);
+    }
+    public Data getProposedClus() {
+        Data proposedClusData = data.get(Properties.PROPOSED_CLUS.getKey());
+        if (proposedClusData == null) {
+            proposedClusData = new Data();
+            setProposedClus(proposedClusData);
+        }
+        return proposedClusData;
+    }
+    public void setAllClus(Data value) {
+        data.set(Properties.ALL_CLUS.getKey(), value);
+    }
+    public Data getAllClus() {
+        Data allClusData = data.get(Properties.ALL_CLUS.getKey());
+        if (allClusData == null) {
+            allClusData = new Data();
+            setAllClus(allClusData);
+        }
+        return allClusData;
     }
     public void setCluSets(Data value) {
         data.set(Properties.CLUSETS.getKey(), value);
@@ -173,7 +214,7 @@ public class CluSetHelper {
         Data cluSetRangeViewDetailsData = data.get(Properties.CLU_SET_RANGE_VIEW_DETAILS.getKey());
         if (cluSetRangeViewDetailsData == null) {
             cluSetRangeViewDetailsData = new Data();
-            setClus(cluSetRangeViewDetailsData);
+            setCluRangeViewDetails(cluSetRangeViewDetailsData);
         }
         return cluSetRangeViewDetailsData;
     }

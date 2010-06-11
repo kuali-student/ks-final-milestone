@@ -37,7 +37,6 @@ public class RuleTable extends Composite {
     public RuleTable() {
         treeTable = new TreeTable();
         treeTable.setStyleName("KS-Rules-Table");
-       // treeTable.setBorderWidth(0);
         simplePanel = new SimplePanel();
         showControls = true;
         super.initWidget(simplePanel);
@@ -219,6 +218,7 @@ public class RuleTable extends Composite {
         treeTable = null;
         simplePanel.clear();
         treeTable = new TreeTable();
+        treeTable.setStyleName("KS-Rules-Table");
         simplePanel.add(treeTable);
     }
 

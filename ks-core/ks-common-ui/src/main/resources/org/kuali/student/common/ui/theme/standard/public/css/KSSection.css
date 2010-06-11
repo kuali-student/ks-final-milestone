@@ -711,7 +711,6 @@ a.ks-button-primary:hover {
 .ks-button-primary-disabled {
 	line-height:2.25em;
 	text-decoration:none;
-
 	background-color: #F8F8F8;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
 	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);

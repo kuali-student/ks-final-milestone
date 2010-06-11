@@ -55,12 +55,15 @@
       <id>kuali.release</id>
       <url>https://test.kuali.org/maven</url>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
     <repository>
       <id>kuali.snapshot</id>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+      <url>http://maven.kuali.org/snapshot</url>
       <releases>
         <enabled>false</enabled>
       </releases>

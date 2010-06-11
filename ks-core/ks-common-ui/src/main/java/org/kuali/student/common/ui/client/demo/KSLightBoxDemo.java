@@ -27,6 +27,7 @@ public class KSLightBoxDemo extends Composite{
               // box.setWidget(new Label("asdf"));
                box.setSize(400, 200);
                box.show();
+               box.setWidget(new Label("asdf"));
                
            }
        });

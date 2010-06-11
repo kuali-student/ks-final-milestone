@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
-    <artifactId>ks</artifactId>
+    <artifactId>student</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.security</groupId>
@@ -10,35 +10,28 @@
   <packaging>pom</packaging>
   <name>KS Security</name>
   <description>KS Security Parent POM</description>
-  <url>http://student.kuali.org/site/security/${project.version}</url>
   <modules>
     <module>ks-standard-sec</module>
+    <module>ks-sts</module>
   </modules>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</developerConnection>
-  </scm>
   <repositories>
     <repository>
       <id>kuali.release</id>
       <url>https://test.kuali.org/maven</url>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
     <repository>
       <id>kuali.snapshot</id>
       <name>Kuali Snapshot Repository</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+      <url>http://maven.kuali.org/snapshot</url>
       <releases>
         <enabled>false</enabled>
       </releases>
     </repository>
   </repositories>
-  <distributionManagement>
-    <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/security/${project.version}</url>
-    </site>
-  </distributionManagement>
 </project>
