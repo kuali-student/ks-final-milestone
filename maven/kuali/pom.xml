@@ -44,7 +44,7 @@
     <name>The Kuali Foundation</name>
     <url>http://www.kuali.org/</url>
   </organization>
-  <url>http://maven.kuali.org</url>
+  <url>http://site.kuali.org</url>
   <properties>
     <extraReleaseArguments />
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,7 +54,7 @@
     <repository>
       <id>kuali.nexus</id>
       <name>Nexus Repository Manager</name>
-      <url>http://kuali-nexus-lb-287160402.us-east-1.elb.amazonaws.com/content/groups/public</url>
+      <url>http://nexus.kuali.org/content/groups/public</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -67,7 +67,7 @@
     <pluginRepository>
       <id>kuali.nexus</id>
       <name>Nexus Repository Manager</name>
-      <url>http://kuali-nexus-lb-287160402.us-east-1.elb.amazonaws.com/content/groups/public</url>
+      <url>http://nexus.kuali.org/content/groups/public</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -80,7 +80,7 @@
     <site>
       <id>kuali.site</id>
       <name>Kuali Maven Site</name>
-      <url>s3://maven.kuali.org</url>
+      <url>s3://site.kuali.org</url>
     </site>
     <repository>
       <id>kuali.release</id>
@@ -103,7 +103,7 @@
       <extension>
         <groupId>org.kuali.maven</groupId>
         <artifactId>kuali-wagon-s3</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
       </extension>
     </extensions>
     <pluginManagement>
