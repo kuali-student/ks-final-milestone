@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>14-SNAPSHOT</version>
+    <version>15</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
@@ -24,7 +24,8 @@
   <repositories>
     <repository>
       <id>kuali.nexus</id>
-      <url>http://ec2-174-129-168-28.compute-1.amazonaws.com/content/groups/public</url>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -34,7 +35,7 @@
     </repository>
   </repositories>
   <organization>
-    <name>The Kuali Foundation</name>
+    <name>Kuali Student</name>
     <url>http://student.kuali.org/</url>
   </organization>
   <ciManagement>
