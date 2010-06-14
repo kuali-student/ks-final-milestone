@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -22,6 +23,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:course-dev-test-context.xml"})
@@ -172,23 +174,26 @@ public class TestCourseServiceImpl {
             FormatInfo newFormat = new FormatInfo();
             newFormat.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
             newFormat.setState("DRAFT");
-
+            Map<String, String> attrMap = new HashMap<String, String>();
+            attrMap.put("FRMT", "value");
+            newFormat.setAttributes(attrMap);
+            
             // Add two new activities to new formats
             ActivityInfo newActivity1 = new ActivityInfo();
             newActivity1.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
-            newActivity1.setState("ACTIVE");
+            newActivity1.setState("DRAFT");
             newFormat.getActivities().add(newActivity1);
 
             ActivityInfo newActivity2 = new ActivityInfo();
             newActivity2.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE);
-            newActivity2.setState("ACTIVE");
+            newActivity2.setState("DRAFT");
             newFormat.getActivities().add(newActivity2);
 
             createdCourse.getFormats().add(newFormat);
 
             FormatInfo newFormat2 = new FormatInfo();
             newFormat2.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
-            newFormat2.setState("ACTIVE");
+            newFormat2.setState("DRAFT");
             createdCourse.getFormats().add(newFormat2);
 
             Map<String, String> attributes = createdCourse.getAttributes();
@@ -200,7 +205,7 @@ public class TestCourseServiceImpl {
 
             for (FormatInfo uFrmt : updatedCourse.getFormats()) {
                 // Check to see if activities are added to a new format
-                if ("DRAFT".equals(uFrmt.getState())) {
+                if (uFrmt.getAttributes().containsKey("FRMT")) {
                     assertEquals(2, uFrmt.getActivities().size());
                     String actType = uFrmt.getActivities().get(0).getActivityType();
                     assertTrue(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE.equals(actType) || CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE.equals(actType));

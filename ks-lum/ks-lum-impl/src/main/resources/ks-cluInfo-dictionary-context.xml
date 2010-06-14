@@ -157,10 +157,34 @@
 	</bean>
 	<bean id="cluInfo.hazardousForDisabledStudents" parent="cluInfo.hazardousForDisabledStudents-parent" />
 
-	<bean id="cluInfo.id-parent" abstract="true" parent="baseId">
+	<!--  Example of a case when constraint application -->
+	<bean id="cluInfo.id-parent" abstract="true" parent="baseId">		
+		<property name="caseConstraint">
+			<bean parent="caseConstraint">
+				<property name="operator" value="EQUALS"/>
+				<property name="fieldPath" value="state"/>
+				<property name="caseSensitive" value="false"/>
+				<property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
+							<property name="value" value="ACTIVE"/>
+							<property name="constraint">
+								<bean parent="baseCluIdRequired"/>
+							</property>
+						</bean>
+						<bean parent="whenConstraint">
+							<property name="value" value="DRAFT"/>
+							<property name="constraint">
+								<bean parent="baseCluIdOptional"/>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
 		<property name="name" value="id" />
-<!--		<property name="minOccurs" value="1" />-->
-<!--		<property name="maxOccurs" value="1" />-->
+<!--		<property name="minOccurs" value="1" />
+		<property name="maxOccurs" value="1" /> -->
 	</bean>
 	<bean id="cluInfo.id" parent="cluInfo.id-parent" />
 

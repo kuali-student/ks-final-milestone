@@ -1,5 +1,6 @@
 package org.kuali.student.core.dictionary.poc.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,8 +21,11 @@ public class Constraint extends BaseConstraint {
 	protected ValidCharsConstraint validChars;
 	protected Integer minOccurs;
 	protected String maxOccurs;
-	protected List<RequiredConstraint> requireConstraint;
-	protected List<CaseConstraint> caseConstraint;
+	
+    protected CaseConstraint caseConstraint;
+	
+    protected List<RequiredConstraint> requireConstraint;
+
 	protected List<MustOccurConstraint> occursConstraint;
 
 	// LookupConstraints
@@ -107,22 +111,29 @@ public class Constraint extends BaseConstraint {
 	}
 
 	public List<RequiredConstraint> getRequireConstraint() {
-		return requireConstraint;
+        if(null == requireConstraint) {
+            this.requireConstraint = new ArrayList<RequiredConstraint>();
+        }
+
+	    return requireConstraint;
 	}
 
 	public void setRequireConstraint(List<RequiredConstraint> requireConstraint) {
-		this.requireConstraint = requireConstraint;
+	    this.requireConstraint = requireConstraint;
 	}
 
-	public List<CaseConstraint> getCaseConstraint() {
-		return caseConstraint;
-	}
+    public CaseConstraint getCaseConstraint() {
+        return caseConstraint;
+    }
 
-	public void setCaseConstraint(List<CaseConstraint> caseConstraint) {
-		this.caseConstraint = caseConstraint;
-	}
+    public void setCaseConstraint(CaseConstraint caseConstraint) {
+        this.caseConstraint = caseConstraint;
+    }
 
-	public List<MustOccurConstraint> getOccursConstraint() {
+    public List<MustOccurConstraint> getOccursConstraint() {
+        if(null == occursConstraint) {
+            this.occursConstraint = new ArrayList<MustOccurConstraint>();
+        }
 		return occursConstraint;
 	}
 

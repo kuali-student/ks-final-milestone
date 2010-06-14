@@ -24,7 +24,7 @@ import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
 public class ValidatorUtils {
 
 	public static boolean compareValues(Object value1, Object value2,
-			DataType dataType, String operator, DateParser dateParser) {
+			DataType dataType, String operator, boolean isCaseSensitive, DateParser dateParser) {
 
 		boolean result = false;
 		Integer compareResult = null;
@@ -32,8 +32,14 @@ public class ValidatorUtils {
 		// Convert objects into appropriate data types
 		if (null != dataType) {
 			if (DataType.STRING.equals(dataType)) {
-				String v1 = getString(value1);
+			    String v1 = getString(value1);
 				String v2 = getString(value2);
+
+				if(!isCaseSensitive) {
+				    v1 = v1.toUpperCase();
+				    v2 = v2.toUpperCase();
+				}
+				
 				compareResult = v1.compareTo(v2);
 			} else if (DataType.INTEGER.equals(dataType)) {
 				Integer v1 = getInteger(value1);

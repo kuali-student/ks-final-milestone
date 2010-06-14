@@ -36,6 +36,9 @@
 				<ref bean="courseInfo.transcriptTitle" />
 				<ref bean="courseInfo.type" />
 				<!-- <ref bean="courseInfo.variations" /> -->
+				<!-- Dynamic Attributes -->
+				<ref bean="courseInfo.finalExamStatus" />
+				<ref bean="courseInfo.altFinalExamStatusDescr"/>
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -923,4 +926,23 @@
 		<property name="name" value="orgId" />
 	</bean>
 	<bean id="academicSubjectOrgInfo.orgId" parent="academicSubjectOrgInfo.orgId-parent" />
+	
+	<!--  Dynamic Attributes -->
+	<bean id="courseInfo.finalExamStatus" parent="baseSingleString">
+  		<property name="name" value="finalExamStatus" />
+  		<property name="minOccurs" value="0" />
+  		<property name="maxOccurs" value="1" />
+  		<!-- Maybe a lookup constraint to restrict the values -->
+  		<property name="dynamic" value="true"/>
+	</bean>
+
+	<bean id="courseInfo.altFinalExamStatusDescr" parent="baseSingleString">
+  		<property name="name" value="altFinalExamStatusDescr" />
+  		<property name="dynamic" value="true"/>
+  		<property name="minOccurs" value="0" />
+  		<property name="maxOccurs" value="1" />
+  		<property name="maxLength" value="50" />
+  		<property name="validChars" ref="alphanumbericHyphenPeriod"/>
+	</bean>	
+	
 </beans>

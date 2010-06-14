@@ -10,6 +10,7 @@ public class CaseConstraint {
 	protected List<WhenConstraint> whenConstraint;
 	protected String fieldPath;
 	protected String operator;
+	protected boolean caseSensitive;
 
 	public List<WhenConstraint> getWhenConstraint() {
 		return whenConstraint;
@@ -34,4 +35,12 @@ public class CaseConstraint {
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
+
+    public boolean isCaseSensitive() {
+        return caseSensitive;
+    }
+
+    public void setCaseSensitive(boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
+    }
 }

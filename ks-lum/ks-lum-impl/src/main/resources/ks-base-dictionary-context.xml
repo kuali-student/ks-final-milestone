@@ -10,7 +10,12 @@
 		abstract="true" />
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.core.dictionary.poc.dto.Constraint" />
+	<bean id="caseConstraint" abstract="true"
+		class="org.kuali.student.core.dictionary.poc.dto.CaseConstraint" />
+	<bean id="whenConstraint" abstract="true"
+		class="org.kuali.student.core.dictionary.poc.dto.WhenConstraint" />
 		
+
 	<bean id="ValidCharDefinition" abstract="true"
 		class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint" />
 
@@ -160,10 +165,22 @@
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="36" />
 	</bean>
+	<!--  TODO: Replace reference of baseCluId with either baseCluIdRequire or baseCluIdOptional -->
 	<bean id="baseCluId" parent="baseId">
 		<property name="minOccurs" value="1" />
 		<property name="maxOccurs" value="1" />
 	</bean>
+	
+	<bean id="baseCluIdRequired" parent="baseId">
+		<property name="minOccurs" value="1" />
+		<property name="maxOccurs" value="1" />
+	</bean>
+	
+	<bean id="baseCluIdOptional" parent="baseId">
+		<property name="minOccurs" value="0" />
+		<property name="maxOccurs" value="1" />
+	</bean>
+
 	<bean id="baseEffectiveDate" parent="baseSingleDate">
 		<property name="minOccurs" value="1" />
 		<property name="minLength" value="19" />
