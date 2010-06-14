@@ -35,12 +35,12 @@ import org.kuali.student.lum.lu.dto.CluInfo;
  * 
  * {@link CluSetInfo} wrapper class.
  */
-public class NLCluSetInfo {
+public class NLCluSet {
 
 	private String cluSetId;
 	private List<CluInfo> cluList;
 	
-	public NLCluSetInfo(String cluSetId, List<CluInfo> cluList) {
+	public NLCluSet(String cluSetId, List<CluInfo> cluList) {
 		this.cluSetId = cluSetId;
 		this.cluList = cluList;
 	}
@@ -67,7 +67,7 @@ public class NLCluSetInfo {
 	 * Gets a particular CLU's official identifier short name.
 	 * 
 	 * @param index Index in CLU set
-	 * @return CLU short name
+	 * @return CLU official identifier short name
 	 */
 	public String getCluAsShortName(int index) {
 		return this.cluList.get(index).getOfficialIdentifier().getShortName();
@@ -76,7 +76,7 @@ public class NLCluSetInfo {
 	/**
 	 * Gets a particular CLU's official identifier code at <code>index</code>
 	 * @param index
-	 * @return
+	 * @return CLU's official identifier code
 	 */
 	public String getCluAsCode(int index) {
 		return this.cluList.get(index).getOfficialIdentifier().getCode();
@@ -86,7 +86,7 @@ public class NLCluSetInfo {
 	 * Gets all the CLUs' official identifier short name in the CLU set 
 	 * as a comma separated list.
 	 *   
-	 * @return Comma separated list of CLU official identifier short name 
+	 * @return Comma separated list of CLUs' official identifier short name 
 	 */
 	public String getCluSetAsShortName() {
 		StringBuilder sb = new StringBuilder();
@@ -101,7 +101,7 @@ public class NLCluSetInfo {
 	 * Gets all the CLUs' official identifier long name in the CLU set 
 	 * as a comma separated list.
 	 * 
-	 * @return Comma separated list of CLU official identifier long name 
+	 * @return Comma separated list of CLUs' official identifier long name 
 	 */
 	public String getCluSetAsLongName() {
 		StringBuilder sb = new StringBuilder();
@@ -116,7 +116,7 @@ public class NLCluSetInfo {
 	 * Gets all the CLUs' official identifier code in the CLU set 
 	 * as a comma separated list.
 	 * 
-	 * @return Comma separated list of CLU official identifier code 
+	 * @return Comma separated list of CLUs' official identifier code 
 	 */
 	public String getCluSetAsCode() {
 		StringBuilder sb = new StringBuilder();
@@ -128,7 +128,7 @@ public class NLCluSetInfo {
 	}
 
 	private String getString(StringBuilder sb) {
-		return (sb.length() == 0 ? "No Clus available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
+		return (sb.length() == 0 ? "No CLUs available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
 	}
 
 	public String toString() {
