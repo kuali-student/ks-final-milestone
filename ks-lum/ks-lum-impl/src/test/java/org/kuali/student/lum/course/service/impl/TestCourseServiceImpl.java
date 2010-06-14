@@ -32,7 +32,7 @@ public class TestCourseServiceImpl {
     CourseService courseService;
 
     Set<String> subjectAreaSet = new TreeSet<String>(Arrays.asList(CourseDataGenerator.subjectAreas));
-
+    
     @Test
     public void testCreateCourse() {
         CourseDataGenerator generator = new CourseDataGenerator();
@@ -282,7 +282,7 @@ public class TestCourseServiceImpl {
         }
     }
 
-    //@Test
+    @Test
     public void testCourseIdStateValidation() {
         CourseDataGenerator generator = new CourseDataGenerator();
          try {
@@ -300,9 +300,34 @@ public class TestCourseServiceImpl {
         } catch (Exception e) {
             e.printStackTrace();
         } 
+    }
+    
+    @Test
+    public void testDynamicAttributeValidation() {
+        CourseDataGenerator generator = new CourseDataGenerator();
+         try {
+            CourseInfo cInfo = generator.getCourseTestData();
+            assertNotNull(cInfo);
+
+            Map<String, String> attrMap = new HashMap<String, String>();
+            attrMap.put("altFinalExamStatusDescr", "#$@!");
+            
+            cInfo.setAttributes(attrMap);
+            
+            try {
+                courseService.createCourse(cInfo);
+                fail("Should have thrown data validation exception for invalid chars");
+            } catch (Exception e) {} // Should be DataValidationException, but we're getting a SOAPFaultException instead
+            // TODO - fix services to return correct exceptions and empty lists (rather than null)
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
         
 
     }
+    
+    
     
     @Test
     public void testCluIsUpdated() {
