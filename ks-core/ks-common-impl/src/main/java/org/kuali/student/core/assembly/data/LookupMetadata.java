@@ -20,7 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class LookupMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,8 +36,12 @@ public class LookupMetadata implements Serializable {
     private String desc;
     private String title;   		//advanced search window title
 
+	@XmlElement(name="param")
+    @XmlElementWrapper
     private List<LookupParamMetadata> params;
     
+    @XmlElement(name="result")
+    @XmlElementWrapper
     private List<LookupResultMetadata> results;
     
     private LookupQosMetadata qosMetadata;

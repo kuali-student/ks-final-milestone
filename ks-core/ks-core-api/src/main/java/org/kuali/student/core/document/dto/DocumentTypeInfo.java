@@ -20,6 +20,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
@@ -33,20 +38,28 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/documentTypeInfo+Structure+v1.0-rc1">DocumentTypeInfo</>
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentTypeInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
     private String name;
 
+    @XmlElement
     private String desc;
 
+    @XmlElement
     private Date effectiveDate;
 
+    @XmlElement
     private Date expirationDate;
 
+    @XmlElement
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
+    @XmlAttribute(name="key")
     private String id;
 
     /**

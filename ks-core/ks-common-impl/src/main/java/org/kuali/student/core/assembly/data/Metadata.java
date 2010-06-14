@@ -23,9 +23,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.core.assembly.binding.JaxbMetadataPropertyMapAdapter;
 import org.kuali.student.core.assembly.data.masking.Mask;
 
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Metadata implements Serializable {
     // TODO this class, and referenced classes, need to be moved into a GWT
     // module
@@ -69,18 +82,38 @@ public class Metadata implements Serializable {
     private Mask mask;
     private Data.DataType dataType;
     
+    @XmlAnyElement
+    @XmlElementRefs({
+        @XmlElementRef(type=Data.BooleanValue.class),
+        @XmlElementRef(type=Data.StringValue.class),
+        @XmlElementRef(type=Data.IntegerValue.class),
+        @XmlElementRef(type=Data.DoubleValue.class),
+        @XmlElementRef(type=Data.FloatValue.class),
+        @XmlElementRef(type=Data.LongValue.class),
+        @XmlElementRef(type=Data.ShortValue.class),
+        @XmlElementRef(type=Data.DataValue.class),
+        @XmlElementRef(type=Data.TimestampValue.class),
+        @XmlElementRef(type=Data.TimeValue.class)
+    })
     private Data.Value defaultValue;
     
     private String defaultValuePath;
     
+    @XmlElement(name="constraint")
+    @XmlElementWrapper
     private List<ConstraintMetadata> constraints;
     
+    @XmlElement(name="lookupMetadata")
     private LookupMetadata initialLookup;
 
     private String lookupContextPath;
     
+    @XmlElement(name="lookupMetadata")
+    @XmlElementWrapper(name="additionalLookups")
     private List<LookupMetadata> additionalLookups;
 
+    @XmlElement(name="properties")
+    @XmlJavaTypeAdapter(JaxbMetadataPropertyMapAdapter.class)
     private Map<String, Metadata> childProperties;
 
     
