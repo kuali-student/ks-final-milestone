@@ -614,7 +614,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
 	@Override
 	public boolean isAuthorizationRequired() {
-		return false;
+		return true;
 	}
 
 	@Override
