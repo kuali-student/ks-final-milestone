@@ -38,6 +38,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
@@ -56,6 +57,7 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeLabel;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
@@ -135,7 +137,9 @@ public class CluSetsConfigurer {
         Section cluRangeSection = new VerticalSection();
         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
         final FieldDescriptor cluRangeFieldEditDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
-        final CluSetRangeLabel clusetRangeLabel = new CluSetRangeLabel();
+        final CluSetRangeDataHelper clusetRangeModelHelper = new CluSetRangeDataHelper();
+        final KSItemLabel clusetRangeLabel = new KSItemLabel(true, clusetRangeModelHelper);
+        clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
         final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
         cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
         
@@ -152,6 +156,8 @@ public class CluSetsConfigurer {
 //                            cluSetHelper.setCluRangeParams(value)
                             SearchRequest searchRequest = cluSetRangePicker.getSearchWindow()
                                 .getSearchRequest();
+                            String selectedLookupName = cluSetRangePicker.getSearchWindow()
+                                .getSelectedLookupName();
                             Data searchRequestData = CluSetRangeModelUtil.INSTANCE.
                                 toData(searchRequest, null);
                             DataValue dataValue = new DataValue(searchRequestData);
@@ -160,16 +166,16 @@ public class CluSetsConfigurer {
                             // look for the lookupMetaData corresponding to the searchRequest
                             List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
                             lookupMDs.add(cluSetRangePicker.getInitLookupMetadata());
-                            lookupMetadata = findLookupMetadata(searchRequest.getSearchKey(), 
+                            lookupMetadata = findLookupMetadata(selectedLookupName, 
                                     lookupMDs);
                             if (lookupMetadata == null || 
-                                    !nullSafeEquals(lookupMetadata.getSearchTypeId(), 
-                                            searchRequest.getSearchKey())) {
-                                lookupMetadata = findLookupMetadata(searchRequest.getSearchKey(), 
+                                    !nullSafeEquals(lookupMetadata.getName(), 
+                                            selectedLookupName)) {
+                                lookupMetadata = findLookupMetadata(selectedLookupName, 
                                         cluSetRangePicker.getAdditionalLookupMetadata());
                             }
                             
-                            clusetRangeLabel.setLookupMetadata(lookupMetadata);
+                            clusetRangeModelHelper.setLookupMetadata(lookupMetadata);
                             clusetRangeLabel.setValue(dataValue);
                         }
 
@@ -181,30 +187,6 @@ public class CluSetsConfigurer {
                     });
                 }
             }
-        });
-        // updates model when the value is changed
-        // this is done to allow data to be accessed to do cross field checks 
-        // in this case the checkboxes and the clusetRangeLabel
-        clusetRangeLabel.addValueChangeCallback(new Callback<Value>() {
-            @Override
-            public void exec(Value event) {
-              final LayoutController parent = LayoutController.findParentLayout(clusetRangeLabel);
-              if(parent != null){
-                  parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
-                      @Override
-                      public void onModelReady(DataModel model) {
-                          ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).
-                          setModelValue(clusetRangeLabel, model, cluRangeFieldDescriptor.getFieldKey());
-                      }
-
-                      @Override
-                      public void onRequestFail(Throwable cause) {
-                          GWT.log("Unable to retrieve model" + cluRangeFieldDescriptor.getFieldKey(), null);
-                      }
-                      
-                  });
-              }
-          }
         });
         clusetDetails.addSection(cluRangeSection, ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE);
         // END OF items related to Add Clu Range
@@ -231,11 +213,12 @@ public class CluSetsConfigurer {
                 obj1 != null && obj2 != null && obj1.equals(obj2));
     }
     
-    private static LookupMetadata findLookupMetadata(String lookupId, List<LookupMetadata> lookupMetadatas) {
+    private static LookupMetadata findLookupMetadata(String selectedLookupName, 
+            List<LookupMetadata> lookupMetadatas) {
         LookupMetadata result = null;
         if (lookupMetadatas != null) {
             for (LookupMetadata lookupMetadata : lookupMetadatas) {
-                if (nullSafeEquals(lookupMetadata.getSearchTypeId(), lookupId)) {
+                if (nullSafeEquals(lookupMetadata.getName(), selectedLookupName)) {
                     result = lookupMetadata;
                 }
             }
