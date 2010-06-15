@@ -190,7 +190,7 @@ public class RuleComponentEditorView extends ViewComposite {
         bodyPanel.add(heading);
 
         //2. show RULE TYPES
-        KSLabel reqTypeLabel = new KSLabel("Step 1: Select " + getRuleTypeName() + " rule type");
+        KSLabel reqTypeLabel = new KSLabel("Step 1: Select rule type");
         reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading");
         bodyPanel.add(reqTypeLabel);
 
@@ -310,7 +310,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private void displayReqComponentDetailsCont() {
         //show heading
         VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel();
-        KSLabel reqCompTypeName = new KSLabel("Step 2: " + selectedReqType.getDescr());
+        KSLabel reqCompTypeName = new KSLabel("Step 2: Enter rule details"); // + selectedReqType.getDescr());
         reqCompTypeName.setStyleName("KS-ReqMgr-SubHeading");
         reqCompDetailsExampleContainerPanel.add(reqCompTypeName);
 
