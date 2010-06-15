@@ -369,6 +369,11 @@ public class Validator {
         // TODO: What happens when the field is not in the dataProvider?
         Object fieldValue = (null != caseField) ? dataProvider.getValue(caseField.getName()) : value;
 
+        // If fieldValue is null then skip Case check
+        if(null == fieldValue) {
+            return null;
+        }
+        
         // Extract value for field Key
         for (WhenConstraint wc : constraint.getWhenConstraint()) {
             Object whenValue = wc.getValue();
