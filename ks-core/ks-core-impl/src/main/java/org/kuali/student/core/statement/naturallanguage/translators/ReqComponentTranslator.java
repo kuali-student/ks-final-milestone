@@ -79,7 +79,7 @@ public class ReqComponentTranslator {
      * @throws DoesNotExistException
      *             Natural language usuage type key does not exist
      * @throws OperationFailedException
-     *             Translation fails
+     *             Translation failed
      */
     public String translate(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
     	if(reqComponent == null) {
@@ -87,15 +87,15 @@ public class ReqComponentTranslator {
     	}
     	
     	ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
-
         Map<String, Object> contextMap = buildContextMap(reqComponent);
-
         ReqComponentTypeNLTemplate template = getTemplate(reqComponentType, nlUsageTypeKey);
 
         try {
 			return this.templateTranslator.translate(contextMap, template.getTemplate());
 		} catch (OperationFailedException e) {
-			throw new OperationFailedException("Generating template for requirement component failed: "+reqComponent);
+			String msg = "Generating template for requirement component failed: "+reqComponent;
+			logger.error(msg, e);
+			throw new OperationFailedException(msg);
 		}
     }
 
@@ -103,7 +103,8 @@ public class ReqComponentTranslator {
      * Builds a requirement component type context map.
      * 
      * @param reqComponent Requirement component
-     * @throws DoesNotExistException
+     * @throws DoesNotExistException Requirement component context not found in registry
+     * @throws OperationFailedException Creating context map failed
      */
     private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException, OperationFailedException {
     	String reqComponentTypeId = reqComponent.getRequiredComponentType().getId();
@@ -124,7 +125,7 @@ public class ReqComponentTranslator {
      * @param nlUsageTypeKey
      *            Natural language usuage type key (context)
      * @return Requirement component type template
-     * @throws DoesNotExistException
+     * @throws DoesNotExistException Template does not exist
      */
     private ReqComponentTypeNLTemplate getTemplate(ReqComponentType reqComponentType, String nlUsageTypeKey) throws DoesNotExistException {
         List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
