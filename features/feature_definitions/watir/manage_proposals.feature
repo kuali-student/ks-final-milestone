@@ -72,7 +72,7 @@ Feature: Scenarios: smoke, organizations, roles
 		And I follow "Submit"
 		And I wait for "2" seconds		
 		
-@org @timer
+@org1 @timer
     Scenario: Organization entry1 The College of Ocean and Fishery Sciences
 		Given I am logged in as "admin" with the password "admin"
 		And I am on the kuali homepage
@@ -85,10 +85,10 @@ Feature: Scenarios: smoke, organizations, roles
 		And I fill in field number "2" with "COFS"
 		And I fill in field number "3" with "The College of Ocean and Fishery Sciences"
 		And I fill in field number "4" with "04162010"
-		And I follow "Save"
-		And I follow ajax link "Ok"
+		# And I follow "Save"
+		# And I follow ajax link "Ok"
 		And I follow link "Add" with index "1"
-		And I fill in field number "6" with "Senate Subcommittee on Curricula"
+		#And I fill in field number "6" with "Senate Subcommittee on Curricula"
 		Then I select "is Curriculum Child of" from ajax selectbox number "2"
 		And I fill in field number "6" with "The College of Ocean and Fishery Sciences"
 		And I fill in field number "7" with "04162010"
@@ -99,10 +99,14 @@ Feature: Scenarios: smoke, organizations, roles
 		And I fill in field number "10" with "Member"
 		And I fill in field number "11" with "1"
 		And I fill in field number "12" with "1000"
-		And I follow "Save"
-		And I wait for "2" seconds
-		And I follow ajax link "Ok"
+		#And I follow "Save"
+		#And I wait for "2" seconds
+		#And I follow ajax link "Ok"
 
+@org2 @timer
+Scenario: Organization entry1 The College of Ocean and Fishery Sciences
+		Given I am logged in as "admin" with the password "admin"
+		And I am on the kuali homepage
 		And I wait for "1" second
 		And I wait for "1" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
@@ -134,6 +138,7 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Ok"
 
+
 		And I wait for "2" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		When I follow ajax link "Organization Management"
@@ -157,6 +162,7 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Ok"
 		
+
 		And I wait for "2" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		When I follow ajax link "Organization Management"
@@ -185,6 +191,7 @@ Feature: Scenarios: smoke, organizations, roles
 		And I follow "Save"
 		And I follow ajax link "Ok"
 
+
 		And I wait for "2" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		When I follow ajax link "Organization Management"
@@ -209,7 +216,8 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Ok"
 
-		And I wait for "1" second
+
+		And I wait for "2" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		When I follow ajax link "Organization Management"
 		Then I press ajax label "Organization"
@@ -239,6 +247,26 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Ok"
 
+		And I wait for "2" second
+		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
+		When I follow ajax link "Organization Management"
+		Then I press ajax label "Organization"
+		Then I select "Department" from ajax selectbox number "1"
+		And I fill in field number "1" with "Psychology Dept"
+		And I fill in field number "2" with "Psychology"
+		And I fill in field number "3" with "Psychology"
+		And I fill in field number "4" with "04162010"	
+		And I follow link "Add" with index "2"
+		And I wait for "2" seconds
+		Then I select "Member" from ajax selectbox number "2"
+		And I fill in field number "6" with "Member"
+		And I fill in field number "7" with "Member"
+		And I fill in field number "8" with "1"
+		And I fill in field number "9" with "1000"
+		And I follow "Save"
+		And I wait for "2" seconds
+		And I follow ajax link "Ok"
+	
 		And I wait for "1" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		When I follow ajax link "Organization Management"
@@ -269,7 +297,7 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Ok"
 
-		And I wait for "1" second
+		And I wait for "2" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		When I follow ajax link "Organization Management"
 		Then I press ajax label "Organization"
@@ -284,15 +312,15 @@ Feature: Scenarios: smoke, organizations, roles
 		And I fill in field number "7" with "04162010"	
 		And I follow link "Add" with index "2"
 		Then I select "Chair" from ajax selectbox number "3"
-		And I fill in field number "9" with "Chair of COC"
-		And I fill in field number "10" with "Chair of COC"
+		And I fill in field number "9" with "Chair"
+		And I fill in field number "10" with "Chair COC"
 		And I fill in field number "11" with "1"
 		And I fill in field number "12" with "5"
 		And I follow link "Add" with index "2"
 		And I wait for "2" seconds
 		Then I select "Member" from ajax selectbox number "4"
-		And I fill in field number "13" with "Member of COC"
-		And I fill in field number "14" with "Member of COC"
+		And I fill in field number "13" with "Member"
+		And I fill in field number "14" with "Member COC"
 		And I fill in field number "15" with "1"
 		And I fill in field number "16" with "9"		
 		And I follow "Save"
@@ -322,7 +350,7 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Ok"		
 
-		And I wait for "1" seconds
+		And I wait for "2" seconds
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		And I follow ajax link "Organization Management"
 		Then I press ajax label "Search/Modify"
@@ -376,6 +404,37 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Ok"
 
+		And I wait for "2" second	
+		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
+		And I follow ajax link "Organization Management"
+		Then I press ajax label "Search/Modify"
+		And I fill in field number "1" with "The College of Life and Chemical Sciences Curriculum Committee"
+		And I wait for "2" seconds
+		And I click item in divclass "suggestPopupMiddleCenterInner suggestPopupContent" table number "1" with "The College of Life and Chemical Sciences Curriculum Committee"
+		And I wait for "3" seconds
+		And I follow "Modify"
+		And I wait for "2" seconds
+		And I need to find number of input fields
+		And I need to find number of selectboxes			
+		And I follow link "Add" with index "2"
+		And I select "Chair" from next ajax selectbox
+		And I fill in next field with "Chair of COC"
+		And I fill in next field with "Chair of COC"
+		And I fill in next field with "1"			
+		And I fill in next field with "5"
+		And I follow "Save"
+		And I follow ajax link "Ok"
+		And I follow link "Add" with index "2"
+		And I wait for "2" seconds
+		And I select "Member" from next ajax selectbox
+		And I fill in next field with "Member of COC"
+		And I fill in next field with "Member of COC"
+		And I fill in next field with "1"			
+		And I fill in next field with "1000"
+		And I follow "Save"
+		And I wait for "2" seconds
+		And I follow ajax link "Ok"
+
 		And I wait for "2" second
 		And I click the label "Home" with class "gwt-Label KS-Label KS-CutomDropDown-TitleLabel"
 		And I follow ajax link "Organization Management"
@@ -417,5 +476,5 @@ Feature: Scenarios: smoke, organizations, roles
 		And I wait for "2" seconds
 		And I follow ajax link "Organization Management"
 		And I wait for "3" seconds
-		And I map csv users from "2" to "163" rows to organizations
+		And I map csv users from "2" to "162" rows to organizations
 

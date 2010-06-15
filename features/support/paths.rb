@@ -12,11 +12,14 @@ module NavigationHelpers
       '/'
       
     when /the kuali\s?homepage/
-      'http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded'
+      'http://appserv-1.ks.kuali.net/ks-standalone'
+      #'http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded'
     when /the logout\s?path/
-      'http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded/j_spring_security_logout'
+      'http://appserv-1.ks.kuali.net/ks-standalone/j_spring_security_logout'
+      #'http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded/j_spring_security_logout'
     when /the proposal\s?detail/
-      'http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?docId=3021&command=displayActionListView#t0=org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager&t0p0k=view&t0p0v=EDIT_COURSE_PROPOSAL&t1=org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController&t1p0k=view&t1p0v=AUTHORS_RATIONALE'
+      'http://appserv-1.ks.kuali.net/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?docId=3021&command=displayActionListView#t0=org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager&t0p0k=view&t0p0v=EDIT_COURSE_PROPOSAL&t1=org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController&t1p0k=view&t1p0v=AUTHORS_RATIONALE'
+      #'http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?docId=3021&command=displayActionListView#t0=org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager&t0p0k=view&t0p0v=EDIT_COURSE_PROPOSAL&t1=org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController&t1p0k=view&t1p0v=AUTHORS_RATIONALE'
      # Add more mappings here.
     # Here is a more fancy example:
     #
@@ -30,7 +33,7 @@ module NavigationHelpers
   end
   
   def soap_path_to(service_name)
-    "http://ec2-184-73-63-224.compute-1.amazonaws.com:9080/ks-embedded/services/#{service_name}?wsdl"
+    "http://appserv-1.ks.kuali.net/ks-standalone/services/#{service_name}?wsdl"
   end
 end
 
