@@ -216,6 +216,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setCluIds(cluSetInfo.getCluIds());
                 cluSetInfo.setCluIds(null);
                 try {
+                	wrapperCluSet.setType("kuali.cluSet.type.creditCourse"); 
                     wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
