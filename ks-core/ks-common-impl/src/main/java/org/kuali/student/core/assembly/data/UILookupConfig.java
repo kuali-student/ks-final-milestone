@@ -10,25 +10,25 @@ public class UILookupConfig{
 
 	private static final long serialVersionUID = 1L;
 
-	protected LookupMetadata initialLookup;
-	protected List<LookupMetadata> additionalLookups;
+	protected UILookupData initialLookup;
+	protected List<UILookupData> additionalLookups;
 	private String name;
 	private String path;
 	private String dataType;
 
-	public LookupMetadata getInitialLookup() {
+	public UILookupData getInitialLookup() {
 		return initialLookup;
 	}
 
-	public void setInitialLookup(LookupMetadata initialLookup) {
+	public void setInitialLookup(UILookupData initialLookup) {
 		this.initialLookup = initialLookup;
 	}
 
-	public List<LookupMetadata> getAdditionalLookups() {
+	public List<UILookupData> getAdditionalLookups() {
 		return additionalLookups;
 	}
 
-	public void setAdditionalLookups(List<LookupMetadata> additionalLookups) {
+	public void setAdditionalLookups(List<UILookupData> additionalLookups) {
 		this.additionalLookups = additionalLookups;
 	}
 

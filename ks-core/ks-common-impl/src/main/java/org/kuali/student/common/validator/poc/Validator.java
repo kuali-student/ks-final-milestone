@@ -20,6 +20,7 @@ import java.util.Stack;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.dictionary.poc.dto.CaseConstraint;
+import org.kuali.student.core.dictionary.poc.dto.CommonLookupParam;
 import org.kuali.student.core.dictionary.poc.dto.Constraint;
 import org.kuali.student.core.dictionary.poc.dto.DataType;
 import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
@@ -464,10 +465,10 @@ public class Validator {
 
         // Create search params based on the param mapping
         List<SearchParam> params = new ArrayList<SearchParam>();
-        for (LookupConstraintParamMapping paramMapping : lookupConstraint.getLookupParams()) {
+        for (CommonLookupParam paramMapping : lookupConstraint.getParams()) {
             SearchParam param = new SearchParam();
 
-            param.setKey(paramMapping.getParamKey());
+            param.setKey(paramMapping.getKey());
 
             // If the value of the search param comes form another field then get it
             if (paramMapping.getFieldPath() != null && !paramMapping.getFieldPath().isEmpty()) {

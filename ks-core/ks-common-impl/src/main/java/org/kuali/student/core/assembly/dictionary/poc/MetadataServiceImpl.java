@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.assembly.dictionary.poc;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,18 +27,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.UILookupConfig;
+import org.kuali.student.core.assembly.data.UILookupData;
 import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.poc.dto.CommonLookupParam;
 import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.poc.dto.CommonLookupParam.Widget;
 import org.kuali.student.core.dictionary.service.poc.DictionaryService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -397,7 +405,6 @@ public class MetadataServiceImpl {
     	for(UILookupConfig lookup: lookups){
     		Map<String,Metadata> parsedMetadataMap = metadata.getProperties();
     		Metadata parsedMetadata = null;
-//    		Metadata parsedMetadata = metadata;
     		String lookupFieldPath = lookup.getPath();
     		String[] lookupPathTokens = getPathTokens(lookupFieldPath);
             for(int i = 1; i < lookupPathTokens.length; i++) {
@@ -405,6 +412,7 @@ public class MetadataServiceImpl {
                     break;
                 }
                 if(i==lookupPathTokens.length-1){
+                	//get the metadata on the last path key token
                 	parsedMetadata=parsedMetadataMap.get(lookupPathTokens[i]);
                 }
                 if(parsedMetadataMap.get(lookupPathTokens[i])!=null){
@@ -418,13 +426,67 @@ public class MetadataServiceImpl {
 
             }
             if (parsedMetadata != null) {
-            	parsedMetadata.setInitialLookup(lookup.getInitialLookup());
-            	parsedMetadata.setAdditionalLookups(lookup.getAdditionalLookups());
+            	UILookupData initialLookup =lookup.getInitialLookup();
+            	mapLookupDatatoMeta(initialLookup);
+            	parsedMetadata.setInitialLookup(mapLookupDatatoMeta(lookup.getInitialLookup()));
+            	List<LookupMetadata> additionalLookupMetadata = null;
+            	if (lookup.getAdditionalLookups() != null) {
+					for (UILookupData additionallookup : lookup.getAdditionalLookups()) {
+						additionalLookupMetadata = new ArrayList<LookupMetadata>();
+						additionalLookupMetadata
+								.add(mapLookupDatatoMeta(additionallookup));
+					}
+					parsedMetadata
+							.setAdditionalLookups(additionalLookupMetadata);
+				}
             }
     	}
 
           
           
+    }
+    
+    private LookupMetadata mapLookupDatatoMeta(UILookupData lookupData){
+    	LookupMetadata lookupMetadata = new LookupMetadata();
+    	List<LookupParamMetadata> paramsMetadata;
+		BeanUtils.copyProperties(lookupData,lookupMetadata, new String[]{"widget","usage","widgetOptions","params"});
+		if(lookupData.getWidget()!=null){
+			lookupMetadata.setWidget(org.kuali.student.core.assembly.data.LookupMetadata.Widget.valueOf(lookupData.getWidget().toString()));
+		}
+		if(lookupData.getUsage()!=null){
+			lookupMetadata.setUsage(org.kuali.student.core.assembly.data.LookupMetadata.Usage.valueOf(lookupData.getUsage().toString()));
+		}
+		if(lookupData.getParams()!=null){
+			paramsMetadata = new ArrayList<LookupParamMetadata>();
+			for(CommonLookupParam param: lookupData.getParams()){
+				paramsMetadata.add(mapLookupParamMetadata(param));
+			}
+			lookupMetadata.setParams(paramsMetadata);
+		}
+		//WidgetOptions is not used as of now. So not setting it into metadata.
+    	return lookupMetadata;
+    }
+    
+    private LookupParamMetadata mapLookupParamMetadata(CommonLookupParam param){
+    	LookupParamMetadata paramMetadata = new LookupParamMetadata();
+		BeanUtils.copyProperties(param,paramMetadata,new String[]{"childLookup","dataType","writeAccess","usage","widget"});
+		if(param.getChildLookup()!=null){
+			paramMetadata.setChildLookup(mapLookupDatatoMeta((UILookupData) param.getChildLookup()));
+		}
+		if(param.getDataType()!=null){
+			paramMetadata.setDataType(org.kuali.student.core.assembly.data.Data.DataType.valueOf(param.getDataType().toString()));
+		}
+		if(param.getWriteAccess()!=null){
+			paramMetadata.setWriteAccess(org.kuali.student.core.assembly.data.Metadata.WriteAccess.valueOf(param.getWriteAccess().toString()));
+		}
+		if(param.getUsage()!=null){
+			paramMetadata.setUsage(org.kuali.student.core.assembly.data.LookupMetadata.Usage.valueOf(param.getUsage().toString()));
+		}
+		if(param.getWidget()!=null){
+			paramMetadata.setWidget(org.kuali.student.core.assembly.data.LookupParamMetadata.Widget.valueOf(param.getWidget().toString()));
+		}
+		
+    	return paramMetadata;
     }
     
     private static String[] getPathTokens(String fieldPath) {
