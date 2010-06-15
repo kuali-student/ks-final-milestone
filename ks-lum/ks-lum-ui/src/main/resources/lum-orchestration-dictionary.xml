@@ -748,6 +748,7 @@
 				<ref bean="CreditCourseProposal.state" />
 				<ref bean="CreditCourseProposal.type" />
 				<ref bean="CreditCourseProposal.search" />
+				<ref bean="CreditCourseProposal.cluset" />
 			</list>
 		</property>
 	</bean>
@@ -817,6 +818,18 @@
 				<ref bean="constraint.course.proposal.types" />
 				<ref bean="constraint.required" />
 				<ref bean="constraint.proposal.types" />
+			</list>
+		</property>
+	</bean>
+	<bean id="CreditCourseProposal.cluset" parent="dataFieldDescriptor">
+		<property name="name" value="cluset" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="cluset" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
 			</list>
 		</property>
 	</bean>
