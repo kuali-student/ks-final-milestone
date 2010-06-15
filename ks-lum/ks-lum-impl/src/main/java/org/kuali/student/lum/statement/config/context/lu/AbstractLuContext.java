@@ -100,12 +100,12 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      */
     public NLCluSet getCluSet(String cluSetId) throws OperationFailedException {
     	CluSetInfo cluSet = getCluSetInfo(cluSetId);
-        List<CluInfo> list = new ArrayList<CluInfo>(cluSet.getCluIds().size());
-		for(String cluId : cluSet.getCluIds()) {
-        	CluInfo clu = getCluInfo(cluId);
-        	list.add(clu);
-        }
-    	return new NLCluSet(cluSet.getId(), list);
+		try {
+	    	List<CluInfo> list = this.luService.getClusFromCluSet(cluSetId);
+	    	return new NLCluSet(cluSet.getId(), list);
+		} catch(Exception e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
     }
 
     /**
