@@ -39,6 +39,47 @@
     margin-bottom: .5em;
 }
 
+h1.ks-layout-header{
+	font-size: 3em;
+	color: #940b07;
+	margin-bottom: 0em;
+}
+
+h2.ks-layout-header{
+	font-size: 2em;
+	color: #940b07;
+	margin-bottom: 0.75em;
+}
+
+h3.ks-layout-header{
+	font-size: 1.5em;
+    color: #000;
+    font-weight: normal;
+    padding-bottom: 4px;
+    margin-bottom: 0em;
+}
+
+h4.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+h5.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+h6.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+h7.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+.header-underline{
+	border-bottom: solid 2px #ccc;
+}
+	
+
 .ks-section-widget{
 	padding-bottom: 3px;
 }
@@ -330,14 +371,14 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 @if user.agent ie6 ie7 ie8 ie{  
 	.ks-form-module-group, .ks-form-module-solo{
 		height: 1%;
-		margin-bottom: 1em;
+		margin-bottom: 0.1em;
 		padding-left: 5px; 
 		padding-bottom: 5px;
 	}
 }
 
 .ks-form-module-group, .ks-form-module-solo {
-	margin-bottom: 1em;
+	margin-bottom: 0.1em;
 	padding-left: 5px; 
 	padding-bottom: 5px;
 }
@@ -450,17 +491,22 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-validation {
-	/*float: left;*/
+	float: left;
 	font-size: 1em;
 	font-weight: bold;
 	color: red;
-	margin-top: 1.2em;
+	/*margin-top: 1.2em;*/
 	margin-right: 10px;
 	margin-left: 0px;
 	/*width: 40%;*/
 }
 
-.ks-form-module-validation ul { margin: 0; padding: 0; }
+.ks-form-module-validation ul { 
+	background: transparent url('images/common/exclamation-red.png') no-repeat scroll left;;
+	margin: 0; 
+	padding-left: 20px; 
+}
+
 .ks-form-module-validation li {
 	margin-left: 0;
 	padding: 3px 0;
@@ -473,11 +519,17 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	font-weight: bold;
 	color: red;
 	margin-left: 0px;
+	float: left;
 	/*margin-top: 1.2em;*/
 	margin-right: 10px;
 }
 
-.ks-form-module-validation-inline ul { margin: 0; padding: 0;}
+.ks-form-module-validation-inline ul { 
+	background: transparent url('images/common/exclamation-red.png') no-repeat scroll left;
+	margin: 0; 
+	padding-left: 20px; 
+}
+
 .ks-form-module-validation-inline li {
 	margin-left: 0;
 	padding: 3px 0;
@@ -499,6 +551,7 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 .ks-form-module label, .ks-form-module h6, .ks-form-module .KS-Common-Title { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
 .ks-form-module label span a { font-weight: normal; margin-left: .3em; }
+.ks-form-module-elements label { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
 
 .ks-form-module-triple-line-margin{margin-top: 3.6em;}
 .ks-form-module-double-line-margin{margin-top: 2.4em;}
@@ -552,7 +605,7 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 
 a.ks-form-button-large, span.ks-form-button-large {
 	text-decoration:none;
-	background: #f3f3f3; /*url('../images/icons/plus_13px.png') no-repeat 6px center;*/
+	background: #f3f3f3 url('images/common/plus_13px.png') no-repeat 6px center;
 	padding: 5px 8px 3px 22px;
 	border: solid 1px #d5d5d5;
 	line-height: 23px;
@@ -562,7 +615,7 @@ a.ks-form-button-small, span.ks-form-button-small {
 	text-decoration:none;
 	font-size: .85em;
 	text-decoration:none;
-	background: #f3f3f3; /*url('../images/icons/plus_13px.png') no-repeat 6px center;*/
+	background: #f3f3f3 url('images/common/plus_13px.png') no-repeat 6px center;
 	padding: 5px 8px 3px 22px;
 	border: solid 1px #d5d5d5;
 	line-height: 21px;
@@ -582,6 +635,10 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 .error .ks-form-bordered-header { background-color: #f5d6df; }
 
 .invalid label, .invalid h6, .invalid legend, .invalid .KS-Common-Title { color: red; }
+
+label.invalid{color: red;}
+h6.invalid{color: red;}
+legend.invalid{color: red;}
 
 .ks-form-validation-label{ color: red; };
 
@@ -794,6 +851,21 @@ a.ks-button-secondary-small:hover {
 	background-color: #FFE87C;
 	padding: 3px 3px 3px 3px;
 	border: 1px solid black;
+	width: 250px;
 }
 
+.ks-table-title-column-width{
+	width: 15%;
+}
 
+.ks-table-field-column-width{
+	width: 35%;
+}
+
+.top-padding{
+	padding-top: 10px;
+}
+
+.ks-button-right-margin{
+	margin-right: 1em;
+}

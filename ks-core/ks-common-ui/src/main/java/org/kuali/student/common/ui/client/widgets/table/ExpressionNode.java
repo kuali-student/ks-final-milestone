@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.table;
 
-public  class ExpressionNode {
+public  class ExpressionNode implements Cloneable{
     Token token;
     String expression;
     

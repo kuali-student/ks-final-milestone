@@ -18,15 +18,11 @@ package org.kuali.student.core.organization.ui.client.service;
 import java.util.List;
 import java.util.Map;
 
-
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
-import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -39,8 +35,6 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -81,9 +75,7 @@ public interface OrgRpcService extends RemoteService, BaseDataOrchestrationRpcSe
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId);
     public StatusInfo removeOrgOrgRelation(String orgOrgRelationId);
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey);
-//    public DataModel getOrgProposalModelDefinition(String modelId);
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-    public Metadata getOrgMetaData() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
     public SectionConfigInfo getSectionConfig() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
     public Data fetchOrg(String orgId);
     public List<OrgPositionPersonRelationInfo> getOrgPositionPersonRelation(String orgId);

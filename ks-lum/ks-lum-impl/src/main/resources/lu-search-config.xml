@@ -55,6 +55,8 @@
 			<ref bean="lu.queryParam.luOptionalState"/>
 			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
 			<ref bean="lu.queryParam.luOptionalCrsNoRange"/>
+			<ref bean="lu.queryParam.luOptionalEffectiveDate1"/>
+			<ref bean="lu.queryParam.luOptionalEffectiveDate2"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -85,7 +87,7 @@
 	<search:queryParam id="lu.queryParam.luOptionalLevel" parent="lu.queryParam.luOptionalLevel-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLevel-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.level.fd"/>
-	</search:queryParam>	
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalDescr" parent="lu.queryParam.luOptionalDescr-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalDescr-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.descr.fd"/>
@@ -105,6 +107,22 @@
 	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange" parent="lu.queryParam.luOptionalCrsNoRange-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange-parent"  optional="true" abstract="true">
 	    <ref bean="field.cluInfo.officialIdentifier.level.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate1" parent="lu.queryParam.luOptionalEffectiveDate1-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate1-parent"  optional="true" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Effective Date</dict:name>
+            <dict:desc>Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+            <dict:dataType>date</dict:dataType>
+	    </dict:fieldDescriptor>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate2" parent="lu.queryParam.luOptionalEffectiveDate2-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate2-parent"  optional="true" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Effective Date</dict:name>
+            <dict:desc>Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+            <dict:dataType>date</dict:dataType>
+	    </dict:fieldDescriptor>
 	</search:queryParam>
 
 	<search:searchResultTypeInfo id="lu.result.generic" parent="lu.result.generic-parent"/>
@@ -388,6 +406,7 @@
 			<ref bean="cluset.queryParam.optionalDescription"/>
 			<ref bean="lu.queryParam.luOptionalLongName"/>
 			<ref bean="cluset.queryParam.optionalSubCluSetName"/>
+			<ref bean="cluset.queryParam.optionalReusable"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -429,6 +448,15 @@
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
 	</search:queryParam>			
+	<search:queryParam id="cluset.queryParam.optionalReusable" parent="cluset.queryParam.optionalReusable-parent"/>
+	<search:queryParam id="cluset.queryParam.optionalReusable-parent" optional="true" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Reusable Clu Set</dict:name>
+			<dict:desc>Whether a Clu Set can be reused.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>
 
     <search:searchType id="lu.search.all.lu.Types" parent="lu.search.all.lu.Types-parent"/>
 	<search:searchType id="lu.search.all.lu.Types-parent"  abstract="true">
@@ -525,7 +553,7 @@
         	<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDescr" subSearchParam="lu.queryParam.luOptionalDescr"/>
-	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalFreeFormState" subSearchParam="lu.queryParam.luOptionalFreeFormState"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
         </search:subSearch>	        
 		<search:joinCriteria type="AND">
 			<search:comparison type="EQUALS">
@@ -563,6 +591,7 @@
             <ref bean="lu.queryParam.luOptionalCode" />
             <ref bean="lu.queryParam.luOptionalDescr" />
             <ref bean="lu.queryParam.luOptionalOrgLongName" />
+            <ref bean="lu.queryParam.luOptionalState" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -601,7 +630,7 @@
 		            LEFT JOIN cluset.clus clu
 		            LEFT JOIN cluset.cluSets subcluset
 		            </value>
-		        </entry>    
+		        </entry>
 				<entry key="lu.queryParam.luOptionalId">
 					<value>clu.id = :lu_queryParam_luOptionalId</value>
 				</entry>
@@ -617,7 +646,7 @@
 				<entry key="lu.queryParam.luOptionalDivision">
 					<value>clu.officialIdentifier.division</value>
 				</entry>
-		        <entry key="lu.queryParam.luOptionalPrimaryAdminOrgId">
+				<entry key="lu.queryParam.luOptionalPrimaryAdminOrgId">
 					<value>clu.primaryAdminOrg.orgId</value>
 				</entry>				
 				<entry key="lu.queryParam.luOptionalLevel">
@@ -658,6 +687,15 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalCrsNoRange">
 				    <value>!!NUMBER_RANGE clu.officialIdentifier.level</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalEffectiveDate1">
+				    <value>clu.effectiveDate &gt;= :lu_queryParam_luOptionalEffectiveDate1</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalEffectiveDate2">
+				    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalEffectiveDate2</value>
+				</entry>
+				<entry key="cluset.queryParam.optionalReusable">
+				    <value>!!</value>
 				</entry>
             </map>
 		</property>

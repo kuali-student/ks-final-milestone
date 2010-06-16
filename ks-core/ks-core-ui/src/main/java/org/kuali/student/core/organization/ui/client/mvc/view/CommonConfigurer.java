@@ -30,9 +30,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
@@ -40,6 +41,7 @@ import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfo
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -47,13 +49,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CommonConfigurer {
 
-    private String sectionName;
-    private String modelName;
+
     private DataModelDefinition modelDefinition;
     private SectionConfigInfo sectionConfigInfo;
-    private static final String groupName = "org";
+    private static String groupName = "org";
     private boolean WITH_DIVIDER = true;
-    private boolean NO_DIVIDER = false;
     public static final String ORG_PROPOSAL_MODEL = "orgProposalModel";
     public static final String ORG_SEARCH = "searchOrgs";
     public PositionTable positionTable;
@@ -107,12 +107,12 @@ public class CommonConfigurer {
      */
     private SectionView generateSection(SectionViewInfo sectionViewInfo){
         try {
-        String tempTestEnum = sectionViewInfo.getSectionEnum();
         VerticalSectionView section = initSectionView(SectionsEnum.valueOf(sectionViewInfo.getSectionEnum()), sectionViewInfo.getSectionName());
 //        VerticalSectionView section = initSectionView(SectionsEnum.ORG_INFO, sectionViewInfo.getSectionName());
-        VerticalSection orgInfo = initSection(getH3Title(sectionViewInfo.getSectionName()), WITH_DIVIDER);
-        orgInfo.setSectionTitle(getH3Title(""));
-
+//        VerticalSection orgInfo = initSection(getH3Title(sectionViewInfo.getSectionName()), WITH_DIVIDER);   
+        VerticalSection orgInfo = new VerticalSection();
+        //orgInfo.setSectionTitle(getH3Title(""));
+        groupName="org";
         List<FieldInfo> fieldList = sectionViewInfo.getfields();
         if (fieldList != null) {
                 for (FieldInfo field : fieldList) {
@@ -121,7 +121,7 @@ public class CommonConfigurer {
                         List<FieldInfo> fieldMultiList = ((MultipleFieldInfoImpl) field).getFields();
 
                         // Add multiplicity widget
-                        addField(orgInfo, field.getKey(), getLabel(field.getLabel()), new CommonMultiplicityList("Add", " ", fieldMultiList, field.getKey()));
+                        addField(orgInfo, field.getKey(), generateMessageInfo(field.getLabel()), new CommonMultiplicityList("Add", " ", fieldMultiList, field.getKey()));
 
                     } else {
                         // Initialize the Widget picker with specific widgets like pickers, drop-downs, etc
@@ -137,7 +137,7 @@ public class CommonConfigurer {
                             }
 
                         }
-                        addField(orgInfo, field.getKey(), getLabel(field.getLabel()), widget);
+                        addField(orgInfo, field.getKey(), generateMessageInfo(field.getLabel()), widget);
                     }
                 }
             }
@@ -151,15 +151,19 @@ public class CommonConfigurer {
         return section;
         }
         catch(Exception e){
-            e.printStackTrace();
+            GWT.log("Error in config", e);
         }
         return null;
     }
-
+    
+    protected static MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo(groupName, "org", "draft", labelKey);
+    }
+    
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
         VerticalSection section = new VerticalSection();
         if (title !=  null) {
-          section.setSectionTitle(title);
+          section.getLayout().setLayoutTitle(title);
         }
         section.addStyleName("KS-CORE-Section");
         if (withDivider)
@@ -170,7 +174,7 @@ public class CommonConfigurer {
     private static VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, labelKey, ORG_PROPOSAL_MODEL);
         section.addStyleName("KS-CORE-Section");
-        section.setSectionTitle(getH1Title(labelKey));
+        section.getLayout().setLayoutTitle(getH1Title(labelKey));
         return section;
     }
     private static SectionTitle getH1Title(String labelKey) {
@@ -182,23 +186,32 @@ public class CommonConfigurer {
     public static String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, "org", "draft", labelKey);
     }
-
-
-    private void addField(Section section, String fieldKey, String fieldLabel) {
-        addField(section, fieldKey, fieldLabel, null);
+    
+    
+    // TODO - when DOL is pushed farther down into LOBuilder,
+    // revert these 5 methods to returning void again.
+    protected FieldDescriptor addField(Section section, String fieldKey) {
+    	return addField(section, fieldKey, null, null, null);
+    }    
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+    	return addField(section, fieldKey, messageKey, null, null);
     }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
-        addField(section, fieldKey, fieldLabel, widget, null);
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+    	return addField(section, fieldKey, messageKey, widget, null);
     }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+        return addField(section, fieldKey, messageKey, null, parentPath);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata meta = modelDefinition.getMetadata(path);
+    	Metadata meta = modelDefinition.getMetadata(path);
 
-        FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
-        if (widget != null) {
-            fd.setFieldWidget(widget);
-        }
-        section.addField(fd);
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+    	if (widget != null) {
+    		fd.setFieldWidget(widget);
+    	}
+    	section.addField(fd);
+    	return fd;
     }
 
     /**
@@ -263,12 +276,12 @@ public class CommonConfigurer {
         public Widget generateAddWidget() {
             //Label addWidget =  new Label(addItemLabel);
             //addWidget.addStyleName("KS-Multiplicity-Link-Label");
-            KSLinkButton addWidget;
+            KSButton addWidget;
             if(style == StyleType.TOP_LEVEL){
-                addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_LARGE);
+                addWidget = new KSButton(addItemLabel, ButtonStyle.FORM_LARGE);
             }
             else{
-                addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_SMALL);
+                addWidget = new KSButton(addItemLabel, ButtonStyle.FORM_SMALL);
             }
             addWidget.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
@@ -379,7 +392,7 @@ public class CommonConfigurer {
 
 
                 }
-                addField(ns, field.getKey(), getLabel(field.getLabel()),widget,path);
+                addField(ns, field.getKey(), generateMessageInfo(field.getLabel()),widget,path);    
             }
             return ns;
         }

@@ -174,7 +174,7 @@
     </bean>
 	
 	<bean id="statementDao"
-		class="org.kuali.student.brms.statement.dao.impl.StatementDaoImpl">
+		class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
         <property name="em" ref="statementEntityManager" />		
 	</bean>
 
@@ -184,12 +184,12 @@
 	</bean>
 
     <bean id="statementAssembler"
-        class="org.kuali.student.brms.statement.service.impl.StatementAssembler">
+        class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="statementDao"/>
     </bean>
     
 	<bean id="statementServiceImpl"
-		class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
+		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
@@ -202,7 +202,7 @@
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="statementServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.brms.statement.service.StatementService" />
+                <property name="serviceInterface" value="org.kuali.student.core.statement.service.StatementService" />
                 <property name="localServiceName" value="StatementService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/statement" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />
@@ -346,6 +346,69 @@
             </bean>
         </property>
     </bean>
+
+	<!-- CourseService config -->
+	<bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
+		<property name="luService" ref="luClient"/>
+		<property name="courseAssembler" ref="courseAssembler"/>
+		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
+		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validator" ref="pocServiceValidator"/>
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">     
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="courseServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.lum.course.service.CourseService" />
+                <property name="localServiceName" value="CourseService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/course" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+	
+	<bean id="atpClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
+	</bean>
+	
+	<bean id="statementServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService" />
+	</bean>
+		
+	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+		<property name="formatAssembler" ref="formatAssembler"/>
+		<property name="courseJointAssembler" ref="courseJointAssembler"/>
+		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+		<property name="activityAssembler" ref="activityAssembler"/>
+		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
+		<property name="luService" ref="luClient"/>
+	</bean>
+
+	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
+		<property name="luService" ref="luClient"/>
+	</bean>
+	
+	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.poc.DictionaryServiceImpl">
+		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />	
+	</bean>
+	
+	<bean id="pocServiceValidator" class="org.kuali.student.common.validator.poc.Validator">
+		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
+	</bean>
 
 	<!--  Preloaded data -->
 	<bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">

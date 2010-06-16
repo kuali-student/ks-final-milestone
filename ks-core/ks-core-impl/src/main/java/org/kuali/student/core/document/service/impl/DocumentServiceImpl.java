@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +40,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,7 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor={Throwable.class})
 public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
-    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private DictionaryService dictionaryServiceDelegate;
     private SearchManager searchManager;
     private Validator validator;
     
@@ -163,16 +161,13 @@ public class DocumentServiceImpl implements DocumentService {
     
 
     @Override
-    public List<ValidationResultContainer> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(documentInfo, "documentInfo");
 
 		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(documentInfo, getObjectStructure("documentInfo")); 
-		ValidationResultContainer valContainer = new ValidationResultContainer();
-		valContainer.setValidationResults(valResults);
-		
-		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
-		return valContList;        
+
+		return valResults;        
     }
 
    
@@ -197,7 +192,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     private void checkForEmptyList(Object param, String paramName)
             throws MissingParameterException {
-        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+        if (param != null && param instanceof List<?> && ((List<?>)param).size() == 0) {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }

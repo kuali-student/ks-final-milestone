@@ -21,9 +21,8 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -89,6 +88,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	
 	//Models
 	private final DataModel cluProposalModel = new DataModel(); 
+	
+	//Configuration
+    AbstractCourseConfigurer cfg = GWT.create(CourseConfigurer.class);
 
     private WorkQueue modelRequestQueue;
 
@@ -118,8 +120,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     private void initialize() {
-        super.setDefaultModelId(CourseConfigurer.CLU_PROPOSAL_MODEL);
-        super.registerModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
+        super.setDefaultModelId(cfg.getModelId());
+        super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -250,14 +252,13 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     
     private void init(DataModelDefinition modelDefinition){
         
-        Configurer cfg = GWT.create(CourseConfigurer.class);
         cfg.setModelDefinition(modelDefinition);
         cfg.configure(this);
         
-        //FIXME: This needs to be moved to the configurer
+        //FIXME: [KSCOR-225] This needs to be moved to the configurer
         workflowToolbar = new WorkflowToolbar(createOnWorkflowSubmitSuccessHandler());
-        workflowToolbar.setIdPath("proposal/id");
-        workflowToolbar.setRequiredFieldPaths(new String[]{"course/department"});
+        workflowToolbar.setIdPath(cfg.getProposalIdPath());
+        workflowToolbar.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
         workflowToolbar.setWorkflowRpcService((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class));
         this.addToolbar(workflowToolbar);
 
@@ -300,7 +301,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
      */
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
-        return CourseConfigurer.CourseSections.class;
+        return cfg.getViewsEnum();
     }   
     
     @Override
@@ -310,41 +311,29 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
 
-        		//FIXME: test code
-        		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
-            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
+        		if(cluProposalModel.get(cfg.getProposalIdPath()) != null){
+            		ref.setReferenceId((String)cluProposalModel.get(cfg.getProposalIdPath()));
         		} else {
         			ref.setReferenceId(null);
         		}
         		
-        		ref.setReferenceTypeKey(CourseConfigurer.PROPOSAL_REFERENCE_TYPE_KEY);
-        		ref.setReferenceType(CourseConfigurer.PROPOSAL_REFERENCE_OBJECT_TYPE);
+        		ref.setReferenceTypeKey(cfg.getProposalReferenceTypeKey());
+        		ref.setReferenceType(cfg.getProposalReferenceObjectType());
         		ref.setReferenceState(getViewContext().getState());
         		
         		callback.onModelReady(ref);
         	}
         } else if(modelType == CollaboratorTool.CollaboratorModel.class){
-        	//Update the collabmodel with info from the CluProposal Model
-        	//Create a new one if it does not yet exist
-/*        	if(null==collaboratorModel){
-        		collaboratorModel = new Collaborators.CollaboratorModel();
-        	}
-        	String proposalId="";
-        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
-        	}
-        	collaboratorModel.setProposalId(proposalId);    
-        	callback.onModelReady(collaboratorModel);*/
         	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
         	String proposalId=null;
-        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        	if(cluProposalModel!=null && cluProposalModel.get(cfg.getProposalIdPath())!=null){
+        		proposalId=cluProposalModel.get(cfg.getProposalIdPath());
         	}
         	collaboratorModel.setDataId(proposalId);
         	callback.onModelReady(collaboratorModel);
         	
         }else if (modelType == LuData.class){
-        	requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
+        	requestModel(cfg.getModelId(), callback);
         } else {
             super.requestModel(modelType, callback);
         }
@@ -479,14 +468,14 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     public boolean startSectionRequired(){
-        String proposalId = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        String proposalId = cluProposalModel.get(cfg.getProposalIdPath());
         
         //Defaulting the courseTitle to proposalTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
-        String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
+        String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
         if (courseTitle == null){
-            String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
-        	cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
+            String proposalTitle = cluProposalModel.get(cfg.getProposalTitlePath());
+        	cluProposalModel.set(QueryPath.parse(cfg.getCourseTitlePath()), proposalTitle);
         }
         	
     	return proposalId==null && !CourseProposalController.this.isStartSectionShowing();    	
@@ -535,11 +524,11 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 }
 
                 public void onSuccess(DataSaveResult result) {
-                	// FIXME needs to check validation results and display messages if validation failed
+                	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
     				cluProposalModel.setRoot(result.getValue());
     	            View currentView = getCurrentView(); 
-    				if (currentView instanceof VerticalSectionView){
-    	            	((VerticalSectionView) currentView).redraw();
+    				if (currentView instanceof SectionView){
+    					((SectionView)currentView).updateView(cluProposalModel);
     	            }
     				if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");
@@ -626,37 +615,15 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
 	@Override
 	public boolean isAuthorizationRequired() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public void setAuthorizationRequired(boolean required) {
 		throw new UnsupportedOperationException();
 	}
-
-    protected  String getSectionTitle() {
-        
-        StringBuffer sb = new StringBuffer();
-        sb.append("Modify Course: ");
-        sb.append(cluProposalModel.get("course/courseCode"));
-        sb.append(" - ");
-        sb.append(cluProposalModel.get("course/transcriptTitle"));
-
-        return sb.toString();
-    } 
-    
-    protected void setProposalHeaderTitle(){
-    	StringBuffer sb = new StringBuffer();
-    	if (cluProposalModel.get("course/copyOfCourseId") != null){
-    		sb.append("Modify Course: ");
-    		sb.append(cluProposalModel.get("course/courseCode"));
-    		sb.append(" - ");
-    		sb.append(cluProposalModel.get("course/transcriptTitle"));
-    	} else {
-    		sb.append("New Course: ");
-    		sb.append(cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
-    	}
-    	
-    	getContainer().setTitle(sb.toString());
+   
+    protected void setProposalHeaderTitle(){    	
+    	getContainer().setTitle(cfg.getProposalHeaderTitle(cluProposalModel));
     }
 }

@@ -115,21 +115,6 @@ public class FindPanel extends ViewComposite{
     }
 
     private void addProposalSearchWindow(){
-        
-        /*
-        Hyperlink advSearchLink = new Hyperlink("test", "temp");
-                
-        advSearchLink.addClickHandler(new ClickHandler(){
-            @Override
-            public void onClick(ClickEvent event) {
-                ViewContext viewContext = new ViewContext();
-                viewContext.setId("7b3867db-2852-486b-aa23-b74015180e80");
-                viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
-            }
-        });
-
-        mainPanel.add(advSearchLink); */
                         
         metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
             @Override

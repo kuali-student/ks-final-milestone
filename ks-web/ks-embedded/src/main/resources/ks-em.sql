@@ -46,11 +46,16 @@ insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SOR
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('30', 'PUAD', 'PUAD', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 30, 'PubAdmin');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('31', 'SOCI', 'SOCI', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 31, 'Sociology');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('32', 'SOWK', 'SOWK', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 32, 'Social Work');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('59', 'AASP', 'AASP', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 59, 'African American Studies');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('60', 'AAST', 'AAST', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 60, 'Asian American Studies');
+
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('33', 'North', 'NORTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 31, 'North Campus');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('34', 'South', 'SOUTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 32, 'South Campus');
+
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('35', 'per day', 'kuali.atp.duration.day', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 35, 'per day');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('36', 'per week', 'kuali.atp.duration.week', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 36, 'per week');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('37', 'per month', 'kuali.atp.duration.month', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 37, 'per month');
+
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('38', 'template', 'template',{ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 38, 'A template holds configuration for defaults for creating a new course');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('39', 'draft.private', 'draft.private', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 39, 'Exploratory/Private scratch pad');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('40', 'draft.public', 'draft.public', {ts '2000-01-01 00:00:00.0'}, 'kuali.state', {ts '2000-01-01 00:00:00.0'}, 40, 'Entered as draft but not yet submitted');
@@ -69,99 +74,84 @@ insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SOR
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('52', 'Admin Fee', 'kuali.enum.type.feeTypes.administrativeFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.feeType', {ts '2011-04-07 00:00:00.0'}, 52, 'Administrative Fee');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('53', 'Coop Fee', 'kuali.enum.type.feeTypes.coopFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.feeType', {ts '2011-04-07 00:00:00.0'}, 53, 'Coop Fee');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('54', 'Greens Fee', 'kuali.enum.type.feeTypes.greensFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.feeType', {ts '2011-04-07 00:00:00.0'}, 54, 'Greens Fee');
+
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('55', 'Variable Rate Fee', 'variableRateFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.rateType', {ts '2011-04-07 00:00:00.0'}, 55, 'Variable Rate Fee');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('56', 'Fixed Rate Fee', 'fixedRateFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.rateType', {ts '2011-04-07 00:00:00.0'}, 56, 'Fixed Rate Fee');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('57', 'Multiple Rate Fee', 'multipleRateFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.rateType', {ts '2011-04-07 00:00:00.0'}, 57, 'Multiple Rate Fee');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('58', 'Per Credit Fee', 'perCreditFee', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.fee.rateType', {ts '2011-04-07 00:00:00.0'}, 58, 'Per Credit Fee');
 
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('59', 'AASP', 'AASP', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 59, 'African American Studies');
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('60', 'AAST', 'AAST', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 60, 'Asian American Studies');
 
 --Contexts
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('1', 'kuali.org.deptAbbrev', 'Robotics');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('2', 'kuali.org.deptAbbrev', 'CompSci');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('3', 'kuali.org.deptAbbrev', 'Mechanical');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('4', 'kuali.org.deptAbbrev', 'Architecture');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('5', 'kuali.org.deptAbbrev', 'Accounting');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('6', 'kuali.org.deptAbbrev', 'FineArts');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('7', 'kuali.org.deptAbbrev', 'Biomed');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('8', 'kuali.org.deptAbbrev', 'Biochemistry');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('9', 'kuali.org.deptAbbrev', 'Biology');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('10', 'kuali.org.deptAbbrev', 'Botany');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('11', 'kuali.org.deptAbbrev', 'Chemical');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('12', 'kuali.org.deptAbbrev', 'Chemistry');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('13', 'kuali.org.deptAbbrev', 'Civil');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('15', 'kuali.org.deptAbbrev', 'Education');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('16', 'kuali.org.deptAbbrev', 'English');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('17', 'kuali.org.deptAbbrev', 'Finance');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('18', 'kuali.org.deptAbbrev', 'French');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('19', 'kuali.org.deptAbbrev', 'Geography');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('20', 'kuali.org.deptAbbrev', 'Geology');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('21', 'kuali.org.deptAbbrev', 'History');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('22', 'kuali.org.deptAbbrev', 'InternationalBusiness');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('23', 'kuali.org.deptAbbrev', 'Linguistics');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('24', 'kuali.org.deptAbbrev', 'Marketing ');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('26', 'kuali.org.deptAbbrev', 'Music');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('27', 'kuali.org.deptAbbrev', 'Philosophy');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('28', 'kuali.org.deptAbbrev', 'PolySci');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('29', 'kuali.org.deptAbbrev', 'Psychology');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('30', 'kuali.org.deptAbbrev', 'PubAdmin');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('31', 'kuali.org.deptAbbrev', 'Sociology');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('32', 'kuali.org.deptAbbrev', 'Social Work');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('59', 'kuali.org.deptAbbrev', 'African American Studies');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('60', 'kuali.org.deptAbbrev', 'Asian American Studies');
-
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('33', 'kuali.lu.campusLocation', 'North Campus');
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('34', 'kuali.lu.campusLocation', 'South Campus');
-
-insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('38', 'kuali.object', 'cluInfo');
-
+insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('1', 'kuali.lu.subjectArea', 'default');
+insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('2', 'kuali.lu.campusLocation', 'default');
+insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('3', 'kuali.atptype.duration', 'default');
+insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('4', 'kuali.state', 'default');
+insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('5', 'kuali.lu.fee.feeType', 'default');
+insert into KSEM_CTX_T (ID, CTX_KEY, CTX_VAL) values ('6', 'kuali.lu.fee.rateType', 'default');
 
 --Join Table
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','1');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','2');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','3');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','4');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','5');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','6');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('7','7');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('8','8');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('9','9');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('10','10');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('11','11');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('12','12');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('13','13');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','14');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('15','15');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('16','16');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('17','17');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('18','18');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('19','19');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('20','20');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('21','21');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('22','22');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('23','23');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('24','24');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','25');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('26','26');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('27','27');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('28','28');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('29','29');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('30','30');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('31','31');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('32','32');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('59','59');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('60','60');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','2');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','3');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','4');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','5');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','6');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','7');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','8');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','9');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','10');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','11');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','12');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','13');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','14');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','15');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','16');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','17');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','18');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','19');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','20');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','21');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','22');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','23');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','24');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','25');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','26');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','27');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','28');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','29');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','30');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','31');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','32');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','59');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','60');
 
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('33','33');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('34','34');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','33');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','34');
 
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','38');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','39');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','40');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','41');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','42');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','43');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','44');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','45');
-insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('38','46');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','35');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','36');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','37');
+
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','38');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','39');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','40');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','41');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','42');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','43');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','44');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','45');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','46');
+
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','47');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','48');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','49');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','50');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','51');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','52');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','53');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','54');
+
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','55');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','56');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','57');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','58');

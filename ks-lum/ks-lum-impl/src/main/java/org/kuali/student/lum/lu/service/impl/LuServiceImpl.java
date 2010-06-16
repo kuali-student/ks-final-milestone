@@ -28,7 +28,6 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
@@ -283,8 +282,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> getLuPublicationTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("getLuPublicationTypesForLuType");
 	}
 
 	@Override
@@ -680,6 +678,15 @@ public class LuServiceImpl implements LuService {
 			ids.add(cluSet2.getId());
 		}
 		return ids;
+	}
+	
+	@Override
+	public Boolean isCluSetDynamic(String cluSetId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("isCluSetDynamic");
 	}
 
 	@Override
@@ -2190,6 +2197,23 @@ public class LuServiceImpl implements LuService {
 			cluSet.setClus(cluList);
 		}
 
+        // clean up existing wrappers if any
+        if (cluSetInfo.getId() != null) {
+            CluSetInfo originalCluSet = getCluSetInfo(cluSetInfo.getId());
+            List<CluSetInfo> origSubCSs = null;
+            List<String> origSubCSIds = originalCluSet.getCluSetIds();
+            if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
+                origSubCSs = getCluSetInfoByIdList(origSubCSIds);
+            }
+            if (origSubCSs != null) {
+                for (CluSetInfo origSubCS : origSubCSs) {
+                    if (!origSubCS.getIsReusable()) {
+                        deleteCluSet(origSubCS.getId());
+                    }
+                }
+            }
+        }
+		
 		// update the cluSetIds
 		cluSet.setCluSets(null);
 		if(!cluSetInfo.getCluSetIds().isEmpty()) {
@@ -2727,20 +2751,6 @@ public class LuServiceImpl implements LuService {
 	@Override
 	public List<String> getObjectTypes() {
 		return dictionaryServiceDelegate.getObjectTypes();
-	}
-
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateObject(objectTypeKey,
-				stateKey, info);
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateStructureData(objectTypeKey,
-				stateKey, info);
 	}
 
 	public LuDao getLuDao() {

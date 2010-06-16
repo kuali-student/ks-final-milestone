@@ -48,17 +48,13 @@
 	width: 100%;
 	background-color: white;
 	border: 2px solid #c2c2c2;
-	\-moz-border-radius: 1em; 
+	\-moz-border-radius: 1em;
 	\-webkit-border-radius: 1em;
 	border-radius: 1em;
 	padding: 2px;
 	padding-top: 30px;
 }
 
-.KS-LandingPage-ContentTable{
-	width: 100%;
-}
-		
 .KS-LandingPage-TitlePanel{
 	width: 100%;
 	padding-bottom: 10px;

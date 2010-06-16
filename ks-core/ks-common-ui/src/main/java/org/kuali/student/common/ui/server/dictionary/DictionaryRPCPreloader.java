@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
@@ -51,7 +52,7 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RPC;
 
 public class DictionaryRPCPreloader {
-
+	final Logger LOG = Logger.getLogger(DictionaryRPCPreloader.class);
     DictionaryService dictionaryService ;
     Map<Class<?>, Boolean> whitelist;
     KSSerializationPolicy myPolicy;
@@ -98,12 +99,11 @@ public class DictionaryRPCPreloader {
              result = serializeData(serviceMethod, structure);               
 
          } catch (SecurityException e) {
-             e.printStackTrace();
+             LOG.error("Error in getObjectStructureEncodedString",e);
          } catch (NoSuchMethodException e) {
-             e.printStackTrace();
+             LOG.error("Error in getObjectStructureEncodedString",e);
          } catch (SerializationException e) {
-             System.out.println(e.getMessage());
-             e.printStackTrace();
+             LOG.error("Error in getObjectStructureEncodedString",e);
          }
 
          return result;
@@ -127,12 +127,11 @@ public class DictionaryRPCPreloader {
               result = serializeData(serviceMethod, types);               
 
           } catch (SecurityException e) {
-              e.printStackTrace();
+              LOG.error("Error in getObjectTypesEncodedString",e);
           } catch (NoSuchMethodException e) {
-              e.printStackTrace();
+              LOG.error("Error in getObjectTypesEncodedString",e);
           } catch (SerializationException e) {
-              System.out.println(e.getMessage());
-              e.printStackTrace();
+              LOG.error("Error in getObjectTypesEncodedString",e);
           }
 
           return result;
@@ -159,7 +158,7 @@ public class DictionaryRPCPreloader {
              }
 
          } catch (SecurityException e) {
-             e.printStackTrace();
+             LOG.error("Error in getObjectTypes",e);
          }
          return  strResult;
 

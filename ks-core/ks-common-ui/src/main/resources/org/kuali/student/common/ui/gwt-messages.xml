@@ -40,6 +40,8 @@
    	<bean parent="enCommon" p:id="go"		p:value="Go"/>
    	<bean parent="enCommon" p:id="create"		p:value="Create"/>
    	<bean parent="enCommon" p:id="search"		p:value="Search"/>
+   	<bean parent="enCommon" p:id="fieldDeletionTitle"		p:value="Remove Fields"/>
+   	<bean parent="enCommon" p:id="fieldDeletionConfirmMessage"		p:value="Changing your selection may remove associated fields, are you sure?"/>
 
    	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
    	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
@@ -81,6 +83,17 @@
 
     <!-- Swappable Panel messages  -->
     <bean parent="enCommon" p:id="swappablePanelSearchBy"         p:value="Search By"/>
+    
+        <!-- Workflow -->
+    <bean parent="enCommon" p:id="wfSaved"      p:value="Saved" />
+    <bean parent="enCommon" p:id="wfInitiated"      p:value="Initiated" />
+    <bean parent="enCommon" p:id="wfEnroute"      p:value="Enroute" />
+    <bean parent="enCommon" p:id="wfApproved"      p:value="Approved" />
+    <bean parent="enCommon" p:id="wfCancelled"      p:value="Cancelled" />
+    <bean parent="enCommon" p:id="wfException"      p:value="Exception" />
+    <bean parent="enCommon" p:id="wfDisapproved"      p:value="Disapproved" />
+    <bean parent="enCommon" p:id="wfDisapprovedCancel"      p:value="Disapproved-Cancel" />
+    <bean parent="enCommon" p:id="wfProcessed"      p:value="Processed" />
 
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />

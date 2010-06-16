@@ -61,6 +61,9 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     private String adminOrg;
 
     @XmlElement
+    private Boolean isReusable;
+    
+    @XmlElement
     private List<String> cluSetIds;
 
     @XmlElement
@@ -243,5 +246,13 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
 	public void setAdminOrg(String adminOrg) {
 		this.adminOrg = adminOrg;
-	}    
+	}
+
+	public Boolean getIsReusable() {
+		return isReusable;
+	}
+
+	public void setIsReusable(Boolean isReusable) {
+		this.isReusable = isReusable;
+	}    	
 }

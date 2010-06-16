@@ -178,8 +178,8 @@ public class Validator {
 		elementStack.pop();
 
 		/* All Field validations are returned right now */
-		// List<ValidationResultContainer> resultsBuffer = new
-		// ArrayList<ValidationResultContainer>();
+		// List<ValidationResultInfo> resultsBuffer = new
+		// ArrayList<ValidationResultInfo>();
 		// for (ValidationResultContainer vc : results) {
 		// if (skipFields.contains(vc.getElement()) == false) {
 		// resultsBuffer.add(vc);
@@ -1024,7 +1024,7 @@ public class Validator {
 		return false;
 	}
 
-	private class BaseConstraintBean {
+	private static class BaseConstraintBean {
 		public boolean initialized = false;
 		public Integer minOccurs = 0;
 		public String maxOccurs = UNBOUNDED_CHECK;
