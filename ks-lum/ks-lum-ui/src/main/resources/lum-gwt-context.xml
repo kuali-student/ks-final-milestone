@@ -334,12 +334,6 @@
 		<property name="atpService" ref="atpClient"/>		
 	</bean>
 
-	<bean id="creditCourseProposalAssemblerPOC" class="org.kuali.student.lum.lu.assembly.poc.CreditCourseProposalAssembler">
-		<property name="permissionService" ref="permissionServiceClient" />
-		<property name="metadataService" ref="metadataServiceImplPOC" />
-		<property name="courseService" ref="courseClient"/>
-	</bean>
-
 	<bean id="CluSetManagementRpcGwtServlet" class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
 		<property name="assembler" ref="CluSetManagementFilterManager" />
 		<property name="permissionService" ref="permissionServiceClient" />
@@ -393,16 +387,18 @@
 	</bean>
 
 	<!-- Filter manager that targets the credit course proposal assembler -->
+	<!-- 
 	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
 		<constructor-arg ref="creditCourseProposalAssemblerPOC"/>
 		<property name="filters">
 			<list>
 				<ref bean="idTranslatorAssemblerFilter" />
-				<!--  <ref bean="workflowAssemblerFilter"/> -->
-				<!--  <ref bean="creditCourseProposalAssemblerFilter" /> -->
+				<ref bean="workflowAssemblerFilter"/>
+				<ref bean="creditCourseProposalAssemblerFilter" />
 			</list>
 		</property>
 	</bean>
+	-->
 
 	<bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
 		<property name="loService" ref="loClient"/>
