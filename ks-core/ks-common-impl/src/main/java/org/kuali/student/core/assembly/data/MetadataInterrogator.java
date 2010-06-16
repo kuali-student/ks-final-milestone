@@ -193,7 +193,7 @@ public class MetadataInterrogator {
 			return false;
 		}
 		Integer smallestMaxOccurs = getSmallestMaxOccurs(meta);
-		if (smallestMaxOccurs != null) {
+		if (smallestMaxOccurs != null && smallestMaxOccurs > 1) {
 			return true;
 		}
 		return false;
