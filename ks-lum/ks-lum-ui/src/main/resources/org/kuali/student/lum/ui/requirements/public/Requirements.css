@@ -333,12 +333,12 @@
 	border-collapse: collapse;	
 }
 
-.KS-Rules-Table-Cell{
-	color: black;
-	text-decoration: none;	
-	padding: 15px;
-	/* font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif; */	
-	font-size: 7pt;	
+.KS-Rules-Table-Cell-Selected{
+	background-color: #FFFF99;
+}
+
+.KS-Rules-Table-Cell-DeSelected{
+	background-color: #FFFFFF;
 }
 
 .KS-ReqComp-Selected{

@@ -65,10 +65,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
-
-	// TODO: remove criteriaSet since it is not being used
-	@Column(name = "CRIT_SET")
-	private boolean criteriaSet;
 	
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))

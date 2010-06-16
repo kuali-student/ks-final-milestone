@@ -216,6 +216,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setCluIds(cluSetInfo.getCluIds());
                 cluSetInfo.setCluIds(null);
                 try {
+                	wrapperCluSet.setType("kuali.cluSet.type.creditCourse"); 
                     wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
@@ -325,7 +326,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         data.set("cluset", cluSetDetailData);
         CluSetHelper result = CluSetHelper.wrap(cluSetDetailData);
         if (cluSetInfo != null) {
-            if (cluSetInfo.getCluIds() != null) {
+            if (cluSetInfo.getCluIds() != null && !cluSetInfo.getCluIds().isEmpty()) {
                 List<CluInfo> cluInfos = luService.getClusByIdList(cluSetInfo.getCluIds());
                 result.setApprovedClus(new Data());
                 for (CluInfo cluInfo : cluInfos) {
@@ -337,7 +338,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                     result.getAllClus().add(cluInfo.getId());
                 }
             }
-            if (cluSetInfo.getCluSetIds() != null) {
+            if (cluSetInfo.getCluSetIds() != null && !cluSetInfo.getCluSetIds().isEmpty()) {
                 result.setCluSets(new Data());
                 for (String cluSetId : cluSetInfo.getCluSetIds()) {
                     result.getCluSets().add(cluSetId);

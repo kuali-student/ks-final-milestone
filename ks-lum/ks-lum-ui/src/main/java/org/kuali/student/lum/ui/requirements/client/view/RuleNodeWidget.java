@@ -24,6 +24,7 @@ import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -41,7 +42,6 @@ public class RuleNodeWidget extends FocusPanel {
     
     public RuleNodeWidget(Node n) {
         init(n, true);
-      //  this.setStyleName("KS-Rules-Table-Cell");
     }
     
     public RuleNodeWidget(Node n, boolean showControls) {
@@ -96,6 +96,7 @@ public class RuleNodeWidget extends FocusPanel {
             StatementVO statementVO = (StatementVO) userObject;
             VerticalPanel checkBoxAndToggle = new VerticalPanel();
             super.setWidget(checkBoxAndToggle);
+            this.addStyleName(statementVO.isCheckBoxOn() ? "KS-Rules-Table-Cell-Selected" : "KS-Rules-Table-Cell-DeSelected");            
             if (showControls) {
                 checkBoxAndToggle.add(checkBox);
                 if (statementVO.getStatementInfo() != null && statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.OR) {
@@ -111,9 +112,7 @@ public class RuleNodeWidget extends FocusPanel {
                 }
             } else {
                 checkBoxAndToggle.add(html);
-              //  checkBoxAndToggle.setStyleName("KS-Rules-Table-Cell");
                 checkBoxAndToggle.setStyleName("KS-ReqComp-DeSelected");
-               // checkBoxAndToggle.addStyleName("KS-Toggle");
             }
             html.setHTML(node.getUserObject().toString());
             checkBox.setValue(statementVO.isCheckBoxOn(), false);
@@ -125,6 +124,7 @@ public class RuleNodeWidget extends FocusPanel {
             HorizontalPanel tableCell = new HorizontalPanel();
             checkBoxAndEdit= new HorizontalPanel();
             super.setWidget(tableCell);
+            this.setStyleName(reqComponentVO.isCheckBoxOn() ? "KS-Rules-Table-Cell-Selected" : "KS-Rules-Table-Cell-DeSelected");
             if (reqComponentVO.getGuiReferenceLabelId() != null) {
                 Node parent = node.getParent();
                 if (parent != null) {
@@ -148,7 +148,6 @@ public class RuleNodeWidget extends FocusPanel {
                 }
             } else {
                 checkBoxAndEdit.add(html);
-             //   checkBoxAndEdit.setStyleName("KS-Rules-Table-Cell");
                 checkBoxAndEdit.setStyleName("KS-ReqComp-DeSelected");                
             }
             html.setHTML(node.getUserObject().toString());

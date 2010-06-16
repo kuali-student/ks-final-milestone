@@ -106,6 +106,10 @@ public class AdvancedSearchWindow {
     public SearchRequest getSearchRequest() {
         return searchPanel.getSearchRequest();
     }
+    
+    public String getSelectedLookupName() {
+        return searchPanel.getSelectedLookupName();
+    }
 
     private ConfirmCancelGroup confirmCancelButtons = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 

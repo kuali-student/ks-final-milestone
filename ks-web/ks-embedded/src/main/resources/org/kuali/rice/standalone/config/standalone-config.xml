@@ -92,7 +92,7 @@
         Setting this property allows selective loading lum or core project or both
     -->
     <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml,classpath:ks-embedded-context.xml
+        classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml,classpath:ks-embedded-context.xml
 	</param>
 
     <!-- additional context files -->

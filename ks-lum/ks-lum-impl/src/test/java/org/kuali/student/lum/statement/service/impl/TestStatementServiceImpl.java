@@ -48,14 +48,14 @@ public class TestStatementServiceImpl {
 
 	@Test
 	public void testTranslateReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.CATALOG", "en");
-    	assertEquals("Student must have completed MATH 180", nl);
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-6", "KUALI.CATALOG", "en");
+    	assertEquals("Student must have completed MATH 152", nl);
 	}
 
 	@Test
 	public void testTranslateReqComponent_1of2() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-3", "KUALI.CATALOG", "en");
-    	assertEquals("Student must have completed MATH 180 or MATH 200", nl);
+    	assertEquals("Student must have completed 1 of MATH 180, MATH 200", nl);
 	}
 
 	@Test
