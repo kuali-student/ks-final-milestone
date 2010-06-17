@@ -53,7 +53,7 @@
           <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
+            <version>${oracle.ojdbc.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -114,8 +114,7 @@
       <artifactId>ks-common-ui</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
-     <dependency>
+    <dependency>
       <groupId>org.kuali.student.security</groupId>
       <artifactId>ks-sts</artifactId>
       <version>${project.version}</version>
