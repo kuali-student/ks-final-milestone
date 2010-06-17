@@ -267,13 +267,14 @@
 				<ref bean="luClient"/>
 				<ref bean="lrcClient"/>
 				<ref bean="orgClient"/>
+				<ref bean="enumServiceClient"/>
 			</list>
 		</property>
 	</bean>
 	
 	<bean id="lrcClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lrc.service.LrcService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lrc}LrcService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lrc}LearningResultService" />
 	</bean>    
 	
 	<bean id="lrcServiceImpl"
@@ -325,6 +326,11 @@
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>    
+	
+	<bean id="enumServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService" />
+	</bean>
     
        <!-- Document Relation Mock Service Config -->
 		<!--Note: When this service is defined, move this declaration into core context.-->
@@ -408,6 +414,7 @@
 	
 	<bean id="pocServiceValidator" class="org.kuali.student.common.validator.poc.Validator">
 		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
+		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
 	</bean>
 
 	<!--  Preloaded data -->
