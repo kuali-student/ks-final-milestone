@@ -51,7 +51,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * Generic implementation of data orchestration calls and workflow calls
+ * Generic implementation of data gwt data operations calls and workflow operations
  *
  */
 public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteServiceServlet implements BaseDataOrchestrationRpcService {
@@ -60,20 +60,25 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	final Logger LOG = Logger.getLogger(AbstractBaseDataOrchestrationRpcGwtServlet.class);
 
-	TransformationManager transformationManager;
+	private TransformationManager transformationManager;
 	
 	private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
 	private IdentityService identityService;
 	private PermissionService permissionService;
 
-		@Override
-	public Data getData(String id) {
+	public Map<String,String> getDefaultFilterProperties(){
 		Map<String, String> filterProperties = new HashMap<String,String>();
-		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());	//This is required for authz qualification check
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
+		filterProperties.put(WorkflowFilter.WORKFLOW_USER, getCurrentUser());
+		
+		return filterProperties;
+	}
+	
+	@Override
+	public Data getData(String id) {
+		Map<String, String> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
-
 		
 		try {
 			Object dto = get(id);
@@ -89,13 +94,12 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	@Override
 	public Metadata getMetadata(String idType, String id) {
-		Map<String, String> filterProperties = new HashMap<String,String>();
+		Map<String, String> filterProperties = getDefaultFilterProperties();
 		
 		if (idType != null){
-			filterProperties.put(MetadataFilter.METADATA_ID_TYPE, idType);
+			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
 		}
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
-		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
 		
 		try {
 			Metadata metadata = transformationManager.getMetadata(getDtoClass().getName(), filterProperties); 
@@ -107,15 +111,14 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	@Override
 	public DataSaveResult saveData(Data data) throws OperationFailedException {
-		Map<String, String> filterProperties = new HashMap<String,String>();
-		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
-		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
+		Map<String, String> filterProperties = getDefaultFilterProperties();
+		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));
 
 		try {
-			Object dto = transformationManager.transform(data, getDtoClass());
+			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
 			dto = save(dto);
 				
-			Data persistedData = transformationManager.transform(dto);
+			Data persistedData = transformationManager.transform(dto, filterProperties);
 			return new DataSaveResult(null, persistedData);
 		} catch (DataValidationErrorException dvee){
 			return new DataSaveResult(dvee.getValidationResults(), null);
@@ -127,7 +130,6 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	protected DataSaveResult _saveData(Data data, Map<String,String> filterProperties) throws OperationFailedException{
 		try {
-			filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
 			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
 
 			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
@@ -218,11 +220,9 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	@Override
 	public DataSaveResult approveDocumentWithData(Data data) throws OperationFailedException {
-		Map<String,String> filterProperties = new HashMap<String,String>();
-		
+		Map<String,String> filterProperties = getDefaultFilterProperties();
+	
 		filterProperties.put(WorkflowFilter.WORKFLOW_ACTION, WorkflowFilter.WORKFLOW_APPROVE);
-		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
-		filterProperties.put(WorkflowFilter.WORKFLOW_USER, getCurrentUser());
 		
 		return _saveData(data,filterProperties);
 	}
@@ -316,11 +316,12 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         }
 
 		try{
-			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
 			KimPrincipalInfo principal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			if (principal == null) {
 				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			}
+			
+//			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
 //	        StandardResponse stdResp = simpleDocService.superUserDisapprove(docDetail.getRouteHeaderId().toString(), principal.getPrincipalId(), "");
 //	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())) {
 //        		LOG.error("Error withdrawing document: " + stdResp.getErrorMessage());
@@ -365,10 +366,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             	}
             }
 
-            String actionsRequested = "";
             //Use StringBuilder to avoid using string concatenations in the for loop.
             StringBuilder actionsRequestedBuffer = new StringBuilder();
-            actionsRequestedBuffer.append(actionsRequested);
 
             String documentStatus = workflowUtilityService.getDocumentStatus(docDetail.getRouteHeaderId());
 
@@ -378,20 +377,17 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             		// show only complete button if complete or approve code in this doc status
             		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
             			actionsRequestedBuffer.append("S");
-//            			actionsRequested+="S";
             		}
             		// if not Complete or Approve code then show the standard buttons
             		else {
     	            	if("true".equals(entry.getValue())){
     	            		actionsRequestedBuffer.append(entry.getKey());
-//    	            		actionsRequested+=entry.getKey();
     	            	}
             		}
             	}
             	else {
                 	if("true".equals(entry.getValue())){
                 		actionsRequestedBuffer.append(entry.getKey());
-//                		actionsRequested+=entry.getKey();
                 	}
             	}
             }
@@ -399,7 +395,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             // if user can withdraw document then add withdraw button
             if (getPermissionService().isAuthorizedByTemplateName(principalId, PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER,docDetail.getRouteHeaderId().toString()))) {
             	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
-//            	actionsRequested+="W";
+//            	actionsRequestedBuffer.append("W");
             }
 
             return actionsRequestedBuffer.toString();
@@ -483,11 +479,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	@Override
 	public DataSaveResult submitDocumentWithData(Data data) throws OperationFailedException {
-		Map<String,String> filterProperties = new HashMap<String,String>();
-		
+		Map<String,String> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(WorkflowFilter.WORKFLOW_ACTION, WorkflowFilter.WORKFLOW_SUBMIT);
-		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
-		filterProperties.put(WorkflowFilter.WORKFLOW_USER, getCurrentUser());
 
 		return _saveData(data,filterProperties);
 	}
@@ -608,9 +601,12 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	protected abstract String getDefaultWorkflowDocumentType();
+	
 	protected abstract String getDefaultMetaDataState();
+	
 	protected abstract Object get(String id) throws Exception;
+	
 	protected abstract Object save(Object dto) throws Exception;
+	
 	protected abstract Class<?> getDtoClass();
-
 }

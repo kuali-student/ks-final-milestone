@@ -38,7 +38,6 @@ public class CreditCourseProposalRpcGwtServlet extends
 	public static final String COURSE_TYPE = "kuali.lu.type.CreditCourse";
 	public static final String COURSE_FORMAT_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 	
-	private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
 	private static final String DEFAULT_METADATA_STATE = "draft";
 
 	private ModifyCreditCourseProposalManager modifyCourseManager;	
@@ -99,7 +98,7 @@ public class CreditCourseProposalRpcGwtServlet extends
 
 	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return WF_TYPE_CLU_DOCUMENT;
+		return CourseWorkflowFilter.WF_TYPE_CLU_DOCUMENT;
 	}
 
 	@Override
