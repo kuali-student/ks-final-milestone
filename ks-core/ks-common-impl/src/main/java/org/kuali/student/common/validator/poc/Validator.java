@@ -37,6 +37,7 @@ import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.service.SearchService;
+import org.kuali.student.core.search.service.impl.SearchDispatcher;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class Validator {
@@ -44,7 +45,7 @@ public class Validator {
 
     private MessageService messageService = null;
 
-    private SearchService searchService;
+    private SearchDispatcher searchDispatcher;
 
     private String messageLocaleKey = "en";
 
@@ -495,7 +496,7 @@ public class Validator {
 
         SearchResult searchResult = null;
         try {
-            searchResult = searchService.search(searchRequest);
+            searchResult = searchDispatcher.dispatchSearch(searchRequest);
         } catch (Exception e) {
             LOG.info("Error calling Search", e);
         }
@@ -830,11 +831,11 @@ public class Validator {
         return result;
     }
 
-    public SearchService getSearchService() {
-        return searchService;
+    public SearchDispatcher getSearchDispatcher() {
+        return searchDispatcher;
     }
 
-    public void setSearchService(SearchService searchService) {
-        this.searchService = searchService;
+    public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+        this.searchDispatcher = searchDispatcher;
     }
 }
