@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<import resource="classpath:common-lookup-context.xml"/>
 	<bean id="ObjectStructureDefinition"
 		class="org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition"
 		abstract="true" />
@@ -196,6 +197,9 @@
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="60" />
 	</bean>	
+	<bean id="constraint.lookup.campusLocations" 
+		class="org.kuali.student.core.dictionary.poc.dto.LookupConstraint" 
+		parent="kuali.common.lookup.campusLocations"/> 
 	
 	<bean id="baseCode" parent="baseSingleString" abstract="true">
 		<property name="minLength" value="1" />
