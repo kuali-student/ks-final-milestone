@@ -27,7 +27,8 @@ public class CreditCourseExpenditureInfoHelper
 	public enum Properties implements PropertyEnum
 	{
 		EXPENDITURE_ORG ("expenditureOrg"),
-		TOTAL_PERCENTAGE ("totalPercentage");
+		TOTAL_PERCENTAGE ("totalPercentage"),
+		ID("ID");
 		
 		private final String key;
 		
@@ -86,6 +87,18 @@ public class CreditCourseExpenditureInfoHelper
 	{
 		return (String) data.get (Properties.TOTAL_PERCENTAGE.getKey ());
 	}
+	
+	public void setId (String value)
+	{
+		data.set (Properties.ID.getKey (), value);
+	}
+	
+	
+	public String getId ()
+	{
+		return (String) data.get (Properties.ID.getKey ());
+	}
+	
 	
 }
 

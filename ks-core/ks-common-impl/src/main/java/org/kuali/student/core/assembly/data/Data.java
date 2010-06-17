@@ -1,9 +1,25 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.assembly.data;
 
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -25,7 +41,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class BooleanValue implements Value {
-        Boolean value;
+        private Boolean value;
 
         protected BooleanValue() {
 
@@ -48,7 +64,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         @Override
         public String toString() {
             if (value == null) {
-                return null;
+                return "";
             } else {
                 return String.valueOf(value);
             }
@@ -57,7 +73,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DataValue implements Value {
-        Data value;
+        private Data value;
 
         protected DataValue() {
 
@@ -89,7 +105,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DateValue implements Value {
-        Date value;
+        private Date value;
 
         protected DateValue() {
 
@@ -121,7 +137,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DoubleValue implements Value {
-        Double value;
+        private Double value;
 
         protected DoubleValue() {
 
@@ -153,7 +169,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class FloatValue implements Value {
-        Float value;
+        private Float value;
 
         protected FloatValue() {
 
@@ -238,7 +254,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class IntegerValue implements Value {
-        Integer value;
+        private Integer value;
 
         protected IntegerValue() {
 
@@ -277,7 +293,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class LongValue implements Value {
-        Long value;
+        private Long value;
 
         protected LongValue() {
 
@@ -323,7 +339,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class ShortValue implements Value {
-        Short value;
+        private Short value;
 
         protected ShortValue() {
 
@@ -355,7 +371,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class StringKey implements Key {
-        String key;
+        private String key;
 
         protected StringKey() {
 
@@ -409,7 +425,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class StringValue implements Value {
-        String value;
+        private String value;
 
         protected StringValue() {
 
@@ -441,7 +457,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class TimestampValue implements Value {
-        Timestamp value;
+        private Timestamp value;
 
         protected TimestampValue() {
 
@@ -473,7 +489,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class TimeValue implements Value {
-        Time value;
+        private Time value;
 
         protected TimeValue() {
 
@@ -688,6 +704,71 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         return result;
     }
 
+    
+    /**
+     * @return an Iterator that does not contain any _runtimeData
+     */
+    public Iterator<Property> realPropertyIterator(){
+    	HashMap<Key, Value> propertyMap = new HashMap<Key, Value>(map);
+//    	propertyMap.remove("_runtimeData");
+    	propertyMap.remove(new StringKey("_runtimeData"));
+        final Iterator<Map.Entry<Key, Value>> impl = propertyMap.entrySet().iterator();
+
+        return new Iterator<Property>() {
+            Map.Entry<Key, Value> current;
+
+            @Override
+            public boolean hasNext() {
+                return impl.hasNext();
+            }
+
+            @Override
+            public Property next() {
+                final Map.Entry<Key, Value> entry = impl.next();
+                current = entry;
+                return new Property() {
+                    @Override
+                    public <T> T getKey() {
+                        return (T) entry.getKey().get();
+                    }
+
+                    @Override
+                    public Class<?> getKeyType() {
+                        return entry.getKey().getType();
+                    }
+
+                    @Override
+                    public <T> T getValue() {
+                        return (T) entry.getValue().get();
+                    }
+
+                    @Override
+                    public Class<?> getValueType() {
+                        return entry.getValue().getType();
+                    }
+
+                    @Override
+                    public Key getWrappedKey() {
+                        return entry.getKey();
+                    }
+
+                    @Override
+                    public Value getWrappedValue() {
+                        return entry.getValue();
+                    }
+                };
+            }
+
+            @Override
+            public void remove() {
+                impl.remove();
+                QueryPath path = getQueryPath();
+                path.add(current.getKey());
+                execChangeCallbacks(ChangeType.REMOVE, path);
+            }
+        };
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -758,7 +839,15 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Iterator itr = path.iterator(); itr.hasNext() && d != null;) {
             final Key k = (Key) itr.next();
             if (itr.hasNext()) {
-                d = d.get(k);
+                Object obj = d.get(k);
+                if (obj != null && !(obj instanceof Data)) {
+                    // TODO what should be done if we try to query
+                    // cluset/clus/0/_runtimeData where cluset/0 returns a string instead of Data
+                    // throw an exception here?
+                    throw new java.lang.IllegalArgumentException();
+                } else {
+                    d = d.get(k);
+                }
             } else {
                 result = (T) d.get(k);
             }

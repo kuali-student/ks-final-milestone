@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
@@ -11,11 +28,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<import resource="classpath:ksb/ks-core-context.xml" />
-	<import resource="classpath:ksb/ks-lu-context.xml" />
-	<import resource="classpath:ks-spring-security.xml" />
-
-    <bean id="config" class="org.kuali.rice.core.config.spring.RiceConfigFactoryBean">
+    <bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
         <property name="configLocations">
             <list>
                 <value>classpath:META-INF/ks-standalone-config.xml</value>
@@ -24,7 +37,7 @@
     </bean>
     
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
     
 	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSCoreContext"/>
@@ -46,6 +59,11 @@
                 <property name="serviceServletUrl" value="${serviceServletUrl}" />
 			</bean>
 		</property>
+		<property name="additionalSpringFiles">
+            <list>
+                <value>${rice.additionalSpringFiles}</value>
+            </list>
+        </property>
 	</bean>
 
 	<!-- Add MessageServiceMock to fix https://test.kuali.org/jira/browse/KSLAB-586 -->

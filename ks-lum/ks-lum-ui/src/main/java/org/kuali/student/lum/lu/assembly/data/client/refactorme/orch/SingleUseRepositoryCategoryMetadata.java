@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
@@ -64,9 +63,10 @@ public class SingleUseRepositoryCategoryMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		
 		// metadata for Name
@@ -111,6 +111,7 @@ public class SingleUseRepositoryCategoryMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lo.category.types"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
 		}
 		
 		// metadata for TypeName
@@ -162,6 +163,7 @@ public class SingleUseRepositoryCategoryMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date.time"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("cross.greaterthan.effective.date"));
 		}
 		
 		// metadata for _runtimeData

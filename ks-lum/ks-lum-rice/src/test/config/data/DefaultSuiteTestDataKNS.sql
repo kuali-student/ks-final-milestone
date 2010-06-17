@@ -1,20 +1,17 @@
--- 
--- Copyright 2009 The Kuali Foundation
--- 
--- Licensed under the Educational Community License, Version 2.0 (the "License");
--- you may not use this file except in compliance with the License.
--- You may obtain a copy of the License at
--- 
--- http://www.opensource.org/licenses/ecl2.php
--- 
--- Unless required by applicable law or agreed to in writing, software
--- distributed under the License is distributed on an "AS IS" BASIS,
--- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
--- See the License for the specific language governing permissions and
--- limitations under the License.
--- 
--- Namespaces: extracted from DBA using following statement
--- select * from KRNS_NMSPC_T
+--
+-- Copyright 2010 The Kuali Foundation Licensed under the
+-- Educational Community License, Version 2.0 (the "License"); you may
+-- not use this file except in compliance with the License. You may
+-- obtain a copy of the License at
+--
+-- http://www.osedu.org/licenses/ECL-2.0
+--
+-- Unless required by applicable law or agreed to in writing,
+-- software distributed under the License is distributed on an "AS IS"
+-- BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+-- or implied. See the License for the specific language governing
+-- permissions and limitations under the License.
+--
 
 INSERT INTO KRNS_NMSPC_T(NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD)
   VALUES('KR-NS', '53680C68F595AD9BE0404F8189D80A6C', 1, 'Kuali Nervous System', 'Y', NULL)

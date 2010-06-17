@@ -1,5 +1,5 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -12,11 +12,13 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.util.jpa;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -109,6 +111,13 @@ public class LoadSqlListener implements ApplicationListener,
 		} catch (Exception e) {
 			logger.error("Error loading sql file "+sqlFileName+". Failing statement was '" + ln + "'",e);
 			jtaTxManager.rollback(txStatus);
+		}
+		finally{
+			try {
+				in.close();
+			} catch (IOException e) {
+				logger.error("IO Stream closed " + e);
+			}
 		}
 	}
 

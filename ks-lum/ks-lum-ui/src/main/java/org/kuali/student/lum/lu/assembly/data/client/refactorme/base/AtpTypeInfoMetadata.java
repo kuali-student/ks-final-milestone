@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
-import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
@@ -145,6 +144,7 @@ public class AtpTypeInfoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.key"));
 		}
 		
 		recursions.increment (this.getClass ().getName ());

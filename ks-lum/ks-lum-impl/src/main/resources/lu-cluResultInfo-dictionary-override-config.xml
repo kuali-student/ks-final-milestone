@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
@@ -7,7 +24,6 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 08:39:14 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -1063,6 +1079,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.final.results.credit.award.option.expirationDate.cd" parent="dict.course.final.results.credit.award.option.expirationDate.cd.abstract"/>
 
@@ -1079,12 +1096,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>course final results credit award option state</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.metaInfo.fd" parent="dict.course.final.results.credit.award.option.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.credit.award.option.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.final.results.credit.award.option.metaInfo.cd" parent="dict.course.final.results.credit.award.option.metaInfo.cd.abstract"/>
 
@@ -1122,12 +1141,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course final results credit award option internal id</dict:name>
 	<dict:desc>the internal id of the credit award option for the course final results</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.internal.id.fd" parent="dict.course.final.results.credit.award.option.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.credit.award.option.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.final.results.credit.award.option.internal.id.cd" parent="dict.course.final.results.credit.award.option.internal.id.cd.abstract"/>
 
@@ -1235,6 +1256,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.final.results.final.grade.award.option.expirationDate.cd" parent="dict.course.final.results.final.grade.award.option.expirationDate.cd.abstract"/>
 
@@ -1251,12 +1273,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>course final results final grade award option meta-info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.metaInfo.fd" parent="dict.course.final.results.final.grade.award.option.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.final.results.final.grade.award.option.metaInfo.cd" parent="dict.course.final.results.final.grade.award.option.metaInfo.cd.abstract"/>
 
@@ -1294,12 +1318,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course final results final grade award option internal id</dict:name>
 	<dict:desc>the internal id of the final grade award option for the course final results</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.internal.id.fd" parent="dict.course.final.results.final.grade.award.option.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.final.results.final.grade.award.option.internal.id.cd" parent="dict.course.final.results.final.grade.award.option.internal.id.cd.abstract"/>
 
@@ -1407,6 +1433,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.final.results.qualitative.option.expirationDate.cd" parent="dict.course.final.results.qualitative.option.expirationDate.cd.abstract"/>
 
@@ -1423,12 +1450,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>course final results qualitative option state</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.metaInfo.fd" parent="dict.course.final.results.qualitative.option.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.qualitative.option.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.final.results.qualitative.option.metaInfo.cd" parent="dict.course.final.results.qualitative.option.metaInfo.cd.abstract"/>
 
@@ -1466,12 +1495,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course final results qualitative option internal id</dict:name>
 	<dict:desc>the internal id of the qualitative option for the course final results</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.internal.id.fd" parent="dict.course.final.results.qualitative.option.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.qualitative.option.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.final.results.qualitative.option.internal.id.cd" parent="dict.course.final.results.qualitative.option.internal.id.cd.abstract"/>
 
@@ -1723,6 +1754,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.final.results.expirationDate.cd" parent="dict.course.final.results.expirationDate.cd.abstract"/>
 
@@ -1739,12 +1771,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>course final results meta-info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.metaInfo.CreditCourseResults"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.metaInfo.fd" parent="dict.course.final.results.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.final.results.metaInfo.cd" parent="dict.course.final.results.metaInfo.cd.abstract"/>
 
@@ -1787,6 +1821,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.final.results.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.cluResult.types"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="dict.course.final.results.type.cd" parent="dict.course.final.results.type.cd.abstract"/>
@@ -1803,12 +1838,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course final results internal id</dict:name>
 	<dict:desc>The internal id of the course final results</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.internal.id.fd" parent="dict.course.final.results.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.final.results.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.final.results.internal.id.cd" parent="dict.course.final.results.internal.id.cd.abstract"/>

@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.service;
 
 import java.util.List;
@@ -40,7 +41,7 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 /**
  * <b>IMPORTANT:</b> This service contract is currently under development. If you are planning to implement the Kuali Student System or parts thereof, <b>please do not consider this service to be final!</b> Consult this page for status before making any plans that rely on specific implementations of these services.</p>
  * 
@@ -196,7 +197,7 @@ public interface OrganizationService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing validationTypeKey, orgInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateOrg(@WebParam(name="validationType")String validationType, @WebParam(name="orgInfo")OrgInfo orgInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateOrg(@WebParam(name="validationType")String validationType, @WebParam(name="orgInfo")OrgInfo orgInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates an organization to organization relationship. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the organization organization relationship (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the organization organization relationship can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -208,7 +209,7 @@ public interface OrganizationService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing validationTypeKey, orgOrgRelationInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateOrgOrgRelation(@WebParam(name="validationType")String validationType, @WebParam(name="orgOrgRelationInfo")OrgOrgRelationInfo orgOrgRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateOrgOrgRelation(@WebParam(name="validationType")String validationType, @WebParam(name="orgOrgRelationInfo")OrgOrgRelationInfo orgOrgRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a organization to person relationship. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the organization person relationship (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the organization person relationship can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -220,7 +221,7 @@ public interface OrganizationService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing validationTypeKey, orgPersonRelationInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateOrgPersonRelation(@WebParam(name="validationType")String validationType, @WebParam(name="orgPersonRelationInfo")OrgPersonRelationInfo orgPersonRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateOrgPersonRelation(@WebParam(name="validationType")String validationType, @WebParam(name="orgPersonRelationInfo")OrgPersonRelationInfo orgPersonRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates an organization position restriction. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the position restriction (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the position restriction can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -232,7 +233,7 @@ public interface OrganizationService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing validationTypeKey, orgPositionRestrictionInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateOrgPositionRestriction(@WebParam(name="validationType")String validationType, @WebParam(name="orgPositionRestrictionInfo")OrgPositionRestrictionInfo orgPositionRestrictionInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateOrgPositionRestriction(@WebParam(name="validationType")String validationType, @WebParam(name="orgPositionRestrictionInfo")OrgPositionRestrictionInfo orgPositionRestrictionInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves an existing organization by its identifier.
@@ -394,6 +395,7 @@ public interface OrganizationService extends DictionaryService, SearchService {
 
     /** 
      * Retrieves the list of identifiers for people that have the specified type of relationship to this organization
+     * The list of person ids are fetched for PersonRelations that are still active meaning the expiration date is greater than the current date
      * @param orgId identifier of the organization that members are being found for
      * @param orgPersonRelationTypeKey type of organization person relationship that is being looked for
      * @return list of person identifiers that match supplied criteria

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.mvc.controller;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -7,8 +22,6 @@ import org.kuali.student.common.ui.client.mvc.View;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
-
-
 
 
 public class OrgApplicationManager extends Controller{
@@ -29,11 +42,7 @@ public class OrgApplicationManager extends Controller{
     protected <V extends Enum<?>> View getView(V viewType) {
         switch ((ORGViews) viewType) {
             case CREATE_ORG:
-//                initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE);
                 initOrgView();
-                //FIXME: This is a quick fix, need better way to reset view
-                orgProposalController.showDefaultView(NO_OP_CALLBACK);  
-
                 return createOrgView;
             default:
                 return null;
@@ -42,8 +51,7 @@ public class OrgApplicationManager extends Controller{
     }
 
     @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        
+    public Class<? extends Enum<?>> getViewsEnum() {        
         return ORGViews.class;
     }
     

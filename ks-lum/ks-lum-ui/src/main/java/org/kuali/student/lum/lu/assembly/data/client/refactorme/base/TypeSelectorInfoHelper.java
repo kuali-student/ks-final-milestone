@@ -64,15 +64,15 @@ public class TypeSelectorInfoHelper
 	}
 	
 	
-	public void setState (Data value)
+	public void setState (StateSelectorInfoHelper value)
 	{
-		data.set (Properties.STATE.getKey (), value);
+		data.set (Properties.STATE.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
-	public Data getState ()
+	public StateSelectorInfoHelper getState ()
 	{
-		return (Data) data.get (Properties.STATE.getKey ());
+		return StateSelectorInfoHelper.wrap ((Data) data.get (Properties.STATE.getKey ()));
 	}
 	
 	

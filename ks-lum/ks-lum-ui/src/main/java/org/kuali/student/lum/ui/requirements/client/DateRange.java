@@ -1,21 +1,24 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.ui.requirements.client;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import com.google.gwt.core.client.GWT;
 
 public class DateRange implements java.lang.Comparable, java.io.Serializable {
     private java.util.Date startDate;
@@ -292,7 +295,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         GregorianCalendar calendar = null;
 
         if (date == null) {
-          System.out.println("date passed in is null");
+          GWT.log("date passed in is null", null);
           return null;
         }
         calendar = new GregorianCalendar();
@@ -453,11 +456,37 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         return sbResult.toString();
     }
 
-    public boolean equals(Object obj) {
-        DateRange dateRange2 = (DateRange)obj;
-        return (startDate.equals(dateRange2.getStartDate()) &&
-                endDate.equals(dateRange2.getEndDate()));
-    }
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result
+				+ ((startDate == null) ? 0 : startDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DateRange other = (DateRange) obj;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		return true;
+	}
 
     public static void main(String[] args) {
         test();
@@ -564,7 +593,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest case 1");
+        GWT.log("\n\n\ntest case 1",null);
         doTestExclusion(testRange, testRange2);
 
         // test case 2
@@ -580,7 +609,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest case 2");
+        GWT.log("\n\n\ntest case 2",null);
         doTestExclusion(testRange, testRange2);
 
         // test case 3
@@ -596,7 +625,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest case 3");
+        GWT.log("\n\n\ntest case 3",null);
         doTestExclusion(testRange, testRange2);
 
         // test cases 4, 5, 7
@@ -612,7 +641,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest cases 4, 5, 7");
+        GWT.log("\n\n\ntest cases 4, 5, 7",null);
         doTestExclusion(testRange, testRange2);
 
         // tests cases 4, 6, 7
@@ -628,7 +657,7 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         testRange = new DateRange(startDate, endDate);
         testRange2 = new DateRange(startDate2, endDate2);
 
-        System.out.println("\n\n\ntest cases 4, 6, 7");
+        GWT.log("\n\n\ntest cases 4, 6, 7",null);
         doTestExclusion(testRange, testRange2);
     }
 
@@ -656,22 +685,24 @@ public class DateRange implements java.lang.Comparable, java.io.Serializable {
         java.util.Date startDate2 = testRange2.getStartDate();
         java.util.Date endDate2 = testRange2.getEndDate();
         for (int i = 0; i < 10; i++) {
-            System.out.println("------------------------------");
-            System.out.println("first range: \n" + testRange);
-            System.out.println("second range: \n" + testRange2);
+            GWT.log("------------------------------",null);
+            GWT.log("first range: \n" + testRange,null);
+            GWT.log("second range: \n" + testRange2,null);
             resultRanges = testRange.excludeRange(testRange2);
-            System.out.println("result ranges:");
+            GWT.log("result ranges:",null);
             if (resultRanges != null) {
                 for (int rangeIndex = 0; rangeIndex < resultRanges.length;
                 rangeIndex++) {
-                    System.out.println(resultRanges[rangeIndex]);
+                	if(resultRanges[rangeIndex]!=null){
+                		GWT.log(resultRanges[rangeIndex].toString(),null);
+                	}
                 }
             }
             // get next test date range
             startDate2 = new java.util.Date(getRelativeDay(startDate2, 1).getTime());
             endDate2 =  new java.util.Date(getRelativeDay(endDate2, 1).getTime());
             testRange2 = new DateRange(startDate2, endDate2);
-            System.out.println("==============================");
+            GWT.log("==============================",null);
         }
     }
     

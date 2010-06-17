@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.entity;
 
 import java.util.Date;
@@ -34,6 +35,7 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.KSEntityConstants;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
@@ -53,10 +55,10 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	@Column(name = "SHRT_NAME")
 	private String shortName; 
 	
-	@Column(name = "SHRT_DESCR",length=500)//TODO what is a good number for these short descriptions?
+	@Column(name = "SHRT_DESCR",length=KSEntityConstants.SHORT_TEXT_LENGTH)
 	private String shortDesc; 
 	
-	@Column(name = "LNG_DESCR",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "LNG_DESCR",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String longDesc; 
 	
 	@Temporal(TemporalType.TIMESTAMP)

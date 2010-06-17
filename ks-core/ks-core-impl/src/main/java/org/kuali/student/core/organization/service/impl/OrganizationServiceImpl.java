@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.service.impl;
 
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,7 +71,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
 
 	private OrganizationDao organizationDao;
-    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private DictionaryService dictionaryServiceDelegate;
     private SearchManager searchManager;
     private Validator validator;
 
@@ -200,8 +200,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 		orgInfo.setType(orgTypeKey);
 
 		try {
-            List<ValidationResultContainer> validations = validateOrg("", orgInfo);
-            for (ValidationResultContainer validationResult : validations) {
+            List<ValidationResultInfo> validations = validateOrg("", orgInfo);
+            for (ValidationResultInfo validationResult : validations) {
                 if(validationResult.isError())
                 	throw new DataValidationErrorException(validationResult.toString());
             }
@@ -215,8 +215,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 		try {
 			org = OrganizationAssembler.toOrg(false, orgInfo, organizationDao);
 		} catch (DoesNotExistException e) {
-			//TODO DoesNotExistException exception should be thrown by the service?
+			// OrgAssembler should not be throwing this exception for create!
+			logger.info(e.getMessage(), e);
+			throw new OperationFailedException(e.getMessage(), e);
 		} catch (VersionMismatchException e) {
+			// OrgAssembler should not be throwing this exception for create!
+			logger.info(e.getMessage(), e);
+			throw new OperationFailedException(e.getMessage(), e);			
 		}
 
 		//Persist the org
@@ -253,7 +258,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public List<String> getAllDescendants(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Exception Handling
+
 		checkForMissingParameter(orgId, "orgId");
 		checkForMissingParameter(orgId, "orgHierarchy");
 
@@ -296,7 +301,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<OrgHierarchyInfo> getOrgHierarchies()
 			throws OperationFailedException {
-		//TODO flush out exceptions
 		return OrganizationAssembler.toOrgHierarchyInfos(organizationDao.find(OrgHierarchy.class));
 
 	}
@@ -537,7 +541,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		boolean result = organizationDao.hasOrgOrgRelation(orgId, comparisonOrgId,
 				orgOrgRelationTypeKey);
-		return new Boolean(result);
+		return Boolean.valueOf(result);
 	}
 
 	@Override
@@ -564,7 +568,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		// get ancestors of the descendant, as it will be more efficient in most cases
 		List<String> ancestors = organizationDao.getAllAncestors(descendantOrgId, orgHierarchy);
 		boolean result = ancestors.contains(orgId);
-		return new Boolean(result);
+		return Boolean.valueOf(result);
 	}
 
 	@Override
@@ -731,61 +735,50 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrg(String validationType,
+	public List<ValidationResultInfo> validateOrg(String validationType,
 			OrgInfo orgInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
+
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgInfo, "orgInfo");
 
 		//FIXME redo validation here and for all calls to create/update
 		//return validator.validateTypeStateObject(orgInfo, getObjectStructure("orgInfo"));
 
-		return new ArrayList<ValidationResultContainer>(0);
+		return new ArrayList<ValidationResultInfo>(0);
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrgOrgRelation(String validationType,
+	public List<ValidationResultInfo> validateOrgOrgRelation(String validationType,
 			OrgOrgRelationInfo orgOrgRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgOrgRelationInfo, "orgOrgRelationInfo");
 
 		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgOrgRelationInfo, getObjectStructure("orgOrgRelationInfo")); 
-		ValidationResultContainer valContainer = new ValidationResultContainer();
-		valContainer.setValidationResults(valResults);
-		
-		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
-		return valContList;
+		return valResults;
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrgPersonRelation(
+	public List<ValidationResultInfo> validateOrgPersonRelation(
 			String validationType, OrgPersonRelationInfo orgPersonRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
       
 		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgPersonRelationInfo, getObjectStructure("orgPersonRelationInfo")); 
-		ValidationResultContainer valContainer = new ValidationResultContainer();
-		valContainer.setValidationResults(valResults);
-		
-		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
-		return valContList;
+		return valResults;
 
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateOrgPositionRestriction(
+	public List<ValidationResultInfo> validateOrgPositionRestriction(
 			String validationType,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
 
@@ -869,18 +862,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<String> getObjectTypes() {
 		return dictionaryServiceDelegate.getObjectTypes();
-	}
-
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
 	}
 
 	@Override

@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.proposal.service.impl;
 
 import java.util.List;
@@ -48,7 +49,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -370,7 +371,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
      */
     @Override
-    public List<ValidationResultContainer> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(proposalInfo, "proposalInfo");
         // TODO lindholm - THIS METHOD NEEDS JAVADOCS
@@ -381,7 +382,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#validateProposalDocRelation(java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
      */
     @Override
-    public List<ValidationResultContainer> validateProposalDocRelation(String validationType, ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateProposalDocRelation(String validationType, ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
         // TODO lindholm - THIS METHOD NEEDS JAVADOCS
@@ -437,22 +438,6 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
-    }
-
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return validateObject(objectTypeKey, stateKey, info);
-    }
-
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return validateStructureData(objectTypeKey, stateKey, info);
     }
 
     /**

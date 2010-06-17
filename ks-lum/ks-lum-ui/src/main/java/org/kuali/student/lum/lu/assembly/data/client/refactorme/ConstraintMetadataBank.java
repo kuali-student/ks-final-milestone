@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 
 
@@ -1240,7 +1241,7 @@ public class ConstraintMetadataBank
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.feeType.Revenue");
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
-		consMeta.setDesc ("Must be \"Per Credit Rate\"");
+		consMeta.setDesc ("Must be \"Revenue\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
 		consMeta.setValidChars ("regex:Revenue");

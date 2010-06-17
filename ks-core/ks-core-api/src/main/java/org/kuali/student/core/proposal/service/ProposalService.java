@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.proposal.service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -37,8 +39,7 @@ import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 /**
  *
@@ -48,7 +49,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Proposal+Service">ProposalService</>
  *
  */
-@WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal") // TODO CHECK THESE VALUES
+@WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal") 
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 @XmlSeeAlso({org.kuali.student.core.dto.ReferenceTypeInfo.class})
 public interface ProposalService extends DictionaryService, SearchService{
@@ -127,7 +128,7 @@ public interface ProposalService extends DictionaryService, SearchService{
      * @throws MissingParameterException missing validationTypeKey, proposalInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateProposal(@WebParam(name="validationType")String validationType, @WebParam(name="proposalInfo")ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateProposal(@WebParam(name="validationType")String validationType, @WebParam(name="proposalInfo")ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Validates a proposalDocRelation. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the object (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the object can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -139,7 +140,7 @@ public interface ProposalService extends DictionaryService, SearchService{
      * @throws MissingParameterException missing validationTypeKey, proposalDocRelationInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateProposalDocRelation(@WebParam(name="validationType")String validationType, @WebParam(name="proposalDocRelationInfo")ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateProposalDocRelation(@WebParam(name="validationType")String validationType, @WebParam(name="proposalDocRelationInfo")ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the details of a single Proposal by proposalId

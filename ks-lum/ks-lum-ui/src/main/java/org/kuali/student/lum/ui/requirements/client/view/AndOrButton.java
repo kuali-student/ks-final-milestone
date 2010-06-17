@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.ui.requirements.client.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,10 +23,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class AndOrButton extends HorizontalPanel {
-    Button andButton = new Button("");
-    Button orButton = new Button("");
-    Label andLabel = new Label("And");
-    Label orLabel = new Label("Or");
+    Button andButton = new Button(" AND ");
+    Button orButton = new Button("OR");
+  //  Label andLabel = new Label("And");
+  //  Label orLabel = new Label("Or");
     HandlerRegistration andHandlerRegi;
     HandlerRegistration orHandlerRegi;
     
@@ -34,12 +35,12 @@ public class AndOrButton extends HorizontalPanel {
     private int value = And;
     public AndOrButton(){
         super.add(andButton);
-        super.add(andLabel);
-        super.add(orLabel);
+        //super.add(andLabel);
+        //super.add(orLabel);
         super.add(orButton);
-        andLabel.setStyleName("KS-Rules-Toggle-Label");
+        //andLabel.setStyleName("KS-Rules-Toggle-Label");
         andButton.setStyleName("KS-Rules-Toggle-Button");
-        orLabel.setStyleName("KS-Rules-Toggle-Label");
+        //orLabel.setStyleName("KS-Rules-Toggle-Label");
         orButton.setStyleName("KS-Rules-Toggle-Button");
         update(AndOrButton.And);
         andButton.addClickHandler(new ClickHandler(){
@@ -72,6 +73,16 @@ public class AndOrButton extends HorizontalPanel {
     }
     private void update(int value){
         this.value = value;
+        
+        if(value == And) {
+            andButton.setStyleName("KS-Rules-Toggle-Label");
+            orButton.setStyleName("KS-Rules-Toggle-Button");
+        } else if (value == Or){
+            orButton.setStyleName("KS-Rules-Toggle-Label"); 
+            andButton.setStyleName("KS-Rules-Toggle-Button");
+        }
+        
+        /*
         if(value == And){
             andButton.setVisible(true);
             andLabel.setVisible(true);
@@ -82,5 +93,5 @@ public class AndOrButton extends HorizontalPanel {
             andLabel.setVisible(false);
             orButton.setVisible(true);
             orLabel.setVisible(true);
-        }
+        } */
     }}

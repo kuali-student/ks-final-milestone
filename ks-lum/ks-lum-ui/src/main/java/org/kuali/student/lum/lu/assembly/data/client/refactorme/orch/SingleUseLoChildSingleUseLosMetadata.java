@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
@@ -66,6 +65,7 @@ public class SingleUseLoChildSingleUseLosMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		
 		// metadata for ChildLo
@@ -106,6 +106,7 @@ public class SingleUseLoChildSingleUseLosMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lo.lo.relation.types"));
 		}
 		

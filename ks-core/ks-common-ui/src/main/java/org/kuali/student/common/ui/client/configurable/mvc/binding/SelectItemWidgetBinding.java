@@ -1,10 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
- * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the License.
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
@@ -15,7 +23,10 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.data.Data.StringValue;
+import org.kuali.student.core.assembly.data.Data.Value;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,16 +40,9 @@ public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectI
     public void setModelValue(KSSelectItemWidgetAbstract object, DataModel model, String path) {
         QueryPath qPath = QueryPath.parse(path);
 
+
         if (object.isMultipleSelect()) {
-            // TODO: Clear existing data rather than create new one?
-
-            Data newValue = new Data();
-
-            List<String> selectedItems = object.getSelectedItems();
-            for (String stringItem : selectedItems) {
-                newValue.add(stringItem);
-            }
-
+        	Data newValue = (Data)getWidgetValue(object).get();
             Data oldValue = model.get(qPath);
             if (!nullsafeEquals(oldValue, newValue)) {
                 model.set(qPath, newValue);
@@ -57,24 +61,58 @@ public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectI
 
     @Override
     public void setWidgetValue(KSSelectItemWidgetAbstract object, final DataModel model, final String path) {
-        
-        Callback<Widget> selectListItemsCallback = new Callback<Widget>(){
+        QueryPath qPath = QueryPath.parse(path);
+        Object value = model.get(qPath);
+        setWidgetValue(object, value);
+    }
+    
+    /**
+     * Helper method get list item widget's values as a Data object
+     * 
+     * @param object
+     * @param value
+     * @return
+     */
+    public Value getWidgetValue(KSSelectItemWidgetAbstract object){
+    	Value value;
+    	
+        if (object.isMultipleSelect()) {
+        	Data data = new Data();
+        	List<String> selectedItems = object.getSelectedItems();
+	        for (String stringItem : selectedItems) {
+	           data.add(stringItem);
+	        }
+	        value = new Data.DataValue(data);
+        } else {
+        	value = new Data.StringValue(object.getSelectedItem());
+        }
+
+        return value;
+    }
+    
+    /**
+     * Helper method to set Data object to a list item widget
+     * @param object
+     * @param value
+     */
+    public void setWidgetValue(KSSelectItemWidgetAbstract object, final Object value){
+    	Callback<Widget> selectListItemsCallback = new Callback<Widget>(){
             @Override
             public void exec(Widget widget) {
-                QueryPath qPath = QueryPath.parse(path);
-                Object value = model.get(qPath);
 
-                // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
                 ((KSSelectItemWidgetAbstract)widget).clear();
-                if (value instanceof String) {
-                    // is a single id
-                    ((KSSelectItemWidgetAbstract)widget).selectItem((String) value);
-                } else if (value instanceof Data) {
-                    for (Iterator itr = ((Data) value).iterator(); itr.hasNext();) {
-                        Property p = (Property) itr.next();
-                        ((KSSelectItemWidgetAbstract)widget).selectItem((String) p.getValue());
-                    }
-                }               
+                if (value != null){
+	                if (value instanceof String || value instanceof StringValue) {
+	                	String itemId = (String)(value instanceof String ? value:((StringValue)value).get());
+	                    ((KSSelectItemWidgetAbstract)widget).selectItem(itemId);
+	                } else if (value instanceof Data || value instanceof DataValue) {
+	                	Data data = (Data)(value instanceof Data ? value:((DataValue)value).get());
+	                    for (Iterator itr = data.iterator(); itr.hasNext();) {
+	                        Property p = (Property) itr.next();
+	                        ((KSSelectItemWidgetAbstract)widget).selectItem((String) p.getValue());
+	                    }
+	                }
+                }
             }            
         };
 
@@ -82,7 +120,8 @@ public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectI
             object.addWidgetReadyCallback(selectListItemsCallback);
         } else{
             selectListItemsCallback.exec(object);
-        }
+        }    	
     }
     
+
 }

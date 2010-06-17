@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import java.util.Set;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -66,7 +66,12 @@ public abstract class MultiplicityComposite extends Composite {
         }
     };
         
-
+    
+    /**
+     * This adds an item to the multiplicity composite by calling createItem.
+     * 
+     * @return
+     */
 	public MultiplicityItem addItem(){
 		itemCount++;
 		visualItemCount++;
@@ -87,6 +92,19 @@ public abstract class MultiplicityComposite extends Composite {
 	    itemsPanel.add(item);
 	    
 	    return item;
+	}
+	
+	/**
+	 * This returns the index key for the model for the item currently being added by addItem
+	 * This is useful, if you need to refer to the index in the createItem method
+	 * @return
+	 */
+	public int getAddItemKey(){
+		return itemCount-1;
+	}
+	
+	public void incrementItemKey(){
+		itemCount++;
 	}
        
     public void onLoad() {
@@ -124,7 +142,7 @@ public abstract class MultiplicityComposite extends Composite {
         removed.clear();
         itemCount = 0;
     }
-   
+   	
     public void redraw(){
         for (MultiplicityItem item:items){
             item.redraw();

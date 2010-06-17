@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.entity;
 
 import java.util.Date;
@@ -39,17 +40,23 @@ import org.kuali.student.core.entity.MetaEntity;
 @NamedQueries( {
 		@NamedQuery(name = "OrgOrgRelation.getAllDescendants", query = "SELECT oor.relatedOrg.id FROM OrgOrgRelation oor "
 				+ " WHERE oor.org.id = :orgId "
-				+ "   AND oor.type.orgHierarchy.id = :orgHierarchy"),
+				+ "   AND oor.type.orgHierarchy.id = :orgHierarchy"
+				+ "   AND oor.org.effectiveDate<=CURRENT_TIMESTAMP  "
+				+ "   AND (oor.org.expirationDate IS NULL OR oor.org.expirationDate>=CURRENT_TIMESTAMP)"),
 		@NamedQuery(name = "OrgOrgRelation.getAncestors", query = "SELECT oor.org.id FROM OrgOrgRelation oor "
 				+ " WHERE oor.relatedOrg.id = :orgId "
-				+ "   AND oor.type.orgHierarchy.id = :orgHierarchy"),
+                + "   AND oor.type.orgHierarchy.id = :orgHierarchy"
+                + "   AND oor.relatedOrg.effectiveDate<=CURRENT_TIMESTAMP  "
+                + "   AND (oor.relatedOrg.expirationDate IS NULL OR oor.relatedOrg.expirationDate>=CURRENT_TIMESTAMP)"),
 		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByIdList", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.id IN (:idList)"),
 		@NamedQuery(name = "OrgOrgRelation.OrgOrgRelation", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.org.id = :orgId"),
 		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByRelatedOrg", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId"),
 		@NamedQuery(name = "OrgOrgRelation.getOrgTreeInfo", query = "SELECT NEW org.kuali.student.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) "
 				+ "   FROM OrgOrgRelation oor "
 				+ "  WHERE oor.org.id = :orgId "
-				+ "    AND oor.type.orgHierarchy.id = :orgHierarchyId "),
+				+ "    AND oor.type.orgHierarchy.id = :orgHierarchyId " 
+                + "   AND oor.relatedOrg.effectiveDate<=CURRENT_TIMESTAMP  "
+                + "   AND (oor.relatedOrg.expirationDate IS NULL OR oor.relatedOrg.expirationDate>=CURRENT_TIMESTAMP)"),
 		@NamedQuery(name = "OrgOrgRelation.hasOrgOrgRelation", query = "SELECT COUNT(oor) "
 				+ "  FROM OrgOrgRelation oor "
 				+ " WHERE oor.org.id = :orgId "

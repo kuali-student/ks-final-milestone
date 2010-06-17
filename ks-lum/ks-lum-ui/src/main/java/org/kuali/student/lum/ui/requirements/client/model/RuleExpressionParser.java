@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.ui.requirements.client.model;
 
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ import java.util.Stack;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+
+import com.google.gwt.core.client.GWT;
 
 public class RuleExpressionParser {
     
@@ -159,11 +162,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ) and condition could sit before and");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after and");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -176,11 +179,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ) and condition could sit before or");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after or");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -193,11 +196,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.And || prevToken.type == Token.Or || prevToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only and, or, ( could sit before (");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after (");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -210,11 +213,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only condition and ) could sit before )");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Or || nextToken.type == Token.And || nextToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ), and, or could sit after )");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -228,11 +231,11 @@ public class RuleExpressionParser {
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == Token.And || prevToken.type == Token.Or || prevToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only and, or could sit before condition");
-            validToken = validToken && false;
+            validToken = false;
         }
         if (nextToken != null && (nextToken.type == Token.Or || nextToken.type == Token.And || nextToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ), and, or could sit after condition");
-            validToken = validToken && false;
+            validToken = false;
         }
         Token conditionToken = tokenList.get(currentIndex);
         String conditionLetter = conditionToken.value;
@@ -247,7 +250,7 @@ public class RuleExpressionParser {
         }
         if (!validConditonLetter) {
             errorMessages.add(conditionLetter + " is not a valid conditon");
-            validToken = validToken && false;
+            validToken = false;
         }
         return validToken;
     }
@@ -279,7 +282,7 @@ public class RuleExpressionParser {
                 parsedS.simplify();
             }
         } catch (Exception error) {
-            error.printStackTrace();
+            GWT.log("Exception parsing",error);
             parsedS = null;
         }
         return parsedS;

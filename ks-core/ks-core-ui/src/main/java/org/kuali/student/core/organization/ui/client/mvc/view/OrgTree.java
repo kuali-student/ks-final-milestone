@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.List;
@@ -7,13 +22,10 @@ import org.kuali.student.common.ui.client.event.ModifyActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
-import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.theme.OrgTreeImages;
-import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
-
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,14 +36,12 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeImages;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.TreeImages;
 
 public class OrgTree  extends Composite{
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
@@ -55,6 +65,8 @@ public class OrgTree  extends Composite{
                 Node rootNode = (Node)item.getWidget();
                 String orgId = rootNode.getOrgId();
                 String orgName = rootNode.getName();
+                item.removeItems();
+                item.addItem("");
                 if(item.getChildCount()==1){
                     getOrgTree(orgId,rootNode.getHierarchyId(),item);
                 }
@@ -202,7 +214,7 @@ public class OrgTree  extends Composite{
             final KSLabel members = new KSLabel("Members " + "["+ positions + "]");
             members.addStyleName("action");
             members.addClickHandler(memberHandler);
-            members.getElement().setAttribute("value", ""+Scope.build(Scope.ORG_PERSON_RELATIONS, Scope.MODIFY).value());
+            members.getElement().setAttribute("value", "");
             w.add(label);
             w.add(members);
             w.addStyleName("KS-Org-Tree-Section");
@@ -276,7 +288,7 @@ public class OrgTree  extends Composite{
             final KSLabel members = new KSLabel("Members " + "["+ positions + "]");
             members.addStyleName("action");
             members.addClickHandler(memberHandler);
-            members.getElement().setAttribute("value", ""+Scope.build(Scope.ORG_PERSON_RELATIONS, Scope.MODIFY).value());
+            members.getElement().setAttribute("value", "");
             
             w.add(label);
             w.add(members);

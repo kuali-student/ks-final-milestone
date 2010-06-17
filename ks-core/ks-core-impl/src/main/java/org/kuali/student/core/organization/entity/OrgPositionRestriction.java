@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.entity;
 
 import java.util.List;
@@ -27,14 +28,17 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.KSEntityConstants;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
-@Table(name = "KSOR_ORG_POS_RESTR")
+@Table(name = "KSOR_ORG_POS_RESTR", 
+        uniqueConstraints={@UniqueConstraint(columnNames={"ORG","PERS_RELTN_TYPE"})})
 @NamedQueries( {
 		@NamedQuery(name = "OrgPositionRestriction.findOrgPositionRestrictions", query = "SELECT opr FROM OrgPositionRestriction opr WHERE opr.org.id = :orgId"),
 		@NamedQuery(name = "OrgPositionRestriction.validatePositionRestriction", query = "SELECT COUNT(opr) "
@@ -56,8 +60,7 @@ public class OrgPositionRestriction extends MetaEntity implements
 	@JoinColumn(name = "PERS_RELTN_TYPE")
 	private OrgPersonRelationType personRelationType;
 
-	@Column(name = "DESCR", length = 2000)
-	// TODO what is a good number for these long descriptions?
+	@Column(name = "DESCR", length = KSEntityConstants.LONG_TEXT_LENGTH)
 	private String descr;
 
 	@Column(name = "TTL")

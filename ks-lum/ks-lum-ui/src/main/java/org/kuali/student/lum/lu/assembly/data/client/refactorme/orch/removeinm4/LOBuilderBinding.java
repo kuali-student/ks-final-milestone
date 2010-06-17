@@ -1,4 +1,19 @@
 /**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/**
  * 
  */
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4;
@@ -29,6 +44,8 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLo
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OutlineNode;
+
+import com.google.gwt.core.client.GWT;
 
 /**
  * @author Jim Tomlinson
@@ -71,7 +88,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 				helper = createLoHelper(node);
 			} catch (AssemblyException e) {
 				// TODO - what to do in this situation?
-				e.printStackTrace();
+				GWT.log("Assembly Exception was caught",e);
 				return;
 			}
 		    		
@@ -177,8 +194,9 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
     	}
 		
     	// now add the last top-level helper's data in
-		losData.add(currTopLevelLoRelationshipHelper.getData());
-		
+    	if (null != currTopLevelLoRelationshipHelper) {
+			losData.add(currTopLevelLoRelationshipHelper.getData());
+    	}
 		// and update the model
     	model.set(QueryPath.parse(path), losData);
     	
@@ -303,10 +321,14 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
     	
     	// change the 'courseSpecificLOs' elements into a List of OutlineNode's
         QueryPath qPath = QueryPath.parse(path);
-        Data data = model.get(qPath);
-
+        
+        Data data = null;
+        if(model!=null){
+        	data = model.get(qPath);
+        }
+        	
         if (data != null){
-            Iterator<Property> itr = data.iterator();
+            Iterator<Property> itr = data.realPropertyIterator();
             SortedHelperSet cccsLoHelpers = new SortedHelperSet();
             
             // get top-level LO's in the right order
@@ -346,7 +368,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         SingleUseLoChildSingleUseLosHelper relationHelper = SingleUseLoChildSingleUseLosHelper.wrap(loHelper.getChildSingleUseLos());
         if (null != relationHelper) {
             SortedChildHelperSet childLoHelpers = new SortedChildHelperSet();
-            Iterator<Property> itr = relationHelper.getData().iterator();
+            Iterator<Property> itr = relationHelper.getData().realPropertyIterator();
             
             while (itr.hasNext()){
                 Property p = (Property) itr.next();
@@ -383,7 +405,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 		Data categoryData = helper.getCategories();
 		
 		if (null != categoryData) {
-			Iterator<Property> itr = categoryData.iterator();
+			Iterator<Property> itr = categoryData.realPropertyIterator();
 				
 			while (itr.hasNext()) {
 				Property catProp = itr.next();

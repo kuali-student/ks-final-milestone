@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
@@ -5,7 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -39,13 +55,13 @@ public class LinkPanel extends Composite{
 			this.initWidget(layout);
 		}
 
-		public KSLinkButton addLink(String linkText, final Enum<?> linkedPanelKey){
+		public KSButton addLink(String linkText, final Enum<?> linkedPanelKey){
 			NavLink link = new NavLink();
 			link.linkName = linkText;
 			link.linkToKey = linkedPanelKey;
 			links.add(link);
 			//KSLabel linkWidget = new KSLabel(linkText);
-			KSLinkButton linkWidget = new KSLinkButton(linkText);
+			KSButton linkWidget = new KSButton(linkText, ButtonStyle.DEFAULT_ANCHOR);
 			linkWidget.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -72,10 +88,8 @@ public class LinkPanel extends Composite{
 		panels.put(panelKey, info);
 	}
 
-	public KSLinkButton addLinkToPanel(Enum<?> panelKey, String linkText, Enum<?> linkedPanelKey){
+	public KSButton addLinkToPanel(Enum<?> panelKey, String linkText, Enum<?> linkedPanelKey){
 		PanelInfo info = panels.get(panelKey);
 		return info.addLink(linkText, linkedPanelKey);
 	}
-
-
 }

@@ -1,15 +1,25 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.PropertyBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBindingImpl;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
@@ -19,269 +29,126 @@ import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class BaseSection extends Composite implements Section{
+public abstract class BaseSection extends SpanPanel implements Section{
+
+	protected FieldLayout layout;
 
 	protected ArrayList<Section> sections = new ArrayList<Section>();
 	protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
 	protected LayoutController layoutController = null;
-	protected SectionTitle sectionTitle = SectionTitle.generateEmptyTitle();
-	protected KSLabel instructions = new KSLabel();
-	protected InfoMessage message = new InfoMessage();
-	protected Map<String, FieldInfo> pathFieldInfoMap = new HashMap<String, FieldInfo>();
-	
-	
-	protected abstract void addSectionToLayout(BaseSection s);
-	protected abstract void addFieldToLayout(FieldDescriptor f);
-	protected abstract void addWidgetToLayout(Widget w);
-	
-	private RequiredEnum requiredState = RequiredEnum.NOT_MARKED;
-	
-	public class FieldInfo{
-		private ValidationMessagePanel valPanel;
-		private FieldElement fieldDiv;
-		private Panel encapsulatingPanel;
-		private String fieldName;
-		
-		public FieldInfo(String fieldName, ValidationMessagePanel validationPanel, FieldElement fieldDiv, Panel encapsulatingPanel){
-			this.valPanel = validationPanel;
-			this.fieldDiv = fieldDiv;
-			this.encapsulatingPanel = encapsulatingPanel;
-			this.fieldName = fieldName;
-		}
-
-		public ValidationMessagePanel getValidationPanel() {
-			return valPanel;
-		}
-		public FieldElement getFieldDiv() {
-			return fieldDiv;
-		}
-		public Panel getEncapsulatingPanel() {
-			return encapsulatingPanel;
-		}
-		public String getFieldName() {
-			return fieldName;
-		}
-		
-		public void setErrorState(boolean error){
-			fieldDiv.setValidationError(error);
-			if(error){
-				encapsulatingPanel.addStyleName("error");
-			}
-			else{
-				encapsulatingPanel.removeStyleName("error");
-			}
-			
-		}
-		public ErrorLevel processValidationResults(List<ValidationResultInfo> validationResults) {
-			
-			ErrorLevel status = ErrorLevel.OK;
-			for(ValidationResultInfo vr: validationResults){
-				KSLabel message;
-				if(fieldName != null){
-					message = new KSLabel(fieldName + " - " + vr.getMessage());
-				}
-				else{
-					message = new KSLabel(vr.getMessage());
-				}
-				
-	    		if(vr.getLevel() == ErrorLevel.ERROR){
-	    			message.addStyleName("ks-form-validation-label");
-	    			
-	    			this.valPanel.addMessage(message);
-	    			this.setErrorState(true);
-	    			if(status.getLevel() < ErrorLevel.ERROR.getLevel()){
-	    				status = vr.getLevel();
-	    			}
-	    			
-	    		}
-	    		else if(vr.getLevel() == ErrorLevel.WARN){
-	    			if(status.getLevel() < ErrorLevel.WARN.getLevel()){
-	    				status = vr.getLevel();
-	    			}
-	    			//message.addStyleName("KS-Validation-Warning-Message");
-	    		}
-	    		else{
-	    			//message.addStyleName("KS-Validation-Ok-Message");
-	    		}
-	        }
-			
-			return status;
-		}
-	}
+	protected boolean isValidationEnabled = true;
 
 	@Override
-	public void addField(final FieldDescriptor fieldDescriptor) {
-        //Required logic
-        if(this.getRequiredState() == RequiredEnum.REQUIRED){
-            //if top level is required remove required from sub fields, stop required * from being shown
-            if(fieldDescriptor.getRequiredState() == RequiredEnum.REQUIRED){
-                fieldDescriptor.setRequiredState(RequiredEnum.NOT_MARKED);
-            }
-        }
-        else if(this.getRequiredState() == RequiredEnum.OPTIONAL){
-            if(fieldDescriptor.getRequiredState() == RequiredEnum.OPTIONAL){
-                fieldDescriptor.setRequiredState(RequiredEnum.NOT_MARKED);
-            }
-        }
+	public String addField(final FieldDescriptor fieldDescriptor) {
 
         fields.add(fieldDescriptor);
-        addFieldToLayout(fieldDescriptor);
+        String key = layout.addField(fieldDescriptor.getFieldElement());
 
         ValidationEventBinding binding = new ValidationEventBindingImpl();
         if(fieldDescriptor.getValidationRequestCallback()== null){
             fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
-                	LayoutController controller = LayoutController.findParentLayout(fieldDescriptor.getFieldWidget());
-                	ModelDTO model = null;
-                	if(controller != null){
-                		model = controller.getModel();
-                	}
-                	if(model != null){
-                		//FIXME this is for backwards compatibility ONLY, tear this out later
-                        PropertyBinding pBinding = fieldDescriptor.getPropertyBinding();
-                        PropertyBinding wBinding = fieldDescriptor.getWidgetBinding();
-                        
-                        if (wBinding != null){
-                            Widget w = fieldDescriptor.getFieldWidget();
-                            pBinding.setValue(model, wBinding.getValue(w));
-                            GWT.log(model.toString(), null);
-                        } else {
-                            GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
-                        }
-                        //TODO uncomment this
-                        //LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).validate(Section.this);
-                	}
-                	else{
-                	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
-                	    if (mwb != null) {
-                	        final Widget w = fieldDescriptor.getFieldWidget();
-                            final LayoutController parent = LayoutController.findParentLayout(w);
-                            if(parent != null){
-	                            parent.requestModel(new ModelRequestCallback<DataModel>() {
-	
-	                                @Override
-	                                public void onModelReady(DataModel model) {
-	                                	if(fieldDescriptor.getFieldKey() != null){
-		                                    mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
-		                                    ValidateRequestEvent e = new ValidateRequestEvent();
-		                                    e.setFieldDescriptor(fieldDescriptor);
-		                                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
-	                                	}
-	                                }
-	
-	                                @Override
-	                                public void onRequestFail(Throwable cause) {
-	                                    GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
-	                                }
-	                                
-	                            });
-                	    	}
-                        } else {
-                            GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
-                        }
+            	    final ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
+            	    if (mwb != null) {
+            	        final Widget w = fieldDescriptor.getFieldWidget();
+            	        final String modelId = fieldDescriptor.getModelId();
+                        final LayoutController parent = LayoutController.findParentLayout(w);
+                        if(parent != null){
+                        	if (modelId == null) {
+                        		parent.requestModel(new ModelRequestCallback<DataModel>() {
 
-                	}
-                	
-                    
+                        			@Override
+                        			public void onModelReady(DataModel model) {
+                        				validateField(fieldDescriptor, model);
+                        			}
 
+                        			@Override
+                        			public void onRequestFail(Throwable cause) {
+                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+                        			}
+
+                        		});
+                        	} else {
+                        		parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+
+                        			@Override
+                        			public void onModelReady(DataModel model) {
+                        				validateField(fieldDescriptor, model);
+                        			}
+
+                        			@Override
+                        			public void onRequestFail(Throwable cause) {
+                        				GWT.log("Unable to retrieve model to validate " + fieldDescriptor.getFieldKey(), null);
+                        			}
+
+                        		});                        	}
+            	    	}
+                    } else {
+                        GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
+                    }
                 }
             });
         }
         binding.bind(fieldDescriptor);
-		
+
+        return key;
 	}
-	
+
+	private void validateField(
+			final FieldDescriptor fieldDescriptor, final DataModel model) {
+		Widget w = fieldDescriptor.getFieldWidget();
+		ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
+		if(fieldDescriptor.getFieldKey() != null){
+			mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
+			ValidateRequestEvent e = new ValidateRequestEvent();
+			e.setFieldDescriptor(fieldDescriptor);
+			LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
+		}
+	}
+
 	@Override
-	public void addSection(BaseSection section) {
-        //Required logic
-        if(this.getRequiredState() == RequiredEnum.REQUIRED){
-            //if top level is required remove required from sub fields, stop required * from being shown
-            if(section.getRequiredState() == RequiredEnum.REQUIRED){
-                section.setRequiredState(RequiredEnum.NOT_MARKED);
-            }
-        }
-        else if(this.getRequiredState() == RequiredEnum.OPTIONAL){
-            if(section.getRequiredState() == RequiredEnum.OPTIONAL){
-                section.setRequiredState(RequiredEnum.NOT_MARKED);
-            }
-        }
+	public String addSection(Section section) {
 
         sections.add(section);
-        addSectionToLayout(section);
+        String key = layout.addLayout(section.getLayout());
+        return key;
 	}
-	
+
 	@Override
-	public void removeSection(BaseSection section){
+	public void removeSection(Section section){
 		sections.remove(section);
-		removeSectionFromLayout(section);
-	}
-	
-	protected abstract void removeSectionFromLayout(BaseSection section);
-
-	@Override
-	public void clearHighlight() {
-		// TODO Auto-generated method stub
-		
+		layout.removeLayoutElement(section.getLayout());
 	}
 
-	@Override
-	public void clearValidation() {
-		for(FieldInfo info: pathFieldInfoMap.values()){
-			info.setErrorState(false);
-			info.getValidationPanel().clear();
-		}
-		
-	}
+	private void clearValidation() {
+		layout.clearValidation();
 
-	@Override
-	public void clearValidationMessage(String fieldPath) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public List<FieldDescriptor> getFields() {
         List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
         allFields.addAll(fields);
-/*        for(FieldDescriptor f: this.fields){
-        	if(f.getFieldWidget() instanceof MultiplicityComposite){
-				MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
-            	
-				//possibly return error state from processValidationResults to give composite title bar a separate color
-            	for(MultiplicityItem item: mc.getItems()){
-            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-            			allFields.addAll(((Section) item.getItemWidget()).getFields());
-            		}
-            	}
-			}
-        }*/
+
         for(Section ns: sections){
             allFields.addAll(ns.getFields());
         }
         return allFields;
 	}
-	
+
 	@Override
 	public List<FieldDescriptor> getUnnestedFields() {
         return fields;
-	}
-
-	@Override
-	public RequiredEnum getRequiredState() {
-		return requiredState;
 	}
 
 	@Override
@@ -290,123 +157,58 @@ public abstract class BaseSection extends Composite implements Section{
 	}
 
 	@Override
-	public ErrorLevel processValidationResults(List<ValidationResultContainer> results) {
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
 		this.clearValidation();
 		ErrorLevel status = ErrorLevel.OK;
-		
-		for(FieldDescriptor f: this.fields){
-			
-			if(f.hasHadFocus()){
-				System.out.println("Processing field " + f.getFieldKey());
-				for(ValidationResultContainer vc: results){
-					if(vc.getElement().equals(f.getFieldKey())){
-						System.out.println("Checking validation on field " + f.getFieldKey());
-						FieldInfo info = pathFieldInfoMap.get(f.getFieldKey());
-						if (info != null){
-							ErrorLevel fieldStatus = info.processValidationResults(vc.getValidationResults());
-							if(fieldStatus == ErrorLevel.ERROR){
-								System.out.println("Error: " + f.getFieldKey());
+
+		if (isValidationEnabled){
+
+			for(FieldDescriptor f: this.fields){
+
+				if(f.hasHadFocus()){
+					System.out.println("Processing field " + f.getFieldKey());
+					for(ValidationResultInfo vr: results){
+						if(vr.getElement().equals(f.getFieldKey())){
+							System.out.println("Checking validation on field " + f.getFieldKey());
+							FieldElement element = f.getFieldElement();
+							if (element != null){
+								ErrorLevel fieldStatus = element.processValidationResult(vr);
+								if(fieldStatus == ErrorLevel.ERROR){
+									System.out.println("Error: " + f.getFieldKey());
+								}
+								if(fieldStatus.getLevel() > status.getLevel()){
+
+									status = fieldStatus;
+								}
 							}
-							if(fieldStatus.getLevel() > status.getLevel()){
-								
-								status = fieldStatus;
-							}
-						} 
+						}
 					}
 				}
-			}
-			
-			if(f.getFieldWidget() instanceof MultiplicityComposite){
-				MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
-            	
-				//possibly return error state from processValidationResults to give composite title bar a separate color
-            	for(MultiplicityItem item: mc.getItems()){
-            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results);
-						if(fieldStatus.getLevel() > status.getLevel()){
-							status = fieldStatus;
-						}
-            		}
-            	}
-			}
-			
-/*	        for(FieldDescriptor f: fields){
-	            f.setHasHadFocus(hadFocus);
-	            System.out.println(f.getFieldKey() + " has had focus");
-	            if(f.getFieldWidget() instanceof MultiplicityComposite){
+
+				if(f.getFieldWidget() instanceof MultiplicityComposite){
 					MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
-					
+
+					//possibly return error state from processValidationResults to give composite title bar a separate color
 	            	for(MultiplicityItem item: mc.getItems()){
 	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-	            			((Section) item.getItemWidget()).setFieldHasHadFocusFlags(hadFocus);
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results);
+							if(fieldStatus.getLevel() > status.getLevel()){
+								status = fieldStatus;
+							}
 	            		}
 	            	}
+				}
+			}
+
+	        for(Section s: sections){
+	            ErrorLevel subsectionStatus = s.processValidationResults(results);
+	            if(subsectionStatus.getLevel() > status.getLevel()){
+	            	status = subsectionStatus;
 	            }
-	        }*/
+	        }
 		}
-		
-/*        for(RowDescriptor r: rows){
-            r.clearValidationMessages();
-            for(FieldDescriptor f: r.getFields()){
-                if(f.hasHadFocus()){
-                    for(ValidationResultContainer vc: results){
-                        if(vc.getElement().equals(f.getFieldKey())){
-                            r.setValidationMessages(vc.getValidationResults());
-                        }
-                    }
 
-                }
-                else if(f.getFieldWidget() instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite){
-                	org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite mc = (org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite) f.getFieldWidget();
-                	
-                	for(MultiplicityItem item: mc.getItems()){
-                		if(item.getItemWidget() instanceof Section){
-                			((Section)item.getItemWidget()).processValidationResults(results);
-                		}
-                	}
-                }
-            }
-        }*/
-
-        for(Section s: sections){
-            ErrorLevel subsectionStatus = s.processValidationResults(results);
-            if(subsectionStatus.getLevel() > status.getLevel()){
-            	status = subsectionStatus;
-            }
-        }
-		
         return status;
-	}
-
-	@Override
-	public void setHighlight(SectionState state) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setInstructions(String instructions) {
-		this.instructions.addStyleName("ks-section-instuctions");
-		this.instructions.setText(instructions);
-		this.instructions.setVisible(true);
-	}
-
-	@Override
-	public void setMessage(String text, boolean show) {
-		this.message.setMessage(text, show);
-		
-	}
-
-	@Override
-	public void showMessage(boolean show) {
-		this.message.setVisible(show);
-		
-	}
-
-	@Override
-	public void showValidationMessage(String fieldPath) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -419,34 +221,19 @@ public abstract class BaseSection extends Composite implements Section{
 		this.layoutController = controller;
 	}
 
+
 	@Override
-	public void setRequiredState(RequiredEnum required) {
-		requiredState = required;
+	public String addWidget(Widget w) {
+		return layout.addWidget(w);
 	}
-	
-    @Override
-    public SectionTitle getSectionTitle() {
-        return sectionTitle;
-    }
-    
-	@Override
-	public void setSectionTitle(SectionTitle sectionTitle) {
-		this.sectionTitle = sectionTitle;
-		
-	}
-    
-	@Override
-	public void addWidget(Widget w) {
-		this.addWidgetToLayout(w);
-	}
-	
+
     public void setFieldHasHadFocusFlags(boolean hadFocus) {
         for(FieldDescriptor f: fields){
             f.setHasHadFocus(hadFocus);
             System.out.println(f.getFieldKey() + " has had focus");
             if(f.getFieldWidget() instanceof MultiplicityComposite){
 				MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
-				
+
             	for(MultiplicityItem item: mc.getItems()){
             		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
             			((Section) item.getItemWidget()).setFieldHasHadFocusFlags(hadFocus);
@@ -460,17 +247,28 @@ public abstract class BaseSection extends Composite implements Section{
         }
 
     }
-    
+
     @Override
+    public void enableValidation(boolean enableValidation) {
+    	this.isValidationEnabled = enableValidation;
+    }
+
+    @Override
+    public boolean isValidationEnabled() {
+		return isValidationEnabled;
+	}
+
+	@Override
     public void updateModel(DataModel model){
         SectionBinding.INSTANCE.setModelValue(this, model, "");
     }
 
     @Override
-    public void updateView(DataModel model) {
+    public void updateWidgetData(DataModel model) {
         SectionBinding.INSTANCE.setWidgetValue(this, model, "");
     }
 
+    @Override
     public void resetFieldInteractionFlags() {
         for(FieldDescriptor f: fields){
             f.setDirty(false);
@@ -482,20 +280,95 @@ public abstract class BaseSection extends Composite implements Section{
         }
 
     }
-    
+
+
 	@Override
-	public void setSectionValidationPanel(ValidationMessagePanel validationPanel) {
-		//DOESNT WORK
-/*		pathValidationPanelMap = new HashMap<String, ValidationMessagePanel>();
-		for(FieldDescriptor f: fields){
-			pathValidationPanelMap.put(f.getFieldKey(), validationPanel);
-		}
-		
-		for(Section s: sections){
-			setSectionValidationPanel(validationPanel);
-		}*/
+	public String addSection(String key, Section section) {
+        sections.add(section);
+        section.getLayout().setKey(key);
+        String rkey = layout.addLayout(section.getLayout());
+        return rkey;
 	}
-    
-    
+
+	@Override
+	public FieldDescriptor getField(String fieldKey) {
+		for(FieldDescriptor f: fields){
+			if(f.getFieldKey().equals(fieldKey)){
+				return f;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public FieldLayout getLayout() {
+		return layout;
+	}
+
+	@Override
+	public Section getSection(String sectionKey) {
+		for(Section s: sections){
+			if(s.getLayout().getKey().equals(sectionKey)){
+				return s;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void removeField(String fieldKey) {
+		int index = 0;
+		boolean found = false;
+		for(FieldDescriptor f: fields){
+			if(f.getFieldKey().equals(fieldKey)){
+				index = fields.indexOf(f);
+				found = true;
+				break;
+			}
+		}
+		if(found){
+			fields.remove(index);
+		}
+		layout.removeLayoutElement(fieldKey);
+
+	}
+
+	@Override
+	public void removeField(FieldDescriptor field) {
+
+		fields.remove(field);
+		layout.removeLayoutElement(field.getFieldKey());
+
+	}
+
+	@Override
+	public void removeSection(String sectionKey) {
+		int index = 0;
+		boolean found = false;
+		for(Section s: sections){
+			if(s.getLayout().getKey().equals(sectionKey)){
+				index = sections.indexOf(s);
+				found = true;
+				break;
+			}
+		}
+		if(found){
+			sections.remove(index);
+		}
+		layout.removeLayoutElement(sectionKey);
+
+	}
+
+	@Override
+	public void removeWidget(Widget widget) {
+		layout.removeLayoutElement(widget);
+
+	}
+
+	@Override
+	public void removeWidget(String key) {
+		layout.removeLayoutElement(key);
+
+	}
 
 }

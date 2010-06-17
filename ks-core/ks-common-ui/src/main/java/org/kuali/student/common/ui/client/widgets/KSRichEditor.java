@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets;
 
 
@@ -41,20 +42,6 @@ public class KSRichEditor extends KSRichEditorAbstract implements HasText{
 	 * 
 	 */
 	public KSRichEditor(){
-	    init(false);
-	    initWidget(richEditor);
-	}
-
-
-	/**
-	 * Creates a new KSRichEditor with the if the text editor is used in a popup
-	 * flag set.  Text editors that are have this flag set to true do not have a
-	 * pop-out option and always have the toolbar showing.
-	 * 
-	 * @param isUsedInPopup true if this will be used in a popup, false otherwise.
-	 */
-	public KSRichEditor(boolean isUsedInPopup) {
-	    init(true);
 	    initWidget(richEditor);
 	}
 	
@@ -104,15 +91,6 @@ public class KSRichEditor extends KSRichEditorAbstract implements HasText{
 	}
 
 
-    /**
-     * Initialize this text editor with the specified option.
-     * 
-     */
-    protected void init(boolean isUsedInPopup) {
-        richEditor.init(isUsedInPopup);
-    }
-
-
 	@Override
 	public void setStyleName(String text) {
 		richEditor.setStyleName(text);
@@ -128,5 +106,11 @@ public class KSRichEditor extends KSRichEditorAbstract implements HasText{
 	@Override
 	public HandlerRegistration addFocusHandler(FocusHandler handler) {
 		return richEditor.addFocusHandler(handler);
+	}
+
+	@Override
+	protected void init() {
+		 richEditor.init();
+		
 	}
 }

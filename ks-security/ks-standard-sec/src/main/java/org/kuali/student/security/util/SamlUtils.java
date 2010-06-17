@@ -1,11 +1,11 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -159,7 +159,7 @@ public class SamlUtils {
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.newDocument();
 
-        Element root = doc.createElementNS("http://student.kuali.org", "ks:RootElement");
+        Element root = doc.createElementNS("http://student.kuali.org", "ks:KSSecureToken");
         root.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:ks", "http://student.kuali.org");
         
         doc.appendChild(root);

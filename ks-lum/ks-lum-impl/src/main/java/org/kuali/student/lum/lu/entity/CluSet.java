@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.entity;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,10 +45,8 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE c.id IN (:cluSetIdList)"),
 	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(c) FROM CluSet c JOIN c.clus clu WHERE c.id = :cluSetId AND clu.id = :cluId")
 })
+public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute> {
 
-
-public class CluSet extends MetaEntity implements
-		AttributeOwner<CluSetAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
@@ -65,24 +65,35 @@ public class CluSet extends MetaEntity implements
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
-
-	@Column(name = "CRIT_SET")
-	private boolean criteriaSet;
 	
-	// private CluCriteria cluCriteria;//TODO Criteria
-
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
-	private List<CluSet> cluSets;
+	private List<CluSet> cluSets = new ArrayList<CluSet>();
 
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
-	private List<Clu> clus;
+	private List<Clu> clus = new ArrayList<Clu>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<CluSetAttribute> attributes;
+	private List<CluSetAttribute> attributes = new ArrayList<CluSetAttribute>();
 
-	@Override
+	@Column(name="TYPE")
+	private String type;
+
+	@Column(name = "ST")
+    private String state;
+	
+	@Column(name = "ADMIN_ORG_ID")
+	private String adminOrg;
+	
+    @OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="MEM_QUERY_ID")
+	private MembershipQuery membershipQuery;
+	
+    @Column(name = "REUSABLE")
+    private Boolean isReusable;
+
+    @Override
     public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
@@ -96,8 +107,8 @@ public class CluSet extends MetaEntity implements
 	}
 
 	public List<Clu> getClus() {
-		if(clus==null){
-			clus=new ArrayList<Clu>();
+		if(clus == null){
+			return new ArrayList<Clu>();
 		}
 		return clus;
 	}
@@ -140,7 +151,7 @@ public class CluSet extends MetaEntity implements
 
 	public List<CluSet> getCluSets() {
 		if (cluSets == null) {
-			cluSets = new ArrayList<CluSet>();
+			return new ArrayList<CluSet>();
 		}
 		return cluSets;
 	}
@@ -151,7 +162,7 @@ public class CluSet extends MetaEntity implements
 
 	public List<CluSetAttribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<CluSetAttribute>();
+			return new ArrayList<CluSetAttribute>();
 		}
 		return attributes;
 	}
@@ -160,12 +171,44 @@ public class CluSet extends MetaEntity implements
 		this.attributes = attributes;
 	}
 
-	public boolean isCriteriaSet() {
-		return criteriaSet;
+	public String getType() {
+		return type;
 	}
 
-	public void setCriteriaSet(boolean criteriaSet) {
-		this.criteriaSet = criteriaSet;
+	public void setType(String type) {
+		this.type = type;
 	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAdminOrg() {
+		return adminOrg;
+	}
+
+	public void setAdminOrg(String adminOrg) {
+		this.adminOrg = adminOrg;
+	}
+
+	public MembershipQuery getMembershipQuery() {
+		return membershipQuery;
+	}
+
+	public void setMembershipQuery(MembershipQuery membershipQuery) {
+		this.membershipQuery = membershipQuery;
+	}
+
+    public Boolean getIsReusable() {
+        return isReusable;
+    }
+
+    public void setIsReusable(Boolean isReusable) {
+        this.isReusable = isReusable;
+    }
 
 }

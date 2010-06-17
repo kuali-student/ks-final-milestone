@@ -1,3 +1,20 @@
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
@@ -17,7 +34,7 @@
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionServiceUnsecure">
+				p:localServiceName="kimPermissionService">
 				<property name="busSecurity" value="false" />
 				<property name="jaxWsService" value="true" />
 			</bean>
@@ -57,7 +74,7 @@
 
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService"
-		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
 		<property name="includedOrgPersonRelationTypes">
 			<list>
 				<value>kuali.org.PersonRelation.Chair</value>
@@ -68,7 +85,7 @@
 
 	<!-- Org Derived role (anyone that's related to this org) -->
 	<bean id="ksOrgCommitteeRoleTypeService"
-		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
 		<property name="excludedOrgPersonRelationTypes">
 			<list>
 				<value>kuali.org.PersonRelation.Chair</value>
@@ -77,14 +94,20 @@
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
-    <!-- Action Request Derived role (Non Adhoc) -->
-    <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+    <!-- Action Request Derived role (type - Non Adhoc) (status - ACTIVE) -->
+    <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
 
-    <!-- Action Request Derived role (Adhoc) -->
-    <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+    <!-- Action Request Derived role (type = Adhoc) (status - ACTIVE) -->
+    <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (type = Non Adhoc) (status - DONE) -->
+    <bean id="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (type = Adhoc) (status - DONE) -->
+    <bean id="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocDoneActionRequestDerivedRoleTypeServiceImpl"/>
 
     <!-- Route Log Derived role -->
-    <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl">
+    <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSRouteLogDerivedRoleTypeServiceImpl">
         <property name="checkFutureRequests" value="false" />
     </bean>    
 
@@ -98,8 +121,11 @@
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>
 
+    <!-- Organization Hierarchy Role Type -->
+    <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
+
 	<!-- Hierarchy Derived role -->
 <!--
-	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.HierarchyNodeTestRoleTypeServiceBase" />
+	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.role.type.HierarchyNodeTestRoleTypeServiceBase" />
 -->
 </beans>

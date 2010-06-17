@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.ObjectStructureInfoHelper.Properties;
@@ -57,18 +56,14 @@ public class ObjectStructureInfoMetadata
 		// metadata for type
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.TYPE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.LIST);
+		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
-		listMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new TypeSelectorInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
+		new TypeSelectorInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for objectTypeKey
 		childMeta = new Metadata ();

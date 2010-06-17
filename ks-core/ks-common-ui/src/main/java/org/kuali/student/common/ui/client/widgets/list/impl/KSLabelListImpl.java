@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.list.impl;
 
 import java.util.ArrayList;
@@ -25,8 +26,6 @@ import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -34,12 +33,12 @@ import com.google.gwt.user.client.ui.FlexTable;
 
 /**
  * This class is a temporary hack to display a list of strings.
- * 
- * @author Kuali Student Team 
+ *
+ * @author Kuali Student Team
  *
  */
-public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
-    
+public class KSLabelListImpl extends KSSelectItemWidgetAbstract {
+
     private static final HandlerRegistration NO_OP_REGISTRATION = new HandlerRegistration() {
 		@Override
 		public void removeHandler() {
@@ -47,7 +46,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
 		}
     };
 
-    
+
 	private FlexTable labels = new FlexTable();
     private List<String> selectedItems = new ArrayList<String>();
 
@@ -78,57 +77,52 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
     public void selectItem(String id) {
-        //FIXME: This is a hack to get over problem in SelectItemWidgetBinding
-        
-        if (getListItems().getItemIds().isEmpty()) {
-            SimpleListItems list = new SimpleListItems();
-            list.addItem(id, id);
-            setListItems(list);
-        }
-        else if (!getListItems().getItemIds().contains(id) &&
-                  getListItems() instanceof SimpleListItems) {
-            SimpleListItems list = (SimpleListItems)getListItems();
-            list.addItem(id, id);
-            setListItems(list);
-        }
-        
         if (!selectedItems.contains(id)){
              this.selectedItems.add(id);
         }
+
+        //FIXME: Is there a better way to display selected item here without redrawing
+        redraw();
     }
-    
+
     public void redraw(){
         labels.clear();
-        int itemCount = super.getListItems().getItemCount();
         int currCount = 0;
         int row = 0;
         int col = 0;
 
+        int itemCount = 0;
+        if (super.getListItems() != null){
+        	itemCount = super.getListItems().getItemCount();
+        } else {
+        	itemCount = selectedItems.size();
+        }
+
         if (maxCols <= 2){
             //Row flow - increment row faster than column
             int maxRows = (itemCount / maxCols) + (itemCount % 2);
-            for (String id:super.getListItems().getItemIds()){
+            for (String id:selectedItems){
                 currCount++;
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
-                
+
                 labels.setWidget(row, col, createLabel(id));
-                
+
                 col += ((row + 1)/ maxRows) * 1;
             }
         } else {
             //Column flow - increment column faster than row
-            for (String id:super.getListItems().getItemIds()){
+            for (String id:selectedItems){
                 currCount++;
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
-                
+
                 labels.setWidget(row, col, createLabel(id));
-                
+
                 row += ((col + 1 )/ maxCols) * 1;
             }
         }
-        
+
         super.setInitialized(true);
     }
 
@@ -136,8 +130,8 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public <T extends Idable> void setListItems(ListItems listItems) {
         if(listItems instanceof ModelListItems){
             Callback<T> redrawCallback = new Callback<T>(){
-                
-                @Override 
+
+                @Override
                 public void exec(T result){
                     KSLabelListImpl.this.redraw();
                 }
@@ -147,36 +141,22 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
             ((ModelListItems<T>)listItems).addOnUpdateCallback(redrawCallback);
             ((ModelListItems<T>)listItems).addOnBulkUpdateCallback(redrawCallback);
         }
-        
+
         super.setListItems(listItems);
 
         redraw();
     }
 
     private KSLabel createLabel(String id){
-        return new KSLabel(id);
-    }
-
-
-    @Override
-    public void onClick(ClickEvent event) {
-        KSLabel label = (KSLabel)(event.getSource());   
-//        String value = label.getFormValue();
-//        if (checkbox.getValue()){
-//            if (!selectedItems.contains(value)){
-//                selectedItems.add(value);
-//            }
-//        } else {
-//            selectedItems.remove(value);
-//        }
-//        fireChangeEvent();
+    	if (super.getListItems() == null || super.getListItems().getItemCount() == 0){
+    		return new KSLabel(id);
+    	} else {
+    		return new KSLabel(super.getListItems().getItemText(id));
+    	}
     }
 
     public void onLoad() {}
 
-    /**
-     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setMaxColumns(int)
-     */
     @Override
     public void setColumnSize(int col) {
         maxCols = col;
@@ -196,7 +176,7 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public boolean isEnabled() {
         return enabled;
     }
-    
+
     @Override
     public boolean isMultipleSelect(){
         return true;
@@ -204,7 +184,6 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     @Override
     public void clear(){
         selectedItems.clear();
-        setListItems(new SimpleListItems());
         redraw();
     }
 

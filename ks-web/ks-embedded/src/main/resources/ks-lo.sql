@@ -1,5 +1,23 @@
+--
+-- Copyright 2010 The Kuali Foundation Licensed under the
+-- Educational Community License, Version 2.0 (the "License"); you may
+-- not use this file except in compliance with the License. You may
+-- obtain a copy of the License at
+--
+-- http://www.osedu.org/licenses/ECL-2.0
+--
+-- Unless required by applicable law or agreed to in writing,
+-- software distributed under the License is distributed on an "AS IS"
+-- BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+-- or implied. See the License for the specific language governing
+-- permissions and limitations under the License.
+--
+
 // RichText
-INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-9', '<p>Desc</p>', 'Desc')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-6', '<p>Desc</p>', 'Desc')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-7', '<p>Desc2</p>', 'Desc2')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-8', '<p>Desc3</p>', 'Desc3')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-9', '<p>Desc4</p>', 'Desc4')
 INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-10', '<p>Learning objectives defined by faculty that are specific to a course</p>','Learning objectives defined by faculty that are specific to a course')
 INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-11', '<p>Default Learning Objective type</p>', 'Default Learning Objective type')
 INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-12', '<p>Basic Learning Objective type</p>', 'Basic Learning Objective type')
@@ -39,9 +57,9 @@ INSERT INTO KSLU_LO_CATEGORY_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('l
 
 // LoCategory
 INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Perception', 'RICHTEXT-14', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('054CAA88-C21D-4496-8287-36A311A11D68', 'Test Category 2', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('162979A3-25B9-4921-BC8F-C861B2267A73', 'Test Category 3', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('7114D2A4-F66D-4D3A-9D41-A7AA4299C797', 'Test Category 4', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('054CAA88-C21D-4496-8287-36A311A11D68', 'Test Category 2', 'RICHTEXT-6', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('162979A3-25B9-4921-BC8F-C861B2267A73', 'Test Category 3', 'RICHTEXT-7', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('7114D2A4-F66D-4D3A-9D41-A7AA4299C797', 'Test Category 4', 'RICHTEXT-8', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
 INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('F2F02922-4E77-4144-AA07-8C2C956370DC', 'Empty Test Category', 'RICHTEXT-19', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
 
 // Lo 

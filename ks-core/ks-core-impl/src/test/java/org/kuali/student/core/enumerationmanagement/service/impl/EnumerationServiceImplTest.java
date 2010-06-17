@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.enumerationmanagement.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -74,7 +75,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	searchRequest.getParams().add(searchParam);
     	SearchResult searchResult = enumService.search(searchRequest);
     	assertNotNull(searchResult);
-    	assertEquals(32,searchResult.getRows().size());
+    	assertEquals(34,searchResult.getRows().size());
     }
     
 	@Test
@@ -135,16 +136,24 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity4.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
-        contextEntity1.setEnumeratedValueEntity(entity1);
+        ArrayList<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
+        entityList1.add(entity1);
+        contextEntity1.setEnumeratedValueEntityList(entityList1);
         
         entity2.getContextEntityList().add(contextEntity3);
-        contextEntity3.setEnumeratedValueEntity(entity2);
+        ArrayList<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
+        entityList2.add(entity2);
+        contextEntity3.setEnumeratedValueEntityList(entityList2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        contextEntity2.setEnumeratedValueEntity(entity3);
+        ArrayList<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
+        entityList3.add(entity3);
+        contextEntity2.setEnumeratedValueEntityList(entityList3);
      
         entity4.getContextEntityList().add(contextEntity4);
-        contextEntity4.setEnumeratedValueEntity(entity4);
+        ArrayList<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
+        entityList4.add(entity4);
+        contextEntity4.setEnumeratedValueEntityList(entityList4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
@@ -301,16 +310,24 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity4.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
-        contextEntity1.setEnumeratedValueEntity(entity1);
+        ArrayList<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
+        entityList1.add(entity1);
+        contextEntity1.setEnumeratedValueEntityList(entityList1);
         
         entity2.getContextEntityList().add(contextEntity3);
-        contextEntity3.setEnumeratedValueEntity(entity2);
+        ArrayList<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
+        entityList2.add(entity2);
+        contextEntity3.setEnumeratedValueEntityList(entityList2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        contextEntity2.setEnumeratedValueEntity(entity3);
+        ArrayList<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
+        entityList3.add(entity3);
+        contextEntity2.setEnumeratedValueEntityList(entityList3);
      
         entity4.getContextEntityList().add(contextEntity4);
-        contextEntity4.setEnumeratedValueEntity(entity4);
+        ArrayList<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
+        entityList4.add(entity4);
+        contextEntity4.setEnumeratedValueEntityList(entityList4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);

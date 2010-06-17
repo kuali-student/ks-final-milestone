@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
-import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -117,6 +116,7 @@ public class CluResultInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date.time"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("cross.greaterthan.effective.date"));
 		}
 		
 		// metadata for metaInfo
@@ -129,6 +129,7 @@ public class CluResultInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.meta.data"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
@@ -141,6 +142,7 @@ public class CluResultInfoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("cluresult.types"));
 		}
 		
@@ -166,6 +168,7 @@ public class CluResultInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		
 		recursions.increment (this.getClass ().getName ());

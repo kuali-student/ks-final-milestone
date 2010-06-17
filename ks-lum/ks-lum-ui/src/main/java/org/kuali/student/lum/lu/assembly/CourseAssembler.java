@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.assembly;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
@@ -10,15 +25,13 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -43,14 +56,9 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AttributeInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluFeeInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
@@ -59,23 +67,26 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCrossListingsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
 import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.lum.lu.dto.CluFeeInfo;
+import org.kuali.student.lum.lu.dto.CluFeeRecordInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
-import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,20 +105,22 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 
 	public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
-	public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
+	public static final String COURSE_DATA_TYPE = "course";
 
 	private SingleUseLoInfoAssembler loAssembler;
 	private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
 	private final TimeAmountInfoAssembler timeamountAssembler = new TimeAmountInfoAssembler();
 	private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
+	private final CluFeeInfoDataAssembler feeAssembler = new CluFeeInfoDataAssembler();
+	private final RevenueDataAssembler revenueAssembler = new RevenueDataAssembler();
+	private final ExpenditureDataAssembler expenditureAssembler = new ExpenditureDataAssembler();
+	private LearningResultAssembler lrAssembler;
 
 	private LuService luService;
 	private StatementService statementService;
 	private LearningObjectiveService loService;
 	private OrganizationService orgService;
 	private AtpService atpService;
-
-	private SearchDispatcherImpl searchDispatcher;
 
 	@Override
 	public Data get(String id) throws AssemblyException {
@@ -123,6 +136,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 			luData.setData(course.getData());
 
+			result.setGradingOptions(getLearningResultAssembler().getGradingOptions(id));
+			result.setOutcomeOptions(getLearningResultAssembler().getOutcomeOptions(id));
+
 			luData.setRuleInfos(getRules(id));
 			
 			//FIXME:  This is a hack to extract the rule info statements from LuData and put them
@@ -133,19 +149,15 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			// TODO - need a SingleUseLoListAssembler that calls SingleUseLoAssembler once for each LO
 			// associated with the course
 			result.setCourseSpecificLOs(getSingleUseLoAssembler().get(course.getId()));
-
 		} catch (Exception e) {
-			throw new AssemblyException(
-					"Could not assemble course", e);
+			throw new AssemblyException("Could not assemble course", e);
 		}
 
 		return result.getData();
 	}
 
-
-
 	@Override
-	public SaveResult<Data> save(Data input)     throws AssemblyException {
+	public SaveResult<Data> save(Data input) throws AssemblyException {
 
 		try {
 			SaveResult<Data> result = new SaveResult<Data>();
@@ -169,7 +181,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			} else {
 				course = CreditCourseHelper.wrap(input);
 			}
-            
+			
             //See if this is a create and this is a copy
             String copyOfCourseId = null;
             if(course.getId()==null&&course.getCopyOfCourseId()!=null){
@@ -196,6 +208,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             	CluCluRelationInfo cluCluRelationInfo = new CluCluRelationInfo();
             	luService.createCluCluRelation(courseId, copyOfCourseId, COPY_OF_CLU_RELATION_TYPE, cluCluRelationInfo);
             }
+            
+            getLearningResultAssembler().saveGradingOptions(course.getData(), courseId);
+            getLearningResultAssembler().saveOutcomeOptions(course.getData(), courseId);
             
 			saveRules(courseId, (LuData)input);
 
@@ -226,15 +241,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	@Override
 	public CluInfoHierarchy disassemble(Data input) throws AssemblyException {
 		throw new UnsupportedOperationException("Data disassembly not supported");
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		//TODO Might want to be synchronized, or services should be dependency injected...
-		if(null == searchDispatcher){
-			searchDispatcher = new SearchDispatcherImpl(luService, loService);
-		}
-		return searchDispatcher.dispatchSearch(searchRequest);
 	}
 
 	private CluInfoHierarchy getCluInfoHierarchyFromId(String id) throws AssemblyException {
@@ -286,7 +292,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				result.setDepartment(admin.getOrgId());
 			}
 
-			result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
+			if (course.getDescr() != null){
+				result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
+			}
 
 			TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getStdDuration()));
 			if (time != null) {
@@ -303,7 +311,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				result.getTermsOffered().add(atpType);
 			}
 
-			result.setFirstExpectedOffering(new String());
+			result.setFirstExpectedOffering("");
 			String atp = course.getExpectedFirstAtp();
 			if (atp != null && !atp.isEmpty()) {
 				result.setFirstExpectedOffering(atp);
@@ -328,6 +336,13 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			for (String campus : course.getCampusLocations()) {
 				result.getCampusLocations().add(campus);
 			}
+			
+			result.setFees(feeAssembler.assemble(course.getFeeInfo()));
+			
+			setRevenueData(result, course);
+			
+			setExpenditureData(result, course);
+			
 			addVersionIndicator(result.getData(), CluInfo.class.getName(), course.getId(), course.getMetaInfo().getVersionInd());
 
 			for (CluInfoHierarchy format : hierarchy.getChildren()) {
@@ -356,58 +371,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				}
 			}
 			result.setId(course.getId());
-
-			//FIXME: Temp hack to send id and type translations back to View Course UI. Once fields added to DOL, fix!!
-			// Sending the lookup values back as dynamic attributes in the fee structure (fees not in M4). 
-			// Attributes don't seem to be implemented in CluInfo DOL yet
-			Map<String,String> lookupFields = new HashMap<String, String>();
-
-			lookupFields.put("CourseType", getCluTypeName(course.getType()));
-
-			lookupFields.put("CourseCode", course.getOfficialIdentifier().getCode());
-
-			int i = 0;
-			if (admin != null) {
-				lookupFields.put("DeptOrgName", getOrgName(admin.getOrgId()));
-			}
-
-			i=0;
-			for (String atpType : course.getOfferedAtpTypes()) {
-				lookupFields.put("TermOffered",getAtpTypeName(atpType));
-				////FIXME  In M4 user can only create one term offered. Remove this break when they can have multiples
-				break;
-			}
-			i=0;
-
-			for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-				if (org.getOrgId() != null && !org.getOrgId().isEmpty()){
-					lookupFields.put("OversightName", getOrgName(org.getOrgId()));
-					//FIXME  In M4 user can only create one academic subject org. Remove this break when they can have multiples           
-					break;
-				}
-			}
-
-			//            i=0;
-			//            for (CluInfoHierarchy format : hierarchy.getChildren()) {
-			//                int j=0;
-			//                for (CluInfoHierarchy activity : format.getChildren()) {
-			//                    lookupFields.put("Format"+ i + "Activity" + j++, getCluTypeName(activity.getCluInfo().getType()));
-			//                }
-			//                i++;
-			//            }
-
-			result.setFees(new Data());
-			CluFeeInfoHelper feeHelper = CluFeeInfoHelper.wrap(new Data());
-			feeHelper.setAttributes(new Data());
-
-			Data data = new Data();
-			AttributeInfoHelper hlp = AttributeInfoHelper.wrap(data);
-			for (Map.Entry<String, String> entry : lookupFields.entrySet()) {
-				data.set(entry.getKey(), entry.getValue());
-			}
-			feeHelper.setAttributes(hlp.getData());
-			result.getFees().add(feeHelper.getData());         
 			
+			//FIXME: Temp hack to send course code back to View Course UI. Once fields added to DOL, fix!!
+			result.getData().set ("courseCode", course.getOfficialIdentifier().getCode());
+      		
 			//See if this is a copy of a clu and set that;    
 			List<String> copiedFromIds = luService.getRelatedCluIdsByCluId(result.getId(), COPY_OF_CLU_RELATION_TYPE);
 			if(copiedFromIds!=null&&copiedFromIds.size()>0){
@@ -422,13 +389,33 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		return result;
 
 	}
+	
+	// don't set them if we can't find them
+	private void setRevenueData(CreditCourseHelper ccHelper, CluInfo course) throws AssemblyException {
+		if (null != course.getFeeInfo()) {
+			CreditCourseRevenueInfoHelper ccrInfoHelper = CreditCourseRevenueInfoHelper.wrap(revenueAssembler.assemble(course.getFeeInfo().getCluFeeRecords()));
+			if (null != ccrInfoHelper) {				
+				ccHelper.setRevenueInfo(ccrInfoHelper);
+			}
+		} 
+	}
+	private void setExpenditureData(CreditCourseHelper ccHelper, CluInfo course) throws AssemblyException {
+		if (null != course.getAccountingInfo()) {
+			CreditCourseExpenditureInfoHelper cceInfoHelper = CreditCourseExpenditureInfoHelper.wrap(expenditureAssembler.assemble(course.getAccountingInfo()));
+			if (null != cceInfoHelper) {				
+				ccHelper.setExpenditureInfo(cceInfoHelper);
+			}
+		} 
+	}
+
+
 	private void buildRelatedCourse(CluInfoHierarchy currentClu, RelationshipHierarchy currentRel) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		System.out.println("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
+		LOG.info("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
 			// if the cluclu realtion is of type jointCourses dont add as a child to the CluInfoHierarchy object
-				if(!rel.getType().equals(JOINT_RELATION_TYPE)){
+				if(rel.getType().equals(currentRel.getRelationshipType())){
 					CluInfo clu = luService.getClu(rel.getRelatedCluId());
 					CluInfoHierarchy c = new CluInfoHierarchy();
 					c.setParentRelationType(currentRel.getRelationshipType());
@@ -442,6 +429,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			}
 		}
 	}
+
 
 	private SaveResult<CluInfoHierarchy> saveHierarchy(CreditCourseHelper course) throws AssemblyException {
 
@@ -504,21 +492,31 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	private CluInfoHierarchy buildCluInfoHierarchyFromData(CreditCourseHelper course) throws AssemblyException {
 		//metadata for authz
 		//FIXME: change idType below to be non-hardcoded
-		Metadata courseMetadata = getMetadata("courseId", course.getId(), course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
+		Metadata courseMetadata = getMetadata("courseId", course.getId(), course.getType(), course.getState());//TODO cache the metadata
 
 		CluInfoHierarchy result = null;
 		CluInfo courseClu = null;
+		String state = "draft";
+		CluIdentifierInfo cluId = null;
+		AdminOrgInfo adminOrg = null;
+		
 		// FIXME wilj: temp check for id, client needs to enforce modification flags once we get the basics working
 		if (course.getId() == null) {
 			setCreated(course.getData(), true);
 			result = new CluInfoHierarchy();
 			courseClu = new CluInfo();
 			result.setCluInfo(courseClu);
+			
+			// TODO unhardcode this stuff
+            courseClu.setState(state);
+            courseClu.setType("kuali.lu.type.CreditCourse");
 		} else {
 			// FIXME wilj: forcing update for now, until client enforces modification flags
 			setUpdated(course.getData(), true);
 			result = getCluInfoHierarchyFromId(course.getId());
 			courseClu = result.getCluInfo();
+			state = course.getState();
+			courseClu.setState(state);
 		}
 
 		if (isModified(course.getData())) {
@@ -530,7 +528,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				result.setModificationState(ModificationState.DELETED);
 			}
 
-			CluIdentifierInfo cluId = courseClu.getOfficialIdentifier();
+			cluId = courseClu.getOfficialIdentifier();
 			if (cluId == null) {
 				cluId = new CluIdentifierInfo();
 				courseClu.setOfficialIdentifier(cluId);
@@ -542,7 +540,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			}
 			cluId.setDivision(course.getSubjectArea());
 			cluId.setShortName(course.getTranscriptTitle());
-
+			//Get the level as the first character in the number pluss "00"
+			if(course.getCourseNumberSuffix()!=null&&!course.getCourseNumberSuffix().isEmpty()){
+				cluId.setLevel(course.getCourseNumberSuffix().substring(0,1)+"00");
+			}
 			courseClu.setExpectedFirstAtp(course.getFirstExpectedOffering());
 
 			String instrId = course.getPrimaryInstructor();
@@ -555,21 +556,23 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 			//AuthzCheck
 			if(courseMetadata.getProperties().get("department").getWriteAccess()!=WriteAccess.NEVER){
-				AdminOrgInfo admin = courseClu.getPrimaryAdminOrg();
-				if (admin == null) {
-					admin = new AdminOrgInfo();
-					courseClu.setPrimaryAdminOrg(admin);
+				adminOrg = courseClu.getPrimaryAdminOrg();
+				if (adminOrg == null) {
+				    adminOrg = new AdminOrgInfo();
+					courseClu.setPrimaryAdminOrg(adminOrg);
 				}
-				admin.setOrgId(course.getDepartment());
+				adminOrg.setOrgId(course.getDepartment());
 			}
 
 			List<AcademicSubjectOrgInfo> subjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
 			if (course.getAcademicSubjectOrgs() != null) {
 				for (Data.Property p : course.getAcademicSubjectOrgs()) {
-					String org = p.getValue();
-					AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
-					info.setOrgId(org);
-					subjectOrgs.add(info);
+					if(!"_runtimeData".equals(p.getKey())){
+						String org = p.getValue();
+						AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
+						info.setOrgId(org);
+						subjectOrgs.add(info);
+					}
 				}
 			}
 			courseClu.setAcademicSubjectOrgs(subjectOrgs);
@@ -577,13 +580,21 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			List<String> campuses = new ArrayList<String>();
 			if (course.getCampusLocations() != null) {
 				for (Data.Property p : course.getCampusLocations()) {
-					String campus = p.getValue();
-					campuses.add(campus);
+					if(!"_runtimeData".equals(p.getKey())){
+						String campus = p.getValue();
+						campuses.add(campus);
+					}
 				}
 			}
 			courseClu.setCampusLocations(campuses);
 
-
+			courseClu.setFeeInfo(feeAssembler.disassemble(course.getFees()));
+			addRevenueFee(courseClu, course);
+			
+			if (null != course.getExpenditureInfo()) {
+				courseClu.setAccountingInfo(expenditureAssembler.disassemble(course.getExpenditureInfo().getData()));
+			}
+			
 			//          mergeAlternateIdentifiers(course, courseClu);
 			//FIXME this is a fix for rich text data which does not work yet, in place so the ui workaround can work
 			if(course.getDescription() == null){
@@ -613,20 +624,38 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			courseClu.setEffectiveDate(course.getEffectiveDate());
 			courseClu.setExpirationDate(course.getExpirationDate());
 
-			// TODO unhardcode this stuff
-			courseClu.setState("draft");
-			courseClu.setType("kuali.lu.type.CreditCourse");
-
 			if (courseClu.getMetaInfo() != null) {
 				courseClu.getMetaInfo().setVersionInd(getVersionIndicator(course.getData()));
 			}
 		}
-
-		buildFormatUpdates(result, course);
-		buildCrossListingsUpdates(result, course);
-		buildVersionsUpdates(result, course);
+		
+		buildFormatUpdates(result, course, state);
+		buildCrossListingsUpdates(result, course, state);
+		buildVersionsUpdates(result, course, state);
 
 		return result;
+	}
+
+	// Revenue (also a Fee in R1.0) is hung off course in DOL ("course/revenue"),
+	// rather than in the data that course.getFees() returns
+	private void addRevenueFee(CluInfo courseClu, CreditCourseHelper course) throws AssemblyException {
+		
+		// no revenue info, no CreditCourseRevenueInfoHelper, no Revenue Fee
+		CreditCourseRevenueInfoHelper revenueHelper = course.getRevenueInfo();
+		if (null != revenueHelper) {
+			// see RevenueDataAssembler for rationale re: disassemble() returning a List
+			List<CluFeeRecordInfo> revenueFeeList = revenueAssembler.disassemble(revenueHelper.getData());
+			if (null != revenueFeeList) {
+				if (null == courseClu.getFeeInfo()) {
+					courseClu.setFeeInfo(new CluFeeInfo());
+				}
+				if (null == courseClu.getFeeInfo().getCluFeeRecords()) {
+					courseClu.getFeeInfo().setCluFeeRecords(new ArrayList<CluFeeRecordInfo>());
+				}
+				courseClu.getFeeInfo().getCluFeeRecords().add(revenueFeeList.get(0));
+			}
+		}
+		
 	}
 
 	private void buildJointsFromData(String parentCourseId,CreditCourseHelper course ) throws AssemblyException{
@@ -637,38 +666,43 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			// CreditCourseJointsHelper joints =
 			// CreditCourseJointsHelper.wrap(course.getJoints());
 			for (Data.Property p : course.getJoints()) {
-				CreditCourseJointsHelper joint = CreditCourseJointsHelper
-				.wrap((Data) p.getValue());
-				//If user has not entered a joint course on the screen then return back
-				if(joint.getCourseId()==null){
-					return;
-				}
-				if (isCreated(joint.getData())) {
-					CluCluRelationInfo rel = new CluCluRelationInfo();
-					rel.setCluId(parentCourseId);
-					rel.setRelatedCluId(joint.getCourseId());
-					//                  rel.setType(joint.getType());
-					//                  Remove hardcoded Type
-					rel.setType(JOINT_RELATION_TYPE);
-
-					CluCluRelationInfo result= luService.createCluCluRelation(parentCourseId, joint
-							.getCourseId(), JOINT_RELATION_TYPE, rel);
-					joint.setRelationId(result.getId());
-
-				}
-				else if(isUpdated(joint.getData())){
-					String relationId = joint.getRelationId();
-					CluInfo clu = luService.getClu(joint.getCourseId());
-					if(!(clu.getOfficialIdentifier().getLongName().equals(joint.getCourseTitle()))){
-						CluCluRelationInfo cluCluRelation = new CluCluRelationInfo();
-						cluCluRelation.setId(relationId);
-						cluCluRelation.setCluId(parentCourseId);
-						cluCluRelation.setRelatedCluId(joint.getCourseId());
-						cluCluRelation.setType(JOINT_RELATION_TYPE);
-
-						luService.updateCluCluRelation(relationId, cluCluRelation);
+				if(!"_runtimeData".equals(p.getKey())){
+					CreditCourseJointsHelper joint = CreditCourseJointsHelper
+					.wrap((Data) p.getValue());
+					//If user has not entered a joint course on the screen then return back
+					if(joint.getCourseId()==null){
+						return;
 					}
-
+					if (isCreated(joint.getData())) {
+						CluCluRelationInfo rel = new CluCluRelationInfo();
+						rel.setCluId(parentCourseId);
+						rel.setRelatedCluId(joint.getCourseId());
+						//                  rel.setType(joint.getType());
+						//                  Remove hardcoded Type
+						rel.setType(JOINT_RELATION_TYPE);
+	
+						CluCluRelationInfo result= luService.createCluCluRelation(parentCourseId, joint
+								.getCourseId(), JOINT_RELATION_TYPE, rel);
+						joint.setRelationId(result.getId());
+	
+					} else if (isDeleted(joint.getData())){
+						String relationId = joint.getRelationId();
+						if (relationId!= null){
+							luService.deleteCluCluRelation(relationId);
+						}
+					} else if(isUpdated(joint.getData())){
+						String relationId = joint.getRelationId();
+						CluInfo clu = luService.getClu(joint.getCourseId());
+						if(!(clu.getOfficialIdentifier().getLongName().equals(joint.getCourseTitle()))){
+							CluCluRelationInfo cluCluRelation = new CluCluRelationInfo();
+							cluCluRelation.setId(relationId);
+							cluCluRelation.setCluId(parentCourseId);
+							cluCluRelation.setRelatedCluId(joint.getCourseId());
+							cluCluRelation.setType(JOINT_RELATION_TYPE);
+	
+							luService.updateCluCluRelation(relationId, cluCluRelation);
+						}
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -733,7 +767,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			rel.setRelatedCluId(input.getCluInfo().getId());
 			rel.setType(input.getParentRelationType());
 			rel.setState(input.getParentRelationState());
-			System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
+			LOG.info("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
 			try {
 				luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
 			} catch (CircularRelationshipException e) {
@@ -875,136 +909,186 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		}
 	}
 
-	private void buildFormatUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+	private void buildFormatUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course, String state) throws AssemblyException {
 		if (course.getFormats() == null) {
 			return;
 		}
 		for (Data.Property p : course.getFormats()) {
-			CreditCourseFormatHelper format = CreditCourseFormatHelper.wrap((Data)p.getValue());
-			CluInfoHierarchy formatHierarchy = null;
-			CluInfo formatClu = null;
-
-
-			if (isModified(format.getData())) {
-				if (isCreated(format.getData())) {
-					formatHierarchy = new CluInfoHierarchy();
-					formatClu = new CluInfo();
-					formatHierarchy.setCluInfo(formatClu);
-					courseHierarchy.getChildren().add(formatHierarchy);
-
-					formatHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (isDeleted(format.getData())) {
-					formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseFormatHelper format = CreditCourseFormatHelper.wrap((Data)p.getValue());
+				CluInfoHierarchy formatHierarchy = null;
+				CluInfo formatClu = null;
+	
+	
+				if (isModified(format.getData())) {
+					if (isCreated(format.getData())) {
+						formatHierarchy = new CluInfoHierarchy();
+						formatClu = new CluInfo();
+						formatHierarchy.setCluInfo(formatClu);
+						courseHierarchy.getChildren().add(formatHierarchy);
+						formatHierarchy.setModificationState(ModificationState.CREATED);
+					} else if (isDeleted(format.getData())) {
+						formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+						if(formatHierarchy != null){
+							formatClu = formatHierarchy.getCluInfo();
+							formatHierarchy.setModificationState(ModificationState.DELETED);
+						}
+					} else if (isUpdated(format.getData())) {
+						formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+						if(formatHierarchy != null){
+							formatClu = formatHierarchy.getCluInfo();
+							formatHierarchy.setModificationState(ModificationState.UPDATED);
+						}
+					} 
+	
+					if(formatClu != null){
+						// TODO un-hardcode
+						formatClu.setType(FORMAT_LU_TYPE);
+						formatClu.setState(state);
+						formatHierarchy.setParentRelationType(FORMAT_RELATION_TYPE);
+						formatHierarchy.setParentRelationState("Active");
+						
+						// set with effDate, adminOrg and officialIdent needed for validation
+						formatClu.setEffectiveDate(course.getEffectiveDate());
+	
+						AdminOrgInfo adminOrg = formatClu.getPrimaryAdminOrg();
+		                if (adminOrg == null) {
+		                    adminOrg = new AdminOrgInfo();
+		                    formatClu.setPrimaryAdminOrg(adminOrg);
+		                }
+		                adminOrg.setOrgId(course.getDepartment());
+										
+						CluIdentifierInfo cluId = formatClu.getOfficialIdentifier();
+			            if (cluId == null) {
+			                cluId = new CluIdentifierInfo();
+			                formatClu.setOfficialIdentifier(cluId);		                
+			            }
+			            cluId.setSuffixCode(course.getCourseNumberSuffix());
+	                    cluId.setLongName(course.getCourseTitle());
+	                    cluId.setDivision(course.getSubjectArea());
+	                    cluId.setShortName(course.getTranscriptTitle());
+	                    cluId.setType(FORMAT_LU_TYPE);
+			            
+		                
+						if (formatClu.getMetaInfo() != null) {
+							formatClu.getMetaInfo().setVersionInd(getVersionIndicator(format.getData()));
+						}
+	
+					}
+	
 					if(formatHierarchy != null){
-						formatClu = formatHierarchy.getCluInfo();
-						formatHierarchy.setModificationState(ModificationState.DELETED);
+						buildActivityUpdates(formatHierarchy, format, state);
 					}
-				} else if (isUpdated(format.getData())) {
-					formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
-					if(formatHierarchy != null){
-						formatClu = formatHierarchy.getCluInfo();
-						formatHierarchy.setModificationState(ModificationState.UPDATED);
-					}
-				} 
-
-				if(formatClu != null){
-					// TODO un-hardcode
-					formatClu.setState("draft");
-					formatClu.setType(FORMAT_LU_TYPE);
-					formatHierarchy.setParentRelationType(FORMAT_RELATION_TYPE);
-					formatHierarchy.setParentRelationState("Active");
-					if (formatClu.getMetaInfo() != null) {
-						formatClu.getMetaInfo().setVersionInd(getVersionIndicator(format.getData()));
-					}
-
 				}
-
-				if(formatHierarchy != null){
-					buildActivityUpdates(formatHierarchy, format);
-				}
-
-			}
+        	}
 		}
 	}
 
 
 
 	private void buildActivityUpdates(CluInfoHierarchy formatHierarchy,
-			CreditCourseFormatHelper format) throws AssemblyException {
+			CreditCourseFormatHelper format, String state) throws AssemblyException {
 		if (format.getActivities() == null) {
 			return;
 		}
 		for (Data.Property p : format.getActivities()) {
-			CreditCourseActivityHelper activity = CreditCourseActivityHelper.wrap((Data)p.getValue());
-			CluInfoHierarchy activityHierarchy = null;
-			CluInfo activityClu = null;
-
-
-			if (isModified(activity.getData())) {
-				if (isCreated(activity.getData())) {
-					activityHierarchy = new CluInfoHierarchy();
-					activityClu = new CluInfo();
-					activityHierarchy.setCluInfo(activityClu);
-					formatHierarchy.getChildren().add(activityHierarchy);
-
-					activityHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (isDeleted(activity.getData())) {
-					activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
-					if(activityHierarchy != null){
-						activityClu = activityHierarchy.getCluInfo();
-						activityHierarchy.setModificationState(ModificationState.DELETED);
-					}     	
-
-				} else if (isUpdated(activity.getData())) {
-					activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
-					if(activityHierarchy != null){
-						activityClu = activityHierarchy.getCluInfo();
-						activityHierarchy.setModificationState(ModificationState.UPDATED);
-					}
-				} 
-
-				if(activityClu != null){
-
-					activityClu.setType(activity.getActivityType());
-
-					AmountInfo time = activityClu.getIntensity();
-					if (time == null) {
-						time = new AmountInfo();
-						activityClu.setIntensity(time);
-					}
-					if (activity.getContactHours() != null) {
-						time.setUnitType(activity.getContactHours().getPer());
-						time.setUnitQuantity(String.valueOf(activity.getContactHours().getHrs()));
-					}
-
-					TimeAmountInfo stdDuration = activityClu.getStdDuration();
-					if (stdDuration == null){
-						stdDuration = new TimeAmountInfo();
-						activityClu.setStdDuration(stdDuration);
-					}
-					if (activity.getDuration() != null){
-						stdDuration.setAtpDurationTypeKey(activity.getDuration().getTimeUnit());
-						stdDuration.setTimeQuantity(activity.getDuration().getQuantity());
-					}
-
-					Integer enrEst = activity.getDefaultEnrollmentEstimate();
-					activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
-
-					// TODO un-hardcode
-					activityClu.setState("draft");
-					activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
-					activityHierarchy.setParentRelationState("Active");
-
-
-					if (activityClu.getMetaInfo() != null) {
-						activityClu.getMetaInfo().setVersionInd(getVersionIndicator(activity.getData()));
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseActivityHelper activity = CreditCourseActivityHelper.wrap((Data)p.getValue());
+				CluInfoHierarchy activityHierarchy = null;
+				CluInfo activityClu = null;
+	
+	
+				if (isModified(activity.getData())) {
+					if (isCreated(activity.getData())) {
+						activityHierarchy = new CluInfoHierarchy();
+						activityClu = new CluInfo();
+						activityHierarchy.setCluInfo(activityClu);
+						formatHierarchy.getChildren().add(activityHierarchy);
+	
+						activityHierarchy.setModificationState(ModificationState.CREATED);
+					} else if (isDeleted(activity.getData())) {
+						activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
+						if(activityHierarchy != null){
+							activityClu = activityHierarchy.getCluInfo();
+							activityHierarchy.setModificationState(ModificationState.DELETED);
+						}     	
+	
+					} else if (isUpdated(activity.getData())) {
+						activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
+						if(activityHierarchy != null){
+							activityClu = activityHierarchy.getCluInfo();
+							activityHierarchy.setModificationState(ModificationState.UPDATED);
+						}
+					} 
+	
+					if(activityClu != null){
+						activityClu.setType(activity.getActivityType());
+						activityClu.setState(state);
+						
+						// the formatClu was set with effDate, adminOrg and officialIdent above
+						// get it here and set the same for activity
+						CluInfo formatClu = formatHierarchy.getCluInfo();
+						activityClu.setEffectiveDate(formatClu.getEffectiveDate());
+						
+						AdminOrgInfo adminOrg = activityClu.getPrimaryAdminOrg();
+	                    if (adminOrg == null) {
+	                        adminOrg = new AdminOrgInfo();
+	                        activityClu.setPrimaryAdminOrg(adminOrg);
+	                    }
+	                    adminOrg.setOrgId(formatClu.getPrimaryAdminOrg().getOrgId());
+	                    
+	                    CluIdentifierInfo cluId = activityClu.getOfficialIdentifier();
+	                    if (cluId == null) {
+	                        cluId = new CluIdentifierInfo();
+	                        activityClu.setOfficialIdentifier(cluId);
+	                    }
+	                    CluIdentifierInfo formatCluId = formatClu.getOfficialIdentifier();
+	                    cluId.setSuffixCode(formatCluId.getSuffixCode());
+	                    cluId.setLongName(formatCluId.getLongName());
+	                    cluId.setDivision(formatCluId.getDivision());
+	                    cluId.setShortName(formatCluId.getShortName());
+	                    cluId.setType(activity.getActivityType());
+						
+	
+						AmountInfo time = activityClu.getIntensity();
+						if (time == null) {
+							time = new AmountInfo();
+							activityClu.setIntensity(time);
+						}
+						if (activity.getContactHours() != null) {
+							time.setUnitType(activity.getContactHours().getPer());
+							time.setUnitQuantity(String.valueOf(activity.getContactHours().getHrs()));
+						}
+	
+						TimeAmountInfo stdDuration = activityClu.getStdDuration();
+						if (stdDuration == null){
+							stdDuration = new TimeAmountInfo();
+							activityClu.setStdDuration(stdDuration);
+						}
+						if (activity.getDuration() != null){
+							stdDuration.setAtpDurationTypeKey(activity.getDuration().getTimeUnit());
+							stdDuration.setTimeQuantity(activity.getDuration().getQuantity());
+						}
+	
+						Integer enrEst = activity.getDefaultEnrollmentEstimate();
+						activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
+	
+						// TODO un-hardcode
+						
+						activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
+						activityHierarchy.setParentRelationState("Active");
+	
+	
+						if (activityClu.getMetaInfo() != null) {
+							activityClu.getMetaInfo().setVersionInd(getVersionIndicator(activity.getData()));
+						}
 					}
 				}
-			}
+        	}
 		}
 	}
 
-	private void buildCrossListingsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+	private void buildCrossListingsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course, String state) throws AssemblyException {
 		if (course.getCrossListings() == null) {
 			return;
 		}
@@ -1028,20 +1112,23 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		alternateIdentifiers.removeAll(clearedIdInfos);
 
 		for (Data.Property p : course.getCrossListings()) {
-			CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
-			if(!(xListings.get_runtimeData().isDeleted())){
-				CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-				cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
-				cluIdentifier.setOrgId(xListings.getDepartment());
-				cluIdentifier.setDivision(xListings.getSubjectArea());
-				cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
-				alternateIdentifiers.add(cluIdentifier);
-			}
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
+				if(!isDeleted(xListings.getData())){ 
+					CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+					cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
+					cluIdentifier.setState(state);
+					cluIdentifier.setOrgId(xListings.getDepartment());
+					cluIdentifier.setDivision(xListings.getSubjectArea());
+					cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
+					alternateIdentifiers.add(cluIdentifier);
+				}
+        	}
 		}
 		cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
 	}
 
-	private void buildVersionsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+	private void buildVersionsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course, String state) throws AssemblyException {
 		if (course.getVersions() == null) {
 			return;
 		}
@@ -1065,18 +1152,21 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		alternateIdentifiers.removeAll(clearedIdInfos);
 
 		for (Data.Property p : course.getVersions()) {
-			CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
-			//Don't add to AlternateIdentifiers if it is deleted
-			if(!(versions.get_runtimeData().isDeleted())){
-				CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-				cluIdentifier.setId(versions.getId());
-				cluIdentifier.setDivision(versions.getSubjectArea());
-				cluIdentifier.setSuffixCode(versions.getCourseNumberSuffix());
-				cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
-				cluIdentifier.setLongName(versions.getVersionTitle());
-				cluIdentifier.setVariation(versions.getVersionCode());
-				alternateIdentifiers.add(cluIdentifier);
-			}
+        	if(!"_runtimeData".equals(p.getKey())){
+				CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
+				//Don't add to AlternateIdentifiers if it is deleted
+				if(!isDeleted(versions.getData())){ 
+					CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+					cluIdentifier.setId(versions.getId());
+					cluIdentifier.setDivision(versions.getSubjectArea());
+					cluIdentifier.setSuffixCode(versions.getCourseNumberSuffix());
+					cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
+					cluIdentifier.setState(state);
+					cluIdentifier.setLongName(versions.getVersionTitle());
+					cluIdentifier.setVariation(versions.getVersionCode());
+					alternateIdentifiers.add(cluIdentifier);
+				}
+        	}
 		}
 		cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
 	}
@@ -1181,13 +1271,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		if (luData.getRuleInfos() != null && !luData.getRuleInfos().isEmpty()) {
 			Data statements = new Data();
 			for (RuleInfo r : luData.getRuleInfos()) {
-				for (ReqComponentVO c : r.getStatementVO().getReqComponentVOs()) {
-					statements.add(c.getTypeDesc());
-				}
+			   statements.add(r.getNaturalLanguage());	
 			}
 			data.set("statements",statements);
 		}
 	}
+
 	private RichTextInfo getRichText(RichTextInfoHelper hlp) throws AssemblyException {
 		if (hlp == null || hlp.getData() == null) {
 			return null;
@@ -1202,6 +1291,14 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			loAssembler.setLuService(luService);
 		}
 		return loAssembler;
+	}
+	
+	private LearningResultAssembler getLearningResultAssembler() {
+		if (lrAssembler == null) {
+			lrAssembler = new LearningResultAssembler();
+			lrAssembler.setLuService(luService);
+		}
+		return lrAssembler;
 	}
 
 	public LuService getLuService() {
@@ -1226,10 +1323,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 	public void setLoService(LearningObjectiveService loService) {
 		this.loService = loService;
-	}
-
-	public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
-		this.searchDispatcher = searchDispatcher;
 	}
 
 	public OrganizationService getOrgService() {
@@ -1278,7 +1371,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 	@Override
 	protected String getDataType() {
-		return CREDIT_COURSE_PROPOSAL_DATA_TYPE;
+		return COURSE_DATA_TYPE;
 	}
 
 	@Override

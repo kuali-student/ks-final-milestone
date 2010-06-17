@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.assembly;
 
 import java.util.ArrayList;
@@ -10,14 +25,11 @@ import org.kuali.student.core.assembly.AssemblerFilter.FilterParamWrapper;
 import org.kuali.student.core.assembly.AssemblerFilter.GetFilterChain;
 import org.kuali.student.core.assembly.AssemblerFilter.GetMetadataFilterChain;
 import org.kuali.student.core.assembly.AssemblerFilter.SaveFilterChain;
-import org.kuali.student.core.assembly.AssemblerFilter.SearchFilterChain;
 import org.kuali.student.core.assembly.AssemblerFilter.TypeStateFilterParamWrapper;
 import org.kuali.student.core.assembly.AssemblerFilter.ValidateFilterChain;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 
@@ -179,34 +191,6 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 				return self;
 			}
 		}.doSaveFilter(request, response);
-		
-		return response.getValue();
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		final Iterator<AssemblerFilter<TargetType, SourceType>> iterator = filters.iterator();
-		
-		FilterParamWrapper<SearchRequest> request  = new FilterParamWrapper<SearchRequest>();
-		request.setValue(searchRequest);
-		
-		FilterParamWrapper<SearchResult> response  = new FilterParamWrapper<SearchResult>();
-		
-		new SearchFilterChain<TargetType, SourceType>(){
-			@Override
-			public void doSearchFilter(FilterParamWrapper<SearchRequest> request,
-					FilterParamWrapper<SearchResult> response) {
-				if(iterator.hasNext()){
-					iterator.next().doSearchFilter(request, response, this);
-				}else{
-					response.setValue(target.search(request.getValue()));
-				}
-			}
-			@Override
-			public AssemblerFilterManager<TargetType, SourceType> getManager() {
-				return self;
-			}
-		}.doSearchFilter(request, response);
 		
 		return response.getValue();
 	}

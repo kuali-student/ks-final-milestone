@@ -1,28 +1,30 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.ui.requirements.server.gwt;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -43,7 +45,7 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
  */
 public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements RequirementsRpcService {
 
-    final Logger logger = Logger.getLogger(RequirementsRpcGwtServlet.class);
+    final static Logger LOG = Logger.getLogger(RequirementsRpcGwtServlet.class);
     
     private StatementService statementService;
     
@@ -71,12 +73,12 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
             cluId = null;
         }
         
-        // the get natural language for the statement
+        // then get natural language for the statement
         String nlStatement = "";
         try {
             nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex);
             throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
         }
         
@@ -89,13 +91,13 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         try { 
             reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
         }
         
         return reqComponentTypeInfoList;
     }
-        
+    
     /**
      * @throws Exception 
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#updateClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
@@ -106,7 +108,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     	for (ReqCompFieldInfo comp : editedFields) {
     		
     		//find clu ids based on clu code
-    		if (comp.getId().equals("reqCompFieldType.clu")) {
+    		if (comp.getId().equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
     			String[] codes = comp.getValue().split(", ");
     			StringBuffer ids = new StringBuffer();
     			
@@ -130,15 +132,15 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         				ids.append(cells.get(0).getValue());        				
     	        	}
     	        } catch (DoesNotExistException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (InvalidParameterException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (MissingParameterException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (OperationFailedException e) {
-    	            e.printStackTrace();
+    	        	LOG.error(e);
     	        } catch (PermissionDeniedException e) {
-    				e.printStackTrace();
+    				LOG.error(e);
     			}    
     	        
     			comp.setValue(ids.toString());    	        
@@ -158,26 +160,18 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     			return clu.getOfficialIdentifier().getCode();
     		}                             
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();
+        	LOG.error(e);
         }
  
         return cluCode;
     }     
           
-        
-    
-    /******************************************************************************************************************
-     * 
-     *                                                     GETTERS & SETTERS 
-     *
-     *******************************************************************************************************************/         
-
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }

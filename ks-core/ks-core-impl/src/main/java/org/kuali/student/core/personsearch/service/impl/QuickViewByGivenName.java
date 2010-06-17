@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.personsearch.service.impl;
 
 import java.util.ArrayList;
@@ -18,23 +33,23 @@ import org.kuali.student.core.search.dto.SortDirection;
 
 
 public final class QuickViewByGivenName extends PersonSearch implements SearchOperation {
-    final private String NAME_PARAM = "person.queryParam.personGivenName";
-    final private String ID_PARAM = "person.queryParam.personId";
-    final private String AFFILIATION_PARAM = "person.queryParam.personAffiliation";
+    final static private String NAME_PARAM = "person.queryParam.personGivenName";
+    final static private String ID_PARAM = "person.queryParam.personId";
+    final static private String AFFILIATION_PARAM = "person.queryParam.personAffiliation";
 
-    final private String PRINCIPAL_ID_RESULT = "person.resultColumn.PersonId";
-    final private String ENTITY_ID_RESULT = "person.resultColumn.EntityId";
-    final private String DISPLAY_NAME_RESULT = "person.resultColumn.DisplayName";// Smith, John (jsmith)
-    final private String GIVEN_NAME_RESULT = "person.resultColumn.GivenName";// Smith, John
-    final private String PRINCIPAL_NAME_RESULT = "person.resultColumn.PrincipalName";
+    final static private String PRINCIPAL_ID_RESULT = "person.resultColumn.PersonId";
+    final static private String ENTITY_ID_RESULT = "person.resultColumn.EntityId";
+    final static private String DISPLAY_NAME_RESULT = "person.resultColumn.DisplayName";// Smith, John (jsmith)
+    final static private String GIVEN_NAME_RESULT = "person.resultColumn.GivenName";// Smith, John
+    final static private String PRINCIPAL_NAME_RESULT = "person.resultColumn.PrincipalName";
 
-    final private String KIM_PERSON_AFFILIATION_TYPE_CODE = "affiliationTypeCode";
+    final static private String KIM_PERSON_AFFILIATION_TYPE_CODE = "affiliationTypeCode";
 
-    final private String KIM_PRINCIPALS_PRINCIPALNAME = "principals.principalName";
-    final private String KIM_PRINCIPALS_PRINCIPALID = "principals.principalId";
-    final private String KIM_PERSON_FIRST_NAME = "names.firstName";
-    final private String KIM_PERSON_MIDDLE_NAME = "names.middleName";
-    final private String KIM_PERSON_LAST_NAME = "names.lastName";
+    final static private String KIM_PRINCIPALS_PRINCIPALNAME = "principals.principalName";
+    final static private String KIM_PRINCIPALS_PRINCIPALID = "principals.principalId";
+    final static private String KIM_PERSON_FIRST_NAME = "names.firstName";
+    final static private String KIM_PERSON_MIDDLE_NAME = "names.middleName";
+    final static private String KIM_PERSON_LAST_NAME = "names.lastName";
     
     
     private List<Person> findPersons(final IdentityService identityService, final SearchRequest searchRequest) {
@@ -171,7 +186,8 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
             result.getRows().add(resultRow);
             
         }
-        result.setStartAt(1); // TODO fix this
+        
+        result.setStartAt(searchRequest.getStartAt());
         result.setTotalResults(result.getRows().size()); // TODO fix this
         return result;
     }

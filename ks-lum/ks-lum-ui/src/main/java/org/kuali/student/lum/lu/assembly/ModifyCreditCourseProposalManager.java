@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lu.assembly;
 
 
@@ -5,16 +20,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
@@ -45,7 +60,7 @@ public class ModifyCreditCourseProposalManager{
 		Data data = creditCourseAssembler.get(cluId);
 		
 		//Clear out all ids in the data and set runtime data to created
-		clearIdsRecursively(data);
+		clearIdsRecursively(data, false);
 		
 		//Create the proposal and attach the course
 		LuData luData = new LuData();
@@ -53,8 +68,7 @@ public class ModifyCreditCourseProposalManager{
 		CreditCourseHelper course = CreditCourseHelper.wrap(data);
 		course.setCopyOfCourseId(cluId);
 		
-		//temp fix until we find out why lo are not saving
-		course.setCourseSpecificLOs(null);
+		course.setState(null);
 		
 		List<ProposalInfo> proposalList = null;
 		try{
@@ -68,7 +82,7 @@ public class ModifyCreditCourseProposalManager{
 		CreditCourseProposalInfoHelper proposal = CreditCourseProposalInfoHelper.wrap(new Data());
 		
 		// Can we have more than one course in a proposal? if yes how do we handle this here?
-		if(proposalList != null) {
+		if(proposalList != null && !proposalList.isEmpty()) {
 			proposal.setRationale(proposalList.get(0).getRationale());
 		}
 		
@@ -82,10 +96,10 @@ public class ModifyCreditCourseProposalManager{
         List<RuleInfo> rules = ruleInfoBean.fetchRules(cluId);
 		
         //Clear out ids from resultInfo object and anything else with external ids
-    	for(RuleInfo rule:rules){
+    	Integer tempId = 0;
+        for(RuleInfo rule:rules){
     		rule.setCluId(null);
-    		rule.setId(null);
-    		clearStatementIds(rule.getStatementVO());
+    		clearStatementIds(rule.getStatementVO(),tempId);
     	}
 		luData.setRuleInfos(rules);
 	
@@ -95,33 +109,54 @@ public class ModifyCreditCourseProposalManager{
 	
 
 
-	private void clearStatementIds(StatementVO stmt) {
+	private void clearStatementIds(StatementVO stmt,Integer tempId) {
+		//increment the TempId
+		tempId++;
 		//Clear out any ids that are statements
 		for(ReqComponentVO reqComp: stmt.getAllReqComponentVOs()){
-			reqComp.setId(null);
-			reqComp.getReqComponentInfo().setId(null);
+			reqComp.setId(tempId.toString());
+			reqComp.getReqComponentInfo().setId(tempId.toString());
 		}
 		stmt.getStatementInfo().setId(null);
 		stmt.getStatementInfo().setParentId(null);
+		stmt.getStatementInfo().setReqComponentIds(null);
 		for(StatementVO nestedStmt:stmt.getStatementVOs()){
-			clearStatementIds(nestedStmt);
+			clearStatementIds(nestedStmt,tempId);
 		}
 		
 	}
 
-	private void clearIdsRecursively(Data data){
+	private void clearIdsRecursively(Data data, boolean shouldSetCreated){
 		//Set runtime create to true
     	//AssemblerUtils.setCreated(data, true);
 		if(data==null) return;
 		
     	//Loop through all properties
-    	for(Iterator<Property> i=data.iterator();i.hasNext();){
+    	for(Iterator<Property> i=data.realPropertyIterator();i.hasNext();){
     		
     		Property prop = i.next();
     		
     		//recurse through any nested maps (don't recurse through runtime data since the setCreated call will create new Data children
-    		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())){
-    			clearIdsRecursively((Data)prop.getValue());
+    		//also don't recurse through lo categories
+    		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())&&!"categories".equals(prop.getKey())){
+    			
+    			if(shouldSetCreated){
+    				//Set runtime data to created and clear out other runtime data(versions etc)
+    	            Data runtime = data.get("_runtimeData");
+    	            if (runtime == null) {
+    	                runtime = new Data();
+    	                data.set("_runtimeData", runtime);
+    	            }else{
+    	            	runtime.remove(new Data.StringKey("versions"));	
+    	            }
+    	            runtime.set("created", true);
+    			}
+    			
+    			//From this point on its a format tree so set the runtime data to created (and clear out other runtime data)
+    			if("formats".equals(prop.getKey())||CreditCourseConstants.OUTCOME_OPTIONS.equals(prop.getKey())){
+    				shouldSetCreated=true;
+    			}
+    			clearIdsRecursively((Data)prop.getValue(), shouldSetCreated);
     		}
     		
     		//Clear out any id fields

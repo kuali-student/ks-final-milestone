@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.application;
 
 import java.util.ArrayList;
@@ -20,11 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.security.SecurityContext;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.messages.dto.Message;
 
-// TODO find out what we'll really be storing here, and where to get it
-// for now this is just a mockup
 public class ApplicationContext {
 	private boolean loggedIn = true;
 	private String userId = "testuser";
@@ -33,11 +31,14 @@ public class ApplicationContext {
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
 	private List<Message> messagesList = new ArrayList<Message>();
-	Map<String, ObjectStructure> dictionaryData = new HashMap<String, ObjectStructure>();
 	
 	private SecurityContext securityContext;
 	
-	public ApplicationContext() {
+	/**
+	 * This constructor should only be visible to the common application package. If ApplicationContext is 
+	 * required outside this package do Application.getApplicationContext();
+	 */
+	protected ApplicationContext() {
 		roles.add("role1");
 		roles.add("role2");
 	}
@@ -65,29 +66,6 @@ public class ApplicationContext {
 	public List<String> getRoles() {
 		return roles;
 	}
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-	@Deprecated
-	public void addDictionaryData(String name, ObjectStructure objStructure){
-	    dictionaryData.put(name, objStructure);
-	}
-
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-	@Deprecated
-    public ObjectStructure getDictionaryData(String name){
-       return dictionaryData.get(name);
-    }
-    
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-    @Deprecated
-	public boolean containsDictionaryKey(String key){
-        return dictionaryData.containsKey(key);
-    }
 
     public void addMessages(List<Message> messages) {
 		messagesList.addAll(messages);

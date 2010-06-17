@@ -1,23 +1,39 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.assembly;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -27,27 +43,27 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgSearchHelper;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
-    
+	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
     public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
-
+    public static final String ORG_INFO_PATH                  = "orgInfo";
+    public static final String QUALIFICATION_ORG_ID                 = "orgId";
+    public static final String PERM_DTO_NAME                 = "Organization";
+    private Metadata metadata;
+    private DataModel orgProposalModel = new DataModel();
     public OrgProposalAssembler(){
 
     }
@@ -56,6 +72,13 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 //        this.metadataService=metadataService;
 //    }
     
+    private void setMetadata(String orgId){
+        try {
+            this.metadata=getMetadata(QUALIFICATION_ORG_ID, orgId, null, null);
+        } catch (AssemblyException e) {
+            LOG.error(e);
+        }
+    }
     @Override
     public Data assemble(OrgHelper input) throws AssemblyException {
         if (input == null) {
@@ -78,6 +101,9 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
     @Override
     public Data get(String id) throws AssemblyException {
+        if(metadata==null){
+            setMetadata(id);
+        }
         OrgInfo orgInfo = new OrgInfo();
         List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
         List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
@@ -89,10 +115,13 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             orgInfoData.setOrgInfo(orgInfo);
             OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
             OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
+            orgOrgRelationAssembler.setMetaData(metadata);
             orgOrgRelationAssembler.setOrgService(orgService);
             OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
             orgPositionRestrictionAssembler.setOrgService(orgService);
+            orgPositionRestrictionAssembler.setMetaData(metadata);
             OrgPersonRelationAssembler orgPersonRelationAssembler = new OrgPersonRelationAssembler();
+            orgPersonRelationAssembler.setMetaData(metadata);
             orgPersonRelationAssembler.setOrgService(orgService);
             Data orgOrgRelationMap = orgOrgRelationAssembler.get(id);
             Data orgPositionMap = orgPositionRestrictionAssembler.get(id);
@@ -104,7 +133,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             
         }
         catch(Exception e){
-            
+        	LOG.error(e);
         }
         
         return result;
@@ -115,6 +144,9 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     public SaveResult<Data> save(Data input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
+        if(metadata==null){
+            setMetadata(orgHelper.getId());
+        }
         OrgInfoData orgInfoData = buildOrgInfo(orgHelper);
         SaveResult<Data> result = new SaveResult<Data>();
         List<ValidationResultInfo> validationResults = validate(input);
@@ -132,24 +164,28 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             if(orgId!=null&&input.get("orgOrgRelationInfo")!=null){
 //                OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(input);
                 OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
+                orgOrgRelationAssembler.setMetaData(metadata);
                 orgOrgRelationAssembler.setOrgService(orgService);
                 Data relationData = orgOrgRelationAssembler.save(input).getValue();
 
             }
             if(orgId!=null&&input.get("OrgPositionRestrictionInfo")!=null){
                 OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
+                orgPositionRestrictionAssembler.setMetaData(metadata);
                 orgPositionRestrictionAssembler.setOrgService(orgService);
                 Data positionData = orgPositionRestrictionAssembler.save(input).getValue();
             }
             if(orgId!=null&&input.get("orgPersonRelationInfo")!=null){
                 OrgPersonRelationAssembler orgPersonRelationAssembler= new OrgPersonRelationAssembler();
+                orgPersonRelationAssembler.setMetaData(metadata);
                 orgPersonRelationAssembler.setOrgService(orgService);
                 Data relationData = orgPersonRelationAssembler.save(input).getValue();
             }
-           
-            result.setValue(input);
+            
+            result.setValue((orgId == null) ? null : get(orgId));
+            
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e);
             throw(new AssemblyException());
         }
         
@@ -199,14 +235,20 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     private void saveOrg(OrgInfoData input) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
         OrgInfo result = null;
         OrgInfo orgInfo = input.getOrgInfo();
+        DataModelDefinition def = new DataModelDefinition(metadata);
+        orgProposalModel.setDefinition(def);
+        QueryPath metaPath = QueryPath.concat(null, ORG_INFO_PATH);
+        Metadata orgProposalMeta =orgProposalModel.getMetadata(metaPath);
         if (input.getModificationState() != null) {
-            switch (input.getModificationState()) {
-                case CREATED:
-                    result = orgService.createOrganization(orgInfo.getType(), orgInfo);
-                    break;
-                case UPDATED:
-                    result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
-                default:
+            if (orgProposalMeta.isCanEdit()) {
+                switch (input.getModificationState()) {
+                    case CREATED:
+                        result = orgService.createOrganization(orgInfo.getType(), orgInfo);
+                        break;
+                    case UPDATED:
+                        result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
+                    default:
+                }
             }
         }
         if (result != null) {
@@ -245,14 +287,6 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
         return org;
     }
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-
     
 	@Override
     protected String getDataType() {
@@ -266,16 +300,20 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
     @Override
     protected String getDtoName() {
-        //FIXME: this is not the correct value
-        return "kuali.lu.type.CreditCourse";
+        return PERM_DTO_NAME;
     }
 
     @Override
     protected AttributeSet getQualification(String idType, String id) {
-        String DOCUMENT_TYPE_NAME = "documentTypeName";
-        AttributeSet qualification = new AttributeSet();
-        qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
+        AttributeSet qualification = null;
+        if(id!=null&&!id.isEmpty()){
+         qualification = new AttributeSet();
+        /*String DOCUMENT_TYPE_NAME = "documentTypeName";
+        //FIXME: should this be something like org.proposal?
+        qualification.put(DOCUMENT_TYPE_NAME, "Organization");*/
         qualification.put(idType, id);
+        }
+        
         return qualification;
     }
    

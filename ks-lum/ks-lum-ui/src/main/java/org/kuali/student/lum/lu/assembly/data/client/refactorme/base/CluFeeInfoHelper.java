@@ -27,7 +27,8 @@ public class CluFeeInfoHelper
 	public enum Properties implements PropertyEnum
 	{
 		CLU_FEE_RECORDS ("cluFeeRecords"),
-		ATTRIBUTES ("attributes");
+		ATTRIBUTES ("attributes"),
+		ID ("id");
 		
 		private final String key;
 		
@@ -87,5 +88,14 @@ public class CluFeeInfoHelper
 		return (Data) data.get (Properties.ATTRIBUTES.getKey ());
 	}
 	
+	public void setId (String value)
+	{
+		data.set (Properties.ID.getKey (), value);
+	}
+	
+	public String getId ()
+	{
+		return (String) data.get (Properties.ID.getKey ());
+	}
 }
 

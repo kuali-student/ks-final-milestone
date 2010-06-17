@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(AbstractCocOrgQualifierResolver.class);
 	
-	protected static final String KUALI_ORG_TYPE_CURRICULUM_CHILD = "kuali.org.CurriculumChild";
+	protected static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
 	protected static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
 	protected static final String KUALI_ORG_DEPARTMENT 			  = "kuali.org.Department";
 	protected static final String KUALI_ORG_COLLEGE    			  = "kuali.org.College";
@@ -51,7 +52,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 
 	protected OrganizationService orgService;
 
-	protected static final String ORG_RESOLVER_CONFIG =
+	private static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
 										"<baseXPathExpression>/documentContent/applicationContent/cluProposalDocInfo</baseXPathExpression>" +
 										"<qualifier name=\"" + KualiStudentKimAttributes.QUALIFICATION_ORG_ID +  "\">" +
@@ -59,7 +60,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 										"</qualifier>" +
 									"</resolverConfig>";
 
-	protected static RuleAttribute ruleAttribute = new RuleAttribute();
+	private final static RuleAttribute ruleAttribute = new RuleAttribute();
 
 	static {
 		ruleAttribute.setXmlConfigData(ORG_RESOLVER_CONFIG);
@@ -109,7 +110,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	}
 	
 	protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-		SearchResult result = null;
+		List<SearchResultRow> results = null;
 		if (null != orgId) {
 			List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 			SearchParam qpRelType = new SearchParam();
@@ -131,13 +132,14 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
 	        searchRequest.setParams(queryParamValues);
 			try {
-				result = getOrganizationService().search(searchRequest);
+				SearchResult result = getOrganizationService().search(searchRequest);
+				results = result.getRows();
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
 			}
 		}
-		return result.getRows();
+		return results;
 	}
 
 	protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results,
@@ -188,7 +190,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 			if(ancestorOrgs!=null){
 				for(OrgInfo ancestorOrg:ancestorOrgs){
 					if(orgType!=null && orgType.equals(ancestorOrg.getType())){
-						List<SearchResultRow> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
+						List<SearchResultRow> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
 						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
 					}
 				}

@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.atp.service.impl;
 
 import java.util.Date;
@@ -52,7 +53,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.atp.service.AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
@@ -491,30 +492,27 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateAtp(String validationType,
+	public List<ValidationResultInfo> validateAtp(String validationType,
 			AtpInfo atpInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("validateAtp");
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateDateRange(String validationType,
+	public List<ValidationResultInfo> validateDateRange(String validationType,
 			DateRangeInfo dateRangeInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("validateDateRange");
 	}
 
 	@Override
-	public List<ValidationResultContainer> validateMilestone(String validationType,
+	public List<ValidationResultInfo> validateMilestone(String validationType,
 			MilestoneInfo milestoneInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("validateMilestone");
 	}
 
 	/**
@@ -610,7 +608,6 @@ public class AtpServiceImpl implements AtpService {
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException  {
-		// TODO Auto-generated method stub
 	    return searchManager.search(searchRequest, atpDao);
 	}
 

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.statement.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -9,7 +24,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,9 +41,27 @@ public class TestStatementServiceImpl {
 	}
 	
 	@Test
-	public void testTranslateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	public void testTranslateReqComponent_1ofN() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
     	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
+	}
+
+	@Test
+	public void testTranslateReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-6", "KUALI.CATALOG", "en");
+    	assertEquals("Student must have completed MATH 152", nl);
+	}
+
+	@Test
+	public void testTranslateReqComponent_1of2() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-3", "KUALI.CATALOG", "en");
+    	assertEquals("Student must have completed 1 of MATH 180, MATH 200", nl);
+	}
+
+	@Test
+	public void testTranslateReqComponent_gradecheck() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.CATALOG", "en");
+    	assertEquals("Student needs a minimum GPA of 3.5", nl);
 	}
 
 	@Test

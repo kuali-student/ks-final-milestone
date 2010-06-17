@@ -1,18 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.service;
 
 import java.util.List;
@@ -44,6 +44,7 @@ import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
 import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
@@ -64,7 +65,7 @@ import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/LU+Service+v1.0-rc4">LUService</>
  *
  */
-@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu") // TODO CHECK THESE VALUES
+@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuService extends DictionaryService, SearchService { 
     /** 
@@ -575,6 +576,20 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public CluSetInfo getCluSetInfo(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /** 
+     * Retrieve information on a CLU set and its sub clu set fully expanded.
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved CLU set tree view information
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public CluSetTreeViewInfo getCluSetTreeView(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /** 
      * Retrieve information on CLU sets from a list of cluSet Ids.
      * @param cluSetIdList List of identifiers of CLU sets
@@ -599,6 +614,19 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public List<String> getCluSetIdsFromCluSet(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /** 
+     * Check if the given CluSet is dynamic
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved list of CLU Set Ids within the specified CLU set
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public Boolean isCluSetDynamic(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
     /** 
      * Retrieves the list of CLUs in a CLU set. This only retrieves the direct members.
      * @param cluSetId Identifier of the CLU set
@@ -1142,9 +1170,9 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing cluSetName, cluSetInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws DoesNotExistException One or more of the cluIds does not exist
+     * @throws UnsupportedActionException CLU set need to be static or dynamic but not both
 	 */
-    public CluSetInfo createCluSet(@WebParam(name="cluSetType")String cluSetType, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    public CluSetInfo createCluSet(@WebParam(name="cluSetType")String cluSetType, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
      * Update the information for a CLU set
@@ -1158,7 +1186,7 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException The action was attempted on an out of date version.
-     * @throws UnsupportedActionException CLU set is dynamically determined
+     * @throws UnsupportedActionException CLU set need to be static or dynamic but not both
      * @throws CircularRelationshipException addedCluSetId cannot be added to the cluSetId
 	 */
     public CluSetInfo updateCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, UnsupportedActionException, CircularRelationshipException;
@@ -1191,6 +1219,21 @@ public interface LuService extends DictionaryService, SearchService {
     public StatusInfo addCluSetToCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="addedCluSetId")String addedCluSetId) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
+     * 	Adds a list of CLU sets to another CluSet. If any individual one would fail, then an error is returned and none are added.
+     * @param cluSetId identifier of the host CLU set
+     * @param addedCluSetIdList list of identifiers of the CLU sets to be added
+     * @return status of the operation (success or failure)
+     * @throws CircularRelationshipException addedCluSetId cannot be added to the cluSetId
+     * @throws DoesNotExistException cluSet, addedCluSet not found
+     * @throws InvalidParameterException invalid cluSetId, addedCluSetId
+     * @throws MissingParameterException missing cluSetId, addedCluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws UnsupportedActionException CLU set is dynamically determined
+	 */
+    public StatusInfo addCluSetsToCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="addedCluSetIdList")List<String> addedCluSetIdList) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /** 
      * Removes one CLU set from another
      * @param cluSetId identifier of the host CLU set
      * @param removedCluSetId identifier of the CLU set to be removed
@@ -1217,6 +1260,20 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws UnsupportedActionException CLU set is dynamically determined
 	 */
     public StatusInfo addCluToCluSet(@WebParam(name="cluId")String cluId, @WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /** 
+     * Adds a list of CLUs to a CLU set. If any individual one would fail, then an error is returned and none are added.
+     * @param cluSetIds list of identifiers of CLUs to add to the CLU set
+     * @param cluSetId identifier of the CLU set to be added
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException clu, cluSet not found
+     * @throws InvalidParameterException invalid cluId, cluSetId
+     * @throws MissingParameterException missing cluId, cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws UnsupportedActionException CLU set is dynamically determined
+	 */
+    public StatusInfo addClusToCluSet(@WebParam(name="cluIdList")List<String> cluIdList, @WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
      * Remove a CLU from a CLU set

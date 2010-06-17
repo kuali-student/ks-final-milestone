@@ -1,21 +1,21 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.buttonlayout;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
@@ -29,7 +29,7 @@ public class ButtonColumn extends ButtonLayoutTwoGroups{
     private SimplePanel contentPanel = new SimplePanel();
     private DockPanel mainPanel = new DockPanel();
     private Widget content = null;
-    
+
     public ButtonColumn(){
         setupDefaultStyles();
         mainPanel.add(contentPanel, DockPanel.WEST);
@@ -38,7 +38,7 @@ public class ButtonColumn extends ButtonLayoutTwoGroups{
         mainPanel.add(bottomPanel, DockPanel.SOUTH);
         this.initWidget(mainPanel);
     }
-    
+
     public ButtonColumn(boolean contentRight){
         setupDefaultStyles();
         if(contentRight){
@@ -52,12 +52,12 @@ public class ButtonColumn extends ButtonLayoutTwoGroups{
         mainPanel.add(bottomPanel, DockPanel.SOUTH);
         this.initWidget(mainPanel);
     }
-    
+
     private void setupDefaultStyles(){
-        mainPanel.addStyleName(KSStyles.KS_BUTTON_COLUMN_PANEL);
-        topPanel.addStyleName(KSStyles.KS_BUTTON_COLUMN_TOP_PANEL);
-        bottomPanel.addStyleName(KSStyles.KS_BUTTON_COLUMN_BOTTOM_PANEL);
-        contentPanel.addStyleName(KSStyles.KS_BUTTON_COLUMN_CONTENT_PANEL);
+        mainPanel.addStyleName("KS-Button-Column-MainPanel");
+        topPanel.addStyleName("KS-Button-Column-TopPanel");
+        bottomPanel.addStyleName( "KS-Button-Column-BottomPanel");
+        contentPanel.addStyleName("KS-Button-Column-ContentPanel");
     }
 
     @Override
@@ -76,14 +76,14 @@ public class ButtonColumn extends ButtonLayoutTwoGroups{
 
     @Override
     public void addButtonToPrimaryGroup(KSButton button) {
-        button.addStyleName(KSStyles.KS_BUTTON_COLUMN_BUTTON);
+        button.addStyleName("KS-Button-Column-Button");
         topPanel.add(button);
         buttons.add(button);
     }
 
     @Override
     public void addButtonToSecondaryGroup(KSButton button) {
-        button.addStyleName(KSStyles.KS_BUTTON_COLUMN_BUTTON);
+        button.addStyleName("KS-Button-Column-Button");
         bottomPanel.add(button);
         buttons.add(button);
     }
@@ -91,6 +91,6 @@ public class ButtonColumn extends ButtonLayoutTwoGroups{
     @Override
     public void addButton(KSButton button) {
         this.addButtonToPrimaryGroup(button);
-        
+
     }
 }

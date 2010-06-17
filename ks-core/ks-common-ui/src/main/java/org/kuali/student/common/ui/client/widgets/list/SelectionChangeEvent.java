@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.ui.client.widgets.list;
 
 import com.google.gwt.event.shared.GwtEvent;
@@ -27,14 +28,28 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
 
     private static Type<SelectionChangeHandler> TYPE;
     private Widget widget;
+    private boolean userInitiated = true;
 
-    /**
+	/**
      * Used to fire a SelectionChangeEvent
      * 
      */
     public static void fire(Widget source) {
         if (TYPE != null) {
           SelectionChangeEvent event = new SelectionChangeEvent(source);
+          source.fireEvent(event);
+          
+        }
+      }
+    
+	/**
+     * Used to fire a SelectionChangeEvent
+     * 
+     */
+    public static void fire(Widget source, boolean userInitiated) {
+        if (TYPE != null) {
+          SelectionChangeEvent event = new SelectionChangeEvent(source);
+          event.setUserInitiated(userInitiated);
           source.fireEvent(event);
           
         }
@@ -79,5 +94,13 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
     public Type<SelectionChangeHandler> getAssociatedType() {
         return TYPE;
     }
+    
+    public boolean isUserInitiated() {
+		return userInitiated;
+	}
+
+	public void setUserInitiated(boolean userInitiated) {
+		this.userInitiated = userInitiated;
+	}
 
 }

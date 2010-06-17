@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.common.validator;
 
 import java.util.Date;
@@ -83,12 +84,13 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	public static Integer getInteger(Object o) {
+	protected static Integer getInteger(Object o) {
+		if (o == null)
+			return null;
+
 		Integer result = null;
 		if (o instanceof Integer)
 			return (Integer) o;
-		if (o == null)
-			return null;
 		if (o instanceof Number)
 			return ((Number) o).intValue();
 		String s = o.toString();
@@ -98,12 +100,13 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	public static Long getLong(Object o) {
+	protected static Long getLong(Object o) {
+		if (o == null)
+			return null;
+
 		Long result = null;
 		if (o instanceof Long)
 			return (Long) o;
-		if (o == null)
-			return null;
 		if (o instanceof Number)
 			return ((Number) o).longValue();
 		String s = o.toString();
@@ -113,12 +116,13 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	public static Float getFloat(Object o) {
+	protected static Float getFloat(Object o) {
+		if (o == null)
+			return null;
+
 		Float result = null;
 		if (o instanceof Float)
 			return (Float) o;
-		if (o == null)
-			return null;
 		if (o instanceof Number)
 			return ((Number) o).floatValue();
 		String s = o.toString();
@@ -128,12 +132,13 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	public static Double getDouble(Object o) {
+	protected static Double getDouble(Object o) {
+		if (o == null)
+			return null;
+
 		Double result = null;
 		if (o instanceof Double)
 			return (Double) o;
-		if (o == null)
-			return null;
 		if (o instanceof Number)
 			return ((Number) o).doubleValue();
 		String s = o.toString();
@@ -143,12 +148,13 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	public static Date getDate(Object o, DateParser dateParser) {
+	protected static Date getDate(Object o, DateParser dateParser) {
+		if (o == null)
+			return null;
+
 		Date result = null;
 		if (o instanceof Date)
 			return (Date) o;
-		if (o == null)
-			return null;
 		String s = o.toString();
 		if (s != null && s.trim().length() > 0) {
 			result = dateParser.parseDate(s.trim());
@@ -156,48 +162,48 @@ public class ValidatorUtils {
 		return result;
 	}
 
-	public static String getString(Object o) {
-		if (o instanceof String)
-			return (String) o;
+	protected static String getString(Object o) {
 		if (o == null)
 			return null;
+
+		if (o instanceof String)
+			return (String) o;
 		return o.toString();
 	}
 
-	public static Boolean getBoolean(Object o) {
+	private static Boolean getBoolean(Object o) {
+		if (o == null)
+			return null;
+
 		Boolean result = null;
 		if (o instanceof Boolean)
 			return (Boolean) o;
-		if (o == null)
-			return null;
 		String s = o.toString();
 		if (s != null && s.trim().length() > 0) {
 			result = Boolean.parseBoolean(s.trim());
 		}
 		return result;
-	}	
-	
+	}
+
 	/**
 	 * Traverses the dictionary ObjectStructure to find the field with the match
 	 * key, type and state
-	 * 
+	 *
 	 * @param key
 	 * @param type
 	 * @param state
 	 * @param objStructure
 	 * @return
 	 */
-	public static Field getField(String key, ObjectStructure objStructure,
+	protected static Field getField(String key, ObjectStructure objStructure,
 			String type, String state) {
 		List<Type> typeList = objStructure.getType();
 
 		for (Type t : typeList) {
 			if (t.getKey().equalsIgnoreCase(type)) {
-				List<State> stateList = t.getState();
-				for (State s : stateList) {
+				for (State s : t.getState()) {
 					if (s.getKey().equalsIgnoreCase(state)) {
-						List<Field> fieldList = s.getField();
-						for (Field f : fieldList) {
+						for (Field f : s.getField()) {
 							if (f.getKey().equals(key)) {
 								return f;
 							}

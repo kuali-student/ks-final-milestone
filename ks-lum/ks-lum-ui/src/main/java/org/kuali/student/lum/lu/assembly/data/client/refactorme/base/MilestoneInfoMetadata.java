@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
-import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
@@ -120,8 +119,10 @@ public class MilestoneInfoMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.meta.data"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 		}
 		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
@@ -159,6 +160,7 @@ public class MilestoneInfoMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.key"));
 		}
 		
 		recursions.increment (this.getClass ().getName ());
