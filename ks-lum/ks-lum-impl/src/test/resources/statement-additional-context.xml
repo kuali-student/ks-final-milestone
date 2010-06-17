@@ -154,12 +154,12 @@
             <map>
                 <entry key="Statement">
                     <list>
-                        <value>classpath:ks-statement-config.sql</value>
-	                    <value>classpath:ks-statement.sql</value>
+                        <value>classpath:ks-statement.sql</value>
+	                    <value>classpath:ks-statement-data.sql</value>
                     </list>
                 </entry>
                 <entry key="Lu">
-                    <value>classpath:ks-statement-lu.sql</value>
+                    <value>classpath:ks-statement-lu-data.sql</value>
                 </entry>
             </map>
         </property>
