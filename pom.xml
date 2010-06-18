@@ -72,8 +72,8 @@
     <spring.version>2.5.4</spring.version>
     <spring.security.version>2.0.4</spring.security.version>
     <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
-    <velocity.version>1.5</velocity.version>
-    <velocity.tools.version>1.4</velocity.tools.version>
+    <velocity.version>1.6.4</velocity.version>
+    <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
 
@@ -885,12 +885,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
@@ -915,7 +915,7 @@
         <version>${velocity.version}</version>
       </dependency>
       <dependency>
-        <groupId>velocity-tools</groupId>
+        <groupId>org.apache.velocity</groupId>
         <artifactId>velocity-tools</artifactId>
         <version>${velocity.tools.version}</version>
       </dependency>
