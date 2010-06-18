@@ -45,6 +45,7 @@ import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -143,6 +144,10 @@ public class RuleComponentEditorView extends ViewComposite {
 
     //cluset data
     private DataModel clusetModel = new DataModel();
+    private FieldDescriptor fdApprovedClus = null;
+    private FieldDescriptor fdProposedClus = null;
+    private FieldDescriptor fdClusets = null;
+    private SwapSection clusetDetails = null;
     
     public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -379,15 +384,7 @@ public class RuleComponentEditorView extends ViewComposite {
            //     editedStatementVO.clearSelections();
                 ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
                  displayReqComponentText(reqCompNaturalLanguage, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
-            	 reqCompDetailsPanel.add(reqCompDesc);
-               /* if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null && selectedReqType.getId().equals("kuali.reqCompType.courseList.all"))){
-                	displayCluSetsSection(reqCompDesc, CourseConfigurer.CLU_PROPOSAL_MODEL);
-            		reqCompDetailsPanel.add(reqCompDesc);
-                }
-                else{
-                 	displayReqComponentText(reqCompNaturalLanguage, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
-                	reqCompDetailsPanel.add(reqCompDesc);
-                }*/
+            	 reqCompDetailsPanel.add(reqCompDesc);           
             }
         });
 
@@ -571,9 +568,15 @@ public class RuleComponentEditorView extends ViewComposite {
     private void saveCluSet(){
         try {
         	
-        	editedFields = new ArrayList<ReqCompFieldInfo>();
-        	getController().getCurrentView().updateModel();
-        	//getController().getParentController().updateModel();
+        	//1. check other fields have values
+        	  if (retrieveReqCompFields() == false) {
+                  return;
+              }
+
+        	//2. get clusetId
+        	if(clusetDetails != null)
+        		clusetDetails.updateModel(clusetModel);
+        	
         	Data input = clusetModel.getRoot();
         	CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(input);
         	 if (root.getCourse() == null) {
@@ -606,7 +609,6 @@ public class RuleComponentEditorView extends ViewComposite {
                 public void onSuccess(DataSaveResult result) {
                 	String clusetId = CluSetHelper.wrap((Data)result.getValue().get("cluset")).getId();
 
-                	//String clusetId  = CluSetHelper.wrap(result.getValue()).getId();
                 	if (clusetId != null && !clusetId.trim().isEmpty()){
 	                	 ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
 	                     fieldInfo.setId(ReqComponentFieldTypes.CLUSET_KEY.getKey());
@@ -722,25 +724,23 @@ public class RuleComponentEditorView extends ViewComposite {
     }
     
     private SwapSection displayCluSetsSection( final String modelId, CluSetEditOptionList cluSetEditOptions){
-    	/*VerticalSection clusetSection = initSection(null, WITH_DIVIDER);
-    	CluSetsConfigurer clusetConfig = new CluSetsConfigurer();
-    	CluSetEditOptionList cluSetEditOptions = clusetConfig.new CluSetEditOptionList();*/
-    	// cluSetEditOptionsMap.put(modelId, cluSetEditOptions);
          SwapSection clusetDetails = new SwapSection(
                  cluSetEditOptions,
                  new ConfirmationDialog("Delete Clu Set Details",
                          "You are about to delete clu set details.  Continue?")
                  );
-         
+        
          // ****** Add Approved Clus *******
          Section approvedClusSection = new VerticalSection();
-         addField(approvedClusSection, ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE)).setModelId(modelId);
+         fdApprovedClus= addField(approvedClusSection, ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE));
+         fdApprovedClus.setModelId(modelId);
          clusetDetails.addSection(approvedClusSection, ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS);
          // END OF items related to Add Approved Clus
          
          // ****** Add Proposed Clus *******
          Section proposedClusSection = new VerticalSection();
-         addField(proposedClusSection, ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE)).setModelId(modelId);
+         fdProposedClus = addField(proposedClusSection, ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE));
+         fdProposedClus.setModelId(modelId);
          clusetDetails.addSection(proposedClusSection, ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS);
          // END OF items related to Add Approved Clus
 
@@ -804,7 +804,8 @@ public class RuleComponentEditorView extends ViewComposite {
          // END OF items related to Add Clu Range
          // ****** Add cluSets *******
          Section cluSetSection = new VerticalSection();
-         addField(cluSetSection, ToolsConstants.CLU_SET_CLU_SETS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET)).setModelId(modelId);
+         fdClusets = addField(cluSetSection, ToolsConstants.CLU_SET_CLU_SETS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET));
+         fdClusets.setModelId(modelId);
          clusetDetails.addSection(cluSetSection, ToolsConstants.CLU_SET_SWAP_CLU_SETS);
          // END OF items related to Add CluSets
          
@@ -1001,12 +1002,11 @@ public class RuleComponentEditorView extends ViewComposite {
                 	CluSetEditOptionList cluSetEditOptions = clusetConfig.new CluSetEditOptionList();
                 	innerReqComponentTextPanel.add(cluSetEditOptions);
 
-         	       final SwapSection clusetDetails = displayCluSetsSection(CourseConfigurer.CLU_PROPOSAL_MODEL, cluSetEditOptions);   
+//         	       final SwapSection clusetDetails = displayCluSetsSection(CourseConfigurer.CLU_PROPOSAL_MODEL, cluSetEditOptions);   
+                   clusetDetails = displayCluSetsSection(CourseConfigurer.CLU_PROPOSAL_MODEL, cluSetEditOptions);
          	       
          	      selectCluSetOptionList(clusetModel, cluSetEditOptions);
-         	       clusetDetails.updateWidgetData(clusetModel);
-         	       
-         	       reqCompWidgets.add(clusetDetails);
+         	      clusetDetails.updateWidgetData(clusetModel);
          	       
          	       if (i > 1) {
 	                    SimplePanel verticalSpacer = new SimplePanel();
