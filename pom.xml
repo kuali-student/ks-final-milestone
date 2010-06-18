@@ -93,7 +93,7 @@
   </properties>
   <profiles>
     <!-- 
-     - This profile makes it easier to install Oracle's ojdbc14.jar
+     - This profile makes it easier to place Oracle's ojdbc14.jar into your local repository so Maven can find it
      - Download ojdbc14.jar from http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html
      - Run the maven-install-plugin using the oracle profile and pass in the download location
 
