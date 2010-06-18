@@ -12,9 +12,7 @@
     <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-sts</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-sts</developerConnection>
   </scm>
-
   <dependencies>
-
     <dependency>
       <groupId>org.kuali.student.security</groupId>
       <artifactId>ks-standard-sec</artifactId>
@@ -32,7 +30,6 @@
       <type>pom</type>
       <scope>test</scope>
     </dependency>
-    
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
@@ -98,6 +95,13 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.kuali.student.security</groupId>
+            <artifactId>ks-standard-sec</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
