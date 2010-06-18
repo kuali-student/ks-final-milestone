@@ -92,6 +92,34 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
+    <!-- 
+     - This profile makes it easier to install Oracle's ojdbc14.jar
+     - Download ojdbc14.jar from http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html
+     - Run the maven-install-plugin using the oracle profile and pass in the download location
+
+      mvn -N -Poracle install:install-file -Dfile=/tmp/ojdbc14.jar
+      
+     - You should see output like this:
+       [INFO] Installing /tmp/ojdbc14.jar to /opt/m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar
+     -->
+    <profile>
+      <id>oracle</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <configuration>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>${oracle.ojdbc.version}</version>
+              <packaging>jar</packaging>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <!-- License plugin -->
     <!-- to run, use mvn -Pgenerate-ecl license:format -Dyear=2010 -->
     <!-- some of the xmlparsers dont like comments to appear before the ?xml processing instruction -->
