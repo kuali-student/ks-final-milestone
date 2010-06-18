@@ -185,7 +185,12 @@ public class ValidatorUtils {
 	/**
 	 * Traverses the dictionary ObjectStructure to find the field with the match
 	 * key, type and state
-	 * 
+	 * The key has to relative to the current object structure that is being traversed.
+	 * example: current object structure is ActivityInfo and if we want to lookup 
+	 * the academicSubjectorgId, then <property name="fieldPath" value="academicSubjectOrgs.orgId"/>
+	 * The current object structure starts from the field on which the constraint is applied on.
+	 * If we want to address fields outside of this object structure we ll need to pass in the
+	 * dictionary context.
 	 * @param key
 	 * @param type
 	 * @param state
@@ -193,15 +198,27 @@ public class ValidatorUtils {
 	 * @return
 	 */
 	public static FieldDefinition getField(String key, ObjectStructureDefinition objStructure) {
-
-		for (FieldDefinition f : objStructure.getAttributes()) {
-			if (f.getName().equals(key)) {
-				return f;
+		String[] lookupPathTokens = getPathTokens(key);
+		for(int i = 0; i < lookupPathTokens.length; i++) {
+			for (FieldDefinition f : objStructure.getAttributes()) {
+				if (f.getName().equals(lookupPathTokens[i])) {
+					if(i==lookupPathTokens.length-1){
+						return f;
+					}
+					else{
+						objStructure = f.getDataObjectStructure();
+						break;
+					}
+					
+				}
 			}
-		}
-
+		 }
 		return null;
 	}
+	
+    private static String[] getPathTokens(String fieldPath) {
+        return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
+    }
 
 }
 
