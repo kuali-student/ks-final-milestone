@@ -66,6 +66,7 @@
 
 
     <bean id="courseListContext" class="org.kuali.student.core.statement.config.context.lu.CourseListContextImpl" />
+    <bean id="gradeCheckContext" class="org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl" />
 
     <!--bean id="contextRegistryLuStatement"
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
@@ -85,26 +86,46 @@
             <map>
                 <!-- Pre-Req Contexts-->
                 <entry key="kuali.reqCompType.courseList.none">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="courseListContext"/>
+	                </list>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.all">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="courseListContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.nof">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="courseListContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.1of1">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="courseListContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.1of2">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="courseListContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.gradecheck">
+                    <list>
+                        <ref local="courseListContext"/>
+                        <ref local="gradeCheckContext"/>
+                    </list>
                 </entry>
                 <!-- Co-Req Contexts -->
                 <entry key="kuali.reqCompType.courseList.coreq.all">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="courseListContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.coreq.oneof">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="courseListContext"/>
+                    </list>
                 </entry>
             </map>
         </constructor-arg>

@@ -175,6 +175,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
 	@Test
+	public void testGetNaturalLanguageForReqComponent_GradeCheck() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.CATALOG", "en");
+    	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", nl);
+    }
+
+	@Test
 	public void testGetNaturalLanguageForReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	try {
     		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "xxx", "en");
@@ -1100,19 +1106,16 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         StatementTreeViewInfo treeView = new StatementTreeViewInfo();
         treeView.setDesc(toRichText("STMT-TV-TEST-1"));
         treeView.setOperator(StatementOperatorTypeKey.OR);
-        treeView.setParentId(null);  // parent is null because it is the root statement
         treeView.setType("kuali.luStatementType.prereqAcademicReadiness");
 
         StatementTreeViewInfo subTreeView1 = new StatementTreeViewInfo();
         subTreeView1.setDesc(toRichText("STMT-TV-TEST-2"));
         subTreeView1.setOperator(StatementOperatorTypeKey.AND);
-        subTreeView1.setParentId(null);  // don't not what it is until the actual statement is created
         subTreeView1.setType("kuali.luStatementType.prereqAcademicReadiness");
 
         StatementTreeViewInfo subTreeView2 = new StatementTreeViewInfo();
         subTreeView2.setDesc(toRichText("STMT-TV-TEST-3"));
         subTreeView2.setOperator(StatementOperatorTypeKey.AND);
-        subTreeView2.setParentId(null);  // don't not what it is until the actual statement is created
         subTreeView2.setType("kuali.luStatementType.prereqAcademicReadiness");
 
         // construct tree with statements and req components
