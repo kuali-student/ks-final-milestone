@@ -450,7 +450,9 @@ public class RuleComponentEditorView extends ViewComposite {
             public void onClick(ClickEvent event) {
             	
             	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null 
-            	    && (selectedReqType.getId().equals("kuali.reqCompType.courseList.all") || selectedReqType.getId().equals("kuali.reqCompType.courseList.nof") ))){
+            	    && (selectedReqType.getId().equals("kuali.reqCompType.courseList.all")
+            	            || selectedReqType.getId().equals("kuali.reqCompType.courseList.nof")
+            	            || selectedReqType.getId().equals("kuali.reqCompType.grdCondCourseList")))){
             		saveCluSet();
             	}else{
 	            	//1. check that all fields have values
@@ -997,7 +999,8 @@ public class RuleComponentEditorView extends ViewComposite {
             if (tag.equals(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
 
             	if(editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.courseList.all")
-            			|| editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.courseList.nof")){
+            			|| editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.courseList.nof")
+            			|| editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.grdCondCourseList")){
                 	CluSetsConfigurer clusetConfig = new CluSetsConfigurer();
                 	CluSetEditOptionList cluSetEditOptions = clusetConfig.new CluSetEditOptionList();
                 	innerReqComponentTextPanel.add(cluSetEditOptions);
