@@ -83,7 +83,11 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
 
     @Override
     public void setValue(Value value) {
-        this.data = value.get();
+        if (value == null) {
+            this.data = null;
+        } else {
+            this.data = value.get();
+        }
         callHandlers();
         redraw();
     }
