@@ -160,9 +160,9 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
 
-    protected AttributeSet getQualification(String idType, String id, String doc_type) {
+    protected AttributeSet getQualification(String idType, String id, String docType) {
         AttributeSet qualification = new AttributeSet();
-        qualification.put(doc_type, "CluCreditCourseProposal");
+        qualification.put("documentTypeName", docType);
         qualification.put(idType, id);
         return qualification;
     }
