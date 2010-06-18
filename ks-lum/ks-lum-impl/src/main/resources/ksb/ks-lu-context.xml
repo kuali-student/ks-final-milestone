@@ -389,13 +389,13 @@
 		<aop:aspect id="dataAccessToBusinessException"
 			ref="mapExceptionAdvisor">
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.lum.lu.service.*.*(..))"
+				 pointcut="execution(* org.kuali.student.lum.lu.service.impl.LuServiceImpl.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.lum.lrc.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.lum.lo.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
