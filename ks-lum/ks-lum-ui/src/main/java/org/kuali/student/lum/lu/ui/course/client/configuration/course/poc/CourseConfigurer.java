@@ -89,7 +89,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	protected boolean WITH_DIVIDER = true;
 	protected boolean NO_DIVIDER = false;
 
-	public static final String PROPOSAL_ID_PATH						= "/id";
+	public static final String PROPOSAL_ID_PATH						= "/proposalId";
 	public static final String PROPOSAL_TITLE_PATH					= "/courseTitle";
 	public static final String COURSE_TITLE_PATH					= "/courseTitle";
 

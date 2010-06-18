@@ -30,7 +30,8 @@ public class CourseWorkflowFilter extends WorkflowFilter{
 	@Override
 	public String getObjectId(Object dto) {
 		CourseInfo course = (CourseInfo)dto;
-		return course.getId();
+		String proposalId = course.getAttributes().get("proposalId");
+		return proposalId;//course.getId();
 	}
 
 	@Override

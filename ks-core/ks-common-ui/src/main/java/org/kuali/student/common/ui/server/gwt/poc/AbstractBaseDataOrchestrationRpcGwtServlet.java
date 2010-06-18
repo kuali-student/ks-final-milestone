@@ -41,6 +41,7 @@ import org.kuali.student.common.ui.client.service.exceptions.OperationFailedExce
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.transform.AuthorizationFilter;
 import org.kuali.student.core.assembly.transform.MetadataFilter;
 import org.kuali.student.core.assembly.transform.TransformationManager;
 import org.kuali.student.core.assembly.transform.WorkflowFilter;
@@ -100,6 +101,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
 		}
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
+		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
+		if (checkDocumentLevelPermissions()){
+			filterProperties.put(AuthorizationFilter.DOC_LEVEL_PERM_CHECK, Boolean.TRUE.toString());
+		}
 		
 		try {
 			Metadata metadata = transformationManager.getMetadata(getDtoClass().getName(), filterProperties); 
@@ -112,7 +117,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	@Override
 	public DataSaveResult saveData(Data data) throws OperationFailedException {
 		Map<String, String> filterProperties = getDefaultFilterProperties();
-		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));
+		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("proposalId"));
 
 		try {
 			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);

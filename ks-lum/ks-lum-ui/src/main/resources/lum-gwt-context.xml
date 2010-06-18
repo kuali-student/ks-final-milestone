@@ -298,12 +298,19 @@
 		<property name="metadataService" ref="metadataServiceImplPOC"/>
 		<property name="filters">
 			<list>
+				<!-- Order of filters is important -->
+				<ref bean="authzFilter"/>
 				<ref bean="idTranslatorFilter" />
 				<ref bean="courseProposalFilter" />
+				<ref bean="courseWorkflowFilter" />
 			</list>
 		</property>		
 	</bean>
 	
+	<bean id="authzFilter" class="org.kuali.student.core.assembly.transform.AuthorizationFilter">
+		<property name="permissionService" ref="permissionServiceClient"/>
+	</bean>
+
 	<bean id="idTranslatorFilter" class="org.kuali.student.core.assembly.transform.IdTranslatorFilter">
 		<constructor-arg ref="idTranslator" />
 	</bean>
@@ -312,6 +319,11 @@
 		<property name="proposalService" ref="proposalClient"/>
 	</bean>
 	
+	<bean id="courseWorkflowFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.poc.CourseWorkflowFilter">
+		<property name="workflowUtilityService" ref="workflowUtilityClient"/>
+		<property name="simpleDocService" ref="simpleDocActionsClient"/>
+	</bean>	
+
 
 	<bean id="modifyCreditCourseProposalManager" class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
 		<property name="creditCourseAssembler" ref="courseAssemblerFilterManager"/>
