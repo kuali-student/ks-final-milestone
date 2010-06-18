@@ -45,7 +45,6 @@ import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -56,7 +55,6 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
@@ -296,6 +294,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 @Override
                 public void onValueChange(ValueChangeEvent<Boolean> event) {
                     confirmButton.setEnabled(true);
+                    resetClusetModel();
                 	if (compReqTypesList.getSelectedItem() != null) {
                         compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
                     }
@@ -575,7 +574,7 @@ public class RuleComponentEditorView extends ViewComposite {
                   return;
               }
 
-        	//2. get clusetId
+        	//2. create a new cluset and get it's Id
         	if(clusetDetails != null)
         		clusetDetails.updateModel(clusetModel);
         	
@@ -723,6 +722,17 @@ public class RuleComponentEditorView extends ViewComposite {
         if (withDivider)
             section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         return section;
+    }
+ 
+    private void resetClusetModel(){
+    	if(clusetModel.get("cluset") != null){
+	    	final CluSetHelper cluSet = CluSetHelper.wrap((Data)clusetModel.get("cluset"));
+			cluSet.setApprovedClus(null);
+			cluSet.setProposedClus(null);
+			cluSet.setCluSets(null);
+			cluSet.setCluRangeParams(null);
+			cluSet.setCluRangeViewDetails(null);
+    	}
     }
     
     private SwapSection displayCluSetsSection( final String modelId, CluSetEditOptionList cluSetEditOptions){
