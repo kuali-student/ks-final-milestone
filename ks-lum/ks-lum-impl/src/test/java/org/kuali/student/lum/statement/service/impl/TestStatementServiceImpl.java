@@ -43,13 +43,13 @@ public class TestStatementServiceImpl {
 	@Test
 	public void testTranslateReqComponent_1ofN() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
-    	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
+    	assertEquals("Student must have completed 1 of MATH152, MATH180", nl);
 	}
 
 	@Test
 	public void testTranslateReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-6", "KUALI.CATALOG", "en");
-    	assertEquals("Student must have completed MATH 152", nl);
+    	assertEquals("Student must have completed MATH152", nl);
 	}
 
 	@Test
@@ -61,6 +61,6 @@ public class TestStatementServiceImpl {
 	@Test
 	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+        assertEquals("Student must have completed 1 of MATH152, MATH180", naturalLanguage);
 	}
 }

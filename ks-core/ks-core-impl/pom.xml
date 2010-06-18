@@ -51,6 +51,12 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-common-ui</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
       <version>${project.version}</version>
       <type>pom</type>

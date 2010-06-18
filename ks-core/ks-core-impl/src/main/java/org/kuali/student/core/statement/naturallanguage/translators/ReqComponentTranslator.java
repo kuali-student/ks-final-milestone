@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.statement.naturallanguage.translators;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -108,11 +109,15 @@ public class ReqComponentTranslator {
      */
     private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException, OperationFailedException {
     	String reqComponentTypeId = reqComponent.getRequiredComponentType().getId();
-        Context<ReqComponent> context = this.contextRegistry.get(reqComponentTypeId);
-        if(context == null) {
+        List<Context<ReqComponent>> contextList = this.contextRegistry.get(reqComponentTypeId);
+        if(contextList == null || contextList.isEmpty()) {
         	throw new DoesNotExistException("Requirement component context not found in registry for requirement component type id: " + reqComponentTypeId);
         }
-    	Map<String, Object> contextMap = context.createContextMap(reqComponent);
+        Map<String, Object> contextMap = new HashMap<String, Object>();
+        for(Context<ReqComponent> context : contextList) {
+    		Map<String, Object> cm = context.createContextMap(reqComponent);
+    		contextMap.putAll(cm);
+    	}
 
         return contextMap;
     }

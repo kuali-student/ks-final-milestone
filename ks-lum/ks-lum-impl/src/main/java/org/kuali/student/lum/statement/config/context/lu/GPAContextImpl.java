@@ -15,17 +15,21 @@
 
 package org.kuali.student.lum.statement.config.context.lu;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 
 /**
- * This class creates the template context for course list types.
+ * This class creates the template context for grade check type.
  */
-public class CourseListContextImpl extends AbstractLuContext<ReqComponent> {
+public class GPAContextImpl extends AbstractLuContext<ReqComponent> {
+	/** GPA template token */ 
+	private final static String GPA_TOKEN = "gpa";
+	
     /**
      * Creates the context map (template data) for the requirement component.
      * 
@@ -33,11 +37,8 @@ public class CourseListContextImpl extends AbstractLuContext<ReqComponent> {
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(reqComponent);
-        
-        contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey()));
-        contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getKey()));
-        contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
+    	Map<String, Object> contextMap = new HashMap<String, Object>();
+    	contextMap.put(GPA_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getKey()));
 
         return contextMap;
     }
