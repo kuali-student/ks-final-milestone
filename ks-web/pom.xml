@@ -46,22 +46,15 @@
   </properties>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
     </repository>
   </repositories>
 </project>
