@@ -17,7 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.List;
 
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -133,7 +133,7 @@ public class ManageRulesView extends ViewComposite {
             public void onClick(ClickEvent event) {
                 Cell cell = ruleTable.getCellForEvent(event);
                 if (cell == null) {
-                    System.out.println("Cell is NULL");
+                    GWT.log("Cell is NULL", null);
                     return;
                 }
                 
@@ -474,9 +474,9 @@ public class ManageRulesView extends ViewComposite {
         VerticalPanel arrowButtonsPanel = new VerticalPanel();
         tempPanel2.add(ruleTable);
         arrowButtonsPanel.add(btnMoveRuleUp);
-        btnMoveRuleUp.setStyleName("KS-RuleTable-UpArrow");
+        btnMoveRuleUp.addStyleName("KS-RuleTable-UpArrow");
         arrowButtonsPanel.add(btnMoveRuleDown);
-        btnMoveRuleDown.setStyleName("KS-RuleTable-DownArrow");
+        btnMoveRuleDown.addStyleName("KS-RuleTable-DownArrow");
         tableButtonsPanel.add(arrowButtonsPanel);
         tempPanel2.add(tableButtonsPanel);
         complexView.add(tempPanel2);
@@ -598,7 +598,7 @@ public class ManageRulesView extends ViewComposite {
         									model.getValue().getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
-                caught.printStackTrace();
+                GWT.log("NL failed", caught);
            }
             
             public void onSuccess(final String statementNaturalLanguage) { 

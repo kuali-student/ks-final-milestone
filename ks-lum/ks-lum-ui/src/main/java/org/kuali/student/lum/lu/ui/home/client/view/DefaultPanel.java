@@ -23,10 +23,8 @@ import com.google.gwt.user.client.ui.Label;
 public class DefaultPanel extends ViewComposite{
 
     public DefaultPanel(Controller controller) {
-        // TODO Bsmith - THIS CONSTRUCTOR NEEDS A JAVADOC
         super(controller, "LUM");
         this.initWidget(new Label("Place Directions for menu/introduction here...."));
-        // TODO Auto-generated constructor stub
     }
 
 }

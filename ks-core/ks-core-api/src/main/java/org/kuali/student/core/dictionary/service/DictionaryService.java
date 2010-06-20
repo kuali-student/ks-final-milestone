@@ -39,18 +39,4 @@ public interface DictionaryService {
     @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectStructure", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
     @ResponseWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectStructureResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
     public ObjectStructure getObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey);
-
-    @WebMethod
-    @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.ValidateObject", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
-    @ResponseWrapper(className="org.kuali.student.core.dictionary.service.jaxws.ValidateObjectResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
-    public boolean validateObject(@WebParam(name = "objectTypeKey")String objectTypeKey, 
-            @WebParam(name = "stateKey")String stateKey, 
-            @WebParam(name = "info")String info);
-
-    @WebMethod
-    @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.ValidateStructureData", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
-    @ResponseWrapper(className="org.kuali.student.core.dictionary.service.jaxws.ValidateStructureDataResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
-    public boolean validateStructureData(@WebParam(name = "objectTypeKey")String objectTypeKey, 
-            @WebParam(name = "stateKey")String stateKey, 
-            @WebParam(name = "info")String info);
 }

@@ -26,6 +26,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
@@ -38,13 +39,14 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHelper>{
+	final Logger LOG = Logger.getLogger(OrgOrgRelationAssembler.class);
     public static final String ORGORG_PATH                  = "orgOrgRelationInfo";
     private OrganizationService orgService;
     private Metadata metadata;
@@ -83,7 +85,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             
         }
         catch(Exception e){
-            e.printStackTrace();
+            LOG.error(e);
             throw(new AssemblyException());
         }
         return orgOrgRelationMap;
@@ -168,7 +170,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                         OrgOrgRelationInfo result = orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
                         addVersionIndicator(orgOrgRelation.getData(), OrgOrgRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                     } catch (Exception e) {
-                        e.printStackTrace();
+                    	LOG.error(e);
                         throw (new AssemblyException());
                     }
                 }
@@ -182,7 +184,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                   }
               }
               catch(Exception e ){
-                  e.printStackTrace();
+            	  LOG.error(e);
                   throw(new AssemblyException());
               }
           }
@@ -197,7 +199,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                     addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                    LOG.error(e);
                     throw(new AssemblyException());
                 }
             }
@@ -274,7 +276,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         
         }
         catch(Exception e){
-            e.printStackTrace();
+            LOG.error(e);
             throw(new AssemblyException());
         }
         return orgOrgRelations;

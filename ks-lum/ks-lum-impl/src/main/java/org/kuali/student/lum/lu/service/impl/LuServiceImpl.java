@@ -28,7 +28,6 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
@@ -59,7 +58,6 @@ import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
@@ -68,6 +66,7 @@ import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
 import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
@@ -283,8 +282,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> getLuPublicationTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("getLuPublicationTypesForLuType");
 	}
 
 	@Override
@@ -538,8 +536,7 @@ public class LuServiceImpl implements LuService {
 	public List<CluPublicationInfo> getCluPublicationsByCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -547,16 +544,14 @@ public class LuServiceImpl implements LuService {
 			String luPublicationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
 	public CluPublicationInfo getCluPublication(String cluPublicationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	// **** Results
@@ -639,8 +634,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> getResourceRequirementsForCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	// *** Sets
@@ -657,6 +651,15 @@ public class LuServiceImpl implements LuService {
 		return cluSetInfo;
 	}
 
+	@Override
+	public CluSetTreeViewInfo getCluSetTreeView(String cluSetId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+	
 	@Override
 	public List<CluSetInfo> getCluSetInfoByIdList(List<String> cluSetIdList)
 			throws DoesNotExistException, InvalidParameterException,
@@ -680,6 +683,14 @@ public class LuServiceImpl implements LuService {
 			ids.add(cluSet2.getId());
 		}
 		return ids;
+	}
+	
+	@Override
+	public Boolean isCluSetDynamic(String cluSetId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -780,8 +791,7 @@ public class LuServiceImpl implements LuService {
 	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -920,41 +930,9 @@ public class LuServiceImpl implements LuService {
 		clu.setLuType(luType);
 
 		if (cluInfo.getOfficialIdentifier() != null) {
-			CluIdentifier officialIdentifier = new CluIdentifier();
-			BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
-					officialIdentifier, new String[] { "code" });
-
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			officialIdentifier
-					.setCode(new StringBuilder().append(
-							cluInfo.getOfficialIdentifier().getDivision())
-							.append(
-									cluInfo.getOfficialIdentifier()
-											.getSuffixCode()).toString());
-
-			clu.setOfficialIdentifier(officialIdentifier);
+			clu.setOfficialIdentifier(LuServiceAssembler.createOfficialIdentifier(cluInfo));
 		}
-
-		if (clu.getAlternateIdentifiers() == null) {
-			clu.setAlternateIdentifiers(new ArrayList<CluIdentifier>(0));
-		}
-		List<CluIdentifier> alternateIdentifiers = clu
-				.getAlternateIdentifiers();
-
-		for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
-			CluIdentifier identifier = new CluIdentifier();
-			BeanUtils.copyProperties(cluIdInfo, identifier,
-					new String[] { "code" });
-
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			identifier.setCode(new StringBuilder().append(
-					cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
-					.toString());
-			alternateIdentifiers.add(identifier);
-		}
-
+		clu.setAlternateIdentifiers(LuServiceAssembler.createAlternateIdentifiers(cluInfo));
 		if (cluInfo.getDescr() != null) {
 		    LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, cluInfo.getDescr());
 		    if (descr.getPlain() != null || descr.getFormatted() != null) {
@@ -1156,21 +1134,7 @@ public class LuServiceImpl implements LuService {
 		clu.setLuType(luType);
 
 		if (cluInfo.getOfficialIdentifier() != null) {
-			if (clu.getOfficialIdentifier() == null) {
-				clu.setOfficialIdentifier(new CluIdentifier());
-			}
-			BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
-					.getOfficialIdentifier(), new String[] { "id", "code" });
-
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			clu.getOfficialIdentifier().setCode(
-					new StringBuilder().append(
-							cluInfo.getOfficialIdentifier().getDivision())
-							.append(
-									cluInfo.getOfficialIdentifier()
-											.getSuffixCode()).toString());
-
+		    LuServiceAssembler.updateOfficialIdentifier(clu, cluInfo);
 		} else if (clu.getOfficialIdentifier() != null) {
 			luDao.delete(clu.getOfficialIdentifier());
 		}
@@ -1179,30 +1143,7 @@ public class LuServiceImpl implements LuService {
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
 		Map<String, CluIdentifier> oldAltIdMap = new HashMap<String, CluIdentifier>();
-		for (CluIdentifier altIdentifier : clu.getAlternateIdentifiers()) {
-			oldAltIdMap.put(altIdentifier.getId(), altIdentifier);
-		}
-		clu.getAlternateIdentifiers().clear();
-
-		// Loop through the new list, if the item exists already update and
-		// remove from the list
-		// otherwise create a new entry
-		for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
-			CluIdentifier identifier = oldAltIdMap.remove(cluIdInfo.getId());
-			if (identifier == null) {
-				identifier = new CluIdentifier();
-			}
-			// Do Copy
-			BeanUtils.copyProperties(cluIdInfo, identifier,
-					new String[] { "code" });
-			// FIXME: This will be in orchestration somewhere but
-			// for now put it here
-			identifier.setCode(new StringBuilder().append(
-					cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
-					.toString());
-			clu.getAlternateIdentifiers().add(identifier);
-		}
-
+		LuServiceAssembler.updateAlternateIdentifier(oldAltIdMap, clu, cluInfo);
 		// Now delete anything left over
 		for (Entry<String, CluIdentifier> entry : oldAltIdMap.entrySet()) {
 			luDao.delete(entry.getValue());
@@ -1579,7 +1520,6 @@ public class LuServiceImpl implements LuService {
 			String validationType, CluCluRelationInfo cluCluRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
@@ -1726,8 +1666,7 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -1735,8 +1674,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, DependentObjectsExistException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -2023,8 +1961,7 @@ public class LuServiceImpl implements LuService {
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
@@ -2190,6 +2127,23 @@ public class LuServiceImpl implements LuService {
 			cluSet.setClus(cluList);
 		}
 
+        // clean up existing wrappers if any
+        if (cluSetInfo.getId() != null) {
+            CluSetInfo originalCluSet = getCluSetInfo(cluSetInfo.getId());
+            List<CluSetInfo> origSubCSs = null;
+            List<String> origSubCSIds = originalCluSet.getCluSetIds();
+            if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
+                origSubCSs = getCluSetInfoByIdList(origSubCSIds);
+            }
+            if (origSubCSs != null) {
+                for (CluSetInfo origSubCS : origSubCSs) {
+                    if (!origSubCS.getIsReusable()) {
+                        deleteCluSet(origSubCS.getId());
+                    }
+                }
+            }
+        }
+		
 		// update the cluSetIds
 		cluSet.setCluSets(null);
 		if(!cluSetInfo.getCluSetIds().isEmpty()) {
@@ -2710,15 +2664,6 @@ public class LuServiceImpl implements LuService {
 		}
 	}
 
-	private Validator createValidator() {
-		// Validator validator = new Validator();
-		// validator.setDateParser(new ServerDateParser());
-		// // validator.addMessages(null); //TODO this needs to be loaded
-		// somehow
-		// return validator;
-		return null;
-	}
-
 	@Override
 	public ObjectStructure getObjectStructure(String objectTypeKey) {
 		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
@@ -2727,20 +2672,6 @@ public class LuServiceImpl implements LuService {
 	@Override
 	public List<String> getObjectTypes() {
 		return dictionaryServiceDelegate.getObjectTypes();
-	}
-
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateObject(objectTypeKey,
-				stateKey, info);
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateStructureData(objectTypeKey,
-				stateKey, info);
 	}
 
 	public LuDao getLuDao() {

@@ -138,7 +138,6 @@ public class CommentServiceAssembler extends BaseAssembler {
         entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
         entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, dao));
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-        // TODO comment type
         return entity;
     }
     public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{

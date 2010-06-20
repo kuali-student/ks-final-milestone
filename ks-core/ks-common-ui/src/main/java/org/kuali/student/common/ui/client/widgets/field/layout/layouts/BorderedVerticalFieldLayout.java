@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -31,7 +32,7 @@ public class BorderedVerticalFieldLayout extends FieldLayout{
 		verticalLayout.addStyleName("ks-form-bordered-body");
 		body.setStyleName("ks-form-bordered");
 		body.add(verticalLayout);
-		this.initWidget(body);
+		this.add(body);
 	}
 	
 	public BorderedVerticalFieldLayout(SectionTitle title){
@@ -44,7 +45,7 @@ public class BorderedVerticalFieldLayout extends FieldLayout{
 		title.addStyleName("ks-form-bordered-header-title");
 		body.add(header);
 		body.add(verticalLayout);
-		this.initWidget(body);
+		this.add(body);
 	}
 
 	@Override
@@ -80,6 +81,14 @@ public class BorderedVerticalFieldLayout extends FieldLayout{
 	public void setLayoutTitle(SectionTitle layoutTitle) {
 		layoutTitle.addStyleName("ks-form-bordered-header-title");
 		header.setHeaderTitle(layoutTitle);
+		
+	}
+
+	@Override
+	public void addButtonLayoutToLayout(ButtonLayout buttonLayout) {
+		if(buttonLayout != null){
+			body.add(buttonLayout);
+		}
 		
 	}
 }

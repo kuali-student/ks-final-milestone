@@ -22,6 +22,9 @@ import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.user.client.ui.HasValue;
 
 //FIXME Suggest picker marker interface, temporary fix?
+/**
+ * @deprecated  [KSCOR-225] Remove after CluCodePicker and LOCategoryBuilder have been switched to use KSPicker
+ */
 public interface SuggestPicker extends HasValue<String>, HasFocusHandlers, HasBlurHandlers, HasSelectionChangeHandlers{
 
 }

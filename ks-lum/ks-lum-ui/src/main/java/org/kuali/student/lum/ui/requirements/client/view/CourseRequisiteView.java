@@ -147,7 +147,6 @@ public class CourseRequisiteView extends ViewComposite {
         KSButton submitButton = new KSButton(ruleExist(rule) ? "Manage Rule" : "Add rule");
         submitButtons.put(luStatementTypeKey, submitButton);
         submitButton.setTitle(luStatementTypeKey);
-        submitButton.setStyleName("KS-Rules-Tight-Button");
         submitButton.addClickHandler(handler);    
         rationalePanel3.add(submitButton);        
     	
