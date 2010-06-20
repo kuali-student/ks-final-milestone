@@ -110,7 +110,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	}
 	
 	protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-		SearchResult result = null;
+		List<SearchResultRow> results = null;
 		if (null != orgId) {
 			List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 			SearchParam qpRelType = new SearchParam();
@@ -132,13 +132,14 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
 	        searchRequest.setParams(queryParamValues);
 			try {
-				result = getOrganizationService().search(searchRequest);
+				SearchResult result = getOrganizationService().search(searchRequest);
+				results = result.getRows();
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
 			}
 		}
-		return result.getRows();
+		return results;
 	}
 
 	protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results,

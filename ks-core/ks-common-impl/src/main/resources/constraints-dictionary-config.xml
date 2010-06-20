@@ -1270,7 +1270,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:lookup>
 		</dict:constraint>
 
-	<dict:constraint key="related.Statementd" id="constraint.related.Statementd" className="org.kuali.student.lum.lu.validation.LuStatementIdExistsValidator" serverSide="true">
+	<dict:constraint key="related.statementd" id="constraint.related.statementd" className="org.kuali.student.lum.lu.validation.LuStatementIdExistsValidator" serverSide="true">
 		<!-- Id of an existing Statement -->
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
@@ -1283,6 +1283,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
 		</dict:constraint>
+
+    <dict:constraint key="related.referenceObjectId" id="constraint.related.referenceObjectId" className="org.kuali.student.lum.lu.validation.ReferenceObjectIdExistsValidator" serverSide="true">
+        <!-- Id of an existing referenced object -->
+        <!-- Requires special logic to check that the ID supplied actually exists -->
+        <dict:minLength>1</dict:minLength>
+        <dict:maxLength>36</dict:maxLength>
+        </dict:constraint>
 
 	<dict:constraint key="lu.requirement.component.types" id="constraint.lu.requirement.component.types" serverSide="false">
 		<!-- In list of valid lu requirement component types -->

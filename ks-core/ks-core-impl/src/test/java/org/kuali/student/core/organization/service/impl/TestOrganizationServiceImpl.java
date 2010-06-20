@@ -754,34 +754,5 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		SearchResultCell cell = cells.get(0);
 		assertEquals("org.resultColumn.orgHierarchyId", cell.getKey());
 		assertEquals("kuali.org.hierarchy.Main", cell.getValue());
-	}
-	
-	@Test
-	public void testValidateMethods() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		//TODO uncomment this when dictionary gets written
-//		OrgInfo orgInfo = new OrgInfo();
-//	    
-//	    orgInfo.setType("kuali.org.Program");
-//	    orgInfo.setState("active");
-//	    
-//        List<DictValidationResultContainer> validations = client.validateOrg("", orgInfo);
-//	    for (DictValidationResultContainer validationResult : validations) {
-//            assertTrue(validationResult.isOk());
-//        }
-	    
-	    
-//	    OrgOrgRelationInfo orgOrgRelationInfo = new OrgOrgRelationInfo();
-//	    
-//        validations = client.validateOrgOrgRelation("", orgOrgRelationInfo);
-//        for (ValidationResult validationResult : validations) {
-//            assertTrue(validationResult.isOk());
-//        }
-//        
-//        OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
-//        
-//        validations = client.validateOrgPersonRelation("", orgPersonRelationInfo);
-//        for (ValidationResult validationResult : validations) {
-//            assertTrue(validationResult.isOk());
-//        }
-	}
+	}	
 }

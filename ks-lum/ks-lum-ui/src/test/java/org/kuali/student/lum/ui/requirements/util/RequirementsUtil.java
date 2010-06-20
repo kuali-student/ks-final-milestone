@@ -15,11 +15,6 @@
 
 package org.kuali.student.lum.ui.requirements.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 //import org.kuali.student.lum.lu.service.LuService;
 //import org.kuali.student.lum.lu.dto.CluIdentifierInfo;

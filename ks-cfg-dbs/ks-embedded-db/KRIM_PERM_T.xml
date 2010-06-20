@@ -389,4 +389,9 @@
         NM="Grant Responsibility" NMSPC_CD="KR-SYS"
         OBJ_ID="5B4F09744953EF33E0404F8189D84F28" PERM_ID="836"
         PERM_TMPL_ID="37" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows users to access the Configuration Viewer screen"
+        NM="Use Screen" NMSPC_CD="KR-BUS"
+        OBJ_ID="97469975-D110-9A65-5EE5-F21FD1BEB5B2" PERM_ID="840"
+        PERM_TMPL_ID="29" VER_NBR="1"/>
 </dataset>

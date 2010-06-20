@@ -24,7 +24,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -43,19 +43,13 @@ public class TestStatementServiceImpl {
 	@Test
 	public void testTranslateReqComponent_1ofN() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
-    	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
+    	assertEquals("Student must have completed 1 of MATH152, MATH180", nl);
 	}
 
 	@Test
 	public void testTranslateReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.CATALOG", "en");
-    	assertEquals("Student must have completed MATH 180", nl);
-	}
-
-	@Test
-	public void testTranslateReqComponent_1of2() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-3", "KUALI.CATALOG", "en");
-    	assertEquals("Student must have completed MATH 180 or MATH 200", nl);
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-6", "KUALI.CATALOG", "en");
+    	assertEquals("Student must have completed MATH152", nl);
 	}
 
 	@Test
@@ -67,18 +61,6 @@ public class TestStatementServiceImpl {
 	@Test
 	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
-	}
-
-	@Test
-	public void testGetNaturalLanguageForReqComponent_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
-		
-        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "de");
-        assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", naturalLanguage);
-
-		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+        assertEquals("Student must have completed 1 of MATH152, MATH180", naturalLanguage);
 	}
 }

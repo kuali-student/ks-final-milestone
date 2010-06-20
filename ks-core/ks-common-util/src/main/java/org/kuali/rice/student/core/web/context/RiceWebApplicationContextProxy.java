@@ -142,7 +142,7 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
     }
 
     public ServletContext getServletContext() {
-        return this.getServletContext();
+        return this.servletContext;
     }
 
     public long getStartupDate() {

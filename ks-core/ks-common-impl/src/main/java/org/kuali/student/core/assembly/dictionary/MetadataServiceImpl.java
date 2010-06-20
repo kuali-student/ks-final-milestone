@@ -170,7 +170,7 @@ public class MetadataServiceImpl {
             metadata.setAdditionalLookups(field.getAdditionalLookups());
             metadata.setLookupContextPath(field.getLookupContextPath());
             
-            metadata.setConstraints(field.getConstraints());
+            metadata.setNonServerConstraints(field.getConstraints());
             metadata.setName(field.getName());
             metadata.setCanEdit(field.isCanEdit());
             metadata.setCanView(field.isCanView());
@@ -257,7 +257,7 @@ public class MetadataServiceImpl {
         State objectState = getObjectState(objectStructure, type, state);
         
         ConstraintDescriptor constraintDescriptor = objectState.getConstraintDescriptor(); 
-        metadata.setConstraints(copyConstraints(constraintDescriptor));
+        metadata.setNonServerConstraints(copyConstraints(constraintDescriptor));
         
         List<Field> fields = objectState.getField();
         metadata.setProperties(getProperties(fields, type, state));
@@ -285,7 +285,7 @@ public class MetadataServiceImpl {
             Metadata metadata = new Metadata();
             metadata.setWriteAccess(WriteAccess.ALWAYS);
             metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-            metadata.setConstraints(copyConstraints(field.getConstraintDescriptor()));            
+            metadata.setNonServerConstraints(copyConstraints(field.getConstraintDescriptor()));            
             
             //Where to get values for defaultValue, lookupMetdata (SearchSelector,fd.getSearch()), 
                                    
@@ -421,6 +421,12 @@ public class MetadataServiceImpl {
        return constraints;
     }
     
+    /**
+     * Convert Object value to respective DataType. Method return null for object Value.
+     * @param dataType
+     * @param value
+     * @return
+     */
     protected Value convertDefaultValue(DataType dataType, Object value){
         Value v = null;
         if (value instanceof String){

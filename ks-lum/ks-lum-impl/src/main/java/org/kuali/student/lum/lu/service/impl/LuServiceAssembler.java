@@ -335,6 +335,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		MembershipQueryInfo mqInfo = toMembershipQueryInfo(entity.getMembershipQuery());
 		dto.setMembershipQuery(mqInfo);
+		dto.setIsReusable(entity.getIsReusable());
 		
 		return dto;
 	}
@@ -1257,4 +1258,74 @@ public class LuServiceAssembler extends BaseAssembler {
 		
 		return orgList;
 	}
+	
+	public static CluIdentifier createOfficialIdentifier(CluInfo cluInfo) {
+        CluIdentifier officialIdentifier = new CluIdentifier();
+        BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
+                officialIdentifier, new String[] { "code" });
+
+        officialIdentifier
+                .setCode(new StringBuilder().append(
+                        cluInfo.getOfficialIdentifier().getDivision())
+                        .append(
+                                cluInfo.getOfficialIdentifier()
+                                        .getSuffixCode()).toString());
+        return officialIdentifier;
+	}
+	
+    public static void updateOfficialIdentifier(Clu clu, CluInfo cluInfo) {
+        if (clu.getOfficialIdentifier() == null) {
+            clu.setOfficialIdentifier(new CluIdentifier());
+        }
+        BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
+                .getOfficialIdentifier(), new String[] { "id", "code" });
+
+        clu.getOfficialIdentifier().setCode(
+                new StringBuilder().append(
+                        cluInfo.getOfficialIdentifier().getDivision())
+                        .append(
+                                cluInfo.getOfficialIdentifier()
+                                        .getSuffixCode()).toString());
+    }
+    
+	public static List<CluIdentifier> createAlternateIdentifiers(CluInfo cluInfo) {
+	    List<CluIdentifier> alternateIdentifiers = new ArrayList<CluIdentifier>(0);
+	    for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
+	        CluIdentifier identifier = new CluIdentifier();
+	        BeanUtils.copyProperties(cluIdInfo, identifier,
+	                new String[] { "code" });
+
+	        identifier.setCode(new StringBuilder().append(
+	                cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
+	                .toString());
+	        alternateIdentifiers.add(identifier);
+	    }
+	    return alternateIdentifiers;
+	}
+	
+    public static void updateAlternateIdentifier(Map<String, CluIdentifier> oldAltIdMap, Clu clu, CluInfo cluInfo) {
+        for (CluIdentifier altIdentifier : clu.getAlternateIdentifiers()) {
+            oldAltIdMap.put(altIdentifier.getId(), altIdentifier);
+        }
+        clu.getAlternateIdentifiers().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list
+        // otherwise create a new entry
+        for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
+            CluIdentifier identifier = oldAltIdMap.remove(cluIdInfo.getId());
+            if (identifier == null) {
+                identifier = new CluIdentifier();
+            }
+            // Do Copy
+            BeanUtils.copyProperties(cluIdInfo, identifier,
+                    new String[] { "code" });
+            // FIXME: This will be in orchestration somewhere but
+            // for now put it here
+            identifier.setCode(new StringBuilder().append(
+                    cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
+                    .toString());
+            clu.getAlternateIdentifiers().add(identifier);
+        }
+    }
 }

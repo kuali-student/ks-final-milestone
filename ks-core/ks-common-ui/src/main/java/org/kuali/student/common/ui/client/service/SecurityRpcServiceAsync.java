@@ -27,6 +27,4 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface SecurityRpcServiceAsync {
     
     public void getPrincipalUsername(AsyncCallback<String> callback);
-    
-    //TODO: Add other auth/authz methods as needed
 }

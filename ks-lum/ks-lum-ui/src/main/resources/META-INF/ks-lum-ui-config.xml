@@ -35,7 +35,7 @@
     <param name="serviceNamespace">KSLumUI</param>
     
     <!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../src/main/resources/META-INF/rice.keystore</param>
+    <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
     
@@ -50,5 +50,6 @@
 	<param name="ks.rice.application.url">http://localhost:8081/ks-embedded-dev/</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.application.url}/kew/ActionList.do</param>
     <param name="ks.rice.docSearch.serviceAddress">${ks.rice.application.url}/kew/DocumentSearch.do</param>
+    <param name="ks.gwt.codeServer">gwt.codesvr=127.0.0.1:9997</param>
     
 </config>
