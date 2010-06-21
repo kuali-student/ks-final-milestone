@@ -70,15 +70,15 @@
 		<property name="lookupDefinition">
 			<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraint">
 				<property name="searchTypeId" value="testAddrLine1Search"/>
-				<property name="lookupParams">
+				<property name="params">
 					<list>
-						<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping">
+						<bean class="org.kuali.student.core.dictionary.poc.dto.CommonLookupParam">
 							<property name="fieldPath" value="line2"/>
-							<property name="paramKey" value="param1"/>
+							<property name="key" value="param1"/>
 						</bean>
-						<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping">
+						<bean class="org.kuali.student.core.dictionary.poc.dto.CommonLookupParam">
 							<property name="defaultValueString" value="PARAM_2_DEFAULT"/>
-							<property name="paramKey" value="param2"/>
+							<property name="key" value="param2"/>
 						</bean>
 					</list>
 				</property>

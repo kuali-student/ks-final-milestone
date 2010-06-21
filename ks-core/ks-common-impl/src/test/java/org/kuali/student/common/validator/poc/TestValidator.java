@@ -19,6 +19,8 @@ import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchService;
+import org.kuali.student.core.search.service.impl.SearchDispatcher;
+import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class TestValidator {
@@ -149,11 +151,12 @@ public class TestValidator {
     	assertEquals(results.get(1).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(1).getMessage(), "validation.validCharsFailed");    	
     	assertEquals(results.get(2).getMessage(), "validation.requiresField");
+    	SearchDispatcher searchDispatcher= new SearchDispatcherImpl(new MockSearchService());
     	
-    	val.setSearchService(new MockSearchService());
+    	val.setSearchDispatcher(searchDispatcher);
     	p.getAddress().get(0).setLine1("something");
     	results = val.validateObject( p, o);    
-    	assertEquals(results.size(), 1);
+    	assertEquals(results.size(), 2);
 
     	p.getAddress().get(0).setLine2("notrightlookupvalue");
     	results = val.validateObject( p, o);    
