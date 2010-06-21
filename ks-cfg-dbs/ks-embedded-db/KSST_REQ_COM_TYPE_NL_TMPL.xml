@@ -9,7 +9,7 @@
         OWNER="kuali.reqCompType.courseList.all" TEMPLATE="Student must have completed all of $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="#if($expectedValue == 1 && $cluSet.getCluList().size() == 1)Student must have completed $cluSet.getCluSetAsShortName()#{else}Student must have completed $expectedValue of $cluSet.getCluSetAsShortName()#end"/>
+        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="#if($expectedValue == 1 &amp;&amp; $cluSet.getCluList().size() == 1)Student must have completed $cluSet.getCluSetAsShortName()#{else}Student must have completed $expectedValue of $cluSet.getCluSetAsShortName()#end"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.gradecheck" TEMPLATE="Student needs a minimum GPA of $gpa"/>
