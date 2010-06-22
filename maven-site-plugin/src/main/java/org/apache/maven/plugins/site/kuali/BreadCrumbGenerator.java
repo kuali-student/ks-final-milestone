@@ -11,6 +11,9 @@ import org.apache.maven.project.MavenProject;
  * Generate breadcrumbs based on the project hierarchy
  */
 public class BreadCrumbGenerator {
+	/**
+	 * Recursively build the tree
+	 */
 	protected DefaultMutableTreeNode getTree(MavenProject project) {
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode(project);
 		if (project.getParent() == null) {
@@ -21,6 +24,9 @@ public class BreadCrumbGenerator {
 		return node;
 	}
 
+	/**
+	 * Generate relative pathing
+	 */
 	protected String getHref(int count) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < count; i++) {
@@ -30,18 +36,35 @@ public class BreadCrumbGenerator {
 		return sb.toString();
 	}
 
+	/**
+	 * Return true if this project is a child of the top level project
+	 */
+	protected boolean isRoot(MavenProject project) {
+		MavenProject parent = project.getParent();
+		if (parent == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Generate a list of breadcrumbs
+	 */
 	public List getBreadCrumbs(MavenProject project) {
 		DefaultMutableTreeNode node = getTree(project);
 		Object[] userObjectPath = node.getUserObjectPath();
 		List breadCrumbs = new ArrayList();
 		for (int i = 0; i < userObjectPath.length; i++) {
 			MavenProject mavenProject = (MavenProject) userObjectPath[i];
+			// Figure out relative pathing, each project is one directory
+			int count = (userObjectPath.length - i) - 1;
+			// count = isRoot(mavenProject) ? count++ : count;
 			NameHref nh = new NameHref();
 			nh.setName(mavenProject.getName());
-			nh.setHref(getHref((userObjectPath.length - i) - 1));
+			nh.setHref(getHref(count));
 			breadCrumbs.add(nh);
 		}
 		return breadCrumbs;
 	}
-
 }
