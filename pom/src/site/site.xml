@@ -33,7 +33,7 @@
   </head>
   <menu ref="modules" inherit="bottom"/>
   <menu name="Kuali Maven Projects">
-   <item name="Student" href="http://site.kuali.org/student/index.html"/>
+   <item name="Student" href="http://site.kuali.org.s3.amazonaws.com/student/index.html"/>
    <item name="Rice" href="javascript:alert('Please check back soon!');"/>
    <!--
 				<item name="Financial System" href="javascript:alert('Please check
