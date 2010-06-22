@@ -42,7 +42,7 @@ under the License.
   </description>
   
   <distributionManagement>
-      <repository>
+    <repository>
       <id>kuali.external</id>
       <name>Kuali External Repository</name>
       <url>s3://maven.kuali.org/external</url>
