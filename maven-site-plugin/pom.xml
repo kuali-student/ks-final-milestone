@@ -40,6 +40,14 @@ under the License.
     With this modification, breadcrumbs are always present and the trail always links back to the master pom for the Kuali Foundation.
     Line #230 was added to AbstractSiteRenderingMojo to accomplish this 
   </description>
+  
+  <distributionManagement>
+      <repository>
+      <id>kuali.external</id>
+      <name>Kuali External Repository</name>
+      <url>s3://maven.kuali.org/external</url>
+    </repository>
+  </distributionManagement>
 
   <repositories>
     <repository>
