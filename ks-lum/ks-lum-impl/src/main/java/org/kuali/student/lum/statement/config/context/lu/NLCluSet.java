@@ -90,10 +90,18 @@ public class NLCluSet {
 	 */
 	public String getCluSetAsShortName() {
 		StringBuilder sb = new StringBuilder();
+		if (this.cluList.size() > 1) {
+		    sb.append("(");
+		}
 		for(CluInfo clu : this.cluList) {
 			sb.append(clu.getOfficialIdentifier().getShortName());
-			sb.append(", ");
+            if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
+                sb.append(", ");
+            }
 		}
+        if (this.cluList.size() > 1) {
+            sb.append(")");
+        }		
 		return getString(sb);
 	}
 
@@ -105,10 +113,18 @@ public class NLCluSet {
 	 */
 	public String getCluSetAsLongName() {
 		StringBuilder sb = new StringBuilder();
+        if (this.cluList.size() > 1) {
+            sb.append("(");
+        }		
 		for(CluInfo clu : this.cluList) {
 			sb.append(clu.getOfficialIdentifier().getShortName());
-			sb.append(", ");
+            if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
+                sb.append(", ");
+            }
 		}
+        if (this.cluList.size() > 1) {
+            sb.append(")");
+        }		
 		return getString(sb);
 	}
 
@@ -120,15 +136,23 @@ public class NLCluSet {
 	 */
 	public String getCluSetAsCode() {
 		StringBuilder sb = new StringBuilder();
+        if (this.cluList.size() > 1) {
+            sb.append("(");
+        }		
 		for(CluInfo clu : this.cluList) {
 			sb.append(clu.getOfficialIdentifier().getCode());
-			sb.append(", ");
+			if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
+			    sb.append(", ");
+			}
 		}
+        if (this.cluList.size() > 1) {
+            sb.append(")");
+        }		
 		return getString(sb);
 	}
 
 	private String getString(StringBuilder sb) {
-		return (sb.length() == 0 ? "No CLUs available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
+		return (sb.length() == 0 ? "No CLUs available in CluSet" : sb.toString());
 	}
 
 	public String toString() {
