@@ -33,15 +33,21 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     private LuService luService;
 
 	/**
-	 * <code>clu</code> token (key) references a Clu object to be used in a template 
+	 * <code>clu</code> token (key) references a Clu object used in templates. 
 	 * e.g. 'Course: $clu.getOfficialIdentifier().getLongName()'
 	 */
 	protected final static String CLU_TOKEN = "clu";
 	/**
-	 * <code>cluSet</code> token (key) references a Clu set object to be used in a template
+	 * <code>cluSet</code> token (key) references a Clu set object 
+	 * used in templates.
 	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()' 
 	 */
 	protected final static String CLU_SET_TOKEN = "cluSet";
+	/**
+	 * <code>NLHelper</code> token (key) references a static natural language 
+	 * helper class used in templates.
+	 * e.g. '$NLHelper.getProperGrammer($expectedValue, "course", "courses")' 
+	 */
 	protected final static String NL_HELPER_TOKEN = "NLHelper";
 
 	/*
