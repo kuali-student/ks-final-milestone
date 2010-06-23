@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.demo;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 
@@ -20,6 +21,8 @@ public class KSLightBoxDemo extends Composite{
    }
    private Widget createDemoPage(){
        VerticalPanel p = new VerticalPanel();
+       
+       
        KSButton button = new KSButton("Lightbox", new ClickHandler() {
            @Override
            public void onClick(ClickEvent event) {
@@ -41,6 +44,7 @@ public class KSLightBoxDemo extends Composite{
        });
        p.add(button);
        
+       p.add(new KSButton("Lightbox", ButtonStyle.SECONDARY));
        
        return p;
    }
