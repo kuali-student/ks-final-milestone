@@ -42,6 +42,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()' 
 	 */
 	protected final static String CLU_SET_TOKEN = "cluSet";
+	protected final static String NL_HELPER_TOKEN = "NLHelper";
 
 	/*
 	 * Constructor.
@@ -155,6 +156,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
+        contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
         return contextMap;
     }
 }
