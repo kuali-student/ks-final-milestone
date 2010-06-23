@@ -303,19 +303,32 @@ public class TestCourseServiceImpl {
     }
     
     @Test
-    public void testDynamicAttributeValidation() {
+    public void testDynamicAttributes() {
         CourseDataGenerator generator = new CourseDataGenerator();
          try {
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
-
+                     
             Map<String, String> attrMap = new HashMap<String, String>();
-            attrMap.put("altFinalExamStatusDescr", "#$@!");
+            attrMap.put("finalExamStatus","GRD");
+            attrMap.put("altFinalExamStatusDescr", "Some123description");
             
             cInfo.setAttributes(attrMap);
+
+            cInfo = courseService.createCourse(cInfo);
+
+            // Check in LuService if the attributes are mapped properly
+            
+            CourseInfo rInfo = courseService.getCourse(cInfo.getId());
+            
+            assertEquals("GRD", rInfo.getAttributes().get("finalExamStatus"));
+            assertEquals("Some123description", rInfo.getAttributes().get("altFinalExamStatusDescr"));
+
+            
+            rInfo.getAttributes().put("finalExamStatus", "123");
             
             try {
-                courseService.createCourse(cInfo);
+                courseService.updateCourse(rInfo);
                 fail("Should have thrown data validation exception for invalid chars");
             } catch (Exception e) {} // Should be DataValidationException, but we're getting a SOAPFaultException instead
             // TODO - fix services to return correct exceptions and empty lists (rather than null)

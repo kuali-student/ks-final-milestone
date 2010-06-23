@@ -932,6 +932,8 @@
   		<property name="name" value="finalExamStatus" />
   		<property name="minOccurs" value="0" />
   		<property name="maxOccurs" value="1" />
+  		<property name="maxLength" value="3" />
+  		<property name="validChars" ref="alpha"/>
   		<!-- Maybe a lookup constraint to restrict the values -->
   		<property name="dynamic" value="true"/>
 	</bean>
