@@ -5,27 +5,41 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Constraint extends BaseConstraint {
 	public static final String UNBOUNDED = "unbounded";
 	public static final String SINGLE = "1";
 	// Constraints
+	@XmlElement
 	protected boolean serverSide;
+	@XmlElement
 	protected String customValidatorClass;
+	@XmlElement
 	protected String locale; // What is locale for?
+	@XmlElement
 	protected String exclusiveMin;
+	@XmlElement
 	protected String inclusiveMax;
+	@XmlElement
 	protected Integer minLength;
-	protected String maxLength;
-	protected ValidCharsConstraint validChars;
-	protected Integer minOccurs;
+	@XmlElement
+	protected String maxLength;	
+	@XmlElement
+	protected ValidCharsConstraint validChars;	
+	@XmlElement
+	protected Integer minOccurs;	
+	@XmlElement
 	protected String maxOccurs;
 	
+	@XmlElement
     protected CaseConstraint caseConstraint;
 	
+	@XmlElement
     protected List<RequiredConstraint> requireConstraint;
 
+	@XmlElement
 	protected List<MustOccurConstraint> occursConstraint;
 
 	// LookupConstraints

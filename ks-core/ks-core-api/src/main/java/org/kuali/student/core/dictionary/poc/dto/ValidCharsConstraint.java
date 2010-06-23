@@ -2,16 +2,28 @@ package org.kuali.student.core.dictionary.poc.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ValidCharsConstraint extends BaseConstraint {
-	protected String value; // (regex or list of valid chars)
+	    
+    // TODO: Should this be a list of values
+    @XmlElement
+    protected String value; // (regex or list of valid chars)
 
-	public String getValue() {
-		return value;
-	}
+    /**
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    /**
+     * @param value the value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+    
+
 }

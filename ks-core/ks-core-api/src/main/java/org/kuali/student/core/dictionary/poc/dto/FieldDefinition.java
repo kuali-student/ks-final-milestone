@@ -2,22 +2,30 @@ package org.kuali.student.core.dictionary.poc.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FieldDefinition extends Constraint {
 	// name (used in the path to identify this field within an object structure)
-	protected String name;
+    @XmlElement
+    protected String name;
 
 	// Datatypes
+	@XmlElement
 	protected DataType dataType;// SHould be
 								// DATE,STRING,INTEGER,BOOLEAN,COMPLEX,...
+	@XmlElement
 	protected ObjectStructureDefinition dataObjectStructure;
 
 	//Dynamic attribute flag (SG wanted incase user typos the field name and all of a sudden all fields are attributes)
+	@XmlElement
 	protected boolean dynamic;
 	
 	// Default values
+	@XmlElement
 	protected Object defaultValue;// Set the default value
+	
+	@XmlElement
 	protected String defaultValuePath;// obtain the default value from another
 										// field? how will this work? some
 										// xpath-like syntax which might be able
@@ -30,12 +38,24 @@ public class FieldDefinition extends Constraint {
 //										// is readOnly=true, otherwise oncreate,
 //										// when null, required will imply
 //										// readOnly=false
-	boolean readOnly = false;
-	boolean hide = false;
-	boolean mask = false;
-	boolean partialMask = false;
-	String partialMaskFormatter;//Regex replace to do a partial mask  
-	String maskFormatter;//Regex replace to do a mask
+	@XmlElement
+	protected boolean readOnly = false;
+	
+	@XmlElement
+	protected boolean hide = false;
+	
+	@XmlElement
+	protected boolean mask = false;
+	
+	@XmlElement
+	protected boolean partialMask = false;
+	
+	@XmlElement
+	protected String partialMaskFormatter;//Regex replace to do a partial mask  
+	
+	@XmlElement
+	protected String maskFormatter;//Regex replace to do a mask
+	
 	public String getName() {
 		return name;
 	}

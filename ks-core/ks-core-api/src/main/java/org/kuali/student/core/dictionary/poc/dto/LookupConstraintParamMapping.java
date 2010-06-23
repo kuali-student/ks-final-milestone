@@ -4,13 +4,18 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LookupConstraintParamMapping {
-	protected String fieldPath;
+	@XmlElement
+    protected String fieldPath;
+	@XmlElement
 	protected String paramKey;
-	private List<String> defaultValueList;
-	private String defaultValueString;
+	@XmlElement
+	protected List<String> defaultValueList;
+	@XmlElement
+	protected String defaultValueString;
 
 	public String getFieldPath() {
 		return fieldPath;

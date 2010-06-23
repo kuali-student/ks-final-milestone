@@ -25,7 +25,6 @@ import org.kuali.student.core.dictionary.poc.dto.Constraint;
 import org.kuali.student.core.dictionary.poc.dto.DataType;
 import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.poc.dto.LookupConstraint;
-import org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping;
 import org.kuali.student.core.dictionary.poc.dto.MustOccurConstraint;
 import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.poc.dto.RequiredConstraint;
@@ -36,7 +35,6 @@ import org.kuali.student.core.messages.service.MessageService;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.search.service.impl.SearchDispatcher;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
@@ -378,10 +376,13 @@ public class Validator {
         
         // Extract value for field Key
         for (WhenConstraint wc : constraint.getWhenConstraint()) {
-            Object whenValue = wc.getValue();
 
-            if (ValidatorUtils.compareValues(fieldValue, whenValue, caseField.getDataType(), operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
-                return wc.getConstraint();
+            List<Object> whenValueList = wc.getValues();
+
+            for (Object whenValue : whenValueList) {
+                if (ValidatorUtils.compareValues(fieldValue, whenValue, caseField.getDataType(), operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
+                    return wc.getConstraint();
+                }
             }
         }
         

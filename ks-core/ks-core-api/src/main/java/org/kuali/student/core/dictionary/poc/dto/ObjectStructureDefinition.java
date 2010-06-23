@@ -5,12 +5,11 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectStructureDefinition {
-	@XmlAttribute(required = true)
+	@XmlElement(required = true)
 	protected String name;// TODO do we need this?
 	@XmlElement
 	protected String businessObjectClass;

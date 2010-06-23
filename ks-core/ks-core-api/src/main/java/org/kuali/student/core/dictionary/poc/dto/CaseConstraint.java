@@ -4,12 +4,17 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CaseConstraint {
-	protected List<WhenConstraint> whenConstraint;
+	@XmlElement
+    protected List<WhenConstraint> whenConstraint;
+	@XmlElement
 	protected String fieldPath;
+	@XmlElement
 	protected String operator;
+	@XmlElement
 	protected boolean caseSensitive;
 
 	public List<WhenConstraint> getWhenConstraint() {

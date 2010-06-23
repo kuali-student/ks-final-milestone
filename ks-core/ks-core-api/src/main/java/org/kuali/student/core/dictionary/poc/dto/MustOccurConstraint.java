@@ -4,12 +4,17 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MustOccurConstraint {
-	private List<RequiredConstraint> requiredFields;
-	private List<MustOccurConstraint> occurs;
+    @XmlElement
+    private List<RequiredConstraint> requiredFields;
+	@XmlElement
+    private List<MustOccurConstraint> occurs;
+	@XmlElement
 	private Integer min;
+	@XmlElement
 	private Integer max;
 
 	public List<RequiredConstraint> getRequiredFields() {

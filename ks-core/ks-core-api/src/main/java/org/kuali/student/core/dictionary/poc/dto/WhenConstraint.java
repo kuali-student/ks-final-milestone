@@ -1,20 +1,28 @@
 package org.kuali.student.core.dictionary.poc.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class WhenConstraint {
-	protected Object value;
+	protected List<Object> values;
 	protected String valuePath;
 	protected Constraint constraint;
 
-	public Object getValue() {
-		return value;
+	public List<Object> getValues() {
+		return values;
 	}
 
-	public void setValue(Object value) {
-		this.value = value;
+	public void setValues(List<Object> values) {
+        this.values = values;
+    }
+
+    public void setValue(Object value) {	    
+	    values = new ArrayList<Object>();
+	    values.add(value);
 	}
 
 	public String getValuePath() {
