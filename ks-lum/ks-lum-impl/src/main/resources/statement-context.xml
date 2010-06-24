@@ -45,18 +45,32 @@
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
-                <!-- Pre-Req Contexts-->
-                <entry key="kuali.reqCompType.courseList.none">
+                <entry key="kuali.reqCompType.course.courseset.completed.none">
                     <list>
 	                    <ref local="cluSetContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.all">
+                <entry key="kuali.reqCompType.course.courseset.completed.all">
                     <list>
 	                    <ref local="cluSetContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.nof">
+                <entry key="kuali.reqCompType.course.courseset.completed.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.course.courseset.enrolled.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.course.courseset.credits.completed.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.course.courseset.credits.completed.none">
                     <list>
 	                    <ref local="cluSetContext"/>
                     </list>
@@ -75,7 +89,6 @@
 	                    </bean>
                     </list>
                 </entry>
-                <!-- Co-Req Contexts -->
                 <entry key="kuali.reqCompType.courseList.coreq.all">
                     <list>
 	                    <ref local="cluSetContext"/>
