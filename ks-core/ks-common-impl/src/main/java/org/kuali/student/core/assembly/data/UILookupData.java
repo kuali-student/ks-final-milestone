@@ -29,7 +29,6 @@ public class UILookupData extends CommonLookup{
 	    
 	    private LookupQosMetadata qosMetadata;
 	    
-	    private String searchParamIdKey;
 	     
 	    private String resultDisplayKey;
 	    
@@ -140,14 +139,6 @@ public class UILookupData extends CommonLookup{
 	    public void setQosMetadata(LookupQosMetadata qosMetadata) {
 	        this.qosMetadata = qosMetadata;
 	    }
-
-		public String getSearchParamIdKey() {
-			return searchParamIdKey;
-		}
-
-		public void setSearchParamIdKey(String searchParamIdKey) {
-			this.searchParamIdKey = searchParamIdKey;
-		}
 	    
 	    public String getId() {
 	        return id;
