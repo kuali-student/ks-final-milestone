@@ -624,6 +624,7 @@ public class RuleComponentEditorView extends ViewComposite {
 	                     
 	                    editedReqComp.setReqCompFields(editedFields);
 	 	                editedReqComp.setType(selectedReqType.getId());
+	 	                editedReqCompVO.setClusetId(CluSetHelper.wrap((Data)result.getValue().get("cluset")).getId());
 
 	 	                if (addingNewReqComp) {
 	 	                    editedStatementVO.addReqComponentVO(editedReqCompVO);
@@ -735,13 +736,17 @@ public class RuleComponentEditorView extends ViewComposite {
     	if(clusetModel.get("cluset") != null){
 	    	final CluSetHelper cluSet = CluSetHelper.wrap((Data)clusetModel.get("cluset"));
 	    	
-			cluSet.setApprovedClus(null);
+	    	if(clusetModel.get("cluset/approvedClus") != null)
+	    		cluSet.setApprovedClus(null);
 	    	
-			cluSet.setProposedClus(null);
+	    	if(clusetModel.get("cluset/proposedClus") != null)
+	    		cluSet.setProposedClus(null);
 	    	
-			cluSet.setCluSets(null);
-			cluSet.setCluRangeParams(null);
-			cluSet.setCluRangeViewDetails(null);
+	    	if(clusetModel.get("cluset/clusets") != null)
+	    		cluSet.setCluSets(null);
+
+	    	if(clusetModel.get("cluset/cluSetRangeViewDetails") != null)
+	    		cluSet.setCluRangeViewDetails(null);
     	}
     }
     
