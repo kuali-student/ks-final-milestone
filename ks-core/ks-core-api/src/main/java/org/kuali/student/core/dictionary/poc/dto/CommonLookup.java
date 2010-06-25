@@ -14,6 +14,7 @@ public class CommonLookup implements Serializable {
 	private String desc;
 	private String searchTypeId;
 	private String resultReturnKey;
+    private String searchParamIdKey;
 	private List<CommonLookupParam> params;
 
 	public String getSearchTypeId() {
@@ -62,6 +63,14 @@ public class CommonLookup implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public String getSearchParamIdKey() {
+		return searchParamIdKey;
+	}
+
+	public void setSearchParamIdKey(String searchParamIdKey) {
+		this.searchParamIdKey = searchParamIdKey;
 	}
 
 }
