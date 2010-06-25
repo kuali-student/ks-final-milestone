@@ -26,7 +26,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-  <!-- This context requires that a spring Transaction Manager named 'transactionManager' 
+  <!-- This context requires that a spring Transaction Manager named 'transactionManager'
     be defined -->
 
   <import resource="classpath:statement-context.xml" />
@@ -360,7 +360,7 @@
   </bean>
 
   <!-- Document Relation Mock Service Config -->
-  <!--Note: When this service is defined, move this declaration into core 
+  <!--Note: When this service is defined, move this declaration into core
     context. -->
 
   <bean id="documentRelationServiceImpl"
@@ -405,7 +405,7 @@
     </property>
   </bean>
 
-  <!-- Exception mapping. This is needed because many operations are proxied 
+  <!-- Exception mapping. This is needed because many operations are proxied
     and do not throw exceptions until a later time -->
   <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
     <property name="defaultException"
