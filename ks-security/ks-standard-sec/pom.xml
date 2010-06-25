@@ -8,10 +8,6 @@
   <artifactId>ks-standard-sec</artifactId>
   <name>KS Standard Security</name>
   <description>KS Standard Security - out of the box</description>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-security/ks-standard-sec</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-security/ks-standard-sec</developerConnection>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
