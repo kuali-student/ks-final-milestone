@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
+	<!-- Important:- 
+	For cross field searches Please over write the searchtypeId here in the lookup definitons.
+	common-lookup-context doesnot define cross seraches as they are not used for service side validation.
+			  -->
 	<import resource="classpath:common-lookup-context.xml" />
 	<bean id="uilookup" abstract="true"
 		class="org.kuali.student.core.assembly.data.UILookupConfig" />
@@ -105,7 +108,6 @@
 		parent="ks.common.lookup.person.suggest">
 		<property name="name" value="All org hierarchies" />
 		<property name="desc" value="Returns all org hierarchies, name and id" />
-		<property name="searchParamIdKey" value="person.queryParam.personId" />
 		<property name="widget" value="SUGGEST_BOX" />
 		<property name="results">
 			<list>
@@ -176,7 +178,6 @@
 		<property name="name" value="All Lu Types" />
 		<property name="desc" value="Returns the list of all Lu Types" />
 		<property name="widget" value="DROP_DOWN" />
-		<property name="searchParamIdKey" value="lu.queryParam.luOptionalLuType" />
 		<property name="resultDisplayKey" value="lu.resultColumn.luTypeName" />
 		<property name="resultSortKey" value="lu.resultColumn.luTypeName" />
 		<property name="results">
@@ -226,7 +227,6 @@
 		<property name="name" value="All ATP Duration Types" />
 		<property name="desc" value="Returns the list of all ATP Duration Types" />
 		<property name="widget" value="DROP_DOWN" />
-		<property name="searchParamIdKey" value="atp.queryParam.atpDurationType" />
 		<property name="results">
 			<list>
 				<bean parent="result">
@@ -256,7 +256,6 @@
 		<property name="desc"
 			value="Search for administrative department organization" />
 		<property name="widget" value="SUGGEST_BOX" />
-		<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
 		<property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
 		<property name="resultSortKey" value="" />
 		<property name="results">
@@ -286,7 +285,6 @@
 			value="kuali.enumeration.management.search.subjectAreas" />
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
-		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
 		<property name="widget" value="SUGGEST_BOX" />
 		<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
 		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
@@ -343,7 +341,6 @@
 	<bean id="kuali.lu.lookup.amountInfo.unitType" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="kuali.common.lookup.amountInfo.unitType">
 		<property name="id" value="kuali.lu.lookup.amountInfo.unitType" />
-		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
 		<property name="widget" value="DROP_DOWN" />
@@ -390,7 +387,6 @@
 		parent="kuali.common.lookup.campusLocations">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
-		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
 		<property name="widget" value="CHECKBOX_LIST" />
 		<property name="results">
 			<list>
@@ -453,7 +449,6 @@
 		<property name="name" value="Find Course" />
 		<property name="desc" value="Search for courses" />
 		<property name="widget" value="SUGGEST_BOX" />
-		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
 		<property name="params">
 			<list>
 				<bean parent="param">   <!-- suggest box entry definition -->
@@ -504,7 +499,6 @@
 		<property name="desc"
 			value="Search atp type described by session, duration and year" />
 		<property name="widget" value="DROP_DOWN" />
-		<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpId" />
 		<property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
 		<property name="resultSortKey" value="atp.resultColumn.atpDescrPlain" />
 		<property name="results">
