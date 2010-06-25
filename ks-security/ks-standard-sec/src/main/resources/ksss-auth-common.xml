@@ -51,4 +51,16 @@
     	<security:custom-filter after="CAS_PROCESSING_FILTER"/>
   	</bean>
 	
+	<bean id="interceptorContainer" class="org.kuali.student.security.cxf.interceptors.IntercpetorContainer">
+		<property name="inInterceptors">
+			<list>
+				<bean id="attachmentInInterceptor" class="org.kuali.student.security.cxf.interceptors.AttachmentInInterceptor"/>
+			</list>
+		</property>
+		<property name="outInterceptors">
+			<list>
+				<bean id="attachmentOutInterceptor" class="org.kuali.student.security.cxf.interceptors.AttachmentOutInterceptor"/>
+			</list>
+		</property>
+	</bean>
 </beans>

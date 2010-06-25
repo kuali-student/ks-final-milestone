@@ -78,6 +78,7 @@ public class SearchPanel extends Composite{
     private SearchParametersWidget activeSearchParametersWidget = null;
     // uses "name" of the lookup metadata to lookup the widget that layouts the search UI
     private Map<String, SearchParametersWidget> searchParameterWidgetMap = new HashMap<String, SearchParametersWidget>();
+    private String selectedLookupName;
 
     interface SearchParametersWidget {
         public SearchRequest getSearchRequest();
@@ -100,6 +101,7 @@ public class SearchPanel extends Composite{
         activeSearchParametersWidget = null;
         if (lookups.size() == 1) {
             searchParamPanel = createSearchParamPanel(lookups.get(0));
+            selectedLookupName = lookups.get(0).getName();
         } else {
             LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
             LinkedHashMap<String, LookupMetadata> searchLookups = new LinkedHashMap<String, LookupMetadata>();
@@ -107,12 +109,14 @@ public class SearchPanel extends Composite{
                 searches.put(lookup.getName(), createSearchParamPanel(lookup));
                 searchLookups.put(lookup.getName(), lookup);
             }
+            selectedLookupName = lookups.get(0).getName();
             searchParamPanel = new SwappablePanel(searches);
             ((SwappablePanel)searchParamPanel).setSearchLookups(searchLookups);
             ((SwappablePanel)searchParamPanel).addLookupChangedCallback(new Callback<LookupMetadata>() {
                 @Override
                 public void exec(LookupMetadata selectedLookup) {
                     activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookup.getName());
+                    selectedLookupName = selectedLookup.getName();
                     if (lookupChangedCallbacks != null) {
                         for (Callback<LookupMetadata> callback : lookupChangedCallbacks) {
                             callback.exec(selectedLookup);
@@ -727,4 +731,13 @@ public class SearchPanel extends Composite{
     public void addLookupChangedCallback(Callback<LookupMetadata> callback) {
         lookupChangedCallbacks.add(callback);
     }
+
+    public String getSelectedLookupName() {
+        return selectedLookupName;
+    }
+
+    public void setSelectedLookupName(String selectedLookupName) {
+        this.selectedLookupName = selectedLookupName;
+    }
+    
 }

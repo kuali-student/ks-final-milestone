@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.config.context.lu;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -34,11 +33,10 @@ public class CourseListContextImpl extends AbstractLuContext<ReqComponent> {
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
+        Map<String, Object> contextMap = super.createContextMap(reqComponent);
 
-		contextMap.put(EXPECTED_VALUE_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey()));
-        contextMap.put(FIELDS_TOKEN, getReqCompField(reqComponent));
-        contextMap.put(OPERATOR_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getKey()));
+		contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getKey()));
         contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
 
         return contextMap;

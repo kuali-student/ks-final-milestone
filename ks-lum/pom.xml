@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
-    <artifactId>ks</artifactId>
+    <artifactId>student</artifactId>
     <version>1.1.0-poc-1-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.lum</groupId>
@@ -10,7 +10,6 @@
   <packaging>pom</packaging>
   <name>KS LUM</name>
   <description>KS Learning Unit Management POM</description>
-  <url>http://student.kuali.org/site/lum/${project.version}</url>
   <profiles>
     <profile>
       <id>default</id>
@@ -73,34 +72,17 @@
   </profiles>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
     </repository>
   </repositories>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-lum</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br/ks-lum</developerConnection>
-  </scm>
-  <distributionManagement>
-    <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/lum/${project.version}</url>
-    </site>
-  </distributionManagement>
   <reporting>
     <plugins>
       <plugin>

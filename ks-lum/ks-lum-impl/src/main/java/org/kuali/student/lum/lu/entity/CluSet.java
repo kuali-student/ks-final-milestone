@@ -66,10 +66,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	// TODO: remove criteriaSet since it is not being used
-	@Column(name = "CRIT_SET")
-	private boolean criteriaSet;
-	
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
 	private List<CluSet> cluSets = new ArrayList<CluSet>();
@@ -86,22 +82,25 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 
 	@Column(name = "ST")
     private String state;
-	
+
 	@Column(name = "ADMIN_ORG_ID")
 	private String adminOrg;
-	
+
     @OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="MEM_QUERY_ID")
 	private MembershipQuery membershipQuery;
-	
+
     @Column(name = "REUSABLE")
     private Boolean isReusable;
+
+    @Column(name = "REFERENCEABLE")
+    private Boolean isReferenceable;
 
     @Override
     public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -214,5 +213,13 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
     public void setIsReusable(Boolean isReusable) {
         this.isReusable = isReusable;
     }
+
+	public Boolean getIsReferenceable() {
+		return isReferenceable;
+	}
+
+	public void setIsReferenceable(Boolean isReferenceable) {
+		this.isReferenceable = isReferenceable;
+	}
 
 }

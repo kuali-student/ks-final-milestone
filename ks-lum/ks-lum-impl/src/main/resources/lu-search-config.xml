@@ -38,7 +38,7 @@
 			<ref bean="lu.criteria.luAdvancedCriteria"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchCriteriaTypeInfo id="lu.criteria.luAdvancedCriteria" parent="lu.criteria.luAdvancedCriteria-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.luAdvancedCriteria-parent"  abstract="true">
 		<search:name>LuAdvancedCriteria</search:name>
@@ -49,7 +49,7 @@
 			<ref bean="lu.queryParam.luOptionalType"/>
 			<ref bean="lu.queryParam.luOptionalCode"/>
 			<ref bean="lu.queryParam.luOptionalDivision"/>
-			<ref bean="lu.queryParam.luOptionalPrimaryAdminOrgId"/>			
+			<ref bean="lu.queryParam.luOptionalPrimaryAdminOrgId"/>
 			<ref bean="lu.queryParam.luOptionalLevel"/>
 			<ref bean="lu.queryParam.luOptionalDescr"/>
 			<ref bean="lu.queryParam.luOptionalState"/>
@@ -57,21 +57,22 @@
 			<ref bean="lu.queryParam.luOptionalCrsNoRange"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate1"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate2"/>
+			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
 	<search:queryParam id="lu.queryParam.luOptionalId" parent="lu.queryParam.luOptionalId-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalId-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.id.fd"/>
-	</search:queryParam>			
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalLongName" parent="lu.queryParam.luOptionalLongName-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLongName-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.longName.fd"/>
-	</search:queryParam>	
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalType" parent="lu.queryParam.luOptionalType-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalType-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.type.fd"/>
-	</search:queryParam>	
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalCode" parent="lu.queryParam.luOptionalCode-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalCode-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.code.fd"/>
@@ -83,7 +84,7 @@
 	<search:queryParam id="lu.queryParam.luOptionalPrimaryAdminOrgId" parent="lu.queryParam.luOptionalPrimaryAdminOrgId-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalPrimaryAdminOrgId-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.primaryAdminOrg.orgId.fd"/>
-	</search:queryParam>	
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalLevel" parent="lu.queryParam.luOptionalLevel-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLevel-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.level.fd"/>
@@ -91,11 +92,11 @@
 	<search:queryParam id="lu.queryParam.luOptionalDescr" parent="lu.queryParam.luOptionalDescr-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalDescr-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.descr.fd"/>
-	</search:queryParam>			
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalOrgLongName" parent="lu.queryParam.luOptionalOrgLongName-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalOrgLongName-parent"  optional="true" abstract="true">
 		<ref bean="dict.course.primaryAdminOrg.Id.fd"/>  <!-- FIXME should be org long name? how to reference it here? -->
-	</search:queryParam>													
+	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalState" parent="lu.queryParam.luOptionalState-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalState-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.state.fd"/>
@@ -130,16 +131,16 @@
 		<search:name>Lu Full View</search:name>
 		<search:desc>Full view of clus</search:desc>
 		<search:resultColumns>
-			<ref bean="lu.resultColumn.cluId" /> 
+			<ref bean="lu.resultColumn.cluId" />
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
-			<ref bean="lu.resultColumn.luOptionalLevel"/> 
-			<ref bean="lu.resultColumn.luOptionalDescr"/>				
-			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>			
-			<ref bean="lu.resultColumn.luOptionalState"/>		
+			<ref bean="lu.resultColumn.luOptionalLevel"/>
+			<ref bean="lu.resultColumn.luOptionalDescr"/>
+			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
+			<ref bean="lu.resultColumn.luOptionalState"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
-	
+
 	<search:resultColumn id="lu.resultColumn.luOptionalLongName" parent="lu.resultColumn.luOptionalLongName-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalLongName-parent"  abstract="true">
 		<search:name>Name</search:name>
@@ -151,7 +152,7 @@
 		<search:name>Code</search:name>
 		<search:desc>Lu code</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>	
+	</search:resultColumn>
 	<search:resultColumn id="lu.resultColumn.luOptionalLevel" parent="lu.resultColumn.luOptionalLevel-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalLevel-parent"  abstract="true">
 		<search:name>Level</search:name>
@@ -163,26 +164,26 @@
 		<search:name>Description</search:name>
 		<search:desc>Lu description.</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>		
+	</search:resultColumn>
 	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg" parent="lu.resultColumn.luOptionalPrimaryAdminOrg-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg-parent"  abstract="true">
 		<search:name>Primary Organization</search:name>
 		<search:desc>Lu primary organization</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>			
+	</search:resultColumn>
 	<search:resultColumn id="lu.resultColumn.luOptionalState" parent="lu.resultColumn.luOptionalState-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalState-parent"  abstract="true">
 		<search:name>State</search:name>
 		<search:desc>Lu State</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>	
+	</search:resultColumn>
 	<search:resultColumn id="lu.resultColumn.luOptionalType" parent="lu.resultColumn.luOptionalType-parent"/>
 	<search:resultColumn id="lu.resultColumn.luOptionalType-parent"  abstract="true">
 		<search:name>Lu Type</search:name>
 		<search:desc>Lu type</search:desc>
 		<search:dataType>string</search:dataType>
-	</search:resultColumn>	
-				
+	</search:resultColumn>
+
     <search:searchType id="lu.search.clus" parent="lu.search.clus-parent"/>
 	<search:searchType id="lu.search.clus-parent"  abstract="true">
         <search:name>Lum Search for Clus</search:name>
@@ -206,7 +207,7 @@
 			<ref bean="lu.criteria.empty"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchCriteriaTypeInfo id="lu.criteria.empty" parent="lu.criteria.empty-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.empty-parent"  abstract="true">
 		<search:name>Empty Search</search:name>
@@ -225,7 +226,7 @@
 			<ref bean="lu.resultColumn.loId" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
-	
+
 	<search:resultColumn id="lu.resultColumn.loId" parent="lu.resultColumn.loId-parent"/>
 	<search:resultColumn id="lu.resultColumn.loId-parent"  abstract="true">
 		<search:name>Lo Id</search:name>
@@ -244,16 +245,16 @@
 			<ref bean="lu.criteria.code"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
-    
+
 	<search:searchResultTypeInfo id="lu.result.cluId" parent="lu.result.cluId-parent"/>
 	<search:searchResultTypeInfo id="lu.result.cluId-parent"  abstract="true">
 		<search:name>Lu id</search:name>
-		<search:desc>Lu id</search:desc>        
-     	<search:resultColumns>        
+		<search:desc>Lu id</search:desc>
+     	<search:resultColumns>
          	<ref bean="lu.resultColumn.cluId" />
-     	</search:resultColumns>            
+     	</search:resultColumns>
 	</search:searchResultTypeInfo>
-        
+
     <search:searchType id="lu.search.cluByCodeAndState" parent="lu.search.cluByCodeAndState-parent"/>
 	<search:searchType id="lu.search.cluByCodeAndState-parent"  abstract="true">
 		<search:name>Code and state match</search:name>
@@ -333,8 +334,8 @@
 		<dict:desc>Starts With Clu code.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>				
-    
+	</dict:fieldDescriptor>
+
     <search:searchCriteriaTypeInfo id="lu.criteria.all" parent="lu.criteria.all-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.all-parent"  abstract="true">
         <search:name>LuClu</search:name>
@@ -388,7 +389,7 @@
 		<search:desc>Name of the cluset.</search:desc>
 		<search:dataType>string</search:dataType>
     </search:resultColumn>
-    
+
     <search:resultColumn id="cluset.resultColumn.description" parent="cluset.resultColumn.description-parent"/>
 	<search:resultColumn id="cluset.resultColumn.description-parent"  abstract="true">
 		<search:name>Description</search:name>
@@ -407,6 +408,7 @@
 			<ref bean="lu.queryParam.luOptionalLongName"/>
 			<ref bean="cluset.queryParam.optionalSubCluSetName"/>
 			<ref bean="cluset.queryParam.optionalReusable"/>
+            <ref bean="cluset.queryParam.optionalReferenceable"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -438,7 +440,7 @@
 			<dict:dataType>string</dict:dataType>
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
-	</search:queryParam>			
+	</search:queryParam>
 	<search:queryParam id="cluset.queryParam.optionalSubCluSetName" parent="cluset.queryParam.optionalSubCluSetName-parent"/>
 	<search:queryParam id="cluset.queryParam.optionalSubCluSetName-parent"  optional="true" abstract="true">
 		<dict:fieldDescriptor>
@@ -447,7 +449,7 @@
 			<dict:dataType>string</dict:dataType>
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
-	</search:queryParam>			
+	</search:queryParam>
 	<search:queryParam id="cluset.queryParam.optionalReusable" parent="cluset.queryParam.optionalReusable-parent"/>
 	<search:queryParam id="cluset.queryParam.optionalReusable-parent" optional="true" abstract="true">
 		<dict:fieldDescriptor>
@@ -457,6 +459,15 @@
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
 	</search:queryParam>
+    <search:queryParam id="cluset.queryParam.optionalReferenceable" parent="cluset.queryParam.optionalReferenceable-parent"/>
+    <search:queryParam id="cluset.queryParam.optionalReferenceable-parent" optional="true" abstract="true">
+        <dict:fieldDescriptor>
+            <dict:name>Referenceable Clu Set</dict:name>
+            <dict:desc>Whether a Clu Set can be referenced by ReqComponets and other entities.</dict:desc>
+            <dict:dataType>string</dict:dataType>
+            <dict:readOnly>true</dict:readOnly>
+        </dict:fieldDescriptor>
+    </search:queryParam>
 
     <search:searchType id="lu.search.all.lu.Types" parent="lu.search.all.lu.Types-parent"/>
 	<search:searchType id="lu.search.all.lu.Types-parent"  abstract="true">
@@ -469,20 +480,20 @@
 			<ref bean="lu.criteria.luType"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
-    
+
    	<search:searchResultTypeInfo id="lu.result.luTypes" parent="lu.result.luTypes-parent"/>
 	<search:searchResultTypeInfo id="lu.result.luTypes-parent"  abstract="true">
 		<search:name>Lu Type </search:name>
-		<search:desc>Lu Type </search:desc>        
-     	<search:resultColumns>        
+		<search:desc>Lu Type </search:desc>
+     	<search:resultColumns>
          	<ref bean="lu.resultColumn.luTypeKey" />
          	<ref bean="lu.resultColumn.luTypeName" />
          	<ref bean="lu.resultColumn.luTypeDesc" />
          	<ref bean="lu.resultColumn.luTypeEffDt" />
          	<ref bean="lu.resultColumn.luTypeExpDt" />
-     	</search:resultColumns>            
+     	</search:resultColumns>
 	</search:searchResultTypeInfo>
-    
+
     <search:resultColumn id="lu.resultColumn.luTypeKey" parent="lu.resultColumn.luTypeKey-parent"/>
 	<search:resultColumn id="lu.resultColumn.luTypeKey-parent"  abstract="true">
 		<search:name>Key of the type</search:name>
@@ -513,7 +524,7 @@
 		<search:desc>Lu Type Expiration Date</search:desc>
 		<search:dataType>date</search:dataType>
     </search:resultColumn>
-        
+
 	<search:searchCriteriaTypeInfo id="lu.criteria.luType" parent="lu.criteria.luType-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.luType-parent"  abstract="true">
 		<search:name>Lu Type </search:name>
@@ -523,10 +534,10 @@
 			<ref bean="lu.queryParam.luOptionalLuTypeStartsWith" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
-	
+
 	<search:queryParam id="lu.queryParam.luOptionalLuType" parent="lu.queryParam.luOptionalLuType-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLuTypeStartsWith" parent="lu.queryParam.luOptionalLuType-parent"/>
-	
+
 	<search:queryParam id="lu.queryParam.luOptionalLuType-parent"
 		optional="true" abstract="true">
 		<dict:fieldDescriptor>
@@ -547,14 +558,14 @@
         	<ref bean="lu.criteria.cluGenericCrossSearch"/>
         </search:searchCriteriaTypeInfo>
         <search:subSearch searchkey="org.search.generic" key="org">
-	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalOrgLongName" subSearchParam="org.queryParam.orgOptionalLongName"/>	        	        
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalOrgLongName" subSearchParam="org.queryParam.orgOptionalLongName"/>
         </search:subSearch>
         <search:subSearch searchkey="lu.search.generic" key="clu">
         	<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDescr" subSearchParam="lu.queryParam.luOptionalDescr"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
-        </search:subSearch>	        
+        </search:subSearch>
 		<search:joinCriteria type="AND">
 			<search:comparison type="EQUALS">
 				<search:leftHandSide subSearchKey="org" param="org.resultColumn.orgId"/>
@@ -574,15 +585,15 @@
         <search:name>Clus and Department Info</search:name>
         <search:desc>Information about clu and related admin department</search:desc>
         <search:resultColumns>
-			<ref bean="lu.resultColumn.cluId" /> 
+			<ref bean="lu.resultColumn.cluId" />
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
 			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
 			<ref bean="lu.resultColumn.luOptionalType"/>
-			<ref bean="lu.resultColumn.luOptionalState"/>							
+			<ref bean="lu.resultColumn.luOptionalState"/>
         </search:resultColumns>
-    </search:searchResultTypeInfo> 
-    
+    </search:searchResultTypeInfo>
+
 	<search:searchCriteriaTypeInfo id="lu.criteria.cluGenericCrossSearch" parent="lu.criteria.cluGenericCrossSearch-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.cluGenericCrossSearch-parent"  abstract="true">
 		<search:name>Clus and Department Info</search:name>
@@ -606,7 +617,7 @@
 		            <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code ORDER BY clu.effectiveDate DESC</value>
 		        </entry>
 		        <entry key="lu.search.cluByCodeAndState">
-		            <value>SELECT clu.id, clu.officialIdentifier.code FROM Clu clu 
+		            <value>SELECT clu.id, clu.officialIdentifier.code FROM Clu clu
 		            WHERE clu.officialIdentifier.code like :lu_queryParam_startsWith_cluCode || '%'
 		            and clu.state = :lu_queryParam_cluState
 		            ORDER BY clu.officialIdentifier.code ASC</value>
@@ -623,7 +634,7 @@
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
                     LEFT JOIN clu.primaryAdminOrg primaryAdminOrg</value>
-		        </entry>    
+		        </entry>
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
 		            FROM CluSet cluset
@@ -636,10 +647,10 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalType">
 					<value>clu.luType.id = :lu_queryParam_luOptionalType</value>
-				</entry>										
+				</entry>
 				<entry key="lu.queryParam.luOptionalLongName">
 					<value>clu.officialIdentifier.longName</value>
-				</entry>	
+				</entry>
 				<entry key="lu.queryParam.luOptionalCode">
 					<value>clu.officialIdentifier.code</value>
 				</entry>
@@ -648,13 +659,13 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalPrimaryAdminOrgId">
 					<value>clu.primaryAdminOrg.orgId</value>
-				</entry>				
+				</entry>
 				<entry key="lu.queryParam.luOptionalLevel">
 					<value>clu.officialIdentifier.level</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalDescr">
 					<value>clu.descr.plain</value>
-				</entry>							
+				</entry>
 				<entry key="lu.queryParam.luOptionalState">
 					<value>clu.state IN (:lu_queryParam_luOptionalState)</value>
 				</entry>
@@ -697,6 +708,9 @@
 				<entry key="cluset.queryParam.optionalReusable">
 				    <value>!!</value>
 				</entry>
+                <entry key="cluset.queryParam.optionalReferenceable">
+                    <value>!!</value>
+                </entry>
             </map>
 		</property>
 	</bean>

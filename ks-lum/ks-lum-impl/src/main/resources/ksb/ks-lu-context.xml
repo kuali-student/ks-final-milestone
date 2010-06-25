@@ -28,6 +28,7 @@
 
   <!-- This context requires that a spring Transaction Manager named 'transactionManager'
     be defined -->
+
   <import resource="classpath:statement-context.xml" />
 
   <bean id="propertyPlaceholder"
@@ -126,6 +127,7 @@
     <property name="serviceQName"
       value="{http://student.kuali.org/wsdl/lu}LuService" />
   </bean>
+
   <bean id="proposalClient"
     class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
     <property name="serviceEndpointInterface"
@@ -211,6 +213,7 @@
     <property name="searchManager" ref="statementSearchManager" />
     <property name="dictionaryServiceDelegate" ref="lumDictionary" />
     <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+    <property name="validator" ref="serviceValidator" />
   </bean>
 
   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -507,13 +510,13 @@
   <aop:config>
     <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
       <aop:after-throwing
-        pointcut="execution(* org.kuali.student.lum.lu.service.*.*(..))"
+        pointcut="execution(* org.kuali.student.lum.lu.service.impl.LuServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
       <aop:after-throwing
-        pointcut="execution(* org.kuali.student.lum.lrc.service.*.*(..))"
+        pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
       <aop:after-throwing
-        pointcut="execution(* org.kuali.student.lum.lo.service.*.*(..))"
+        pointcut="execution(* org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
     </aop:aspect>
   </aop:config>
