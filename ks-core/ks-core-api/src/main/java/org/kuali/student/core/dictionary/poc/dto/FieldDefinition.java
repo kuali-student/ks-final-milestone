@@ -3,6 +3,7 @@ package org.kuali.student.core.dictionary.poc.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlIDREF;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FieldDefinition extends Constraint {
@@ -14,6 +15,7 @@ public class FieldDefinition extends Constraint {
 	@XmlElement
 	protected DataType dataType;// SHould be
 								// DATE,STRING,INTEGER,BOOLEAN,COMPLEX,...
+	@XmlIDREF
 	@XmlElement
 	protected ObjectStructureDefinition dataObjectStructure;
 
