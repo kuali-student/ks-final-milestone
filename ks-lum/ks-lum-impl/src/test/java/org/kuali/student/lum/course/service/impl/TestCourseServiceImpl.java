@@ -14,6 +14,7 @@ import java.util.TreeSet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -95,7 +96,7 @@ public class TestCourseServiceImpl {
 
             assertEquals(2, retrievedCourse.getCampusLocations().size());
             String campus = retrievedCourse.getCampusLocations().get(1);
-            assertTrue("campusLocations-9".equals(campus) || "campusLocations-10".equals(campus));
+            assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(campus) || CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(campus));
 
             /*
              * Test LO assertEquals(2, retrievedCourse.getCourseSpecificLOs().size()); LoDisplayInfo info =
@@ -330,9 +331,7 @@ public class TestCourseServiceImpl {
             try {
                 courseService.updateCourse(rInfo);
                 fail("Should have thrown data validation exception for invalid chars");
-            } catch (Exception e) {} // Should be DataValidationException, but we're getting a SOAPFaultException instead
-            // TODO - fix services to return correct exceptions and empty lists (rather than null)
-            
+            } catch (DataValidationErrorException e) {}
         } catch (Exception e) {
             e.printStackTrace();
         } 
