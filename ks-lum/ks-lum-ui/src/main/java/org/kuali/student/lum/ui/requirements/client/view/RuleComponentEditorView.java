@@ -141,6 +141,8 @@ public class RuleComponentEditorView extends ViewComposite {
     private List<ReqCompPicker> valueWidgets = new ArrayList<ReqCompPicker>();
     private List<Metadata> fieldsWithLookup = new ArrayList<Metadata>();  //contains definition of lookups
 
+    public enum Views{RULES_EDITOR}
+    
     //cluset data
     private DataModel clusetModel = new DataModel();
     private FieldDescriptor fdApprovedClus = null;
@@ -149,7 +151,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private SwapSection clusetDetails = null;
     
     public RuleComponentEditorView(Controller controller) {
-        super(controller, "Clause Editor View");
+        super(controller, "Clause Editor View", Views.RULES_EDITOR);
         super.initWidget(mainPanel);
         confirmButton = confirmCancelButtons.getButton(ConfirmCancelEnum.CONFIRM);
         cancelButton = confirmCancelButtons.getButton(ConfirmCancelEnum.CANCEL);        

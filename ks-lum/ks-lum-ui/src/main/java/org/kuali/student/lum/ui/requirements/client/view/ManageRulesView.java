@@ -96,12 +96,13 @@ public class ManageRulesView extends ViewComposite {
     //view's data
     private CollectionModel<RuleInfo> model;   //contains only RuleInfo object for selected rule
     private boolean isInitialized = false;
-
+    public enum Views{MANAGE_RULES}
+    
     //cluset data
     private DataModel clusetModel = new DataModel();
     
     public ManageRulesView(Controller controller) {
-        super(controller, "Complex View");
+        super(controller, "Complex View", Views.MANAGE_RULES);
         super.initWidget(mainPanel);                
     }
     

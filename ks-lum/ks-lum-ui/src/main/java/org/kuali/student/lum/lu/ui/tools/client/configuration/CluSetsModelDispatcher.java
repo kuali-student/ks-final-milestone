@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-public class CluSetsModelDispatcher extends LayoutController {
+public class CluSetsModelDispatcher extends LayoutController implements ConfigurableLayout{
 
     private CluSetsManagementController parentController;
     private String modelId;
@@ -107,5 +108,11 @@ public class CluSetsModelDispatcher extends LayoutController {
             parentController.requestModel(modelId, callback);
         }
     }
+
+	@Override
+	public void updateModel() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

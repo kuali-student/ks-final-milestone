@@ -37,8 +37,9 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ContentNavLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ContentNavLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
@@ -49,9 +50,11 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -59,6 +62,8 @@ import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.workflow.ui.client.widgets.ContentConfigurer;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
@@ -86,6 +91,8 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LRBuilder;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 	
 	
@@ -96,7 +103,7 @@ import com.google.gwt.user.client.ui.Widget;
 	 *
 	 */
 	public class CourseConfigurer extends org.kuali.student.common.ui.client.configurable.mvc.Configurer
-	 implements Configurer, CreditCourseProposalConstants,
+	 implements ContentConfigurer, CreditCourseProposalConstants,
 	 CreditCourseProposalInfoConstants,
 	 CreditCourseConstants,
 	 CreditCourseFormatConstants,
@@ -140,48 +147,62 @@ import com.google.gwt.user.client.ui.Widget;
 	   // 	this.modelDefinition = modelDefinition;
 	   // }
 	
-	    public void configure(ConfigurableLayout layout) {
+	    public void configure(final WorkflowEnhancedController layout) {
+	    	
 
 	    	groupName = LUConstants.COURSE_GROUP_NAME;
 	
 	        addCluStartSection(layout);
 	
 	        if(modelDefinition.getMetadata().isCanEdit()) {
-    	        String editTabLabel = getLabel(LUConstants.EDIT_TAB_LABEL_KEY);
+    	        String sections = getLabel(LUConstants.COURSE_SECTIONS);
     	        
     	        //ProposalInformation
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
+    	        layout.addMenu(sections);
+    	        layout.addMenuItem(sections, generateAuthorsRationaleSection());
     	        
     	        //Course Content
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseLogisticsSection());
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+    	        layout.addMenuItem(sections, generateCourseInfoSection());
+    	        layout.addMenuItem(sections, generateCourseLogisticsSection());
+    	        layout.addMenuItem(sections, generateLearningObjectivesSection());
     	        
     	        //Student Eligibility
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+    	        layout.addMenuItem(sections, generateCourseRequisitesSection());
     	
     	        //Administrative
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateGovernanceSection());
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
+    	        layout.addMenuItem(sections, generateGovernanceSection());
+    	        layout.addMenuItem(sections, generateActiveDatesSection());
+    	        layout.addMenuItem(sections, generateFinancialsSection());
 	        }
-	        //Review Proposal Tab
+	        //Summary
 	        ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
-	        layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, summaryConfigurer.generateSummarySection());
+	        layout.addSpecialMenuItem(summaryConfigurer.generateSummarySection(layout.getWfUtilities()), "Review and Submit");
 		
-	        //Tool Tabs
-	        layout.addTool(new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+	        //Tools
+	        String tools = "Tools";
+	        layout.addMenu(tools);
+	        layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
 	        	getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
-	        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
-	        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
+	        layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
+	        
+	    	layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
+	    	layout.addView(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
+	    	layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
+
+				@Override
+				public void onClick(ClickEvent event) {
+					layout.showView(CourseSections.COMMENTS);
+					
+				}
+			}));
 	    }
 			
-		public void addCluStartSection(ConfigurableLayout layout){
+		public void addCluStartSection(WorkflowEnhancedController layout){
 	        VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 	
 	        addField(section, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
 	        addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
-	        layout.addStartSection(section);
+	        layout.addStartViewPopup(section);
 	    }
 	
 	
@@ -581,18 +602,23 @@ import com.google.gwt.user.client.ui.Widget;
 	    /*
 	     * Configuring Program specific screens.
 	     */
-	    public void configureProgramProposal(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey) {
+	    public void configureProgramProposal(WorkflowEnhancedController layout, String objectKey, String typeKey, String stateKey) {
 	
 	    	groupName = LUConstants.PROGRAM_GROUP_NAME;
 	
 	        addCluStartSection(layout);
-	
-	        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateProgramInfoSection());
-	
-	        layout.addTool(new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+	        
+	        String programSections = "Program Sections";
+	        
+	        layout.addMenu(programSections);
+	        layout.addMenuItem(programSections, generateProgramInfoSection());
+	        
+	        String tools = "Tools";
+	        layout.addMenu(tools);
+	        layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
 	        		getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
-	        layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
-	        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
+	        layout.addMenuItem(tools, new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
+	        layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
 	    }
 	
 	
