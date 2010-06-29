@@ -35,8 +35,12 @@ public class KSDocumentHeader extends Composite {
 	}
     public void addWidget(Widget w){
     	if(w != null){
+    		if(widgetPanel.getElement().hasChildNodes()){
+    			widgetPanel.add(new HTML("<span style='float: left; margin-left: .7em; margin-right: .7em'>|</span>"));
+    		}
     		widgetPanel.add(w);
     	}
+    	w.getElement().setAttribute("style", "float: left");
     }
     public void setInfo(String info){
     	infoLabel.setText(info);

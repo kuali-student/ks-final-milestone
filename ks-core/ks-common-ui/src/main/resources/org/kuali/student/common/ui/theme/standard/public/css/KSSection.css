@@ -647,23 +647,23 @@ legend.invalid{color: red;}
 
 /*** Page: Sub Navigation ***/
 
-.ks-page-sub-navigation-container {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-container {
 	margin: 0 20px;
 	height: 1%;
 }
 
-.ks-page-sub-navigation {
+.ks-page-sub-navigation-container .ks-page-sub-navigation {
 	border-bottom: solid 1px #ccc;
 	padding: 15px 0;
 }
 
-.ks-page-sub-navigation-menu {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu {
 	float:left;
 	margin-right: 35px;
 	color: #666;
 }
 
-.ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
 	font-size: 0.916em;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -674,11 +674,11 @@ legend.invalid{color: red;}
 
 }
 
-.ks-page-sub-navigation-menu ul {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu ul {
 	margin: 0;
 }
 
-.ks-page-sub-navigation-menu li {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu li {
 	list-style: none;
 	line-height: 1.3em;
 }

@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBindingImpl;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
@@ -32,6 +33,9 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -46,6 +50,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
 	protected LayoutController layoutController = null;
 	protected boolean isValidationEnabled = true;
+	protected boolean isDirty = false;
 
 	@Override
 	public String addField(final FieldDescriptor fieldDescriptor) {
@@ -70,6 +75,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
                         			@Override
                         			public void onModelReady(DataModel model) {
                         				validateField(fieldDescriptor, model);
+                        				
                         			}
 
                         			@Override
@@ -110,11 +116,48 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
 		if(fieldDescriptor.getFieldKey() != null){
 			mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
+			dirtyCheckField(fieldDescriptor, model);
 			ValidateRequestEvent e = new ValidateRequestEvent();
 			e.setFieldDescriptor(fieldDescriptor);
 			LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
 		}
 	}
+	
+	private void dirtyCheckField(FieldDescriptor fieldDescriptor, DataModel model){
+        QueryPath fieldPath = QueryPath.parse(fieldDescriptor.getFieldKey());
+		QueryPath qPathDirty = fieldPath.subPath(0, fieldPath.size() - 1);
+	    qPathDirty.add(ModelWidgetBindingSupport.RUNTIME_ROOT);
+	    qPathDirty.add(ModelWidgetBindingSupport.DIRTY_PATH);
+	    qPathDirty.add(fieldPath.get(fieldPath.size()-1));
+	    Boolean dirty = false;
+	    
+	    if(ensureDirtyFlagPath(model.getRoot(), qPathDirty)){
+	    	dirty = model.get(qPathDirty);
+	    }
+	    if(dirty){
+	    	isDirty = true;
+	    	fieldDescriptor.setDirty(true);
+	    }
+	}
+	
+    protected boolean ensureDirtyFlagPath(Data root, QueryPath path) {
+        Data current = root;
+        boolean containsFlag = false;
+        for (int i = 0; i < path.size(); i++) {
+            Key key = path.get(i);
+            if(i == path.size() - 1){
+            	containsFlag = current.containsKey(key);
+            	break;
+            }
+            Data d = current.get(key);
+            if (d == null) {
+                containsFlag = false;
+                break;
+            }
+            current = d;
+        }
+        return containsFlag;
+    }
 
 	@Override
 	public String addSection(Section section) {
@@ -280,6 +323,18 @@ public abstract class BaseSection extends SpanPanel implements Section{
         }
 
     }
+    
+    @Override
+    public void resetDirtyFlags() {
+    	this.isDirty = false;
+        for(FieldDescriptor f: fields){
+            f.setDirty(false);
+        }
+
+        for(Section s: sections){
+            s.resetDirtyFlags();
+        }
+    }
 
 
 	@Override
@@ -371,4 +426,16 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
 	}
 
+	public boolean isDirty(){
+		if(!this.isDirty){
+			//Check child sections for dirtyness
+			for(Section s: sections){
+				if(s.isDirty()){
+					isDirty = true;
+					break;
+				}
+			}
+		}
+		return isDirty;
+	}
 }
