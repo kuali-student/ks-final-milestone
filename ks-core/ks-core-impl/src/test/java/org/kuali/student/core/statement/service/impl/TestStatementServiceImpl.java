@@ -340,20 +340,20 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	public void testGetStatementTypes() throws OperationFailedException {
     	List<StatementTypeInfo> types = statementService.getStatementTypes();
 		assertEquals(3, types.size());
-		assertTrue(containsTypeId(types, "kuali.luStatementType.createCourseAcademicReadiness"));
+		assertTrue(containsTypeId(types, "kuali.luStatementType.course"));
 		assertTrue(containsTypeId(types, "kuali.luStatementType.prereqAcademicReadiness"));
 		assertTrue(containsTypeId(types, "kuali.luStatementType.coreqAcademicReadiness"));
 	}
 
     @Test
 	public void testGetStatementType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-    	StatementTypeInfo type = statementService.getStatementType("kuali.luStatementType.createCourseAcademicReadiness");
+    	StatementTypeInfo type = statementService.getStatementType("kuali.luStatementType.course");
 
         GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
 
     	assertNotNull(type);
-		assertEquals("kuali.luStatementType.createCourseAcademicReadiness", type.getId());
+		assertEquals("kuali.luStatementType.course", type.getId());
 		assertNotNull(type.getAllowedStatementTypes());
 		assertEquals(2, type.getAllowedStatementTypes().size());
 		assertEquals(0, type.getAllowedReqComponentTypes().size());
@@ -366,7 +366,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetStatementTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.luStatementType.createCourseAcademicReadiness");
+    	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.luStatementType.course");
 
 		assertEquals(2, allowedTypes.size());
 		assertTrue(allowedTypes.contains("kuali.luStatementType.prereqAcademicReadiness"));
@@ -800,7 +800,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         }
 
         assertNotNull(updSmt.getId());
-        assertEquals(updSmt.getType(), "kuali.luStatementType.createCourseAcademicReadiness");
+        assertEquals(updSmt.getType(), "kuali.luStatementType.course");
         assertEquals(updSmt.getOperator(), StatementOperatorTypeKey.OR);
         assertEquals(updSmt.getState(), "ACTIVE");
         assertEquals(updSmt.getName(), "STMT 3");
