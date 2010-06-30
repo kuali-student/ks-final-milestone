@@ -18,7 +18,7 @@ class AutoConfig
 
   attr_accessor :config_dir, :suite_dir, :test_dir, :log_dir, :output, :clients, :servers, :phases, :agents,
     :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context, :verbose,
-    :tsung_log_level, :directory, :rice_server, :rice_context, :tsung_element, :sessions_element
+    :tsung_log_level, :directory, :rice_server, :rice_context, :tsung_element, :sessions_element, :sso, :thinktime
 
   
   def initialize
@@ -366,12 +366,12 @@ class AutoConfig
   def get_dtd_path
     
     dtd_path = '/opt/local/share/tsung/tsung-1.0.dtd' #default
-    locate = `locate tsung-1.0.dtd`
-    locate.split('\n').each do |line|
-      if(line =~ /share/)
-        dtd_path = line
-      end
-    end
+    #locate = `locate tsung-1.0.dtd`
+    #locate.split('\n').each do |line|
+    #  if(line =~ /share/)
+    #    dtd_path = line
+    #  end
+    #end
     
     return dtd_path
   end

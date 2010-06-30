@@ -30,24 +30,20 @@ password = config.directory["department_coc"]["member"]["password"]
 
 li_txn = sesh.add_transaction("login")
 li_req = li_txn.add_requests
-config.log.info_msg("#{test}: Logging in as department COC member: #{username}/#{password}")
+config.log.info_msg("#{test}: Logging in as: #{username}/#{password}")
 auth = Authentication.new(li_req)
 auth.login({:user => username, :password => password})
-
-# Navigate to Curriculum Mgmt
-nc_txn = sesh.add_transaction("nav_curriculum_mgmt")
-nc_req = nc_txn.add_requests
-config.log.info_msg("#{test}: Navigating to curriculum management")
-Curriculum.new(nc_req).homepage
 
 # Create blank proposal
 cp_txn = sesh.add_transaction("create_proposal")
 cp_req = cp_txn.add_requests
 config.log.info_msg("#{test}: Creating proposal")
 Curriculum.new(cp_req).create_proposal(
-  "Performance Proposal 48", 
-  config.directory["department"]["name"], 
-  config.directory["department_coc"]["name"],
+  "Debug Performance Proposal",  
+  # COC dep isn't in my DB right now for some reason
+  #config.directory["department_coc"]["name"],
+  config.directory["department"]["name"],
+  config.directory["department"]["name"],
   username
 )
 

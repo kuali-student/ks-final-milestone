@@ -16,6 +16,10 @@ require 'rubygems'
 @@session_element         = {}
 @@transaction_element     = {}
 
+# Flag controlling if latest request pointed to an external server
+# Need to give FQ reuest next to get it back
+@@last_req_external = false
+
 # Main Sessions class, most often called from creating Session object
 # This will write the 'sessions' xml elements
 class TsungSessions
@@ -38,7 +42,7 @@ end
 # Individual session object. Writes the '<session>' xml element
 class Session < TsungSessions
   
-  attr_accessor :name, :probability, :type
+  attr_accessor :name, :probability, :type, :last_req_external
   attr_reader :session_element, :transactions
   
   def initialize(config, session_name, probability='100%', type='ts_http')
@@ -152,7 +156,8 @@ class Requests < Transaction
         # "name"
         # "regexp"
       },
-      :rice_req => false
+      :rice_req => false,
+      :external => false
     }
   
     opts = defaults.merge(opts)
@@ -162,20 +167,25 @@ class Requests < Transaction
     #dyn_variables = req_opts.reject{|k,v| k == "subst"}[:dyn_variables]
     dyn_variables = req_opts[:dyn_variables]
     rice_req = req_opts[:rice_req]
+    external = req_opts[:external]
     req_opts.delete_if{|k,v| k != "subst"}
     
     new_url = ''
     # Make sure requests begins with app context
+    self.config.log.debug_msg("URL: #{url}\nLast Req External - Beg: #{@@last_req_external}")
+    
     if(rice_req)
       new_url = "http://#{self.config.rice_server}/#{self.config.rice_context}"
       new_url << '/' if(url !~ /^\//)
-    elsif(url !~ /^\/self.config.context/) 
-      new_url = '/' + self.config.context
+    elsif(url !~ /^\/self.config.context/ and url !~ /^http/)   
+      new_url = (@@last_req_external ? self.url : '/' + self.config.context)
       new_url << '/' if(url !~ /^\//)
     end
     
     url = new_url + url
     opts["url"] = url
+    
+    self.config.log.debug_msg("New URL: #{url}")
         
     # Building request string soley for list method
     req_str = "<http url='#{url}' version='#{opts[:version]}' method='#{opts[:method]}'"
@@ -188,6 +198,11 @@ class Requests < Transaction
       req.add_element('dyn_variable', dyn_var)
     end
     req.add_element('http', opts)
+    
+    # Set external flag if necessary
+    @@last_req_external = (external ? true : false)
+    external ? self.config.log.debug_msg("EXTERNAL: true") : self.config.log.debug_msg("EXTERNAL: false")
+    self.config.log.debug_msg("Last Req External - End: #{@@last_req_external}")
     
     @list << req_str
   end
@@ -205,7 +220,7 @@ class Requests < Transaction
     
     opts = defaults.merge(opts)
      
-     @xml_element.add_element('thinktime', opts)
+    @xml_element.add_element('thinktime', opts) if(self.config.thinktime)
   end
   
 end

@@ -18,6 +18,9 @@
 # -d, --debug:
 #     enable debug logging
 #
+# -t, --thinktime
+#     enable thinktime sleeps (simulates user input delays)
+#
 # -v, --verbose:
 #     will dump http traffic from tsung, only is in effect in -x is used
 #
@@ -26,6 +29,9 @@
 #
 # -o, --output:
 #     filename(path) that you want to use for output XML
+#
+# -s, --sso [cas URL]:
+#     CAS login URL
 #
 # SUITE_FILE_NAME:
 #     suite file name containg list of tests. File must exist in suites directory
@@ -111,6 +117,18 @@ optparse = OptionParser.new do |opts|
   # Enable debug
   opts.on('-d', '--debug', 'enable debug logging') do
     config.debug = true
+  end
+  
+  # Enable thinktime
+  config.thinktime = false
+  opts.on('-t', '--thinktime', 'enable thinktime sleeps') do
+    config.thinktime = true
+  end
+  
+  # SSO
+  config.sso = false
+  opts.on('-s', '--sso URL', 'CAS login URL') do |url|
+    config.sso = url
   end
   
   

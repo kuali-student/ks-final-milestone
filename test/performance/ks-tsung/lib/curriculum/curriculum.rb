@@ -17,14 +17,18 @@ class Curriculum
   end
     
   # Load curriculum homepage
+  # Updated for 1.0.0
   def homepage
     
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp')
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum')
+    
+    @request.add_thinktime(1)
+    
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|4|http://appserv-1.ks.kuali.net/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|29F4EA1240F157649C12466F01F46F60|org.kuali.student.common.ui.client.service.SecurityRpcService|getPrincipalUsername|1|2|3|4|0|"
+        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|29F4EA1240F157649C12466F01F46F60|org.kuali.student.common.ui.client.service.SecurityRpcService|getPrincipalUsername|1|2|3|4|0|"
       }
     )
     
@@ -32,35 +36,18 @@ class Curriculum
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|6|http://appserv-1.ks.kuali.net/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|ks.rice.actionList.serviceAddress|1|2|3|4|1|5|6|"
+        'contents' => "5|0|13|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.util.List|java.util.Arrays$ArrayList/1243019747|[Ljava.lang.String;/2600011424|application.url|ks.rice.docSearch.serviceAddress|lum.application.url|ks.rice.url|ks.rice.label|ks.application.version|1|2|3|4|1|5|6|7|6|8|9|10|11|12|13|"
       }
     )
-    
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/clear.cache.gif')
+
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|6|http://appserv-1.ks.kuali.net/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|ks.rice.docSearch.serviceAddress|1|2|3|4|1|5|6|"
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|ks.lum.ui.displayOnlyActiveLoCategories|1|2|3|4|1|5|6|"
       }
     )
-    
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|6|http://appserv-1.ks.kuali.net/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|lum.application.url|1|2|3|4|1|5|6|"
-      }
-    )
-    
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|6|http://appserv-1.ks.kuali.net/ks-standalone/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|application.url|1|2|3|4|1|5|6|"
-      }
-    )
-        
+            
   end
   
   
@@ -71,31 +58,40 @@ class Curriculum
   # * 'mode': 'blank'
   def create_proposal(title, oversight_department, admin_org, propose_person, opts={})
     
+    lo_cat = "Test Category 2"
+    
     defaults = {
       :mode => 'blank',
-      :submit => true,
+      :nav_homepage => true,
+      :submit => false, #until I get the data I need, this request fails
       :append_unique_id => false, #tell tsung to append unique id on title
       :instructor => propose_person,
       :first_expected_offering => @request.config.directory["atp"]["name"],
-      :subject_area => "PTCP",
+      :subject_area => "ARTS",
       :course_suffix => "123",
       :course_short_title => "Perf Course",
       :course_title => "Performance Course",
       :course_description => "My fake description.",
       :course_rationale => "My fake rationale.",
       :lo_create => FALSE,
-      :lo_category => "Test Category 2 - Subject", # Test Category 2 - Subject
+      :lo_category => lo_cat,
       :lo_name => @request.config.directory["lo"]["name"],
       :admin_dep_var_name => "admin_dep_org_id",
       :admin_dep_var_regexp => 'org.resultColumn.orgId\"\,\"\([^\"]+\)',
       :proposal_dyn_var_name => "proposal_id",
       :proposal_dyn_var_regexp => '\"id\"\,[^\,]+\,\"\([^\"]+\)',
+      :proposal_doc_id_var_name => "proposal_doc_id",
+      :proposal_doc_id_var_regexp => '\"\([^\"]+\)\"',
       :clu_ref_dyn_var_name => "clu_ref_id",
-      :clu_ref_dyn_var_regexp => 'proposalReference&gt;\([^&lt;]+\)',
+      :clu_ref_dyn_var_regexp => 'kuali.proposal.referenceType.clu\"\,\"references\"\,\"org.kuali.student.core.assembly.data[^\"]+\"\,\"java.lang.Integer[^\"]+\"\,\"\([^\"]+\)',
       :lu_dto_clu_format_dyn_var_name => "lu_dto_clu_format",
-      :lu_dto_clu_format_dyn_var_regexp =>     'org.kuali.student.lum.lu.dto.CluInfo\"\,\"formats\"\,\"\([^\"]+\)',
+      :lu_dto_clu_format_dyn_var_regexp => 'org.kuali.student.lum.lu.dto.CluInfo\"\,\"Credit Course\"\,\"[^\"]+\"\,\"formats\"\,\"\([^\"]+\)',
       :lu_dto_clu_activities_dyn_var_name => "lu_dto_clu_activites",
-      :lu_dto_clu_activities_dyn_var_regexp => 'org.kuali.student.lum.lu.dto.CluInfo\"\,\"formats\"\,\"[^\"]+\"\,\"0\"\,\"activities\"\,\"\([^\"]+\)',
+      :lu_dto_clu_activities_dyn_var_regexp => 'org.kuali.student.lum.lu.dto.CluInfo\"\,\"Credit Course\"\,\"[^\"]+\"\,\"formats\"\,\"[^\"]+\"\,\"0\"\,\"activities\"\,\"\([^\"]+\)',
+      :outcome_id_var_name => "outcome_id",
+      :outcome_id_var_regexp => 'outcomeId\"\,\"\([^\"]+\)',
+      :lo_category_var_name => "lo_category",
+      :lo_category_var_regexp => '\"\([^\"]+\)\",\"kuali.loRepository.key.singleUse\",\"[^\"]+\",\"[^\"]+\",\"' + lo_cat,
       :lo_child_id_dyn_var_name => "lo_child_id",
       :lo_child_id_dyn_var_regexp => 'childLo\"\,\"\([^\"]+\)',
       :single_use_lo_dyn_var_name => "single_use_lo",
@@ -114,209 +110,285 @@ class Curriculum
       # select template or copy course...
     end
     
+    # Navigate to Curriculum Mgmt
+    self.homepage() unless(!opts[:nav_homepage])
+    
     # Click Start blank proposal
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/clear.cache.gif')
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getMetadata|1|2|3|4|0|"
+        'contents' => "5|0|8|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|isAuthorized|org.kuali.student.core.rice.authorization.PermissionType|java.util.Map|org.kuali.student.core.rice.authorization.PermissionType/259370389|java.util.HashMap/962170901|1|2|3|4|2|5|6|7|0|8|0|"
       }
     )
     
-    # Duplicate - BUG ?
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/common/twiddler3.gif')
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getMetadata|1|2|3|4|0|"
+        'contents' => "5|0|5|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getMetadata|java.lang.String|1|2|3|4|2|5|5|0|0|"
       }
     )
     
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/clear.cache.gif')
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/scrollTableLoading.gif')
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|8|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|atp.search.atpDurationTypes|1|2|3|4|1|5|6|0|0|7|0|8|0|0|0|"
+      }
+    )
     
-    # Pg1 - Governance
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|enumeration.queryParam.enumerationType|kuali.lu.campusLocation|enumeration.management.search|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
     
-    # Curriculum oversight
-    # AJAX popup while typing in org name
-    for i in 1..oversight_department.length
-      itr = i-1
-      if(itr == oversight_department.length-1)
-        @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-          {
-            'method' => 'POST',
-            'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-            'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalLongName|#{oversight_department[0..itr]}|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-          },
-          {
-            :dyn_variables => [{"name" => opts[:admin_dep_var_name], "regexp" => opts[:admin_dep_var_regexp]}]
-          }                               
-        )
-        
-        # Test the dyn variable
-        #@request.add("/fake_url/admin_org_id/%%_#{opts[:admin_dep_var_name]}%%", {}, {'subst' => 'true'})
-      else
-        @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-          {
-            'method' => 'POST',
-            'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-            'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalLongName|#{oversight_department[0..itr]}|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-          }                                      
-          )
-      end
-      
-      # On first load these images
-      if(itr == 0)
-        @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/gwt/standard/images/corner.png')
-        @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/gwt/standard/images/vborder.png')
-      end
-    end
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lrc.queryParam.resultComponent.type|kuali.resultComponentType.grade.finalGrade|lrc.search.resultComponent|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
     
-    # Admin Org
-    # AJAX popup while typing in org name
-    for i in 1..admin_org.length
-      itr = i-1
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalLongName|#{admin_org[0..itr]}|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-        }                                      
-      )
-    end
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|17|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|atp.advancedAtpSearchParam.atpType|java.lang.String/2004016611|kuali.atp.type.Spring|kuali.atp.type.Fall|kuali.atp.type.Session1|kuali.atp.type.Session2|kuali.atp.type.Mini-mester1A|kuali.atp.type.Mini-mester1B|atp.search.advancedAtpSearch|1|2|3|4|1|5|6|0|0|7|1|8|9|7|6|10|11|10|12|10|13|10|14|10|15|10|16|0|17|0|0|0|"
+      }
+    )
     
-    # Save proposal
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/common/node.png')
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|30|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|course|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|_runtimeData|dirty|academicSubjectOrgs|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|campusLocations|department|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:admin_dep_var_name]}%%|AllCampuses|proposal|title|#{title}|proposerPerson|#{propose_person}|java.util.ArrayList/3821976829|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|4|10|13|12|8|5|9|0|1|10|14|12|8|5|9|0|3|10|15|16|17|1|10|18|16|-19|10|19|16|-19|-11|-13|-7|-9|-17|12|8|5|9|0|1|20|21|0|22|23|-7|10|15|-20|12|8|5|9|0|1|20|-28|22|24|-7|10|18|-22|22|23|-3|-5|10|25|12|8|5|9|0|3|10|26|22|27|-9|12|8|5|9|0|1|-13|12|8|5|9|0|2|-42|16|-19|10|28|16|-19|-45|-13|-40|-9|-51|12|8|5|9|0|1|20|-28|22|29|-40|-51|-3|-38|0|0|30|0|5|9|0|0|0|0|"
-      },
-      {
-        'subst' => 'true',
-        :dyn_variables => [{"name" => opts[:proposal_dyn_var_name], "regexp" => opts[:proposal_dyn_var_regexp]}]
-      }                                 
+        'contents' => "5|0|5|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|1|2|3|4|1|5|0|"
+      }
     )
     
-    # Test the dyn variable
-    #@request.add("/fake_url/proposal_id/%%_#{opts[:proposal_dyn_var_name]}%%", {}, {'subst' => 'true'})
+    # Pg1 - Authors & Rationale
     
-    # Get the clu ref id
-    @request.add('/services/ProposalService',
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/common/lightbox_close.png')
+    @request.add_thinktime(10)
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
-        'content_type' => 'text/xml; charset=UTF-8',
-        'contents' => "&lt;soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:prop='http://student.kuali.org/wsdl/proposal'&gt;&lt;soapenv:Header/&gt;&lt;soapenv:Body&gt;&lt;prop:getProposal&gt;&lt;proposalId&gt;%%_#{opts[:proposal_dyn_var_name]}%%&lt;/proposalId&gt;&lt;/prop:getProposal&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;"
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|28|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|title|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|#{title}|_runtimeData|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|rationale|proposerPerson|#{opts[:course_rationale]}|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|#{propose_person}|course|courseTitle|java.util.ArrayList/3821976829|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|4|10|13|14|15|10|16|12|8|5|9|0|1|10|17|12|8|5|9|0|3|-9|18|19|1|10|20|18|-20|10|21|18|-20|-13|-15|-7|-11|-21|14|22|-23|12|8|5|9|0|1|23|24|0|14|25|-7|-23|-3|-5|10|26|12|8|5|9|0|1|10|27|14|15|-3|-32|0|0|28|0|5|9|0|0|0|0|"
       },
       {
-        :dyn_variables => [{"name" => opts[:clu_ref_dyn_var_name], "regexp" => opts[:clu_ref_dyn_var_regexp]}],
-        'subst' => 'true'
+        :dyn_variables => [
+          {"name" => opts[:proposal_dyn_var_name], "regexp" => opts[:proposal_dyn_var_regexp]},
+          {"name" => opts[:clu_ref_dyn_var_name], "regexp" => opts[:clu_ref_dyn_var_regexp]}
+        ]
       }
     )
     
     #@request.add("/fake_url/clu_ref_id/%%_#{opts[:clu_ref_dyn_var_name]}%%", {}, {'subst' => 'true'})
+    #@request.add("/fake_url/proposal_id/%%_#{opts[:proposal_dyn_var_name]}%%", {}, {'subst' => 'true'})
     
+    @request.add_thinktime(2)
     
-    # thinktime? trace had 7
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
     )
-    # Dupe
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true',
+        :dyn_variables => [{"name" => opts[:proposal_doc_id_var_name], "regexp" => opts[:proposal_doc_id_var_regexp]}]
+      }
     )
-    # Dupe
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+    
+    #@request.add("/fake_url/proposal_doc_id/%%_#{opts[:proposal_doc_id_var_name]}%%", {}, {'subst' => 'true'})
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
     )
-    # Dupe
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
     )
+
+    @request.add_thinktime(5)
     
     # Save & Continue
     
-    contents1 = "5|0|70|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|courseTitle|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|termsOffered|firstExpectedOffering||primaryInstructor|state|draft|subjectArea|transcriptTitle|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|nullnull|CourseType|Credit Course|OversightName|courseSpecificLOs|java.util.ArrayList/3821976829"
-    contents2 = '|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|7|10|13|14|15|10|16|14|0|10|17|12|8|5|9|0|0|-7|-13|10|18|14|19|10|20|14|21|10|22|12|8|5|9|0|1|23|24|0|14|25|-7|-21|10|26|12|8|5|9|0|1|10|27|12|8|5|9|0|1|23|-26|12|8|5|9|0|3|10|28|14|29|10|13|14|15|10|30|14|31|-34|-36|-30|-32|-7|-28|-3|-5|10|32|12|8|5|9|0|19|10|13|14|25|10|33|14|0|10|34|14|0|10|35|36|0|10|37|36|0|10|38|14|39|10|40|12|8|5|9|0|2|10|41|14|0|10|42|14|0|-48|-62|10|43|12|8|5|9|0|0|-48|-70|10|44|14|45|10|46|14|0|10|47|14|48|10|49|14|0|10|50|14|0|10|51|14|52|10|53|12|8|5|9|0|1|23|24|0|14|39|-48|10|53|10|54|12|8|5|9|0|1|23|-26|14|55|-48|-94|10|26|12|8|5|9|0|2|10|27|12|8|5|9|0|1|23|-26|12|8|5|9|0|3|10|28|14|56|10|13|14|25|10|30|14|31|-106|-108|-102|-104|10|57|12|8|5|9|0|2|10|53|58|59|1|10|38|58|-124|-102|-118|-48|-100|10|60|12|8|5|9|0|1|23|-26|12|8|5|9|0|1|10|61|12|8|5|9|0|4|10|62|14|63|10|64|14|65|10|66|14|67|10|68|14|63|-133|10|61|-129|-131|-48|-127|10|69|12|8|5|9|0|0|-48|-148|-3|-46|0|0|70|0|5|9|0|0|0|0|'
+    contents1 = "5|0|70|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.util.Date/1659716317|updateTime|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|courseTitle|effectiveDate|expirationDate|department|duration|termType|termsOffered|firstExpectedOffering||primaryInstructor|state|draft|subjectArea|transcriptTitle|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|fees|org.kuali.student.lum.lu.dto.CluInfo|id-translation|Credit Course|courseCode|nullnull|gradingOptions|outcomeOptions|courseSpecificLOs|java.util.ArrayList/3821976829"
+    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1033351408|1275605286912|10|34|32|33|1033351408|1275605286912|-7|-29|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|38|10|13|14|15|10|39|14|40|-49|-51|-45|-47|-7|-43|-3|-5|10|41|12|8|5|9|0|22|10|13|14|26|10|42|14|0|10|43|14|20|10|44|32|0|10|45|32|0|10|46|14|0|10|47|12|8|5|9|0|1|10|48|14|0|-63|-77|10|49|12|8|5|9|0|0|-63|-83|10|50|14|51|10|52|14|0|10|53|14|54|10|55|14|0|10|56|14|0|10|57|14|58|10|59|12|8|5|9|0|0|-63|-99|10|60|12|8|5|9|0|0|-63|-103|10|61|12|8|5|9|0|0|-63|-107|10|35|12|8|5|9|0|2|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|62|10|13|14|26|10|39|14|40|-117|-119|-113|-115|10|57|12|8|5|9|0|1|10|63|14|64|-113|-129|-63|-111|10|65|14|66|10|67|12|8|5|9|0|0|-63|-137|10|68|12|8|5|9|0|0|-63|-141|10|69|12|8|5|9|0|0|-63|-145|-3|-61|0|0|70|0|5|9|0|0|0|0|"
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
         'contents' => "#{contents1}#{contents2}"
       },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add_thinktime(1)
+    
+    
+    # Loading Pg 2 - Course Information
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
       {'subst' => 'true'}
     )
     
-    
-    
-    
-    # DUPE
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
     )
     
-    # DUPE
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
-    )
+    #
+    # Pg 2 - Course Information
+    #
     
-    # DUPE
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
-    )
-    
-    # DUPE
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalId|%%_#{opts[:admin_dep_var_name]}%%|org.queryParam.orgOptionalType|kuali.org.Department|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
-      }                                      
-    )
-    
-    
-    # Pg2 - Course logistics
-    
-    # Expected Offering
-    for i in 1..opts[:first_expected_offering].length
+    # Course Subject Area
+    # AJAX popup while typing in subject area
+    for i in 1..opts[:subject_area].length
       itr = i-1
       @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
         {
           'method' => 'POST',
           'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|12|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|atp.advancedAtpSearchParam.atpShortName|#{opts[:first_expected_offering][0..itr]}|atp.search.advancedAtpSearch|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|0|0|0|"
-        }                                      
-      )
+          'contents' => "5|0|14|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|enumeration.queryParam.enumerationOptionalCode|#{opts[:subject_area][0..itr]}|enumeration.queryParam.enumerationType|kuali.lu.subjectArea|enumeration.management.search|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|0|13|14|0|0|0|"
+        }                             
+      )        
     end
+    
+    # Save & Continue
+    
+    contents1 = "5|0|80|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|java.util.Date/1659716317|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|duration|termType|termsOffered|firstExpectedOffering||primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|fees|org.kuali.student.lum.lu.dto.CluInfo|id-translation|Credit Course|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|courseCode|nullnull|gradingOptions|outcomeOptions|courseSpecificLOs|description|plain|#{opts[:course_description]}|java.util.ArrayList/3821976829"
+    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1033351408|1275605286912|320000000|10|34|32|35|1105114111|1275605286912|-7|-29|10|36|12|8|5|9|0|1|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|39|10|13|14|15|10|40|14|41|-49|-51|-45|-47|-7|-43|-3|-5|10|42|12|8|5|9|0|23|10|13|14|26|10|43|14|44|10|45|14|20|10|46|32|0|10|47|32|0|10|48|14|0|10|49|12|8|5|9|0|1|10|50|14|0|-63|-77|10|51|12|8|5|9|0|0|-63|-83|10|52|14|53|10|54|14|0|10|55|14|56|10|57|14|58|10|59|14|60|10|61|14|62|10|63|12|8|5|9|0|0|-63|-99|10|64|12|8|5|9|0|0|-63|-103|10|65|12|8|5|9|0|0|-63|-107|10|36|12|8|5|9|0|3|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|66|10|13|14|26|10|40|14|41|-117|-119|-113|-115|10|61|12|8|5|9|0|1|10|67|14|68|-113|-129|10|69|12|8|5|9|0|3|10|57|70|71|1|10|43|70|-141|10|59|70|-141|-113|-135|-63|-111|10|72|14|73|10|74|12|8|5|9|0|0|-63|-148|10|75|12|8|5|9|0|0|-63|-152|10|76|12|8|5|9|0|0|-63|-156|10|77|12|8|5|9|0|2|10|78|14|79|10|36|12|8|5|9|0|1|-135|12|8|5|9|0|1|-164|70|-141|-168|-135|-162|-166|-63|-160|-3|-61|0|0|80|0|5|9|0|0|0|0|"
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "#{contents1}#{contents2}"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add_thinktime(1)
+    
+    # Loading Pg3 - Course Logistics
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|13|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lrc.queryParam.resultComponent.type|java.lang.String/2004016611|kuali.resultComponentType.credit.degree.fixed|kuali.resultComponentType.credit.degree.range|lrc.search.resultComponent|1|2|3|4|1|5|6|0|0|7|1|8|9|7|2|10|11|10|12|0|13|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    #
+    # Pg 3 - Course Logistics
+    #
     
     # Instructor
     for i in 1..opts[:instructor].length
@@ -326,193 +398,386 @@ class Curriculum
           'method' => 'POST',
           'content_type' => 'text/x-gwt-rpc; charset=utf-8',
           'contents' => "5|0|12|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|person.queryParam.personGivenName|#{opts[:instructor][0..itr]}|person.search.personQuickViewByGivenName|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|0|0|0|"
-        }                                      
-      )
+        }                             
+      )        
     end
     
-    # Save
-    contents1 = "5|0|89|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|courseTitle|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|termsOffered|firstExpectedOffering|kuali.atp.CLASS2012Y1|primaryInstructor|#{opts[:instructor]}|state|draft|subjectArea|transcriptTitle|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|nullnull|CourseType|Credit Course|OversightName|courseSpecificLOs|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|atpType.duration.week|formats|deleted|activities|activityType|kuali.lu.type.activity.Lab|defaultEnrollmentEstimate|created|timeUnit|atpType.duration.month|contactHours|hrs|per|atpType.duration.weekly|java.util.ArrayList/3821976829"
-    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|7|10|13|14|15|10|16|14|0|10|17|12|8|5|9|0|0|-7|-13|10|18|14|19|10|20|14|21|10|22|12|8|5|9|0|1|23|24|0|14|25|-7|-21|10|26|12|8|5|9|0|1|10|27|12|8|5|9|0|1|23|-26|12|8|5|9|0|3|10|28|14|29|10|13|14|15|10|30|14|31|-34|-36|-30|-32|-7|-28|-3|-5|10|32|12|8|5|9|0|21|10|13|14|25|10|33|14|0|10|34|14|0|10|35|36|0|10|37|36|0|10|38|14|39|10|40|12|8|5|9|0|2|10|41|14|0|10|42|14|0|-48|-62|10|43|12|8|5|9|0|0|-48|-70|10|44|14|45|10|46|14|47|10|48|14|49|10|50|14|0|10|51|14|0|10|52|14|53|10|54|12|8|5|9|0|1|23|24|0|14|39|-48|10|54|10|55|12|8|5|9|0|1|23|-26|14|56|-48|-94|10|26|12|8|5|9|0|2|10|27|12|8|5|9|0|1|23|-26|12|8|5|9|0|3|10|28|14|57|10|13|14|25|10|30|14|31|-106|-108|-102|-104|10|58|12|8|5|9|0|4|10|54|59|60|1|10|38|59|-124|10|44|59|-124|10|46|59|-124|-102|-118|-48|-100|10|61|12|8|5|9|0|1|23|-26|12|8|5|9|0|1|10|62|12|8|5|9|0|4|10|63|14|64|10|65|14|66|10|67|14|68|10|69|14|64|-137|10|62|-133|-135|-48|-131|10|70|12|8|5|9|0|0|-48|-152|10|71|12|8|5|9|0|3|10|72|73|24|1|10|26|12|8|5|9|0|1|-118|12|8|5|9|0|2|-160|59|-124|10|74|59|-124|-165|-118|-158|-163|-171|14|75|-48|-156|10|76|12|8|5|9|0|2|23|24|0|12|8|5|9|0|1|10|26|12|8|5|9|0|2|10|77|59|-124|-163|12|8|5|9|0|1|-118|12|8|5|9|0|1|-187|59|-124|-190|-118|-185|-163|-181|-183|-176|-178|23|24|1|12|8|5|9|0|2|10|78|12|8|5|9|0|1|23|24|0|12|8|5|9|0|5|10|79|14|80|-163|12|8|5|9|0|3|-118|12|8|5|9|0|2|-210|59|-124|10|81|59|-124|-213|-118|10|82|59|-124|-163|12|8|5|9|0|1|-118|12|8|5|9|0|1|-221|59|-124|-224|-118|-213|-163|-208|-163|10|71|12|8|5|9|0|3|10|72|73|-162|-163|12|8|5|9|0|1|-118|12|8|5|9|0|2|-234|59|-124|10|83|59|-124|-237|-118|-232|-163|-243|14|84|-208|-230|10|85|12|8|5|9|0|3|10|86|73|24|8|-163|12|8|5|9|0|1|-118|12|8|5|9|0|2|-250|59|-124|10|87|59|-124|-254|-118|-248|-163|-260|14|88|-208|-246|-219|73|24|100|-203|-205|-199|-201|10|26|12|8|5|9|0|2|10|82|59|-124|-163|12|8|5|9|0|1|-118|12|8|5|9|0|1|-269|59|-124|-272|-118|-267|-163|-199|-265|-176|-196|-48|-174|-3|-46|0|0|89|0|5|9|0|0|0|0|"
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "#{contents1}#{contents2}"
-      },
-      {
-        :dyn_variables => [ 
-          { "name" => opts[:lu_dto_clu_format_dyn_var_name], "regexp" => opts[:lu_dto_clu_format_dyn_var_regexp] },
-          { "name" => opts[:lu_dto_clu_activities_dyn_var_name], "regexp" => opts[:lu_dto_clu_activities_dyn_var_regexp] }
-        ], 
-        'subst' => 'true' 
+        'contents' => "5|0|8|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|atp.search.atpDurationTypes|1|2|3|4|1|5|6|0|0|7|0|8|0|0|0|"
       }
     )
     
-    @request.add("/debug/lu_dto_clu_format_dyn_var_name/%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%",{},{'subst'=>'true'})
-    @request.add("/debug/lu_dto_clu_activities_dyn_var_name/%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%",{},{'subst'=>'true'})
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|enumeration.queryParam.enumerationType|kuali.atptype.duration|enumeration.management.search|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lu.queryParam.luOptionalLuTypeStartsWith|kuali.lu.type.activity.|lu.search.all.lu.Types|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
+    
+    @request.add_thinktime(10)
     
     
-    # Pg3 - Course Information
-
-    # thinktime 3 ?
-
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|12|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|person.queryParam.personId|#{propose_person}|person.search.personQuickViewByGivenName|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|0|0|0|"
-      }                                      
-    )
-
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|12|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|atp.advancedAtpSearchParam.atpId|kuali.atp.CLASS2012Y1|atp.search.advancedAtpSearch|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|0|0|0|"
-      }                                      
-    )
-    # DUPE
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|12|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|atp.advancedAtpSearchParam.atpId|kuali.atp.CLASS2012Y1|atp.search.advancedAtpSearch|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|0|0|0|"
-      }                                      
-    )
-    # propose_person var in post contents
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|12|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|person.queryParam.personId|#{propose_person}|person.search.personQuickViewByGivenName|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|0|0|0|"
-      }                                      
-    )
-
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|2F7C2AADA9B2BAC276256FE24CAFAFBA|org.kuali.student.lum.lu.ui.course.client.service.LuRpcService|getSearchType|java.lang.String|lu.search.clus|1|2|3|4|1|5|6|"
-      }                                      
-    )
-    # DUPE
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|2F7C2AADA9B2BAC276256FE24CAFAFBA|org.kuali.student.lum.lu.ui.course.client.service.LuRpcService|getSearchType|java.lang.String|lu.search.clus|1|2|3|4|1|5|6|"
-      }                                      
-    )
-
     # Save & Continue
-    contents1 = "5|0|100|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|#{opts[:course_title]}|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|atpType.duration.week|termsOffered|firstExpectedOffering|kuali.atp.CLASS2012Y1|primaryInstructor|#{opts[:instructor]}|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|updated|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Lab|contactHours|hrs|per|atpType.duration.weekly|timeUnit|atpType.duration.month|defaultEnrollmentEstimate|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|nullnull|CourseType|Credit Course|OversightName|courseSpecificLOs|joints|courseId|created|java.util.ArrayList/3821976829"
-    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|7|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|-13|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-21|10|27|12|8|5|9|0|2|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|30|10|13|14|15|10|31|14|32|-34|-36|-30|-32|10|33|12|8|5|9|0|1|10|16|34|35|1|-30|-46|-7|-28|-3|-5|10|36|12|8|5|9|0|22|10|13|14|26|10|37|14|38|10|39|14|40|10|41|42|0|10|43|42|0|10|44|14|45|10|46|12|8|5|9|0|3|10|47|14|0|10|48|14|49|10|27|12|8|5|9|0|1|-46|12|8|5|9|0|1|10|48|34|-52|-79|-46|-71|-77|-55|-69|10|50|12|8|5|9|0|2|10|51|52|25|1|10|53|14|54|-55|-86|10|55|12|8|5|9|0|0|-55|-95|10|56|14|57|10|58|14|59|10|60|14|61|10|62|14|63|10|64|14|65|10|66|14|67|10|68|12|8|5|9|0|1|24|25|0|14|45|-55|10|68|10|69|12|8|5|9|0|1|24|-26|14|70|-55|-119|10|27|12|8|5|9|0|2|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|71|10|13|14|26|10|31|14|32|-131|-133|-127|-129|-46|12|8|5|9|0|8|10|62|34|-52|10|37|34|-52|10|64|34|-52|10|39|34|-52|10|68|34|-52|10|44|34|-52|10|56|34|-52|10|58|34|-52|-127|-46|-55|-125|10|72|12|8|5|9|0|1|24|-26|12|8|5|9|0|4|10|13|14|73|10|60|14|61|10|27|12|8|5|9|0|3|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|71|10|13|14|73|10|31|14|74|-180|-182|-176|-178|10|75|34|-52|-77|12|8|5|9|0|1|-46|12|8|5|9|0|1|-192|34|-52|-195|-46|-176|-77|-168|-174|10|76|12|8|5|9|0|1|24|-26|12|8|5|9|0|7|10|13|14|77|10|78|14|79|10|80|12|8|5|9|0|2|10|81|52|25|8|10|82|14|83|-207|-213|10|50|12|8|5|9|0|2|10|51|52|25|1|10|84|14|85|-207|-222|10|86|52|25|100|10|60|14|61|10|27|12|8|5|9|0|3|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|71|10|13|14|77|10|31|14|74|-242|-244|-238|-240|10|75|34|-52|-77|12|8|5|9|0|1|-46|12|8|5|9|0|1|-254|34|-52|-257|-46|-238|-77|-207|-236|-203|-205|-168|-201|-164|-166|-55|-162|10|87|12|8|5|9|0|1|24|-26|12|8|5|9|0|1|10|88|12|8|5|9|0|4|10|89|14|90|10|91|14|92|10|93|14|94|10|95|14|90|-269|10|88|-265|-267|-55|-263|10|96|12|8|5|9|0|0|-55|-284|10|97|12|8|5|9|0|1|24|25|0|12|8|5|9|0|2|10|98|14|0|10|27|12|8|5|9|0|2|10|99|34|-52|-77|12|8|5|9|0|1|-46|12|8|5|9|0|1|-303|34|-52|-306|-46|-301|-77|-295|-299|-290|-292|-55|-288|-3|-53|0|0|100|0|5|9|0|0|0|0|"
+    
+    contents1 = "5|0|97|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|description|formatted|plain|#{opts[:course_description]}|termsOffered|firstExpectedOffering||primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|fees|org.kuali.student.lum.lu.dto.CluInfo|id-translation|Credit Course|dirty|gradingOptions|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|courseCode|ARTS123|kuali.resultComponent.grade.letter|outcomeOptions|outcomeType|created|kuali.creditType.credit.degree.1|courseSpecificLOs|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|formats|activities|activityType|defaultEnrollmentEstimate|kuali.lu.type.activity.Discussion|timeUnit|contactHours|per|hrs|kuali.atp.duration.day|java.util.ArrayList/3821976829"
+    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1033351408|1275605286912|320000000|10|34|32|33|1105318058|1275605286912|970000000|-7|-29|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|38|10|13|14|15|10|39|14|40|-49|-51|-45|-47|-7|-43|-3|-5|10|41|12|8|5|9|0|24|10|13|14|26|10|42|14|43|10|44|14|20|10|45|32|0|10|46|32|0|10|47|14|0|10|48|12|8|5|9|0|2|10|49|14|0|10|50|14|51|-63|-77|10|52|12|8|5|9|0|0|-63|-85|10|53|14|54|10|55|14|29|10|56|14|57|10|58|14|59|10|60|14|61|10|62|14|63|10|64|12|8|5|9|0|0|-63|-101|10|65|12|8|5|9|0|0|-63|-105|10|66|12|8|5|9|0|0|-63|-109|10|35|12|8|5|9|0|4|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|67|10|13|14|26|10|39|14|40|-119|-121|-115|-117|10|62|12|8|5|9|0|1|10|68|14|69|-115|-131|10|58|12|8|5|9|0|1|10|68|14|59|-115|-137|10|70|12|8|5|9|0|2|10|71|72|73|1|10|55|72|-149|-115|-143|-63|-113|10|74|14|75|10|71|12|8|5|9|0|1|24|25|0|14|76|-63|10|71|10|77|12|8|5|9|0|1|24|25|0|12|8|5|9|0|2|10|35|12|8|5|9|0|3|-143|12|8|5|9|0|1|10|78|72|-149|-173|-143|10|79|72|-149|-171|12|8|5|9|0|1|-143|12|8|5|9|0|1|-180|72|-149|-183|-143|-173|-171|-169|-171|-178|14|80|-164|-166|-63|-162|10|81|12|8|5|9|0|0|-63|-190|10|82|12|8|5|9|0|3|10|83|84|25|2|-171|12|8|5|9|0|1|-143|12|8|5|9|0|2|-198|72|-149|10|85|72|-149|-202|-143|-196|-171|-208|14|86|-63|-194|10|87|12|8|5|9|0|1|24|25|0|12|8|5|9|0|2|10|88|12|8|5|9|0|1|24|25|0|12|8|5|9|0|5|-171|12|8|5|9|0|3|-143|12|8|5|9|0|2|10|89|72|-149|10|90|72|-149|-230|-143|10|79|72|-149|-171|12|8|5|9|0|1|-143|12|8|5|9|0|1|-239|72|-149|-242|-143|-230|-171|-227|-171|-235|14|91|10|82|12|8|5|9|0|3|10|83|84|25|1|-171|12|8|5|9|0|1|-143|12|8|5|9|0|2|-253|72|-149|10|92|72|-149|-257|-143|-251|-171|-263|14|86|-227|-249|10|93|12|8|5|9|0|3|-171|12|8|5|9|0|1|-143|12|8|5|9|0|2|10|94|72|-149|10|95|72|-149|-271|-143|-268|-171|-276|14|96|-278|84|-255|-227|-266|-237|84|25|100|-222|-224|-218|-220|10|35|12|8|5|9|0|2|10|79|72|-149|-171|12|8|5|9|0|1|-143|12|8|5|9|0|1|-288|72|-149|-291|-143|-286|-171|-218|-284|-213|-215|-63|-211|-3|-61|0|0|97|0|5|9|0|0|0|0|"
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
         'contents' => "#{contents1}#{contents2}"
       },
-      { 'subst' => 'true' }                          
+      {
+        'subst' => 'true',
+        :dyn_variables => [
+          {"name" => opts[:lu_dto_clu_format_dyn_var_name], "regexp" => opts[:lu_dto_clu_format_dyn_var_regexp]},
+          {"name" => opts[:lu_dto_clu_activities_dyn_var_name], "regexp" => opts[:lu_dto_clu_activities_dyn_var_regexp]},
+          {"name" => opts[:outcome_id_var_name], "regexp" => opts[:outcome_id_var_regexp]}
+        ]
+      }
+    )
+    
+    @request.add_thinktime(1)
+    
+    # Loading Pg4 - Learning Objectives
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|13|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lrc.queryParam.resultComponent.type|java.lang.String/2004016611|kuali.resultComponentType.credit.degree.fixed|kuali.resultComponentType.credit.degree.range|lrc.search.resultComponent|1|2|3|4|1|5|6|0|0|7|1|8|9|7|2|10|11|10|12|0|13|0|0|0|"
+      }
+    )
+    # Dupe of above request
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|13|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lrc.queryParam.resultComponent.type|java.lang.String/2004016611|kuali.resultComponentType.credit.degree.fixed|kuali.resultComponentType.credit.degree.range|lrc.search.resultComponent|1|2|3|4|1|5|6|0|0|7|1|8|9|7|2|10|11|10|12|0|13|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|enumeration.queryParam.enumerationType|kuali.atptype.duration|enumeration.management.search|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|8|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|atp.search.atpDurationTypes|1|2|3|4|1|5|6|0|0|7|0|8|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lu.queryParam.luOptionalLuTypeStartsWith|kuali.lu.type.activity.|lu.search.all.lu.Types|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|enumeration.queryParam.enumerationType|kuali.atptype.duration|enumeration.management.search|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|8|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|atp.search.atpDurationTypes|1|2|3|4|1|5|6|0|0|7|0|8|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|11|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lu.queryParam.luOptionalLuTypeStartsWith|kuali.lu.type.activity.|lu.search.all.lu.Types|1|2|3|4|1|5|6|0|0|7|1|8|9|0|10|11|0|0|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    #
+    # Pg 4 - Learning Objectives
+    #
+    
+    #@request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/bg_header_gradient.gif') #404
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|0EB70C49567108E978910E869F1F8153|org.kuali.student.lum.lu.ui.course.client.service.LoRpcService|getLoCategoryTypes|1|2|3|4|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|0EB70C49567108E978910E869F1F8153|org.kuali.student.lum.lu.ui.course.client.service.LoRpcService|getLoCategories|java.lang.String|kuali.loRepository.key.singleUse|1|2|3|4|1|5|6|"
+      },
+      {
+        :dyn_variables => [{"name" => opts[:lo_category_var_name], "regexp" => opts[:lo_category_var_regexp]}]
+      }
+    )
+    
+    @request.add_thinktime(3)
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|0EB70C49567108E978910E869F1F8153|org.kuali.student.lum.lu.ui.course.client.service.LoRpcService|getLoCategoryType|java.lang.String|loCategoryType.subject|1|2|3|4|1|5|6|"
+      }
+    )
+    
+    # Save & Continue
+    contents1 = "5|0|116|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|id-translation|Period|termsOffered|firstExpectedOffering||primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|fees|org.kuali.student.lum.lu.dto.CluInfo|Credit Course|(#{propose_person})|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Discussion|contactHours|hrs|per|kuali.atp.duration.day|per day|timeUnit|defaultEnrollmentEstimate|Discussion|courseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|gradingOptions|kuali.resultComponent.grade.letter|Letter|outcomeOptions|outcomeId|%%_#{opts[:outcome_id_var_name]}%%|outcomeType|kuali.creditType.credit.degree.1|1 Credit|courseSpecificLOs|sequence|includedSingleUseLo|#{opts[:lo_name]}|name|SINGLE USE LO|categories|%%_#{opts[:lo_category_var_name]}%%|#{opts[:lo_category]}|desc|loRepository|active|loCategoryType.subject|java.util.ArrayList/3821976829"
+    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1300453499|1275605286912|411000000|10|34|32|33|1300520570|1275605286912|482000000|-7|-29|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|38|10|13|14|15|10|39|14|40|-49|-51|-45|-47|-7|-43|-3|-5|10|41|12|8|5|9|0|24|10|13|14|26|10|42|14|43|10|44|14|20|10|45|32|0|10|46|32|0|10|47|14|0|10|48|12|8|5|9|0|2|10|49|14|0|10|50|14|51|-63|-77|10|52|12|8|5|9|0|3|10|53|54|25|2|10|55|14|56|10|35|12|8|5|9|0|1|10|55|12|8|5|9|0|1|10|57|14|58|-96|-98|-87|-94|-63|-85|10|59|12|8|5|9|0|0|-63|-104|10|60|14|61|10|62|14|29|10|63|14|64|10|65|14|66|10|67|14|68|10|69|14|70|10|71|12|8|5|9|0|0|-63|-120|10|72|12|8|5|9|0|0|-63|-124|10|73|12|8|5|9|0|0|-63|-128|10|35|12|8|5|9|0|4|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|74|10|13|14|26|10|39|14|40|-138|-140|-134|-136|10|69|12|8|5|9|0|1|10|57|14|75|-134|-150|10|62|12|8|5|9|0|1|10|57|14|76|-134|-156|10|65|12|8|5|9|0|1|10|57|14|66|-134|-162|-63|-132|10|77|12|8|5|9|0|1|24|-27|12|8|5|9|0|4|10|13|14|78|10|63|14|64|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|74|10|13|14|78|10|39|14|79|-186|-188|-182|-184|-174|-180|10|80|12|8|5|9|0|1|24|-27|12|8|5|9|0|7|10|13|14|81|10|82|14|83|10|84|12|8|5|9|0|3|10|85|54|25|1|10|86|14|87|10|35|12|8|5|9|0|1|10|86|12|8|5|9|0|1|10|57|14|88|-221|-223|-212|-219|-204|-210|10|52|12|8|5|9|0|3|10|53|54|25|1|10|89|14|56|10|35|12|8|5|9|0|1|10|89|12|8|5|9|0|1|10|57|14|58|-240|-242|-231|-238|-204|-229|10|90|54|25|100|10|63|14|64|10|35|12|8|5|9|0|2|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|74|10|13|14|81|10|39|14|79|-259|-261|-255|-257|10|82|12|8|5|9|0|1|10|57|14|91|-255|-271|-204|-253|-200|-202|-174|-198|-170|-172|-63|-168|10|92|14|93|10|94|12|8|5|9|0|2|24|-27|14|95|10|35|12|8|5|9|0|1|24|-27|12|8|5|9|0|1|10|57|14|96|-287|-289|-281|-285|-63|-279|10|97|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|98|14|99|10|100|14|101|10|35|12|8|5|9|0|1|10|100|12|8|5|9|0|1|10|57|14|102|-309|-311|-301|-307|-297|-299|-63|-295|10|103|12|8|5|9|0|1|24|25|0|12|8|5|9|0|5|10|13|14|0|10|45|32|0|10|63|14|0|10|104|14|79|10|105|12|8|5|9|0|4|10|13|14|0|10|48|12|8|5|9|0|2|10|49|14|106|10|50|14|106|-336|-340|10|107|14|108|10|109|12|8|5|9|0|1|24|-322|12|8|5|9|0|8|10|13|14|110|10|107|14|111|10|112|12|8|5|9|0|0|-356|-362|10|113|14|0|10|45|32|0|10|46|32|0|10|63|14|114|10|69|14|115|-352|-354|-336|-350|-324|-334|-319|-321|-63|10|103|-3|-61|0|0|116|0|5|9|0|0|0|0|"
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "#{contents1}#{contents2}"
+      },
+      {
+        'subst' => 'true',
+        :dyn_variables => [
+          {"name" => opts[:single_use_lo_dyn_var_name], "regexp" => opts[:single_use_lo_dyn_var_regexp]}
+        ]
+      }
+    )
+    
+    @request.add_thinktime(3)
+    
+    
+    # Loading Pg 5 - Course Requisites
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|0EB70C49567108E978910E869F1F8153|org.kuali.student.lum.lu.ui.course.client.service.LoRpcService|getLoCategoryTypes|1|2|3|4|0|"
+      }
+    )
+    # Dupe
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|0EB70C49567108E978910E869F1F8153|org.kuali.student.lum.lu.ui.course.client.service.LoRpcService|getLoCategoryTypes|1|2|3|4|0|"
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    # Save & Continue
+    contents1 = "5|0|129|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|java.lang.String/2004016611|kuali.luStatementType.prereqAcademicReadiness.rationale||kuali.luStatementType.coreqAcademicReadiness.rationale|kuali.luStatementType.antireqAcademicReadiness.rationale|kuali.luStatementType.enrollAcademicReadiness.rationale|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|id-translation|Period|termsOffered|firstExpectedOffering|primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|fees|org.kuali.student.lum.lu.dto.CluInfo|Credit Course|(#{propose_person})|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Discussion|contactHours|hrs|per|kuali.atp.duration.day|per day|timeUnit|defaultEnrollmentEstimate|Discussion|courseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|gradingOptions|kuali.resultComponent.grade.letter|Letter|outcomeOptions|outcomeId|%%_#{opts[:outcome_id_var_name]}%%|outcomeType|kuali.creditType.credit.degree.1|1 Credit|courseSpecificLOs|sequence|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|name|SINGLE USE LO|categories|%%_#{opts[:lo_category_var_name]}%%|#{opts[:lo_category]}|desc|&lt;p&gt;Desc&lt;/p&gt;|Desc|attributes|loCategoryType.subject|childSingleUseLos|java.util.ArrayList/3821976829"
+    contents2 = "|1|2|3|4|1|5|6|7|4|8|9|8|10|8|11|-4|8|12|-4|8|13|-4|14|5|15|0|2|16|17|18|14|5|15|0|8|16|19|20|21|16|22|20|23|16|24|18|14|5|15|0|0|-12|16|24|16|25|20|26|16|27|20|28|16|29|18|14|5|15|0|1|30|31|0|20|32|-12|-27|16|33|18|14|5|15|0|4|16|34|20|35|16|36|20|35|16|37|38|39|1545584322|1275605286912|234000000|16|40|38|39|1545672857|1275605286912|769000000|-12|-34|16|41|18|14|5|15|0|1|16|42|18|14|5|15|0|1|30|-32|18|14|5|15|0|3|16|43|20|44|16|19|20|21|16|45|20|46|-54|-56|-50|-52|-12|-48|-8|-10|16|47|18|14|5|15|0|24|16|19|20|32|16|48|20|49|16|50|20|26|16|51|38|0|16|52|38|0|16|53|20|0|16|54|18|14|5|15|0|2|16|55|20|0|16|56|20|57|-68|-82|16|58|18|14|5|15|0|3|16|59|60|31|2|16|61|20|62|16|41|18|14|5|15|0|1|16|61|18|14|5|15|0|1|16|63|20|64|-101|-103|-92|-99|-68|-90|16|65|18|14|5|15|0|0|-68|-109|16|66|20|10|16|67|20|35|16|68|20|69|16|70|20|71|16|72|20|73|16|74|20|75|16|76|18|14|5|15|0|0|-68|-125|16|77|18|14|5|15|0|0|-68|-129|16|78|18|14|5|15|0|0|-68|-133|16|41|18|14|5|15|0|4|16|42|18|14|5|15|0|1|30|-32|18|14|5|15|0|3|16|43|20|79|16|19|20|32|16|45|20|46|-143|-145|-139|-141|16|74|18|14|5|15|0|1|16|63|20|80|-139|-155|16|67|18|14|5|15|0|1|16|63|20|81|-139|-161|16|70|18|14|5|15|0|1|16|63|20|71|-139|-167|-68|-137|16|82|18|14|5|15|0|1|30|-32|18|14|5|15|0|4|16|19|20|83|16|68|20|69|16|41|18|14|5|15|0|1|16|42|18|14|5|15|0|1|30|-32|18|14|5|15|0|3|16|43|20|79|16|19|20|83|16|45|20|84|-191|-193|-187|-189|-179|-185|16|85|18|14|5|15|0|1|30|-32|18|14|5|15|0|7|16|19|20|86|16|87|20|88|16|89|18|14|5|15|0|3|16|90|60|31|1|16|91|20|92|16|41|18|14|5|15|0|1|16|91|18|14|5|15|0|1|16|63|20|93|-226|-228|-217|-224|-209|-215|16|58|18|14|5|15|0|3|16|59|60|31|1|16|94|20|62|16|41|18|14|5|15|0|1|16|94|18|14|5|15|0|1|16|63|20|64|-245|-247|-236|-243|-209|-234|16|95|60|31|100|16|68|20|69|16|41|18|14|5|15|0|2|16|42|18|14|5|15|0|1|30|-32|18|14|5|15|0|3|16|43|20|79|16|19|20|86|16|45|20|84|-264|-266|-260|-262|16|87|18|14|5|15|0|1|16|63|20|96|-260|-276|-209|-258|-205|-207|-179|-203|-175|-177|-68|-173|16|97|20|98|16|99|18|14|5|15|0|2|30|-32|20|100|16|41|18|14|5|15|0|1|30|-32|18|14|5|15|0|1|16|63|20|101|-292|-294|-286|-290|-68|-284|16|102|18|14|5|15|0|1|30|-32|18|14|5|15|0|3|16|103|20|104|16|105|20|106|16|41|18|14|5|15|0|1|16|105|18|14|5|15|0|1|16|63|20|107|-314|-316|-306|-312|-302|-304|-68|-300|16|108|18|14|5|15|0|1|30|-32|18|14|5|15|0|6|16|109|20|84|16|51|38|39|1545672655|1275605286912|567000000|16|19|20|0|16|68|20|69|16|74|20|110|16|111|18|14|5|15|0|9|16|19|20|112|16|54|18|14|5|15|0|2|16|55|20|113|16|56|20|113|-343|-347|16|114|20|115|16|51|38|-334|16|68|20|116|16|74|20|117|16|118|20|119|16|120|18|14|5|15|0|1|30|-32|18|14|5|15|0|9|16|19|20|121|16|118|20|122|16|123|18|14|5|15|0|2|16|55|20|124|16|56|20|125|-371|-377|16|114|20|115|16|51|38|39|867724416|1198295875584|0|16|52|38|39|3896582272|1258425417728|0|16|126|18|14|5|15|0|0|-371|-393|16|68|20|116|16|74|20|127|-367|-369|-343|-365|16|128|18|14|5|15|0|0|-343|-401|-328|-341|-324|-326|-68|-322|-8|-66|0|0|129|0|5|15|0|0|0|0|"
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "#{contents1}#{contents2}"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add_thinktime(3)
+    
+    
+    # Loading Pg 6 - Governance
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
     )
     
     
-    # Pg4 - Learning Objectives
-
-    if(opts[:lo_create])
-      # Add a LO
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/ArrowUp.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/ArrowDown.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/IncreaseIndent.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/DecreaseIndent.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/delete_blue_12px.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/IncreaseIndentDisabled.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/ArrowUpDisabled.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/DecreaseIndentDisabled.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/delete_gray_12px.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/ArrowDownDisabled.png')
+    #
+    # Pg 6 - Governance
+    #
     
-      # type in search
-      for i in 1..opts[:lo_category].length
-        itr = i-1
-        @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
-          {
-            'method' => 'POST',
-            'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-            'contents' => "5|0|12|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|lo.queryParam.startsWith.loCategoryName|#{opts[:lo_category][0..itr]}|lo.search.loCategories|1|2|3|4|1|5|6|0|7|0|8|1|9|10|0|11|12|0|0|0|"
-          }                                      
-        )
-      end
-      
-      # Save & Continue
-      contents1 = "5|0|92|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|#{propose_person}|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|01e6e38d-4ba5-44c1-ba1d-088fdf685d10|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|#{opts[:course_title]}|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|atpType.duration.week|termsOffered|firstExpectedOffering|kuali.atp.CLASS2012Y1|primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|formats|3d3bec3b-427c-4c35-86d9-b14088f7ac1a|1|updated|activities|647ba4ec-d8cc-460f-b8e4-e4ed8c7b307f|activityType|kuali.lu.type.activity.Lecture|contactHours|hrs|per|atpType.duration.monthly|timeUnit|defaultEnrollmentEstimate|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|CourseType|Credit Course|OversightName|courseSpecificLOs|sequence|0|includedSingleUseLo|#{opts[:lo_name]}|name|SINGLE USE LO|categories|java.util.ArrayList/3821976829"
-      contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|7|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|1|19|20|0|14|21|-7|10|18|10|22|14|23|10|24|14|25|10|26|12|8|5|9|0|1|19|20|0|14|27|-7|-25|10|28|12|8|5|9|0|2|10|29|12|8|5|9|0|1|19|-30|12|8|5|9|0|3|10|30|14|31|10|13|14|15|10|32|14|33|-38|-40|-34|-36|10|34|12|8|5|9|0|1|-20|35|36|1|-34|-50|-7|-32|-3|-5|10|37|12|8|5|9|0|21|10|13|14|27|10|38|14|39|10|40|14|41|10|42|43|0|10|44|43|0|10|45|14|46|10|47|12|8|5|9|0|2|10|48|14|0|10|49|14|50|-58|-72|10|51|12|8|5|9|0|2|10|52|53|20|5|10|54|14|55|-58|-80|10|56|12|8|5|9|0|0|-58|-89|10|57|14|58|10|59|14|21|10|60|14|61|10|62|14|63|10|64|14|65|10|66|14|67|10|68|12|8|5|9|0|1|19|-18|14|46|-58|10|68|10|69|12|8|5|9|0|1|19|-18|14|70|-58|10|69|10|28|12|8|5|9|0|2|10|29|12|8|5|9|0|1|19|-30|12|8|5|9|0|3|10|30|14|71|10|13|14|27|10|32|14|33|-125|-127|-121|-123|-50|12|8|5|9|0|6|10|68|35|-55|10|69|35|-55|10|45|35|-55|10|57|35|-55|10|59|35|-55|10|62|35|-55|-121|-50|-58|-119|10|72|12|8|5|9|0|1|19|-30|12|8|5|9|0|4|10|13|14|73|10|60|14|61|10|28|12|8|5|9|0|3|10|29|12|8|5|9|0|1|19|-30|12|8|5|9|0|3|10|30|14|71|10|13|14|73|10|32|14|74|-170|-172|-166|-168|10|75|35|-55|10|28|12|8|5|9|0|1|-50|12|8|5|9|0|1|-182|35|-55|-186|-50|-166|-184|-158|-164|10|76|12|8|5|9|0|1|19|-30|12|8|5|9|0|7|10|13|14|77|10|78|14|79|10|80|12|8|5|9|0|2|10|81|53|-86|10|82|14|83|-198|-204|10|51|12|8|5|9|0|2|10|52|53|20|5|10|84|14|55|-198|-212|10|85|53|20|100|10|60|14|61|10|28|12|8|5|9|0|3|10|29|12|8|5|9|0|1|19|-30|12|8|5|9|0|3|10|30|14|71|10|13|14|77|10|32|14|74|-232|-234|-228|-230|10|75|35|-55|-184|12|8|5|9|0|1|-50|12|8|5|9|0|1|-244|35|-55|-247|-50|-228|-184|-198|-226|-194|-196|-158|-192|-154|-156|-58|-152|10|86|12|8|5|9|0|1|19|-30|12|8|5|9|0|1|10|87|12|8|5|9|0|4|10|88|14|89|10|90|14|91|10|92|14|93|10|94|14|89|-259|10|87|-255|-257|-58|-253|10|95|12|8|5|9|0|1|19|-18|12|8|5|9|0|5|10|13|14|0|10|42|43|0|10|60|14|0|10|96|14|97|10|98|12|8|5|9|0|4|10|13|14|0|10|47|12|8|5|9|0|2|10|48|14|99|10|49|14|99|-292|-296|10|100|14|101|10|102|12|8|5|9|0|0|-292|-306|-280|-290|-276|-278|-58|10|95|-3|-56|0|0|103|0|5|9|0|0|0|0|"
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "#{contents1}#{contents2}"
-        },
-        { 'subst' => 'true' }                         
-      )
-      
-    else
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/964D71DCD6E18D8B9E01245AD3C5701C.cache.png')
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/bg_header_gradient.gif')
-      # all category search
-      # This search returns :lo_id and :lo_clu_id for dyn variables
+    # COC Org
+    for i in 1..oversight_department.length
+      itr = i-1
       @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
         {
           'method' => 'POST',
           'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|9|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|lo.search.loByCategory|1|2|3|4|1|5|6|0|7|0|8|0|9|0|0|0|"
-        }           
-      )
-      
-      # Save & Continue
-      contents1 = "5|0|92|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|#{opts[:course_title]}|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|atpType.duration.week|termsOffered|firstExpectedOffering|kuali.atp.CLASS2012Y1|primaryInstructor|#{opts[:instructor]}|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|CourseType|Credit Course|OversightName|courseSpecificLOs|sequence|0|includedSingleUseLo|#{opts[:lo_name]}|name|SINGLE USE LO|categories|joints|courseId|created|java.util.ArrayList/3821976829"
-      contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|7|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|-13|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-21|10|27|12|8|5|9|0|1|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|30|10|13|14|15|10|31|14|32|-34|-36|-30|-32|-7|-28|-3|-5|10|33|12|8|5|9|0|21|10|13|14|26|10|34|14|35|10|36|14|37|10|38|39|0|10|40|39|0|10|41|14|42|10|43|12|8|5|9|0|2|10|44|14|0|10|45|14|46|-48|-62|10|47|12|8|5|9|0|2|10|48|49|25|5|10|50|14|51|-48|-70|10|52|12|8|5|9|0|0|-48|-79|10|53|14|54|10|55|14|56|10|57|14|58|10|59|14|60|10|61|14|62|10|63|14|64|10|65|12|8|5|9|0|1|24|25|0|14|42|-48|10|65|10|66|12|8|5|9|0|1|24|-26|14|67|-48|-103|10|27|12|8|5|9|0|2|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|68|10|13|14|26|10|31|14|32|-115|-117|-111|-113|10|69|12|8|5|9|0|3|10|65|70|71|1|10|41|70|-133|10|59|70|-133|-111|-127|-48|-109|10|72|12|8|5|9|0|1|24|-26|12|8|5|9|0|1|10|73|12|8|5|9|0|4|10|74|14|75|10|76|14|77|10|78|14|79|10|80|14|75|-144|10|73|-140|-142|-48|-138|10|81|12|8|5|9|0|1|24|-100|12|8|5|9|0|5|10|13|14|0|10|38|39|0|10|57|14|0|10|82|14|83|10|84|12|8|5|9|0|4|10|13|14|0|10|43|12|8|5|9|0|2|10|44|14|85|10|45|14|85|-177|-181|10|86|14|87|10|88|12|8|5|9|0|0|-177|-191|-165|-175|-161|-163|-48|10|81|10|89|12|8|5|9|0|1|24|25|0|12|8|5|9|0|2|10|90|14|0|10|27|12|8|5|9|0|2|10|91|70|-133|10|27|12|8|5|9|0|1|-127|12|8|5|9|0|1|-211|70|-133|-215|-127|-209|-213|-203|-207|-198|-200|-48|-196|-3|-46|0|0|92|0|5|9|0|0|0|0|"
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "#{contents1}#{contents2}"
-        },
-        {
-          :dyn_variables => [
-            { "name" => opts[:single_use_lo_dyn_var_name], "regexp" => opts[:single_use_lo_dyn_var_regexp] }
-          ],
-          'subst' => 'true' 
-        }     
-      )
-      
+          'contents' => "5|0|16|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalLongName|#{oversight_department[0..itr]}|org.queryParam.orgOptionalType|java.lang.String/2004016611|kuali.org.Department|kuali.org.College|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|8|2|13|14|13|15|0|16|0|0|0|"
+        }                             
+      )        
     end
     
+    # Admin Org
+    for i in 1..admin_org.length
+      itr = i-1
+      if(itr == admin_org.length-1)
+        @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+          {
+            'method' => 'POST',
+            'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+            'contents' => "5|0|16|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalLongName|#{admin_org[0..itr]}|org.queryParam.orgOptionalType|java.lang.String/2004016611|kuali.org.Department|kuali.org.College|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|8|2|13|14|13|15|0|16|0|0|0|"
+          },
+          {
+            :dyn_variables => [{"name" => opts[:admin_dep_var_name], "regexp" => opts[:admin_dep_var_regexp]}]
+          }     
+        )
+      else
+        @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+          {
+            'method' => 'POST',
+            'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+            'contents' => "5|0|16|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalLongName|#{admin_org[0..itr]}|org.queryParam.orgOptionalType|java.lang.String/2004016611|kuali.org.Department|kuali.org.College|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|8|2|13|14|13|15|0|16|0|0|0|"
+          }    
+        )
+      end     
+    end
     
-    
-    # Pg5 - Course Requisites
-    
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|C9490AE03B6BEB9F529BA0FC689E8EC2|org.kuali.student.lum.lu.ui.course.client.service.LoRpcService|getLoCategoryTypes|1|2|3|4|0|"
-      }                                      
-    )
-    
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/images/Home-selected-button.jpg')
-    #dupe
-    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService',
-      {
-        'method' => 'POST',
-        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-        'contents' => "5|0|4|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|C9490AE03B6BEB9F529BA0FC689E8EC2|org.kuali.student.lum.lu.ui.course.client.service.LoRpcService|getLoCategoryTypes|1|2|3|4|0|"
-      }                                      
-    )
+    @request.add_thinktime(3)
     
     # Save & Continue
-    contents1 = "5|0|115|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|java.lang.String/2004016611|kuali.luStatementType.prereqAcademicReadiness.rationale||kuali.luStatementType.coreqAcademicReadiness.rationale|kuali.luStatementType.antireqAcademicReadiness.rationale|kuali.luStatementType.enrollAcademicReadiness.rationale|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|#{opts[:course_title]}|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|atpType.duration.week|termsOffered|firstExpectedOffering|kuali.atp.CLASS2012Y1|primaryInstructor|#{opts[:instructor]}|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|1|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Lab|contactHours|hrs|per|atpType.duration.weekly|timeUnit|atpType.duration.month|defaultEnrollmentEstimate|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|CourseType|Credit Course|OversightName|courseSpecificLOs|sequence|0|java.sql.Timestamp/1769758459|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|categories|childSingleUseLos|java.util.ArrayList/3821976829"
-    contents2 = "|1|2|3|4|1|5|6|7|4|8|9|8|10|8|11|-4|8|12|-4|8|13|-4|14|5|15|0|2|16|17|18|14|5|15|0|7|16|19|20|21|16|22|20|23|16|24|18|14|5|15|0|0|-12|-18|16|25|20|26|16|27|20|28|16|29|18|14|5|15|0|1|30|31|0|20|32|-12|-26|16|33|18|14|5|15|0|1|16|34|18|14|5|15|0|1|30|-31|18|14|5|15|0|3|16|35|20|36|16|19|20|21|16|37|20|38|-39|-41|-35|-37|-12|-33|-8|-10|16|39|18|14|5|15|0|21|16|19|20|32|16|40|20|41|16|42|20|43|16|44|45|0|16|46|45|0|16|47|20|48|16|49|18|14|5|15|0|2|16|50|20|0|16|51|20|52|-53|-67|16|53|18|14|5|15|0|2|16|54|55|31|5|16|56|20|57|-53|-75|16|58|18|14|5|15|0|0|-53|-84|16|59|20|60|16|61|20|62|16|63|20|64|16|65|20|66|16|67|20|68|16|69|20|70|16|71|18|14|5|15|0|1|30|31|0|20|48|-53|16|71|16|72|18|14|5|15|0|1|30|-31|20|73|-53|-108|16|33|18|14|5|15|0|2|16|34|18|14|5|15|0|1|30|-31|18|14|5|15|0|3|16|35|20|74|16|19|20|32|16|37|20|38|-120|-122|-116|-118|16|75|18|14|5|15|0|2|16|71|76|77|1|16|47|76|-138|-116|-132|-53|-114|16|78|18|14|5|15|0|1|30|-31|18|14|5|15|0|4|16|19|20|79|16|63|20|64|16|33|18|14|5|15|0|1|16|34|18|14|5|15|0|1|30|-31|18|14|5|15|0|3|16|35|20|74|16|19|20|79|16|37|20|80|-159|-161|-155|-157|-147|-153|16|81|18|14|5|15|0|1|30|-31|18|14|5|15|0|7|16|19|20|82|16|83|20|84|16|85|18|14|5|15|0|2|16|86|55|31|8|16|87|20|88|-177|-183|16|53|18|14|5|15|0|2|16|54|55|31|1|16|89|20|90|-177|-192|16|91|55|31|100|16|63|20|64|16|33|18|14|5|15|0|1|16|34|18|14|5|15|0|1|30|-31|18|14|5|15|0|3|16|35|20|74|16|19|20|82|16|37|20|80|-212|-214|-208|-210|-177|-206|-173|-175|-147|-171|-143|-145|-53|-141|16|92|18|14|5|15|0|1|30|-31|18|14|5|15|0|1|16|93|18|14|5|15|0|4|16|94|20|95|16|96|20|97|16|98|20|99|16|100|20|95|-230|16|93|-226|-228|-53|-224|16|101|18|14|5|15|0|1|30|-31|18|14|5|15|0|6|16|102|20|103|16|44|45|104|3054243788|1267015352320|108000000|16|19|20|0|16|63|20|64|16|69|20|105|16|106|18|14|5|15|0|8|16|19|20|107|16|49|18|14|5|15|0|2|16|50|20|108|16|51|20|108|-266|-270|16|109|20|110|16|44|45|-257|16|63|20|111|16|69|20|112|16|113|18|14|5|15|0|0|-266|-286|16|114|18|14|5|15|0|0|-266|-290|-251|-264|-247|-249|-53|-245|-8|-51|0|0|115|0|5|15|0|0|0|0|"
+    # admin org ID: b4d99575-97a3-491a-aed2-8faafeb6340b
+    contents1 = "5|0|130|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|id-translation|Period|termsOffered|firstExpectedOffering||primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|NORTH|SOUTH|fees|org.kuali.student.lum.lu.dto.CluInfo|Credit Course|(#{propose_person})|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Discussion|contactHours|hrs|per|kuali.atp.duration.day|per day|timeUnit|defaultEnrollmentEstimate|Discussion|courseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|gradingOptions|kuali.resultComponent.grade.letter|Letter|outcomeOptions|outcomeId|%%_#{opts[:outcome_id_var_name]}%%|outcomeType|kuali.creditType.credit.degree.1|1 Credit|courseSpecificLOs|sequence|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|name|SINGLE USE LO|categories|%%_#{opts[:lo_category_var_name]}%%|#{opts[:lo_category]}|desc|" + '&lt;p&gt;Desc&lt;/p&gt;' + "|Desc|attributes|loCategoryType.subject|childSingleUseLos|java.util.ArrayList/3821976829"
+    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1630076629|1275605286912|541000000|10|34|32|33|1630166764|1275605286912|676000000|-7|-29|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|38|10|13|14|15|10|39|14|40|-49|-51|-45|-47|-7|-43|-3|-5|10|41|12|8|5|9|0|24|10|13|14|26|10|42|14|43|10|44|14|20|10|45|32|0|10|46|32|0|10|47|14|48|10|49|12|8|5|9|0|2|10|50|14|0|10|51|14|52|-63|-77|10|53|12|8|5|9|0|3|10|54|55|25|2|10|56|14|57|10|35|12|8|5|9|0|1|10|56|12|8|5|9|0|1|10|58|14|59|-96|-98|-87|-94|-63|-85|10|60|12|8|5|9|0|0|-63|-104|10|61|14|62|10|63|14|29|10|64|14|65|10|66|14|67|10|68|14|69|10|70|14|71|10|72|12|8|5|9|0|1|10|35|12|8|5|9|0|0|-122|-124|-63|10|72|10|73|12|8|5|9|0|2|24|25|0|14|74|24|25|1|14|75|-63|10|73|10|76|12|8|5|9|0|0|-63|-140|10|35|12|8|5|9|0|5|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|77|10|13|14|26|10|39|14|40|-150|-152|-146|-148|10|70|12|8|5|9|0|1|10|58|14|78|-146|-162|10|63|12|8|5|9|0|1|10|58|14|79|-146|-168|10|66|12|8|5|9|0|1|10|58|14|67|-146|-174|10|80|12|8|5|9|0|3|10|73|81|82|1|10|47|81|-186|-128|81|-186|-146|-180|-63|-144|10|83|12|8|5|9|0|1|24|-27|12|8|5|9|0|4|10|13|14|84|10|64|14|65|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|77|10|13|14|84|10|39|14|85|-208|-210|-204|-206|-196|-202|10|86|12|8|5|9|0|1|24|-27|12|8|5|9|0|7|10|13|14|87|10|88|14|89|10|90|12|8|5|9|0|3|10|91|55|25|1|10|92|14|93|10|35|12|8|5|9|0|1|10|92|12|8|5|9|0|1|10|58|14|94|-243|-245|-234|-241|-226|-232|10|53|12|8|5|9|0|3|10|54|55|25|1|10|95|14|57|10|35|12|8|5|9|0|1|10|95|12|8|5|9|0|1|10|58|14|59|-262|-264|-253|-260|-226|-251|10|96|55|25|100|10|64|14|65|10|35|12|8|5|9|0|2|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|77|10|13|14|87|10|39|14|85|-281|-283|-277|-279|10|88|12|8|5|9|0|1|10|58|14|97|-277|-293|-226|-275|-222|-224|-196|-220|-192|-194|-63|-190|10|98|14|99|10|100|12|8|5|9|0|2|24|-27|14|101|10|35|12|8|5|9|0|1|24|-27|12|8|5|9|0|1|10|58|14|102|-309|-311|-303|-307|-63|-301|10|103|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|104|14|105|10|106|14|107|10|35|12|8|5|9|0|1|10|106|12|8|5|9|0|1|10|58|14|108|-331|-333|-323|-329|-319|-321|-63|-317|10|109|12|8|5|9|0|1|24|-27|12|8|5|9|0|6|10|110|14|85|10|45|32|33|1630160179|1275605286912|91000000|10|13|14|0|10|64|14|65|10|70|14|11|10|112|12|8|5|9|0|9|10|13|14|113|10|49|12|8|5|9|0|2|10|50|14|114|10|51|14|114|-360|-364|10|115|14|116|10|45|32|-351|10|64|14|117|10|70|14|118|10|119|14|120|10|121|12|8|5|9|0|1|24|-27|12|8|5|9|0|9|10|13|14|122|10|119|14|123|10|124|12|8|5|9|0|2|10|50|14|125|10|51|14|126|-388|-394|10|115|14|116|10|45|32|33|867724416|1198295875584|0|10|46|32|33|3896582272|1258425417728|0|10|127|12|8|5|9|0|0|-388|-410|10|64|14|117|10|70|14|128|-384|-386|-360|-382|10|129|12|8|5|9|0|0|-360|-418|-345|-358|-341|-343|-63|-339|-3|-61|0|0|130|0|5|9|0|0|0|0|"
+                
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
@@ -520,90 +785,329 @@ class Curriculum
         'contents' => "#{contents1}#{contents2}"
       },
       {
-        :dyn_variables => [
-          { "name" => opts[:lo_child_id_dyn_var_name], "regexp" => opts[:lo_child_id_dyn_var_regexp] }
-        ],
-        'subst' => 'true' 
+        'subst' => 'true'
       }
     )
     
+    @request.add_thinktime(3)
     
-    # Pg6 - Active Dates
-    # save & continue
-    contents1 = "5|0|110|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|#{opts[:course_title]}|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.util.Date/1659716317|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|atpType.duration.week|termsOffered|firstExpectedOffering|kuali.atp.CLASS2012Y1|primaryInstructor|#{opts[:instructor]}|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|1|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Lab|contactHours|hrs|per|atpType.duration.weekly|timeUnit|atpType.duration.month|defaultEnrollmentEstimate|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|CourseType|Credit Course|OversightName|courseSpecificLOs|sequence|0|java.sql.Timestamp/1769758459|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|categories|childSingleUseLos|java.util.ArrayList/3821976829"
-    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|7|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|-13|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-21|10|27|12|8|5|9|0|1|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|30|10|13|14|15|10|31|14|32|-34|-36|-30|-32|-7|-28|-3|-5|10|33|12|8|5|9|0|21|10|13|14|26|10|34|14|35|10|36|14|37|10|38|39|40|3003447680|1267015352320|10|41|39|40|1214080384|1271310319616|10|42|14|43|10|44|12|8|5|9|0|2|10|45|14|0|10|46|14|47|-48|-64|10|48|12|8|5|9|0|2|10|49|50|25|5|10|51|14|52|-48|-72|10|53|12|8|5|9|0|0|-48|-81|10|54|14|55|10|56|14|57|10|58|14|59|10|60|14|61|10|62|14|63|10|64|14|65|10|66|12|8|5|9|0|1|24|25|0|14|43|-48|10|66|10|67|12|8|5|9|0|1|24|-26|14|68|-48|-105|10|27|12|8|5|9|0|2|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|69|10|13|14|26|10|31|14|32|-117|-119|-113|-115|10|70|12|8|5|9|0|4|10|42|71|72|1|10|66|71|-135|10|38|71|-135|10|41|71|-135|-113|-129|-48|-111|10|73|12|8|5|9|0|1|24|-26|12|8|5|9|0|4|10|13|14|74|10|58|14|59|10|27|12|8|5|9|0|1|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|69|10|13|14|74|10|31|14|75|-160|-162|-156|-158|-148|-154|10|76|12|8|5|9|0|1|24|-26|12|8|5|9|0|7|10|13|14|77|10|78|14|79|10|80|12|8|5|9|0|2|10|81|50|25|8|10|82|14|83|-178|-184|10|48|12|8|5|9|0|2|10|49|50|25|1|10|84|14|85|-178|-193|10|86|50|25|100|10|58|14|59|10|27|12|8|5|9|0|1|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|69|10|13|14|77|10|31|14|75|-213|-215|-209|-211|-178|-207|-174|-176|-148|-172|-144|-146|-48|-142|10|87|12|8|5|9|0|1|24|-26|12|8|5|9|0|1|10|88|12|8|5|9|0|4|10|89|14|90|10|91|14|92|10|93|14|94|10|95|14|90|-231|10|88|-227|-229|-48|-225|10|96|12|8|5|9|0|1|24|-26|12|8|5|9|0|6|10|97|14|98|10|38|39|99|3060588299|1267015352320|619000000|10|13|14|0|10|58|14|59|10|64|14|100|10|101|12|8|5|9|0|8|10|13|14|102|10|44|12|8|5|9|0|2|10|45|14|103|10|46|14|103|-267|-271|10|104|14|105|10|38|39|-258|10|58|14|106|10|64|14|107|10|108|12|8|5|9|0|0|-267|-287|10|109|12|8|5|9|0|0|-267|-291|-252|-265|-248|-250|-48|-246|-3|-46|0|0|110|0|5|9|0|0|0|0|"
+    # Loading Pg 7 - Active Dates
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    #
+    # Pg 7 - Active Dates
+    #
+    
+    # Time to fill out form
+    @request.add_thinktime(5)
+    
+    # Save & Continue
+    # admin org ID: b4d99575-97a3-491a-aed2-8faafeb6340b
+    contents1 = "5|0|135|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|java.util.Date/1659716317|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|id-translation|Period|termsOffered|firstExpectedOffering|kuali.atp.FA2010-2011|primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|NORTH|SOUTH|North Campus|South Campus|fees|org.kuali.student.lum.lu.dto.CluInfo|7|#{admin_org}|Credit Course|(#{propose_person})|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Discussion|contactHours|hrs|per|kuali.atp.duration.day|per day|timeUnit|defaultEnrollmentEstimate|Discussion|courseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|gradingOptions|kuali.resultComponent.grade.letter|Letter|outcomeOptions|outcomeId|%%_#{opts[:outcome_id_var_name]}%%|outcomeType|kuali.creditType.credit.degree.1|1 Credit|courseSpecificLOs|sequence|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|name|SINGLE USE LO|categories|%%_#{opts[:lo_category_var_name]}%%|#{opts[:lo_category]}|desc|&lt;p&gt;Desc&lt;/p&gt;|Desc|attributes|loCategoryType.subject|childSingleUseLos|java.util.ArrayList/3821976829"                                        ""
+    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1631977501|1275605286912|413000000|10|34|32|33|1632071069|1275605286912|981000000|-7|-29|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|38|10|13|14|15|10|39|14|40|-49|-51|-45|-47|-7|-43|-3|-5|10|41|12|8|5|9|0|24|10|13|14|26|10|42|14|43|10|44|14|20|10|45|32|46|1584713088|1275605286912|10|47|32|46|3010734464|1357209665536|10|48|14|49|10|50|12|8|5|9|0|2|10|51|14|0|10|52|14|53|-63|-79|10|54|12|8|5|9|0|3|10|55|56|25|2|10|57|14|58|10|35|12|8|5|9|0|1|10|57|12|8|5|9|0|1|10|59|14|60|-98|-100|-89|-96|-63|-87|10|61|12|8|5|9|0|0|-63|-106|10|62|14|63|10|64|14|29|10|65|14|66|10|67|14|68|10|69|14|70|10|71|14|72|10|73|12|8|5|9|0|0|-63|-122|10|74|12|8|5|9|0|3|24|-27|14|75|24|25|1|14|76|10|35|12|8|5|9|0|2|24|-27|12|8|5|9|0|1|10|59|14|77|-137|-139|24|-133|12|8|5|9|0|1|10|59|14|78|-137|-145|-128|-135|-63|-126|10|79|12|8|5|9|0|0|-63|-151|10|35|12|8|5|9|0|6|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|80|10|13|14|26|10|39|14|81|-161|-163|-157|-159|10|48|12|8|5|9|0|1|10|59|14|82|-157|-173|10|71|12|8|5|9|0|1|10|59|14|83|-157|-179|10|64|12|8|5|9|0|1|10|59|14|84|-157|-185|10|67|12|8|5|9|0|1|10|59|14|68|-157|-191|10|85|12|8|5|9|0|3|10|62|86|87|1|10|45|86|-203|10|47|86|-203|-157|-197|-63|-155|10|88|12|8|5|9|0|1|24|-27|12|8|5|9|0|4|10|13|14|89|10|65|14|66|10|35|12|8|5|9|0|1|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|80|10|13|14|89|10|39|14|90|-226|-228|-222|-224|-214|-220|10|91|12|8|5|9|0|1|24|-27|12|8|5|9|0|7|10|13|14|92|10|93|14|94|10|95|12|8|5|9|0|3|10|96|56|-133|10|97|14|98|10|35|12|8|5|9|0|1|10|97|12|8|5|9|0|1|10|59|14|99|-260|-262|-252|-258|-244|-250|10|54|12|8|5|9|0|3|10|55|56|25|1|10|100|14|58|10|35|12|8|5|9|0|1|10|100|12|8|5|9|0|1|10|59|14|60|-279|-281|-270|-277|-244|-268|10|101|56|25|100|10|65|14|66|10|35|12|8|5|9|0|2|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|37|14|80|10|13|14|92|10|39|14|90|-298|-300|-294|-296|10|93|12|8|5|9|0|1|10|59|14|102|-294|-310|-244|-292|-240|-242|-214|-238|-210|-212|-63|-208|10|103|14|104|10|105|12|8|5|9|0|2|24|-27|14|106|10|35|12|8|5|9|0|1|24|-27|12|8|5|9|0|1|10|59|14|107|-326|-328|-320|-324|-63|-318|10|108|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|109|14|110|10|111|14|112|10|35|12|8|5|9|0|1|10|111|12|8|5|9|0|1|10|59|14|113|-348|-350|-340|-346|-336|-338|-63|-334|10|114|12|8|5|9|0|1|24|-27|12|8|5|9|0|6|10|115|14|90|10|45|32|33|1632053731|1275605286912|643000000|10|13|14|0|10|65|14|66|10|71|14|116|10|117|12|8|5|9|0|9|10|13|14|118|10|50|12|8|5|9|0|2|10|51|14|119|10|52|14|119|-377|-381|10|120|14|121|10|45|32|-368|10|65|14|122|10|71|14|123|10|124|14|125|10|126|12|8|5|9|0|1|24|-27|12|8|5|9|0|9|10|13|14|127|10|124|14|128|10|129|12|8|5|9|0|2|10|51|14|130|10|52|14|131|-405|-411|10|120|14|121|10|45|32|33|867724416|1198295875584|0|10|47|32|33|3896582272|1258425417728|0|10|132|12|8|5|9|0|0|-405|-427|10|65|14|122|10|71|14|133|-401|-403|-377|-399|10|134|12|8|5|9|0|0|-377|-435|-362|-375|-358|-360|-63|-356|-3|-61|0|0|135|0|5|9|0|0|0|0|"
+                
     @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
       {
         'method' => 'POST',
         'content_type' => 'text/x-gwt-rpc; charset=utf-8',
         'contents' => "#{contents1}#{contents2}"
       },
-      { 'subst' => 'true' }                                      
+      {
+        'subst' => 'true'
+      }
     )
     
-
+    # Loading Pg 8 - Financials
+    
+    @request.add_thinktime(3)
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    #
+    # Pg 8 - Financials
+    #
+    
+    # Time to fill out form
+    @request.add_thinktime(5)
+    
+    # Revenue Org
+    for i in 1..admin_org.length
+      itr = i-1
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|16|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|9C6F936F4CEB3E5CBB16043EFF7A3F6A|org.kuali.student.common.ui.client.service.SearchRpcService|search|org.kuali.student.core.search.dto.SearchRequest|org.kuali.student.core.search.dto.SearchRequest/3917446114|java.lang.Boolean/476441737|java.util.ArrayList/3821976829|org.kuali.student.core.search.dto.SearchParam/3876231949|org.queryParam.orgOptionalLongName|#{admin_org[0..itr]}|org.queryParam.orgOptionalType|java.lang.String/2004016611|kuali.org.Department|kuali.org.College|org.search.generic|1|2|3|4|1|5|6|0|7|0|8|2|9|10|0|11|9|12|8|2|13|14|13|15|0|16|0|0|0|"
+        }                             
+      )        
+    end
+    
+    # Save & Continue
+    contents1 = "5|0|146|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|saveData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|java.util.Date/1659716317|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|id-translation|Period|termsOffered|firstExpectedOffering|kuali.atp.FA2010-2011|primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|NORTH|SOUTH|North Campus|South Campus|fees|justification||dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|org.kuali.student.lum.lu.dto.CluInfo|9|#{admin_org}|Credit Course|(#{propose_person})|Fall Semester of 2010|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Discussion|contactHours|hrs|per|kuali.atp.duration.day|per day|timeUnit|defaultEnrollmentEstimate|Discussion|courseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|gradingOptions|kuali.resultComponent.grade.letter|Letter|outcomeOptions|outcomeId|%%_#{opts[:outcome_id_var_name]}%%|outcomeType|kuali.creditType.credit.degree.1|1 Credit|courseSpecificLOs|sequence|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|name|SINGLE USE LO|categories|%%_#{opts[:lo_category_var_name]}%%|#{opts[:lo_category]}|desc|&lt;p&gt;Desc&lt;/p&gt;|Desc|attributes|loCategoryType.subject|childSingleUseLos|revenueInfo|revenueOrg|orgId|percentage|created|updated|org.kuali.student.core.assembly.data.Data$LongValue/2873666547|java.lang.Long/4227064769|java.util.ArrayList/3821976829"
+    contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1631977501|1275605286912|413000000|10|34|32|35|1632405476|1275605286912|-7|-29|10|36|12|8|5|9|0|1|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|39|10|13|14|15|10|40|14|41|-49|-51|-45|-47|-7|-43|-3|-5|10|42|12|8|5|9|0|25|10|13|14|26|10|43|14|44|10|45|14|20|10|46|32|35|1584713088|1275605286912|10|47|32|35|3010734464|1357209665536|10|48|14|49|10|50|12|8|5|9|0|2|10|51|14|0|10|52|14|53|-63|-79|10|54|12|8|5|9|0|3|10|55|56|25|2|10|57|14|58|10|36|12|8|5|9|0|1|10|57|12|8|5|9|0|1|10|59|14|60|-98|-100|-89|-96|-63|-87|10|61|12|8|5|9|0|0|-63|-106|10|62|14|63|10|64|14|29|10|65|14|66|10|67|14|68|10|69|14|70|10|71|14|72|10|73|12|8|5|9|0|0|-63|-122|10|74|12|8|5|9|0|3|24|-27|14|75|24|25|1|14|76|10|36|12|8|5|9|0|2|24|-27|12|8|5|9|0|1|10|59|14|77|-137|-139|24|-133|12|8|5|9|0|1|10|59|14|78|-137|-145|-128|-135|-63|-126|10|79|12|8|5|9|0|1|24|25|0|12|8|5|9|0|2|10|80|14|81|10|36|12|8|5|9|0|1|10|82|12|8|5|9|0|1|-160|83|84|1|-164|-166|-158|-162|-153|-155|-63|-151|10|36|12|8|5|9|0|7|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|85|10|13|14|26|10|40|14|86|-178|-180|-174|-176|10|48|12|8|5|9|0|1|10|59|14|87|-174|-190|10|71|12|8|5|9|0|1|10|59|14|88|-174|-196|10|64|12|8|5|9|0|1|10|59|14|89|-174|-202|10|67|12|8|5|9|0|1|10|59|14|68|-174|-208|10|62|12|8|5|9|0|1|10|59|14|90|-174|-214|-166|12|8|5|9|0|1|10|62|83|-171|-174|-166|-63|-172|10|91|12|8|5|9|0|1|24|-27|12|8|5|9|0|4|10|13|14|92|10|65|14|66|10|36|12|8|5|9|0|1|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|85|10|13|14|92|10|40|14|93|-243|-245|-239|-241|-231|-237|10|94|12|8|5|9|0|1|24|-27|12|8|5|9|0|7|10|13|14|95|10|96|14|97|10|98|12|8|5|9|0|3|10|99|56|-133|10|100|14|101|10|36|12|8|5|9|0|1|10|100|12|8|5|9|0|1|10|59|14|102|-277|-279|-269|-275|-261|-267|10|54|12|8|5|9|0|3|10|55|56|25|1|10|103|14|58|10|36|12|8|5|9|0|1|10|103|12|8|5|9|0|1|10|59|14|60|-296|-298|-287|-294|-261|-285|10|104|56|25|100|10|65|14|66|10|36|12|8|5|9|0|2|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|85|10|13|14|95|10|40|14|93|-315|-317|-311|-313|10|96|12|8|5|9|0|1|10|59|14|105|-311|-327|-261|-309|-257|-259|-231|-255|-227|-229|-63|-225|10|106|14|107|10|108|12|8|5|9|0|2|24|-27|14|109|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|1|10|59|14|110|-343|-345|-337|-341|-63|-335|10|111|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|112|14|113|10|114|14|115|10|36|12|8|5|9|0|1|10|114|12|8|5|9|0|1|10|59|14|116|-365|-367|-357|-363|-353|-355|-63|-351|10|117|12|8|5|9|0|1|24|-27|12|8|5|9|0|6|10|118|14|93|10|46|32|33|1632053731|1275605286912|643000000|10|13|14|0|10|65|14|66|10|71|14|119|10|120|12|8|5|9|0|9|10|13|14|121|10|50|12|8|5|9|0|2|10|51|14|122|10|52|14|122|-394|-398|10|123|14|124|10|46|32|-385|10|65|14|125|10|71|14|126|10|127|14|128|10|129|12|8|5|9|0|1|24|-27|12|8|5|9|0|9|10|13|14|130|10|127|14|131|10|132|12|8|5|9|0|2|10|51|14|133|10|52|14|134|-422|-428|10|123|14|124|10|46|32|33|867724416|1198295875584|0|10|47|32|33|3896582272|1258425417728|0|10|135|12|8|5|9|0|0|-422|-444|10|65|14|125|10|71|14|136|-418|-420|-394|-416|10|137|12|8|5|9|0|0|-394|-452|-379|-392|-375|-377|-63|-373|10|138|12|8|5|9|0|1|10|139|12|8|5|9|0|1|24|25|0|12|8|5|9|0|3|-162|12|8|5|9|0|4|-166|12|8|5|9|0|2|10|140|83|-171|10|141|83|-171|-470|-166|10|142|83|-171|-162|12|8|5|9|0|1|-166|12|8|5|9|0|2|-479|83|-171|10|143|83|-171|-482|-166|-470|-162|-488|83|-171|-467|-162|-475|14|49|-477|144|145|100|0|-462|-464|-458|-460|-63|-456|-3|-61|0|0|146|0|5|9|0|0|0|0|"
+                
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "#{contents1}#{contents2}"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    # Re-Loading Pg 8 - Financials
+    
+    @request.add_thinktime(3)
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {
+        'subst' => 'true'
+      }
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+      {
+        'method' => 'POST',
+        'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+        'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+      },
+      {'subst' => 'true'}
+    )
+    
+    
     # Submit to worflow
     if(opts[:submit])
       
-      # Author & Collaborators
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|3DDEE7B5823674CCFB876EDB821C7743|org.kuali.student.common.ui.client.service.ServerPropertiesRpcService|get|java.lang.String|ks.rice.personLookup.serviceAddress|1|2|3|4|1|5|6|"
-        }                                   
-      )
-      
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
-        },
-        { 'subst' => 'true' }                                   
-      )
-      
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
-        },
-        { 'subst' => 'true' }                                  
-      )
-      
-      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
-        {
-          'method' => 'POST',
-          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
-          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getCollaborators|java.lang.String|3070|1|2|3|4|1|5|6|"
-        }                                   
-      )
-      
-      # Submit
-      contents1 = "5|0|109|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|857D1F4CACBED76E9C114EE7D0A43D1B|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|submitDocumentWithData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|#{opts[:course_title]}|effectiveDate|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|atpType.duration.week|termsOffered|firstExpectedOffering|kuali.atp.CLASS2012Y1|primaryInstructor|#{opts[:instructor]}|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|AllCampuses|org.kuali.student.lum.lu.dto.CluInfo|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|1|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Lab|contactHours|hrs|per|atpType.duration.weekly|timeUnit|atpType.duration.month|defaultEnrollmentEstimate|fees|attributes|DeptOrgName|#{oversight_department}|CourseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|CourseType|Credit Course|OversightName|courseSpecificLOs|sequence|0|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|categories|childSingleUseLos|java.util.ArrayList/3821976829"
-      contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|7|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|-13|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-21|10|27|12|8|5|9|0|1|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|30|10|13|14|15|10|31|14|32|-34|-36|-30|-32|-7|-28|-3|-5|10|33|12|8|5|9|0|21|10|13|14|26|10|34|14|35|10|36|14|37|10|38|39|40|3003447680|1267015352320|0|10|41|39|40|1214080384|1271310319616|0|10|42|14|43|10|44|12|8|5|9|0|2|10|45|14|0|10|46|14|47|-48|-64|10|48|12|8|5|9|0|2|10|49|50|25|5|10|51|14|52|-48|-72|10|53|12|8|5|9|0|0|-48|-81|10|54|14|55|10|56|14|57|10|58|14|59|10|60|14|61|10|62|14|63|10|64|14|65|10|66|12|8|5|9|0|1|24|25|0|14|43|-48|10|66|10|67|12|8|5|9|0|1|24|-26|14|68|-48|-105|10|27|12|8|5|9|0|2|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|69|10|13|14|26|10|31|14|32|-117|-119|-113|-115|10|70|12|8|5|9|0|4|10|66|71|72|1|10|42|71|-135|10|54|71|-135|10|56|71|-135|-113|-129|-48|-111|10|73|12|8|5|9|0|1|24|-26|12|8|5|9|0|4|10|13|14|74|10|58|14|59|10|27|12|8|5|9|0|1|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|69|10|13|14|74|10|31|14|75|-160|-162|-156|-158|-148|-154|10|76|12|8|5|9|0|1|24|-26|12|8|5|9|0|7|10|13|14|77|10|78|14|79|10|80|12|8|5|9|0|2|10|81|50|25|8|10|82|14|83|-178|-184|10|48|12|8|5|9|0|2|10|49|50|25|1|10|84|14|85|-178|-193|10|86|50|25|100|10|58|14|59|10|27|12|8|5|9|0|1|10|28|12|8|5|9|0|1|24|-26|12|8|5|9|0|3|10|29|14|69|10|13|14|77|10|31|14|75|-213|-215|-209|-211|-178|-207|-174|-176|-148|-172|-144|-146|-48|-142|10|87|12|8|5|9|0|1|24|-26|12|8|5|9|0|1|10|88|12|8|5|9|0|4|10|89|14|90|10|91|14|92|10|93|14|94|10|95|14|90|-231|10|88|-227|-229|-48|-225|10|96|12|8|5|9|0|1|24|-26|12|8|5|9|0|6|10|97|14|98|10|38|39|40|3126318658|1267015352320|978000000|10|13|14|0|10|58|14|59|10|64|14|99|10|100|12|8|5|9|0|8|10|13|14|101|10|44|12|8|5|9|0|2|10|45|14|102|10|46|14|102|-267|-271|10|103|14|104|10|38|39|-258|10|58|14|105|10|64|14|106|10|107|12|8|5|9|0|0|-267|-287|10|108|12|8|5|9|0|0|-267|-291|-252|-265|-248|-250|-48|-246|-3|-46|0|0|109|0|5|9|0|0|0|0|"
+      # Submit to workflow
+      contents1 = "5|0|152|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|submitDocumentWithData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|java.util.Date/1659716317|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|id-translation|Period|termsOffered|firstExpectedOffering|kuali.atp.FA2010-2011|primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|NORTH|SOUTH|North Campus|South Campus|fees|f29252b4-7d5a-4cc0-8aa5-b0abdd5f2a36|justification||org.kuali.student.lum.lu.dto.CluFeeInfo|2|revenueInfo|feeType|Revenue|totalPercentage|100.00|revenueOrg|orgId|percentage|org.kuali.student.core.assembly.data.Data$LongValue/2873666547|java.lang.Long/4227064769|#{admin_org}|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|updated|org.kuali.student.lum.lu.dto.CluInfo|11|Credit Course|(#{propose_person})|Fall Semester of 2010|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Discussion|contactHours|hrs|per|kuali.atp.duration.day|per day|timeUnit|defaultEnrollmentEstimate|Discussion|courseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|gradingOptions|kuali.resultComponent.grade.letter|Letter|outcomeOptions|outcomeId|%%_#{opts[:outcome_id_var_name]}%%|outcomeType|kuali.creditType.credit.degree.1|1 Credit|courseSpecificLOs|sequence|kuali.lu.lo.relation.type.includes|includedSingleUseLo|%%_#{opts[:single_use_lo_dyn_var_name]}%%|#{opts[:lo_name]}|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|name|SINGLE USE LO|categories|%%_#{opts[:lo_category_var_name]}%%|#{opts[:lo_category]}|desc|&lt;p&gt;Desc&lt;/p&gt;|Desc|attributes|loCategoryType.subject|childSingleUseLos|java.util.ArrayList/3821976829"
+                                          #"org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|submitDocumentWithData|org.kuali.student.core.assembly.data.Data|org.kuali.student.lum.lu.assembly.data.client.LuData/2660362736|java.util.HashMap/962170901|org.kuali.student.core.assembly.data.Data/3119441076|java.util.LinkedHashMap/1551059846|org.kuali.student.core.assembly.data.Data$StringKey/1742996354|proposal|org.kuali.student.core.assembly.data.Data$DataValue/4040075329|id|org.kuali.student.core.assembly.data.Data$StringValue/3696151110|%%_#{opts[:proposal_dyn_var_name]}%%|rationale|#{opts[:course_rationale]}|proposerPerson|title|#{title}|referenceType|kuali.proposal.referenceType.clu|references|org.kuali.student.core.assembly.data.Data$IntegerKey/2690592210|java.lang.Integer/3438268394|%%_#{opts[:clu_ref_dyn_var_name]}%%|metaInfo|createId|#{propose_person}|updateId|createTime|org.kuali.student.core.assembly.data.Data$DateValue/3833457837|java.sql.Timestamp/1769758459|updateTime|java.util.Date/1659716317|_runtimeData|versions|typeName|org.kuali.student.core.proposal.dto.ProposalInfo|versionIndicator|#{version_indicator+=1}|course|courseNumberSuffix|#{opts[:course_suffix]}|courseTitle|effectiveDate|expirationDate|department|%%_#{opts[:admin_dep_var_name]}%%|description|formatted|plain|#{opts[:course_description]}|duration|quantity|org.kuali.student.core.assembly.data.Data$IntegerValue/991919491|termType|kuali.atp.duration.Period|id-translation|Period|termsOffered|firstExpectedOffering|kuali.atp.FA2010-2011|primaryInstructor|state|draft|subjectArea|#{opts[:subject_area]}|transcriptTitle|#{opts[:course_short_title]}|type|kuali.lu.type.CreditCourse|academicSubjectOrgs|campusLocations|NORTH|SOUTH|North Campus|South Campus|fees|f29252b4-7d5a-4cc0-8aa5-b0abdd5f2a36|justification||org.kuali.student.lum.lu.dto.CluFeeInfo|2|revenueInfo|feeType|Revenue|totalPercentage|100.00|revenueOrg|orgId|percentage|org.kuali.student.core.assembly.data.Data$LongValue/2873666547|java.lang.Long/4227064769|#{admin_org}|dirty|org.kuali.student.core.assembly.data.Data$BooleanValue/268767974|java.lang.Boolean/476441737|updated|org.kuali.student.lum.lu.dto.CluInfo|11|Credit Course|(#{propose_person})|Fall Semester of 2010|formats|%%_#{opts[:lu_dto_clu_format_dyn_var_name]}%%|0|activities|%%_#{opts[:lu_dto_clu_activities_dyn_var_name]}%%|activityType|kuali.lu.type.activity.Discussion|contactHours|hrs|per|kuali.atp.duration.day|per day|timeUnit|defaultEnrollmentEstimate|Discussion|courseCode|#{opts[:subject_area]}#{opts[:course_suffix]}|gradingOptions|kuali.resultComponent.grade.letter|Letter|outcomeOptions|outcomeId|%%_#{opts[:outcome_id_var_name]}%%|outcomeType|kuali.creditType.credit.degree.1|1 Credit|courseSpecificLOs|sequence|kuali.lu.lo.relation.type.includes|includedSingleUseLo|d1b3fd1f-016c-4ea7-ab4b-69069f06b364|Performance LO|loRepository|kuali.loRepository.key.singleUse|active|kuali.lo.type.singleUse|name|SINGLE USE LO|categories|054CAA88-C21D-4496-8287-36A311A11D68|Test Category 2|desc|<p>Desc</p>|Desc|attributes|loCategoryType.subject|childSingleUseLos|java.util.ArrayList/3821976829"
+      contents2 = "|1|2|3|4|1|5|6|7|0|8|5|9|0|2|10|11|12|8|5|9|0|8|10|13|14|15|10|16|14|17|10|18|12|8|5|9|0|0|-7|10|18|10|19|14|20|10|21|14|22|10|23|12|8|5|9|0|1|24|25|0|14|26|-7|-22|10|27|12|8|5|9|0|4|10|28|14|29|10|30|14|29|10|31|32|33|1631977501|1275605286912|413000000|10|34|32|35|1633365750|1275605286912|-7|-29|10|36|12|8|5|9|0|1|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|39|10|13|14|15|10|40|14|41|-49|-51|-45|-47|-7|-43|-3|-5|10|42|12|8|5|9|0|25|10|13|14|26|10|43|14|44|10|45|14|20|10|46|32|35|1584713088|1275605286912|10|47|32|35|3010734464|1357209665536|10|48|14|49|10|50|12|8|5|9|0|2|10|51|14|0|10|52|14|53|-63|-79|10|54|12|8|5|9|0|3|10|55|56|25|2|10|57|14|58|10|36|12|8|5|9|0|1|10|57|12|8|5|9|0|1|10|59|14|60|-98|-100|-89|-96|-63|-87|10|61|12|8|5|9|0|0|-63|-106|10|62|14|63|10|64|14|29|10|65|14|66|10|67|14|68|10|69|14|70|10|71|14|72|10|73|12|8|5|9|0|0|-63|-122|10|74|12|8|5|9|0|3|24|-27|14|75|24|25|1|14|76|10|36|12|8|5|9|0|2|24|-27|12|8|5|9|0|1|10|59|14|77|-137|-139|24|-133|12|8|5|9|0|1|10|59|14|78|-137|-145|-128|-135|-63|-126|10|79|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|13|14|80|10|81|14|82|10|36|12|8|5|9|0|1|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|83|10|13|14|80|10|40|14|84|-169|-171|-165|-167|-157|-163|-153|-155|-63|-151|10|85|12|8|5|9|0|3|10|86|14|87|10|88|14|89|10|90|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|91|14|49|10|92|93|94|100|0|10|36|12|8|5|9|0|4|10|91|12|8|5|9|0|1|10|59|14|95|-204|-206|10|96|12|8|5|9|0|1|10|91|97|98|1|-204|-212|10|99|97|-218|10|36|12|8|5|9|0|1|-212|12|8|5|9|0|1|-219|97|-218|-223|-212|-204|-221|-195|-202|-191|-193|-183|-189|-63|-181|10|36|12|8|5|9|0|7|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|100|10|13|14|26|10|40|14|101|-235|-237|-231|-233|10|48|12|8|5|9|0|1|10|59|14|95|-231|-247|10|71|12|8|5|9|0|1|10|59|14|102|-231|-253|10|64|12|8|5|9|0|1|10|59|14|103|-231|-259|10|67|12|8|5|9|0|1|10|59|14|68|-231|-265|10|62|12|8|5|9|0|1|10|59|14|104|-231|-271|-212|12|8|5|9|0|1|10|62|97|-218|-231|-212|-63|-229|10|105|12|8|5|9|0|1|24|-27|12|8|5|9|0|4|10|13|14|106|10|65|14|66|10|36|12|8|5|9|0|1|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|100|10|13|14|106|10|40|14|107|-300|-302|-296|-298|-288|-294|10|108|12|8|5|9|0|1|24|-27|12|8|5|9|0|7|10|13|14|109|10|110|14|111|10|112|12|8|5|9|0|3|10|113|56|-133|10|114|14|115|10|36|12|8|5|9|0|1|10|114|12|8|5|9|0|1|10|59|14|116|-334|-336|-326|-332|-318|-324|10|54|12|8|5|9|0|3|10|55|56|25|1|10|117|14|58|10|36|12|8|5|9|0|1|10|117|12|8|5|9|0|1|10|59|14|60|-353|-355|-344|-351|-318|-342|10|118|56|25|100|10|65|14|66|10|36|12|8|5|9|0|2|10|37|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|38|14|100|10|13|14|109|10|40|14|107|-372|-374|-368|-370|10|110|12|8|5|9|0|1|10|59|14|119|-368|-384|-318|-366|-314|-316|-288|-312|-284|-286|-63|-282|10|120|14|121|10|122|12|8|5|9|0|2|24|-27|14|123|10|36|12|8|5|9|0|1|24|-27|12|8|5|9|0|1|10|59|14|124|-400|-402|-394|-398|-63|-392|10|125|12|8|5|9|0|1|24|-27|12|8|5|9|0|3|10|126|14|127|10|128|14|129|10|36|12|8|5|9|0|1|10|128|12|8|5|9|0|1|10|59|14|130|-422|-424|-414|-420|-410|-412|-63|-408|10|131|12|8|5|9|0|1|24|-27|12|8|5|9|0|6|10|132|14|107|10|46|32|33|1632053731|1275605286912|643000000|10|13|14|0|10|65|14|66|10|71|14|133|10|134|12|8|5|9|0|9|10|13|14|135|10|50|12|8|5|9|0|2|10|51|14|136|10|52|14|136|-451|-455|10|137|14|138|10|46|32|-442|10|65|14|139|10|71|14|140|10|141|14|142|10|143|12|8|5|9|0|1|24|-27|12|8|5|9|0|9|10|13|14|144|10|141|14|145|10|146|12|8|5|9|0|2|10|51|14|147|10|52|14|148|-479|-485|10|137|14|138|10|46|32|33|867724416|1198295875584|0|10|47|32|33|3896582272|1258425417728|0|10|149|12|8|5|9|0|0|-479|-501|10|65|14|139|10|71|14|150|-475|-477|-451|-473|10|151|12|8|5|9|0|0|-451|-509|-436|-449|-432|-434|-63|-430|-3|-61|0|0|152|0|5|9|0|0|0|0|"
+
       @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
         {
           'method' => 'POST',
           'content_type' => 'text/x-gwt-rpc; charset=utf-8',
           'contents' => "#{contents1}#{contents2}"
         },
-        { 'subst' => 'true' }                                      
+        {
+          'subst' => 'true'
+        }
+      )
+      
+      @request.add_thinktime(5)
+      
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+      
+      @request.add_thinktime(3)
+      
+      @request.add("org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?docId=%%_#{opts[:proposal_doc_id_var_name]}%%&amp;command=displayActionListView",{},{'subst' => 'true'})
+      @request.add('org.kuali.student.lum.lu.ui.main.LUMMain/org.kuali.student.lum.lu.ui.main.LUMMain.nocache.js')
+      
+      @request.add_thinktime(1)
+      
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getActionsRequested|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+      # Dupe of 2nd above request
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowIdFromDataId|java.lang.String|%%_#{opts[:proposal_dyn_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowToolRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|CC382D5431E425533D6BB1904030DB89|org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService|getCollaborators|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+      
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getDocumentStatus|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
+      )
+      
+      @request.add_thinktime(1)
+      
+      @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService',
+        {
+          'method' => 'POST',
+          'content_type' => 'text/x-gwt-rpc; charset=utf-8',
+          'contents' => "5|0|6|#{@request.url}/org.kuali.student.lum.lu.ui.main.LUMMain/|FD960014C4FBDB0F0848F901314B9F4E|org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService|getWorkflowNodes|java.lang.String|%%_#{opts[:proposal_doc_id_var_name]}%%|1|2|3|4|1|5|6|"
+        },
+        {'subst' => 'true'}
       )
       
     end
+    
+    
     
   end
   
   
   
   def scratch
-    
-    #:lo_id_dyn_var_name => "lo_id",
-    #:lo_id_dyn_var_regexp => 'lo.resultColumn.loId\"\,\"\([^\"]+\)',
-    #:lo_clu_id_dyn_var_name => "lo_clu_id",
-    #:lo_clu_id_dyn_var_regexp => 'lo.resultColumn.loCluId\"\,\"\([^\"]+\)',
     
     
   end

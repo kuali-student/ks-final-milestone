@@ -31,10 +31,10 @@ auth = Authentication.new(req)
 auth.login
 
 # Logout
-tconfig.log.info_msg("#{test}: Logging out")
-txn2 = sesh.add_transaction("logout")
-req2 = txn2.add_requests
-auth2 = Authentication.new(req2)
-auth2.logout
+#tconfig.log.info_msg("#{test}: Logging out")
+#txn2 = sesh.add_transaction("logout")
+#req2 = txn2.add_requests
+#auth2 = Authentication.new(req2)
+#auth2.logout
 
 
