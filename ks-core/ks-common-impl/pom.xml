@@ -14,9 +14,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <!--
-				Setting forkMode to always. Multiple dao tests using Spring
-				junit class runner doesn't play nice with each other
-				-->
+                    Setting forkMode to always. Multiple dao tests using Spring
+                    junit class runner doesn't play nice with each other
+                    -->
         <configuration>
           <forkMode>always</forkMode>
         </configuration>
@@ -24,6 +24,11 @@
     </plugins>
   </build>
   <dependencies>
+    <dependency>
+      <groupId>com.google.code.gwtx</groupId>
+      <artifactId>gwtx</artifactId>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-util</artifactId>

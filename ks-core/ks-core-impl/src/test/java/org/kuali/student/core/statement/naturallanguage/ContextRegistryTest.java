@@ -15,7 +15,9 @@
 
 package org.kuali.student.core.statement.naturallanguage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -31,6 +33,7 @@ public class ContextRegistryTest {
 	
 	private DeveloperContext context1 = new DeveloperContext();
 	private DeveloperContext context2 = new DeveloperContext();
+	private DeveloperContext context3 = new DeveloperContext();
 
 	private static class DeveloperContext implements Context<String> {
 
@@ -46,33 +49,52 @@ public class ContextRegistryTest {
     public void setUp() throws Exception {
     	emptyRegistry = new ContextRegistry<DeveloperContext>();
 		
-		Map<String, DeveloperContext> map = new HashMap<String, DeveloperContext>();
-		map.put("c1", context1);
-		map.put("c2", context2);
+		Map<String, List<DeveloperContext>> map = new HashMap<String, List<DeveloperContext>>();
+		List<DeveloperContext> list1 = new ArrayList<DeveloperContext>();
+		list1.add(context1);
+		list1.add(context2);
+		map.put("c1", list1);
+		List<DeveloperContext> list2 = new ArrayList<DeveloperContext>();
+		list2.add(context3);
+		map.put("c2", list2);
 		
     	fullRegistry = new ContextRegistry<DeveloperContext>(map);
     }
 
     @Test
 	public void testAdd() throws Exception {
-		DeveloperContext context = new DeveloperContext();
+    	List<DeveloperContext> list = new ArrayList<DeveloperContext>();
+    	DeveloperContext context = new DeveloperContext();
+    	list.add(context);
 		emptyRegistry.add("123", context);
 		
-		Assert.assertEquals(context, emptyRegistry.get("123"));
+		Assert.assertNotNull(emptyRegistry.get("123"));
+		Assert.assertEquals(1, emptyRegistry.get("123").size());
+		Assert.assertEquals(context, emptyRegistry.get("123").get(0));
 	}
 
 	@Test
 	public void testGet() throws Exception {
+    	List<DeveloperContext> list = new ArrayList<DeveloperContext>();
 		DeveloperContext context = new DeveloperContext();
+    	list.add(context);
 		emptyRegistry.add("123", context);
 		
-		Assert.assertEquals(context, emptyRegistry.get("123"));
+		Assert.assertNotNull(emptyRegistry.get("123"));
+		Assert.assertEquals(1, emptyRegistry.get("123").size());
+		Assert.assertEquals(context, emptyRegistry.get("123").get(0));
 	}
 
 	@Test
 	public void testGet_MultipleContext() throws Exception {
-		Assert.assertEquals(context1, fullRegistry.get("c1"));
-		Assert.assertEquals(context2, fullRegistry.get("c2"));
+		Assert.assertEquals(2, fullRegistry.size());
+		Assert.assertNotNull(fullRegistry.get("c1"));
+		Assert.assertEquals(2, fullRegistry.get("c1").size());
+		Assert.assertEquals(context1, fullRegistry.get("c1").get(0));
+		Assert.assertEquals(context2, fullRegistry.get("c1").get(1));
+		Assert.assertNotNull(fullRegistry.get("c2"));
+		Assert.assertEquals(1, fullRegistry.get("c2").size());
+		Assert.assertEquals(context3, fullRegistry.get("c2").get(0));
 	}
 
 	@Test
@@ -94,7 +116,7 @@ public class ContextRegistryTest {
 		DeveloperContext context = new DeveloperContext();
 		emptyRegistry.add("123", context);
 		
-		Assert.assertEquals(context, emptyRegistry.get("123"));
+		Assert.assertNotNull(emptyRegistry.get("123"));
 		emptyRegistry.remove("123");
 		Assert.assertFalse(emptyRegistry.containsKey("123"));
 		Assert.assertNull(emptyRegistry.get("123"));

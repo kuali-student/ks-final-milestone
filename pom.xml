@@ -14,10 +14,10 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>6</version>
+    <version>15</version>
   </parent>
   <groupId>org.kuali.student</groupId>
-  <artifactId>ks</artifactId>
+  <artifactId>student</artifactId>
   <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
@@ -27,17 +27,20 @@
   </organization>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <name>Main Kuali Repository</name>
-      <url>https://test.kuali.org/maven</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
   <ciManagement>
     <system>hudson</system>
-    <url>https://ci.ks.kuali.org</url>
+    <url>http://ci.ks.kuali.org</url>
   </ciManagement>
   <modules>
     <module>ks-security</module>
@@ -48,6 +51,7 @@
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
+    <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
     <!-- artifact versions -->
@@ -61,22 +65,23 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.1</kuali.rice.version>
+    <kuali.rice.version>1.0.2.1-SNAPSHOT</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
     <spring.version>2.5.4</spring.version>
     <spring.security.version>2.0.4</spring.security.version>
     <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
-    <velocity.version>1.5</velocity.version>
-    <velocity.tools.version>1.4</velocity.tools.version>
+    <velocity.version>1.6.4</velocity.version>
+    <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
+    <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
 
     <!-- plugin versions -->
     <cobertura.plugin.version>2.2</cobertura.plugin.version>
     <javadoc.plugin.version>2.6.1</javadoc.plugin.version>
-    <site.plugin.version>2.0-beta-7</site.plugin.version>
+    <site.plugin.version>2.0.1</site.plugin.version>
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
@@ -87,99 +92,32 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
+    <!-- 
+     - This profile makes it easier to place Oracle's ojdbc14.jar into your local repository so Maven can find it
+     - Download ojdbc14.jar from http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html
+     - Run the maven-install-plugin using the oracle profile and pass in the download location
 
-    <!-- External Repository Profiles -->
+      mvn -N -Poracle install:install-file -Dfile=/tmp/ojdbc14.jar
+      
+     - You should see output like this:
+       [INFO] Installing /tmp/ojdbc14.jar to /opt/m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar
+     -->
     <profile>
-      <id>external.repositories</id>
-      <activation>
-        <property>
-          <name>!ks.use.proxy</name>
-        </property>
-      </activation>
-      <repositories>
-        <!--
-                    central defined here to ensure maven checks it first as it has the best chance
-                    at finding dependencies
-                -->
-        <repository>
-          <id>central</id>
-          <url>http://repo1.maven.org/maven2/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>maven2-repository.dev.java.net</id>
-          <url>http://download.java.net/maven/2</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>ks.public</id>
-          <url>http://archiva.kuali.umd.edu/repository/public/</url>
-        </repository>
-        <!--
-                    adding until maven repository resolution fixed (does not work in 2.0.9 or
-                    2.1.0.20080530 embedded)
-                -->
-        <repository>
-          <id>repository.jboss.org</id>
-          <url>http://repository.jboss.org/maven2</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>EclipseLink Repo</id>
-          <url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>central</id>
-          <url>http://repo1.maven.org/maven2/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-          <id>kuali.release</id>
-          <url>http://archiva.kuali.umd.edu/repository/release</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-          <id>codehaus</id>
-          <url>http://repository.codehaus.org/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-          <id>ks-public</id>
-          <url>http://archiva.kuali.umd.edu/repository/public</url>
-        </pluginRepository>
-      </pluginRepositories>
+      <id>oracle</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <configuration>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>${oracle.ojdbc.version}</version>
+              <packaging>jar</packaging>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
     <!-- License plugin -->
@@ -881,12 +819,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
@@ -911,7 +849,7 @@
         <version>${velocity.version}</version>
       </dependency>
       <dependency>
-        <groupId>velocity-tools</groupId>
+        <groupId>org.apache.velocity</groupId>
         <artifactId>velocity-tools</artifactId>
         <version>${velocity.tools.version}</version>
       </dependency>
@@ -1108,6 +1046,11 @@
         <groupId>xalan</groupId>
         <artifactId>xalan</artifactId>
         <version>${xalan.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.oracle</groupId>
+        <artifactId>ojdbc14</artifactId>
+        <version>${oracle.ojdbc.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -98,6 +98,17 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/security/saml}SamlIssuerService"/>
 	</bean>
 	
+	
+	<!-- 
+		SamlTokenCxfInInterceptor, SamlTokenCxfOutInterceptor are no longer used as the interceptors in the SamlIssuerServiceImpl.
+		The SAML is now created inside the methods of SamlIssuerServiceImpl, instead of being in the interceptors above. We create
+		the SAML this way because something about the way CXF is used in the KSB does not allow the XML config elements such as 
+		<jaxws:outInterceptors> to be recognized.
+		
+		Leaving these commented declarations below and the beans in the package because it was a lot of work 
+		to figure all this out and it might be useful later.
+	-->
+	<!--  
 	<bean id="wss4jInInterceptor" class="org.kuali.student.security.cxf.interceptors.SamlTokenCxfInInterceptor">
 		<constructor-arg>
 			<map>
@@ -108,36 +119,21 @@
 		<property name="samlIssuerForUser" value="org.kuali.student.principal"/>
 		<property name="ignoreActions" value="true"/>
 	</bean>
-	
+	-->
+	<!--
 	<bean id="wss4jOutInterceptor" class="org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor">
 		<constructor-arg>
 			<map>
-				<!-- <entry key="action" value="SAMLTokenUnsigned"/> -->
 	           	<entry key="action" value="SAMLTokenSigned"/>
 	           	<entry key="signatureKeyIdentifier" value="DirectReference"/>
 	           	<entry key="samlPropFile" value="saml.properties"/>
 	           			
-	           	<!--   experimenting with holder-of-key confirmation method
+	           	***   experimenting with holder-of-key confirmation method
 	           	<entry key="signaturePropFile" value="crypto.properties"/>
 	           	<entry key="user" value="tomcat"/>
-	           	-->
+	           	***
 	        </map>
 		</constructor-arg>
 	</bean>
-
-<!--
-	<bean id="attachmentInInterceptor" class="org.kuali.student.security.cxf.interceptors.AttachmentInInterceptor"/>
-	<bean id="attachmentOutInterceptor" class="org.kuali.student.security.cxf.interceptors.AttachmentOutInterceptor"/>
--->
-<!--
-	 <cxf:bus>
-        <cxf:outInterceptors>
-            <ref bean="attachmentOutInterceptor"/>
-        </cxf:outInterceptors>
-        <cxf:inInterceptors>
-        	<ref bean="attachmentInInterceptor"/>
-        </cxf:inInterceptors>
-    </cxf:bus> 
--->
-
+	-->
 </beans>

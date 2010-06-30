@@ -17,6 +17,8 @@ package org.kuali.student.common.ui.client.mvc;
 
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * Interface defining the operations necessary to implement a view.
  * 
@@ -50,6 +52,8 @@ public interface View extends HistorySupport {
      * @return
      */
     public String getName();
+    
+    public Enum<?> getViewEnum();
 
     /** 
      * Can be called to reset a view to a cleared state.
@@ -58,5 +62,7 @@ public interface View extends HistorySupport {
     public void clear();
     
     public void updateModel();
+    
+    public Widget asWidget();
     
 }
