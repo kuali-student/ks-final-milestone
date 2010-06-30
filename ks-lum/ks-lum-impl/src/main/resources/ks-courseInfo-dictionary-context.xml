@@ -39,6 +39,8 @@
 				<!-- Dynamic Attributes -->
 				<ref bean="courseInfo.finalExamStatus" />
 				<ref bean="courseInfo.altFinalExamStatusDescr"/>
+				<ref bean="courseInfo.proposalId"/>
+				<ref bean="courseInfo.proposalRationale"/>
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -946,5 +948,18 @@
   		<property name="maxLength" value="50" />
   		<property name="validChars" ref="alphanumbericHyphenPeriod"/>
 	</bean>	
-	
+	<bean id="courseInfo.proposalId" parent="baseSingleString">
+  		<property name="name" value="proposalId" />
+  		<property name="minOccurs" value="0" />
+  		<property name="maxOccurs" value="1" />
+  		<!-- Maybe a lookup constraint to restrict the values -->
+  		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="courseInfo.proposalRationale" parent="baseSingleString">
+  		<property name="name" value="proposalRationale" />
+  		<property name="minOccurs" value="0" />
+  		<property name="maxOccurs" value="1" />
+  		<!-- Maybe a lookup constraint to restrict the values -->
+  		<property name="dynamic" value="true"/>
+	</bean>
 </beans>
