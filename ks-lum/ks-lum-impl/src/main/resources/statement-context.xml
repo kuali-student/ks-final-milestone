@@ -82,8 +82,9 @@
 	                    </bean>
                     </list>
                 </entry>
-                <entry key="kuali.reqCompType.gradecheck">
+                <entry key="kuali.reqCompType.course.courseset.gpa.min">
                     <list>
+                        <ref local="cluSetContext"/>
 	                    <bean class="org.kuali.student.lum.statement.config.context.lu.GPAContextImpl">
 					        <property name="luService" ref="luServiceImpl" />
 	                    </bean>

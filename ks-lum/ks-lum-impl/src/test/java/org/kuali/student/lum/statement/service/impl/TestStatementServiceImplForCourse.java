@@ -128,7 +128,7 @@ public class TestStatementServiceImplForCourse {
     public void testTranslateReqComponent_gradecheck() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         //req. type: 'kuali.reqCompType.gradecheck'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-13", "KUALI.CATALOG", "en");
-        assertEquals("Student needs a minimum GPA of 3.5", nl);
+        assertEquals("Must have earned a minimum GPA of 3.5 in (MATH152, MATH180)", nl);
     }
 
     @Test

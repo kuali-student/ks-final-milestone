@@ -21,7 +21,7 @@
         TYPE_DESC="Must not have successfully completed any credits from &lt;courses>" TYPE_KEY="kuali.reqCompType.course.courseset.credits.completed.none"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20011130000000"
         NAME="Minimum overall GPA"
-        TYPE_DESC="Student needs to have attained a minimum specified GPA" TYPE_KEY="kuali.reqCompType.gradecheck"/>
+        TYPE_DESC="Student needs to have attained a minimum specified GPA" TYPE_KEY="kuali.reqCompType.course.courseset.gpa.min"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Course completed with minimum specified grade"
         TYPE_DESC="Student must take &lt;n> credits from the specified courses" TYPE_KEY="kuali.reqCompType.grdCondCourseList"/>

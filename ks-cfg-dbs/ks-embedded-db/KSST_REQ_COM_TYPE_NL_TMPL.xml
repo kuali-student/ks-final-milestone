@@ -21,7 +21,7 @@
         OWNER="kuali.reqCompType.course.courseset.credits.completed.none" TEMPLATE="Must not have successfully completed any credits from $cluSet.getCluSetAsCode()"/>        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="7" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.gradecheck" TEMPLATE="Student needs a minimum GPA of $gpa"/>
+        OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of $gpa in $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="8" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="Students must take $totalCredits credits from $cluSet.getCluSetAsCode()"/>
@@ -57,7 +57,7 @@
         OWNER="kuali.reqCompType.course.courseset.credits.completed.none" TEMPLATE="No credits may be used from (Developmental Math courses (MATH001, 002, 003, 010, 011, 013 or 015)"/> 
     <KSST_REQ_COM_TYPE_NL_TMPL ID="107" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.gradecheck" TEMPLATE="Student needs a minimum GPA of 2.5"/>
+        OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and  STAT100)"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="108" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="Students must take 3 credits from ENGL 100, ENGL 102 or ENGL 104"/>
@@ -93,7 +93,7 @@
         OWNER="kuali.reqCompType.course.courseset.credits.completed.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="207" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.gradecheck" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gpa;reqCompFieldLabel=GPA>"/>
+        OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gpa;reqCompFieldLabel=GPA> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="208" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.totalCredits;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>

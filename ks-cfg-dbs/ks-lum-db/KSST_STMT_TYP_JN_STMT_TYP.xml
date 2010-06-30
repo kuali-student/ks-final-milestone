@@ -9,4 +9,11 @@
         CHLD_STMT_TYPE_ID="kuali.luStatementType.enrollAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.createCourseAcademicReadiness"/>
     <KSST_STMT_TYP_JN_STMT_TYP
         CHLD_STMT_TYPE_ID="kuali.luStatementType.antireqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.createCourseAcademicReadiness"/>
+
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.programEntry" STMT_TYPE_ID="kuali.luStatementType.createProgramAcademicReadiness"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.programSatisfactoryProgress" STMT_TYPE_ID="kuali.luStatementType.createProgramAcademicReadiness"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.programCompletion" STMT_TYPE_ID="kuali.luStatementType.createProgramAcademicReadiness"/>
 </dataset>
