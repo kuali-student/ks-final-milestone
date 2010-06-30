@@ -82,8 +82,8 @@ public class CourseProposalFilter extends AbstractDataFilter implements Metadata
 		Metadata propMetadata = new Metadata();
 		propMetadata.setDataType(DataType.STRING);
 		
-		properties.put("proposalId", propMetadata);
-		properties.put("proposalRationale", propMetadata);
+//		properties.put("proposalId", propMetadata);
+//		properties.put("proposalRationale", propMetadata);
 	}
 
 	
