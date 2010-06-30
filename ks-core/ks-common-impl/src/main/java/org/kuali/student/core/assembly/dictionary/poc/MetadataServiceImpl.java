@@ -180,6 +180,7 @@ public class MetadataServiceImpl {
 	            metadata.setCanEdit(!fd.isReadOnly());
 	            metadata.setCanUnmask(!fd.isMask());
 	            metadata.setCanView(!fd.isHide());
+	            metadata.setDynamic(fd.isDynamic());
 	            
 	           	metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));            	
 	            

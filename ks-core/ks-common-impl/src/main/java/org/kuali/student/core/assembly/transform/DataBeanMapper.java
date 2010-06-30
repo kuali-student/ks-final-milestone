@@ -1,6 +1,7 @@
 package org.kuali.student.core.assembly.transform;
 
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 
 public interface DataBeanMapper {
 
@@ -19,6 +20,6 @@ public interface DataBeanMapper {
 	 * @param clazz
 	 * @return
 	 */
-	public Object convertFromData(Data data, Class<?> clazz) throws Exception;
+	public Object convertFromData(Data data, Class<?> clazz, Metadata metadata) throws Exception;
 
 }

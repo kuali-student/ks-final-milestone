@@ -54,9 +54,11 @@ public class TransformationManager {
 	 * @return The converted DTO with both inbound Data and DTO filters applied.
 	 */
 	public Object transform(Data value, Class<?> clazz) throws Exception{
-		applyInboundFilters(clazz.getName(), value, new HashMap<String,String>());
-		Object dtoValue = mapper.convertFromData(value, clazz);
-		applyInboundFilters(clazz.getName(), dtoValue, new HashMap<String,String>());
+		Metadata metadata = null;
+		metadata = (metadata != null ? metadata:getMetadata(clazz.getName(), new HashMap<String,String>()));
+		applyInboundFilters(clazz.getName(), value, new HashMap<String,String>(),metadata);
+		Object dtoValue = mapper.convertFromData(value, clazz,metadata);
+		applyInboundFilters(clazz.getName(), dtoValue, new HashMap<String,String>(),metadata);
 		
 		return dtoValue;
 	}
@@ -72,9 +74,11 @@ public class TransformationManager {
 	 * @return The converted DTO with both inbound Data and DTO filters applied.
 	 */
 	public Object transform(Data value, Class<?> clazz, Map<String,String> filterProperties) throws Exception{
-		applyInboundFilters(clazz.getName(), value, filterProperties);
-		Object dtoValue = mapper.convertFromData(value, clazz);
-		applyInboundFilters(clazz.getName(), dtoValue, filterProperties);		
+		Metadata metadata = null;
+		metadata = (metadata != null ? metadata:getMetadata(clazz.getName(), filterProperties));
+		applyInboundFilters(clazz.getName(), value, filterProperties,metadata);
+		Object dtoValue = mapper.convertFromData(value, clazz,metadata);
+		applyInboundFilters(clazz.getName(), dtoValue, filterProperties,metadata);		
 		return dtoValue;		
 	}
 	
@@ -86,13 +90,10 @@ public class TransformationManager {
 	 * @param value The dto or data object to apply filters to
 	 * @throws Exception
 	 */
-	public void applyInboundFilters(String dtoName, Object value, Map<String,String> properties) throws Exception{
-		Metadata metadata = null;
-		
+	public void applyInboundFilters(String dtoName, Object value, Map<String,String> properties, Metadata metadata) throws Exception{
 		for (TransformFilter filter:filterList){
 			if (filter.getType().isInstance(value)){
 				if (filter instanceof AbstractDataFilter) {
-					metadata = (metadata != null ? metadata:getMetadata(dtoName, properties));
 					((AbstractDataFilter)filter).applyInboundDataFilter((Data)value, metadata, properties);
 				} else {
 					((AbstractDTOFilter)filter).applyInboundDtoFilter(value, properties);

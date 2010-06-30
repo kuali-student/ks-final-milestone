@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
@@ -55,7 +56,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.assembly.data.DataBeanMapper#convertFromData(org.kuali.student.core.assembly.data.Data, java.lang.Class)
 	 */
-	public Object convertFromData(Data data, Class<?> clazz) throws Exception{
+	public Object convertFromData(Data data, Class<?> clazz, Metadata metadata) throws Exception{
 		Object result = null;
 		
 		result = clazz.newInstance();
@@ -70,13 +71,13 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 				//Dynamic attributes will be handled later
 				attrProperty = pd;
 			} else {
-	            StringKey propKey = new StringKey(pd.getName());            
+	            StringKey propKey = new StringKey(pd.getName());
 	            Object propValue = data.get(propKey);
 	
 	            //Process a nested object structure or list
 	            if (propValue instanceof Data){
 	            	clazz.getFields();
-	            	propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()));
+	            	propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get(propKey.toString()));
 	            }
 	            
 	    		//Set the bean property
@@ -96,8 +97,10 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 			Map<String,String> attributes = new HashMap<String,String>();
 			for (Key k:keySet){
 				String keyString = k.toString();
-				if (!staticProperties.contains(k) && !keyString.startsWith("_run")){
+				//Obtain the dynamic flag from the dictionary
+				if (!staticProperties.contains(k) && !keyString.startsWith("_run")&& metadata.getProperties().get(keyString).isDynamic()){
 					attributes.put((String)k.get(),(String)data.get(k));
+					
 				}
 			}
     		if(attrProperty.getWriteMethod() != null){    
@@ -118,7 +121,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	protected Object convertNestedData(Data data, Field propField) throws Exception{
+	protected Object convertNestedData(Data data, Field propField, Metadata metadata) throws Exception{
 		Object result = null;
 
 		Class<?> propClass = propField.getType();
@@ -136,7 +139,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 					Data listItemData = (Data)listItemValue;
 					Boolean isDeleted = listItemData.query("_runtimeData/deleted");
 					if (isDeleted == null || !isDeleted){
-						listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType);
+						listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType, metadata);
 						resultList.add(listItemValue);
 					}
 				} else {
@@ -146,7 +149,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 
 			result = resultList;
 		} else {
-			result = convertFromData(data, propClass);
+			result = convertFromData(data, propClass,metadata);
 		}
 		
 		return result;

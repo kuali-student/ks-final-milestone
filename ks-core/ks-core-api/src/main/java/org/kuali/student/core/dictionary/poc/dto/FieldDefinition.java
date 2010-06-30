@@ -21,7 +21,7 @@ public class FieldDefinition extends Constraint {
 
 	//Dynamic attribute flag (SG wanted incase user typos the field name and all of a sudden all fields are attributes)
 	@XmlElement
-	protected boolean dynamic;
+	protected boolean dynamic = false;
 	
 	// Default values
 	@XmlElement
