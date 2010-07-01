@@ -114,7 +114,7 @@
 
 	<bean id="search.findProposal" parent="uilookup">
 		<property name="path" value="search.findProposal" />
-		<property name="initialLookup" ref="kuali.common.lookup.findProposal.suggest" />
+<!--		<property name="initialLookup" ref="kuali.common.lookup.findProposal.suggest" />-->
 		<property name="additionalLookups">
 			<list>
 				<ref bean="kuali.proposal.lookup.Proposals.advanced" />
