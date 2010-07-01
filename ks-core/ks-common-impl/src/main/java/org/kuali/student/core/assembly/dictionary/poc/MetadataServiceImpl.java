@@ -428,8 +428,10 @@ public class MetadataServiceImpl {
             }
             if (parsedMetadata != null) {
             	UILookupData initialLookup =lookup.getInitialLookup();
-            	mapLookupDatatoMeta(initialLookup);
-            	parsedMetadata.setInitialLookup(mapLookupDatatoMeta(lookup.getInitialLookup()));
+            	if(initialLookup!=null){
+            		mapLookupDatatoMeta(initialLookup);
+            		parsedMetadata.setInitialLookup(mapLookupDatatoMeta(lookup.getInitialLookup()));
+            	}
             	List<LookupMetadata> additionalLookupMetadata = null;
             	if (lookup.getAdditionalLookups() != null) {
 					for (UILookupData additionallookup : lookup.getAdditionalLookups()) {
