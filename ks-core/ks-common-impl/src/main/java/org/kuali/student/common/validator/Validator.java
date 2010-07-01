@@ -109,12 +109,12 @@ public class Validator {
 		return dateParser;
 	}
 
-	
-	
-	
+
+
+
 	/**
 	 * Validate Object and all its nested child objects for given type and state
-	 * 
+	 *
 	 * @param data
 	 * @param objStructure
 	 * @return
@@ -125,7 +125,7 @@ public class Validator {
 		Stack<String> elementStack = new Stack<String>();
 		return validateTypeStateObject(data, objStructure, elementStack);
 	}
-	
+
 	private List<ValidationResultInfo> validateTypeStateObject(Object data,
 			ObjectStructure objStructure, Stack<String> elementStack) {
 
@@ -195,9 +195,9 @@ public class Validator {
 
 		Object value = dataProvider.getValue(field.getKey());
 		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
-		
+
 		ConstraintDescriptor cd = field.getConstraintDescriptor();
-				
+
 		// Handle null values in field
 		if (value == null || "".equals(value.toString().trim())) {
 			if (isNullable(field) == false) {
@@ -218,27 +218,27 @@ public class Validator {
 		if ("complex"
 				.equalsIgnoreCase(field.getFieldDescriptor().getDataType())) {
 			ObjectStructure nestedObjStruct = null;
-			
+
 			if(null != field.getFieldDescriptor().getObjectStructure()) {
 				nestedObjStruct = field.getFieldDescriptor()
-				.getObjectStructure();				
+				.getObjectStructure();
 			}
 			else if (hasText(field.getFieldDescriptor().getObjectStructureRef())) {
 				//TODO: Setup a mechanism to retrive referenced object structures
 //				nestedObjStruct = setupFactory.getObjectStructure(field
 //						.getFieldDescriptor().getObjectStructureRef());
-			} 
-			
+			}
+
 			BaseConstraintBean bcb = new BaseConstraintBean();
 			if(null != cd) {
 				for(ConstraintSelector constraint: cd.getConstraint()) {
 					computeBaseConstraints(constraint, bcb, field);
 				}
 			}
-			
+
 			elementStack.push(field.getKey());
 
-			if (value instanceof Collection) {
+			if (value instanceof Collection<?>) {
 
 				String xPath = getElementXpath(elementStack) + "/";
 
@@ -257,10 +257,10 @@ public class Validator {
 				if (maxOccurs != null
 						&& maxOccurs < ((Collection<?>) value).size()) {
 					ValidationResultInfo valRes = new ValidationResultInfo(
-							xPath);							
+							xPath);
 					valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), bcb.toMap()));
 					results.add(valRes);
-				}						
+				}
 			} else {
 				if(null != value) {
 					processNestedObjectStructure(results, value, nestedObjStruct,
@@ -271,17 +271,17 @@ public class Validator {
 								getElementXpath(elementStack) + "[value='null']/");
 						val.setError(getMessage("validation.required"));
 						results.add(val);
-					}					
+					}
 				}
 			}
-			
+
 			elementStack.pop();
-			
+
 		} else { // If non complex data type
 			if (null != cd) {
 				List<ConstraintSelector> constraints = cd.getConstraint();
 
-				if (value instanceof Collection) {
+				if (value instanceof Collection<?>) {
 					BaseConstraintBean bcb = new BaseConstraintBean();
 					for (Object o : (Collection<?>) value) {
 						for (ConstraintSelector constraint : constraints) {
@@ -309,7 +309,7 @@ public class Validator {
 								xPath);
 						valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), bcb.toMap()));
 						results.add(valRes);
-					}											
+					}
 				} else {
 					BaseConstraintBean bcb = new BaseConstraintBean();
 					for (ConstraintSelector constraint : constraints) {
@@ -364,7 +364,7 @@ public class Validator {
 				// processTypeStateCaseConstraint(vc);
 				// results.add(vc);k
 			}
-		}		
+		}
 	}
 
 	private void computeBaseConstraints(ConstraintSelector constraint,
@@ -505,7 +505,7 @@ public class Validator {
 
 		if (fieldValue instanceof java.lang.String) {
 			result = hasText((String) fieldValue);
-		} else if (fieldValue instanceof java.util.Collection) {
+		} else if (fieldValue instanceof Collection<?>) {
 			result = (((Collection<?>) fieldValue).size() > 0);
 		} else {
 			result = (null != fieldValue) ? true : false;
@@ -526,7 +526,7 @@ public class Validator {
 	/**
 	 * Process caseConstraint tag and sets any of the base constraint items if
 	 * any of the when condition matches
-	 * 
+	 *
 	 * @param bcb
 	 * @param caseConstraint
 	 * @param field
@@ -616,7 +616,7 @@ public class Validator {
 	/**
 	 * Computes if all the filed required in the occurs clause are between the
 	 * min and max
-	 * 
+	 *
 	 * @param valResults
 	 * @param constraint
 	 * @param field
@@ -779,10 +779,10 @@ public class Validator {
 		if (val.isOk()) {
 			Float maxValue = ValidatorUtils.getFloat(bcb.maxValue);
 			Float minValue = ValidatorUtils.getFloat(bcb.minValue);
-			
+
 			if (maxValue != null && minValue != null) {
 				// validate range
-				if (v > maxValue || v < minValue) {					
+				if (v > maxValue || v < minValue) {
 					val.setError(MessageUtils.interpolate(
 							getMessage("validation.outOfRange"), bcb.toMap()));
 				}
@@ -988,10 +988,10 @@ public class Validator {
 
 		Message msg = messageService.getMessage(messageLocaleKey,
 				messageGroupKey, messageId);
-		
+
 		return msg.getValue();
 	}
-	
+
 	private String getElementXpath(Stack<String> elementStack) {
 		StringBuilder xPath = new StringBuilder();
 		xPath.append("/");

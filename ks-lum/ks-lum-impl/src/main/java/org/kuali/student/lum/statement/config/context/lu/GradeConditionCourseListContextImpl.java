@@ -28,7 +28,8 @@ import org.kuali.student.core.exceptions.OperationFailedException;
  */
 public class GradeConditionCourseListContextImpl extends AbstractLuContext<ReqComponent> {
 	/** Total credits template token */ 
-	private final static String TOTAL_CREDITS_TOKEN = "totalCredits";
+	private final static String GRADE_TOKEN = "grade";
+    private final static String GRADE_TYPE_TOKEN = "gradeType";	
 
     /**
      * Creates the context map (template data) for the requirement component.
@@ -40,7 +41,8 @@ public class GradeConditionCourseListContextImpl extends AbstractLuContext<ReqCo
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         
-        contextMap.put(TOTAL_CREDITS_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey()));
+        contextMap.put(GRADE_TYPE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getKey()));
+        contextMap.put(GRADE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getKey()));        
         contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
 
         return contextMap;

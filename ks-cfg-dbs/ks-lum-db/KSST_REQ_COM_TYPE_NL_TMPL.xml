@@ -3,95 +3,110 @@
 <dataset>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.none" TEMPLATE="Student must have completed none of $cluSet.getCluSetAsCode()"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="10" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="Not for students in $cluSet.getCluSetAsCode()"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="1000" LANGUAGE="de"
-        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="Student muss abgeschlossen $fields.get(&quot;reqCompFieldType.requiredCount&quot;) von $cluSet.getCluSetAsShortName()"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="101" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.none" TEMPLATE="Student must have completed none of MATH100, MATH101"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="102" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.all" TEMPLATE="Student must have completed all of MATH100, MATH101, MATH102"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="103" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.1of2" TEMPLATE="Student must have completed MATH100 or MATH101"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="104" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="Student must have completed 2 of MATH100, MATH101, MATH102"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="105" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.gradecheck" TEMPLATE="Student needs a minimum GPA of 2.5"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="106" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="Students must take 3 credits from ENGL 100, ENGL 102 or ENGL 104"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="107" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Student must be enrolled in all of MATH100, MATH101"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="108" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Student must be enrolled in one of MATH100, MATH101, MATH102"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="109" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="Students must be in one of the following program(s): Creative Writing Major"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="110" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="Not for students in a Music Major or Minor"/>
+        OWNER="kuali.reqCompType.course.courseset.completed.none" TEMPLATE="#if($cluSet.getCluList().size() == 1)Must not have successfully completed $cluSet.getCluSetAsCode()#{else}Must not have successfully completed any courses from $cluSet.getCluSetAsCode()#end"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="2" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.all" TEMPLATE="Student must have completed all of $cluSet.getCluSetAsCode()"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="201" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="202" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="203" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.1of2" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.clu;reqCompFieldLabel=Course 1> or &lt;reqCompFieldType=reqCompFieldType.clu;reqCompFieldLabel=Course 2>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="204" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="205" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.gradecheck" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gpa;reqCompFieldLabel=GPA>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="206" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.totalCredits;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="207" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="208" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="209" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Programs>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="210" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet;reqCompFieldLabel=Programs>"/>
+        OWNER="kuali.reqCompType.course.courseset.completed.all" TEMPLATE="#if($cluSet.getCluList().size() == 1)Must have successfully completed $cluSet.getCluSetAsCode()#{else}Must have successfully completed all courses from $cluSet.getCluSetAsCode()#end"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.1of2" TEMPLATE="Student must have completed $cluSet.getCluAsCode(0) or $cluSet.getCluAsCode(1)"/>
+        OWNER="kuali.reqCompType.course.courseset.completed.nof" TEMPLATE="#if($expectedValue == 1 &amp;&amp; $cluSet.getCluList().size() == 1)Must have successfully completed $cluSet.getCluSetAsCode()#{else}Must have successfully completed a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, &quot;course&quot;) from $cluSet.getCluSetAsCode()#end"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.nof" TEMPLATE="Student must have completed $expectedValue of $cluSet.getCluSetAsCode()"/>
+        OWNER="kuali.reqCompType.course.courseset.enrolled.nof" TEMPLATE="Must be concurrently enrolled in a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, &quot;course&quot;) from $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="5" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.gradecheck" TEMPLATE="Student needs a minimum GPA of $gpa"/>
+        OWNER="kuali.reqCompType.course.courseset.credits.completed.nof" TEMPLATE="Must have successfully completed a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, &quot;credit&quot;) from $cluSet.getCluSetAsCode()"/>        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="6" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="Students must take $totalCredits credits from $cluSet.getCluSetAsCode()"/>
+        OWNER="kuali.reqCompType.course.courseset.credits.completed.none" TEMPLATE="Must not have successfully completed any credits from $cluSet.getCluSetAsCode()"/>        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="7" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Student must be enrolled in all of $cluSet.getCluSetAsCode()"/>
+        OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of $gpa in $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="8" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Student must be enrolled in one of of $cluSet.getCluSetAsCode()"/>
+        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="Students must take $totalCredits credits from $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="9" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
+        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Student must be enrolled in all of $cluSet.getCluSetAsCode()"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="10" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
+        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Student must be enrolled in one of of $cluSet.getCluSetAsCode()"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="11" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="Restricted to students in the $cluSet.getCluSetAsCode() only"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="12" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
+        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="Not for students in $cluSet.getCluSetAsCode()"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="101" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.courseset.completed.none" TEMPLATE="Must not have successfully completed any courses from (MATH111, 140, 220, or STAT100)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="102" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.courseset.completed.all" TEMPLATE="Must have successfully completed all courses from (MATH111, 140, 220, and STAT100)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="103" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.courseset.completed.nof" TEMPLATE="Must have successfully completed a minimum of 1 course from (MATH111, 140, 220, or STAT100)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="104" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.courseset.enrolled.nof" TEMPLATE="Must be concurrently enrolled in a minimum of 1 course from (MATH111, 140, 220, or STAT100)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="105" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.courseset.credits.completed.nof" TEMPLATE="Must have earned a minimum of 3 credits from (MATH111, 140, 220, or STAT100)"/>        
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="106" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.courseset.credits.completed.none" TEMPLATE="No credits may be used from (Developmental Math courses (MATH001, 002, 003, 010, 011, 013 or 015)"/> 
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="107" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and  STAT100)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="108" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="Students must take 3 credits from ENGL 100, ENGL 102 or ENGL 104"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="109" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Student must be enrolled in all of MATH100, MATH101"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="110" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Student must be enrolled in one of MATH100, MATH101, MATH102"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="111" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="Students must be in one of the following program(s): Creative Writing Major"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="112" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="Not for students in a Music Major or Minor"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="201" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.courseset.completed.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="202" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.courseset.completed.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="203" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.courseset.completed.nof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="204" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.courseset.enrolled.nof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="205" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.courseset.credits.completed.nof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>                
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="206" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.courseset.credits.completed.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>        
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="207" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gpa;reqCompFieldLabel=GPA> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="208" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.grdCondCourseList" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.totalCredits;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="209" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="210" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="211" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="212" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>"/>
 </dataset>

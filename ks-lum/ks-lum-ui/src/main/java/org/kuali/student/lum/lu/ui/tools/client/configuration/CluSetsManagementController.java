@@ -46,6 +46,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
@@ -401,6 +402,8 @@ public class CluSetsManagementController extends TabbedSectionLayout {
 	                if(save){
 	                    getCurrentView().updateModel();
 	                    CluSetsManagementController.this.updateModel();
+	                    // set reusable flag here for CluSetManagement.
+	                    CluSetHelper.wrap((Data)modelToBeSaved.getRoot().get("cluset")).setReusable(new Boolean(true));
 	                    saveModel(modelToBeSaved, saveActionEvent, clearData);
 	                }
 	                else{

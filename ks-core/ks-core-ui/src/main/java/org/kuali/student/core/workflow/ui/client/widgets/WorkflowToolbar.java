@@ -386,14 +386,12 @@ public class WorkflowToolbar extends Composite {
 	
 									@Override
 									public void onSuccess(List<String> result) {
-										String workflowNodes = "";
 										StringBuilder workflowNodesBuffer = new StringBuilder();
-										workflowNodesBuffer.append(workflowNodes);
 										for (String nodeName:result){
 											workflowNodesBuffer.append(nodeName);
 											workflowNodesBuffer.append(" ");
 										}
-										if (workflowNodes.isEmpty()){
+										if (workflowNodesBuffer.toString().isEmpty()){
 											workflowNodesBuffer.append("Not in workflow");
 										}
 										wfNodeLabel.setText(workflowNodesBuffer.toString());

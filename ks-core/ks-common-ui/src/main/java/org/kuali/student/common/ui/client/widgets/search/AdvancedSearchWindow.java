@@ -106,6 +106,10 @@ public class AdvancedSearchWindow {
     public SearchRequest getSearchRequest() {
         return searchPanel.getSearchRequest();
     }
+    
+    public String getSelectedLookupName() {
+        return searchPanel.getSelectedLookupName();
+    }
 
     private ConfirmCancelGroup confirmCancelButtons = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 
@@ -138,6 +142,7 @@ public class AdvancedSearchWindow {
 		buttons.setWidget(confirmCancelButtons);
 		layout.add(buttons);
 		dialog.setWidget(layout);
+		dialog.setSize(600,400);
 	}
 
 	public void setActionButtonLabel(String actionLabel) {

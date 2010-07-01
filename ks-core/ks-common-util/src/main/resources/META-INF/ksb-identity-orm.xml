@@ -29,4 +29,14 @@
         </attributes>
        
     </entity>
+
+    <entity class="org.kuali.rice.ksb.messaging.FlattenedServiceDefinition" >
+        <attributes>
+            <id name="flattenedServiceDefinitionId">
+                <column name="FLT_SVC_DEF_ID"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
+        </attributes>
+       
+    </entity>
 </entity-mappings>

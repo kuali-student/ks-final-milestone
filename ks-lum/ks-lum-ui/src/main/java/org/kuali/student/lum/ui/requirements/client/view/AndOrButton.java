@@ -23,10 +23,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class AndOrButton extends HorizontalPanel {
-    Button andButton = new Button("");
-    Button orButton = new Button("");
-    Label andLabel = new Label("And");
-    Label orLabel = new Label("Or");
+    Button andButton = new Button(" AND ");
+    Button orButton = new Button("OR");
+  //  Label andLabel = new Label("And");
+  //  Label orLabel = new Label("Or");
     HandlerRegistration andHandlerRegi;
     HandlerRegistration orHandlerRegi;
     
@@ -35,12 +35,12 @@ public class AndOrButton extends HorizontalPanel {
     private int value = And;
     public AndOrButton(){
         super.add(andButton);
-        super.add(andLabel);
-        super.add(orLabel);
+        //super.add(andLabel);
+        //super.add(orLabel);
         super.add(orButton);
-        andLabel.setStyleName("KS-Rules-Toggle-Label");
+        //andLabel.setStyleName("KS-Rules-Toggle-Label");
         andButton.setStyleName("KS-Rules-Toggle-Button");
-        orLabel.setStyleName("KS-Rules-Toggle-Label");
+        //orLabel.setStyleName("KS-Rules-Toggle-Label");
         orButton.setStyleName("KS-Rules-Toggle-Button");
         update(AndOrButton.And);
         andButton.addClickHandler(new ClickHandler(){
@@ -73,6 +73,16 @@ public class AndOrButton extends HorizontalPanel {
     }
     private void update(int value){
         this.value = value;
+        
+        if(value == And) {
+            andButton.setStyleName("KS-Rules-Toggle-Label");
+            orButton.setStyleName("KS-Rules-Toggle-Button");
+        } else if (value == Or){
+            orButton.setStyleName("KS-Rules-Toggle-Label"); 
+            andButton.setStyleName("KS-Rules-Toggle-Button");
+        }
+        
+        /*
         if(value == And){
             andButton.setVisible(true);
             andLabel.setVisible(true);
@@ -83,5 +93,5 @@ public class AndOrButton extends HorizontalPanel {
             andLabel.setVisible(false);
             orButton.setVisible(true);
             orLabel.setVisible(true);
-        }
+        } */
     }}
