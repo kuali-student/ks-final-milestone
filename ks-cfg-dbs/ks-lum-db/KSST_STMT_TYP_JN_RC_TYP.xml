@@ -33,7 +33,6 @@
         REQ_COM_TYPE_ID="kuali.reqCompType.course.permission.org.required" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.course.permission.instructor.required" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>                                    
-        REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.completed.nof" STMT_TYPE_ID="kuali.luStatementType.programEntrance"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.notcompleted.nof" STMT_TYPE_ID="kuali.luStatementType.programEntrance"/>
     <KSST_STMT_TYP_JN_RC_TYP
@@ -41,13 +40,9 @@
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.coursecompleted.nof" STMT_TYPE_ID="kuali.luStatementType.programEntrance"/>
     <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqCompType.course.courseset.gpa.min" STMT_TYPE_ID="kuali.luStatementType.programEntrance"/>
-    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.completed.nof" STMT_TYPE_ID="kuali.luStatementType.programCompletion"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.completed.all" STMT_TYPE_ID="kuali.luStatementType.programCompletion"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.coursecompleted.nof" STMT_TYPE_ID="kuali.luStatementType.programCompletion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqCompType.course.courseset.gpa.min" STMT_TYPE_ID="kuali.luStatementType.programCompletion"/>
 </dataset>
