@@ -38,7 +38,7 @@ import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementC
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.MajorDisciplineController;
+import org.kuali.student.lum.program.client.MajorDisciplineController;
 
 public class LUMApplicationManager extends Controller {
 

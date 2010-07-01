@@ -19,18 +19,8 @@
 
 
     <inherits name="org.kuali.student.common.ui.CommonUI"/>
-    <inherits name="org.kuali.student.lum.lu.ui.home.LUMHome"/>
-    <inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
-    <inherits name="org.kuali.student.lum.lu.ui.tools.Tools"/>
     <inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
     <inherits name="org.kuali.student.core.proposal.ui.ProposalUI"/>
-    <inherits name='org.kuali.student.lum.lu.assembly.data.LuData'/>
-
-    <inherits name="org.kuali.student.lum.program.Program"/>
-
-    <!-- Theme                  -->
-    <inherits name="org.kuali.student.lum.ui.theme.standard.StandardTheme"/>
-    <!--<stylesheet src="LumMain.css"/>-->
 
     <replace-with class="org.kuali.student.lum.lu.ui.course.client.configuration.course.poc.CourseConfigurer">
         <when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer"/>

@@ -199,6 +199,13 @@
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
+      <dependency>
+      <groupId>org.kuali.student.lum</groupId>
+      <artifactId>ks-lum-program</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
