@@ -42,7 +42,7 @@
     <bean id="cluSetContext" class="org.kuali.student.lum.statement.config.context.lu.CluSetContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
-    <bean id="gradeConditionCourseListContext" class="org.kuali.student.lum.statement.config.context.lu.GradeContextImpl">
+    <bean id="gradeContext" class="org.kuali.student.lum.statement.config.context.lu.GradeContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
     <bean id="gpaContext" class="org.kuali.student.lum.statement.config.context.lu.GPAContextImpl">
@@ -113,13 +113,13 @@
                 <entry key="kuali.reqCompType.course.courseset.grade.min">
                     <list>
                         <ref local="cluSetContext"/>
-                        <ref local="gradeConditionCourseListContext"/>
+                        <ref local="gradeContext"/>
                     </list>
                 </entry>       
                 <entry key="kuali.reqCompType.course.courseset.grade.max">
                     <list>
                         <ref local="cluSetContext"/>
-                        <ref local="gradeConditionCourseListContext"/>
+                        <ref local="gradeContext"/>
                     </list>
                 </entry>  
                 <entry key="kuali.reqCompType.course.permission.org.required">
