@@ -31,19 +31,17 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
-    private LuService luService;
+    /**
+     * Learning unit service.
+     */
+	private LuService luService;
 
 	/**
-	 * <code>clu</code> token (key) references a Clu object used in templates.
-	 * e.g. 'Course: $clu.getOfficialIdentifier().getLongName()'
+	 * Template tokens (keys).
 	 */
-	protected final static String CLU_TOKEN = "clu";
-	/**
-	 * <code>cluSet</code> token (key) references a Clu set object
-	 * used in templates.
-	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()'
-	 */
-	protected final static String CLU_SET_TOKEN = "cluSet";
+	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
+	protected final static String OPERATOR_TOKEN = "relationalOperator";
+
 	/**
 	 * <code>NLHelper</code> token (key) references a static natural language
 	 * helper class used in templates.
@@ -51,7 +49,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 	 */
 	protected final static String NL_HELPER_TOKEN = "NLHelper";
 
-	/*
+	/**
 	 * Constructor.
 	 */
 	public AbstractLuContext() {
@@ -189,6 +187,8 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
         contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
+        contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
         return contextMap;
     }
 }

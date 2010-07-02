@@ -32,17 +32,12 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 	private final static Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
 
 	/**
-	 * <code>clu</code> token (key) references a Clu object to be used in a template 
-	 * e.g. 'Course: $clu.getOfficialIdentifier().getLongName()'
+	 * Template tokens (keys).
 	 */
-	protected final static String CLU_TOKEN = "clu";
-	/**
-	 * <code>cluSet</code> token (key) references a Clu set object to be used in a template
-	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()' 
-	 */
-	protected final static String CLU_SET_TOKEN = "cluSet";
+	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
+	protected final static String OPERATOR_TOKEN = "relationalOperator";
 
-	/*
+	/**
 	 * Constructor.
 	 */
 	public AbstractLuContext() {
@@ -158,6 +153,8 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
+		contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
         return contextMap;
     }
 }

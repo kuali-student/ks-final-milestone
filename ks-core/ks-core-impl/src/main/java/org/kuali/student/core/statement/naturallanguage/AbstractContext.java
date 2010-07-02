@@ -39,9 +39,7 @@ public abstract class AbstractContext<T> implements Context<T> {
 	 * or
 	 * <p>'Student must take $reqCompFieldType_totalCredits of MATH 100'</p>
 	 */
-	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
 	protected final static String FIELDS_TOKEN = "fields";
-	protected final static String OPERATOR_TOKEN = "relationalOperator";
 
     /**
      * Gets requirement component fields as a map.

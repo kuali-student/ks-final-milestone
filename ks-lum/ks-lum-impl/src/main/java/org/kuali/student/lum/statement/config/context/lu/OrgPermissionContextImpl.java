@@ -26,9 +26,9 @@ import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
 /**
  * This class creates the template context for letter grade condition type.
  */
-public class InstructorPermConditionCourseListContextImpl extends AbstractLuContext<ReqComponent> {
+public class OrgPermissionContextImpl extends AbstractLuContext<ReqComponent> {
  
-	private final static String INSTRUCTOR_PERM_TOKEN = "personid";
+	private final static String ORG_PERM_TOKEN = "orgid";
 
     /**
      * Creates the context map (template data) for the requirement component.
@@ -39,9 +39,7 @@ public class InstructorPermConditionCourseListContextImpl extends AbstractLuCont
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        
-        contextMap.put(INSTRUCTOR_PERM_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.INSTRUCTOR_PERMISSION_KEY.getKey()));
-
+        contextMap.put(ORG_PERM_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.ORG_PERMISSION_KEY.getKey()));
         return contextMap;
     }
 }

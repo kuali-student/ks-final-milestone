@@ -24,12 +24,11 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
 
 /**
- * This class creates the template context for grade condition type.
+ * This class creates the template context for letter grade condition type.
  */
-public class GradeConditionCourseListContextImpl extends AbstractLuContext<ReqComponent> {
-	/** Total credits template token */ 
-	private final static String GRADE_TOKEN = "grade";
-    private final static String GRADE_TYPE_TOKEN = "gradeType";	
+public class InstructorPermissionContextImpl extends AbstractLuContext<ReqComponent> {
+ 
+	private final static String INSTRUCTOR_PERM_TOKEN = "personid";
 
     /**
      * Creates the context map (template data) for the requirement component.
@@ -40,11 +39,7 @@ public class GradeConditionCourseListContextImpl extends AbstractLuContext<ReqCo
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        
-        contextMap.put(GRADE_TYPE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.GRADE_TYPE_KEY.getKey()));
-        contextMap.put(GRADE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.GRADE_KEY.getKey()));        
-        contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
-
+        contextMap.put(INSTRUCTOR_PERM_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.INSTRUCTOR_PERMISSION_KEY.getKey()));
         return contextMap;
     }
 }
