@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage.util;
+package org.kuali.student.lum.statement.typekey;
 
 /**
  * <p>Requirement component types are used to map a dot notation field key
@@ -32,7 +32,7 @@ package org.kuali.student.core.statement.naturallanguage.util;
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
-public enum ReqComponentFieldTypes {
+public enum ReqComponentFieldTypeKeys {
 	CLU_KEY("reqCompFieldType.clu.id"),
 	CLUSET_KEY("reqCompFieldType.cluSet.id"),
 	REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
@@ -49,7 +49,7 @@ public enum ReqComponentFieldTypes {
     
 	private String key;
 	
-	ReqComponentFieldTypes(String key) {
+	ReqComponentFieldTypeKeys(String key) {
 		this.key = key;
 	}
 	

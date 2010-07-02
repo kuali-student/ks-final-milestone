@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
 
 /**
  * This class creates the template context for letter grade condition type.
@@ -40,7 +40,7 @@ public class InstructorPermConditionCourseListContextImpl extends AbstractLuCont
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         
-        contextMap.put(INSTRUCTOR_PERM_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.INSTRUCTOR_PERMISSION_KEY.getKey()));
+        contextMap.put(INSTRUCTOR_PERM_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.INSTRUCTOR_PERMISSION_KEY.getKey()));
 
         return contextMap;
     }

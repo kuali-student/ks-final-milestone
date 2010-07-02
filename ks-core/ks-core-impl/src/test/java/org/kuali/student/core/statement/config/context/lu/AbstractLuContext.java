@@ -24,7 +24,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
@@ -138,11 +138,11 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public CluSetInfo getCluSet(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	CluSetInfo cluSet = null;
-    	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getKey())) {
-        	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getKey());
+    	if(map.containsKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+        	String cluIds = map.get(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
         	cluSet = getClusAsCluSet(cluIds);
-        } else if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
-        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+        } else if(map.containsKey(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
+        	String cluSetId = map.get(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
             cluSet = getCluSet(cluSetId);
         }
     	return cluSet;
