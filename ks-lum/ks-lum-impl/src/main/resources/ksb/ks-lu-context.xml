@@ -30,7 +30,8 @@
     be defined -->
 
   <import resource="classpath:statement-context.xml" />
-
+  <import resource="classpath:program-context.xml" />
+  
   <bean id="propertyPlaceholder"
     class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 
