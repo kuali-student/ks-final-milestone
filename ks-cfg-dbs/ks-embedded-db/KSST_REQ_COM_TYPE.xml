@@ -24,13 +24,13 @@
         TYPE_DESC="Must successfully complete no more than &lt;n> credits from &lt;courses>" TYPE_KEY="kuali.reqCompType.course.courseset.credits.completed.max"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20011130000000"
         NAME="Minimum overall GPA"
-        TYPE_DESC="Student needs to have attained a minimum specified GPA" TYPE_KEY="kuali.reqCompType.course.courseset.gpa.min"/>
+        TYPE_DESC="Needs to have attained a minimum specified GPA" TYPE_KEY="kuali.reqCompType.course.courseset.gpa.min"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="All of required courses"
-        TYPE_DESC="Student must be enrolled in all of the following courses" TYPE_KEY="kuali.reqCompType.courseList.coreq.all"/>
+        TYPE_DESC="Must be enrolled in all of the following courses" TYPE_KEY="kuali.reqCompType.courseList.coreq.all"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="One of required courses"
-        TYPE_DESC="Student must be enrolled in one of the following courses" TYPE_KEY="kuali.reqCompType.courseList.coreq.oneof"/>
+        TYPE_DESC="Must be enrolled in one of the following courses" TYPE_KEY="kuali.reqCompType.courseList.coreq.oneof"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="One of required programs"
         TYPE_DESC="Enrollment is limited to students in the following programs" TYPE_KEY="kuali.reqCompType.programList.enroll.oneof"/>
@@ -49,4 +49,7 @@
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Instructor perm required"
         TYPE_DESC="Permission of &lt;instructor> required" TYPE_KEY="kuali.reqCompType.course.permission.instructor.required"/>                                                
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Minimum score on test"
+        TYPE_DESC="Must have achieved a minimum score of &lt;score> on &lt;tests>" TYPE_KEY="kuali.reqCompType.course.test.score.min"/>                                                
 </dataset>

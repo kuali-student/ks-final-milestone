@@ -27,10 +27,10 @@
         OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of $gpa in $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="9" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Student must be enrolled in all of $cluSet.getCluSetAsCode()"/>
+        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Must be enrolled in all of $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="10" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
-        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Student must be enrolled in one of of $cluSet.getCluSetAsCode()"/>
+        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Must be enrolled in one of of $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="11" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="Restricted to students in the $cluSet.getCluSetAsCode() only"/>
@@ -49,7 +49,10 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="16" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.course.permission.instructor.required" TEMPLATE="Permission of instructor required"/>  
-        
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="17" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
+        OWNER="kuali.reqCompType.course.test.score.min" TEMPLATE="Must have achieved a minimum score of $fields.get(''reqCompFieldType.test.score'') on $cluSet.getCluSetAsShortName()"/>  
+
     <KSST_REQ_COM_TYPE_NL_TMPL ID="101" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.course.courseset.completed.none" TEMPLATE="Must not have successfully completed any courses from (MATH111, 140, 220, or STAT100)"/>
@@ -76,13 +79,13 @@
         OWNER="kuali.reqCompType.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and  STAT100)"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="109" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Student must be enrolled in all of MATH100, MATH101"/>
+        OWNER="kuali.reqCompType.courseList.coreq.all" TEMPLATE="Must be enrolled in all of MATH100, MATH101"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="110" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Student must be enrolled in one of MATH100, MATH101, MATH102"/>
+        OWNER="kuali.reqCompType.courseList.coreq.oneof" TEMPLATE="Must be enrolled in one of MATH100, MATH101, MATH102"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="111" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="Students must be in one of the following program(s): Creative Writing Major"/>
+        OWNER="kuali.reqCompType.programList.enroll.oneof" TEMPLATE="Must be in one of the following program(s): Creative Writing Major"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="112" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="Not for students in a Music Major or Minor"/>
@@ -98,6 +101,9 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="116" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.course.permission.instructor.required" TEMPLATE="Permission of instructor required"/>        
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="117" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.test.score.min" TEMPLATE="Must have achieved a minimum score of 600 on SAT Critical Reading Exam"/>        
         
     <KSST_REQ_COM_TYPE_NL_TMPL ID="201" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
@@ -147,4 +153,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="216" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.course.permission.instructor.required" TEMPLATE=""/>        
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="217" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.test.score.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.test.score;reqCompFieldLabel=Test Score> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Tests>"/>        
 </dataset>

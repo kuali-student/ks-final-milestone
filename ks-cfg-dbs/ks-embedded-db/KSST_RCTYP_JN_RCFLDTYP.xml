@@ -61,4 +61,8 @@
         REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.program.programset.coursecompleted.nof"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqCompType.program.programset.coursecompleted.nof"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqCompType.course.test.score.min"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.test.score" REQ_COMP_TYPE_ID="kuali.reqCompType.course.test.score.min"/>
 </dataset>

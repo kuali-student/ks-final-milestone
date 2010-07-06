@@ -128,6 +128,9 @@
                 <entry key="kuali.reqCompType.course.permission.instructor.required">
                     <ref local="instructorPermissionContext"/>
                 </entry>
+                <entry key="kuali.reqCompType.course.test.score.min">
+	                <ref local="cluSetContext"/>
+                </entry>              
 
                 <!-- Program Contexts -->
                 <entry key="kuali.reqCompType.programList.enroll.oneof">
