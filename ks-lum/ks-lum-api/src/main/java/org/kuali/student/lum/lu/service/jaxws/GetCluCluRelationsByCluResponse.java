@@ -42,6 +42,10 @@ public class GetCluCluRelationsByCluResponse {
     private java.util.List<CluCluRelationInfo> _return;
 
     public java.util.List<CluCluRelationInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<CluCluRelationInfo>(0);
+		}
+
         return this._return;
     }
 

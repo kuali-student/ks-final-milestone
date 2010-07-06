@@ -112,8 +112,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				List<CluCluRelationInfo> cluClus = luService
 						.getCluCluRelationsByClu(clu.getId());
 				
-				cluClus = (null == cluClus) ? new ArrayList<CluCluRelationInfo>() : cluClus;
-				
 				for (CluCluRelationInfo cluRel : cluClus) {
 					if (cluRel.getType().equals(
 							CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
@@ -133,8 +131,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				List<CluInfo> formats = luService.getRelatedClusByCluId(course
 						.getId(),
 						CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
-				
-				formats = (null == formats) ? new ArrayList<CluInfo>() : formats;
 				
 				for (CluInfo format : formats) {
 					FormatInfo formatInfo = formatAssembler.assemble(format,

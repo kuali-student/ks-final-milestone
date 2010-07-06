@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -238,10 +240,11 @@ public class TestCourseServiceImpl {
             try {
                 courseService.updateCourse(retrievedCourse);
                 fail("Failed to throw VersionMismatchException");
-            } catch (Exception e) {
+            } catch (VersionMismatchException e) {
                 System.out.println("Correctly received " + e.getMessage());
-            } // TODO - should be a VersionMismatchException
+            } 
         } catch (Exception e) {
+        	e.printStackTrace();
             fail(e.getMessage());
         }
     }
@@ -275,9 +278,7 @@ public class TestCourseServiceImpl {
             try {
                 retrievedCourse = courseService.getCourse(courseId);
                 fail("Retrieval of deleted course should have thrown exception");
-            } catch (Exception e) {} // Should be DoesNotExistException, but we're getting a SOAPFaultException instead
-            // TODO - fix services to return correct exceptions and empty lists (rather than null)
-
+            } catch (DoesNotExistException e) {}
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -295,9 +296,7 @@ public class TestCourseServiceImpl {
             try {
                 courseService.createCourse(cInfo);
                 fail("Should have thrown data validation exception");
-            } catch (Exception e) {} // Should be DataValidationException, but we're getting a SOAPFaultException instead
-            // TODO - fix services to return correct exceptions and empty lists (rather than null)
-            
+            } catch (DataValidationErrorException e) {} 
         } catch (Exception e) {
             e.printStackTrace();
         } 

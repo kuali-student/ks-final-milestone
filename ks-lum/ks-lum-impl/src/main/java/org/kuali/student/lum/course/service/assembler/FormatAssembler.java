@@ -77,7 +77,6 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				List<CluInfo> activities = luService.getRelatedClusByCluId(
 						format.getId(),
 						CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
-				activities = (null == activities) ? new ArrayList<CluInfo>() : activities;
 				for (CluInfo activity : activities) {
 					ActivityInfo activityInfo = activityAssembler.assemble(
 							activity, null, false);
@@ -179,8 +178,6 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			try {
 				List<CluCluRelationInfo> activityRelationships = luService
 						.getCluCluRelationsByClu(format.getId());
-				
-				// activityRelationships = (null == activityRelationships) ? new ArrayList<CluCluRelationInfo>() : activityRelationships;
 				
 				for (CluCluRelationInfo activityRelation : activityRelationships) {
 					if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE
