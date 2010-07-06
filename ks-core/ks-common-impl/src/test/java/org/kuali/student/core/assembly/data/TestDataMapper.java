@@ -63,8 +63,8 @@ public class TestDataMapper {
 		DataBeanMapper dataMapper = new DefaultDataBeanMapper();
 		
 		Data data = dataMapper.convertFromBean(person);
-		
-		MockPerson convertedPerson = (MockPerson)dataMapper.convertFromData(data, MockPerson.class);
+		Metadata metadata = new Metadata();
+		MockPerson convertedPerson = (MockPerson)dataMapper.convertFromData(data, MockPerson.class,metadata);
 
 		assertEquals(person.getDob(), convertedPerson.getDob());
 		assertEquals(person.getEmail(), convertedPerson.getEmail());
