@@ -48,10 +48,10 @@
     <bean id="gpaContext" class="org.kuali.student.lum.statement.config.context.lu.GPAContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
-    <bean id="instructorPermissionContext" class="org.kuali.student.lum.statement.config.context.lu.InstructorPermissionContextImpl">
+    <bean id="instructorPermissionContext" class="org.kuali.student.lum.statement.config.context.lu.PersonContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
-    <bean id="orgPermissionContext" class="org.kuali.student.lum.statement.config.context.lu.OrgPermissionContextImpl">
+    <bean id="orgPermissionContext" class="org.kuali.student.lum.statement.config.context.lu.OrganizationContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
 

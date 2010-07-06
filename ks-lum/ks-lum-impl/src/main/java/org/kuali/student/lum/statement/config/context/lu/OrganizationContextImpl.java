@@ -24,11 +24,11 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
 
 /**
- * This class creates the template context for letter grade condition type.
+ * This class creates the template context for an organization.
  */
-public class OrgPermissionContextImpl extends AbstractLuContext<ReqComponent> {
+public class OrganizationContextImpl extends AbstractLuContext<ReqComponent> {
  
-	private final static String ORG_PERM_TOKEN = "orgid";
+	private final static String ORG_TOKEN = "orgid";
 
     /**
      * Creates the context map (template data) for the requirement component.
@@ -39,7 +39,7 @@ public class OrgPermissionContextImpl extends AbstractLuContext<ReqComponent> {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(ORG_PERM_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.ORG_PERMISSION_KEY.getKey()));
+        contextMap.put(ORG_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.ORG_PERMISSION_KEY.getKey()));
         return contextMap;
     }
 }
