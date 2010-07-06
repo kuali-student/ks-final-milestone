@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
 
@@ -69,5 +71,18 @@ public abstract class AbstractContext<T> implements Context<T> {
      */
     public String getReqComponentFieldValue(ReqComponent reqComponent, String key) {
         return getReqComponentFieldMap(reqComponent).get(key);
+    }
+
+    /**
+     * Creates the context map (template data) for the requirement component.
+     * Also, adds the field token map to the context map.
+     *
+     * @param reqComponent Requirement component
+     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     */
+    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+        Map<String, Object> contextMap = new HashMap<String, Object>();
+        contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
+        return contextMap;
     }
 }

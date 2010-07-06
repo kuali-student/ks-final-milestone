@@ -151,8 +151,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
+        Map<String, Object> contextMap = super.createContextMap(reqComponent);
 		contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
         contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
         return contextMap;
