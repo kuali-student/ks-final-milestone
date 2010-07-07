@@ -51,7 +51,7 @@ public class ProgramServiceImpl implements ProgramService{
 	}
 
 	@Override
-	public ProgramRequirementInfo createHonorsProgram(
+	public ProgramRequirementInfo createProgramRequirement(
 			ProgramRequirementInfo programRequirementInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
