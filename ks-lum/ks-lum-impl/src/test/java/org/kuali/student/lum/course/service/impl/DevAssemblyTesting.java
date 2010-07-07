@@ -1,6 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -13,6 +14,8 @@ import java.util.TreeSet;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.dictionary.poc.MetadataServiceImpl;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -343,4 +346,37 @@ public class DevAssemblyTesting {
     public void testCluIsUpdated() {
         
     }
+    
+	@Test
+	public void testGetMetadata(){
+		MetadataServiceImpl metadataService = new MetadataServiceImpl(courseService);
+		metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
+        Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.course.dto.CourseInfo");
+            
+        Map<String, Metadata> properties = metadata.getProperties();
+        assertEquals(properties.size(), 25);
+        
+        assertTrue(properties.containsKey("state"));
+        assertTrue(properties.containsKey("campusLocations"));
+           
+        assertTrue(properties.containsKey("formats"));
+        metadata = properties.get("formats");
+        
+        properties = metadata.getProperties();
+        assertTrue(properties.containsKey("*"));
+        metadata = properties.get("*");
+               
+        properties = metadata.getProperties();
+        assertTrue(properties.containsKey("activities"));
+        metadata = properties.get("activities");
+
+        properties = metadata.getProperties();
+        assertTrue(properties.containsKey("*"));
+        metadata = properties.get("*");
+
+        properties = metadata.getProperties();
+        assertFalse(properties.containsKey("foo"));
+        
+        return;
+	}
 }
