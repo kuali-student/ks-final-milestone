@@ -142,6 +142,7 @@ public class AdvancedSearchWindow {
 		buttons.setWidget(confirmCancelButtons);
 		layout.add(buttons);
 		dialog.setWidget(layout);
+		dialog.setSize(600,400);
 	}
 
 	public void setActionButtonLabel(String actionLabel) {

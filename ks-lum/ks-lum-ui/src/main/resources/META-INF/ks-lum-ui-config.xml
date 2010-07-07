@@ -41,6 +41,7 @@
     
     <!-- Application dictionary -->
     <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
+    <param name="ks.lum.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
     
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-lum-ui-config.xml</param> 

@@ -43,7 +43,8 @@ public class CluSetHelper {
         NAME ("name"),
         STATE ("state"),
         TYPE ("type"),
-        REUSABLE ("reusable");
+        REUSABLE ("reusable"),
+        REFERENCEABLE ("referenceable");
 
         private final String key;
 
@@ -57,30 +58,30 @@ public class CluSetHelper {
         }
     }
     private Data data;
-    
+
     public CluSetHelper(Data data) {
         this.data = data;
     }
-    
+
     public static CluSetHelper wrap(Data data) {
         if (data == null) {
             return null;
         }
         return new CluSetHelper(data);
     }
-    
+
     public Data getData() {
         return this.data;
     }
-    
+
     public void setId(String value) {
         data.set(Properties.ID.getKey(), value);
     }
-    
+
     public String getId() {
         return (String) data.get(Properties.ID.getKey());
     }
-    
+
     public void setOrganization(String value) {
         data.set(Properties.ORGANIZATION.getKey(), value);
     }
@@ -108,7 +109,7 @@ public class CluSetHelper {
     public Date getExpirationDate() {
         return (Date) data.get(Properties.EXPIRATION_DATE.getKey());
     }
-    
+
     public void setMetaInfo (MetaInfoHelper value) {
         data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
     }
@@ -150,6 +151,21 @@ public class CluSetHelper {
             reUsable = new Boolean(false);
         }
         return reUsable;
+    }
+
+    public void setReferenceable(Boolean referenceable) {
+        Boolean newValue = referenceable;
+        if (referenceable == null) {
+            newValue = new Boolean(false);
+        }
+        data.set(Properties.REFERENCEABLE.getKey(), newValue);
+    }
+    public Boolean getReferenceable() {
+        Boolean referenceable = (Boolean) data.get(Properties.REFERENCEABLE.getKey());
+        if (referenceable == null) {
+            referenceable = new Boolean(false);
+        }
+        return referenceable;
     }
 
     public void setApprovedClus(Data value) {

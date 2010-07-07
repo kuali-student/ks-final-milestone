@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -374,4 +375,9 @@ public class LuData extends Data {
 	public String toString() {
 		return data.toString();
 	}
+
+	public Set keySet() {
+		return data.keySet();
+	}
+
 }

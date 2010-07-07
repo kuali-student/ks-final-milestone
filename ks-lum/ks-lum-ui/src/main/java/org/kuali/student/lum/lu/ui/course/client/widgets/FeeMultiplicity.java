@@ -143,7 +143,6 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
         private String multiplePath = "0/" + FeeInfoConstants.MULTIPLE_RATE_FEE + "/";
         private String perCreditPath = "0/" + FeeInfoConstants.PER_CREDIT_FEE + "/";
         private String currentModelPath;
-        private SelectionChangeHandler dropDownHandler;
             
 		public TransmogrifyingFeeRecordItem(String parentPath, int itemCount) {
 			
@@ -151,25 +150,26 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
             this.parentPath = parentPath;
 
             // swap in/out sections (and their query paths) based on user input
-            dropDownHandler = new SelectionChangeHandler() {
+            rateTypeList.addSelectionChangeHandler(new SelectionChangeHandler() {
                 @Override
                 public void onSelectionChange(SelectionChangeEvent event) {
                     String selectedItem = ((KSSelectItemWidgetAbstract) event.getSource()).getSelectedItem();
-                    // 1000 - the number of this mutiplicity item to avoid any conflicts with existing 
-                    // model indices
-                    setRateType(selectedItem, 1000 - itemNumber);
-		            // feeTypeList.selectItem("kuali.enum.type.feeTypes.labFee");
+                    // 1000 - the number of this multiplicity item to avoid any conflicts with existing 
+                    // model indices (that were created during retrieval)
+                    if (event.isUserInitiated()) {
+                    	setRateType(selectedItem, 1000 - itemNumber);
+                    }
                 }
-            };
+            });
 		}
 
 		public void setRateType(String rateType, int modelIdx) {
 			clearSection();
+            setCurrentModelPath(rateType, modelIdx);
             buildRateSpecificDropDownSection(rateType, modelIdx);
             addSection(dropDownSection);
             buildRateSpecificFieldSection(rateType, modelIdx);
             addSection(fieldSection);
-            setCurrentModelPath(rateType, modelIdx);
 		}
 		
 		private void setCurrentModelPath(String rateType, int modelIdx) {
@@ -200,21 +200,9 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
     	private void buildRateSpecificDropDownSection(String rateType, int modelIdx) {
     		dropDownSection = new GroupSection();
 
-    		if (FeeInfoConstants.FIXED_RATE_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(dropDownSection, fixedPath + modelIdx + "/feeType", generateMessageInfo("Fee Type"), feeTypeList, parentPath);
-	            FeeMultiplicity.this.addField(dropDownSection, fixedPath + modelIdx + "/rateType", generateMessageInfo("Rate Type"), rateTypeList, parentPath);
-    		} else if (FeeInfoConstants.MULTIPLE_RATE_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(dropDownSection, multiplePath + modelIdx + "/feeType", generateMessageInfo("Fee Type"), feeTypeList, parentPath);
-	            FeeMultiplicity.this.addField(dropDownSection, multiplePath + modelIdx + "/rateType", generateMessageInfo("Rate Type"), rateTypeList, parentPath);
-    		} else if (FeeInfoConstants.PER_CREDIT_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(dropDownSection, perCreditPath + modelIdx + "/feeType", generateMessageInfo("Fee Type"), feeTypeList, parentPath);
-	            FeeMultiplicity.this.addField(dropDownSection, perCreditPath + modelIdx + "/rateType", generateMessageInfo("Rate Type"), rateTypeList, parentPath);
-    		} else if (FeeInfoConstants.VARIABLE_RATE_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(dropDownSection, variablePath + modelIdx + "/feeType", generateMessageInfo("Fee Type"), feeTypeList, parentPath);
-	            FeeMultiplicity.this.addField(dropDownSection, variablePath + modelIdx + "/rateType", generateMessageInfo("Rate Type"), rateTypeList, parentPath);
-    		}
+            FeeMultiplicity.this.addField(dropDownSection, getCurrentModelPath() + "/feeType", generateMessageInfo("Fee Type"), feeTypeList, parentPath);
+            FeeMultiplicity.this.addField(dropDownSection, getCurrentModelPath() + "/rateType", generateMessageInfo("Rate Type"), rateTypeList, parentPath);
             rateTypeList.selectItem(rateType);
-            rateTypeList.addSelectionChangeHandler(dropDownHandler);
     	}
     	
     	private void buildRateSpecificFieldSection(String rateType, int modelIdx) {
@@ -335,12 +323,15 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
     }
     // TODO - from enums
     public class RateTypeList extends KSDropDown {
-        public RateTypeList() {
+
+		public RateTypeList() {
             SimpleListItems types = new SimpleListItems();
+            
             types.addItem("variableRateFee", getLabel(LUConstants.VARIABLE_RATE));
             types.addItem("fixedRateFee", getLabel(LUConstants.FIXED_RATE));
             types.addItem("multipleRateFee", getLabel(LUConstants.MULTIPLE_RATE));
             types.addItem("perCreditFee", getLabel(LUConstants.PER_CREDIT_RATE));
+            super.setBlankFirstItem(false);
             super.setListItems(types);
         }
     }
@@ -348,15 +339,17 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
     public class FeeTypeList extends KSDropDown {
         public FeeTypeList(){
             SimpleListItems types = new SimpleListItems();
-        types.addItem("kuali.enum.type.feeTypes.labFee", getLabel(LUConstants.LAB_FEE));
-        types.addItem("kuali.enum.type.feeTypes.materialFee",  getLabel(LUConstants.MATERIAL_FEE));
-        types.addItem("kuali.enum.type.feeTypes.studioFee", getLabel(LUConstants.STUDIO_FEE));
-        types.addItem("kuali.enum.type.feeTypes.fieldTripFee", getLabel(LUConstants.FIELD_TRIP_FEE));
-        types.addItem("kuali.enum.type.feeTypes.fieldStudyFee", getLabel(LUConstants.FIELD_STUDY_FEE));
-        types.addItem("kuali.enum.type.feeTypes.administrativeFee", getLabel(LUConstants.ADMINISTRATIVE_FEE));
-        types.addItem("kuali.enum.type.feeTypes.coopFee", getLabel(LUConstants.COOP_FEE));
-        types.addItem("kuali.enum.type.feeTypes.greensFee",  getLabel(LUConstants.GREENS_FEE));
-            super.setListItems(types);
+            
+	        types.addItem("kuali.enum.type.feeTypes.labFee", getLabel(LUConstants.LAB_FEE));
+	        types.addItem("kuali.enum.type.feeTypes.materialFee",  getLabel(LUConstants.MATERIAL_FEE));
+	        types.addItem("kuali.enum.type.feeTypes.studioFee", getLabel(LUConstants.STUDIO_FEE));
+	        types.addItem("kuali.enum.type.feeTypes.fieldTripFee", getLabel(LUConstants.FIELD_TRIP_FEE));
+	        types.addItem("kuali.enum.type.feeTypes.fieldStudyFee", getLabel(LUConstants.FIELD_STUDY_FEE));
+	        types.addItem("kuali.enum.type.feeTypes.administrativeFee", getLabel(LUConstants.ADMINISTRATIVE_FEE));
+	        types.addItem("kuali.enum.type.feeTypes.coopFee", getLabel(LUConstants.COOP_FEE));
+	        types.addItem("kuali.enum.type.feeTypes.greensFee",  getLabel(LUConstants.GREENS_FEE));
+	        super.setBlankFirstItem(false);
+	        super.setListItems(types);
         }
     }    		
 }

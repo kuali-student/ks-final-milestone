@@ -16,12 +16,15 @@ public class HeaderDemo extends Composite{
         VerticalPanel p = new VerticalPanel();
         
         p.add(new KSHeader());
-        
+      
         KSDocumentHeader ksDocumentHeader = new KSDocumentHeader();
         ksDocumentHeader.setInfo("You have unsaved changes.");
         ksDocumentHeader.setTitle("Title");
         ksDocumentHeader.addWidget(new Label("Status: Draft"));     
         p.add(ksDocumentHeader);
+        
+     
+        
         return p;
     }
 }

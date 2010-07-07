@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.demo.HeaderDemo;
 import org.kuali.student.common.ui.client.demo.KSLightBoxDemo;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -41,8 +42,14 @@ public class CommonUITest implements EntryPoint {
     @Override
     public void onModuleLoad() {
 		final AbsolutePanel panel = ApplicationPanel.get();
-		panel.add(new KSLightBoxDemo());
-		panel.add(new HeaderDemo());
+		//panel.add(new KSLightBoxDemo());
+		//panel.add(new HeaderDemo());
+		KSHeader ksHeader = new KSHeader();
+		ksHeader.setApplicationTitle("title");
+		ksHeader.setSearchTitle("Course");
+		ksHeader.setUserName("asdf");
+		ksHeader.addButton(new KSButton("asdf"));
+		panel.add(ksHeader);
 		/*
     	panel.add(new Button("Test Notifications", new ClickHandler() {
             @Override

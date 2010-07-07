@@ -15,4 +15,12 @@
         ID="reqCompFieldType.operator" NAME="CLU" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="CLU"
         ID="reqCompFieldType.countType" NAME="CLU" READ_ONLY="0"/>
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="GRADETYPE"
+        ID="reqCompFieldType.gradeType" NAME="GRADETYPE" READ_ONLY="0"/>        
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="GRADE"
+        ID="reqCompFieldType.grade" NAME="GRADE" READ_ONLY="0"/>
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="ORG"
+        ID="reqCompFieldType.orgid" NAME="ORG" READ_ONLY="0"/>
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="PERSON"
+        ID="reqCompFieldType.personid" NAME="PERSON" READ_ONLY="0"/>                                
 </dataset>

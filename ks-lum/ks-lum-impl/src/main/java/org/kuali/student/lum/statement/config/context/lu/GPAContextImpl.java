@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
 
 /**
  * This class creates the template context for grade check type.
@@ -38,7 +38,7 @@ public class GPAContextImpl extends AbstractLuContext<ReqComponent> {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
     	Map<String, Object> contextMap = new HashMap<String, Object>();
-    	contextMap.put(GPA_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getKey()));
+    	contextMap.put(GPA_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.GPA_KEY.getKey()));
 
         return contextMap;
     }

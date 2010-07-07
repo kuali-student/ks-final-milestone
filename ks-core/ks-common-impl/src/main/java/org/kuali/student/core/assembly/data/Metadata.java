@@ -76,6 +76,7 @@ public class Metadata implements Serializable {
     private boolean canUnmask = false;
     private boolean canView = true;
     private boolean canEdit = true;
+    private boolean dynamic = false;
     
     private boolean onChangeRefreshMetadata;
 
@@ -336,4 +337,12 @@ public class Metadata implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+	public boolean isDynamic() {
+		return dynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
+	}
 }
