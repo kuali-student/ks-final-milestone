@@ -99,15 +99,30 @@ public class SearchPanel extends Composite{
     }
 
     public SearchPanel(List<LookupMetadata> metas){
-        lookups = metas;
+        lookups = metas;       
    //     setupSearch();
         this.initWidget(layout);
     }
 
+    public void setupButtons() {
+        if (actionCancelButtons != null) {
+            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("search"));
+            actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
+                @Override
+               public void exec(ButtonEnum result) {
+                    if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
+                        getActionCompleteCallback().exec(true);                                 
+                    }
+               }
+           });            
+        }    	
+    }
+    
     public void setupSearch() {
                 
         resultsTablePanel.clear();
         layout.clear();
+        resultsShown = false;
 
         //create search panel
         Widget searchParamPanel;        
@@ -152,17 +167,6 @@ public class SearchPanel extends Composite{
         layout.add(resultsTablePanel); 
         
         resultsSelected = false;
-        if (actionCancelButtons != null) {
-            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("search"));
-            actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-                @Override
-               public void exec(ButtonEnum result) {
-                    if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
-                        getActionCompleteCallback().exec(true);                                 
-                    }
-               }
-           });            
-        }
     }
 
     private Widget createSearchParamPanel(LookupMetadata meta){

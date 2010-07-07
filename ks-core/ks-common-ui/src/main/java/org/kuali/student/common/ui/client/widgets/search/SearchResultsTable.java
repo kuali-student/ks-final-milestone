@@ -17,14 +17,11 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
@@ -40,12 +37,9 @@ import org.kuali.student.core.search.dto.SearchResultRow;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
-import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -98,7 +92,7 @@ public class SearchResultsTable extends Composite{
         tableModel.installCheckBoxRowHeaderColumn();
         
         final Table table = new Table();
-      //  table.getScrollPanel().setHeight("700px");
+        table.getScrollPanel().setHeight("300px");
         table.setTableModel(tableModel);
         
         table.getScrollPanel().addScrollHandler(new ScrollHandler() {

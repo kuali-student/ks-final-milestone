@@ -65,6 +65,7 @@ public class AdvancedSearchWindow {
 	    addCancelCompleteCallback(null);
         searchPanel = panel;
         searchPanel.setActionCancelButtonGroup(actionCancelButtons);
+        searchPanel.setupButtons();
         
 	    dialog = new KSLightBox(title);	    
 	    layout.addStyleName("KS-Advanced-Search-Window");
