@@ -119,7 +119,7 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private List<LoDisplayInfo> learningObjectives;
 
     @XmlElement
-    private List<CampusLocationInfo> campusLocations;
+    private List<String> campusLocations;
 
     @XmlElement
     private List<String> programRequirements;
@@ -408,14 +408,14 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     /**
      * Places where this Major might be offered
      */
-    public List<CampusLocationInfo> getCampusLocations() {
+    public List<String> getCampusLocations() {
         if (campusLocations == null) {
-            campusLocations = new ArrayList<CampusLocationInfo>(0);
+            campusLocations = new ArrayList<String>(0);
         }
         return campusLocations;
     }
 
-    public void setCampusLocations(List<CampusLocationInfo> campusLocations) {
+    public void setCampusLocations(List<String> campusLocations) {
         this.campusLocations = campusLocations;
     }
 

@@ -390,7 +390,7 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public ProgramRequirementInfo createHonorsProgram(@WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ProgramRequirementInfo createProgramRequirement(@WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a Program Requirement
