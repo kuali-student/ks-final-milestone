@@ -18,12 +18,11 @@ package org.kuali.student.common.ui.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.demo.HeaderDemo;
-import org.kuali.student.common.ui.client.demo.KSLightBoxDemo;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
+import org.kuali.student.common.ui.client.widgets.table.scroll.TableDemoPanel;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,6 +41,8 @@ public class CommonUITest implements EntryPoint {
     @Override
     public void onModuleLoad() {
 		final AbsolutePanel panel = ApplicationPanel.get();
+		
+		panel.add(new TableDemoPanel());
 		//panel.add(new KSLightBoxDemo());
 		//panel.add(new HeaderDemo());
 		KSHeader ksHeader = new KSHeader();

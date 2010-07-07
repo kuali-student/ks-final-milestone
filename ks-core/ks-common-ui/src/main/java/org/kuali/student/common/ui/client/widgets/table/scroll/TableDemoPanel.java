@@ -2,6 +2,8 @@ package org.kuali.student.common.ui.client.widgets.table.scroll;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -17,6 +19,13 @@ public class TableDemoPanel extends Composite{
 		
 		final Table table = createTable();
 		p.add(table);
+		table.getScrollPanel().addScrollHandler(new ScrollHandler(){
+            @Override
+            public void onScroll(ScrollEvent event) {
+                System.out.println(table.getScrollPanel().getOffsetHeight());
+                System.out.println(table.getScrollPanel().getScrollPosition());
+            }
+		});
 		table.getScrollPanel().setHeight("700px");
 		Button appendDataButton = new Button("Append Data");
 		appendDataButton.addClickHandler(new ClickHandler(){
@@ -24,7 +33,7 @@ public class TableDemoPanel extends Composite{
 			public void onClick(ClickEvent event) {
 				Course c = new Course();
 				c.setId(1);
-				c.setName("a");
+				c.setName("1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 				tableModel.addRow(new CourseRow(c));
 				
 				c = new Course();
