@@ -11,7 +11,7 @@ public abstract class Row {
 		this.isSelected = isSelected;
 	}
 
-	abstract Object getCellData(String columnId);
+	public abstract Object getCellData(String columnId);
 //	abstract boolean isCellEditable(String columnId);
-	abstract void setCellData(String columnId, Object newValue);
+	public abstract void setCellData(String columnId, Object newValue);
 }

@@ -116,7 +116,7 @@ class CourseRow extends Row{
 	}
 	
 	@Override
-	Object getCellData(String columnId) {
+	public Object getCellData(String columnId) {
 		if ("id".equals(columnId)) {
 			return course.getId();
 		} else if ("name".equals(columnId)) {
@@ -127,7 +127,7 @@ class CourseRow extends Row{
 		return null;
 	}
 	@Override
-	void setCellData(String columnId, Object newValue) {
+	public void setCellData(String columnId, Object newValue) {
 		if(newValue == null){
 			newValue = "";
 		}
