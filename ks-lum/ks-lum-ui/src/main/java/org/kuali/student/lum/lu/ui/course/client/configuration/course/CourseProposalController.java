@@ -22,8 +22,9 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -59,9 +60,13 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.workflow.ui.client.widgets.ContentConfigurer;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowToolbar;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
@@ -82,7 +87,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 
-public class CourseProposalController extends TabbedSectionLayout implements RequiresAuthorization { 
+public class CourseProposalController extends MenuSectionController implements RequiresAuthorization, WorkflowEnhancedController{ 
 
 	//RPC Services
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
@@ -92,7 +97,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
     private WorkQueue modelRequestQueue;
 
-    private WorkflowToolbar workflowToolbar;
+    private WorkflowUtilities workflowUtil;
     
 	private boolean initialized = false;
 	
@@ -112,7 +117,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     public CourseProposalController(ViewContext viewContext, KSTitleContainerImpl layoutTitle){
-        super(CourseProposalController.class.getName(), layoutTitle);
+        super(CourseProposalController.class.getName());
+        //this.setContentTitle()
         setViewContext(viewContext);
         initialize();
     }
@@ -180,21 +186,11 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     private KSButton getSaveButton(){
-        return new KSButton("Save", new ClickHandler(){
+        return new KSButton("Save & Continue", new ClickHandler(){
                     public void onClick(ClickEvent event) {
                         fireApplicationEvent(new SaveActionEvent());
                     }
                 });
-    }
-
-
-    private KSButton getQuitButton(){
-        return new KSButton("Quit", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        Controller parentController = CourseProposalController.this.getParentController(); 
-                        parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
-                    }
-                });       
     }
 
     private void init(final Callback<Boolean> onReadyCallback) {
@@ -249,22 +245,19 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     private void init(DataModelDefinition modelDefinition){
+        //FIXME: [KSCOR-225] This needs to be moved to the configurer
+        workflowUtil = new WorkflowUtilities((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class), this, 
+        		"proposal/id", createOnWorkflowSubmitSuccessHandler());
+        workflowUtil.setRequiredFieldPaths(new String[]{"course/department"});
         
-        Configurer cfg = GWT.create(CourseConfigurer.class);
+        ContentConfigurer cfg = GWT.create(CourseConfigurer.class);
         cfg.setModelDefinition(modelDefinition);
         cfg.configure(this);
+        this.setContentTitle("New Course");
         
-        //FIXME: This needs to be moved to the configurer
-        workflowToolbar = new WorkflowToolbar(createOnWorkflowSubmitSuccessHandler());
-        workflowToolbar.setIdPath("proposal/id");
-        workflowToolbar.setRequiredFieldPaths(new String[]{"course/department"});
-        workflowToolbar.setWorkflowRpcService((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class));
-        this.addToolbar(workflowToolbar);
-
         if (!initialized){
-	        addButton("Edit Proposal", getSaveButton());
-	        addButton("Edit Proposal", getQuitButton());
-	        addButton("Summary", getQuitButton());
+        	//TODO make a class with static message helper methods
+	        addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
 	        
 	        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
 	            public void doSave(SaveActionEvent saveAction) {
@@ -310,7 +303,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
 
-        		//FIXME: test code
         		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
             		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
         		} else {
@@ -324,17 +316,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		callback.onModelReady(ref);
         	}
         } else if(modelType == CollaboratorTool.CollaboratorModel.class){
-        	//Update the collabmodel with info from the CluProposal Model
-        	//Create a new one if it does not yet exist
-/*        	if(null==collaboratorModel){
-        		collaboratorModel = new Collaborators.CollaboratorModel();
-        	}
-        	String proposalId="";
-        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
-        	}
-        	collaboratorModel.setProposalId(proposalId);    
-        	callback.onModelReady(collaboratorModel);*/
         	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
         	String proposalId=null;
         	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
@@ -441,10 +422,10 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 //getCurrentView().updateModel();
                 CourseProposalController.this.updateModel();                
                 
-                if (isStartSectionShowing()){
+                if (isStartViewShowing()){
                 	//This call required so fields in start section, which also appear in
                 	//other sections don't get overridden from updateModel call above.
-                	getStartSection().updateModel();
+                	getStartPopupView().updateModel();
                 }
 
             	model.validate(new Callback<List<ValidationResultInfo>>() {
@@ -455,7 +436,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     	
                     	if(isSectionValid){
                             if (startSectionRequired()){
-                                showStartSection(NO_OP_CALLBACK);
+                                showStartPopup(NO_OP_CALLBACK);
                             }
                             else{
 	                            saveProposalClu(saveActionEvent);
@@ -489,7 +470,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         	cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
         }
         	
-    	return proposalId==null && !CourseProposalController.this.isStartSectionShowing();    	
+    	return proposalId==null && !CourseProposalController.this.isStartViewShowing();    	
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
@@ -535,11 +516,12 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 }
 
                 public void onSuccess(DataSaveResult result) {
-                	// FIXME needs to check validation results and display messages if validation failed
+                	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
     				cluProposalModel.setRoot(result.getValue());
     	            View currentView = getCurrentView(); 
-    				if (currentView instanceof VerticalSectionView){
-    	            	((VerticalSectionView) currentView).redraw();
+    				if (currentView instanceof SectionView){
+    					((SectionView)currentView).updateView(cluProposalModel);
+    					((SectionView) currentView).resetDirtyFlags();
     	            }
     				if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");
@@ -548,8 +530,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                         saveWindow.hide();
                         saveActionEvent.doActionComplete();                        
                     }
+    				workflowUtil.refresh();
     				setProposalHeaderTitle();
-    				workflowToolbar.refresh();
+    				CourseProposalController.this.showNextViewOnMenu();
                 }
             });
         } catch (Exception e) {
@@ -657,6 +640,29 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     		sb.append(cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
     	}
     	
-    	getContainer().setTitle(sb.toString());
+    	this.setContentTitle(sb.toString());
     }
+
+	@Override
+	public WorkflowUtilities getWfUtilities() {
+		return workflowUtil;
+	}
+	
+	@Override
+	public boolean beforeViewChange() {
+		boolean okToChange = super.beforeViewChange();
+		//We do this check here because theoretically the subcontroller views checked above
+		//will display their own messages to the user to give them a reason why the view
+		//change has been cancelled, otherwise continue to check for reasons not to change
+		//with this controller
+		if(okToChange){
+			if(this.getCurrentView() instanceof SectionView){
+				if(((SectionView)this.getCurrentView()).isDirty()){
+					okToChange = false;
+					Window.alert("Dirty fields exist");
+				}
+			}
+		}
+		return okToChange;
+	}
 }

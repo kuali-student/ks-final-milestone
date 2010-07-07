@@ -20,15 +20,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.util.ManifestInspector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
-public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet
-		implements ServerPropertiesRpcService {
+public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet implements ServerPropertiesRpcService {
 
 	final Logger logger = Logger.getLogger(ServerPropertiesRpcGwtServlet.class);
 
@@ -46,7 +49,7 @@ public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet
 	public String get(String property) {
 		String value = properties.get(property);
 		logger.info("Getting property: " + property + " with value: " + value);
-		if(null==value){
+		if (null == value) {
 			value = ConfigContext.getCurrentContextConfig().getProperty(property);
 			logger.info("Property not found, looking in Context: " + property + " with value: " + value);
 		}
@@ -60,6 +63,15 @@ public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet
 			map.put(property, get(property));
 		}
 		return map;
+	}
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		logger.info("Obtaining build information from META-INF/MANIFEST.MF");
+		String buildInfo = new ManifestInspector().getBuildInformation(getServletConfig().getServletContext());
+		logger.info("Build information: " + buildInfo);
+		properties.put("ks.application.version", buildInfo);
 	}
 
 }

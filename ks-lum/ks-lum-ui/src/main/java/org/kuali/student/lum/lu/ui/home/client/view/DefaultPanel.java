@@ -21,12 +21,10 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import com.google.gwt.user.client.ui.Label;
 
 public class DefaultPanel extends ViewComposite{
-
+	public enum Views{LUM}
     public DefaultPanel(Controller controller) {
-        // TODO Bsmith - THIS CONSTRUCTOR NEEDS A JAVADOC
-        super(controller, "LUM");
+        super(controller, "LUM", Views.LUM);
         this.initWidget(new Label("Place Directions for menu/introduction here...."));
-        // TODO Auto-generated constructor stub
     }
 
 }

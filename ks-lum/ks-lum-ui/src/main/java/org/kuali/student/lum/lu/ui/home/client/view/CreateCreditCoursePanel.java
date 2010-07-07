@@ -96,9 +96,10 @@ public class CreateCreditCoursePanel extends ViewComposite{
         }
     }
     
+    public enum Views{CREATE_COURSE_PANEL}
+    
     public CreateCreditCoursePanel(Controller controller) {
-        // TODO Bsmith - THIS CONSTRUCTOR NEEDS A JAVADOC
-        super(controller, "Create Credit Course");
+        super(controller, "Create Credit Course", Views.CREATE_COURSE_PANEL);
         Hyperlink more = new Hyperlink("More", "More");
         more.addStyleName("Home-Small-Hyperlink");
         mainPanel.add(new ButtonRow(viewProcess, ""));
@@ -164,13 +165,6 @@ public class CreateCreditCoursePanel extends ViewComposite{
         helpMeDecide.addStyleName("Home-Small-Hyperlink");
         helpMeDecide.addStyleName("Content-Left-Margin");
 
-        // TODO - Why is this here. We don't need a new handler to do the same thing.
-        helpMeDecide.addClickHandler(new ClickHandler(){
-            @Override
-            public void onClick(ClickEvent event) {
-                Window.alert("Function not yet implemented.");                
-            }
-        });
         mainPanel.add(helpMeDecide);
 
         this.initWidget(mainPanel);

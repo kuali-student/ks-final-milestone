@@ -15,24 +15,26 @@
 
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -46,6 +48,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCrossListingsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
@@ -57,6 +60,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoCons
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoFixedRateFeeConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseRepositoryCategoryConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
 import com.google.gwt.user.client.ui.FlexTable;
@@ -92,11 +96,11 @@ CreditCourseLearningResultsConstants
 
     public static final String COURSE_MODEL	= "courseModel";
 
-	private static final String ID_TRANSLATION = "id-translation";
-	//FIXME: Temp paths waiting for DOL changes
+	//FIXME: [KSCOR-225] Temp paths waiting for DOL changes
     private static final String STATEMENTS_PATH = "statements";
+	private static final String ID_TRANSLATION = "id-translation";
 
-    //FIXME:  Initialize type and state from selected cluId
+    //FIXME: [KSCOR-225] Initialize type and state from selected cluId
     private String type = "course";
     private String state = "draft";
     private String groupName;
@@ -129,59 +133,58 @@ CreditCourseLearningResultsConstants
         return section; 
     }
 
-	private BaseSection generateBasicSection() {
+	private Section generateBasicSection() {
 		
-		VerticalSection section = initSection(null, false);
+		Section section = initSection(null);
 		
-        addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
-		addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
-        addField(section, QueryPath.concat(CreditCourseConstants.DESCRIPTION, RichTextInfoConstants.PLAIN).toString(), getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
-        addField(section, CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());        
-        addField(section, CreditCourseConstants.TYPE, getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
-        addField(section,  VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
-        addField(section,  JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
-        addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
+        addField(section, TRANSCRIPT_TITLE, LUConstants.SHORT_TITLE_LABEL_KEY, new KSLabel());
+		addField(section, CreditCourseConstants.COURSE_TITLE, LUConstants.TITLE_LABEL_KEY, new KSLabel());
+        addField(section, QueryPath.concat(CreditCourseConstants.DESCRIPTION, RichTextInfoConstants.PLAIN).toString(), LUConstants.DESCRIPTION_LABEL_KEY, new KSLabel());
+        addField(section, CreditCourseConstants.STATE, LUConstants.STATE_LABEL_KEY, new KSLabel());        
+        addField(section, CreditCourseConstants.TYPE, LUConstants.TYPE_LABEL_KEY, new KSLabel());
+        addDisplayTable(section, VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), buildVersionCodeTable(), null);
+        addDisplayTable(section, JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), buildOfferedJointlyTable(), null);
+        addDisplayTable(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), buildCrossListedTable(), null);
         
         return section;
 	}
 
     private CollapsableSection generateComprehensiveSection() {
     	
-  	    CollapsableSection section = new CollapsableSection(null, getLabel(LUConstants.DISCLOSURE_PANEL_LABEL_KEY), false, true);
+  	    CollapsableSection section = new CollapsableSection(getLabel(LUConstants.DISCLOSURE_PANEL_LABEL_KEY));
 
-		VerticalSection logistics = initSection(getH3Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)), true);
-		logistics.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-        addField(logistics, PRIMARY_INSTRUCTOR, getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
-        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
-        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
-        addField(logistics, GRADING_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY), new TranslatedStringList(GRADING_OPTIONS));
-        addField(logistics, OUTCOME_OPTIONS,  getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), new OutcomesList(OUTCOME_OPTIONS));
-        addField(logistics,  FORMATS, getLabel(LUConstants.FORMATS_LABEL_KEY), new CourseFormatList(FORMATS));
+		Section logistics = initSection(getH2Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
+        addField(logistics, PRIMARY_INSTRUCTOR, LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY, new KSLabel());
+        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), LUConstants.DURATION_QUANTITY_LABEL_KEY, new KSLabel());
+        addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), LUConstants.DURATION_TYPE_LABEL_KEY, new KSLabel());
+        addField(logistics, GRADING_OPTIONS,  LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY, new TranslatedStringList(GRADING_OPTIONS));
+        addField(logistics, OUTCOME_OPTIONS,  LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY, new OutcomesList(OUTCOME_OPTIONS));
+        addField(logistics,  FORMATS, LUConstants.FORMATS_LABEL_KEY, new CourseFormatList(FORMATS));
 
-		VerticalSection learningObjectives = initSection(getH3Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)), true);
+		Section learningObjectives = initSection(getH2Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)));
     	addLearningObjectives(learningObjectives);
     	
-		VerticalSection governance = initSection(getH3Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)), true);
-        addField(governance, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
-        addField(governance, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new TranslatedStringList(CAMPUS_LOCATIONS));        
-        addField(governance, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
+		Section governance = initSection(getH2Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)));
+        addField(governance, ACADEMIC_SUBJECT_ORGS, LUConstants.ACADEMIC_SUBJECT_ORGS_KEY, new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
+        addField(governance, CAMPUS_LOCATIONS, LUConstants.CAMPUS_LOCATION_LABEL_KEY, new TranslatedStringList(CAMPUS_LOCATIONS));        
+        addField(governance, DEPARTMENT, LUConstants.DEPT_LABEL_KEY, new KSLabel());
  
-		VerticalSection scheduling = initSection(getH3Title(getLabel(LUConstants.SCHEDULING_LABEL_KEY)), true);
-        addField(scheduling, CreditCourseConstants.EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
-        addField(scheduling, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
-        addField(scheduling, FIRST_EXPECTED_OFFERING, getLabel(LUConstants.FIRST_OFFERING_KEY), new KSLabel());
+		Section scheduling = initSection(getH2Title(getLabel(LUConstants.SCHEDULING_LABEL_KEY)));
+        addField(scheduling, CreditCourseConstants.EFFECTIVE_DATE, LUConstants.EFFECTIVE_DATE_LABEL_KEY, new KSLabel());
+        addField(scheduling, EXPIRATION_DATE, LUConstants.EXPIRATION_DATE_LABEL_KEY, new KSLabel());
+        addField(scheduling, FIRST_EXPECTED_OFFERING, LUConstants.FIRST_OFFERING_KEY, new KSLabel());
         
-		VerticalSection financials = initSection(getH3Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)), true);
+		Section financials = initSection(getH2Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)));
         addFinancials(financials);       
  
-		VerticalSection requisites = initSection(getH3Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)), true);
+		Section requisites = initSection(getH2Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
         addField(requisites, STATEMENTS_PATH, null, new KSLabelList(true));
 
     	section.addSection(logistics);
         section.addSection(learningObjectives);
         section.addSection(requisites);
         section.addSection(governance);
-        section.addSection(scheduling);
+        section.addSection(scheduling); 
         section.addSection(financials);
         
         return section;
@@ -189,24 +192,21 @@ CreditCourseLearningResultsConstants
     }
 
 	private void addFinancials(Section section) {
-		
-        addField(section, FEES , getLabel(LUConstants.COURSE_FEE_TITLE), new FeesList(FEES));
+
+        addField(section, FEES , LUConstants.COURSE_FEE_TITLE, new FeesList(FEES));
+
 		String revenuePath=QueryPath.concat(REVENUE_INFO, REVENUE_ORG).toString();
-        addField(section, revenuePath  , getLabel(LUConstants.REVENUE), new RevenueInformationList(revenuePath));
+    	addDisplayTable(section, revenuePath, LUConstants.REVENUE, buildRevenueInformationTable(), null);
+
         String expenditurePath = QueryPath.concat(EXPENDITURE_INFO, EXPENDITURE_ORG).toString();
-        addField(section,  expenditurePath , getLabel(LUConstants.EXPENDITURE), new ExpenditureInformationList(expenditurePath));
+        addDisplayTable(section,  expenditurePath , LUConstants.EXPENDITURE, buildExpenditureInformationTable(), null);
 
 	}
 
 	private void addLearningObjectives(Section section) {
-		QueryPath loPath = QueryPath.concat(COURSE_SPECIFIC_LOS);
-    	Metadata meta = modelDefinition.getMetadata(loPath);
-
-    	FieldDescriptor fd = new FieldDescriptor(loPath.toString(), null, meta);
-        fd.setWidgetBinding(new LoTableBinding());
-        fd.setFieldWidget(new ViewTable());
-   		section.addField(fd);
-	}
+		String loPath = QueryPath.concat(COURSE_SPECIFIC_LOS).toString();
+        addDisplayTable(section, loPath, null, buildLoTable(loPath), null );
+    }
 
     private class TranslatedStringList extends DisplayMultiplicityComposite {
 		private final String parentPath;
@@ -232,52 +232,35 @@ CreditCourseLearningResultsConstants
         }
 
         public Widget createItem() {
-            VerticalSection item = new VerticalSection();
-            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()),
-                    QueryPath.concat(parentPath, String.valueOf(itemCount -1)).toString());
-            return item;
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+
+            VerticalSection section = new VerticalSection();
+            addDisplayTable(section, ACTIVITIES, null, buildCourseActivityTable(path), path);
+            return section;
         }
     }
 
-    private class CourseActivityList extends DisplayMultiplicityComposite {
+	private DisplayTable buildCourseActivityTable(String parentPath) {
 
-        private final String parentPath;
-        public CourseActivityList(String parentPath){
-//            super(StyleType.SUB_LEVEL);
-            this.parentPath = parentPath;
-            this.setItemLabel(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY));
-        }
+		String path = QueryPath.concat(parentPath, ACTIVITIES).toString();
+		DisplayTable table = new DisplayTable();
 
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            GroupSection activity = new GroupSection();
+		FieldDescriptor activityType = buildDisplayTableFieldFD(path, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY));
+		FieldDescriptor durQty = buildDisplayTableFieldFD(path, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.QUANTITY).toString(), getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY));
+		FieldDescriptor durType = buildDisplayTableFieldFD(path, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.TIME_UNIT).toString(), getLabel(LUConstants.DURATION_TYPE_LABEL_KEY));
+		FieldDescriptor hours = buildDisplayTableFieldFD(path, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.HRS).toString(), getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY));
+		FieldDescriptor per = buildDisplayTableFieldFD(path,  QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.PER).toString(), " ");
+		FieldDescriptor estimate = buildDisplayTableFieldFD(path, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY));
 
-            addField(activity, ACTIVITY_TYPE, null, new KSLabel(), path);
-            addField(activity, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.QUANTITY).toString(), getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), new KSLabel(), path);
-            addField(activity, QueryPath.concat(CreditCourseActivityConstants.DURATION, CreditCourseActivityDurationConstants.TIME_UNIT).toString(), null, new KSLabel(), path);
-            addField(activity, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.HRS).toString(), getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY), new KSLabel(), path);
-            addField(activity, QueryPath.concat(CONTACT_HOURS, CreditCourseActivityContactHoursConstants.PER).toString(), null , new KSLabel(), path);
-            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), new KSLabel(), path);
+        table.addField(activityType);
+        table.addField(durQty);
+        table.addField(durType);
+        table.addField(hours);
+        table.addField(per);
+        table.addField(estimate);
 
-            return activity;
-        }
-    }
+        return table;
 
-    private class CrossListedList extends DisplayMultiplicityComposite {
-        private final String parentPath;
-        public CrossListedList(String parentPath){
-            this.parentPath = parentPath;
-        }
-
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            GroupSection group = new GroupSection();
-            addField(group, CreditCourseVersionsConstants.SUBJECT_AREA, null, new KSLabel(), path);
-            addField(group, CreditCourseVersionsConstants.COURSE_NUMBER_SUFFIX, null, new KSLabel(), path);
-
-            return group;
-        }
     }
 
     private class OutcomesList extends DisplayMultiplicityComposite {
@@ -295,47 +278,10 @@ CreditCourseLearningResultsConstants
         }
     }
 
-    private class VersionCodeList extends DisplayMultiplicityComposite {
-		private final String parentPath;
-        public VersionCodeList(String parentPath){
-            this.parentPath = parentPath;
-        }
 
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            GroupSection ns = new GroupSection();
-            addField(ns, CreditCourseVersionsConstants.SUBJECT_AREA,  null, new KSLabel(), path);
-            addField(ns, CreditCourseVersionsConstants.COURSE_NUMBER_SUFFIX,  null, new KSLabel(), path);
-            addField(ns, CreditCourseVersionsConstants.VERSION_CODE,  null, new KSLabel(), path);
-
-            addField(ns, CreditCourseVersionsConstants.VERSION_TITLE, null, new KSLabel(), path);
-
-            return ns;
-        }
-    }
-
-    private class OfferedJointlyList extends DisplayMultiplicityComposite {
-
-		private final String parentPath;
-        public OfferedJointlyList(String parentPath){
-            this.parentPath = parentPath;
-        }
-
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            GroupSection groupSection = new GroupSection();
-            addField(groupSection, CreditCourseJointsConstants.SUBJECT_AREA, getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
-            addField(groupSection, CreditCourseJointsConstants.COURSE_NUMBER_SUFFIX, getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
-            addField(groupSection, CreditCourseJointsConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel(), path);
-
-            return groupSection;
-        }
-    } 
 
     public class FeesList extends DisplayMultiplicityComposite {
-    	
+
 		private final String parentPath;
         public FeesList(String parentPath){
             this.parentPath = parentPath;
@@ -344,45 +290,69 @@ CreditCourseLearningResultsConstants
         @Override
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            GroupSection groupSection = new GroupSection();   		
-    		
-            String fixedFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.FIXED_RATE_FEE).toString();
-            addField(groupSection, FeeInfoConstants.FIXED_RATE_FEE, null, new FeeDetailsList(fixedFeePath), path );
+            GroupSection groupSection = new GroupSection();
 
-            groupSection.nextLine();
-            String perCreditFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.PER_CREDIT_FEE).toString();
-            addField(groupSection, FeeInfoConstants.PER_CREDIT_FEE, null, new FeeDetailsList(perCreditFeePath), path );
-            
-            groupSection.nextLine();
+            String fixedFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.FIXED_RATE_FEE).toString();
             String variableFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.VARIABLE_RATE_FEE).toString();
-            addField(groupSection, FeeInfoConstants.VARIABLE_RATE_FEE, null, new FeeDetailsList(variableFeePath), path );
-            
-            groupSection.nextLine();
+            String perCreditFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.PER_CREDIT_FEE).toString();
             String multipleFeePath = QueryPath.concat(parentPath, String.valueOf(itemCount-1), FeeInfoConstants.MULTIPLE_RATE_FEE).toString();
-            addField(groupSection, FeeInfoConstants.MULTIPLE_RATE_FEE, null, new FeeDetailsList(multipleFeePath), path );
+
+            addDisplayTable(groupSection, FeeInfoConstants.FIXED_RATE_FEE, null,buildFeeDetailsTable(fixedFeePath), path );
+            groupSection.nextLine();
+            addDisplayTable(groupSection, FeeInfoConstants.PER_CREDIT_FEE, null, buildFeeDetailsTable(perCreditFeePath), path);
+            groupSection.nextLine();
+            addDisplayTable(groupSection, FeeInfoConstants.VARIABLE_RATE_FEE, null, buildFeeDetailsTable(variableFeePath), path );
+            groupSection.nextLine();
+            addDisplayTable(groupSection, FeeInfoConstants.MULTIPLE_RATE_FEE, null,buildFeeDetailsTable(multipleFeePath), path );
 
             return groupSection;
         }
+    }
+
+	private DisplayTable buildFeeDetailsTable(String parentPath) {
+
+		DisplayTable table = new DisplayTable();
+
+		FieldDescriptor rateType = buildDisplayTableFieldFD(parentPath,FeeInfoFixedRateFeeConstants.RATE_TYPE, getLabel(LUConstants.RATE_TYPE));
+		FieldDescriptor feeType = buildDisplayTableFieldFD(parentPath,FeeInfoFixedRateFeeConstants.FEE_TYPE, getLabel(LUConstants.FEE_TYPE_LABEL_KEY));
+		FieldDescriptor amount = buildDisplayTableFieldFD(parentPath,FeeInfoFixedRateFeeConstants.AMOUNT, getLabel(LUConstants.FEE_AMOUNT_LABEL_KEY));
+
+		table.addField(rateType);
+		table.addField(feeType);
+		table.addField(amount);
+
+		return table;
+	}
+
+   private DisplayTable buildExpenditureInformationTable() {
+
+		DisplayTable table = new DisplayTable();
+       String expenditurePath = QueryPath.concat(EXPENDITURE_INFO, EXPENDITURE_ORG).toString();
+
+		FieldDescriptor orgId = buildDisplayTableFieldFD(expenditurePath,ORG_ID, getLabel(LUConstants.ORGANIZATION));
+		FieldDescriptor percentage = buildDisplayTableFieldFD(expenditurePath,PERCENTAGE, getLabel(LUConstants.PERCENTAGE));
+
+		table.addField(orgId);
+		table.addField(percentage);
+
+		return table;
+	}
+
+	private DisplayTable buildRevenueInformationTable() {
+
+		DisplayTable table = new DisplayTable();
+
+		String revenuePath=QueryPath.concat(REVENUE_INFO, REVENUE_ORG).toString();
+		FieldDescriptor orgId = buildDisplayTableFieldFD(revenuePath,ORG_ID, getLabel(LUConstants.ORGANIZATION));
+		FieldDescriptor percentage = buildDisplayTableFieldFD(revenuePath,PERCENTAGE, getLabel(LUConstants.PERCENTAGE));
+
+		table.addField(orgId);
+		table.addField(percentage);
+
+		return table;
+
     }
     
-
-    public class FeeDetailsList extends DisplayMultiplicityComposite {
-		private final String parentPath;
-        public FeeDetailsList(String parentPath){
-            this.parentPath = parentPath;
-        }
-
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            GroupSection groupSection = new GroupSection();
-            addField(groupSection,  FeeInfoFixedRateFeeConstants.RATE_TYPE,  getLabel(LUConstants.RATE_TYPE), new KSLabel(),path);
-            addField(groupSection,  FeeInfoFixedRateFeeConstants.AMOUNT,  getLabel(LUConstants.FEE_AMOUNT_LABEL_KEY), new KSLabel(),path);
-            addField(groupSection, FeeInfoFixedRateFeeConstants.FEE_TYPE, getLabel(LUConstants.FEE_TYPE_LABEL_KEY), new KSLabel(),path );
-            return groupSection;
-       	
-        }
-    }
     public class RevenueInformationList extends DisplayMultiplicityComposite {
     	
 		private final String parentPath;
@@ -395,8 +365,8 @@ CreditCourseLearningResultsConstants
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, PERCENTAGE, getLabel(LUConstants.PERCENTAGE), new KSLabel(), path);
-            addField(groupSection, ORG_ID,  getLabel(LUConstants.ORGANIZATION),new KSLabel(), path );
+            addField(groupSection, PERCENTAGE, LUConstants.PERCENTAGE, new KSLabel(), path);
+            addField(groupSection, ORG_ID,  LUConstants.ORGANIZATION,new KSLabel(), path );
             return groupSection;
         }
     }
@@ -413,12 +383,71 @@ CreditCourseLearningResultsConstants
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
 
-            addField(groupSection, PERCENTAGE, getLabel(LUConstants.PERCENTAGE), new KSLabel(), path);
-            addField(groupSection, ORG_ID,  getLabel(LUConstants.ORGANIZATION),new KSLabel(), path );
+            addField(groupSection, PERCENTAGE, LUConstants.PERCENTAGE, new KSLabel(), path);
+            addField(groupSection, ORG_ID,  LUConstants.ORGANIZATION,new KSLabel(), path );
 
             return groupSection;
         }
     }
+
+
+	private DisplayTable buildVersionCodeTable() {
+
+		DisplayTable table = new DisplayTable();
+
+		FieldDescriptor versionCode = buildDisplayTableFieldFD(VERSIONS, CreditCourseVersionsConstants.VERSION_CODE, LUConstants.VERSION_CODE_LABEL_KEY);
+		FieldDescriptor versionTitle = buildDisplayTableFieldFD(VERSIONS, CreditCourseVersionsConstants.VERSION_TITLE, LUConstants.TITLE_LABEL_KEY);
+
+		table.addField(versionCode);
+		table.addField(versionTitle);
+
+		return table;
+
+	}
+
+	private DisplayTable buildOfferedJointlyTable() {
+
+		DisplayTable table = new DisplayTable();
+
+		FieldDescriptor subjectCode = buildDisplayTableFieldFD(JOINTS,CreditCourseJointsConstants.SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
+		FieldDescriptor courseNo = buildDisplayTableFieldFD(JOINTS,CreditCourseJointsConstants.COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
+		FieldDescriptor title = buildDisplayTableFieldFD(JOINTS,CreditCourseJointsConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY));
+
+		table.addField(subjectCode);
+		table.addField(courseNo);
+		table.addField(title);
+
+		return table;
+	}
+	
+	private DisplayTable buildCrossListedTable() {
+
+		DisplayTable table = new DisplayTable();
+
+		FieldDescriptor subject = buildDisplayTableFieldFD(CROSS_LISTINGS, CreditCourseCrossListingsConstants.SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
+		FieldDescriptor courseNo = buildDisplayTableFieldFD(CROSS_LISTINGS, CreditCourseCrossListingsConstants.COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
+
+		table.addField(subject);
+		table.addField(courseNo);
+
+		return table;
+
+	}
+	
+    private DisplayTable buildLoTable(String parentPath)  {
+
+		DisplayTable table = new DisplayTable();
+
+		FieldDescriptor description = buildDisplayTableFieldFD(parentPath,QueryPath.concat(INCLUDED_SINGLE_USE_LO, SingleUseLoConstants.DESCRIPTION, PLAIN).toString(), getLabel(LUConstants.DESCRIPTION_LABEL_KEY));
+		FieldDescriptor categories = buildDisplayTableFieldFD(parentPath, QueryPath.concat(INCLUDED_SINGLE_USE_LO,CATEGORIES).toString(), getLabel(LUConstants.LO_CATEGORY_KEY));
+
+		table.addField(description);
+		table.addChildField(categories, SingleUseRepositoryCategoryConstants.NAME);
+
+		return table;
+    }
+
+
 
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CourseConfigurer.CLU_PROPOSAL_MODEL);
@@ -427,17 +456,13 @@ CreditCourseLearningResultsConstants
         return section;
     }
     
-    protected VerticalSection initSection(SectionTitle title, boolean withDivider) {
-        VerticalSection section;
+    protected Section initSection(SectionTitle title) {
+        HorizontalSection section;
     	if(title!=null){
-        	section = new VerticalSection(title);
-        	section.getSectionTitle().addStyleName("ks-heading-page-section");
+        	section = new HorizontalSection(title);
         }else{
-        	section = new VerticalSection();
+        	section = new HorizontalSection();
         }
-        section.addStyleName(LUConstants.STYLE_SECTION);
-        if (withDivider)
-            section.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
         return section;
     }
 
@@ -445,52 +470,89 @@ CreditCourseLearningResultsConstants
     	return getLabel(LUConstants.CURRENT_VIEW_LABEL_KEY);
     }
 
-    private String getLabel(String labelKey) {
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo(groupName, type, state, labelKey);
+    }
+    
+    protected String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
 
-    private SectionTitle getH1Title(String labelKey) {
-        return SectionTitle.generateH1Title(getLabel(labelKey));
-    } 
-
     private SectionTitle getH2Title(String labelKey) {
         return SectionTitle.generateH2Title(getLabel(labelKey));
-    } 
-
+    }
+    
     private SectionTitle getH3Title(String labelKey) {
         return SectionTitle.generateH3Title(getLabel(labelKey));
     } 
 
-    private SectionTitle getH4Title(String labelKey) {
-        return SectionTitle.generateH4Title(getLabel(labelKey));
-    } 
+    protected FieldDescriptor addField(Section section, String fieldKey) {
+    	return addField(section, fieldKey, null, null, null);
+    }    
+    protected FieldDescriptor addField(Section section, String fieldKey, String messageKey) {
+    	return addField(section, fieldKey, messageKey, null, null);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, String messageKey, Widget widget) {
+    	return addField(section, fieldKey, messageKey, widget, null);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, String messageKey, String parentPath) {
+        return addField(section, fieldKey, messageKey, null, parentPath);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, String messageKey, Widget widget, String parentPath) {
+        FieldDescriptor fd = buildFieldDescriptor(fieldKey, messageKey, widget,	parentPath, null);
 
-    private SectionTitle getH5Title(String labelKey) {
-        return SectionTitle.generateH5Title(getLabel(labelKey));
-    }
-
-    private void addField(Section section, String fieldKey, String fieldLabel) {
-        addField(section, fieldKey, fieldLabel, null, null);
-    }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
-        addField(section, fieldKey, fieldLabel, widget, null);
-    }
-    private void addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
-        addField(section, fieldKey, fieldLabel, null, parentPath);
-    }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
-        QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata meta = modelDefinition.getMetadata(path);
+        section.addField(fd);
         
+        return fd;
+    }
+
+
+    private void addDisplayTable(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
+        FieldDescriptor fd = buildFieldDescriptor(fieldKey, fieldLabel, widget,	parentPath, new DisplayTableBinding());
+
+        section.addField(fd);
+    }
+
+    //FIXME: [KSCOR-225] rework these next 2 methods to combine them
+    @SuppressWarnings("unchecked")
+    private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey, Widget widget, String parentPath, ModelWidgetBinding binding) {
+
+		QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+
         String modelPath = getFieldPath(path.toString());
 
-        FieldDescriptor fd = new FieldDescriptor(modelPath, fieldLabel, meta);
+        FieldDescriptor fd = new FieldDescriptor(modelPath, generateMessageInfo(messageKey), meta);
         if (widget != null) {
             fd.setFieldWidget(widget);
         }
-        section.addField(fd);
-    }
-    
+        if (binding != null) {
+        	fd.setWidgetBinding(binding);
+	    }
+        fd.getFieldElement().setRequired(false);
+		return fd;
+	}
+
+	private FieldDescriptor buildDisplayTableFieldFD(String parentPath, String fieldKey, String labelKey) {
+
+		QueryPath parent = QueryPath.concat(parentPath);
+        int i = parent.size();
+
+		QueryPath fieldMetaPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
+        Metadata meta = modelDefinition.getMetadata(fieldMetaPath);
+
+        String s = getFieldPath(fieldMetaPath.toString());
+
+        QueryPath fieldPath = QueryPath.concat(s);
+        String tablePath =  fieldPath.subPath(++i, fieldPath.size()).toString();
+
+        FieldDescriptor fd = new FieldDescriptor(tablePath, generateMessageInfo(labelKey), meta);
+        fd.getFieldElement().setRequired(false);
+
+		return fd;
+
+	}
+
     /**
      * Determine the field path based on whether this field has an initial lookup defined 
      * in the orchestration dictionary. If no lookup defined just return the original field path
@@ -517,98 +579,164 @@ CreditCourseLearningResultsConstants
     	return result;
     }
     
-    //FIXME:  Make this more generic and reusable for other fields
-    public class ViewTable extends FlexTable{
+    private class DisplayTable extends FlexTable{
 
-    	private int col = 0;
-    	private int row = 0;
-    	
-		{
-			setStyleName("KS-ViewCourseFlexTable");
-		}
-    	   	
-    	public void nextRow() {
+    	private static final String STYLE_TABLE = "KS-ViewCourseDisplayTable";
+		private static final String STYLE_CELL = "KS-ViewCourseDisplayTableCell";
+		private static final String STYLE_HEADER_CELL = "KS-ViewCourseDisplayTableHeaderCell";
+		private static final String BLANK_STRING = " ";
+		private int col = 0;
+    	protected int row = 0;
+    	private boolean showHeaders = true;
+
+        protected List<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
+        protected Map<String, String> childKeys = new HashMap<String, String>();
+
+    	{
+    		setStyleName(STYLE_TABLE);
+    	}
+
+    	protected void nextRow() {
     		row++;
     		col=0;
     	}
-    	
-    	public void addHeaderField(String fieldValue){
-    		setCellText(row, col, fieldValue);
-			getCellFormatter().addStyleName(row, col++, "KS-ViewCourseFlexTableHeaderCell");  			
+
+    	/**
+    	 * The field should resolve to a single value field. The value will be added to the next cell in the
+    	 * table in the current row
+    	 *
+    	 */
+    	public void addField(FieldDescriptor field){
+    		fields.add(field);
     	}
-    	
-    	public void addField( String fieldValue){
+
+    	/**
+    	 * The parentField should resolve to a Data value field. The fieldKey should resolve to a single value
+    	 * field in that Data value. The table binding will iterate the values in the Data object
+    	 * and concatenate the named fieldKeys into the same cell in the current row of the table
+    	 * separated by commas
+    	 *
+    	 * @param fieldKey
+    	 */
+    	public void addChildField(FieldDescriptor parentField, String fieldKey){
+    		addField(parentField);
+    		childKeys.put(parentField.getFieldKey(), fieldKey);
+    	}
+
+    	public void buildHeaders() {
+    		if (isShowHeaders()) {
+    			for (FieldDescriptor fd: fields) {
+    				addHeaderCell(fd.getFieldLabel());
+    			}
+    			nextRow();
+    		}
+    	}
+
+    	protected void addHeaderCell(String fieldValue){
+    		if (isShowHeaders()) {
+        		setCellText(row, col, fieldValue);
+        		getCellFormatter().addStyleName(row, col++, STYLE_HEADER_CELL);
+    		}
+    	}
+
+    	protected void addNextCell( String fieldValue){
     		setCellText(row, col++, fieldValue);
     	}
 
-		private void setCellText(int row, int cell, String fieldValue) {
-			setText(row, cell, fieldValue);
-    		getCellFormatter().addStyleName(row, cell, "KS-ViewCourseFlexTableCell");
+    	private void setCellText(int row, int cell, String fieldValue) {
+    		setText(row, cell, fieldValue);
+    		getCellFormatter().addStyleName(row, cell, STYLE_CELL);
+    	}
+
+    	public void initTable() {
+    		clear();
+    		while(getRowCount()>0){
+    			removeRow(0);
+    		}
+    		row=0;
+    		col=0;
+    	}
+
+		public void addEmptyCell() {
+			addNextCell(BLANK_STRING);
 		}
-    	    	
-		private void initTable() {
-			clear();
-			while(getRowCount()>0){
-				removeRow(0);
-			}
-			row=0;
-			col=0;
+
+		public boolean isShowHeaders() {
+			return showHeaders;
+		}
+
+		public void setShowHeaders(boolean showHeaders) {
+			this.showHeaders = showHeaders;
 		}
     }
 
-    //FIXME:  Make this more generic and reusable for other fields
-    public class LoTableBinding implements ModelWidgetBinding<ViewTable>{
-    	
-    	private final String loDescPath = QueryPath.concat(INCLUDED_SINGLE_USE_LO, SingleUseLoConstants.DESCRIPTION, PLAIN).toString();
-    	private final String loCategoriesPath = QueryPath.concat(INCLUDED_SINGLE_USE_LO, CATEGORIES).toString();
+    private class DisplayTableBinding extends ModelWidgetBindingSupport<DisplayTable> {
 
     	@Override
-    	public void setModelValue(ViewTable table, DataModel model,
-    			String path) {
-    			// shouldn't ever need this
+    	public void setModelValue(DisplayTable table, DataModel model, String path) {
+    		// shouldn't ever need this
     	}
-    	@Override
-    	public void setWidgetValue(ViewTable table, DataModel model,
-    			String path) {
 
+    	@Override
+    	public void setWidgetValue(DisplayTable table, DataModel model, String path) {
     		table.initTable();
-    		Object value = model.getRoot().query(path);
-    		if (value != null && value instanceof Data){
-    			Iterator<Data.Property> iter1 = ((Data)value).iterator();
+
+    		QueryPath qPath = QueryPath.parse(path);
+    		Data data = null;
+    		if(model!=null){
+    			data = model.get(qPath);
+    		}
+
+    		if (data != null ){
+    			Iterator<Data.Property> iter1 = data.realPropertyIterator();
     			if (iter1.hasNext()) {
-    				table.addHeaderField(" ");
-    				table.addHeaderField("Categories");
-    				table.nextRow();
+    				table.buildHeaders();
 
-    				// iterate through Los
+    				// iterate through data
     				while(iter1.hasNext()){
-    					Data.Property prop = iter1.next();
-    					Data loData = prop.getValue();
-    					if (loData != null) {
-    						table.addField(loData.query(loDescPath).toString().trim());
-    						Data categoryData = loData.query(loCategoriesPath);
-    						table.addField(buildLOCategories(categoryData));  
-    						table.nextRow();
+    	    			Data.Property prop = iter1.next();
+    					Data rowData = prop.getValue();
+
+    					// iterate through the fields defined for this table
+    					for (FieldDescriptor field: table.fields) {
+    						QueryPath fieldPath = QueryPath.parse(field.getFieldKey());
+    						Object o = rowData.query(fieldPath);
+    						if (o != null) {
+    							// multiple values required in the table cell, concatenate values
+    							// with comma separator
+    							if (o instanceof Data) {
+    								Data cellData = (Data)o;
+    								// iterate through the field keys to produce a comma delimited list
+    								// of values in a single cell of the table
+    								if(cellData!=null && cellData.size()>0){
+         					    		StringBuilder sb = new StringBuilder();
+    									Iterator<Data.Property> iter = cellData.realPropertyIterator();
+    									while(iter.hasNext()){
+    										Data.Property p = iter.next();
+    										Data d = p.getValue();
+    										String key = table.childKeys.get(fieldPath.toString());
+    										sb.append(d.get(key)).append(", ");
+    									}
+    									sb.deleteCharAt(sb.lastIndexOf(", "));
+    									table.addNextCell((sb.toString()));
+    								}
+    								else {
+    									table.addEmptyCell();
+    								}
+    							}
+    							// a single value required in a single table cell
+    						    else {
+    								table.addNextCell((o.toString()));
+    							}
+    						}
+    						else {
+								table.addEmptyCell();
+    						}
     					}
-    				}   
-    			}					 
-    		}
-    	}
-    	
-    	private String buildLOCategories(Data categoryData) {
-
-    		StringBuilder sb = new StringBuilder();
-
-    		if(categoryData!=null && categoryData.size()>0){
-    			Iterator<Data.Property> iter = categoryData.iterator();
-    			while(iter.hasNext()){
-    				Data.Property p = iter.next();
-    				Data d = p.getValue();
-    				sb.append(d.get(NAME)).append(", ");
+  					table.nextRow();
+  			    	}
     			}
-    			sb.deleteCharAt(sb.lastIndexOf(", "));
     		}
-    		return sb.toString();
     	}
     }
 }

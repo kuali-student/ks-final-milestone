@@ -20,6 +20,8 @@ import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
+import com.google.gwt.user.client.ui.Widget;
+
 
 /**
  * This is a simple view composite that delegates all view operations to nested
@@ -36,8 +38,8 @@ public class DelegatingViewComposite extends ViewComposite implements RequiresAu
      * @param controller
      * @param name
      */
-    public DelegatingViewComposite(Controller parentController, Controller childController) {
-        super(parentController, "DelegatingViewComposite");
+    public DelegatingViewComposite(Controller parentController, Controller childController, Enum<?> viewType) {
+        super(parentController, "DelegatingViewComposite", viewType);
         initWidget(childController);
         this.childController = childController;
     }

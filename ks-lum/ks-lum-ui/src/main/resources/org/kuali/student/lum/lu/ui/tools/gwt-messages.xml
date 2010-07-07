@@ -35,5 +35,7 @@
    			</value>   			
    		</property>   		
    	</bean>
+   	<bean parent="enCourse" p:id="cluSetClus"		p:value="Courses"/>
+   	
 
 </beans>

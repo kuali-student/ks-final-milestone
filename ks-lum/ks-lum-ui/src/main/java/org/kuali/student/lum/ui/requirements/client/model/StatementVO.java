@@ -19,21 +19,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
+
+import com.google.gwt.core.client.GWT;
 
 public class StatementVO extends Token implements Serializable {
 
@@ -64,7 +58,7 @@ public class StatementVO extends Token implements Serializable {
 //        level++;
         
         if (node == null) {
-            System.out.println("null node found");
+            GWT.log("null node found",null);
             return;
         }
         
@@ -72,15 +66,15 @@ public class StatementVO extends Token implements Serializable {
         if (node.getUserObject() != null) {
             Token token = (Token) node.getUserObject();
             //content = (ReqComponentVO) token.value;
-            System.out.println("Node level " + level + ", content: " + token.value);
+            GWT.log("Node level " + level + ", content: " + token.value,null);
         }
-        else System.out.println("Node user object null, level: " + level);
+        else GWT.log("Node user object null, level: " + level, null);
         for (int i = 0; i < node.getChildCount(); i++) {
             Node child = node.getChildAt(i);
             if (child.isLeaf()) {
                 Token token = (Token) child.getUserObject();
                 content = (ReqComponentVO) child.getUserObject();
-                System.out.println("Node level " + child.getDistance(child) + ", content: " + content);
+                GWT.log("Node level " + child.getDistance(child) + ", content: " + content, null);
             } else {
                 printTree(child);
             }
@@ -398,9 +392,9 @@ public class StatementVO extends Token implements Serializable {
         
         // the next GUI id will be A - Z, and A1, A2, A3 afterwards.
         if (newCharCode < 65 + 26) {
-            guiRCId = new String(Character.toString((char)newCharCode));
+            guiRCId = Character.toString((char)newCharCode);
         } else {
-            guiRCId = new String(Character.toString((char)(65 + 26)));
+            guiRCId = Character.toString((char)(65 + 26));
             guiRCId = guiRCId + Integer.toString(
                     newCharCode - 65 + 26 - 1);
         }
@@ -678,7 +672,7 @@ public class StatementVO extends Token implements Serializable {
                 }
                 parent.addStatementVOs(statementVO.getStatementVOs());
             }
-        } else if (statementVO.getStatementVOCount() > 0) {
+        } else if (statementVO!=null && statementVO.getStatementVOCount() > 0) {
             List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
             for (StatementVO subS : subSs) {
                 structureChanged = structureChanged || doSimplify(subS, statementVO);
@@ -798,11 +792,12 @@ public class StatementVO extends Token implements Serializable {
             int rcCounter = 0;
             for (ReqComponentVO childReqComponentInfo : currReqComponentVOs) {
                 if (rcCounter > 0) {
-                    StatementOperatorTypeKey operator =
-                        (statementVO == null ||
-                                statementVO.getStatementInfo() == null)? null :
-                                    statementVO.getStatementInfo().getOperator();
-                    inSbResult.append(" " + operator.toString().toLowerCase() + " ");
+                    if(statementVO != null &&
+                       statementVO.getStatementInfo() != null &&
+                       statementVO.getStatementInfo().getOperator() != null){
+	                	StatementOperatorTypeKey operator = statementVO.getStatementInfo().getOperator();
+	                    inSbResult.append(" " + operator.toString().toLowerCase() + " ");
+                    }
                 }
                 inSbResult.append(childReqComponentInfo.getGuiReferenceLabelId());
                 rcCounter++;

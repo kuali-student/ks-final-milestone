@@ -26,6 +26,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+//FIXME this servlet should take not extend AbstractBaseDataOrchestrationRpcGwtServlet, Course view not processed throught workflow
 public class CourseRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements CourseRpcService {
 
     private static final long serialVersionUID = 1L;

@@ -157,11 +157,6 @@
 		<property name="service" ref="atpClient" />
 	</bean>
 
-    <bean id="personRpcGwtServlet"
-        class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-        <property name="service" ref="personSearchClient" />
-    </bean>
-
 	<bean id="LoRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">
 		<property name="service" ref="loClient" />
@@ -210,7 +205,7 @@
 
 	<bean id="statementServiceClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/StatementService?wsdl"/>
-		<property name="serviceEndpointInterface" value="org.kuali.student.brms.statement.service.StatementService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>
 

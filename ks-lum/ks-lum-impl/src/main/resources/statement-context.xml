@@ -27,7 +27,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<bean id="janino-systemPropertyConfigurer"
+	<!--bean id="janino-systemPropertyConfigurer"
 		class="org.kuali.student.common.util.SystemPropertyConfigurer">
 		<property name="properties">
 			<map>
@@ -35,66 +35,105 @@
 				<entry key="drools.dialect.java.compiler" value="JANINO"/>
 			</map>
 		</property>
-	</bean>
+	</bean-->
 
-    <bean id="courseListContext" class="org.kuali.student.lum.statement.config.context.lu.CourseListContextImpl">
+    <bean id="cluSetContext" class="org.kuali.student.lum.statement.config.context.lu.CluSetContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
 
     <bean id="contextRegistryReqComponent"
-        class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">
+        class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
-                <!-- Pre-Req Contexts-->
-                <entry key="kuali.reqCompType.courseList.none">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.completed.none">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.all">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.completed.all">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.nof">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.completed.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of1">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.enrolled.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of2">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.credits.completed.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.course.courseset.credits.completed.none">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.grdCondCourseList">
-                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeConditionCourseListContextImpl">
-				        <property name="luService" ref="luServiceImpl" />
-                    </bean>
+                    <list>
+	                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeConditionCourseListContextImpl">
+					        <property name="luService" ref="luServiceImpl" />
+	                    </bean>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.gradecheck">
-                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeCheckContextImpl">
-				        <property name="luService" ref="luServiceImpl" />
-                    </bean>
+                    <list>
+	                    <bean class="org.kuali.student.lum.statement.config.context.lu.GPAContextImpl">
+					        <property name="luService" ref="luServiceImpl" />
+	                    </bean>
+                    </list>
                 </entry>
-                <!-- Co-Req Contexts -->
                 <entry key="kuali.reqCompType.courseList.coreq.all">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.coreq.oneof">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
                 <!-- Program Contexts -->
                 <entry key="kuali.reqCompType.programList.enroll.oneof">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.programList.enroll.none">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+
+                <!-- New Program Contexts-->
+                <entry key="kuali.reqCompType.program.programset.completed.nof">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.program.programset.notcompleted.nof">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.program.programset.completed.all">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.program.programset.coursecompleted.nof">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
                 </entry>
             </map>
         </constructor-arg>
-    </bean>
-
-    <bean id="droolsKnowledgeBase" class="org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase" />
-
-    <bean id="droolsExecutor"
-        class="org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
-        <property name="enableStatisticsLogging" value="false" />
-        <property name="ruleBaseCache" ref="droolsKnowledgeBase" />
     </bean>
 
     <bean id="booleanOperatorLanguageMap"
@@ -102,37 +141,37 @@
     	<property name="sourceMap">
     		<map>
     			<entry key="en">
-    				<bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+    				<bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
     				    <constructor-arg index="0" value="and" />
                         <constructor-arg index="1" value="or" />
     				</bean>
     			</entry>
                 <entry key="dk">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
                         <constructor-arg index="0" value="og" />
                         <constructor-arg index="1" value="eller" />
                     </bean>
                 </entry>
                 <entry key="de">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
                         <constructor-arg index="0" value="und" />
                         <constructor-arg index="1" value="oder" />
                     </bean>
                 </entry>
                 <entry key="fr">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
                         <constructor-arg index="0" value="et" />
                         <constructor-arg index="1" value="ou" />
                     </bean>
                 </entry>
                 <entry key="jp">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
                         <constructor-arg index="0" value="および" />
                         <constructor-arg index="1" value="または" />
                     </bean>
                 </entry>
                 <entry key="zh">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
                         <constructor-arg index="0" value="和" />
                         <constructor-arg index="1" value="或" />
                     </bean>
@@ -142,34 +181,33 @@
     </bean>
 
     <bean id="naturalLanguageMessageBuilder"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
-        <constructor-arg index="0" ref="droolsExecutor" />
-        <constructor-arg index="1" value="en" />
-        <constructor-arg index="2" ref="booleanOperatorLanguageMap" />
+        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
+        <constructor-arg index="0" value="en" />
+        <constructor-arg index="1" ref="booleanOperatorLanguageMap" />
     </bean>
 
     <bean id="reqComponentTranslator"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.ReqComponentTranslator">
+        class="org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator">
         <property name="contextRegistry" ref="contextRegistryReqComponent" />
         <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="statementTranslator"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.StatementTranslator">
+        class="org.kuali.student.core.statement.naturallanguage.translators.StatementTranslator">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
         <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
+        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
         <property name="language" value="en" />
     </bean>
 <!--     
     <bean id="statementService" autowire="byName"
-        class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
+        class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>

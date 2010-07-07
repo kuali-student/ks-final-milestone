@@ -50,82 +50,25 @@ public class CollectionModel<T> implements Model {
         }
     }
 
-    /**
-     * @param object
-     * @deprecated old method, left backward compatibility
-     */
-    public void put(T object) {
-        value = object;
-        handlers.fireEvent(new CollectionModelChangeEvent<T>(Action.RELOAD, this, object));
+	/**
+	 * Removes the specified model object from the model
+	 * 
+	 * @param object
+	 * @return the object that was removed, or null if not found
+	 * @deprecated should use new Data structures instead, accessed via getValue, setValue  
+	 */
+    public T remove(T object) {
+	    if (object instanceof Idable){
+	        T result = data.remove(((Idable)object).getId());
+	        if (result != null) {
+	            handlers.fireEvent(new CollectionModelChangeEvent<T>(Action.REMOVE, this, result));
+	        }
+	        return result;
+	    } else {
+	        return null;
+	    }
     }
     
-    /**
-     * @return
-     * @deprecated old method, left backward compatibility
-     */
-    public T get(){
-        return value;
-    }
-
-    /**
-     * Returns the model object associated with the specified identifier
-     * 
-     * @param id
-     * @return
-     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
-     */
-    public T get(String id) {
-        return data.get(id);
-    }
-
-    /**
-     * Removes the model object associated with the specified identifier
-     * 
-     * @param id
-     * @return the object that was removed, or null if not found
-     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
-     */
-    public T remove(String id) {
-        T result = data.remove(id);
-        if (result != null) {
-            handlers.fireEvent(new CollectionModelChangeEvent<T>(Action.REMOVE, this, result));
-        }
-        return result;
-    }
-
-    /**
-     * Removes the specified model object from the model
-     * 
-     * @param object
-     * @return the object that was removed, or null if not found
-     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
-     */
-    public T remove(T object) {
-        if (object instanceof Idable){
-            return remove(((Idable)object).getId());
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * "Updates" the model object within the model. If the object does not exist in the model, then it is added. Fires a
-     * ModelChangeEvent with an action indicating whether it was added or updated.
-     * 
-     * @param object
-     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
-     */
-    public void update(T object) {
-        if (object instanceof Idable){
-            T existing = data.put(((Idable)object).getId(), object);
-            if (existing == null) {
-                handlers.fireEvent(new CollectionModelChangeEvent<T>(Action.ADD, this, object));
-            } else {
-                handlers.fireEvent(new CollectionModelChangeEvent<T>(Action.UPDATE, this, object));
-            }
-        }
-    }
-
     /**
      * Adds a ModelChangeHandler that will be invoked for ModelChangeEvents
      * 

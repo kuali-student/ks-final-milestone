@@ -61,10 +61,6 @@
 					<ref bean="atpRpcServiceGwtController"/>
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/PersonRpcService">
-					<ref bean="personRpcServiceGwtController"/>
-				</entry>
-				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService">
 					<ref bean="LoRpcGwtServletController" />
 				</entry>
@@ -184,12 +180,6 @@
 		<property name="servletName" value="atpRpcGwtServlet" />
 		<property name="servletInstance" ref="atpRpcGwtServlet" />
 	</bean>
-
-    <bean id="personRpcServiceGwtController"
-        class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="personRpcGwtServlet" />
-        <property name="servletInstance" ref="personRpcGwtServlet" />
-    </bean>
 
 	<bean id="LoRpcGwtServletController"
 		class="org.kuali.student.common.ws.ServletWrappingController">
@@ -314,8 +304,6 @@
 	</bean>
 
 	<bean id="creditCourseProposalAssembler" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler" parent="baseAssembler">
-		<constructor-arg value="draft"/>
-		<property name="learningObjectiveService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>
@@ -438,11 +426,6 @@
 		<property name="service" ref="atpClient" />
 	</bean>
 
-    <bean id="personRpcGwtServlet"
-        class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-        <property name="service" ref="personSearchClient" />
-    </bean>
-
 	<bean id="LoRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">
 		<property name="service" ref="loClient" />
@@ -500,7 +483,7 @@
 	</bean>
 
 	<bean id="statementServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.brms.statement.service.StatementService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>
 

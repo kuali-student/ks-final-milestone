@@ -378,4 +378,8 @@
         ATTR_VAL="org.kuali.rice.kew.batch.web.IngesterAction"
         KIM_ATTR_DEFN_ID="2" KIM_TYP_ID="12"
         OBJ_ID="606763510FF496D3E0404F8189D857A2" PERM_ID="265" VER_NBR="1"/>
+    <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="880"
+        ATTR_VAL="org.kuali.rice.ksb.messaging.web.ConfigViewerAction"
+        KIM_ATTR_DEFN_ID="2" KIM_TYP_ID="12"
+        OBJ_ID="ECCB8A6C-A0DA-5311-6A57-40F743EA334C" PERM_ID="840" VER_NBR="1"/>
 </dataset>

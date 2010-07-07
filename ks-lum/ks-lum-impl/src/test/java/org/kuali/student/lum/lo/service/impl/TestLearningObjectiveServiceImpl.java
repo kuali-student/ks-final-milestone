@@ -301,7 +301,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		try{				
 			newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
 			newCatInfo = client.getLoCategory(newCatInfo.getId());
-			catName = newCatInfo.getName();
+			newCatInfo.getName();
 			catRepo = newCatInfo.getLoRepository();
 		} catch (OperationFailedException ofe) {
 			System.err.println(ofe.getMessage());
@@ -372,7 +372,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		try {
 			catInfo2.setName( "dontDupThisCategory");
-			catInfo2 = client.updateLoCategory(catId2, catInfo2);
+			client.updateLoCategory(catId2, catInfo2);
 			
 	
             fail("OperationFailedException expected when updating LoCategory with the same name, type and state");

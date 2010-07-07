@@ -333,8 +333,7 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 
 	@Override
 	public void addStyleName(String style) {
-		this.addStyleName(style);
-		
+		throw new UnsupportedOperationException("addStyleName is not implemented");
 	}
 
 	@Override

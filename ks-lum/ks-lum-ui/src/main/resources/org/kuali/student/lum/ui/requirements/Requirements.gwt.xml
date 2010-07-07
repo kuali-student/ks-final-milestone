@@ -28,7 +28,7 @@
 
 	<inherits name='org.kuali.student.lum.lu.Lu'/>
 	<inherits name='org.kuali.student.lum.lu.typekey.Typekey'/>
-	<inherits name='org.kuali.student.brms.statement.Statement'/>
+	<inherits name='org.kuali.student.core.statement.Statement'/>
 	<inherits name='org.kuali.student.core.Core'/>  
 	<inherits name='org.kuali.student.core.search.Search'/>  
 	<inherits name='org.kuali.student.core.atp.Atp'/>

@@ -22,7 +22,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-
+@Deprecated
 public abstract class ButtonLayout extends Composite{
     protected List<KSButton> buttons = new ArrayList<KSButton>();
     public abstract void addButton(KSButton button);

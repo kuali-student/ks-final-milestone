@@ -66,7 +66,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		List<SearchParam> internalSearchParms = new ArrayList<SearchParam>(searchRequest.getParams());
 		for(SearchParam searchParam : searchParamsTemp){
 			for(QueryParamInfo queryParam:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
-				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())){
+				// check to see if optional param has any values set.
+				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())&&searchParam.getValue()!=null){
 					if(!optionalQueryString.isEmpty()){
 						optionalQueryString += " AND ";
 					}
@@ -181,6 +182,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(internalSearchParms!=null){
 			for (SearchParam searchParam : internalSearchParms) {
+				// check to see if optional param has any values set.
+				if(searchParam.getValue()!=null){
 			    List<QueryParamInfo> queryParams = searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
 			    String paramDataType;
 			    Object queryParamValue = null;
@@ -202,6 +205,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			        queryParamValue = searchParam.getValue();
 			    }
 			    query.setParameter(searchParam.getKey().replace(".", "_"), queryParamValue);
+				}
 			}
 		}
 
@@ -218,7 +222,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+).*?[Ff][Rr][Oo][Mm]";
 			String replacement = "SELECT COUNT($1) FROM";
 			String countQueryString = (queryString + optionalQueryString).replaceAll(regex, replacement);
-			System.out.println("Executing query: "+countQueryString);
+			LOG.info("Executing query: "+countQueryString);
 			Query countQuery;
 			if(isNative){
 				countQuery = em.createNativeQuery(countQueryString);
@@ -243,18 +247,6 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 	            obj1 != null && obj2 != null && obj1.equals(obj2));
 	}
 	
-	private String getParamValue(String paramKey, List<SearchParam> params) {
-	    String result = null;
-	    if (params != null) {
-	        for (SearchParam searchParam : params) {
-	            if (nullSafeEquals(searchParam.getKey(), paramKey)) {
-	                result = (String)searchParam.getValue();
-	            }
-	        }
-	    }
-	    return result;
-	}
-
 	private List<SearchResultRow> convertToResults(List<?> queryResults,
 			SearchTypeInfo searchTypeInfo) {
 		List<SearchResultRow> results = new ArrayList<SearchResultRow>();

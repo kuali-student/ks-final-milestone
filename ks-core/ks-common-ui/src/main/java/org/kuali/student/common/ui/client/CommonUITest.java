@@ -20,21 +20,17 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
+import org.kuali.student.common.ui.client.widgets.table.scroll.TableDemoPanel;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -45,16 +41,17 @@ public class CommonUITest implements EntryPoint {
     @Override
     public void onModuleLoad() {
 		final AbsolutePanel panel = ApplicationPanel.get();
-		final KSButton button = new KSButton("show lightbox", new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				final KSLightBox box = new KSLightBox(new HTML("Proposal Comments"));
-				box.setWidget(new TestLightboxContent());
-				box.show();
-			}
-		});
-		panel.add(button);
 		
+		panel.add(new TableDemoPanel());
+		//panel.add(new KSLightBoxDemo());
+		//panel.add(new HeaderDemo());
+		KSHeader ksHeader = new KSHeader();
+		ksHeader.setApplicationTitle("title");
+		ksHeader.setSearchTitle("Course");
+		ksHeader.setUserName("asdf");
+		ksHeader.addButton(new KSButton("asdf"));
+		panel.add(ksHeader);
+		/*
     	panel.add(new Button("Test Notifications", new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
@@ -80,7 +77,7 @@ public class CommonUITest implements EntryPoint {
 		for (int i=0; i<500; i++) {
 			panel.add(new Label("label " + i));
 		}
-		
+		*/
 	}
 	
 	public static class TestLightboxContent extends Composite {

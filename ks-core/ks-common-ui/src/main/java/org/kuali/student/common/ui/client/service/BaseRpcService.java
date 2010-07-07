@@ -39,12 +39,7 @@ public interface BaseRpcService extends RemoteService{
     
     public List<String> getObjectTypes();
 
-    public ObjectStructure getObjectStructure(String objectTypeKey);
-
-    public boolean validateObject(String objectTypeKey, String stateKey, String info);
-
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info);
-    
+    public ObjectStructure getObjectStructure(String objectTypeKey);    
     
     /* Search Operations */
     public List<SearchTypeInfo> getSearchTypes();

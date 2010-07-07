@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -72,6 +73,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
@@ -94,6 +96,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", additionalContextFile = "classpath:lu-additional-context.xml")
 	public LuService client;
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
+	final Logger LOG = Logger.getLogger(TestLuServiceImpl.class);
 
 	@Test
 	public void testClu() throws DoesNotExistException,
@@ -333,7 +336,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 //		cluSetInfo.getCluSetIds().add("CLUSET-2");
 		cluSetInfo.getAttributes().put("cluSet1ArrtKey1", "cluSet1ArrtValue1");
 		cluSetInfo.getAttributes().put("cluSet1ArrtKey2", "cluSet1ArrtValue2");
-		
+
 		CluSetInfo createdSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", cluSetInfo);
 
 		assertEquals("kuali.cluSet.type.creditCourse", createdSet1.getType());
@@ -582,7 +585,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().size());
 		assertEquals(35l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().get(0).getPercentage());
-		
+
 		assertTrue(createdClu.isHasEarlyDropDeadline());
 		assertTrue(createdClu.isHazardousForDisabledStudents());
 
@@ -746,7 +749,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().remove(0);
 		createdClu.getFeeInfo().getCluFeeRecords().get(1).setFeeType("FEE_TYPE_Z");
-		
+
 		createdClu.setHasEarlyDropDeadline(false);
 
 		createdClu.setHazardousForDisabledStudents(false);
@@ -934,7 +937,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		assertEquals(1, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().size());
 		assertEquals(65l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().get(0).getPercentage());
-		
+
 		assertFalse(updatedClu.isHasEarlyDropDeadline());
 		assertFalse(updatedClu.isHazardousForDisabledStudents());
 
@@ -1090,7 +1093,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		CluCluRelationInfo created = client.createCluCluRelation("CLU-1",
 				"CLU-2", "luLuType.type1", cluCluRelationInfo);
-		
+
 		assertEquals(effectiveDate, created.getEffectiveDate());
 		assertEquals(expirationDate, created.getExpirationDate());
 		assertEquals(true, created.getIsCluRelationRequired());
@@ -1448,7 +1451,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(1, luiIds.size());
 		luiIds = client.getLuiIdsInAtpByCluId("Non-existent Clu", "ATP-2");
 		assertTrue(null == luiIds || luiIds.size() == 0);
-		luiIds = client.getLuiIdsInAtpByCluId("CLU-2", "Non-existent ATP");		
+		luiIds = client.getLuiIdsInAtpByCluId("CLU-2", "Non-existent ATP");
 		assertTrue(null == luiIds || luiIds.size() == 0);
 	}
 
@@ -1458,7 +1461,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		LuLuRelationTypeInfo luLuRelTypeInfo;
 
 		try {
-			luLuRelTypeInfo = client.getLuLuRelationType(null);
+			client.getLuLuRelationType(null);
 			fail("LuService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
 		} catch (MissingParameterException e) {
 		}
@@ -1752,6 +1755,27 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
+	public void testSearchCourseLevelRanges() throws MissingParameterException {
+        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam courseLevelsParam = new SearchParam();
+        courseLevelsParam.setKey("lu.queryParam.luOptionalCrsNoRange");
+        courseLevelsParam.setValue("100 -200");
+        queryParamValues.add(courseLevelsParam);
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setSearchKey("lu.search.generic");
+        searchRequest.setParams(queryParamValues);
+        SearchResult clus = client.search(searchRequest);
+        Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
+            public int compare(SearchResultRow o1, SearchResultRow o2) {
+                return o1.getCells().get(0).getValue().compareTo(
+                        o2.getCells().get(0).getValue());
+            }
+        });
+        assertNotNull(clus);
+        LOG.warn(clus.getRows().size());
+	}
+
+	@Test
 	public void testCluValidation() throws ParseException, AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1783,7 +1807,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
 		cluId1.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
-		cluId1.setState("active");		
+		cluId1.setState("active");
 		cluId1.setCode("cluIdonecode");
 		cluId1.setDivision("cluIdonedivision");
 		cluId1.setLevel("cluIdonelevel");
@@ -1795,9 +1819,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluId1.setOrgId("cluIdoneorgid");
 
 		clu.getAlternateIdentifiers().add(cluId1);
-		
+
 		CluIdentifierInfo cluId2 = new CluIdentifierInfo();
-		// Check for different type validations 
+		// Check for different type validations
 		cluId2.setType("kuali.lu.type.CreditCourse.identifier.version");
 		cluId2.setState("active");
 		cluId2.setCode("cluIdtwocode");
@@ -1815,13 +1839,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		clu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
 		clu.getAttributes().put("cluAttrKey2", "cluAttrValue2");
-		
+
 		clu.setCanCreateLui(true);
 
 		// ERROR non negative integer
 		clu.setDefaultEnrollmentEstimate(-545);
 		clu.setDefaultMaximumEnrollment(999);
-		
+
 		RichTextInfo desc = new RichTextInfo();
 		desc.setFormatted("<p>DESC FORMATTED</p>");
 		desc.setPlain("DESC PLAIN");
@@ -1835,19 +1859,19 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		AffiliatedOrgInfo aforg = new AffiliatedOrgInfo();
 		aforg.setOrgId("AFFORGone");
 		aforg.setPercentage(35l);
-		
+
 		AffiliatedOrgInfo aforg1 = new AffiliatedOrgInfo();
 		aforg1.setOrgId("AFForgtwo");
 		aforg1.setPercentage(65l);
-		
+
 		List<AffiliatedOrgInfo> affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
 		affiliatedOrgs.add(aforg);
 		affiliatedOrgs.add(aforg1);
-		
+
 		CurrencyAmountInfo ca = new CurrencyAmountInfo();
 		ca.setCurrencyQuantity(100);
 		ca.setCurrencyTypeKey("DLLR");
-		
+
 		CluFeeRecordInfo feeRec = new CluFeeRecordInfo();
 		feeRec.setAffiliatedOrgInfoList(affiliatedOrgs);
 		feeRec.setFeeAmount(ca);
@@ -1857,11 +1881,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		feeRec1.setAffiliatedOrgInfoList(affiliatedOrgs);
 		feeRec1.setFeeAmount(ca);
 		feeRec1.setFeeType("FEE_TYPE_Y");
-		
+
 		List<CluFeeRecordInfo> feeRecList = new ArrayList<CluFeeRecordInfo>();
 		feeRecList.add(feeRec);
 		feeRecList.add(feeRec1);
-		
+
 		CluFeeInfo feeInfo = new CluFeeInfo();
 		feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
 		feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
@@ -1967,8 +1991,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		List<ValidationResultInfo> valerros = client.validateClu("SYSTEM", clu);
 
-		assertEquals(valerros.size(), 17);		
-	}	
+		assertEquals(valerros.size(), 17);
+	}
 
 	@Test
 	public void testAddCluToCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
@@ -1976,12 +2000,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		StatusInfo status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
 		CluSetInfo getCluSetInfo = client.getCluSetInfo(createdCluSet.getId());
-		
+
 		assertTrue(status.getSuccess());
 		assertEquals(1, getCluSetInfo.getCluIds().size());
 		assertEquals("CLU-1", getCluSetInfo.getCluIds().get(0));
 	}
-	
+
 	@Test
 	public void testAddCluToCluSet_DuplicateCluId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
@@ -1996,11 +2020,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testAddClusToCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
-		
+
 		// Somehow cannot add 2 CLUs in sequence (JTA rollback exception) but adding a single CLU works
 		//CluInfo clu1 = createCluInfo();
 		//CluInfo clu2 = createCluInfo();
@@ -2009,7 +2033,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		//List<String> cluIdList = Arrays.asList(new String[] {createdClu1.getId(), createdClu2.getId()});
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-3", "CLU-4"});
-		
+
 		StatusInfo status = client.addClusToCluSet(cluIdList, createdCluSet.getId());
 		CluSetInfo getCluSetInfo = client.getCluSetInfo(createdCluSet.getId());
 		assertTrue(status.getSuccess());
@@ -2025,7 +2049,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-INVALID-ID", "CLU-4"});
-		
+
 		try {
 			client.addClusToCluSet(cluIdList, createdCluSet.getId());
 			fail("Adding a non-existent CLU (id='CLU-INVALID-ID') to CluSet should have failed");
@@ -2039,7 +2063,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-2", "CLU-4"});
-		
+
 		try {
 			client.addClusToCluSet(cluIdList, createdCluSet.getId());
 			fail("Adding a duplicate CLU (id='CLU-2') to CluSet should have failed");
@@ -2051,7 +2075,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testAddClusToCluSet_InvalidCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-3", "CLU-4"});
-		
+
 		try {
 			client.addClusToCluSet(cluIdList, "CLUSET-INVALID-ID");
 			fail("Adding CLUs to a non-existent CluSet (id='CLUSET-INVALID-ID') should have failed");
@@ -2083,7 +2107,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testAddCluSetToCluSet_NestedCircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
@@ -2092,7 +2116,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		client.addCluSetToCluSet(createdCluSet3.getId(), createdCluSet1.getId());
 		client.addCluSetToCluSet(createdCluSet2.getId(), createdCluSet3.getId());
-		
+
 		try {
 			client.addCluSetToCluSet(createdCluSet1.getId(), createdCluSet2.getId());
 			fail("Adding CluSet should have thrown a CircularRelationshipException");
@@ -2100,7 +2124,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testAddCluSetToCluSet_DuplicateCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
@@ -2115,7 +2139,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testAddCluSetToCluSet_InvalidCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
@@ -2127,13 +2151,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testAddCluSetsToCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", "CLUSET-3", "CLUSET-4"});
-		
+
 		StatusInfo status = client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
 		CluSetInfo getCluSetInfo = client.getCluSetInfo(createdCluSet.getId());
 
@@ -2150,7 +2174,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-INVALID-ID", "CLUSET-3", "CLUSET-4"});
-		
+
 		try {
 			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
 			fail("Adding a non-existent CluSet (id='CLUSET-INVALID-ID') to CluSet should have failed");
@@ -2164,7 +2188,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", "CLUSET-3", "CLUSET-2"});
-		
+
 		try {
 			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
 			fail("Adding a duplicate CluSet (id='CLUSET-2') to CluSet should have failed");
@@ -2178,7 +2202,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", createCluSetInfo());
 		// Adding createdCluSet to itself
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", createdCluSet.getId(), "CLUSET-4"});
-		
+
 		try {
 			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
 			fail("Adding a CluSet to itself should have failed");
@@ -2218,7 +2242,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		cluSet.setMembershipQuery(query);
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", cluSet);
-		
+
 		assertNotNull(createdCluSet);
 		assertNotNull(createdCluSet.getMembershipQuery());
 		assertNotNull(createdCluSet.getMembershipQuery().getId());
@@ -2243,10 +2267,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		MembershipQueryInfo query = new MembershipQueryInfo();
 		query.setSearchTypeKey("lu.search.cluByCodeAndState");
 		query.setQueryParamValueList(queryParamValues);
-		
+
 		return query;
 	}
-	
+
 	@Test
 	public void testCreateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
 		CluSetInfo cluSet = createCluSetInfo();
@@ -2255,7 +2279,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluSet.setMembershipQuery(query);
 
 		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", cluSet);
-		
+
 		assertNotNull(createdCluSet);
 		assertNotNull(createdCluSet.getMembershipQuery());
 		assertNotNull(createdCluSet.getMembershipQuery().getId());
@@ -2283,7 +2307,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public void testCreateCluSet_InvalidCluSet1() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
 		CluSetInfo cluSet = createCluSetInfo();
 		cluSet.getCluIds().add("CLU-1");
-		
+
 		MembershipQueryInfo query = new MembershipQueryInfo();
 		query.setSearchTypeKey("lu.search.clus");
 
@@ -2295,14 +2319,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		} catch (UnsupportedActionException e) {
 			assertTrue(true);
 		}
-		
+
 	}
 
 	@Test
 	public void testCreateCluSet_InvalidCluSet2() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
 		CluSetInfo cluSet = createCluSetInfo();
 		cluSet.getCluSetIds().add("CLUSET-1");
-		
+
 		MembershipQueryInfo query = new MembershipQueryInfo();
 		query.setSearchTypeKey("lu.search.clus");
 
@@ -2314,7 +2338,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		} catch (UnsupportedActionException e) {
 			assertTrue(true);
 		}
-		
+
 	}
 
 	@Test
@@ -2322,14 +2346,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo cluSet = createCluSetInfo();
 		cluSet.getCluIds().add("CLU-1");
 		cluSet.getCluSetIds().add("CLUSET-1");
-		
+
 		try {
 			client.createCluSet("kuali.cluSet.type.creditCourse", cluSet);
 			fail("Creating CluSet should have thrown an UnsupportedActionException. Cannot add CLUs and CluSets into one CluSet");
 		} catch (UnsupportedActionException e) {
 			assertTrue(true);
 		}
-		
+
 	}
 
 	@Test
@@ -2373,7 +2397,64 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(getCluSet.getCluIds());
 		assertEquals(createdCluSet.getCluIds().size(), getCluSet.getCluIds().size());
 	}
-	
+
+	@Test
+	public void testGetCluSetTreeView() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		CluSetTreeViewInfo treeView = client.getCluSetTreeView("CLUSET-2");
+		assertNotNull(treeView);
+		assertEquals(2, treeView.getCluSets().size());
+
+		CluSetTreeViewInfo cluSet = treeView.getCluSets().get(1);
+		assertNotNull(cluSet);
+		assertEquals("CLUSET-4", cluSet.getId());
+		assertEquals(2, cluSet.getClus().size());
+
+		CluInfo clu = cluSet.getClus().get(1);
+		assertNotNull(clu);
+		assertEquals("CLU-3", clu.getId());
+	}
+
+	@Test
+	public void testGetCluSetTreeView_dynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DoesNotExistException {
+		CluSetInfo cluSet = createCluSetInfo();
+
+		MembershipQueryInfo query = new MembershipQueryInfo();
+		query.setSearchTypeKey("lu.search.clus");
+
+		cluSet.setMembershipQuery(query);
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", cluSet);
+		assertNotNull(createdCluSet);
+		assertNotNull(createdCluSet.getCluIds());
+
+		CluSetTreeViewInfo treeView = client.getCluSetTreeView(createdCluSet.getId());
+		assertNotNull(treeView);
+		assertEquals(createdCluSet.getCluIds().size(), treeView.getClus().size());
+	}
+
+	@Test
+	public void testGetCluSetTreeView_invalidCluSet()
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		try {
+			client.getCluSetTreeView("CLUSET-XX");
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public  void testGetCluSetTreeView_nullCluSet()
+			throws DoesNotExistException, InvalidParameterException,
+			OperationFailedException, PermissionDeniedException {
+		try {
+			client.getCluSetTreeView(null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+	}
+
 	@Test
 	public void testUpdateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, UnsupportedActionException, CircularRelationshipException {
 		CluSetInfo cluSet1 = createCluSetInfo();
@@ -2398,7 +2479,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdCluSet.getCluSetIds().clear();
 		createdCluSet.getCluIds().clear();
 		CluSetInfo updatedCluSet = client.updateCluSet(createdCluSet.getId(), createdCluSet);
-		
+
 		assertNotNull(updatedCluSet);
 		assertNotNull(updatedCluSet.getCluIds());
 		assertEquals(10, updatedCluSet.getCluIds().size());
@@ -2496,7 +2577,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet1);
 		assertNotNull(createdCluSet1.getCluIds());
 		assertEquals(2, createdCluSet1.getCluIds().size());
-		
+
 		// Remove all CLUs
 		createdCluSet1.getCluIds().clear();
 
@@ -2505,14 +2586,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(updatedCluSet1);
 		assertNotNull(updatedCluSet1.getCluIds());
 		assertEquals(0, updatedCluSet1.getCluIds().size());
-		
+
 		CluSetInfo getCluSet1 = client.getCluSetInfo(updatedCluSet1.getId());
 
 		assertNotNull(getCluSet1);
 		assertNotNull(getCluSet1.getCluIds());
 		assertEquals(0, getCluSet1.getCluIds().size());
 	}
-	
+
 	@Test
 	public void testUpdateCluSet_AddClu() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, VersionMismatchException, CircularRelationshipException {
 		CluSetInfo createCluSet = createCluSetInfo();
@@ -2524,24 +2605,24 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(2, createdCluSet1.getCluIds().size());
 
 		createdCluSet1.getCluIds().add("CLU-3");
-		
+
 		assertNotNull(createdCluSet1);
 		assertNotNull(createdCluSet1.getCluIds());
 		assertEquals(3, createdCluSet1.getCluIds().size());
-		
+
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1);
 
 		assertNotNull(updatedCluSet1);
 		assertNotNull(updatedCluSet1.getCluIds());
 		assertEquals(3, updatedCluSet1.getCluIds().size());
-		
+
 		CluSetInfo getCluSet1 = client.getCluSetInfo(updatedCluSet1.getId());
 
 		assertNotNull(getCluSet1);
 		assertNotNull(getCluSet1.getCluIds());
 		assertEquals(3, getCluSet1.getCluIds().size());
 	}
-	
+
 	@Test
 	public void testUpdateCluSet_RemoveClu() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, VersionMismatchException, CircularRelationshipException {
 		CluSetInfo createCluSet = createCluSetInfo();
@@ -2553,18 +2634,18 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(2, createdCluSet1.getCluIds().size());
 
 		createdCluSet1.getCluIds().remove("CLU-1");
-		
+
 		assertNotNull(createdCluSet1);
 		assertNotNull(createdCluSet1.getCluIds());
 		assertEquals(1, createdCluSet1.getCluIds().size());
-		
+
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1);
 
 		assertNotNull(updatedCluSet1);
 		assertNotNull(updatedCluSet1.getCluIds());
 		assertEquals(1, updatedCluSet1.getCluIds().size());
 		assertTrue(updatedCluSet1.getCluIds().contains("CLU-2"));
-		
+
 		CluSetInfo getCluSet1 = client.getCluSetInfo(updatedCluSet1.getId());
 
 		assertNotNull(getCluSet1);
@@ -2583,9 +2664,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
-		
+
 		CluResultInfo cluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto);
-		
+
 		assertNotNull(cluResult);
 		assertNotNull(cluResult.getDesc());
 		assertEquals(dto.getDesc().getPlain(), cluResult.getDesc().getPlain());
@@ -2597,7 +2678,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(dto.getEffectiveDate(), cluResult.getEffectiveDate());
 		assertEquals(dto.getExpirationDate(), cluResult.getExpirationDate());
 	}
-	
+
 	@Test
 	public void testUpdateCluResult() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
 		CluResultInfo dto = new CluResultInfo();
@@ -2609,7 +2690,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
-		
+
         List<ResultOptionInfo> resultOptions = new ArrayList<ResultOptionInfo>();
         ResultOptionInfo option = new ResultOptionInfo();
 		RichTextInfo desc2 = new RichTextInfo();
@@ -2621,7 +2702,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		option.setResultUsageTypeKey(null);
 		option.setState("inactive");
 		resultOptions.add(option);
-        
+
         dto.setResultOptions(resultOptions);
 
 		CluResultInfo createCluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto);
@@ -2677,7 +2758,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
-		
+
         List<ResultOptionInfo> resultOptions = new ArrayList<ResultOptionInfo>();
         ResultOptionInfo option = new ResultOptionInfo();
 		RichTextInfo desc2 = new RichTextInfo();
@@ -2689,7 +2770,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		//option.setResultUsageTypeKey("lrType.finalGrade");
 		option.setState("inactive");
 		resultOptions.add(option);
-        
+
         dto.setResultOptions(resultOptions);
 
 		CluResultInfo createCluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto);
@@ -2710,7 +2791,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 	private CluSetInfo createCluSetInfo() throws ParseException {
 		CluSetInfo cluSetInfo = new CluSetInfo();
-	
+
 		RichTextInfo desc = new RichTextInfo();
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
@@ -2718,10 +2799,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
 		cluSetInfo.setExpirationDate(DF.parse("20180101"));
 		cluSetInfo.setName("Clu set name");
-		
+
 		return cluSetInfo;
 	}
-	
+
 	private CluInfo createCluInfo() throws ParseException {
 		CluInfo clu = new CluInfo();
 
@@ -2792,19 +2873,19 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		AffiliatedOrgInfo aforg = new AffiliatedOrgInfo();
 		aforg.setOrgId("AFF_ORG1");
 		aforg.setPercentage(35l);
-		
+
 		AffiliatedOrgInfo aforg1 = new AffiliatedOrgInfo();
 		aforg1.setOrgId("AFF_ORG2");
 		aforg1.setPercentage(65l);
-		
+
 		List<AffiliatedOrgInfo> affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
 		affiliatedOrgs.add(aforg);
 		affiliatedOrgs.add(aforg1);
-		
+
 		CurrencyAmountInfo ca = new CurrencyAmountInfo();
 		ca.setCurrencyQuantity(100);
 		ca.setCurrencyTypeKey("DLLR");
-		
+
 		CluFeeRecordInfo feeRec = new CluFeeRecordInfo();
 		feeRec.setAffiliatedOrgInfoList(affiliatedOrgs);
 		feeRec.setFeeAmount(ca);
@@ -2814,11 +2895,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		feeRec1.setAffiliatedOrgInfoList(affiliatedOrgs);
 		feeRec1.setFeeAmount(ca);
 		feeRec1.setFeeType("FEE_TYPE_Y");
-		
+
 		List<CluFeeRecordInfo> feeRecList = new ArrayList<CluFeeRecordInfo>();
 		feeRecList.add(feeRec);
 		feeRecList.add(feeRec1);
-		
+
 		CluFeeInfo feeInfo = new CluFeeInfo();
 		feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
 		feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
@@ -2922,7 +3003,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createAccreditationList(clu);
 
 		createAdminOrgs(clu);
-		
+
 		return clu;
 	}
 
@@ -2931,8 +3012,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		sOrg1.setOrgId("EXT_Academic_Subject_ORG_ID1");
 
 		AcademicSubjectOrgInfo sOrg2 = new AcademicSubjectOrgInfo();
-		sOrg2.setOrgId("EXT_Academic_Subject_ORG_ID2");		
-		
+		sOrg2.setOrgId("EXT_Academic_Subject_ORG_ID2");
+
 		clu.getAcademicSubjectOrgs().add(sOrg1);
 		clu.getAcademicSubjectOrgs().add(sOrg2);
 	}
@@ -2951,8 +3032,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		sOrg3.setOrgId("EXT_Academic_Subject_ORG_ID3");
 
 		AcademicSubjectOrgInfo sOrg4 = new AcademicSubjectOrgInfo();
-		sOrg4.setOrgId("EXT_Academic_Subject_ORG_ID4");		
-		
+		sOrg4.setOrgId("EXT_Academic_Subject_ORG_ID4");
+
 		clu.getAcademicSubjectOrgs().add(sOrg3);
 		clu.getAcademicSubjectOrgs().add(sOrg4);
 	}

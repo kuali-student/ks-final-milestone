@@ -72,6 +72,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
                 if (checkbox.getFormValue().equals(id)){
                     this.selectedItems.remove(id);
                     checkbox.setValue(false);
+                    fireChangeEvent(false);
                     break;
                 }
             }
@@ -98,6 +99,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
                     if (checkbox.getFormValue().equals(id)){
                         this.selectedItems.add(id);
                         checkbox.setValue(true);
+                        fireChangeEvent(false);
                         break;
                     }
                 }
@@ -212,7 +214,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         } else {
             selectedItems.remove(value);
         }
-        fireChangeEvent();
+        fireChangeEvent(true);
     }
 
     public void onLoad() {}
@@ -253,6 +255,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
     @Override
     public void clear(){
         selectedItems.clear();
+        fireChangeEvent(false);
         redraw();
     }
 
