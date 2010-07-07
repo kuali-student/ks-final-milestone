@@ -71,10 +71,10 @@ public class DevAssemblyTesting {
             assertEquals("323", retrievedCourse.getCourseNumberSuffix());
 
             assertEquals("courseTitle-15", retrievedCourse.getCourseTitle());
-            assertEquals("transcriptTitle-33", retrievedCourse.getTranscriptTitle());
+            assertEquals("transcriptTitle-47", retrievedCourse.getTranscriptTitle());
 
-            assertEquals("plain-19", retrievedCourse.getDescription().getPlain());
-            assertEquals("formatted-18", retrievedCourse.getDescription().getFormatted());
+            assertEquals("plain-22", retrievedCourse.getDescr().getPlain());
+            assertEquals("formatted-21", retrievedCourse.getDescr().getFormatted());
 
             assertEquals(2, retrievedCourse.getFormats().size());
             FormatInfo info = retrievedCourse.getFormats().get(0);
@@ -84,7 +84,7 @@ public class DevAssemblyTesting {
 
             assertEquals(2, retrievedCourse.getTermsOffered().size());
             String termOffered = retrievedCourse.getTermsOffered().get(0);
-            assertTrue("termsOffered-32".equals(termOffered) || "termsOffered-33".equals(termOffered));
+            assertTrue("termsOffered-46".equals(termOffered) || "termsOffered-33".equals(termOffered));
 
             assertEquals(2, retrievedCourse.getAcademicSubjectOrgs().size());
             String orgId = retrievedCourse.getAcademicSubjectOrgs().get(0);
@@ -112,7 +112,7 @@ public class DevAssemblyTesting {
              * retrievedCourse.getCrossListings().get(0); // TODO - check its contents
              */
 
-            assertEquals("department-16", retrievedCourse.getDepartment());
+            assertEquals("department-19", retrievedCourse.getDepartment());
 
             TimeAmountInfo timeInfo = retrievedCourse.getDuration();
             assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
@@ -122,18 +122,18 @@ public class DevAssemblyTesting {
 
             // TODO - check feeInfo
 
-            assertEquals("firstExpectedOffering-22", retrievedCourse.getFirstExpectedOffering());
+            assertEquals("firstExpectedOffering-26", retrievedCourse.getFirstExpectedOffering());
 
             // TODO - check joints
             // TODO - check metaInfo
 
             assertEquals(2, retrievedCourse.getTermsOffered().size());
             String atpType = retrievedCourse.getTermsOffered().get(1);
-            assertTrue("termsOffered-32".equals(atpType) || "termsOffered-33".equals(atpType));
+            assertTrue("termsOffered-47".equals(atpType) || "termsOffered-33".equals(atpType));
 
             CluInstructorInfo instructor = retrievedCourse.getPrimaryInstructor();
-            assertEquals("orgId-31", instructor.getOrgId());
-            assertEquals("personId-32", instructor.getPersonId());
+            assertEquals("orgId-43", instructor.getOrgId());
+            assertEquals("personId-44", instructor.getPersonId());
 
             assertEquals("draft", retrievedCourse.getState());
             assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));

@@ -1,5 +1,16 @@
 package org.kuali.student.lum.course.service.assembler;
 
+/**
+ * 
+ * Catalog of Course Service Constants.
+ * 
+ * All type keys are mapped from 
+ * 
+ * https://test.kuali.org/confluence/display/KULSTG/Kuali+Student+Types+Used+in+the+Dictionary
+ * 
+ * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ *
+ */
 public class CourseAssemblerConstants {
 
 	public static final String COURSE_TYPE = "kuali.lu.type.CreditCourse";

@@ -19,7 +19,7 @@
 				<ref bean="courseInfo.courseTitle" />
 	<!-- 		<ref bean="courseInfo.crossListings" /> -->
 				<ref bean="courseInfo.department" />
-				<ref bean="courseInfo.description" />
+				<ref bean="courseInfo.descr" />
 				<ref bean="courseInfo.duration" />
 				<ref bean="courseInfo.effectiveDate" />
 				<ref bean="courseInfo.expirationDate" />
@@ -99,12 +99,12 @@
 	</bean>
 	<bean id="courseInfo.department" parent="courseInfo.department-parent" />
 
-	<bean id="courseInfo.description-parent" abstract="true"
+	<bean id="courseInfo.descr-parent" abstract="true"
 		parent="baseSingleComplex">
-		<property name="name" value="description" />
+		<property name="name" value="descr" />
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
 	</bean>
-	<bean id="courseInfo.description" parent="courseInfo.description-parent" />
+	<bean id="courseInfo.descr" parent="courseInfo.descr-parent" />
 
 	<bean id="courseInfo.duration-parent" abstract="true" parent="baseSingleComplex">
 		<property name="name" value="duration" />

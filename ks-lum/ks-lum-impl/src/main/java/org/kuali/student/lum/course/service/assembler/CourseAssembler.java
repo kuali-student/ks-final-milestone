@@ -76,7 +76,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		course.setCode(clu.getOfficialIdentifier().getCode());
 		course.setCourseNumberSuffix(clu.getOfficialIdentifier()
 				.getSuffixCode());
-
+		course.setOutOfClassHours(clu.getIntensity());
+		course.setInstructors(clu.getInstructors());
+		course.setStartTerm(clu.getExpectedFirstAtp());
+		course.setEndTerm(clu.getLastAtp());
+		
 		// TODO: LO
 		// course.setCourseSpecificLOs();
 
@@ -86,7 +90,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		// course.setCrossListings();
 
 		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
-		course.setDescription(clu.getDescr());
+		course.setDescr(clu.getDescr());
 		course.setDuration(clu.getStdDuration());
 		course.setEffectiveDate(clu.getEffectiveDate());
 		course.setExpirationDate(clu.getExpirationDate());
@@ -188,7 +192,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		identifier.setCode(course.getCode());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());
-
+		
 		identifier.setDivision(course.getSubjectArea());
 		identifier.setShortName(course.getTranscriptTitle());
 		clu.setOfficialIdentifier(identifier);
@@ -208,7 +212,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		
 		clu.setAttributes(course.getAttributes());
 		clu.setCampusLocations(course.getCampusLocations());
-		clu.setDescr(course.getDescription());
+		clu.setDescr(course.getDescr());
 		clu.setStdDuration(course.getDuration());
 		clu.setEffectiveDate(course.getEffectiveDate());
 		clu.setExpirationDate(course.getExpirationDate());
@@ -216,6 +220,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setExpectedFirstAtp(course.getFirstExpectedOffering());
 		clu.setOfferedAtpTypes(course.getTermsOffered());
 		clu.setPrimaryInstructor(course.getPrimaryInstructor());
+		
+		clu.setIntensity(course.getOutOfClassHours());
+		clu.setInstructors(course.getInstructors());
+		
+		clu.setExpectedFirstAtp(course.getStartTerm());
+		clu.setLastAtp(course.getEndTerm());
 		
 		clu.setMetaInfo(course.getMetaInfo());
 
