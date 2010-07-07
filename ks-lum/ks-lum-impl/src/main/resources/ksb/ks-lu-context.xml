@@ -297,7 +297,7 @@
     <property name="serviceEndpointInterface"
       value="org.kuali.student.lum.lrc.service.LrcService" />
     <property name="serviceQName"
-      value="{http://student.kuali.org/wsdl/lrc}LrcService" />
+      value="{http://student.kuali.org/wsdl/lrc}LearningResultService" />
   </bean>
 
   <bean id="lrcServiceImpl" class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
