@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.validator.poc.ServerDateParser;
-import org.kuali.student.common.validator.poc.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;

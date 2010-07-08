@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.validator.poc;
+package org.kuali.student.common.validator.old;
 
 public interface ConstraintDataProvider {
 

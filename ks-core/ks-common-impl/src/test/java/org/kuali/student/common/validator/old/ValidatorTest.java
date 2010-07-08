@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.old.dto.ConstraintDescriptor;
 import org.kuali.student.core.dictionary.old.dto.ConstraintSelector;
 import org.kuali.student.core.dictionary.old.dto.Field;

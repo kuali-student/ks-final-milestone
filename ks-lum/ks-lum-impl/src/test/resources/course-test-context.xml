@@ -262,7 +262,7 @@
 		</property>
 	</bean>
 
-	<bean id="serviceValidator" class="org.kuali.student.common.validator.Validator">
+	<bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
 		<property name="messageService" ref="ks.messageServiceMock"/>		
 	</bean>
 
@@ -456,7 +456,7 @@
 	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
-	<bean id="businessServiceValidator" class="org.kuali.student.common.validator.poc.Validator">
+	<bean id="businessServiceValidator" class="org.kuali.student.common.validator.Validator">
 		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
 	</bean>

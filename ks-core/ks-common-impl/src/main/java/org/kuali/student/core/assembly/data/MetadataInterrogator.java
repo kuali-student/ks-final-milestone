@@ -18,7 +18,7 @@ package org.kuali.student.core.assembly.data;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.common.validator.DateParser;
+import org.kuali.student.common.validator.old.DateParser;
 
 /**
  * 

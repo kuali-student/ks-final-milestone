@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.validator.poc;
+package org.kuali.student.common.validator.old;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,7 +44,7 @@ public class ServerDateParser implements DateParser {
     }
 
     /**
-     * @see org.kuali.student.common.validator.DateParser#toString(java.util.Date)
+     * @see org.kuali.student.common.validator.old.DateParser#toString(java.util.Date)
      */
     @Override
     public String toString(Date date) {

@@ -3,7 +3,7 @@ package org.kuali.student.lum.course.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.poc.Validator;
+import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;

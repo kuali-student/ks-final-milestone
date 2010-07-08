@@ -27,7 +27,7 @@ import java.util.Map.Entry;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.old.Validator;
 import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;

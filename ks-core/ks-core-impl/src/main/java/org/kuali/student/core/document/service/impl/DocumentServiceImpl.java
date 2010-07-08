@@ -20,7 +20,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.old.Validator;
 import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.document.dao.DocumentDao;

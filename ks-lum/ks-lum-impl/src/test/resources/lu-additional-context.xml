@@ -44,7 +44,7 @@
 		</property>
 	</bean>
 	
-	<bean id="validator" class="org.kuali.student.common.validator.Validator">
+	<bean id="validator" class="org.kuali.student.common.validator.old.Validator">
  		<property name="messageService" ref="ks.messageServiceMock"/> 		
 	</bean>
 
