@@ -58,7 +58,22 @@ public abstract class SectionView extends BaseSection implements View{
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	this.resetFieldInteractionFlags();
-    	onReadyCallback.exec(true);
+        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert("Failed to get model: " + getName());
+                onReadyCallback.exec(false);
+            }
+
+            @Override
+            public void onModelReady(DataModel m) {
+                model = m;
+                updateWidgetData(m);
+                onReadyCallback.exec(true);
+            }
+            
+        });
     }
 
 	/**
@@ -69,8 +84,6 @@ public abstract class SectionView extends BaseSection implements View{
      */
     @Override
     public boolean beforeHide() {
-    	//This update model call was added due to KSCOR-162
-    	this.updateModel();
         return true;
     }
 

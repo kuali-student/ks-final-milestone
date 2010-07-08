@@ -868,3 +868,7 @@ a.ks-button-secondary-small:hover {
 .ks-button-right-margin{
 	margin-right: 1em;
 }
+
+.ks-header-edit-link{
+	font-size: .6em; padding-left: 1em;
+}

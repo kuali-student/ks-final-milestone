@@ -27,9 +27,9 @@ public class MenuSectionController extends LayoutController implements ContentNa
 
 	private KSBlockMenuImpl menu = new KSBlockMenuImpl();
 	private List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
-	private Map<String, List<View>> menuViewMap = new HashMap<String, List<View>>();
+	protected Map<String, List<View>> menuViewMap = new HashMap<String, List<View>>();
 	private Map<Enum<?>, List<KSButton>> viewButtonsMap = new HashMap<Enum<?>, List<KSButton>>();
-	private Map<Enum<?>, KSMenuItemData> viewMenuItemMap = new HashMap<Enum<?>, KSMenuItemData>();
+	protected Map<Enum<?>, KSMenuItemData> viewMenuItemMap = new HashMap<Enum<?>, KSMenuItemData>();
 	private List<View> menuOrder = new ArrayList<View>();
 	private FlowPanel layout = new FlowPanel();
 	private KSDocumentHeader header = new KSDocumentHeader();
