@@ -16,11 +16,6 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gwtx</groupId>
             <artifactId>gwtx</artifactId>
             <scope>compile</scope>

@@ -23,7 +23,6 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.program.dao.ProgramDao;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.HonorsProgramInfo;
 import org.kuali.student.lum.program.dto.LuTypeInfo;
@@ -42,7 +41,6 @@ public class ProgramServiceImpl implements ProgramService{
 	private DictionaryService dictionaryService;
     private SearchManager searchManager;
     private ProgramAssembler programAssembler;
-    private ProgramDao programDao;
 
 	public DictionaryService getDictionaryService() {
 		return dictionaryService;
@@ -66,14 +64,6 @@ public class ProgramServiceImpl implements ProgramService{
 
 	public void setProgramAssembler(ProgramAssembler programAssembler) {
 		this.programAssembler = programAssembler;
-	}
-
-	public ProgramDao getProgramDao() {
-		return programDao;
-	}
-
-	public void setProgramDao(ProgramDao programDao) {
-		this.programDao = programDao;
 	}
 
 	@Override
@@ -247,10 +237,12 @@ public class ProgramServiceImpl implements ProgramService{
 	}
 
 	@Override
-	public ProgramRequirementInfo getProgramRequirement(
-			String programRequirementId) throws DoesNotExistException,
+	public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+
+		checkForMissingParameter(programRequirementId, "programRequirementId");
+
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -446,6 +438,32 @@ public class ProgramServiceImpl implements ProgramService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param parameter name
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
+
+    /**
+     * @param param
+     * @param paramName
+     * @throws MissingParameterException
+     */
+    private void checkForEmptyList(Object param, String paramName)
+            throws MissingParameterException {
+        if (param != null && param instanceof List<?> && ((List<?>)param).size() == 0) {
+            throw new MissingParameterException(paramName + " can not be an empty list");
+        }
+    }
 
 
 }

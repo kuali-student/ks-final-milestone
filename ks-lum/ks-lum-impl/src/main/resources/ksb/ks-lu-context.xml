@@ -472,42 +472,6 @@
 
 
   <!-- Program Service Config -->
-  <bean id="programDefaultEntityManagerFactory" abstract="true"
-    class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-    <property name="jpaVendorAdapter">
-      <bean
-        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="databasePlatform" value="${ks.lum.jpa.DatabasePlatform}" />
-        <property name="showSql" value="${ks.lum.jpa.showSql}" />
-        <property name="generateDdl" value="${ks.lum.jpa.generateDdl}" />
-      </bean>
-    </property>
-    <property name="jpaPropertyMap">
-      <map>
-        <entry key="hibernate.transaction.manager_lookup_class"
-          value="${ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}" />
-        <entry key="hibernate.hbm2ddl.auto"
-          value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="programEntityManagerFactory" parent="programDefaultEntityManagerFactory">
-    <property name="persistenceUnitName" value="Program" />
-    <property name="persistenceXmlLocation"
-      value="classpath:META-INF/program-persistence.xml" />
-    <property name="dataSource" ref="lumDataSource" />
-  </bean>
-
-  <bean id="programEntityManager"
-    class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-    <property name="entityManagerFactory" ref="programEntityManagerFactory" />
-  </bean>
-
-  <bean id="programDao"
-    class="org.kuali.student.lum.program.dao.impl.ProgramDaoImpl">
-    <property name="em" ref="programEntityManager" />
-  </bean>
 
   <bean id="programSearchManager"
     class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
@@ -517,13 +481,11 @@
 
   <bean id="programAssembler"
     class="org.kuali.student.lum.program.service.impl.ProgramAssembler">
-    <property name="programDao" ref="programDao" />
-  </bean>
+ </bean>
 
   <bean id="programServiceImpl"
     class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
     <property name="programAssembler" ref="programAssembler" />
-    <property name="programDao" ref="programDao" />
     <property name="searchManager" ref="programSearchManager" />
     <property name="dictionaryService" ref="dictionaryService" />
   </bean>
