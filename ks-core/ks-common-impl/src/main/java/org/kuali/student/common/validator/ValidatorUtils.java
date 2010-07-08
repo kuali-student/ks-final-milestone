@@ -18,10 +18,10 @@ package org.kuali.student.common.validator;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.core.dictionary.dto.Field;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.dto.State;
-import org.kuali.student.core.dictionary.dto.Type;
+import org.kuali.student.core.dictionary.old.dto.Field;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.old.dto.State;
+import org.kuali.student.core.dictionary.old.dto.Type;
 
 public class ValidatorUtils {
 

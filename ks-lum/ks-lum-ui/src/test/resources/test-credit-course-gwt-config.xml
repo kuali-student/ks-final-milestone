@@ -74,7 +74,7 @@
 
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg value="classpath:lum-orchestration-dictionary.xml" />
         <constructor-arg>
         	<list>

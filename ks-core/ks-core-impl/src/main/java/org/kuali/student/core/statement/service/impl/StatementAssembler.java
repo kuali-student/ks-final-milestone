@@ -43,7 +43,7 @@ import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementAttribute;
 import org.kuali.student.core.statement.entity.StatementRichText;
 import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;

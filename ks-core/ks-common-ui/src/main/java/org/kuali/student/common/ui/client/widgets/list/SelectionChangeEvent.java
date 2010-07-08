@@ -28,14 +28,28 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
 
     private static Type<SelectionChangeHandler> TYPE;
     private Widget widget;
+    private boolean userInitiated = true;
 
-    /**
+	/**
      * Used to fire a SelectionChangeEvent
      * 
      */
     public static void fire(Widget source) {
         if (TYPE != null) {
           SelectionChangeEvent event = new SelectionChangeEvent(source);
+          source.fireEvent(event);
+          
+        }
+      }
+    
+	/**
+     * Used to fire a SelectionChangeEvent
+     * 
+     */
+    public static void fire(Widget source, boolean userInitiated) {
+        if (TYPE != null) {
+          SelectionChangeEvent event = new SelectionChangeEvent(source);
+          event.setUserInitiated(userInitiated);
           source.fireEvent(event);
           
         }
@@ -80,5 +94,13 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
     public Type<SelectionChangeHandler> getAssociatedType() {
         return TYPE;
     }
+    
+    public boolean isUserInitiated() {
+		return userInitiated;
+	}
+
+	public void setUserInitiated(boolean userInitiated) {
+		this.userInitiated = userInitiated;
+	}
 
 }

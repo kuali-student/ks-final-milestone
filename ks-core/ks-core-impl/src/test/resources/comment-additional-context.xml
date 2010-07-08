@@ -26,7 +26,7 @@
         autowire="byType">
         <constructor-arg index="0" value="classpath:comment-search-config.xml" />
     </bean>
-    <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+    <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
     </bean>
     

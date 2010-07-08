@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
 
 /**
  * This class creates the template context for grade condition type.
@@ -38,10 +38,7 @@ public class GradeConditionCourseListContextImpl extends AbstractLuContext<ReqCo
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        
-        contextMap.put(TOTAL_CREDITS_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey()));
-        contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
-
+        contextMap.put(TOTAL_CREDITS_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.TOTAL_CREDIT_KEY.getKey()));
         return contextMap;
     }
 }

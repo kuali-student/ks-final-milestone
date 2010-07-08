@@ -28,9 +28,9 @@
 	<bean id="lookup" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataObjectStructure" />
+		class="org.kuali.student.core.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataFieldDescriptor" />
+		class="org.kuali.student.core.assembly.dictionary.old.DataFieldDescriptor" />
 	<bean id="param" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupParamMetadata" />
 	<bean id="result" abstract="true"

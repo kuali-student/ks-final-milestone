@@ -39,7 +39,7 @@ import org.kuali.student.common.ui.client.service.exceptions.OperationFailedExce
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;

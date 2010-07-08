@@ -181,9 +181,13 @@ public class DataModel implements Model {
 
     public void set(final QueryPath path, final Value value) {
         definition.ensurePath(root, path, value instanceof DataValue);
-        final QueryPath q = path.subPath(0, path.size() - 1);
-        final Data d = root.query(q);
-        d.set(path.get(path.size() - 1), value);
+        if (path.size() > 1){
+        	final QueryPath q = path.subPath(0, path.size() - 1);
+        	final Data d = root.query(q);
+            d.set(path.get(path.size() - 1), value);
+        } else {
+        	root.set(path.get(0), value);
+        }
     }
 
     public DataType getType(final QueryPath path) {

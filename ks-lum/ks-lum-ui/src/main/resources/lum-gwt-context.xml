@@ -282,14 +282,48 @@
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
-		<property name="assembler" ref="creditCourseProposalAssemblerFilterManager"/>
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.poc.CreditCourseProposalRpcGwtServlet">
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="identityService" ref="identityServiceClient" />
+		<property name="courseService" ref="courseClient" />
+		<property name="proposalService" ref="proposalClient"/>
+		<property name="transformationManager" ref="courseTransformationManager"/>
 		<property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>
 	</bean>
+	
+	<!-- Setup filters for transformation manager -->
+	<bean id="courseTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+		<property name="metadataService" ref="metadataServiceImplPOC"/>
+		<property name="filters">
+			<list>
+				<!-- Order of filters is important -->
+				<ref bean="authzFilter"/>
+				<ref bean="idTranslatorFilter" />
+				<ref bean="courseProposalFilter" />
+				<ref bean="courseWorkflowFilter" />
+			</list>
+		</property>		
+	</bean>
+	
+	<bean id="authzFilter" class="org.kuali.student.core.assembly.transform.AuthorizationFilter">
+		<property name="permissionService" ref="permissionServiceClient"/>
+	</bean>
+
+	<bean id="idTranslatorFilter" class="org.kuali.student.core.assembly.transform.IdTranslatorFilter">
+		<constructor-arg ref="idTranslator" />
+	</bean>
+	
+	<bean id="courseProposalFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.poc.CourseProposalFilter">
+		<property name="proposalService" ref="proposalClient"/>
+	</bean>
+	
+	<bean id="courseWorkflowFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.poc.CourseWorkflowFilter">
+		<property name="workflowUtilityService" ref="workflowUtilityClient"/>
+		<property name="simpleDocService" ref="simpleDocActionsClient"/>
+	</bean>	
+
 
 	<bean id="modifyCreditCourseProposalManager" class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
 		<property name="creditCourseAssembler" ref="courseAssemblerFilterManager"/>
@@ -309,7 +343,7 @@
 		<property name="proposalService" ref="proposalClient"/>
 		<property name="orgService" ref="orgClient"/>
 		<property name="courseAssembler" ref="courseAssembler" />
-		<property name="atpService" ref="atpClient"/>
+		<property name="atpService" ref="atpClient"/>		
 	</bean>
 
 	<bean id="CluSetManagementRpcGwtServlet" class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
@@ -331,7 +365,7 @@
 	</bean>
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg value="${ks.lum.orchestration.dictionaryContextLocations}" />
         <constructor-arg>
         	<list>
@@ -341,6 +375,14 @@
         </constructor-arg>
 	</bean>
 
+	<bean id="metadataServiceImplPOC" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+        <constructor-arg>
+        	<list>
+        		<ref bean="courseClient"/>
+        	</list>
+        </constructor-arg>
+        <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
+	</bean>
 
 	<!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
 	<bean id="workflowAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter">
@@ -357,8 +399,9 @@
 	</bean>
 
 	<!-- Filter manager that targets the credit course proposal assembler -->
+	<!-- 
 	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
-		<constructor-arg ref="creditCourseProposalAssembler"/>
+		<constructor-arg ref="creditCourseProposalAssemblerPOC"/>
 		<property name="filters">
 			<list>
 				<ref bean="idTranslatorAssemblerFilter" />
@@ -367,6 +410,7 @@
 			</list>
 		</property>
 	</bean>
+	-->
 
 	<bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
 		<property name="loService" ref="loClient"/>
@@ -472,6 +516,11 @@
 	</bean>
 	
 	<!-- Service clients -->
+	<bean id="courseClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.lum.course.service.CourseService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/course}CourseService" />
+	</bean>
+
 	<bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />

@@ -16,5 +16,7 @@
 -->
 
 <module>
+    <inherits name="com.googlecode.gwtx.Java" />
+
    <source path='dto' />
 </module>

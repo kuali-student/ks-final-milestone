@@ -35,6 +35,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -75,6 +76,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             cluSetInfo.setCluIds(null);
             cluIds = luService.getCluIdsFromCluSet(id);
             cluSetInfo.setCluIds(cluIds);
+            upWrap(cluSetInfo);
             resultCluSetHelper = toCluSetHelper(cluSetInfo);
             if (resultCluSetHelper == null) {
                 resultData = null;
@@ -88,7 +90,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
         return resultData;
     }
-    
+
     public MetaInfoHelper toMetaInfoHelper(MetaInfo metaInfo) {
         MetaInfoHelper metaInfoHelper = null;
         Data metaData = new Data();
@@ -101,7 +103,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         metaInfoHelper.setVersionInd(metaInfo.getVersionInd());
         return metaInfoHelper;
     }
-    
+
     public MetaInfo toMetaInfo(MetaInfoHelper metaInfoHelper) {
         MetaInfo metaInfo = null;
         if (metaInfoHelper == null) return null;
@@ -113,7 +115,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         metaInfo.setVersionInd(metaInfoHelper.getVersionInd());
         return metaInfo;
     }
-    
+
     public String richTextToString(RichTextInfo richTextInfo) {
         String result = null;
         if (richTextInfo == null) return null;
@@ -132,7 +134,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 result.setValue(input);
                 return result;
             }
-            
+
             SaveResult<Data> clusetResult = saveCluSet(input);
             result.setValidationResults(clusetResult.getValidationResults());
             result.setValue(clusetResult.getValue());
@@ -141,7 +143,119 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             throw new AssemblyException("Unable to save ....", e);
         }
     }
-    
+
+    private void upWrap(CluSetInfo cluSetInfo) throws AssemblyException {
+        List<String> cluSetIds = (cluSetInfo == null)? null : cluSetInfo.getCluSetIds();
+        List<String> unWrappedCluSetIds = null;
+        List<CluSetInfo> wrappedCluSets = null;
+        List<CluSetInfo> subCluSets = null;
+
+        try {
+            if (cluSetIds != null && !cluSetIds.isEmpty()) {
+                subCluSets = luService.getCluSetInfoByIdList(cluSetIds);
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            throw new AssemblyException("Failed to retrieve the sub clusets of cluset " +
+                    cluSetInfo.getId());
+        }
+        // goes through the list of sub clusets and ignore the ones that are not reusable
+        if (subCluSets != null) {
+            for (CluSetInfo subCluSet : subCluSets) {
+                if (subCluSet.getIsReusable()) {
+                    unWrappedCluSetIds = (unWrappedCluSetIds == null)?
+                            new ArrayList<String>() : unWrappedCluSetIds;
+                            unWrappedCluSetIds.add(subCluSet.getId());
+                } else {
+                    wrappedCluSets = (wrappedCluSets == null)?
+                            new ArrayList<CluSetInfo>() : wrappedCluSets;
+                            wrappedCluSets.add(subCluSet);
+                }
+            }
+        }
+        cluSetInfo.setCluSetIds(unWrappedCluSetIds);
+        if (wrappedCluSets != null) {
+            for (CluSetInfo wrappedCluSet : wrappedCluSets) {
+                MembershipQueryInfo mqInfo = wrappedCluSet.getMembershipQuery();
+                if (wrappedCluSet.getCluIds() != null && !wrappedCluSet.getCluIds().isEmpty()) {
+                    cluSetInfo.setCluIds(wrappedCluSet.getCluIds());
+                }
+                if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
+                    cluSetInfo.setMembershipQuery(mqInfo);
+                }
+            }
+        }
+    }
+
+    private void wrap(CluSetInfo cluSetInfo) throws AssemblyException {
+        int numCluSetElementTypes = 0;
+        boolean hasCluIds = false;
+        boolean hasCluSetIds = false;
+        boolean hasMembershipQuery = false;
+        List<String> wrapperCluSetIds = new ArrayList<String>();
+        MembershipQueryInfo mqInfo = null;
+        if (cluSetInfo.getCluIds() != null && !cluSetInfo.getCluIds().isEmpty()) {
+            numCluSetElementTypes++;
+            hasCluIds = true;
+        }
+        if (cluSetInfo.getCluSetIds() != null && !cluSetInfo.getCluSetIds().isEmpty()) {
+            numCluSetElementTypes++;
+            hasCluSetIds = true;
+        }
+        mqInfo = cluSetInfo.getMembershipQuery();
+        if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
+            numCluSetElementTypes++;
+            hasMembershipQuery = true;
+        }
+        // if more than one type
+        if (numCluSetElementTypes > 1) {
+            if (hasCluIds) {
+                CluSetInfo wrapperCluSet = new CluSetInfo();
+                setWrapperCluSetInfoValues(wrapperCluSet, cluSetInfo);
+                // copy the clus into the wrapper CluSet
+                wrapperCluSet.setCluIds(cluSetInfo.getCluIds());
+                cluSetInfo.setCluIds(null);
+                try {
+                	wrapperCluSet.setType("kuali.cluSet.type.creditCourse");
+                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
+                } catch (Exception e) {
+                    LOG.error("Failed to create wrapper cluset",e);
+                    throw new AssemblyException(e);
+                }
+                wrapperCluSetIds.add(wrapperCluSet.getId());
+            }
+            if (hasMembershipQuery) {
+                CluSetInfo wrapperCluSet = new CluSetInfo();
+                setWrapperCluSetInfoValues(wrapperCluSet, cluSetInfo);
+                // copy the MembershipQuery into the wrapper CluSet
+                wrapperCluSet.setMembershipQuery(mqInfo);
+                cluSetInfo.setMembershipQuery(null);
+                try {
+                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
+                } catch (Exception e) {
+                    LOG.error("Failed to create wrapper cluset",e);
+                    throw new AssemblyException(e);
+                }
+                wrapperCluSetIds.add(wrapperCluSet.getId());
+            }
+            if (hasCluSetIds) {
+                wrapperCluSetIds.addAll(cluSetInfo.getCluSetIds());
+            }
+            cluSetInfo.setCluSetIds(wrapperCluSetIds);
+        }
+    }
+
+    private void setWrapperCluSetInfoValues(CluSetInfo wrapperCluSet, CluSetInfo cluSetInfo) {
+        wrapperCluSet.setAdminOrg(cluSetInfo.getAdminOrg());
+        wrapperCluSet.setEffectiveDate(cluSetInfo.getEffectiveDate());
+        wrapperCluSet.setExpirationDate(cluSetInfo.getExpirationDate());
+        wrapperCluSet.setIsReusable(false);
+        wrapperCluSet.setIsReferenceable(false);
+        wrapperCluSet.setName(cluSetInfo.getName());
+        wrapperCluSet.setState(cluSetInfo.getState());
+        wrapperCluSet.setType(cluSetInfo.getType());
+    }
+
     private SaveResult<Data> saveCluSet(Data input) throws AssemblyException {
         SaveResult<Data> result = new SaveResult<Data>();
         CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
@@ -149,6 +263,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
         Data resultData = null;
+        wrap(cluSetInfo);
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
                 updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
@@ -182,7 +297,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         result.setValue(resultData);
         return result;
     }
-    
+
     private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException {
         if(query == null) {
             return null;
@@ -192,7 +307,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         sr.setParams(query.getQueryParamValueList());
 
         SearchResult result = luService.search(sr);
-        
+
         List<String> cluIds = new ArrayList<String>();
         List<SearchResultRow> rows = result.getRows();
         for(SearchResultRow row : rows) {
@@ -212,14 +327,19 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         data.set("cluset", cluSetDetailData);
         CluSetHelper result = CluSetHelper.wrap(cluSetDetailData);
         if (cluSetInfo != null) {
-//          result.setClus
-            if (cluSetInfo.getCluIds() != null) {
-                result.setClus(new Data());
-                for (String cluId : cluSetInfo.getCluIds()) {
-                    result.getClus().add(cluId);
+            if (cluSetInfo.getCluIds() != null && !cluSetInfo.getCluIds().isEmpty()) {
+                List<CluInfo> cluInfos = luService.getClusByIdList(cluSetInfo.getCluIds());
+                result.setApprovedClus(new Data());
+                for (CluInfo cluInfo : cluInfos) {
+                    if (cluInfo.getState().equals("activated")) {
+                        result.getApprovedClus().add(cluInfo.getId());
+                    } else {
+                        result.getProposedClus().add(cluInfo.getId());
+                    }
+                    result.getAllClus().add(cluInfo.getId());
                 }
             }
-            if (cluSetInfo.getCluSetIds() != null) {
+            if (cluSetInfo.getCluSetIds() != null && !cluSetInfo.getCluSetIds().isEmpty()) {
                 result.setCluSets(new Data());
                 for (String cluSetId : cluSetInfo.getCluSetIds()) {
                     result.getCluSets().add(cluSetId);
@@ -249,26 +369,34 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         }
         return result;
     }
-    
-    private CluSetInfo toCluSetInfo(CluSetHelper cluSetHelper) {
-        CluSetInfo cluSetInfo = new CluSetInfo();
-        Data clusData = cluSetHelper.getClus();
-        Data cluSetsData = cluSetHelper.getCluSets();
-        List<String> cluIds = null;
-        List<String> cluSetIds = null;
-        
-        cluSetInfo.setId(cluSetHelper.getId());
+
+    private void addToCluIds(Data clusData, final List<String> cluIds) {
         if (clusData != null) {
             for (Data.Property p : clusData) {
                 if(!"_runtimeData".equals(p.getKey())){
                     String cluId = p.getValue();
-                    cluIds = (cluIds == null)? new ArrayList<String>(3) :
-                        cluIds;
                     cluIds.add(cluId);
                 }
             }
         }
-        if (cluIds != null) {
+    }
+
+    private CluSetInfo toCluSetInfo(CluSetHelper cluSetHelper) {
+        CluSetInfo cluSetInfo = new CluSetInfo();
+        Data approvedClusData = cluSetHelper.getApprovedClus();
+        Data proposedClusData = cluSetHelper.getProposedClus();
+        Data cluSetsData = cluSetHelper.getCluSets();
+        final List<String> cluIds = new ArrayList<String>();
+        List<String> cluSetIds = null;
+
+        cluSetInfo.setId(cluSetHelper.getId());
+        if (approvedClusData != null) {
+            addToCluIds(approvedClusData, cluIds);
+        }
+        if (proposedClusData != null) {
+            addToCluIds(proposedClusData, cluIds);
+        }
+        if (cluIds != null && !cluIds.isEmpty()) {
             cluSetInfo.setCluIds(cluIds);
         }
         if (cluSetsData != null) {
@@ -289,20 +417,20 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setEffectiveDate(cluSetHelper.getEffectiveDate());
         cluSetInfo.setExpirationDate(cluSetHelper.getExpirationDate());
         cluSetInfo.setMembershipQuery(toMembershipQueryInfo(cluSetHelper.getCluRangeParams()));
-        
-        // TODO cluSetInfo.setMembershipQuery(membershipQuery)
-//        TODO should metainfo be set here? cluSetInfo.setMetaInfo(cluSetHelper.getMetaInfo());
+
         cluSetInfo.setMetaInfo(toMetaInfo(cluSetHelper.getMetaInfo()));
         cluSetInfo.setName(cluSetHelper.getName());
         cluSetInfo.setState(cluSetHelper.getState());
         cluSetInfo.setType(cluSetHelper.getType());
+        cluSetInfo.setIsReusable(cluSetHelper.getReusable());
+        cluSetInfo.setIsReferenceable(cluSetHelper.getReferenceable());
         return cluSetInfo;
     }
-    
+
     private MembershipQueryInfo toMembershipQueryInfo(CluSetRangeHelper cluSetRangeHelper) {
         return CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(cluSetRangeHelper.getData());
     }
-    
+
     private RichTextInfo toRichTextInfo(String text) {
         RichTextInfo result = new RichTextInfo();
         if (text == null) return null;
@@ -320,14 +448,14 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     public Void disassemble(Data input) throws AssemblyException {
         throw new UnsupportedOperationException("Data disassembly not supported");
     }
-    
+
     public LuService getLuService() {
         return luService;
     }
 
     public void setLuService(LuService luService) {
         this.luService = luService;
-    } 
+    }
 
 	@Override
 	protected String getDataType() {
@@ -351,10 +479,10 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 		qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourse");
 		/*
 		 *	This commented out for permission changes
-		 * 
+		 *
 		 *         String QUALIFICATION_PROPOSAL_ID = "courseId";
 		 *         qualification.put(QUALIFICATION_PROPOSAL_ID, id);
-		 */        
+		 */
 		qualification.put(idType, id);
 		return qualification;
 	}
