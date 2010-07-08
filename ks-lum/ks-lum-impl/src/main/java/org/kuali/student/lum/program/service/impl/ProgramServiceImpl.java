@@ -5,6 +5,9 @@ import java.util.List;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
@@ -23,6 +26,7 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.HonorsProgramInfo;
@@ -40,6 +44,8 @@ public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
 	private LuService luService;
+	private Validator validator;
+	private ProgramServiceMethodInvoker programServiceMethodInvoker;
 	private DictionaryService dictionaryService;
     private SearchManager searchManager;
     private ProgramAssembler programAssembler;
@@ -112,8 +118,30 @@ public class ProgramServiceImpl implements ProgramService{
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (majorDisciplineInfo == null) {
+		    throw new MissingParameterException("MajorDisciplineInfo can not be null");
+		}
+		
+		// Validate
+		
+		List<ValidationResultInfo> validationResults;
+		try {
+			validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
+			if (null != validationResults && validationResults.size() > 0) {
+			    throw new DataValidationErrorException("Validation error!", validationResults);
+			}				
+		} catch (DoesNotExistException e) {
+			LOG.error("Error validating majorDiscipline", e);
+			e.printStackTrace();
+		}
+		
+		try {
+		    return processProgramInfo(majorDisciplineInfo, NodeOperation.CREATE);
+		} catch (AssemblyException e) {
+		    LOG.error("Error disassembling majorDiscipline", e);
+		    throw new OperationFailedException("Error disassembling majorDiscipline");
+		}
 	}
 
 	@Override
@@ -217,8 +245,18 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		CluInfo clu = luService.getClu(majorDisciplineId);
+		
+		MajorDisciplineInfo majorDiscipline = null;
+		/*try {
+			majorDiscipline = courseAssembler.assemble(clu, null, false);
+		} catch (AssemblyException e) {
+		    LOG.error("Error assembling course", e);
+		    throw new OperationFailedException("Error assembling course");
+		}*/
+		
+		return majorDiscipline;
 	}
 
 	@Override
@@ -344,8 +382,11 @@ public class ProgramServiceImpl implements ProgramService{
 			String validationType, MajorDisciplineInfo majorDisciplineInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
+        List<ValidationResultInfo> validationResults = validator.validateObject(majorDisciplineInfo, objStructure);
+
+        return validationResults;
 	}
 
 	@Override
@@ -475,5 +516,36 @@ public class ProgramServiceImpl implements ProgramService{
         }
     }
 
+	public void setValidator(Validator validator) {
+		this.validator = validator;
+	}
 
+	public Validator getValidator() {
+		return validator;
+	}
+
+	public void setProgramServiceMethodInvoker(
+			ProgramServiceMethodInvoker programServiceMethodInvoker) {
+		this.programServiceMethodInvoker = programServiceMethodInvoker;
+	}
+
+	public ProgramServiceMethodInvoker getProgramServiceMethodInvoker() {
+		return programServiceMethodInvoker;
+	}
+
+    private MajorDisciplineInfo processProgramInfo(MajorDisciplineInfo majorDisciplineInfo, NodeOperation operation) throws AssemblyException, OperationFailedException {
+
+        /*BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = programAssembler.disassemble(majorDisciplineInfo, operation);
+
+        try {
+            // Use the results to make the appropriate service calls here
+            programServiceMethodInvoker.invokeServiceCalls(results);
+        } catch (Exception e) {
+            LOG.error("Error creating course", e);
+            throw new OperationFailedException("Error creating course");
+        }
+
+        return results.getBusinessDTORef(); */
+    	return null;
+    }
 }
