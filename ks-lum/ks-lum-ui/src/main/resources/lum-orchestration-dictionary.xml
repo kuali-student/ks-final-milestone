@@ -6267,7 +6267,7 @@
 							<property name="desc" value="State" />
 							<property name="writeAccess" value="NEVER" />
 							<property name="defaultValueString"
-								value="clu.state NOT IN ('activated')" />
+								value="clu.state NOT IN ('activated', 'retired')" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -6363,7 +6363,7 @@
 								<property name="writeAccess"
 									value="NEVER" />
 								<property name="defaultValueString"
-									value="clu.state NOT IN ('activated')" />
+									value="clu.state NOT IN ('activated', 'retired')" />
 								<property name="caseSensitive"
 									value="true" />
 							</bean>
