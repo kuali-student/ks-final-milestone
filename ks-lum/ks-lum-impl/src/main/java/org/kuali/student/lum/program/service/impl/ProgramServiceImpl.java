@@ -23,6 +23,7 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.HonorsProgramInfo;
 import org.kuali.student.lum.program.dto.LuTypeInfo;
@@ -38,9 +39,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
+	private LuService luService;
 	private DictionaryService dictionaryService;
     private SearchManager searchManager;
     private ProgramAssembler programAssembler;
+
+	public LuService getLuService() {
+		return luService;
+	}
+
+	public void setLuService(LuService luService) {
+		this.luService = luService;
+	}
 
 	public DictionaryService getDictionaryService() {
 		return dictionaryService;

@@ -485,6 +485,7 @@
 
   <bean id="programServiceImpl"
     class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
+    <property name="luService" ref="luClient" />
     <property name="programAssembler" ref="programAssembler" />
     <property name="searchManager" ref="programSearchManager" />
     <property name="dictionaryService" ref="dictionaryService" />
