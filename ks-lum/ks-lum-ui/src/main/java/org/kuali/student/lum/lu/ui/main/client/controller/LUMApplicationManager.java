@@ -149,7 +149,7 @@ public class LUMApplicationManager extends Controller {
             case VIEW_MAJOR_DISCIPLINE:
                 Controller majorDisciplineController = new MajorDisciplineController();
                 DelegatingViewComposite majorDisciplineView = new DelegatingViewComposite(this, majorDisciplineController);
-                majorDisciplineController.showDefaultView(NO_OP_CALLBACK);
+                //majorDisciplineController.showDefaultView(NO_OP_CALLBACK);
                 return majorDisciplineView;
             default:
                 return null;

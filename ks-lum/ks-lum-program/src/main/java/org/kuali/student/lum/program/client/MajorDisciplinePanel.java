@@ -22,6 +22,11 @@ public class MajorDisciplinePanel extends ViewComposite {
         super(controller, name);
         initWidget(content);
         buildLayout();
+        setStyles();
+    }
+
+    private void setStyles() {
+        
     }
 
     private void buildLayout() {

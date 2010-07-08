@@ -28,16 +28,7 @@ public class MajorDisciplineController extends TabbedSectionLayout {
     }
 
     @Override
-    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
-        showView(ControllerView.MAIN, onReadyCallback);
-    }
-
-    @Override
-    protected <V extends Enum<?>> View getView(V viewType) {
-        ControllerView controllerView = (ControllerView) viewType;
-        if (controllerView == ControllerView.MAIN) {
-            return mainPanel;
-        }
-        return null;
+    public void showDefaultView(Callback<Boolean> onReadyCallback) {
+        onReadyCallback.exec(true);
     }
 }
