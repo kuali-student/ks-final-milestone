@@ -23,7 +23,7 @@ import org.kuali.student.core.statement.config.context.lu.CluInfo;
 import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
-import org.kuali.student.core.statement.config.context.lu.GradeConditionCourseListContextImpl;
+import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
@@ -269,9 +269,9 @@ public class NaturalLanguageUtil {
     	contextRegistry.add("kuali.reqCompType.courseList.nof", courseListContext);
     	contextRegistry.add("kuali.reqCompType.courseList.1of2", courseListContext);
 
-    	GradeConditionCourseListContextImpl.setCluInfo(cluList);
-    	GradeConditionCourseListContextImpl.setCluSetInfo(cluSetList);
-    	GradeConditionCourseListContextImpl gradeConditionCourseListContext = new GradeConditionCourseListContextImpl();
+    	CreditContextImpl.setCluInfo(cluList);
+    	CreditContextImpl.setCluSetInfo(cluSetList);
+    	CreditContextImpl gradeConditionCourseListContext = new CreditContextImpl();
     	contextRegistry.add("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
     	
     	GradeCheckContextImpl.setCluInfo(cluList);
