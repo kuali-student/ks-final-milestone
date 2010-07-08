@@ -4,7 +4,7 @@
 
 
 	<bean id="objectStructure1"
-		class="org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition">
+		class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
 		<property name="name" value="objectStructure1" />
 		<property name="attributes">
 			<list>
@@ -16,7 +16,7 @@
 	</bean>
 
 	<bean id="firstName"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition">
 		<property name="name" value="firstName" />
 		<property name="dataType" value="STRING" />
 		<property name="maxLength" value="20" />
@@ -24,13 +24,13 @@
 		<property name="minOccurs" value="1" />
 		<property name="validChars">
 			<bean
-				class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint"
+				class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
 				p:value="regex:[a-z]*" />
 		</property>
 	</bean>
 
 	<bean id="dob"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition">
 		<property name="name" value="dob" />
 		<property name="dataType" value="DATE" />
 		<property name="exclusiveMin" value="1970-01-01" />
@@ -38,7 +38,7 @@
 	</bean>
 
 	<bean id="gpa"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition">
 		<property name="name" value="gpa" />
 		<property name="dataType" value="DOUBLE" />
 		<property name="exclusiveMin" value="1.0" />
@@ -46,7 +46,7 @@
 	</bean>
 
 	<bean id="addrStruct"
-		class="org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition">
+		class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
 		<property name="name" value="addressInfo" />
 		<property name="attributes">
 			<list>
@@ -56,7 +56,7 @@
 		</property>
 	</bean>
 	<bean id="line1"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition">
 		<property name="name" value="line1" />
 		<property name="dataType" value="STRING" />
 		<property name="maxLength" value="20" />
@@ -64,21 +64,21 @@
 		<property name="minOccurs" value="1" />
 		<property name="validChars">
 			<bean
-				class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint"
+				class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
 				p:value="regex:[a-z]*" />
 		</property>
 		<property name="lookupDefinition">
-			<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraint">
+			<bean class="org.kuali.student.core.dictionary.dto.LookupConstraint">
 				<property name="searchTypeId" value="testAddrLine1Search"/>
-				<property name="lookupParams">
+				<property name="params">
 					<list>
-						<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping">
+						<bean class="org.kuali.student.core.dictionary.dto.CommonLookupParam">
 							<property name="fieldPath" value="line2"/>
-							<property name="paramKey" value="param1"/>
+							<property name="key" value="param1"/>
 						</bean>
-						<bean class="org.kuali.student.core.dictionary.poc.dto.LookupConstraintParamMapping">
+						<bean class="org.kuali.student.core.dictionary.dto.CommonLookupParam">
 							<property name="defaultValueString" value="PARAM_2_DEFAULT"/>
-							<property name="paramKey" value="param2"/>
+							<property name="key" value="param2"/>
 						</bean>
 					</list>
 				</property>
@@ -86,7 +86,7 @@
 		</property>
 	</bean>
 	<bean id="line2"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition">
 		<property name="name" value="line2" />
 		<property name="dataType" value="STRING" />
 		<property name="maxLength" value="20" />
@@ -94,19 +94,19 @@
 		<property name="minOccurs" value="0" />
 		<property name="validChars">
 			<bean
-				class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint"
+				class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
 				p:value="regex:[a-z]*" />
 		</property>
 		<property name="requireConstraint">
 			<list>
-				<bean class="org.kuali.student.core.dictionary.poc.dto.RequiredConstraint"
+				<bean class="org.kuali.student.core.dictionary.dto.RequiredConstraint"
 					p:fieldPath="line1" />
 			</list>
 		</property>
 	</bean>
 
 	<bean id="objectStructure2"
-		class="org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition">
+		class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
 		<property name="name" value="objectStructure2" />
 		<property name="attributes">
 			<list>
@@ -118,7 +118,7 @@
 		</property>
 	</bean>
 	<bean id="address"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition">
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition">
 		<property name="name" value="address" />
 		<property name="dataType" value="COMPLEX" />
 		<property name="dataObjectStructure" ref="addrStruct" />

@@ -577,7 +577,6 @@
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
         <column name="ADMIN_ORG_ID" size="255" type="VARCHAR"/>
-        <column name="CRIT_SET" size="1" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
@@ -586,6 +585,7 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="MEM_QUERY_ID" size="255" type="VARCHAR"/>
         <column name="REUSABLE" size="1" type="DECIMAL"/>
+        <column name="REFERENCEABLE" size="1" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_MEMSHIP" name="FK33138D4153280327">
             <reference foreign="ID" local="MEM_QUERY_ID"/>
         </foreign-key>
@@ -1450,9 +1450,6 @@
         <foreign-key foreignTable="KSST_REQ_COM_FIELD_TYPE" name="FK63DCE85E76C3C296">
             <reference foreign="ID" local="REQ_COMP_FIELD_TYPE_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FK63DCE85ECF3E3955">
-            <reference foreign="TYPE_KEY" local="REQ_COMP_TYPE_ID"/>
-        </foreign-key>
     </table>
     <table name="KSST_RC_JN_RC_FIELD">
         <column name="REQ_COM_ID" required="true" size="255" type="VARCHAR"/>
@@ -1669,21 +1666,12 @@
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FKEE1C67E3B559587">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKEE1C67E32D8571A5">
-            <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
-        </foreign-key>
-        <unique name="SYS_C0040319">
-            <unique-column name="REQ_COM_TYPE_ID"/>
-        </unique>
     </table>
     <table name="KSST_STMT_TYP_JN_STMT_TYP">
         <column name="STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="CHLD_STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07AB559587">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07A861B91E9">
-            <reference foreign="TYPE_KEY" local="CHLD_STMT_TYPE_ID"/>
         </foreign-key>
         <unique name="SYS_C0040322">
             <unique-column name="CHLD_STMT_TYPE_ID"/>

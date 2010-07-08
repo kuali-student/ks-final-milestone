@@ -474,9 +474,9 @@ public class ManageRulesView extends ViewComposite {
         VerticalPanel arrowButtonsPanel = new VerticalPanel();
         tempPanel2.add(ruleTable);
         arrowButtonsPanel.add(btnMoveRuleUp);
-        btnMoveRuleUp.setStyleName("KS-RuleTable-UpArrow");
+        btnMoveRuleUp.addStyleName("KS-RuleTable-UpArrow");
         arrowButtonsPanel.add(btnMoveRuleDown);
-        btnMoveRuleDown.setStyleName("KS-RuleTable-DownArrow");
+        btnMoveRuleDown.addStyleName("KS-RuleTable-DownArrow");
         tableButtonsPanel.add(arrowButtonsPanel);
         tempPanel2.add(tableButtonsPanel);
         complexView.add(tempPanel2);

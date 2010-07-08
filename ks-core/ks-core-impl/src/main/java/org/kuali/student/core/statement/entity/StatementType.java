@@ -35,7 +35,7 @@ public class StatementType extends Type<StatementTypeAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<StatementTypeAttribute> attributes;
     
-    @OneToMany
+	@ManyToMany
     @JoinTable(name = "KSST_STMT_TYP_JN_RC_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
     private List<ReqComponentType> allowedReqComponentTypes;
     

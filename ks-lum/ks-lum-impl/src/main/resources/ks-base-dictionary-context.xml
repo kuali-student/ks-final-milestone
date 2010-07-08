@@ -2,17 +2,23 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<import resource="classpath:common-lookup-context.xml"/>
 	<bean id="ObjectStructureDefinition"
-		class="org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition"
+		class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition"
 		abstract="true" />
 	<bean id="FieldDefinition"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition"
 		abstract="true" />
 	<bean id="constraint" abstract="true"
-		class="org.kuali.student.core.dictionary.poc.dto.Constraint" />
+		class="org.kuali.student.core.dictionary.dto.Constraint" />
+	<bean id="caseConstraint" abstract="true"
+		class="org.kuali.student.core.dictionary.dto.CaseConstraint" />
+	<bean id="whenConstraint" abstract="true"
+		class="org.kuali.student.core.dictionary.dto.WhenConstraint" />
 		
+
 	<bean id="ValidCharDefinition" abstract="true"
-		class="org.kuali.student.core.dictionary.poc.dto.ValidCharsConstraint" />
+		class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint" />
 
 	<bean id="alphanumbericHyphenPeriod" parent="ValidCharDefinition">
 		<property name="value" value="regex:[A-Za-z0-9.\-]*" />
@@ -37,11 +43,11 @@
 		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
 			<map>
-				<entry key="org.kuali.student.core.dictionary.poc.dto.DataType">
+				<entry key="org.kuali.student.core.dictionary.dto.DataType">
 					<bean
 						class="org.kuali.student.common.util.spring.SimpleEnumPropertyEditor">
 						<constructor-arg
-							value="org.kuali.student.core.dictionary.poc.dto.DataType" />
+							value="org.kuali.student.core.dictionary.dto.DataType" />
 					</bean>
 				</entry>
 			</map>
@@ -49,24 +55,24 @@
 	</bean>
 
 	<bean id="baseSingleFieldDefinition"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition"
 		abstract="true">
 		<property name="maxOccurs" value="1" />
 	</bean>
 	<bean id="baseRepeatingFieldDefinition"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition"
 		abstract="true">
 		<property name="maxOccurs" value="unbounded" />
 	</bean>
 	
 	<bean id="baseRequiredRepeatingFieldDefinition"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition"
 		abstract="true">
 		<property name="minOccurs" value="0" />
 		<property name="maxOccurs" value="unbounded" />
 	</bean>
 	<bean id="baseOptionalRepeatingFieldDefinition"
-		class="org.kuali.student.core.dictionary.poc.dto.FieldDefinition"
+		class="org.kuali.student.core.dictionary.dto.FieldDefinition"
 		abstract="true">
 		<property name="minOccurs" value="0" />
 		<property name="maxOccurs" value="unbounded" />
@@ -160,10 +166,22 @@
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="36" />
 	</bean>
+	<!--  TODO: Replace reference of baseCluId with either baseCluIdRequire or baseCluIdOptional -->
 	<bean id="baseCluId" parent="baseId">
 		<property name="minOccurs" value="1" />
 		<property name="maxOccurs" value="1" />
 	</bean>
+	
+	<bean id="baseCluIdRequired" parent="baseId">
+		<property name="minOccurs" value="1" />
+		<property name="maxOccurs" value="1" />
+	</bean>
+	
+	<bean id="baseCluIdOptional" parent="baseId">
+		<property name="minOccurs" value="0" />
+		<property name="maxOccurs" value="1" />
+	</bean>
+
 	<bean id="baseEffectiveDate" parent="baseSingleDate">
 		<property name="minOccurs" value="1" />
 		<property name="minLength" value="19" />
@@ -179,6 +197,9 @@
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="60" />
 	</bean>	
+	<bean id="constraint.lookup.campusLocations" 
+		class="org.kuali.student.core.dictionary.dto.LookupConstraint" 
+		parent="kuali.common.lookup.campusLocations"/> 
 	
 	<bean id="baseCode" parent="baseSingleString" abstract="true">
 		<property name="minLength" value="1" />

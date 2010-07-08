@@ -1,5 +1,16 @@
 package org.kuali.student.lum.course.service.assembler;
 
+/**
+ * 
+ * Catalog of Course Service Constants.
+ * 
+ * All type keys are mapped from 
+ * 
+ * https://test.kuali.org/confluence/display/KULSTG/Kuali+Student+Types+Used+in+the+Dictionary
+ * 
+ * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ *
+ */
 public class CourseAssemblerConstants {
 
 	public static final String COURSE_TYPE = "kuali.lu.type.CreditCourse";
@@ -34,5 +45,8 @@ public class CourseAssemblerConstants {
 	// Course Official Identifier
 	public static final String COURSE_OFFICIAL_IDENT_TYPE = "kuali.lu.type.CreditCourse.identifier.official";
 	public static final String COURSE_OFFICIAL_IDENT_STATE = "state.field.cluInfo.officialIdentifier.CreditCourse.Official.active";
+
+	public static final String COURSE_CAMPUS_LOCATION_CD_NORTH = "NORTH";
+	public static final String COURSE_CAMPUS_LOCATION_CD_SOUTH = "SOUTH";
 
 }

@@ -17,5 +17,8 @@
 
 <module>
 	<inherits name='com.google.gwt.user.User' />
+    <inherits name="com.googlecode.gwtx.Java" />
 	<source path='dto' />
+	<!-- TODO: Refactor this out when old dictionary is removed -->
+	<source path='old/dto' />
 </module>

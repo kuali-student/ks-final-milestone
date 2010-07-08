@@ -20,9 +20,9 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;

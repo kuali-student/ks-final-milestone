@@ -11,8 +11,9 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.util.DefaultDataBeanMapper;
+import org.kuali.student.core.assembly.transform.DataBeanMapper;
+import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
+
 
 public class TestDataMapper {
 
@@ -62,8 +63,8 @@ public class TestDataMapper {
 		DataBeanMapper dataMapper = new DefaultDataBeanMapper();
 		
 		Data data = dataMapper.convertFromBean(person);
-		
-		MockPerson convertedPerson = (MockPerson)dataMapper.convertFromData(data, MockPerson.class);
+		Metadata metadata = new Metadata();
+		MockPerson convertedPerson = (MockPerson)dataMapper.convertFromData(data, MockPerson.class,metadata);
 
 		assertEquals(person.getDob(), convertedPerson.getDob());
 		assertEquals(person.getEmail(), convertedPerson.getEmail());

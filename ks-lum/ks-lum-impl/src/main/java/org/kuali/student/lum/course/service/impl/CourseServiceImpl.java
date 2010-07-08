@@ -3,15 +3,17 @@ package org.kuali.student.lum.course.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.poc.Validator;
+import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.poc.DictionaryService;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -45,7 +47,7 @@ public class CourseServiceImpl implements CourseService {
     private Validator validator;
 
     @Override
-    public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException {
 
         if (courseInfo == null) {
             throw new MissingParameterException("CourseInfo can not be null");
@@ -66,7 +68,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+    public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException {
 
         if (courseInfo == null) {
             throw new MissingParameterException("CourseInfo can not be null");
@@ -89,7 +91,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException {
 
         try {
             CourseInfo course = getCourse(courseId);
@@ -196,17 +198,12 @@ public class CourseServiceImpl implements CourseService {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation) throws AssemblyException, OperationFailedException {
+    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation) throws AssemblyException, OperationFailedException, VersionMismatchException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException {
 
         BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation);
 
-        try {
-            // Use the results to make the appropriate service calls here
-            courseServiceMethodInvoker.invokeServiceCalls(results);
-        } catch (Exception e) {
-            LOG.error("Error creating course", e);
-            throw new OperationFailedException("Error creating course");
-        }
+        // Use the results to make the appropriate service calls here
+		courseServiceMethodInvoker.invokeServiceCalls(results);
 
         return results.getBusinessDTORef();
     }

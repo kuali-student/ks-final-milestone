@@ -28,20 +28,4 @@
       <artifactId>cglib-nodep</artifactId>
     </dependency>
   </dependencies>
-  <profiles>
-    <profile>
-      <id>ks-hibernate-repository</id>
-      <activation>
-        <property>
-          <name>!ks.use.proxy</name>
-        </property>
-      </activation>
-      <repositories>
-        <repository>
-          <id>repository.jboss.org</id>
-          <url>http://repository.jboss.org/maven2</url>
-        </repository>
-      </repositories>
-    </profile>
-  </profiles>
 </project>

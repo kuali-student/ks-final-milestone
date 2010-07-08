@@ -37,7 +37,21 @@
 		</property>
 	</bean-->
 
-    <bean id="courseListContext" class="org.kuali.student.lum.statement.config.context.lu.CourseListContextImpl">
+    <!-- Natural Language Translation Contexts -->
+    
+    <bean id="cluSetContext" class="org.kuali.student.lum.statement.config.context.lu.CluSetContextImpl">
+        <property name="luService" ref="luServiceImpl" />
+    </bean>
+    <bean id="gradeContext" class="org.kuali.student.lum.statement.config.context.lu.GradeContextImpl">
+        <property name="luService" ref="luServiceImpl" />
+    </bean>
+    <bean id="gpaContext" class="org.kuali.student.lum.statement.config.context.lu.GPAContextImpl">
+        <property name="luService" ref="luServiceImpl" />
+    </bean>
+    <bean id="instructorPermissionContext" class="org.kuali.student.lum.statement.config.context.lu.PersonContextImpl">
+        <property name="luService" ref="luServiceImpl" />
+    </bean>
+    <bean id="orgPermissionContext" class="org.kuali.student.lum.statement.config.context.lu.OrganizationContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
 
@@ -45,45 +59,111 @@
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
-                <!-- Pre-Req Contexts-->
-                <entry key="kuali.reqCompType.courseList.none">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.completed.none">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.all">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.completed.all">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.nof">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.completed.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of1">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.enrolled.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of2">
-                    <ref local="courseListContext"/>
+                <entry key="kuali.reqCompType.course.courseset.credits.completed.nof">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.grdCondCourseList">
-                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeConditionCourseListContextImpl">
-				        <property name="luService" ref="luServiceImpl" />
-                    </bean>
+                <entry key="kuali.reqCompType.course.courseset.credits.completed.none">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
-                <entry key="kuali.reqCompType.gradecheck">
-                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeCheckContextImpl">
-				        <property name="luService" ref="luServiceImpl" />
-                    </bean>
+                <entry key="kuali.reqCompType.course.courseset.credits.completed.max">
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry>                
+                <entry key="kuali.reqCompType.course.courseset.gpa.min">
+                    <list>
+                        <ref local="cluSetContext"/>
+                        <ref local="gpaContext"/>
+                    </list>
                 </entry>
-                <!-- Co-Req Contexts -->
                 <entry key="kuali.reqCompType.courseList.coreq.all">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.coreq.oneof">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry>              
+                <entry key="kuali.reqCompType.course.courseset.grade.min">
+                    <list>
+                        <ref local="cluSetContext"/>
+                        <ref local="gradeContext"/>
+                    </list>
+                </entry>       
+                <entry key="kuali.reqCompType.course.courseset.grade.max">
+                    <list>
+                        <ref local="cluSetContext"/>
+                        <ref local="gradeContext"/>
+                    </list>
+                </entry>  
+                <entry key="kuali.reqCompType.course.permission.org.required">
+                    <ref local="orgPermissionContext"/>
+                </entry>  
+                <entry key="kuali.reqCompType.course.permission.instructor.required">
+                    <ref local="instructorPermissionContext"/>
                 </entry>
+                <entry key="kuali.reqCompType.course.test.score.min">
+	                <ref local="cluSetContext"/>
+                </entry>              
+
                 <!-- Program Contexts -->
                 <entry key="kuali.reqCompType.programList.enroll.oneof">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
                 </entry>
                 <entry key="kuali.reqCompType.programList.enroll.none">
-                    <ref local="courseListContext"/>
+                    <list>
+	                    <ref local="cluSetContext"/>
+                    </list>
+                </entry> 
+
+                <!-- New Program Contexts-->
+                <entry key="kuali.reqCompType.program.programset.completed.nof">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.program.programset.notcompleted.nof">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.program.programset.completed.all">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.program.programset.coursecompleted.nof">
+                    <list>
+                        <ref local="cluSetContext"/>
+                    </list>
                 </entry>
             </map>
         </constructor-arg>

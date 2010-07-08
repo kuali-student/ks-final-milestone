@@ -21,6 +21,7 @@ import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
  * (it may need improvements for creating real relationships for more complex data elements)
  */
 public class CourseDataGenerator {
+	private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH,CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
 	String activities[] = { CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_DISCUSSION_TYPE,
 							CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE,
 							CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /* CourseAssemblerConstants.COURSE_ACTIVITY_WEBDISCUSS_TYPE, */ // not in DB
@@ -42,7 +43,7 @@ public class CourseDataGenerator {
 		
 		if(String.class.equals(clazz)){
 			propertyIndex++;
-			instance = (T) (""+parentPropertyName+"-"+propertyIndex);
+			instance = (T) (getStringValue(parentPropertyName,parentPropertyName,propertyIndex));
 			return instance;
 		}
 		
@@ -181,7 +182,9 @@ public class CourseDataGenerator {
         if ("subjectArea".equals(name)) {
 			return subjectAreas[generator.nextInt(subjectAreas.length)];
         }
-		
+		if("campusLocations".equals(parentPropertyName)){
+			return campusLocations[propertyIndex%2];
+		}
 		//Default
 		return name+"-"+propertyIndex;
 	}

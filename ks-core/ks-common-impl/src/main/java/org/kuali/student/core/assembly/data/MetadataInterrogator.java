@@ -18,7 +18,7 @@ package org.kuali.student.core.assembly.data;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.common.validator.DateParser;
+import org.kuali.student.common.validator.old.DateParser;
 
 /**
  * 
@@ -193,10 +193,22 @@ public class MetadataInterrogator {
 			return false;
 		}
 		Integer smallestMaxOccurs = getSmallestMaxOccurs(meta);
-		if (smallestMaxOccurs != null) {
+		if (hasRepeatingConstraint(meta) ||
+				(smallestMaxOccurs != null && smallestMaxOccurs > 1)) {
 			return true;
 		}
 		return false;
+	}
+	
+	private static boolean hasRepeatingConstraint(Metadata meta) {
+		boolean isRepeating = false;
+
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			if ("repeating".equals(cons.getId())){
+				isRepeating = true;
+			}
+		}
+		return isRepeating;
 	}
 
 	/**

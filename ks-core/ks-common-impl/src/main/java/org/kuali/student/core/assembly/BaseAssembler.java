@@ -29,7 +29,7 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.Metadata.Permission;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;

@@ -2,7 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<import resource="classpath:ks-base-dictionary-context.xml" />
-
 	<!-- CluInfo-->
 	<bean id="org.kuali.student.lum.lu.dto.CluInfo-parent" abstract="true"
 		parent="ObjectStructureDefinition">
@@ -91,6 +90,7 @@
 		<property name="name" value="campusLocations" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="60" />
+		<property name="lookupDefinition" ref="constraint.lookup.campusLocations"></property>
 	</bean>
 	<bean id="cluInfo.campusLocations" parent="cluInfo.campusLocations-parent" />
 
@@ -157,10 +157,39 @@
 	</bean>
 	<bean id="cluInfo.hazardousForDisabledStudents" parent="cluInfo.hazardousForDisabledStudents-parent" />
 
-	<bean id="cluInfo.id-parent" abstract="true" parent="baseId">
+	<!--  Example of a case when constraint application -->
+	<bean id="cluInfo.id-parent" abstract="true" parent="baseId">		
+		<property name="caseConstraint">
+			<bean parent="caseConstraint">
+				<property name="operator" value="EQUALS"/>
+				<property name="fieldPath" value="state"/>
+				<property name="caseSensitive" value="false"/>
+				<property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
+							<property name="values">
+								<list>
+									<value>ACTIVE</value>
+									<value>RETIRED</value>
+								</list>
+							</property>
+							<property name="constraint">
+								<bean parent="baseCluIdRequired"/>
+							</property>
+						</bean>
+						<bean parent="whenConstraint">
+							<property name="value" value="DRAFT"/>
+							<property name="constraint">
+								<bean parent="baseCluIdOptional"/>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
 		<property name="name" value="id" />
-<!--		<property name="minOccurs" value="1" />-->
-<!--		<property name="maxOccurs" value="1" />-->
+		<property name="minOccurs" value="0" />
+		<property name="maxOccurs" value="1" />
 	</bean>
 	<bean id="cluInfo.id" parent="cluInfo.id-parent" />
 

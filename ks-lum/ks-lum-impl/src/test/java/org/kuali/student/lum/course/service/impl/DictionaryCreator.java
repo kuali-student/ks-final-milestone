@@ -16,8 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.dto.FieldDefinition;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;

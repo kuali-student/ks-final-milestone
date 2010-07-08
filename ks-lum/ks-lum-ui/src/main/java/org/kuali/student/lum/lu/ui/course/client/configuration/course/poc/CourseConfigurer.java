@@ -89,7 +89,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	protected boolean WITH_DIVIDER = true;
 	protected boolean NO_DIVIDER = false;
 
-	public static final String PROPOSAL_ID_PATH						= "/id";
+	public static final String PROPOSAL_ID_PATH						= "/proposalId";
 	public static final String PROPOSAL_TITLE_PATH					= "/courseTitle";
 	public static final String COURSE_TITLE_PATH					= "/courseTitle";
 
@@ -126,10 +126,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 			layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseLogisticsSection());
 			/*
     	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+            */
+			
+    	    //Student Eligibility
+			layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
 
-    	        //Student Eligibility
-    	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
-			*/
     	        //Administrative
     	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateGovernanceSection());
     	        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
@@ -160,7 +161,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
 		VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
 		addField(titleRationale, COURSE_TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-		//addField(titleRationale, PROPOSAL + "/" + RATIONALE, generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+		addField(titleRationale, "proposalRationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
 
 		section.addSection(titleRationale);
 

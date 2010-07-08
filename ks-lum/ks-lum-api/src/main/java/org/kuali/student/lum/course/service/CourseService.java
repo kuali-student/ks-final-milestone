@@ -13,10 +13,12 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.service.poc.DictionaryService;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -152,8 +154,12 @@ public interface CourseService extends DictionaryService {
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
+     * @throws VersionMismatchException 
+     * @throws DependentObjectsExistException 
+     * @throws CircularRelationshipException 
+     * @throws DoesNotExistException 
      */
-    public CourseInfo createCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseInfo createCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException;
 
     /**
      * Updates a Course.
@@ -175,8 +181,11 @@ public interface CourseService extends DictionaryService {
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
+     * @throws DependentObjectsExistException 
+     * @throws CircularRelationshipException 
+     * @throws AlreadyExistsException 
      */
-    public CourseInfo updateCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
+    public CourseInfo updateCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException;
 
     /**
      * Deletes a Course.
@@ -194,8 +203,13 @@ public interface CourseService extends DictionaryService {
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
+     * @throws VersionMismatchException 
+     * @throws DependentObjectsExistException 
+     * @throws CircularRelationshipException 
+     * @throws AlreadyExistsException 
+     * @throws DataValidationErrorException 
      */
-    public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException;
 
     /**
      * Updates the Los for a Course.

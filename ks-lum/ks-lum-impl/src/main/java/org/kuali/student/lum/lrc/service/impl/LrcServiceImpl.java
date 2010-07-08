@@ -74,8 +74,6 @@ public class LrcServiceImpl implements LrcService {
 			String compareGradeKey, String compareScaleKey)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-//		return null;
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
@@ -417,8 +415,6 @@ public class LrcServiceImpl implements LrcService {
 	public List<GradeInfo> translateGrade(String gradeKey, String scaleKey,
 			String translateScaleKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-//		return null;
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
