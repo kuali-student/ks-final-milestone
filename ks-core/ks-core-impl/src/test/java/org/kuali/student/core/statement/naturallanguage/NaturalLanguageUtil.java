@@ -273,6 +273,7 @@ public class NaturalLanguageUtil {
     	CreditContextImpl.setCluSetInfo(cluSetList);
     	CreditContextImpl gradeConditionCourseListContext = new CreditContextImpl();
     	contextRegistry.add("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
+    	contextRegistry.add("kuali.reqCompType.grdCondCourseList", courseListContext);
     	
     	GradeCheckContextImpl.setCluInfo(cluList);
     	GradeCheckContextImpl.setCluSetInfo(cluSetList);
