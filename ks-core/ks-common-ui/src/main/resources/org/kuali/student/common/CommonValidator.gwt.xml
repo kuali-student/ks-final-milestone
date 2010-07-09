@@ -23,7 +23,7 @@
 		and need to be removed.
 	 -->
 	<source path='validator' >
-		<include name="BeanConstraintDataProvider.java"/>
+		<!--<include name="BeanConstraintDataProvider.java"/>
 		<include name="BeanConstraintSetupFactory.java"/>
 		<include name="ConstraintDataProvider.java"/>
 		<include name="ConstraintSetupFactory.java"/>
@@ -32,7 +32,7 @@
 		<include name="ServerDateParser.java"/>
 		<include name="ModelDTOConstraintDataProvider.java"/>
 		<include name="ModelDTOConstraintSetupFactory.java"/>		
-		<!-- <include name="Validator.java"/> -->
-		<include name="ValidatorUtils.java"/>
+		&lt;!&ndash; <include name="Validator.java"/> &ndash;&gt;
+		<include name="ValidatorUtils.java"/>-->
 	</source>
 </module>
