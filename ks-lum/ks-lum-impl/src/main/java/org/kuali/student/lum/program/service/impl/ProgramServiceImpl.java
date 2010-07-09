@@ -27,6 +27,7 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
@@ -190,8 +191,20 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        try {
+            MajorDisciplineInfo majorDiscipline = getMajorDiscipline(majorDisciplineId);
+
+            processMajorDisciplineInfo(majorDiscipline, NodeOperation.DELETE);
+
+            StatusInfo status = new StatusInfo();
+            status.setSuccess(true);
+            return status;
+
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling course", e);
+            throw new OperationFailedException("Error disassembling course");
+        }
 	}
 
 	@Override
