@@ -123,7 +123,7 @@ public class TestCourseServiceImpl {
 
             // TODO - check feeInfo
 
-            assertEquals("firstExpectedOffering-26", retrievedCourse.getFirstExpectedOffering());
+            assertEquals("startTerm-41", retrievedCourse.getFirstExpectedOffering());
 
             // TODO - check joints
             // TODO - check metaInfo
