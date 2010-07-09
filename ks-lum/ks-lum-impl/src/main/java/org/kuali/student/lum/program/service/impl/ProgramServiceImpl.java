@@ -48,7 +48,7 @@ public class ProgramServiceImpl implements ProgramService{
 
 	private LuService luService;
     private Validator validator;
-    private LumServiceMethodInvoker serviceMethodInvoker;
+    private ProgramServiceMethodInvoker programServiceMethodInvoker;
 	private DictionaryService dictionaryService;
     private SearchManager searchManager;
     private MajorDisciplineAssembler majorDisciplineAssembler;
@@ -94,12 +94,12 @@ public class ProgramServiceImpl implements ProgramService{
 		this.programRequirementAssembler = programRequirementAssembler;
 	}
 
-	public void setServiceMethodInvoker(LumServiceMethodInvoker serviceMethodInvoker) {
-        this.serviceMethodInvoker = serviceMethodInvoker;
+	public void setProgramServiceMethodInvoker(ProgramServiceMethodInvoker serviceMethodInvoker) {
+        this.programServiceMethodInvoker = serviceMethodInvoker;
     }
 
-    public LumServiceMethodInvoker getServiceMethodInvoker() {
-        return serviceMethodInvoker;
+    public LumServiceMethodInvoker getProgramServiceMethodInvoker() {
+        return programServiceMethodInvoker;
     }
 
     @Override
@@ -545,7 +545,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Use the results to make the appropriate service calls here
         try {
-            getServiceMethodInvoker().invokeServiceCalls(results);
+            programServiceMethodInvoker.invokeServiceCalls(results);
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
