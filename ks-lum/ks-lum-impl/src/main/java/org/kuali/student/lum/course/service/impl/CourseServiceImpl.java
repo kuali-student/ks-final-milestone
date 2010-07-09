@@ -146,16 +146,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<LoDisplayInfo> updateCourseLos(String courseId, List<LoDisplayInfo> loDisplayInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("updateCourseLos");
-    }
-
-    @Override
-    public List<StatementTreeViewInfo> updateCourseStatements(String courseId, List<StatementTreeViewInfo> statementTreeViewInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("updateCourseStatements");
-    }
-
-    @Override
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
@@ -164,6 +154,26 @@ public class CourseServiceImpl implements CourseService {
         return validationResults;
     }
 
+    @Override
+    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("createCourseStatement");
+    }
+
+    @Override
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("deleteCourseStatement");
+    }
+
+    @Override
+    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("updateCourseStatement");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("validateCourseStatement");
+    }
+    
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
@@ -230,4 +240,5 @@ public class CourseServiceImpl implements CourseService {
     public void setLuService(LuService luService) {
         this.luService = luService;
     }
+
 }

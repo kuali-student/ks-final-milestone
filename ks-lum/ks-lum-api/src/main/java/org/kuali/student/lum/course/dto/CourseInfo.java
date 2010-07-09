@@ -75,9 +75,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<String> termsOffered;
 
     @XmlElement
-    private String firstExpectedOffering;
-
-    @XmlElement
     private TimeAmountInfo duration;
 
     @XmlElement
@@ -237,17 +234,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     public void setTermsOffered(List<String> termsOffered) {
         this.termsOffered = termsOffered;
-    }
-
-    /**
-     * The expected first academic time period that this course would be effective.
-     */
-    public String getFirstExpectedOffering() {
-        return firstExpectedOffering;
-    }
-
-    public void setFirstExpectedOffering(String firstExpectedOffering) {
-        this.firstExpectedOffering = firstExpectedOffering;
     }
 
     /**

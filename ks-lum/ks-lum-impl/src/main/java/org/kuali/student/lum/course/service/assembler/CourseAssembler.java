@@ -100,7 +100,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		course.setId(clu.getId());
 		course.setType(clu.getType());
-		course.setFirstExpectedOffering(clu.getExpectedFirstAtp());
 		course.setTermsOffered(clu.getOfferedAtpTypes());
 		course.setPrimaryInstructor(clu.getPrimaryInstructor());
 		course.setState(clu.getState());
@@ -217,7 +216,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setEffectiveDate(course.getEffectiveDate());
 		clu.setExpirationDate(course.getExpirationDate());
 
-		clu.setExpectedFirstAtp(course.getFirstExpectedOffering());
 		clu.setOfferedAtpTypes(course.getTermsOffered());
 		clu.setPrimaryInstructor(course.getPrimaryInstructor());
 		

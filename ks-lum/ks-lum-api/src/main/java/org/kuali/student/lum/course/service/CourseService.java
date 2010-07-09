@@ -212,34 +212,13 @@ public interface CourseService extends DictionaryService {
     public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException;
 
     /**
-     * Updates the Los for a Course.
-     * 
-     * @param courseId
-     *            Unique Id of the Course.Maps to cluId
-     * @param loDisplayInfoList
-     *            list of LoDisplay info Structures
-     * @return a list of LoDisplay info Structures
-     * @throws DoesNotExistException
-     *             Course does not exist
-     * @throws InvalidParameterException
-     *             invalid courseId
-     * @throws MissingParameterException
-     *             invalid courseId
-     * @throws OperationFailedException
-     *             unable to complete request
-     * @throws PermissionDeniedException
-     *             authorization failure
-     */
-    public List<LoDisplayInfo> updateCourseLos(@WebParam(name = "courseId") String courseId, @WebParam(name = "loDisplayInfoList") List<LoDisplayInfo> loDisplayInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Updates the Statements for a Course.
+     * Creates the Statement for a Course.
      * 
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @param statementTreeViewInfoList
-     *            a list of Statementree Structures
-     * @return a list of Statementree Structures
+     *            a Statementree Structures
+     * @return created Statementree Structures
      * @throws DoesNotExistException
      *             Course does not exist
      * @throws InvalidParameterException
@@ -251,8 +230,51 @@ public interface CourseService extends DictionaryService {
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public List<StatementTreeViewInfo> updateCourseStatements(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfoList") List<StatementTreeViewInfo> statementTreeViewInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatementTreeViewInfo createCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Updates the Statement for a Course.
+     * 
+     * @param courseId
+     *            Unique Id of the Course. Maps to cluId
+     * @param statementTreeViewInfoList
+     *            a Statementree Structures
+     * @return updated Statementree Structures
+     * @throws DoesNotExistException
+     *             Course does not exist
+     * @throws InvalidParameterException
+     *             invalid courseId
+     * @throws MissingParameterException
+     *             invalid courseId
+     * @throws OperationFailedException
+     *             unable to complete request
+     * @throws PermissionDeniedException
+     *             authorization failure
+     */
+    public StatementTreeViewInfo updateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Delete the Statement for a Course.
+     * 
+     * @param courseId
+     *            Unique Id of the Course. Maps to cluId
+     * @param statementTreeViewInfoList
+     *            a Statementree Structures
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException
+     *             Course does not exist
+     * @throws InvalidParameterException
+     *             invalid courseId
+     * @throws MissingParameterException
+     *             invalid courseId
+     * @throws OperationFailedException
+     *             unable to complete request
+     * @throws PermissionDeniedException
+     *             authorization failure
+     */
+    public StatusInfo deleteCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
     /**
      * Validates a course based on its dictionary
      * 
@@ -272,4 +294,23 @@ public interface CourseService extends DictionaryService {
      */
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    
+    /**
+     * Validates the Statement for a Course.
+     * 
+     * @param courseId
+     *            Unique Id of the Course. Maps to cluId
+     * @param statementTreeViewInfoList
+     *            a Statementree Structures
+     * @return results from performing the validation
+     * @throws DoesNotExistException
+     *             Course or StementTreeView does not exist
+     * @throws InvalidParameterException
+     *             invalid courseId or stratement tree view Id
+     * @throws MissingParameterException
+     *             invalid courseId or statement tree view Id
+     * @throws OperationFailedException
+     *             unable to complete request
+     */
+    public List<ValidationResultInfo> validateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo)  throws InvalidParameterException, MissingParameterException, OperationFailedException;    
 }

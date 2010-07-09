@@ -72,7 +72,7 @@ public class TestCourseServiceImpl {
             assertEquals("323", retrievedCourse.getCourseNumberSuffix());
 
             assertEquals("courseTitle-15", retrievedCourse.getCourseTitle());
-            assertEquals("transcriptTitle-47", retrievedCourse.getTranscriptTitle());
+            assertEquals("transcriptTitle-46", retrievedCourse.getTranscriptTitle());
 
             assertEquals("plain-22", retrievedCourse.getDescr().getPlain());
             assertEquals("formatted-21", retrievedCourse.getDescr().getFormatted());
@@ -85,7 +85,7 @@ public class TestCourseServiceImpl {
 
             assertEquals(2, retrievedCourse.getTermsOffered().size());
             String termOffered = retrievedCourse.getTermsOffered().get(0);
-            assertTrue("termsOffered-46".equals(termOffered) || "termsOffered-33".equals(termOffered));
+            assertTrue("termsOffered-45".equals(termOffered) || "termsOffered-44".equals(termOffered));
 
             assertEquals(2, retrievedCourse.getAcademicSubjectOrgs().size());
             String orgId = retrievedCourse.getAcademicSubjectOrgs().get(0);
@@ -123,7 +123,6 @@ public class TestCourseServiceImpl {
 
             // TODO - check feeInfo
 
-            assertEquals("startTerm-41", retrievedCourse.getFirstExpectedOffering());
 
             // TODO - check joints
             // TODO - check metaInfo
@@ -133,10 +132,10 @@ public class TestCourseServiceImpl {
             String atpType = retrievedCourse.getTermsOffered().get(0);
             CluInstructorInfo instructor = retrievedCourse.getPrimaryInstructor();
                    
-            assertTrue("termsOffered-47".equals(atpType) || "termsOffered-46".equals(atpType));
+            assertTrue("termsOffered-45".equals(atpType) || "termsOffered-44".equals(atpType));
 
-            assertEquals("orgId-43", instructor.getOrgId());
-            assertEquals("personId-44", instructor.getPersonId());
+            assertEquals("orgId-42", instructor.getOrgId());
+            assertEquals("personId-43", instructor.getPersonId());
 
             assertEquals("draft", retrievedCourse.getState());
             assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
