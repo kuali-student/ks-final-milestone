@@ -12,6 +12,8 @@ public class MajorDisciplinePanel extends ViewComposite {
 
     private VerticalPanel content = new VerticalPanel();
 
+    private enum Views{VIEW_MAJOR_DISCIPLINE}
+
     /**
      * Constructs a new view with an associated controller and view name
      *
@@ -19,14 +21,9 @@ public class MajorDisciplinePanel extends ViewComposite {
      * @param name       the view name
      */
     public MajorDisciplinePanel(Controller controller, String name) {
-        super(controller, name);
+        super(controller, name, Views.VIEW_MAJOR_DISCIPLINE);
         initWidget(content);
         buildLayout();
-        setStyles();
-    }
-
-    private void setStyles() {
-        
     }
 
     private void buildLayout() {

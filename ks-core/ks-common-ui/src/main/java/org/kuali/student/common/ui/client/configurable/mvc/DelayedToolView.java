@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LazyPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * 
@@ -134,5 +135,9 @@ public abstract class DelayedToolView extends LazyPanel implements ToolView{
     @Override
     public void onHistoryEvent(HistoryStackFrame frame) {
         // do nothing
+    }
+    
+    public Widget asWidget(){
+    	return this;
     }
 }

@@ -54,8 +54,10 @@ public class CreateCreditCoursePanel extends ViewComposite {
      *
      * @param controller
      */
+    public enum Views{CREATE_COURSE_PANEL}
+    
     public CreateCreditCoursePanel(Controller controller) {
-        super(controller, "Create Credit Course");
+        super(controller, "Create Credit Course", Views.CREATE_COURSE_PANEL);
         //Hyperlink more = new Hyperlink("More", "More");
         //more.addStyleName("Home-Small-Hyperlink");
         buildLayout();

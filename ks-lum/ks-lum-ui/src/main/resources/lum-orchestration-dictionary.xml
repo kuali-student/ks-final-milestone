@@ -1303,7 +1303,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -1716,7 +1716,7 @@
 					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
 					<property name="name" value="Courses and Proposals"/>
 					<property name="desc" value="Search for courses and proposals"/>
-					<property name="title" value="Advanced Search: Course or Proposal"/>
+					<property name="title" value="Course or Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -1835,7 +1835,7 @@
 					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
 					<property name="name" value="Courses Only"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Advanced Search: Course or Proposal"/>
+					<property name="title" value="Course or Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -1950,7 +1950,7 @@
 					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
 					<property name="name" value="Proposals Only"/>
 					<property name="desc" value="Search for proposals"/>
-					<property name="title" value="Advanced Search: Course or Proposal"/>
+					<property name="title" value="Course or Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -3305,7 +3305,7 @@
 					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
 					<property name="name" value="keyword in Learning Objective"/>
 					<property name="desc" value="Search for descriptions in existing learning objectives."/>
-					<property name="title" value="Search for Learning Objectives"/>
+					<property name="title" value="Learning Objectives"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -4250,7 +4250,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -4791,7 +4791,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -5892,7 +5892,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -6117,7 +6117,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
 					<property name="title" value="Find Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -6301,7 +6301,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
 					<property name="title" value="Find Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -6554,7 +6554,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
 					<property name="searchTypeId" value="cluset.search.generic"/>
-					<property name="name" value="Find Clu Set"/>
+					<property name="name" value="Clu Set"/>
 					<property name="desc" value="Search for Clu Set"/>
 					<property name="title" value="Advanced CLU Set Search"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7114,7 +7114,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
 					<property name="title" value="Find Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7286,7 +7286,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
 					<property name="title" value="Find Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7408,7 +7408,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.proposal.lookup.Proposals"/>
 					<property name="searchTypeId" value="proposal.search.generic"/>
-					<property name="name" value="Find Proposal"/>
+					<property name="name" value="Proposal"/>
 					<property name="desc" value="Search for proposals"/>
 					<property name="title" value="Find Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7548,7 +7548,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
 					<property name="searchTypeId" value="cluset.search.generic"/>
-					<property name="name" value="Find Clu Set"/>
+					<property name="name" value="Clu Set"/>
 					<property name="desc" value="Search for Clu Set"/>
 					<property name="title" value="Advanced CLU Set Search"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7702,7 +7702,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findProgram.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Program"/>
+					<property name="name" value="Program"/>
 					<property name="desc" value="Search for programs"/>
 					<property name="title" value="Find Program"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7938,7 +7938,7 @@
 	<!-- definition of advanced search window -->
 	<bean id="kuali.lu.lookup.admin.departments.advanced" parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 		<property name="searchTypeId" value="org.search.generic"/>
-		<property name="name" value="Find Organizations"/>
+		<property name="name" value="Organizations"/>
 		<property name="desc" value="Search for administrative department organization"/>
 		<property name="title" value="Find Organization"/>
 		<property name="widget" value="ADVANCED_LIGHTBOX"/>

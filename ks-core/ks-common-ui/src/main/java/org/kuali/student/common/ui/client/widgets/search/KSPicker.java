@@ -215,19 +215,19 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         //setup advanced search widget such as advanced search box, browse hierarchy search box etc.
         List<LookupMetadata> advancedLightboxLookupdata = getLookupMetadataBasedOnWidget(additionalLookupMetadata, LookupMetadata.Widget.ADVANCED_LIGHTBOX);
         if ((advancedLightboxLookupdata != null) && config.canEdit) {
-
+            
             //for multiple searches, show a drop down for user to select from
             if (advancedLightboxLookupdata.size() == 1) {
                 String actionLabel = advancedLightboxLookupdata.get(0)
                         .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
                 searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
-                advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
                 if (actionLabel != null && actionLabel.trim().length() > 0) {
                     advSearchWindow.setActionButtonLabel(actionLabel);
                 }
             } else {
                 searchPanel = new SearchPanel(advancedLightboxLookupdata);
-                advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
                 searchPanel.addLookupChangedCallback(new Callback<LookupMetadata>() {
                     @Override
                     public void exec(LookupMetadata selectedLookup) {
@@ -250,8 +250,21 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 }
             }
             searchPanel.setMultiSelect(true);
+            
+            /*
+            advSearchWindow.addActionCompleteCallback(new Callback<Boolean>() {                
+                @Override
+                public void exec(Boolean result) {
+                    searchPanel.getActionCompleteCallback().exec(true);
+                }               
+            }); */
 
-            advSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+            String previewMode = additionalLookupMetadata.get(0).getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_PREVIEW_MODE);
+            if (previewMode != null && previewMode.equals("true")) {
+                advSearchWindow.setActionButtonLabel("Preview");
+            }
+            
+            searchPanel.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
                 public void exec(List<SelectedResults> results) {
                     if (advancedSearchCallback != null) {
                         advancedSearchCallback.exec(results);

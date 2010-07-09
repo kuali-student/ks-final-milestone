@@ -50,9 +50,9 @@ public class FindPanel extends ViewComposite{
     private VerticalPanel mainPanel = new VerticalPanel();
 
     private boolean loaded = false;
-
+    public enum Views{FIND_COURSES}
     public FindPanel(Controller controller) {
-        super(controller, "Find Course or Proposal");
+        super(controller, "Find Course or Proposal", Views.FIND_COURSES);
         mainPanel.addStyleName("KS-Picker-Border");
         this.initWidget(mainPanel);
     }

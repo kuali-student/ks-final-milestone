@@ -52,6 +52,7 @@ public class LUConstants {
     public final static String LU_STATE_RETIRED = "Retired";
 
     //Section names
+    public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
     public static final String SECTION_AUTHORS_AND_COLLABORATORS = "People & Permissions";
     public static final String SECTION_GOVERNANCE = "Governance";

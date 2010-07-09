@@ -81,9 +81,15 @@ public class OrgApplicationManager extends Controller{
     
     private View initOrgView(){
         orgProposalController = new OrgProposalController();
-        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController);
+        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController, ORGViews.CREATE_ORG);
         return createOrgView;
         
     }
+
+	@Override
+	public boolean beforeViewChange() {
+		// TODO Does this controller need to do anything before a view is changed?
+		return true;
+	}
 
 }

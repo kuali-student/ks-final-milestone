@@ -70,10 +70,11 @@ public class CourseRequisiteView extends ViewComposite {
            		
    	//view's data   			
 	public static List<String> applicableLuStatementTypes = new ArrayList<String>();		//rule types we deal with
-	private List<RuleInfo> courseRules; 							//contains all rules belonging to this course
-
+	private List<RuleInfo> courseRules;//contains all rules belonging to this course
+	private enum ReqViews{COURSE_REQ}
+	
     public CourseRequisiteView(Controller controller) {
-        super(controller, "Course Requisites");
+        super(controller, "Course Requisites", ReqViews.COURSE_REQ);
         super.initWidget(mainPanel);   
         
         this.prereqRationaleTextArea.setVisible(false);

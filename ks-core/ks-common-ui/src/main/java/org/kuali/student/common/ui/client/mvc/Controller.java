@@ -67,6 +67,17 @@ public abstract class Controller extends Composite implements HistorySupport{
     }
     
     /**
+     * Simple Version of showView, no callback
+     * @param <V>
+     * 			view enum type
+     * @param viewType
+     * 			enum value representing the view to show
+     */
+    public <V extends Enum<?>> void showView(final V viewType){
+    	this.showView(viewType, NO_OP_CALLBACK);
+    }
+    
+    /**
      * Directs the controller to display the specified view. The parameter must be an enum value, based on an enum defined in
      * the controller implementation. For example, a "Search" controller might have an enumeration of: <code>
      *  public enum SearchViews {
@@ -91,40 +102,46 @@ public abstract class Controller extends Composite implements HistorySupport{
         	onReadyCallback.exec(false);
             throw new ControllerException("View not registered: " + viewType.toString());
         }
+        
+        if(beforeViewChange()){
 
-        boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
-
-        if (requiresAuthz){
-        	ViewContext tempContext = view.getController().getViewContext();
-        	if (view instanceof DelegatingViewComposite) {
-        		tempContext = ((DelegatingViewComposite)view).getChildController().getViewContext();
-        	}
-        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
-        	if (permType != null) {
-        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
-            	//A callback is required if async rpc call is required for authz check
-	        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
-					public void isAuthorized() {
-						showView(view, viewType, onReadyCallback);
-					}
-
-					public void isNotAuthorized(String msg) {
-						Window.alert(msg);
-						onReadyCallback.exec(false);					
-					}        		
-	        	});
-        	}
-        	else {
-        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
-            	showView(view, viewType, onReadyCallback);
-        	}
-        } else {
-    		GWT.log("Not Requiring Auth.", null);
-        	showView(view, viewType, onReadyCallback);
+	        boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
+	
+	        if (requiresAuthz){
+	        	ViewContext tempContext = view.getController().getViewContext();
+	        	if (view instanceof DelegatingViewComposite) {
+	        		tempContext = ((DelegatingViewComposite)view).getChildController().getViewContext();
+	        	}
+	        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
+	        	if (permType != null) {
+	        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
+	            	//A callback is required if async rpc call is required for authz check
+		        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
+						public void isAuthorized() {
+							showView(view, viewType, onReadyCallback);
+						}
+	
+						public void isNotAuthorized(String msg) {
+							Window.alert(msg);
+							onReadyCallback.exec(false);					
+						}        		
+		        	});
+	        	}
+	        	else {
+	        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
+	            	showView(view, viewType, onReadyCallback);
+	        	}
+	        } else {
+	    		GWT.log("Not Requiring Auth.", null);
+	        	showView(view, viewType, onReadyCallback);
+	        }
+        }
+        else{
+        	onReadyCallback.exec(false);
         }
     }
     
-    protected <V extends Enum<?>> void showView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
+    private <V extends Enum<?>> void showView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
         if ((currentView == null) || currentView.beforeHide()) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override
@@ -330,6 +347,8 @@ public abstract class Controller extends Composite implements HistorySupport{
      * @return
      */
     protected abstract <V extends Enum<?>> View getView(V viewType);
+    
+    public abstract boolean beforeViewChange();
 
     /**
      * Shows the default view. Must be implemented by subclass, in order to define the default view.

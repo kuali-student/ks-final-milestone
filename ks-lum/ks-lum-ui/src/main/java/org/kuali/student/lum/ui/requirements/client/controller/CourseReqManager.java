@@ -243,4 +243,9 @@ public class CourseReqManager extends Controller {
 	public void setFieldsWithLookup(List<Metadata> fieldsWithLookup) {
 		this.fieldsWithLookup = fieldsWithLookup;
 	}
+
+	@Override
+	public boolean beforeViewChange() {
+		return true;
+	}
 }

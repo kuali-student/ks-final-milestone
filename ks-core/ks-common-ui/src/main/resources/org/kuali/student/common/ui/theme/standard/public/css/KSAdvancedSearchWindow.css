@@ -20,8 +20,8 @@
 }
 
 .KS-Advanced-Search-Header-Label{
-    font-weight: bold;
-    font-size: medium;
+    font-size:20pt;
+    fcolor:red;
 }
 
 .KS-Advanced-Search-Search-Criteria-Label{
@@ -33,7 +33,7 @@
 }
 
 .KS-Advanced-Search-Button{
-      padding-top: 1.2em;
+    margin-top: 1.2em;
 }
 
 .KS-Advanced-Search-Search-Criteria-Text{
