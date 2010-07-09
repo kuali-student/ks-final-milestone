@@ -346,8 +346,25 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			VersionMismatchException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+	       if (majorDisciplineInfo == null) {
+	            throw new MissingParameterException("MajorDisciplineInfo can not be null");
+	        }
+
+	        // Validate
+	        List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
+	        if (null != validationResults && validationResults.size() > 0) {
+	            throw new DataValidationErrorException("Validation error!", validationResults);
+	        }
+
+	        try {
+
+	            return processMajorDisciplineInfo(majorDisciplineInfo, NodeOperation.UPDATE);
+
+	        } catch (AssemblyException e) {
+	            LOG.error("Error disassembling course", e);
+	            throw new OperationFailedException("Error disassembling course");
+	        }
 	}
 
 	@Override
