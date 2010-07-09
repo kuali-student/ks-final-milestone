@@ -92,7 +92,6 @@ public class LUConstants {
     public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
 
     // Message keys for top-level section label lookup
-    public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
     public static final String COURSE_INFORMATION_LABEL_KEY = "cluCourseInformation";
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
     public static final String STUDENT_ELIGIBILITY_LABEL_KEY = "cluStudentEligibility";

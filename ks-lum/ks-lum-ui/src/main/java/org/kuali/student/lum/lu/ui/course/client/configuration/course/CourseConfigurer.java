@@ -121,9 +121,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 		if(modelDefinition.getMetadata().isCanEdit()) {
 			String editTabLabel = getLabel(LUConstants.EDIT_TAB_LABEL_KEY);
 
-			//ProposalInformation
-			layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
-
 			//Course Content
 			layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
 			layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseLogisticsSection());
@@ -157,16 +154,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	}
 
 
-	protected SectionView generateAuthorsRationaleSection(){
-		VerticalSectionView section = initSectionView(CourseSections.AUTHORS_RATIONALE, LUConstants.AUTHORS_RATIONAL);
-
-		VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
-		addField(titleRationale, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-		addField(titleRationale, PROPOSAL + "/" + RATIONALE, generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
-
-		section.addSection(titleRationale);
-
-		return section;
+	private VerticalSection generateAuthorsRationalVerticalSection() {
+        VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
+        addField(titleRationale, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        addField(titleRationale, PROPOSAL + "/" + RATIONALE, generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+        return titleRationale;
 	}
 
 	/**
@@ -231,6 +223,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 		section.addSection(generateCourseInfoShortTitleSection());
 		section.addSection(generateLongTitleSection());
 		section.addSection(generateDescriptionSection());
+        section.addSection(generateAuthorsRationalVerticalSection());
 
 		return section;
 	}
