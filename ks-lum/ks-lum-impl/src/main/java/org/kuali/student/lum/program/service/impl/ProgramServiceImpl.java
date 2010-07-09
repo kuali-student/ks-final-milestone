@@ -98,7 +98,7 @@ public class ProgramServiceImpl implements ProgramService{
         this.programServiceMethodInvoker = serviceMethodInvoker;
     }
 
-    public LumServiceMethodInvoker getProgramServiceMethodInvoker() {
+    public ProgramServiceMethodInvoker getProgramServiceMethodInvoker() {
         return programServiceMethodInvoker;
     }
 
