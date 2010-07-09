@@ -48,7 +48,7 @@ public class ProgramServiceImpl implements ProgramService{
 	private ProgramServiceMethodInvoker programServiceMethodInvoker;
 	private DictionaryService dictionaryService;
     private SearchManager searchManager;
-    private ProgramAssembler programAssembler;
+    private ProgramRequirementAssembler programRequirementAssembler;
 
 	public LuService getLuService() {
 		return luService;
@@ -74,12 +74,12 @@ public class ProgramServiceImpl implements ProgramService{
 		this.searchManager = searchManager;
 	}
 
-	public ProgramAssembler getProgramAssembler() {
-		return programAssembler;
+	public ProgramRequirementAssembler getProgramRequirementAssembler() {
+		return programRequirementAssembler;
 	}
 
-	public void setProgramAssembler(ProgramAssembler programAssembler) {
-		this.programAssembler = programAssembler;
+	public void setProgramRequirementAssembler(ProgramRequirementAssembler programRequirementAssembler) {
+		this.programRequirementAssembler = programRequirementAssembler;
 	}
 
 	@Override
@@ -122,20 +122,20 @@ public class ProgramServiceImpl implements ProgramService{
 		if (majorDisciplineInfo == null) {
 		    throw new MissingParameterException("MajorDisciplineInfo can not be null");
 		}
-		
+
 		// Validate
-		
+
 		List<ValidationResultInfo> validationResults;
 		try {
 			validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
 			if (null != validationResults && validationResults.size() > 0) {
 			    throw new DataValidationErrorException("Validation error!", validationResults);
-			}				
+			}
 		} catch (DoesNotExistException e) {
 			LOG.error("Error validating majorDiscipline", e);
 			e.printStackTrace();
 		}
-		
+
 		try {
 		    return processProgramInfo(majorDisciplineInfo, NodeOperation.CREATE);
 		} catch (AssemblyException e) {
@@ -247,7 +247,7 @@ public class ProgramServiceImpl implements ProgramService{
 			PermissionDeniedException {
 
 		CluInfo clu = luService.getClu(majorDisciplineId);
-		
+
 		MajorDisciplineInfo majorDiscipline = null;
 		/*try {
 			majorDiscipline = courseAssembler.assemble(clu, null, false);
@@ -255,7 +255,7 @@ public class ProgramServiceImpl implements ProgramService{
 		    LOG.error("Error assembling course", e);
 		    throw new OperationFailedException("Error assembling course");
 		}*/
-		
+
 		return majorDiscipline;
 	}
 
@@ -382,7 +382,7 @@ public class ProgramServiceImpl implements ProgramService{
 			String validationType, MajorDisciplineInfo majorDisciplineInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		
+
         ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
         List<ValidationResultInfo> validationResults = validator.validateObject(majorDisciplineInfo, objStructure);
 

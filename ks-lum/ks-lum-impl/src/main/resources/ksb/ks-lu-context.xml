@@ -479,8 +479,8 @@
       value="classpath:lu-search-config.xml" />
   </bean>
 
-  <bean id="programAssembler"
-    class="org.kuali.student.lum.program.service.impl.ProgramAssembler">
+  <bean id="programRequirementAssembler"
+    class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
  </bean>
 
   <bean id="programServiceMethodInvoker"
@@ -491,7 +491,7 @@
   <bean id="programServiceImpl"
     class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
     <property name="luService" ref="luClient" />
-    <property name="programAssembler" ref="programAssembler" />
+    <property name="programRequirementAssembler" ref="programRequirementAssembler" />
     <property name="searchManager" ref="programSearchManager" />
     <property name="dictionaryService" ref="dictionaryService" />
     <property name="validator" ref="pocServiceValidator" />
