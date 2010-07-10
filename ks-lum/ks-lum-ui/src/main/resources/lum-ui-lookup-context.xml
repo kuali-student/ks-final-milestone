@@ -2,8 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<!-- Important:- 
-	For cross field searches Please over write the searchtypeId here in the lookup definitons.
-	common-lookup-context doesnot define cross seraches as they are not used for service side validation.
+	For cross field searches please over write the searchtypeId here in the lookup definitions.
+	common-lookup-context does not define cross searches as they are not used for service side validation.
 			  -->
 	<import resource="classpath:common-lookup-context.xml" />
 	<bean id="uilookup" abstract="true"
@@ -57,7 +57,6 @@
 		<property name="path" value="course.formats.activities.activityType" />
 		<property name="initialLookup" ref="kuali.lookup.lutypes.activity" />
 	</bean>
-
 
 	<!-- TODO: Should not have to define separate paths for duration -->
 	<bean id="course.duration.atpDurationTypeKey" parent="uilookup">
@@ -122,15 +121,48 @@
 		</property>
 	</bean>
 	
-	<bean id="search.findCluSet" parent="uilookup">
-		<property name="path" value="search.findCluSet" />
-		<property name="initialLookup" ref="kuali.lu.lookup.findCluSet.suggest" />
+	<bean id="search.approvedCourses" parent="uilookup">
+		<property name="path" value="search.approvedCourses" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.approvedCourses" />
 		<property name="additionalLookups">
 			<list>
-				<ref bean="kuali.lu.lookup.findCluSet.advanced" />
+				<ref bean="kuali.lu.lookup.advanced.approvedCourses" />
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="search.proposedCourses" parent="uilookup">
+		<property name="path" value="search.proposedCourses" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.proposedCourses" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.proposedCourses" />
+			</list>
+		</property>
+	</bean>		
+	
+	<bean id="search.reusableCluSets" parent="uilookup">
+		<property name="path" value="search.reusableCluSets" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableCluSets" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.reusableCluSets" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="search.courseRanges" parent="uilookup">
+		<property name="path" value="search.courseRanges" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.courseRanges" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.courseNumber" />
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.learningObjectives" />
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.effectiveDate" />				
+			</list>
+		</property>
+	</bean>	
+	
 	<!-- Initial Lookup Definitions (For suggestbox & dropdown widgets) -->
 
 	<bean id="ks.lookup.person.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
@@ -474,30 +506,7 @@
 	<bean id="kuali.lu.lookup.findCourse.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="kuali.common.lookup.findCourse.suggest">
 		<property name="id" value="kuali.lu.lookup.findCourse.suggest" />
-		<property name="searchTypeId" value="lu.search.generic" />
-		<property name="name" value="Find Course" />
-		<property name="desc" value="Search for courses" />
 		<property name="widget" value="SUGGEST_BOX" />
-		<property name="params">
-			<list>
-				<bean parent="param">   <!-- suggest box entry definition -->
-					<property name="key" value="lu.queryParam.luOptionalCode" />
-					<property name="name" value="Code" />
-					<property name="desc" value="Course code." />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="usage" value="DEFAULT" />
-				</bean>
-				<bean parent="param">   <!-- limit search to credit course for this UI context -->
-					<property name="key" value="lu.queryParam.luOptionalType" />
-					<property name="name" value="Lu Type" />
-					<property name="desc" value="Type of a learning unit" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
-					<property name="caseSensitive" value="true" />
-				</bean>
-			</list>
-		</property>
-		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
 		<property name="resultSortKey" value="" />
 		<property name="results">
@@ -550,50 +559,110 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.findCluSet.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
-		parent="kuali.common.lookup.findCluSet.suggest">
-		<property name="id"
-			value="kuali.lu.lookup.findCluSet.suggest" />
+	<bean id="kuali.lu.lookup.basic.approvedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.basic.approvedCourses">
+		<property name="id" value="kuali.lu.lookup.basic.approvedCourses" />
+		<property name="widget" value="SUGGEST_BOX" />
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+		<property name="resultSortKey" value="" />		
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.cluId" />
+					<property name="name" value="Course Identifier" />
+					<property name="desc" value="Identifier for the course" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="Course code." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.lu.lookup.basic.proposedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.basic.proposedCourses">
+		<property name="id" value="kuali.lu.lookup.basic.proposedCourses" />
+		<property name="widget" value="SUGGEST_BOX" />
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+		<property name="resultSortKey" value="" />		
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.cluId" />
+					<property name="name" value="Course Identifier" />
+					<property name="desc" value="Identifier for the course" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="Course code." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.lu.lookup.basic.reusableCluSets" class="org.kuali.student.core.assembly.data.UILookupData" 
+		parent="kuali.common.lookup.basic.reusableCluSets">
+		<property name="id"	value="kuali.lu.lookup.basic.reusableCluSets" />
 		<property name="name" value="Find CluSet" />
-		<property name="desc" value="Search for CluSets" />
+		<property name="desc" value="Search for cluSets" />
 		<property name="widget" value="SUGGEST_BOX"/>
 		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
 		<property name="resultSortKey" value="" />
 		<property name="results">
-					<list>
-						<bean parent="result">
-							<property name="key" value="cluset.resultColumn.cluSetId" />
-							<property name="name" value="CLU Set Identifier" />
-							<property name="desc" value="Identifier for the Clu Set" />
-							<property name="dataType" value="STRING" />
-							<property name="hidden" value="true" />
-						</bean>
-						<!--  <bean parent="result">
-							<property name="key" value="org.resultColumn.orgShortName" />
-							<property name="name" value="Organization Short Name" />
-							<property name="desc" value="Short name for the organization, recorded as the default listing" />
-							<property name="dataType" value="STRING" />
-							<property name="hidden" value="false" />
-						</bean> -->
-						<bean parent="result">
-							<property name="key" value="cluset.resultColumn.name" />
-							<property name="name" value="Name" />
-							<property name="desc" value="Clu Set Name." />
-							<property name="dataType" value="STRING" />
-							<property name="hidden" value="false" />
-						</bean>
-						<bean parent="result">
-							<property name="key" value="cluset.resultColumn.description" />
-							<property name="name" value="Description" />						
-							<property name="desc" value="Clu Set Description." />
-							<property name="dataType" value="STRING" />
-							<property name="hidden" value="false" />
-						</bean>
-					</list>
+			<list>
+				<bean parent="result">
+					<property name="key" value="cluset.resultColumn.cluSetId" />
+					<property name="name" value="CLU Set Identifier" />
+					<property name="desc" value="Identifier for the Clu Set" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<!--  <bean parent="result">
+					<property name="key" value="org.resultColumn.orgShortName" />
+					<property name="name" value="Organization Short Name" />
+					<property name="desc" value="Short name for the organization, recorded as the default listing" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean> -->
+				<bean parent="result">
+					<property name="key" value="cluset.resultColumn.name" />
+					<property name="name" value="Name" />
+					<property name="desc" value="Clu Set Name." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="cluset.resultColumn.description" />
+					<property name="name" value="Description" />						
+					<property name="desc" value="Clu Set Description." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+			</list>
 		</property>
 	</bean>
 
+	<bean id="kuali.lu.lookup.basic.courseRanges" class="org.kuali.student.core.assembly.data.UILookupData" 
+		parent="kuali.common.lookup.basic.courseRanges">
+		<property name="id"	value="kuali.lu.lookup.basic.courseRanges" />
+		<property name="name" value="set search parameters" />
+		<property name="desc" value="set search parameters" />
+		<property name="widget" value="NO_WIDGET"/>
+	</bean>
+
 	<!-- Advanced Searches -->
+
 	<bean id="kuali.lu.lookup.admin.departments.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="kuali.common.lookup.admin.departments.advanced"
 		autowire-candidate="default" dependency-check="default" autowire="default"
@@ -640,8 +709,7 @@
 
 	<bean id="kuali.lu.lookup.findCourse.advanced.courseproposal"
 		class="org.kuali.student.core.assembly.data.UILookupData" parent="kuali.common.lookup.findCourse.advanced.courseproposal">
-		<property name="id"
-			value="kuali.lu.lookup.findCourse.advanced.courseproposal" />
+		<property name="id"	value="kuali.lu.lookup.findCourse.advanced.courseproposal" />
 		<property name="name" value="Courses and Proposals" />
 		<property name="desc" value="Search for courses and proposals" />
 		<property name="title" value="Advanced Search: Course or Proposal" />
@@ -886,9 +954,109 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.findCluSet.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
-		parent="kuali.common.lookup.findCluSet.advanced">
-		<property name="id" value="kuali.lu.lookup.findCluSet.advanced" />
+	<bean id="kuali.lu.lookup.advanced.approvedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.advanced.approvedCourses">
+		<property name="id" value="kuali.lu.lookup.advanced.approvedCourses" />
+		<property name="name" value="Approved Courses" />
+		<property name="desc" value="Search for approved courses" />
+		<property name="title" value="Approved Courses" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+		<property name="resultSortKey" value="org.resultColumn.orgShortName" />
+		<property name="results">
+			<list>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.cluId" />
+					<property name="name" value="Identifier" />
+					<property name="desc" value="Identifier for the course." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalLongName" />
+					<property name="name" value="Title" />
+					<property name="desc" value="Title for the course." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalCode" />
+					<property name="name" value="Course Number" />
+					<property name="desc" value="Course number." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalState" />
+					<property name="name" value="State" />
+					<property name="desc" value="Course or proposal state." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalLevel"/>
+					<property name="name" value="Level"/>
+					<property name="desc" value="Course level."/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>				
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="kuali.lu.lookup.advanced.proposedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.advanced.proposedCourses">
+		<property name="id" value="kuali.lu.lookup.advanced.proposedCourses" />
+		<property name="name" value="Approved Courses" />
+		<property name="desc" value="Search for approved courses" />
+		<property name="title" value="Approved Courses" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+		<property name="resultSortKey" value="org.resultColumn.orgShortName" />
+		<property name="results">
+			<list>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.cluId" />
+					<property name="name" value="Identifier" />
+					<property name="desc" value="Identifier for the course." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalLongName" />
+					<property name="name" value="Title" />
+					<property name="desc" value="Title for the course." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalCode" />
+					<property name="name" value="Course Number" />
+					<property name="desc" value="Course number." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalState" />
+					<property name="name" value="State" />
+					<property name="desc" value="Course or proposal state." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalLevel"/>
+					<property name="name" value="Level"/>
+					<property name="desc" value="Course level."/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>				
+			</list>
+		</property>
+	</bean>		
+
+	<bean id="kuali.lu.lookup.advanced.reusableCluSets" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.advanced.reusableCluSets">
+		<property name="id" value="kuali.lu.lookup.advanced.reusableCluSets" />
 		<property name="name" value="Find Clu Set" />
 		<property name="desc" value="Search for Clu Set" />
 		<property name="title" value="Advanced CLU Set Search" />
@@ -897,16 +1065,14 @@
 		<property name="resultSortKey" value="cluset.resultColumn.name" />
 		<property name="results">
 			<list>
-				<bean parent="result" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="cluset.resultColumn.cluSetId" />
 					<property name="name" value="Identifier" />
 					<property name="desc" value="Identifier for the Clu Set." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="true" />
 				</bean>
-				<bean parent="result" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="cluset.resultColumn.name" />
 					<property name="name" value="Name" />
 					<property name="desc" value="Clu Set Name." />
@@ -916,4 +1082,119 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="kuali.lu.lookup.advanced.courseRanges.courseNumber" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.advanced.courseRanges.courseNumber">
+		<property name="id" value="kuali.lu.lookup.advanced.courseRanges.courseNumber"/>
+		<property name="name" value="Course Number"/>
+		<property name="desc" value="Search used to define course range by Course Number"/>
+		<property name="title" value="Add Course Range"/>
+		<property name="widget" value="ADVANCED_LIGHTBOX"/>
+		<property name="widgetOptions">
+			<map>
+				<entry key="ADVANCED_LIGHTBOX_PREVIEW_MODE" value="true" />
+				<entry key="ADVANCED_LIGHTBOX_ACTION_LABEL" value="Add Course Range" />
+			</map>
+		</property>
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
+		<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
+		<property name="results">
+			<list>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalCode"/>
+					<property name="name" value="Course Number"/>
+					<property name="desc" value="Code of the course."/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalLongName"/>
+					<property name="name" value="Long Name of the course"/>
+					<property name="desc" value="Long Name of the course"/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="kuali.lu.lookup.advanced.courseRanges.learningObjectives" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.advanced.courseRanges.learningObjectives">
+		<property name="id" value="kuali.lu.lookup.advanced.courseRanges.learningObjectives"/>
+		<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
+		<property name="name" value="Learning Objective"/>
+		<property name="desc" value="Search for descriptions in existing learning objectives."/>
+		<property name="title" value="Learning Objective"/>
+		<property name="widget" value="ADVANCED_LIGHTBOX"/>
+		<property name="widgetOptions">
+			<map>
+				<entry key="ADVANCED_LIGHTBOX_PREVIEW_MODE" value="true" />
+				<entry key="ADVANCED_LIGHTBOX_ACTION_LABEL" value="Add Course Range" />
+			</map>
+		</property>
+		<property name="resultDisplayKey" value="lo.resultColumn.loDescPlain"/>
+		<property name="resultSortKey" value="lo.resultColumn.loDescPlain"/>
+		<property name="results">
+			<list>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lo.resultColumn.loId"/>
+					<property name="name" value="LO Identifier"/>
+					<property name="desc" value="Identifier for the organization"/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="true"/>
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lo.resultColumn.loCluCode"/>
+					<property name="name" value="Course Number"/>
+					<property name="desc" value="Course code"/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lo.resultColumn.loCluOptionalLongName"/>
+					<property name="name" value="Title"/>
+					<property name="desc" value="Title of Clu."/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="kuali.lu.lookup.advanced.courseRanges.effectiveDate" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.advanced.courseRanges.effectiveDate">
+		<property name="id" value="kuali.lu.lookup.advanced.courseRanges.effectiveDate"/>
+		<property name="searchTypeId" value="lu.search.generic"/>
+		<property name="name" value="Effective Date Range"/>
+		<property name="desc" value="Search used to define course range by effective dates"/>
+		<property name="title" value="Add Course Range"/>
+		<property name="widget" value="ADVANCED_LIGHTBOX"/>
+		<property name="widgetOptions">
+			<map>
+				<entry key="ADVANCED_LIGHTBOX_PREVIEW_MODE" value="true" />
+				<entry key="ADVANCED_LIGHTBOX_ACTION_LABEL" value="Add Course Range" />
+			</map>
+		</property>
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
+		<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
+		<property name="results">
+			<list>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalCode"/>
+					<property name="name" value="Course Number"/>
+					<property name="desc" value="Code of the course."/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>
+				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.resultColumn.luOptionalLongName"/>
+					<property name="name" value="Long Name of the course"/>
+					<property name="desc" value="Long Name of the course"/>
+					<property name="dataType" value="STRING"/>
+					<property name="hidden" value="false"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 </beans>

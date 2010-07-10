@@ -551,9 +551,8 @@
 	</bean>
 
 	<bean id="kuali.lu.lookup.findCluSet.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
-		parent="kuali.common.lookup.findCluSet.suggest">
-		<property name="id"
-			value="kuali.lu.lookup.findCluSet.suggest" />
+		parent="kuali.common.lookup.basic.reusableCluSets">
+		<property name="id"	value="kuali.lu.lookup.findCluSet.suggest" />
 		<property name="name" value="Find CluSet" />
 		<property name="desc" value="Search for CluSets" />
 		<property name="widget" value="SUGGEST_BOX"/>
@@ -887,7 +886,7 @@
 	</bean>
 
 	<bean id="kuali.lu.lookup.findCluSet.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
-		parent="kuali.common.lookup.findCluSet.advanced">
+		parent="kuali.common.lookup.advanced.reusableCluSets">
 		<property name="id" value="kuali.lu.lookup.findCluSet.advanced" />
 		<property name="name" value="Find Clu Set" />
 		<property name="desc" value="Search for Clu Set" />

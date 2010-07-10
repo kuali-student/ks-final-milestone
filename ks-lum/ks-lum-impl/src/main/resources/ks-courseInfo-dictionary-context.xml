@@ -41,6 +41,13 @@
 				<ref bean="courseInfo.finalExamRationale"/>
 				<ref bean="courseInfo.proposalId"/>
 				<ref bean="courseInfo.proposalRationale"/>
+				<!-- Searches -->
+				<ref bean="search.cluset" />
+				<ref bean="search.findCourse" />
+				<ref bean="search.proposedCourses" />				
+				<ref bean="search.approvedCourses" />
+				<ref bean="search.reusableCluSets" />
+				<ref bean="search.courseRanges" />																				
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -962,4 +969,43 @@
   		<!-- Maybe a lookup constraint to restrict the values -->
   		<property name="dynamic" value="true"/>
 	</bean>
+	
+	<!-- Searches -->
+	
+	<bean id="cluset-parent" abstract="true" parent="ObjectStructureDefinition">
+		<property name="name" value="cluset" />
+		<property name="attributes">
+			<list>
+				<ref bean="search.approvedCourses" />
+			</list>
+		</property>
+		<property name="hasMetaData" value="true" />
+	</bean>
+	<bean id="cluset" parent="cluset-parent" />		
+	<bean id="search.cluset-parent" abstract="true" parent="baseRepeatingComplex">
+		<property name="name" value="cluset" />
+		<property name="dataObjectStructure" ref="cluset" />
+	</bean>
+	<bean id="search.cluset" parent="search.cluset-parent" />	
+	
+	<bean id="search.findCourse-parent" abstract="true" parent="cluInfo.id">
+		<property name="name" value="findCourse" />
+	</bean>
+	<bean id="search.findCourse" parent="search.findCourse-parent" />
+	<bean id="search.proposedCourses-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="proposedCourses" />
+	</bean>
+	<bean id="search.proposedCourses" parent="search.proposedCourses-parent" />		
+	<bean id="search.approvedCourses-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="approvedCourses" />
+	</bean>
+	<bean id="search.approvedCourses" parent="search.approvedCourses-parent" />
+	<bean id="search.reusableCluSets-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="reusableCluSets" />
+	</bean>
+	<bean id="search.reusableCluSets" parent="search.reusableCluSets-parent" />
+	<bean id="search.courseRanges-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="courseRanges" />
+	</bean>
+	<bean id="search.courseRanges" parent="search.courseRanges-parent" />					
 </beans>

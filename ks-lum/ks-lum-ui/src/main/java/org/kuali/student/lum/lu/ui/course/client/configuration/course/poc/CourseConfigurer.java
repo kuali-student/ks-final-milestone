@@ -148,7 +148,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 layout.addMenuItem(sections, generateFinancialsSection());
         }
             //Summary
-        ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
+            ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
             layout.addSpecialMenuItem(summaryConfigurer.generateSummarySection(layout.getWfUtilities()), "Review and Submit");
 
             //Tools
@@ -235,9 +235,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         List<Metadata> searchMetadata = new ArrayList<Metadata>();
 
-        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCourse")));
-        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCluSet")));
-        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findProgram")));
+        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, "findCourse")));
+        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, "findProgram")));
 
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CLU_PROPOSAL_MODEL, searchMetadata);
         //Setting the section title after initializing the widget won't do anything
