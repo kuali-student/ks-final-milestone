@@ -1,11 +1,16 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 
 public class TestProgramServiceImpl extends AbstractServiceTest {
 
@@ -18,7 +23,17 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
     }
 
 	@Test
-    public void testCreateMajorDiscipline() {
-
+    @Ignore public void testCreateMajorDiscipline() {
+		MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
+        MajorDisciplineInfo majorDisciplineInfo = null;
+        try {
+            assertNotNull(majorDisciplineInfo = generator.getMajorDisciplineInfoTestData());
+            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
+            assertNotNull(createdMD);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
+            assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 	}
 }
