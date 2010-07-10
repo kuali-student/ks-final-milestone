@@ -53,11 +53,9 @@
 			<ref bean="lu.queryParam.luOptionalLevel"/>
 			<ref bean="lu.queryParam.luOptionalDescr"/>
 			<ref bean="lu.queryParam.luOptionalState"/>
-			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
 			<ref bean="lu.queryParam.luOptionalCrsNoRange"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate1"/>
 			<ref bean="lu.queryParam.luOptionalEffectiveDate2"/>
-			<ref bean="lu.queryParam.luOptionalFreeFormState"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -99,10 +97,6 @@
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalState" parent="lu.queryParam.luOptionalState-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalState-parent"  optional="true" abstract="true">
-		<ref bean="field.cluInfo.state.fd"/>
-	</search:queryParam>
-	<search:queryParam id="lu.queryParam.luOptionalFreeFormState" parent="lu.queryParam.luOptionalFreeFormState-parent"/>
-	<search:queryParam id="lu.queryParam.luOptionalFreeFormState-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.state.fd"/>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange" parent="lu.queryParam.luOptionalCrsNoRange-parent"/>
@@ -455,7 +449,7 @@
 		<dict:fieldDescriptor>
 			<dict:name>Reusable Clu Set</dict:name>
 			<dict:desc>Whether a Clu Set can be reused.</dict:desc>
-			<dict:dataType>string</dict:dataType>
+			<dict:dataType>boolean</dict:dataType>
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
 	</search:queryParam>
@@ -464,7 +458,7 @@
         <dict:fieldDescriptor>
             <dict:name>Referenceable Clu Set</dict:name>
             <dict:desc>Whether a Clu Set can be referenced by ReqComponets and other entities.</dict:desc>
-            <dict:dataType>string</dict:dataType>
+            <dict:dataType>boolean</dict:dataType>
             <dict:readOnly>true</dict:readOnly>
         </dict:fieldDescriptor>
     </search:queryParam>
@@ -693,9 +687,6 @@
 				<entry key="lu.queryParam.luOptionalLuTypeStartsWith">
 					<value>lut.id</value>
 				</entry>
-				<entry key="lu.queryParam.luOptionalFreeFormState">
-				    <value>!!</value>
-				</entry>
 				<entry key="lu.queryParam.luOptionalCrsNoRange">
 				    <value>!!NUMBER_RANGE clu.officialIdentifier.level</value>
 				</entry>
@@ -706,10 +697,10 @@
 				    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalEffectiveDate2</value>
 				</entry>
 				<entry key="cluset.queryParam.optionalReusable">
-				    <value>!!</value>
+				    <value>cluset.isReusable = :cluset_queryParam_optionalReusable</value>
 				</entry>
                 <entry key="cluset.queryParam.optionalReferenceable">
-                    <value>!!</value>
+                    <value>cluset.isReferenceable = :cluset_queryParam_optionalReferenceable</value>
                 </entry>
             </map>
 		</property>

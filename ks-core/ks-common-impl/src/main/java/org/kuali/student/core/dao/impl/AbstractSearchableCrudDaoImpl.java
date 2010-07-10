@@ -42,8 +42,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
     private static SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest,
-			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo) {
+	public SearchResult search(SearchRequest searchRequest,	Map<String, String> queryMap, SearchTypeInfo searchTypeInfo) {
 		String searchKey = searchRequest.getSearchKey();
 		
 		boolean isNative = false;
@@ -51,9 +50,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//retrieve the SELECT statement from search type definition
 		String queryString = queryMap.get(searchKey);
 		String optionalQueryString = "";
-		if(null==queryString){
+		if(null == queryString){
 			LOG.error("No SQL query was found for searchKey:"+searchKey);
 		}
+		
 		if(queryString.toUpperCase().startsWith("NATIVE:")){
 			queryString = queryString.substring("NATIVE:".length());
 			isNative = true;
@@ -61,9 +61,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		
 		//add in optional
 		List<SearchParam> searchParamsTemp = new ArrayList<SearchParam>(searchRequest.getParams());
-		// internalSearchParms is used only internally to execute database query.  Potentially,
-		// searchRequest.getParams() can be used but this method will modify the number of params
-		List<SearchParam> internalSearchParms = new ArrayList<SearchParam>(searchRequest.getParams());
+		// internalQueryParms is used only internally to know which parameters have to be set in the query
+		List<SearchParam> internalQueryParms = new ArrayList<SearchParam>(searchRequest.getParams());
 		for(SearchParam searchParam : searchParamsTemp){
 			for(QueryParamInfo queryParam:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
 				// check to see if optional param has any values set.
@@ -82,8 +81,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					    }
 					    
 					    if (substitutionType != null && substitutionType.equals("NUMBER_RANGE")) {
-					        String realCondition = condition.substring(
-					                "!!".length() + substitutionType.length()).trim();
+					        String realCondition = condition.substring("!!".length() + substitutionType.length()).trim();
 					        String queryValue = (String)searchParam.getValue();
 					        // if the query value is of the form n1 - n2
 					        if (queryValue != null && queryValue.trim().contains("-")) {
@@ -94,28 +92,31 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					                optionalQueryString += 
 					                    realCondition +
 					                    " BETWEEN " + "'" + strNum1 + "'" + " AND " + "'" + strNum2 + "'";
-					                internalSearchParms.remove(searchParam);
+					                internalQueryParms.remove(searchParam);
 					            }
 					        } else {
 					            // the value is just one number
 					            optionalQueryString += realCondition + " = '" + queryValue + "'";
-					            internalSearchParms.remove(searchParam);
+					            internalQueryParms.remove(searchParam);
 					        }
-					    } else {
-					        // straight substitution
-	                        optionalQueryString += searchParam.getValue();
-	                        internalSearchParms.remove(searchParam);
 					    }
 					} else if (condition.trim().contains(":")) {
-						optionalQueryString += queryMap.get(searchParam.getKey());
+					    //this parameter is not entered by end user but rather it is set with a default context value	
+					    String dataType = queryParam.getFieldDescriptor().getDataType();
+					    if ((dataType != null) && "boolean".equals(dataType)) {
+					        optionalQueryString += queryMap.get(searchParam.getKey()).replace(":" + searchParam.getKey().replace(".", "_"), searchParam.getValue().toString());
+					        internalQueryParms.remove(searchParam);
+					    } else {					    
+					        optionalQueryString += queryMap.get(searchParam.getKey());
+					    }						
 					} else {
-						//comparison should be case insensitive and include wild card such that we match beginning of a text 
+						//comparison should be case insensitive and should include wild card such that we match beginning of a text 
 						//and each word within text
 						//FIXME SQL injection can occur here - or NOT if we need to assemble SQL to cover various ways one can compare criteria to a text
 						optionalQueryString += 
 							"(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER('" + searchParam.getValue() + "') || '%' OR " +
 							"LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER('" + searchParam.getValue() + "') || '%')"; 
-						internalSearchParms.remove(searchParam);
+						internalQueryParms.remove(searchParam);
 					}
 				}
 			}
@@ -180,14 +181,11 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
-		if(internalSearchParms!=null){
-			for (SearchParam searchParam : internalSearchParms) {
-				// check to see if optional param has any values set.
-				if(searchParam.getValue()!=null){
+		for (SearchParam searchParam : internalQueryParms) {
+			// check to see if optional param has any values set.
+			if (searchParam.getValue() != null) {
 			    List<QueryParamInfo> queryParams = searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
-			    String paramDataType;
-			    Object queryParamValue = null;
-			    paramDataType = null;
+			    String paramDataType = null;
 			    if (queryParams != null) {
 			        for (QueryParamInfo queryParam : queryParams) {
 			            if (queryParam.getKey() != null && queryParam.getKey().equals(searchParam.getKey())) {
@@ -195,6 +193,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			            }
 			        }
 			    }
+			    
+                Object queryParamValue = null;
 			    if ("date".equals(paramDataType) && searchParam.getValue() instanceof String) {
 			        try {
                         queryParamValue = df.parse((String)searchParam.getValue());
@@ -204,8 +204,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			    } else {
 			        queryParamValue = searchParam.getValue();
 			    }
+			    
 			    query.setParameter(searchParam.getKey().replace(".", "_"), queryParamValue);
-				}
 			}
 		}
 
@@ -229,11 +229,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			}else{
 				countQuery = em.createQuery(countQueryString);
 			}
-			if(internalSearchParms!=null){
-				for (SearchParam searchParam : internalSearchParms) {
-					countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam
-							.getValue());
-				}
+			for (SearchParam searchParam : internalQueryParms) {
+				countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValue());
 			}
 			Long totalResults = (Long) countQuery.getSingleResult();
 			searchResult.setTotalResults(totalResults.intValue());
