@@ -188,6 +188,13 @@ public class TestStatementServiceImplForCourse {
     }       
     
     @Test
+    public void testGetNaturalLanguageForReqComponent_MaxTestScoreOnTest() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqCompType.course.test.score.max'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-22", "KUALI.CATALOG", "en");
+        assertEquals("Must have achieved a score no higher than 900 on SAT Critical Reading Exam", nl);
+    }       
+    
+    @Test
     public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         //req. type: 'kuali.reqCompType.course.courseset.completed.none'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-1", "KUALI.CATALOG", null);

@@ -52,6 +52,9 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="17" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
         OWNER="kuali.reqCompType.course.test.score.min" TEMPLATE="Must have achieved a minimum score of $fields.get(''reqCompFieldType.test.score'') on $cluSet.getCluSetAsShortName()"/>  
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="18" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.CATALOG"
+        OWNER="kuali.reqCompType.course.test.score.max" TEMPLATE="Must have achieved a score no higher than $fields.get(''reqCompFieldType.test.score'') on $cluSet.getCluSetAsShortName()"/>  
 
     <KSST_REQ_COM_TYPE_NL_TMPL ID="101" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
@@ -104,6 +107,9 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="117" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.course.test.score.min" TEMPLATE="Must have achieved a minimum score of 600 on SAT Critical Reading Exam"/>        
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="118" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.course.test.score.max" TEMPLATE="Must have achieved a score no higher than 5 on AP Japanese"/>        
         
     <KSST_REQ_COM_TYPE_NL_TMPL ID="201" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
@@ -156,4 +162,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="217" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.course.test.score.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.test.score;reqCompFieldLabel=Test Score> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Tests>"/>        
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="218" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.course.test.score.max" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.test.score;reqCompFieldLabel=Test Score> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Tests>"/>        
 </dataset>

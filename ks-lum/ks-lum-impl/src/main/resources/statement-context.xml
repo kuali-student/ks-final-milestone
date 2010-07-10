@@ -131,6 +131,9 @@
                 <entry key="kuali.reqCompType.course.test.score.min">
 	                <ref local="cluSetContext"/>
                 </entry>              
+                <entry key="kuali.reqCompType.course.test.score.max">
+                    <ref local="cluSetContext"/>
+                </entry>              
 
                 <!-- Program Contexts -->
                 <entry key="kuali.reqCompType.programList.enroll.oneof">

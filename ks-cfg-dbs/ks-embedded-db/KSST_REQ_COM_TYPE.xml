@@ -52,4 +52,7 @@
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Minimum score on test"
         TYPE_DESC="Must have achieved a minimum score of &lt;score> on &lt;tests>" TYPE_KEY="kuali.reqCompType.course.test.score.min"/>                                                
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Maximum score on test"
+        TYPE_DESC="Must have achieved a score no higher than &lt;score> on &lt;tests>" TYPE_KEY="kuali.reqCompType.course.test.score.max"/>                                                
 </dataset>
