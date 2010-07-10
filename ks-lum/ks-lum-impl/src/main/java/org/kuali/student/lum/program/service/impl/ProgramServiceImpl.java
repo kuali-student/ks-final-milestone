@@ -7,6 +7,7 @@ import javax.jws.WebService;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
@@ -27,7 +28,6 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
@@ -39,7 +39,6 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
-import org.kuali.student.lum.service.assembler.LumServiceMethodInvoker;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.lum.program.service.ProgramService", serviceName = "ProgramService", portName = "ProgramService", targetNamespace = "http://student.kuali.org/wsdl/program")
@@ -49,7 +48,7 @@ public class ProgramServiceImpl implements ProgramService{
 
 	private LuService luService;
     private Validator validator;
-    private ProgramServiceMethodInvoker programServiceMethodInvoker;
+    private BusinessServiceMethodInvoker programServiceMethodInvoker;
 	private DictionaryService dictionaryService;
     private SearchManager searchManager;
     private MajorDisciplineAssembler majorDisciplineAssembler;
@@ -95,11 +94,11 @@ public class ProgramServiceImpl implements ProgramService{
 		this.programRequirementAssembler = programRequirementAssembler;
 	}
 
-	public void setProgramServiceMethodInvoker(ProgramServiceMethodInvoker serviceMethodInvoker) {
+	public void setProgramServiceMethodInvoker(BusinessServiceMethodInvoker serviceMethodInvoker) {
         this.programServiceMethodInvoker = serviceMethodInvoker;
     }
 
-    public ProgramServiceMethodInvoker getProgramServiceMethodInvoker() {
+    public BusinessServiceMethodInvoker getProgramServiceMethodInvoker() {
         return programServiceMethodInvoker;
     }
 
