@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
@@ -42,7 +43,7 @@ public class CourseServiceImpl implements CourseService {
 
     private LuService luService;
     private CourseAssembler courseAssembler;
-    private CourseServiceMethodInvoker courseServiceMethodInvoker;
+    private BusinessServiceMethodInvoker courseServiceMethodInvoker;
     private DictionaryService dictionaryServiceDelegate;
     private Validator validator;
 
@@ -192,11 +193,11 @@ public class CourseServiceImpl implements CourseService {
         this.courseAssembler = courseAssembler;
     }
 
-    public CourseServiceMethodInvoker getCourseServiceMethodInvoker() {
+    public BusinessServiceMethodInvoker getCourseServiceMethodInvoker() {
         return courseServiceMethodInvoker;
     }
 
-    public void setCourseServiceMethodInvoker(CourseServiceMethodInvoker courseServiceMethodInvoker) {
+    public void setCourseServiceMethodInvoker(BusinessServiceMethodInvoker courseServiceMethodInvoker) {
         this.courseServiceMethodInvoker = courseServiceMethodInvoker;
     }
 
