@@ -973,7 +973,13 @@ public class RuleComponentEditorView extends ViewComposite {
             tagCounts.put(tag, tagCount);
 
             if (tag.equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()) || 
-            		tag.equals(ReqComponentFieldTypeKeys.GPA_KEY.getKey())) {
+            		tag.equals(ReqComponentFieldTypeKeys.GPA_KEY.getKey()) || 
+            		tag.equals(ReqComponentFieldTypeKeys.GRADE_TYPE_KEY.getKey()) || 
+            		tag.equals(ReqComponentFieldTypeKeys.INSTRUCTOR_PERMISSION_KEY.getKey()) ||
+                    tag.equals(ReqComponentFieldTypeKeys.ORG_PERMISSION_KEY.getKey()) ||     
+                    tag.equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()) || 
+                    tag.equals(ReqComponentFieldTypeKeys.TOTAL_CREDIT_KEY.getKey()) ||                    
+                            tag.equals(ReqComponentFieldTypeKeys.GRADE_KEY.getKey())) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);

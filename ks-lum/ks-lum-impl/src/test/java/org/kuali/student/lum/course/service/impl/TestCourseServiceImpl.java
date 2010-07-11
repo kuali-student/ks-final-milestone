@@ -356,7 +356,7 @@ public class TestCourseServiceImpl {
         Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.course.dto.CourseInfo");
             
         Map<String, Metadata> properties = metadata.getProperties();
-        //assertEquals(properties.size(), 31);  why should we test for number of metadata structures? that seems extreme
+        assertTrue(properties.size() > 0);
         
         assertTrue(properties.containsKey("state"));
         assertTrue(properties.containsKey("campusLocations"));

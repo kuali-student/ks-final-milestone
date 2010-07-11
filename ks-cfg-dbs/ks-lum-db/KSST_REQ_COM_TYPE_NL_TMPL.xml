@@ -149,16 +149,16 @@
         OWNER="kuali.reqCompType.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>"/>        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="213" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.course.courseset.grade.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>        
+        OWNER="kuali.reqCompType.course.courseset.grade.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="214" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.course.courseset.grade.max" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/> 
+        OWNER="kuali.reqCompType.course.courseset.grade.max" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/> 
     <KSST_REQ_COM_TYPE_NL_TMPL ID="215" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.course.permission.org.required" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.orgid;reqCompFieldLabel=Organization>"/>                                 
     <KSST_REQ_COM_TYPE_NL_TMPL ID="216" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqCompType.course.permission.instructor.required" TEMPLATE=""/>        
+        OWNER="kuali.reqCompType.course.permission.instructor.required" TEMPLATE="none"/>        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="217" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.course.test.score.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.test.score;reqCompFieldLabel=Test Score> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Tests>"/>        
