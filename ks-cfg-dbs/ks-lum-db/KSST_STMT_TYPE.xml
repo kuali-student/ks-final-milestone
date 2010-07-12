@@ -24,7 +24,7 @@
         TYPE_DESC="Rules used in the evaluation of a person''s entry into a program (e.g. major)." TYPE_KEY="kuali.luStatementType.programEntrance"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Program Satisfactory Progress Rules"
-        TYPE_DESC="Rules used in maintaining minimum scholarship standards." TYPE_KEY="kuali.luStatementType.programSatisfactoryProgress  "/>
+        TYPE_DESC="Rules used in maintaining minimum scholarship standards." TYPE_KEY="kuali.luStatementType.programSatisfactoryProgress"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Program Completion Rules"
         TYPE_DESC="Rules used in the evaluation of a person''s program (e.g. major) completion." TYPE_KEY="kuali.luStatementType.programCompletion"/>
