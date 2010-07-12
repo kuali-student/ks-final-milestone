@@ -16,6 +16,7 @@
 package org.kuali.student.lum.course.service.assembler;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -39,8 +41,9 @@ import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluResultInfo;
+import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
-
 /**
  * Assembler for CourseInfo. Provides assemble and disassemble operation on
  * CourseInfo from/to CluInfo and other base DTOs
@@ -146,6 +149,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				throw new AssemblyException("Error getting related formats", e);
 			}
 
+			try{
+				List<CluResultInfo> cluResults = luService.getCluResultByClu(course.getId());
+				List<String> creditOptions = assembleCluResults(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, cluResults);
+				course.setCreditOptions(creditOptions);
+			} catch (DoesNotExistException e){
+			} catch (Exception e) {
+				throw new AssemblyException("Error getting related formats", e);
+			}
 		}
 
 		// TODO: Variations
@@ -250,7 +261,106 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				clu.getId(), course, operation);
 		result.getChildNodes().addAll(courseJointResults);
 
+		//Disassemble the CluResults
+		BaseDTOAssemblyNode<?, ?> creditOptions = disassembleCluResults(
+				clu.getId(), course, operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, "Credit outcome options", "Credit outcome options");
+		result.getChildNodes().add(creditOptions);
+		
 		return result;
+	}
+
+
+	private List<String> assembleCluResults(String courseResultType, List<CluResultInfo> cluResults) throws AssemblyException{
+		if(courseResultType==null){
+			throw new AssemblyException("courseResultType can not be null");
+		}
+		List<String> results = new ArrayList<String>();
+		for(CluResultInfo cluResult:cluResults){
+			if(courseResultType.equals(cluResult.getType())){
+				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
+					results.add(resultOption.getResultComponentId());
+				}
+			}
+		}
+		return results;
+	}
+
+	private BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
+			CourseInfo course, NodeOperation operation, String courseResultType, String resultsDescription, String resultDescription) throws AssemblyException {
+		BaseDTOAssemblyNode<List<String>, CluResultInfo> cluResultNode = new BaseDTOAssemblyNode<List<String>, CluResultInfo>(null);
+		if(courseResultType==null){
+			throw new AssemblyException("courseResultType can not be null");
+		}
+		
+		// Get the current options and put them in a map of option type id/cluResult
+		Map<String, ResultOptionInfo> currentResults = new HashMap<String, ResultOptionInfo>();
+
+		CluResultInfo cluResult = null;
+		
+		if (!NodeOperation.CREATE.equals(operation)) {
+			try {
+				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
+				
+				for (CluResultInfo currentResult : cluResultList) {
+					if (courseResultType
+							.equals(currentResult.getType())) {
+						cluResult = currentResult;
+						if(NodeOperation.DELETE.equals(operation)){
+							cluResultNode.setOperation(NodeOperation.DELETE);
+						}else{
+							cluResultNode.setOperation(NodeOperation.UPDATE);
+							for(ResultOptionInfo resultOption:currentResult.getResultOptions()){
+								currentResults.put(resultOption.getResultComponentId(), resultOption);
+							}
+						}
+						break;
+					}
+				}
+			} catch (DoesNotExistException e) {
+			} catch (InvalidParameterException e) {
+				throw new AssemblyException("Error getting related " + resultsDescription, e);
+			} catch (MissingParameterException e) {
+				throw new AssemblyException("Error getting related " + resultsDescription, e);
+			} catch (OperationFailedException e) {
+				throw new AssemblyException("Error getting related " + resultsDescription, e);
+			}
+		}
+
+		if(!NodeOperation.DELETE.equals(operation)){
+			if(cluResult == null){
+				cluResult = new CluResultInfo();
+				cluResult.setCluId(cluId);
+				cluResult.setState(course.getState());
+				cluResult.setType(courseResultType);
+				RichTextInfo desc = new RichTextInfo();
+				desc.setPlain(resultsDescription);
+				cluResult.setDesc(desc);
+				cluResult.setEffectiveDate(new Date());
+				cluResultNode.setOperation(NodeOperation.CREATE);
+			}
+	
+			cluResult.setResultOptions(new ArrayList<ResultOptionInfo>());
+	
+			// Loop through all the credit options in this course
+			for (String creditOptionType : course.getCreditOptions()) {
+				if(currentResults.containsKey(creditOptionType)){
+					ResultOptionInfo resultOptionInfo = currentResults.get(creditOptionType);
+					cluResult.getResultOptions().add(resultOptionInfo);
+				}else{
+					ResultOptionInfo resultOptionInfo = new ResultOptionInfo();
+					RichTextInfo desc = new RichTextInfo();
+					desc.setPlain(resultDescription);
+					resultOptionInfo.setDesc(desc);
+					resultOptionInfo.setResultComponentId(creditOptionType);
+					resultOptionInfo.setState(course.getState());
+					
+					cluResult.getResultOptions().add(resultOptionInfo);
+				}
+			}
+		}
+		
+		cluResultNode.setNodeData(cluResult);
+		return cluResultNode;
 	}
 
 	// TODO This is pretty much a copy of the FormatAssembler's

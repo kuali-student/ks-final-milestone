@@ -326,7 +326,10 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
      * @return the gradingOptions
      */
     public List<String> getGradingOptions() {
-        return gradingOptions;
+    	if(gradingOptions == null){
+    		gradingOptions = new ArrayList<String>();
+    	}
+    	return gradingOptions;
     }
 
     /**
@@ -340,6 +343,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
      * @return the creditOptions
      */
     public List<String> getCreditOptions() {
+    	if(creditOptions == null){
+    		creditOptions = new ArrayList<String>();
+    	}
         return creditOptions;
     }
 

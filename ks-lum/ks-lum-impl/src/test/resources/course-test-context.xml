@@ -510,6 +510,10 @@
 						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="kuali.lu.relation.type.co-located"/>
 						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="kuali.lu.relation.type.copyOfClu"/>
 						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="luLuRelationType.contains"/>
+						<!--<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.grades"/>
+						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.credits"/>-->
+						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.gradeCourseResult"/>
+						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.creditCourseResult"/>
 					</list>
 				</entry>
 			</map>

@@ -22,6 +22,7 @@ import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
 public abstract class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
@@ -86,6 +87,19 @@ public abstract class LumServiceMethodInvoker implements BusinessServiceMethodIn
 				luService.deleteCluCluRelation(relation.getId());
 				break;
 			}			
+		}else if(nodeData instanceof CluResultInfo){
+			CluResultInfo cluResult = (CluResultInfo) nodeData;
+			switch(results.getOperation()){
+			case CREATE:
+				luService.createCluResult(cluResult.getCluId(), cluResult.getType(), cluResult);
+				break;
+			case UPDATE:
+				luService.updateCluResult(cluResult.getId(), cluResult);
+				break;
+			case DELETE:
+				luService.deleteCluResult(cluResult.getId());
+				break;
+			}
 		}
 		
 		// For create/update process the child nodes from top to bottom
