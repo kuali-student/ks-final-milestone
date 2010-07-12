@@ -32,10 +32,7 @@ public class MajorDisciplineDataGenerator {
 		}
 		
 		T instance = clazz.newInstance();
-		System.out.println("Class:" + clazz.getName() + " preant: " + parentPropertyName);
-		if(clazz.getName().equals("org.kuali.student.lum.program.dto.LoInfo"))
-			System.out.println("debug now...");
-		
+
 		if(String.class.equals(clazz)){
 			propertyIndex++;
 			instance = (T) (getStringValue(parentPropertyName,parentPropertyName,propertyIndex));
@@ -44,7 +41,7 @@ public class MajorDisciplineDataGenerator {
 		
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
-			System.out.println(pd.getName());
+
 			if(ignoreProperty(pd)){
 				continue;
 			}
