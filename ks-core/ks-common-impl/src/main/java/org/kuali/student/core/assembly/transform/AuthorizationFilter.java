@@ -40,13 +40,14 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         List<QueryPath> dirtyPaths = AssemblerUtils.findDirtyElements(data);
         
         for(QueryPath path : dirtyPaths) {
-            
-            Metadata fieldMetadata = AssemblerUtils.get(metadata, path);
-            
-            if(null != fieldMetadata && !fieldMetadata.isCanEdit()) {
-                throw new Exception("User does not have edit permission for field");
-            }
-            
+            if (path.contains("_runtimeData")) {
+				Metadata fieldMetadata = AssemblerUtils.get(metadata, path);
+
+				if (null != fieldMetadata && !fieldMetadata.isCanEdit()) {
+					throw new Exception(
+							"User does not have edit permission for field");
+				}
+			}
         }
     }
 
