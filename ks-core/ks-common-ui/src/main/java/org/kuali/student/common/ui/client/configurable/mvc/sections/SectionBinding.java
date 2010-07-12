@@ -21,9 +21,11 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.util.StringKey;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SectionBinding extends ModelWidgetBindingSupport<Section> {
@@ -37,8 +39,8 @@ public class SectionBinding extends ModelWidgetBindingSupport<Section> {
      */
     @Override
     public void setModelValue(Section section, DataModel model, String path) {
-        List<FieldDescriptor> fields = section.getFields();
-
+        
+        List<FieldDescriptor> fields = section.getUnnestedFields();
         for (int i = 0; i < fields.size(); i++) {
             FieldDescriptor field = (FieldDescriptor) fields.get(i);
             String fieldPath = path + QueryPath.getPathSeparator() + field.getFieldKey();
@@ -54,8 +56,30 @@ public class SectionBinding extends ModelWidgetBindingSupport<Section> {
                 GWT.log(field.getFieldKey() + " has no widget binding.", null);
             }
         }
+        
+        if(section instanceof HasSectionDeletion){
+        	List<Section> deleted =((HasSectionDeletion) section).getDeletedSections();
+        	for(int i =0; i < deleted.size(); i++){
+        		Section deletedSection = deleted.get(i);
+        		//get all fields and delete them>
+        		List<FieldDescriptor> deletedFields = deletedSection.getFields();
+        		for(int j = 0; j < deletedFields.size(); j++){
+        			FieldDescriptor field = deletedFields.get(j);
+        			model.getRoot().remove(new Data.StringKey(field.getFieldKey()));
+        		}
+        	}
+        }
+        
         for (Section s : section.getSections()) {
-            s.updateModel(model);
+        	if(section instanceof HasSectionDeletion){
+        		List<Section> deleted =((HasSectionDeletion) section).getDeletedSections();
+        		if(!deleted.contains(s)){
+        			s.updateModel(model);
+        		}
+        	}
+        	else{
+        		s.updateModel(model);
+        	}      
         }
     }
 
@@ -65,7 +89,7 @@ public class SectionBinding extends ModelWidgetBindingSupport<Section> {
      */
 	@Override
 	public void setWidgetValue(Section section, DataModel model, String path) {
-        List<FieldDescriptor> fields = section.getFields();
+        List<FieldDescriptor> fields = section.getUnnestedFields();
 
         for (int i = 0; i < fields.size(); i++) {
             FieldDescriptor field = (FieldDescriptor) fields.get(i);

@@ -17,8 +17,9 @@ package org.kuali.student.common.ui.theme.standard.client;
 
 import org.kuali.student.common.ui.client.theme.CommonCss;
 
-import com.google.gwt.libideas.resources.client.CssResource;
-import com.google.gwt.libideas.resources.client.ResourcePrototype;
+import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.ResourcePrototype;
+
 
 public class CommonCssImpl implements CommonCss {
 

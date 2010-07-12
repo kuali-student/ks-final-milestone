@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>ojdbc14</artifactId>
-      <version>10.2.0.3.0</version>
+      <version>${oracle.ojdbc.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -84,6 +84,13 @@
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-jta</artifactId>
       <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-rice-lessdep</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+      <scope>test</scope>
     </dependency>
 
 

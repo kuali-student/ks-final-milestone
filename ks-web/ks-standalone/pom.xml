@@ -48,7 +48,7 @@
           <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
+            <version>${oracle.ojdbc.version}</version>
           </dependency>
           <dependency>
             <groupId>org.apache.derby</groupId>

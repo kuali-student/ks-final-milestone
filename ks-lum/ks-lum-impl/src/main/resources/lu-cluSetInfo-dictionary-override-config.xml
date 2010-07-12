@@ -448,7 +448,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.related.clu.set.id"/>
-	<dict:constraintRef bean="constraint.kuali.type"/>
+<!-- 	<dict:constraintRef bean="constraint.kuali.type"/> -->
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="cluSetIds" id="dict.credit.course.set.credit.course.set.ids.cd" parent="dict.credit.course.set.credit.course.set.ids.cd.abstract"/>
 

@@ -22,6 +22,8 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
@@ -36,6 +38,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -50,8 +53,13 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
@@ -59,9 +67,13 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.workflow.ui.client.widgets.ContentConfigurer;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowToolbar;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
@@ -82,22 +94,24 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 
-public class CourseProposalController extends TabbedSectionLayout implements RequiresAuthorization { 
+public class CourseProposalController extends MenuEditableSectionController implements RequiresAuthorization, WorkflowEnhancedController{ 
 
 	//RPC Services
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	
 	//Models
-	private final DataModel cluProposalModel = new DataModel(); 
+	private DataModel cluProposalModel = new DataModel(); 
 
     private WorkQueue modelRequestQueue;
 
-    private WorkflowToolbar workflowToolbar;
+    private WorkflowUtilities workflowUtil;
     
 	private boolean initialized = false;
 	
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	
+	
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
@@ -112,7 +126,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     public CourseProposalController(ViewContext viewContext, KSTitleContainerImpl layoutTitle){
-        super(CourseProposalController.class.getName(), layoutTitle);
+        super(CourseProposalController.class.getName());
+        //this.setContentTitle()
         setViewContext(viewContext);
         initialize();
     }
@@ -131,15 +146,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
                         if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
-                            if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
-                                getCluProposalFromWorkflowId(callback, workCompleteCallback);
-                            } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
-                                getCluProposalFromProposalId(callback, workCompleteCallback);
-                            } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
-                                getNewProposalWithCopyOfClu(callback, workCompleteCallback);
-                            } else{
-                                createNewCluProposalModel(callback, workCompleteCallback);
-                            }                
+                            initModel(callback, workCompleteCallback);   
                         } else {
                             callback.onModelReady(cluProposalModel);
                             workCompleteCallback.exec(true);
@@ -179,22 +186,39 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         });
     }
     
+    private void initModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
+    	if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
+            getCluProposalFromWorkflowId(callback, workCompleteCallback);
+        } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
+            getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
+        } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
+            getNewProposalWithCopyOfClu(callback, workCompleteCallback); 
+        } else{
+            createNewCluProposalModel(callback, workCompleteCallback);
+        }     
+    }
+    
+    private void getCurrentModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
+    	if (cluProposalModel.getRoot() != null && cluProposalModel.getRoot().size() > 0){
+        	String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        	if(id != null){
+        		getCluProposalFromProposalId(id, callback, workCompleteCallback);
+        	}
+        	else{
+        		initModel(callback, workCompleteCallback);
+        	}
+    	}
+    	else{
+    		initModel(callback, workCompleteCallback);
+    	}
+    }
+    
     private KSButton getSaveButton(){
-        return new KSButton("Save", new ClickHandler(){
+        return new KSButton("Save & Continue", new ClickHandler(){
                     public void onClick(ClickEvent event) {
                         fireApplicationEvent(new SaveActionEvent());
                     }
                 });
-    }
-
-
-    private KSButton getQuitButton(){
-        return new KSButton("Quit", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        Controller parentController = CourseProposalController.this.getParentController(); 
-                        parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
-                    }
-                });       
     }
 
     private void init(final Callback<Boolean> onReadyCallback) {
@@ -249,22 +273,19 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     private void init(DataModelDefinition modelDefinition){
+        //FIXME: [KSCOR-225] This needs to be moved to the configurer
+        workflowUtil = new WorkflowUtilities((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class), this, 
+        		"proposal/id", createOnWorkflowSubmitSuccessHandler());
+        workflowUtil.setRequiredFieldPaths(new String[]{"course/department"});
         
-        Configurer cfg = GWT.create(CourseConfigurer.class);
+        CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
         cfg.setModelDefinition(modelDefinition);
         cfg.configure(this);
+        this.setContentTitle("New Course");
         
-        //FIXME: [KSCOR-225] This needs to be moved to the configurer
-        workflowToolbar = new WorkflowToolbar(createOnWorkflowSubmitSuccessHandler());
-        workflowToolbar.setIdPath("proposal/id");
-        workflowToolbar.setRequiredFieldPaths(new String[]{"course/department"});
-        workflowToolbar.setWorkflowRpcService((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class));
-        this.addToolbar(workflowToolbar);
-
         if (!initialized){
-	        addButton("Edit Proposal", getSaveButton());
-	        addButton("Edit Proposal", getQuitButton());
-	        addButton("Summary", getQuitButton());
+        	//TODO make a class with static message helper methods
+	        addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
 	        
 	        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
 	            public void doSave(SaveActionEvent saveAction) {
@@ -366,9 +387,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     @SuppressWarnings("unchecked")    
-    private void getCluProposalFromProposalId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    private void getCluProposalFromProposalId(String id, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
-    	cluProposalRpcServiceAsync.getData(getViewContext().getId(), new AsyncCallback<Data>(){
+    	cluProposalRpcServiceAsync.getData(id, new AsyncCallback<Data>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -429,10 +450,10 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                 //getCurrentView().updateModel();
                 CourseProposalController.this.updateModel();                
                 
-                if (isStartSectionShowing()){
+                if (isStartViewShowing()){
                 	//This call required so fields in start section, which also appear in
                 	//other sections don't get overridden from updateModel call above.
-                	getStartSection().updateModel();
+                	getStartPopupView().updateModel();
                 }
 
             	model.validate(new Callback<List<ValidationResultInfo>>() {
@@ -443,7 +464,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     	
                     	if(isSectionValid){
                             if (startSectionRequired()){
-                                showStartSection(NO_OP_CALLBACK);
+                                showStartPopup(NO_OP_CALLBACK);
                             }
                             else{
 	                            saveProposalClu(saveActionEvent);
@@ -477,7 +498,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         	cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
         }
         	
-    	return proposalId==null && !CourseProposalController.this.isStartSectionShowing();    	
+    	return proposalId==null && !CourseProposalController.this.isStartViewShowing();    	
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
@@ -528,6 +549,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     	            View currentView = getCurrentView(); 
     				if (currentView instanceof SectionView){
     					((SectionView)currentView).updateView(cluProposalModel);
+    					((SectionView) currentView).resetDirtyFlags();
     	            }
     				if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");
@@ -536,8 +558,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                         saveWindow.hide();
                         saveActionEvent.doActionComplete();                        
                     }
+    				workflowUtil.refresh();
     				setProposalHeaderTitle();
-    				workflowToolbar.refresh();
+    				CourseProposalController.this.showNextViewOnMenu();
                 }
             });
         } catch (Exception e) {
@@ -614,7 +637,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
 	@Override
 	public boolean isAuthorizationRequired() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -645,6 +668,76 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     		sb.append(cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
     	}
     	
-    	getContainer().setTitle(sb.toString());
+    	this.setContentTitle(sb.toString());
     }
+
+	@Override
+	public WorkflowUtilities getWfUtilities() {
+		return workflowUtil;
+	}
+	
+	@Override
+	public void beforeViewChange(final Callback<Boolean> okToChange) {
+		//We do this check here because theoretically the subcontroller views
+		//will display their own messages to the user to give them a reason why the view
+		//change has been cancelled, otherwise continue to check for reasons not to change
+		//with this controller
+		super.beforeViewChange(new Callback<Boolean>(){
+
+			@Override
+			public void exec(Boolean result) {
+				if(result){
+					if(getCurrentView() instanceof SectionView && ((SectionView)getCurrentView()).isDirty()){
+						ButtonGroup<YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+						final ButtonMessageDialog<YesNoCancelEnum> dialog = new ButtonMessageDialog<YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+						buttonGroup.addCallback(new Callback<YesNoCancelEnum>(){
+
+							@Override
+							public void exec(YesNoCancelEnum result) {
+								switch(result){
+									case YES:
+										okToChange.exec(false);
+										fireApplicationEvent(new SaveActionEvent());
+										dialog.hide();
+										break;
+									case NO:
+										//Force a model request from server
+										getCurrentModel(new ModelRequestCallback<DataModel>(){
+
+											@Override
+											public void onModelReady(DataModel model) {
+												okToChange.exec(true);
+												dialog.hide();
+											}
+
+											@Override
+											public void onRequestFail(Throwable cause) {
+												//TODO Is this correct... do we want to stop view change if we can't restore the data?  Possibly traps the user
+												//if we don't it messes up saves, possibly warn the user that it failed and continue?
+												okToChange.exec(false);
+												dialog.hide();
+												GWT.log("Unable to retrieve model for data restore on view change with no save", cause);
+											}},
+											NO_OP_CALLBACK);
+										
+										break;
+									case CANCEL:
+										okToChange.exec(false);
+										dialog.hide();
+										break;
+								}
+							}
+						});
+						dialog.show();
+					}
+					else{
+						okToChange.exec(true);
+					}
+				}
+				else{
+					okToChange.exec(false);
+				}
+			}
+		});
+	}
 }

@@ -18,6 +18,7 @@
 <config>
 
 	<param name="ks.default.security.saml.samlIssuerServiceAddress">${serviceServletUrl}/SamlIssuerService</param>
+	<param name="ks.default.security.trust.stsServiceAddress">${serviceServletUrl}/SecurityTokenService</param>
 	<param name="ks.default.security.cas.webapp.service.context">${application.url}</param>
 	<param name="ks.default.security.cas.serverAddress">https://localhost:8443/cas-server-webapp-3.3.1</param>
 	<param name="ks.defualt.security.cas.authenticationFailureUrl">notauthorized.html</param>

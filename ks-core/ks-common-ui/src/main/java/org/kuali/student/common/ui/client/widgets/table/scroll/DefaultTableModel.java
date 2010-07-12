@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.table.scroll;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -84,6 +85,17 @@ public class DefaultTableModel extends AbstractTableModel {
 	public Row getRow(int rowIndex) {
 		return rowList.get(rowIndex);
 	}
+	
+    public List<Row> getSelectedRows() {
+        ArrayList<Row> selectedRows = new ArrayList<Row>();
+        for (Row row: rowList) {
+            if (row.isSelected()) {
+                selectedRows.add(row);
+            }
+        }
+        return selectedRows;
+    }	
+	
 	public Column getColumn(int columnIndex) {
 		ArrayList<Column> list = new ArrayList<Column>();
 		for(Column col:columnList){
@@ -102,4 +114,9 @@ public class DefaultTableModel extends AbstractTableModel {
 		}
 		return count;
 	}
+
+	public void clearRows(){
+	     rowList = new ArrayList<Row>();
+	     super.fireTableDataChanged();
+	 }	
 }

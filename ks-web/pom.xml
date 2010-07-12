@@ -5,10 +5,9 @@
   <packaging>pom</packaging>
   <name>KS Web</name>
   <description>Project for building KS Reference Wars</description>
-  <url>http://student.kuali.org/site/web/${project.version}</url>
   <parent>
     <groupId>org.kuali.student</groupId>
-    <artifactId>ks</artifactId>
+    <artifactId>student</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </parent>
   <profiles>
@@ -45,31 +44,17 @@
   <properties>
     <derby.version>10.4.2.0</derby.version>
   </properties>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-web</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-web</developerConnection>
-  </scm>
-  <distributionManagement>
-    <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/web/${project.version}</url>
-    </site>
-  </distributionManagement>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
       <releases>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
 </project>

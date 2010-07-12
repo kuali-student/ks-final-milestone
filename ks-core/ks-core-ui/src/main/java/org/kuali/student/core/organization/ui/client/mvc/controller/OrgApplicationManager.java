@@ -81,7 +81,7 @@ public class OrgApplicationManager extends Controller{
     
     private View initOrgView(){
         orgProposalController = new OrgProposalController();
-        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController);
+        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController, ORGViews.CREATE_ORG);
         return createOrgView;
         
     }

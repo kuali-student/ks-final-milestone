@@ -34,32 +34,7 @@ public class VerticalSectionView extends SectionView{
         layout = new VerticalFieldLayout(sectionTitle);
         this.add(layout);
     }
-	
-    @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback){
-        super.beforeShow(new Callback<Boolean>() {
-			@Override
-			public void exec(Boolean result) {
-		        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
-		            @Override
-		            public void onRequestFail(Throwable cause) {
-		                Window.alert("Failed to get model: " + getName());
-		                onReadyCallback.exec(false);
-		            }
-
-		            @Override
-		            public void onModelReady(DataModel m) {
-		                model = m;
-		                updateWidgetData(m);
-		                onReadyCallback.exec(true);
-		            }
-		            
-		        });
-			}
-        });
-
-    }	
 	
     /**
      * This updates the model

@@ -62,6 +62,9 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private Boolean isReusable;
+
+    @XmlElement
+    private Boolean isReferenceable;
     
     @XmlElement
     private List<String> cluSetIds;
@@ -254,5 +257,13 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
 	public void setIsReusable(Boolean isReusable) {
 		this.isReusable = isReusable;
-	}    	
+	}
+
+	public Boolean getIsReferenceable() {
+		return isReferenceable;
+	}
+
+	public void setIsReferenceable(Boolean isReferenceable) {
+		this.isReferenceable = isReferenceable;
+	}    		
 }

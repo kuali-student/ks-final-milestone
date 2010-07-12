@@ -37,7 +37,7 @@
           <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
+            <version>${oracle.ojdbc.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -52,18 +52,15 @@
   </build>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <url>http://s3.amazonaws.com/maven.kuali.org/snapshot</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
       <releases>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
   <dependencies>

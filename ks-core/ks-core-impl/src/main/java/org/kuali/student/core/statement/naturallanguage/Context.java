@@ -21,7 +21,8 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 
 public interface Context<T> {
     /**
-     * Creates the Velocity context map (template data) for a specific context.
+     * Creates the template context map (template token and data) for 
+     * a specific context.
      * 
      * @param context Context to create the map from
      * @throws OperationFailedException If creating context data map fails

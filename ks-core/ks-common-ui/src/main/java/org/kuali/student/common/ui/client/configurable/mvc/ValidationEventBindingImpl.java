@@ -37,8 +37,10 @@ public class ValidationEventBindingImpl  implements ValidationEventBinding {
         	((HasSelectionChangeHandlers) w).addSelectionChangeHandler(new SelectionChangeHandler(){
 				@Override
 				public void onSelectionChange(SelectionChangeEvent event) {
-					fd.setHasHadFocus(true);
-                	fd.getValidationRequestCallback().exec(true);
+					if(event.isUserInitiated()){
+						fd.setHasHadFocus(true);
+	                	fd.getValidationRequestCallback().exec(true);
+					}
 				}
 			});
         }
