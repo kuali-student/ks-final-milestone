@@ -77,7 +77,12 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	            //Process a nested object structure or list
 	            if (propValue instanceof Data){
 	            	clazz.getFields();
-	            	propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get(propKey.toString()));
+	            	if(metadata!=null){
+	            		propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get(propKey.toString()));
+	            	}
+	            	else{
+	            		propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),null);
+	            	}
 	            }
 	            
 	    		//Set the bean property
