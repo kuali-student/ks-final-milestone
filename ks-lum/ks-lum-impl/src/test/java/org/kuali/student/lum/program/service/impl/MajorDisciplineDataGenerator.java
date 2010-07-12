@@ -32,6 +32,9 @@ public class MajorDisciplineDataGenerator {
 		}
 		
 		T instance = clazz.newInstance();
+		System.out.println("Class:" + clazz.getName() + " preant: " + parentPropertyName);
+		if(clazz.getName().equals("org.kuali.student.lum.program.dto.LoInfo"))
+			System.out.println("debug now...");
 		
 		if(String.class.equals(clazz)){
 			propertyIndex++;
@@ -41,6 +44,7 @@ public class MajorDisciplineDataGenerator {
 		
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
+			System.out.println(pd.getName());
 			if(ignoreProperty(pd)){
 				continue;
 			}
@@ -126,6 +130,14 @@ public class MajorDisciplineDataGenerator {
 				return ProgramAssemblerConstants.MAJOR_DISCIPLINE;
 			}
 			
+			if("loInfo".equals(parentPropertyName)){
+				return "kuali.lo.type.singleUse";
+			}
+			
+			if("loCategoryInfoList".equals(parentPropertyName)){
+				return "loCategoryType.skillarea";
+			}
+			
 			if("variations".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.PROGRAM_VARIATION;
 			}
@@ -136,21 +148,7 @@ public class MajorDisciplineDataGenerator {
 		if("state".equals(name)){
 			return ProgramAssemblerConstants.DRAFT;
 		}
-		if("cipCode".equals(parentPropertyName)&&"type".equals(ProgramAssemblerConstants.CIP_2000)){
-			return ProgramAssemblerConstants.CIP_2000;
-		}
-		if("cipCode".equals(parentPropertyName)&&"type".equals(ProgramAssemblerConstants.CIP_2010)){
-			return ProgramAssemblerConstants.CIP_2010;
-		}		
-		if("hegisCode".equals(parentPropertyName)&&"type".equals(name)){
-			return ProgramAssemblerConstants.HEGIS;
-		}
-		if("universityClassification".equals(parentPropertyName)&&"type".equals(name)){
-			return ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION;
-		}
-		if("selectiveEnrollmentCode".equals(parentPropertyName)&&"type".equals(name)){
-			return ProgramAssemblerConstants.SELECTIVE_ENROLLMENT;
-		}
+
 		if("campusLocations".equals(parentPropertyName)){
 			return campusLocations[propertyIndex%2];
 		}
