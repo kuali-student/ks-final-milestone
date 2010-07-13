@@ -13,6 +13,12 @@ import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
+/**
+ * This is a sample Validator used for customized validation. Inject this validator into ValidatorFactory.
+ * 
+ * @author Neerav Agrawal
+ *
+ */
 public class SampCustomValidator implements Validator {
 
 	private ObjectStructureDefinition objStructure;
