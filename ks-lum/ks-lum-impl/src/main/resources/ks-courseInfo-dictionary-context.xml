@@ -57,6 +57,10 @@
 	<bean id="courseInfo.academicSubjectOrgs-parent" abstract="true"
 		parent="baseRequiredRepeatingString">
 		<property name="name" value="academicSubjectOrgs" />
+		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
+		<property name="customValidatorClass" value="SampCustomValidator"/>
+		<property name="serverSide" value="true"/>
+		
 	</bean>
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 
@@ -837,6 +841,7 @@
 				<ref bean="activityInfo.duration" />
 				<ref bean="activityInfo.id" />
 				<ref bean="activityInfo.state" />
+				<ref bean="activityInfo.dynamic" />
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -887,7 +892,13 @@
 		<property name="name" value="state" />
 	</bean>
 	<bean id="activityInfo.state" parent="activityInfo.state-parent" />
-
+	<bean id="activityInfo.dynamic" parent="baseSingleString">
+  		<property name="name" value="proposalRationale" />
+  		<property name="minOccurs" value="0" />
+  		<property name="maxOccurs" value="1" />
+  		<!-- Maybe a lookup constraint to restrict the values -->
+  		<property name="dynamic" value="true"/>
+	</bean>
 	<!-- AmountInfo-->
 	<bean id="org.kuali.student.core.dto.AmountInfo-parent" abstract="true"
 		parent="ObjectStructureDefinition">
