@@ -79,6 +79,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_programDetails();
 
   /**
+   * Translated "Program Requirements".
+   * 
+   * @return translated "Program Requirements"
+   */
+  @DefaultMessage("Program Requirements")
+  @Key("program.menu.sections.requirements")
+  String program_menu_sections_requirements();
+
+  /**
    * Translated "Specializations".
    * 
    * @return translated "Specializations"
