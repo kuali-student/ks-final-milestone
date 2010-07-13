@@ -24,14 +24,18 @@ import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class TestValidator {
-	Validator val = null;
+	DefaultValidatorImpl val = null;
+	ValidatorFactory valFactory = new ValidatorFactory();
 	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:poc/test-validator-context.xml");
 	
 	@Before
 	public void init() {
-		val = new Validator();
+		
+		val = new DefaultValidatorImpl();
 		val.setDateParser(new ServerDateParser());
 		val.setMessageService(null);
+		valFactory.setDefaultValidator(val);
+
 	}
 		
 	@Test     
