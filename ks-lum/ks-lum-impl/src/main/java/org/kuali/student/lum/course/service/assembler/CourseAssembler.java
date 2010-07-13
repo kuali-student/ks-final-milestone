@@ -42,6 +42,7 @@ import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
+import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
 /**
@@ -150,12 +151,17 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 
 			try{
+				//Set Credit and Grading options
 				List<CluResultInfo> cluResults = luService.getCluResultByClu(course.getId());
+				
 				List<String> creditOptions = assembleCluResults(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, cluResults);
 				course.setCreditOptions(creditOptions);
+				
+				List<String> gradingOptions = assembleCluResults(CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE, cluResults);
+				course.setGradingOptions(gradingOptions);
 			} catch (DoesNotExistException e){
 			} catch (Exception e) {
-				throw new AssemblyException("Error getting related formats", e);
+				throw new AssemblyException("Error getting course results", e);
 			}
 		}
 
@@ -261,10 +267,24 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				clu.getId(), course, operation);
 		result.getChildNodes().addAll(courseJointResults);
 
-		//Disassemble the CluResults
+		//Disassemble the CluResults (grading and credit options)
 		BaseDTOAssemblyNode<?, ?> creditOptions = disassembleCluResults(
-				clu.getId(), course, operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, "Credit outcome options", "Credit outcome options");
+				clu.getId(), course.getState(), course.getCreditOptions(), operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, "Credit outcome options", "Credit outcome option");
 		result.getChildNodes().add(creditOptions);
+
+		BaseDTOAssemblyNode<?, ?> gradingOptions = disassembleCluResults(
+				clu.getId(), course.getState(), course.getGradingOptions(), operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE, "Grading options", "Grading option");
+		result.getChildNodes().add(gradingOptions);
+		
+		//
+//		for(LuCodeInfo luCode:clu.getLuCodes()){
+//			if(CourseAssemblerConstants.COURSE_SPECIAL_TOPICS_CODE.equals(luCode.getValue()){
+//				
+//			}
+//		}
+//		if(course.isSpecialTopicsCourse()){
+//			
+//		}
 		
 		return result;
 	}
@@ -275,18 +295,22 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			throw new AssemblyException("courseResultType can not be null");
 		}
 		List<String> results = new ArrayList<String>();
+		//Loop through all the CluResults to find the one with the matching type
 		for(CluResultInfo cluResult:cluResults){
 			if(courseResultType.equals(cluResult.getType())){
+				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					results.add(resultOption.getResultComponentId());
 				}
+				break;
 			}
 		}
 		return results;
 	}
 
 	private BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
-			CourseInfo course, NodeOperation operation, String courseResultType, String resultsDescription, String resultDescription) throws AssemblyException {
+			String courseState, List<String> options, NodeOperation operation, String courseResultType, 
+			String resultsDescription, String resultDescription) throws AssemblyException {
 		BaseDTOAssemblyNode<List<String>, CluResultInfo> cluResultNode = new BaseDTOAssemblyNode<List<String>, CluResultInfo>(null);
 		if(courseResultType==null){
 			throw new AssemblyException("courseResultType can not be null");
@@ -297,6 +321,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		CluResultInfo cluResult = null;
 		
+		//If this is not a create, lookup the results for this clu
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
 				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
@@ -306,8 +331,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 							.equals(currentResult.getType())) {
 						cluResult = currentResult;
 						if(NodeOperation.DELETE.equals(operation)){
+							//if this is a delete, then we only need the CluResultInfo
 							cluResultNode.setOperation(NodeOperation.DELETE);
 						}else{
+							//Find all the Result options and store in a map for easy access later
 							cluResultNode.setOperation(NodeOperation.UPDATE);
 							for(ResultOptionInfo resultOption:currentResult.getResultOptions()){
 								currentResults.put(resultOption.getResultComponentId(), resultOption);
@@ -326,11 +353,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 		}
 
+		//If this is a delete we don't need the result options, just the CluResultInfo
 		if(!NodeOperation.DELETE.equals(operation)){
 			if(cluResult == null){
+				//Create a new resultInfo of the given type if one does not exist and set operation to Create
 				cluResult = new CluResultInfo();
 				cluResult.setCluId(cluId);
-				cluResult.setState(course.getState());
+				cluResult.setState(courseState);
 				cluResult.setType(courseResultType);
 				RichTextInfo desc = new RichTextInfo();
 				desc.setPlain(resultsDescription);
@@ -342,17 +371,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluResult.setResultOptions(new ArrayList<ResultOptionInfo>());
 	
 			// Loop through all the credit options in this course
-			for (String creditOptionType : course.getCreditOptions()) {
-				if(currentResults.containsKey(creditOptionType)){
-					ResultOptionInfo resultOptionInfo = currentResults.get(creditOptionType);
+			for (String optionType : options) {
+				if(currentResults.containsKey(optionType)){
+					//If the option exists already copy it to the new list of result options
+					ResultOptionInfo resultOptionInfo = currentResults.get(optionType);
 					cluResult.getResultOptions().add(resultOptionInfo);
 				}else{
+					//Otherwise create a new result option
 					ResultOptionInfo resultOptionInfo = new ResultOptionInfo();
 					RichTextInfo desc = new RichTextInfo();
 					desc.setPlain(resultDescription);
 					resultOptionInfo.setDesc(desc);
-					resultOptionInfo.setResultComponentId(creditOptionType);
-					resultOptionInfo.setState(course.getState());
+					resultOptionInfo.setResultComponentId(optionType);
+					resultOptionInfo.setState(courseState);
 					
 					cluResult.getResultOptions().add(resultOptionInfo);
 				}

@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:course-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:course-dev-test-context.xml"})
 public class TestCourseServiceImpl {
     @Autowired
     CourseService courseService;
@@ -142,6 +142,14 @@ public class TestCourseServiceImpl {
 
             assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
 
+            assertEquals(2,retrievedCourse.getCreditOptions().size());
+            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-18"));
+            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-19"));
+
+            assertEquals(2,retrievedCourse.getGradingOptions().size());
+            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-31"));
+            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-32"));
+
             // TODO - check variotions
         } catch (Exception e) {
             fail(e.getMessage());
@@ -207,6 +215,12 @@ public class TestCourseServiceImpl {
             attributes.put("testKey", "testValue");
             createdCourse.setAttributes(attributes);
 
+            createdCourse.getCreditOptions().remove(1);
+            createdCourse.getCreditOptions().add("NewCreditOption");
+            createdCourse.getGradingOptions().remove(1);
+            createdCourse.getGradingOptions().add("NewGradingOption");
+            
+            //Perform the update
             CourseInfo updatedCourse = courseService.updateCourse(createdCourse);
             assertEquals(initialFormatCount + 1, updatedCourse.getFormats().size());
 
@@ -262,6 +276,14 @@ public class TestCourseServiceImpl {
         assertEquals(3, updatedCourse.getAttributes().size());
         assertNotNull(updatedCourse.getAttributes().get("testKey"));
         assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
+        
+        assertEquals(2,updatedCourse.getCreditOptions().size());
+        assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-18"));
+        assertTrue(updatedCourse.getCreditOptions().contains("NewCreditOption"));
+
+        assertEquals(2,updatedCourse.getGradingOptions().size());
+        assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-31"));
+        assertTrue(updatedCourse.getGradingOptions().contains("NewGradingOption"));
     }
 
     @Test

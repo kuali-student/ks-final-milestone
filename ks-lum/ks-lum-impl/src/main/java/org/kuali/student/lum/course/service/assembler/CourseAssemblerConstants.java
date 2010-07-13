@@ -56,4 +56,6 @@ public class CourseAssemblerConstants {
 	public final static String COURSE_RESULT_TYPE_GRADE   = "kuali.resultType.gradeCourseResult";
 	public final static String COURSE_RESULT_TYPE_CREDITS = "kuali.resultType.creditCourseResult";
 
+	public static final String COURSE_SPECIAL_TOPICS_CODE = "kuali.lu.code.specialTopics";
+
 }
