@@ -34,7 +34,6 @@
 	<inherits name="org.kuali.student.core.comment.Comment" />
 	<inherits name="org.kuali.student.core.document.Document" />
 	<inherits name="org.kuali.student.core.search.Search" />
-	<inherits name="org.kuali.student.core.validation.Validation" />
 	<inherits name="org.kuali.student.core.messages.Message"/>
 	<inherits name='org.kuali.student.core.assembly.Assembly'/>
 	<inherits name="org.kuali.student.core.CoreRice" />
