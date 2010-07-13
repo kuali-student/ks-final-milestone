@@ -3,7 +3,6 @@ package org.kuali.student.lum.program.client;
 import com.google.gwt.user.client.ui.Label;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -12,10 +11,8 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 class ProgramConfigurer extends AbstractProgramConfigurer {
 
     @Override
-    public void configure(WorkflowEnhancedController layout) {
-        MajorDisciplineController controller = (MajorDisciplineController) layout;
+    public void configure(MajorDisciplineController controller) {
         configureProgramSections(controller);
-
     }
 
     private void configureProgramSections(MajorDisciplineController controller) {
@@ -32,17 +29,19 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
 
     private View generateProgramDetailsEdit() {
         VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programDetails(), MajorDisciplineController.PROGRAM_MODEL_ID);
-        view.add(new Label("Something1"));
+        view.addWidget(new Label("Something1"));
         return view;
     }
 
     private View generateProgramDetailsView() {
         VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programDetails(), MajorDisciplineController.PROGRAM_MODEL_ID);
-        view.add(new Label("Something"));
+        view.addWidget(new Label("Something"));
         return view;
     }
 
     private View generateEmptyView(String label) {
         return new VerticalSectionView(ProgramSections.EMPTY, label, MajorDisciplineController.PROGRAM_MODEL_ID);
     }
+
+
 }

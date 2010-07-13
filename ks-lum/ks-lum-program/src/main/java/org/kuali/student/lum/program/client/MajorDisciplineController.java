@@ -22,7 +22,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
  *
  * @author Igor
  */
-public class MajorDisciplineController extends MenuEditableSectionController implements WorkflowEnhancedController {
+public class MajorDisciplineController extends MenuEditableSectionController {
 
     public static final String PROGRAM_MODEL_ID = "programModelId";
 
@@ -39,30 +39,21 @@ public class MajorDisciplineController extends MenuEditableSectionController imp
         registerModel(PROGRAM_MODEL_ID, new ModelProvider<Model>() {
             @Override
             public void requestModel(ModelRequestCallback<Model> modelModelRequestCallback) {
-
+                modelModelRequestCallback.onModelReady(new DataModel());
             }
         });
-        /* metadataService.getMetadata(null, null, null, new AbstractCallback<Metadata>() {
+        /*  metadataService.getMetadata(null, null, null, new AbstractCallback<Metadata>() {
             @Override
             public void onSuccess(Metadata result) {
                 afterMetadataIsLoaded(result);
             }
         });*/
         afterMetadataIsLoaded(null);
+        super.showDefaultView(NO_OP_CALLBACK);
     }
 
     private void afterMetadataIsLoaded(Metadata metadata) {
         configurer.setModelDefinition(new DataModelDefinition(metadata));
         configurer.configure(this);
-    }
-
-    @Override
-    public void showDefaultView(Callback<Boolean> onReadyCallback) {
-        onReadyCallback.exec(true);
-    }
-
-    @Override
-    public WorkflowUtilities getWfUtilities() {
-        return null;
     }
 }
