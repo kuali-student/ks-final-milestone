@@ -15,6 +15,8 @@
 
 package org.kuali.student.lum.lu.ui.home.client.view;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -54,8 +56,10 @@ public class CreateCreditCoursePanel extends ViewComposite {
      *
      * @param controller
      */
-    public enum Views{CREATE_COURSE_PANEL}
-    
+    public enum Views {
+        CREATE_COURSE_PANEL
+    }
+
     public CreateCreditCoursePanel(Controller controller) {
         super(controller, "Create Credit Course", Views.CREATE_COURSE_PANEL);
         //Hyperlink more = new Hyperlink("More", "More");
@@ -142,7 +146,18 @@ public class CreateCreditCoursePanel extends ViewComposite {
 
             @Override
             public void onClick(ClickEvent event) {
-                getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_MAJOR_DISCIPLINE));
+                GWT.runAsync(new RunAsyncCallback() {
+                    @Override
+                    public void onFailure(Throwable reason) {
+                        Window.alert("Programs can not be loaded");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_MAJOR_DISCIPLINE));
+                    }
+                });
+
             }
         });
     }
