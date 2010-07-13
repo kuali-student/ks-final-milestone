@@ -401,6 +401,7 @@
     <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker" />
     <property name="dictionaryServiceDelegate" ref="dictionaryService" />
     <property name="validator" ref="pocServiceValidator" />
+    <property name="validatorFactory" ref="validatorFactory"/>
   </bean>
 
   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -467,11 +468,25 @@
       value="classpath:ks-courseInfo-dictionary-context.xml" />
   </bean>
 
-  <bean id="pocServiceValidator" class="org.kuali.student.common.validator.Validator">
+  <bean id="pocServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
     <!--<property name="messageService" ref="ks.messageServiceMock"/> -->
     <property name="searchDispatcher" ref="lumSearchDispatcher" />
   </bean>
 
+  <bean id="validatorFactory"
+  	class="org.kuali.student.common.validator.ValidatorFactory">
+  	 <constructor-arg index="0">
+  	 	<list>
+  	 		<ref bean="customValidator1"/>
+  	 	</list>
+  	 </constructor-arg>
+  	 <property name="defaultValidator" ref="pocServiceValidator"/>
+  	</bean>
+  	
+	<bean id="customValidator1"
+		class="org.kuali.student.common.validator.SampCustomValidator">
+		
+	</bean>
 
   <!-- Program Service Config -->
 
