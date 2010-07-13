@@ -18,6 +18,7 @@ package org.kuali.student.lum.course.service.assembler;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -165,6 +166,23 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 		}
 
+		//Special topics code
+		course.setSpecialTopicsCourse(false);
+		for(LuCodeInfo luCode : clu.getLuCodes()){
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getValue())){
+				course.setSpecialTopicsCourse(true);
+				break;
+			}
+		}
+		//Pilot Course code
+		course.setPilotCourse(false);
+		for(LuCodeInfo luCode : clu.getLuCodes()){
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getValue())){
+				course.setPilotCourse(true);
+				break;
+			}
+		}
+		
 		// TODO: Variations
 		// course.setVariations(variations)
 
@@ -276,15 +294,41 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				clu.getId(), course.getState(), course.getGradingOptions(), operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE, "Grading options", "Grading option");
 		result.getChildNodes().add(gradingOptions);
 		
-		//
-//		for(LuCodeInfo luCode:clu.getLuCodes()){
-//			if(CourseAssemblerConstants.COURSE_SPECIAL_TOPICS_CODE.equals(luCode.getValue()){
-//				
-//			}
-//		}
-//		if(course.isSpecialTopicsCourse()){
-//			
-//		}
+		//add the special topics code if it did not exist, or remove if it was not wanted
+		boolean alreadyHadSpecialTopicsCode = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getValue())){
+				alreadyHadSpecialTopicsCode = true;
+				if(!course.isSpecialTopicsCourse()){
+					luCodeIterator.remove();
+				}
+				break;
+			}
+		}
+		if(!alreadyHadSpecialTopicsCode && course.isSpecialTopicsCourse()){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setValue(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS);
+			clu.getLuCodes().add(luCode);
+		}
+		
+		//add the special topics code if it did not exist, or remove if it was not wanted
+		boolean alreadyHadPilotCourseCode = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getValue())){
+				alreadyHadPilotCourseCode = true;
+				if(!course.isPilotCourse()){
+					luCodeIterator.remove();
+				}
+				break;
+			}
+		}
+		if(!alreadyHadPilotCourseCode && course.isPilotCourse()){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setValue(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE);
+			clu.getLuCodes().add(luCode);
+		}
 		
 		return result;
 	}

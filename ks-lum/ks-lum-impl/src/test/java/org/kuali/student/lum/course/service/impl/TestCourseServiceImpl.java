@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:course-dev-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:course-test-context.xml"})
 public class TestCourseServiceImpl {
     @Autowired
     CourseService courseService;
@@ -60,6 +60,8 @@ public class TestCourseServiceImpl {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
+            cInfo.setSpecialTopicsCourse(true);
+            cInfo.setPilotCourse(true);
             CourseInfo createdCourse = courseService.createCourse(cInfo);
             assertNotNull(createdCourse);
 
@@ -149,9 +151,13 @@ public class TestCourseServiceImpl {
             assertEquals(2,retrievedCourse.getGradingOptions().size());
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-31"));
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-32"));
-
+            
+            assertTrue(createdCourse.isSpecialTopicsCourse());
+            assertTrue(createdCourse.isPilotCourse());
+            
             // TODO - check variotions
         } catch (Exception e) {
+        	e.printStackTrace();
             fail(e.getMessage());
         }
     }
@@ -162,6 +168,8 @@ public class TestCourseServiceImpl {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
+            cInfo.setSpecialTopicsCourse(true);
+            cInfo.setPilotCourse(true);
             CourseInfo createdCourse = courseService.createCourse(cInfo);
 
             int initialFormatCount = createdCourse.getFormats().size();
@@ -219,6 +227,9 @@ public class TestCourseServiceImpl {
             createdCourse.getCreditOptions().add("NewCreditOption");
             createdCourse.getGradingOptions().remove(1);
             createdCourse.getGradingOptions().add("NewGradingOption");
+            
+            createdCourse.setSpecialTopicsCourse(false);
+            createdCourse.setPilotCourse(false);
             
             //Perform the update
             CourseInfo updatedCourse = courseService.updateCourse(createdCourse);
@@ -284,6 +295,9 @@ public class TestCourseServiceImpl {
         assertEquals(2,updatedCourse.getGradingOptions().size());
         assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-31"));
         assertTrue(updatedCourse.getGradingOptions().contains("NewGradingOption"));
+        
+        assertFalse(updatedCourse.isSpecialTopicsCourse());
+        assertFalse(updatedCourse.isPilotCourse());
     }
 
     @Test
