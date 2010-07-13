@@ -451,8 +451,7 @@ public class ProgramServiceImpl implements ProgramService{
 
 	@Override
 	public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-		// TODO Auto-generated method stub
-		return null;
+		return dictionaryService.getObjectStructure(objectTypeKey);
 	}
 
 	@Override
