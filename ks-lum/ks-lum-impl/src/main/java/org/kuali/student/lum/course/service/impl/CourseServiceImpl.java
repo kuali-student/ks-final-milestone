@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
@@ -46,6 +47,7 @@ public class CourseServiceImpl implements CourseService {
     private BusinessServiceMethodInvoker courseServiceMethodInvoker;
     private DictionaryService dictionaryServiceDelegate;
     private Validator validator;
+    private ValidatorFactory validatorFactory;
 
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException {
@@ -150,8 +152,9 @@ public class CourseServiceImpl implements CourseService {
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
-        List<ValidationResultInfo> validationResults = validator.validateObject(courseInfo, objStructure);
-
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(courseInfo, objStructure);
         return validationResults;
     }
 
@@ -234,12 +237,19 @@ public class CourseServiceImpl implements CourseService {
         return validator;
     }
 
-    public LuService getLuService() {
+    public ValidatorFactory getValidatorFactory() {
+		return validatorFactory;
+	}
+
+	public void setValidatorFactory(ValidatorFactory validatorFactory) {
+		this.validatorFactory = validatorFactory;
+	}
+
+	public LuService getLuService() {
         return luService;   
     }
 
     public void setLuService(LuService luService) {
         this.luService = luService;
     }
-
 }
