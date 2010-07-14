@@ -37,6 +37,8 @@
         REQ_COM_TYPE_ID="kuali.reqCompType.course.test.score.min" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.course.test.score.max" STMT_TYPE_ID="kuali.luStatementType.antireqAcademicReadiness"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqCompType.course.courseset.nof.grade.min" STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness"/>
 
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.notcompleted.nof" STMT_TYPE_ID="kuali.luStatementType.programEntrance"/>
@@ -52,4 +54,8 @@
         REQ_COM_TYPE_ID="kuali.reqCompType.program.programset.coursecompleted.nof" STMT_TYPE_ID="kuali.luStatementType.programCompletion"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqCompType.course.test.score.min" STMT_TYPE_ID="kuali.luStatementType.programEntrance"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqCompType.program.admitted.credits" STMT_TYPE_ID="kuali.luStatementType.programSatisfactoryProgress"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqCompType.program.admitted.credits" STMT_TYPE_ID="kuali.luStatementType.programEntrance"/>                
 </dataset>

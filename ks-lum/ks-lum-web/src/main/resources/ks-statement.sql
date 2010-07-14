@@ -61,11 +61,13 @@ INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALU
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.course.permission.instructor.required', 'Permission of <instructor> required', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Instructor perm required')
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.course.test.score.min', 'Must have achieved a minimum score of <score> on <tests>', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Minimum score on test')
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.course.test.score.max', 'Must have achieved a score no higher than <score> on <test> ', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Maximum score on test')
+INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.course.courseset.nof.grade.min', 'Must successfully complete a minimum of <n> courses  from <courses> with a minimum grade of <gradeType> <grade>', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Min grade in required courses')
 // Programs
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.program.programset.completed.nof', 'Must have successfully completed a minimum of <n> programs from <programs> programs', null, null, 'All of required programs')
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.program.programset.notcompleted.nof', 'Must not have successfully completed any of <programs> programs', null, null, 'All of required programs')
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.program.programset.completed.all', 'Must have successfully completed all of <programs> programs ', null, null, 'All of required programs')
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.program.programset.coursecompleted.nof', 'Must have successfully completed a minimum of <n> courses from <programs> programs', null, null, 'All of required programs')
+INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.program.admitted.credits', 'Must be admitted to program prior to earning <n> credits', null, null, 'Earning n credits')
 
 // REQUIREMENT FIELD TYPES
 INSERT INTO KSST_REQ_COM_FIELD_TYPE (ID, NAME, DESCR, DATA_TYPE, MIN_VALUE, MAX_VALUE, MIN_LENGTH, MAX_LENGTH, VALID_CHARS, INVALID_CHARS, MIN_OCCURS, MAX_OCCURS, READ_ONLY) VALUES ('reqCompFieldType.clu.id', 'CLU', 'CLU','string',null,null,null,null,null,null,null,null,0)
@@ -112,6 +114,10 @@ INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VAL
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.course.test.score.min','reqCompFieldType.test.score')
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.course.test.score.max','reqCompFieldType.cluSet.id')
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.course.test.score.max','reqCompFieldType.test.score')
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.course.courseset.nof.grade.min','reqCompFieldType.requiredCount')
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.course.courseset.nof.grade.min','reqCompFieldType.cluSet.id')
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.course.courseset.nof.grade.min','reqCompFieldType.grade')
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.course.courseset.nof.grade.min','reqCompFieldType.gradeType')
 // Programs
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.program.programset.completed.nof','reqCompFieldType.cluSet.id')
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.program.programset.completed.nof','reqCompFieldType.requiredCount')
@@ -119,6 +125,7 @@ INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VAL
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.program.programset.completed.all','reqCompFieldType.cluSet.id')
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.program.programset.coursecompleted.nof','reqCompFieldType.requiredCount')
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.program.programset.coursecompleted.nof','reqCompFieldType.cluSet.id')
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.program.admitted.credits','reqCompFieldType.requiredCount')
 
 // REQ_COMPONENT_TYPE_NL_TEMPLATE
 // Courses
@@ -140,6 +147,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('16', 'KUALI.CATALOG', 'Permission of instructor required', 'kuali.reqCompType.course.permission.instructor.required', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('17', 'KUALI.CATALOG', 'Must have achieved a minimum score of $fields.get(''reqCompFieldType.test.score'') on $cluSet.getCluSetAsShortName()', 'kuali.reqCompType.course.test.score.min', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('18', 'KUALI.CATALOG', 'Must have achieved a score no higher than $fields.get(''reqCompFieldType.test.score'') on $cluSet.getCluSetAsShortName()', 'kuali.reqCompType.course.test.score.max', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('19', 'KUALI.CATALOG', 'Must successfully complete a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, "course") from $cluSet.getCluSetAsCode() with a minimum grade of $gradeType $grade', 'kuali.reqCompType.course.courseset.nof.grade.min', 'en')
 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('101', 'KUALI.EXAMPLE', 'Must not have successfully completed any courses from (MATH111, 140, 220, or STAT100)', 'kuali.reqCompType.course.courseset.completed.none', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('102', 'KUALI.EXAMPLE', 'Must have successfully completed all courses from (MATH111, 140, 220, and STAT100)', 'kuali.reqCompType.course.courseset.completed.all', 'en')
@@ -159,6 +167,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('116', 'KUALI.EXAMPLE', 'Permission of instructor required', 'kuali.reqCompType.course.permission.instructor.required', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('117', 'KUALI.EXAMPLE', 'Must have achieved a minimum score of 600 on SAT Critical Reading Exam', 'kuali.reqCompType.course.test.score.min', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('118', 'KUALI.EXAMPLE', 'Must have achieved a score no higher than 5 on AP Japanese', 'kuali.reqCompType.course.test.score.max', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('119', 'KUALI.EXAMPLE', 'Must have successfully completed a minimum of 1 course from (MATH111, 140, 220, or STAT100) with a minimum grade of letter B', 'kuali.reqCompType.course.courseset.nof.grade.min', 'en')
 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('201', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqCompType.course.courseset.completed.none', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('202', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqCompType.course.courseset.completed.all', 'en')
@@ -175,25 +184,29 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('213', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldLabel=Grade Type> of <reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade> in <reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqCompType.course.courseset.grade.min', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('214', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldLabel=Grade Type> of <reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade> in <reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqCompType.course.courseset.grade.max', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('215', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.orgid;reqCompFieldLabel=Organization>', 'kuali.reqCompType.course.permission.org.required', 'en')
-INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('216', 'KUALI.COMPOSITION', 'none', 'kuali.reqCompType.course.permission.instructor.required', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('216', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.personid;reqCompFieldLabel=Instructor>', 'kuali.reqCompType.course.permission.instructor.required', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('217', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.test.score;reqCompFieldLabel=Test Score> from <reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Tests>', 'kuali.reqCompType.course.test.score.min', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('218', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.test.score;reqCompFieldLabel=Test Score> from <reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Tests>', 'kuali.reqCompType.course.test.score.max', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('219', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from <reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses> with <reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldLabel=Grade Type> of <reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade>', 'kuali.reqCompType.course.courseset.nof.grade.min', 'en')
 
 // Programs
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1001', 'KUALI.CATALOG', 'Must have successfully completed a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, "program") from $cluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($cluSet.getCluList().size(), "program")', 'kuali.reqCompType.program.programset.completed.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1002', 'KUALI.CATALOG', 'Must not have successfully completed #if($cluSet.getCluList().size() > 1)any of #end$cluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($cluSet.getCluList().size(), "program")', 'kuali.reqCompType.program.programset.notcompleted.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1003', 'KUALI.CATALOG', 'Must have successfully completed #if($cluSet.getCluList().size() != 1)all of #end$cluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($cluSet.getCluList().size(), "program")', 'kuali.reqCompType.program.programset.completed.all', 'en')
-INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1004', 'KUALI.CATALOG', 'Must have successfully completed a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, "course") from $cluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($cluSet.getCluList().size(), "program", "programs")', 'kuali.reqCompType.program.programset.coursecompleted.nof', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1004', 'KUALI.CATALOG', 'Must have successfully completed a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, "course") from $cluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($cluSet.getCluList().size(), "program")', 'kuali.reqCompType.program.programset.coursecompleted.nof', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1005', 'KUALI.CATALOG', 'Must be admitted to program prior to earning $expectedValue $NLHelper.getProperGrammar($expectedValue, "credit")', 'kuali.reqCompType.program.admitted.credits', 'en')
 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2001', 'KUALI.EXAMPLE', 'Must have successfully completed a minimum of 1 program from (Geology or  Sociology) programs', 'kuali.reqCompType.program.programset.completed.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2002', 'KUALI.EXAMPLE', 'Must not have successfully completed any of (Geology or Sociology) programs', 'kuali.reqCompType.program.programset.notcompleted.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2003', 'KUALI.EXAMPLE', 'Must have successfully completed all of (Sociology and CORE Advanced Studies)', 'kuali.reqCompType.program.programset.completed.all', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2004', 'KUALI.EXAMPLE', 'Must have successfully completed a minimum of 14 courses from ( Sociology and CORE Advanced Studies) programs', 'kuali.reqCompType.program.programset.coursecompleted.nof', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2005', 'KUALI.EXAMPLE', 'Must be admitted to program prior to earning 60 credits', 'kuali.reqCompType.program.admitted.credits', 'en')
 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3001', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from <reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqCompType.program.programset.completed.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3002', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqCompType.program.programset.notcompleted.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3003', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqCompType.program.programset.completed.all', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3004', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from <reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqCompType.program.programset.coursecompleted.nof', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3005', 'KUALI.COMPOSITION', '<reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Credits>', 'kuali.reqCompType.program.admitted.credits', 'en')
 
 // STMT_TYPE <-> REQ_COM_TYPE
 // Courses
@@ -212,6 +225,7 @@ INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kual
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.course.permission.org.required')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.course.permission.instructor.required')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.course.test.score.min')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.course.courseset.nof.grade.min')
 // Courses - Co-req
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.coreqAcademicReadiness','kuali.reqCompType.courseList.coreq.all')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.coreqAcademicReadiness','kuali.reqCompType.courseList.coreq.oneof')
@@ -219,19 +233,21 @@ INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kual
 // Courses - Enroll
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.enrollAcademicReadiness','kuali.reqCompType.programList.enroll.oneof')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.enrollAcademicReadiness','kuali.reqCompType.programList.enroll.none')
-// Program Entry
+// Program Satisfactory Progress
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programSatisfactoryProgress','kuali.reqCompType.program.admitted.credits')
+// Program Entrance
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programEntrance','kuali.reqCompType.program.programset.completed.nof')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programEntrance','kuali.reqCompType.program.programset.notcompleted.nof')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programEntrance','kuali.reqCompType.program.programset.completed.all')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programEntrance','kuali.reqCompType.program.programset.coursecompleted.nof')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programEntrance','kuali.reqCompType.course.courseset.gpa.min')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programEntrance','kuali.reqCompType.course.test.score.min')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programEntrance','kuali.reqCompType.program.admitted.credits')
 // Program Completion
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programCompletion','kuali.reqCompType.program.programset.completed.nof')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programCompletion','kuali.reqCompType.program.programset.completed.all')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programCompletion','kuali.reqCompType.program.programset.coursecompleted.nof')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.programCompletion','kuali.reqCompType.course.courseset.gpa.min')
-
 
 // KSST_NL_USAGE_TYPE
 INSERT INTO KSST_NL_USAGE_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('KUALI.CATALOG', 'Kuali Catalog', 'Kuali Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'})

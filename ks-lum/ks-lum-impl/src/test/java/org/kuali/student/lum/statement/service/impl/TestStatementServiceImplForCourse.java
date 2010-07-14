@@ -41,6 +41,13 @@ public class TestStatementServiceImplForCourse {
 	}
 
     @Test
+    public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqCompType.course.courseset.completed.none'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-1", "KUALI.CATALOG", null);
+        assertEquals("Must not have successfully completed MATH152", nl);
+    }	
+	
+    @Test
     public void testGetNaturalLanguageForReqComponent_none1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         //req. type: 'kuali.reqCompType.course.courseset.completed.none'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-1", "KUALI.CATALOG", "en");
@@ -195,9 +202,9 @@ public class TestStatementServiceImplForCourse {
     }       
     
     @Test
-    public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        //req. type: 'kuali.reqCompType.course.courseset.completed.none'
-        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-1", "KUALI.CATALOG", null);
-        assertEquals("Must not have successfully completed MATH152", nl);
+    public void testGetNaturalLanguageForReqComponent_MinCoursesMinGradeTest() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqCompType.course.courseset.nof.grade.min'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-23", "KUALI.CATALOG", "en");
+        assertEquals("Must successfully complete a minimum of 1 course from (MATH152, MATH180) with a minimum grade of letter B", nl);
     }
 }

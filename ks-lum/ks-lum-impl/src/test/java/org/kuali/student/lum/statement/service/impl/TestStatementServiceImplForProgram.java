@@ -120,4 +120,13 @@ public class TestStatementServiceImplForProgram {
 		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-109", "KUALI.CATALOG", "en");
     	assertEquals("Must have successfully completed a minimum of 2 courses from Sociology program", nl);
 	}
+	
+    /**
+     * Requirement component type: kuali.reqCompType.program.admitted.credits
+     */
+    @Test
+    public void testTranslateReqComponent_admittedCreditsProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-110", "KUALI.CATALOG", "en");
+        assertEquals("Must be admitted to program prior to earning 5 credits", nl);
+    }	
 }

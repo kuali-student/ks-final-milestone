@@ -39,6 +39,9 @@
 
     <!-- Natural Language Translation Contexts -->
     
+    <bean id="basicContext" class="org.kuali.student.lum.statement.config.context.lu.BasicContextImpl">
+        <property name="luService" ref="luServiceImpl" />
+    </bean>
     <bean id="cluSetContext" class="org.kuali.student.lum.statement.config.context.lu.CluSetContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
@@ -133,7 +136,13 @@
                 </entry>              
                 <entry key="kuali.reqCompType.course.test.score.max">
                     <ref local="cluSetContext"/>
-                </entry>              
+                </entry>
+                <entry key="kuali.reqCompType.course.courseset.nof.grade.min">
+                    <list>
+                        <ref local="cluSetContext"/>
+                        <ref local="gradeContext"/>
+                    </list>
+                </entry>                              
 
                 <!-- Program Contexts -->
                 <entry key="kuali.reqCompType.programList.enroll.oneof">
@@ -168,6 +177,9 @@
                         <ref local="cluSetContext"/>
                     </list>
                 </entry>
+                <entry key="kuali.reqCompType.program.admitted.credits">
+                    <ref local="basicContext"/>                
+                </entry>                
             </map>
         </constructor-arg>
     </bean>

@@ -54,5 +54,11 @@
         TYPE_DESC="Must have achieved a minimum score of &lt;score> on &lt;tests>" TYPE_KEY="kuali.reqCompType.course.test.score.min"/>                                                
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Maximum score on test"
-        TYPE_DESC="Must have achieved a score no higher than &lt;score> on &lt;tests>" TYPE_KEY="kuali.reqCompType.course.test.score.max"/>                                                
+        TYPE_DESC="Must have achieved a score no higher than &lt;score> on &lt;tests>" TYPE_KEY="kuali.reqCompType.course.test.score.max"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Min grade in required courses"
+        TYPE_DESC="Must successfully complete a minimum of &lt;n> courses  from &lt;courses> with a minimum grade of &lt;gradeType> &lt;grade>" TYPE_KEY="kuali.reqCompType.course.courseset.nof.grade.min"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Earning n credits"
+        TYPE_DESC="Must be admitted to program prior to earning &lt;n> credits" TYPE_KEY="kuali.reqCompType.program.admitted.credits"/>    
 </dataset>
