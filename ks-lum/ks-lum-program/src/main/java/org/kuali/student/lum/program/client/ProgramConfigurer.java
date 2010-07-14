@@ -40,13 +40,13 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
     }
 
     private View generateProgramRequirementsEdit() {
-        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_EDIT, ProgramProperties.get().program_menu_sections_requirements(), MajorDisciplineController.PROGRAM_MODEL_ID);
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_EDIT, ProgramProperties.get().program_menu_sections_requirements(), ProgramController.PROGRAM_MODEL_ID);
         view.addWidget(new Label("Edit Requirements"));
         return view;
     }
     
     private View generateProgramRequirementsView() {
-        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, ProgramProperties.get().program_menu_sections_requirements(), MajorDisciplineController.PROGRAM_MODEL_ID);
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, ProgramProperties.get().program_menu_sections_requirements(), ProgramController.PROGRAM_MODEL_ID);
         view.addWidget(new Label("View Requirements"));
         return view;
     }    
