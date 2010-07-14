@@ -29,13 +29,13 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
 
     private View generateProgramDetailsEdit() {
         VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programDetails(), MajorDisciplineController.PROGRAM_MODEL_ID);
-        view.addWidget(new Label("Something1"));
+        view.addWidget(new Label("Edit view"));
         return view;
     }
 
     private View generateProgramDetailsView() {
         VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programDetails(), MajorDisciplineController.PROGRAM_MODEL_ID);
-        view.addWidget(new Label("Something"));
+        view.addWidget(new Label("Read only view"));
         return view;
     }
 

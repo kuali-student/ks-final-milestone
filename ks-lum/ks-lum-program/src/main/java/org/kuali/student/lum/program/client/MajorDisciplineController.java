@@ -36,28 +36,34 @@ public class MajorDisciplineController extends MenuEditableSectionController {
 
     public MajorDisciplineController() {
         super(MajorDisciplineController.class.getName());
-        initialize();
     }
 
-    private void initialize() {
+    private void initialize(final Callback<Boolean> callback) {
+        programRemoteService.getMetadata(null, null, new AbstractCallback<Metadata>() {
+            @Override
+            public void onSuccess(Metadata result) {
+                super.onSuccess(result);
+                afterMetadataIsLoaded(result);
+                callback.exec(true);
+            }
+        });
+
+    }
+
+    private void afterMetadataIsLoaded(Metadata metadata) {
         registerModel(PROGRAM_MODEL_ID, new ModelProvider<Model>() {
             @Override
             public void requestModel(ModelRequestCallback<Model> modelModelRequestCallback) {
                 modelModelRequestCallback.onModelReady(new DataModel());
             }
         });
-          programRemoteService.getMetadata(null, null, new AbstractCallback<Metadata>() {
-            @Override
-            public void onSuccess(Metadata result) {
-                afterMetadataIsLoaded(result);
-            }
-        });
-        afterMetadataIsLoaded(null);
+        configurer.setModelDefinition(new DataModelDefinition(metadata));
+        configurer.configure(this);
         super.showDefaultView(NO_OP_CALLBACK);
     }
 
-    private void afterMetadataIsLoaded(Metadata metadata) {
-        configurer.setModelDefinition(new DataModelDefinition(metadata));
-        configurer.configure(this);
+    @Override
+    public void showDefaultView(Callback<Boolean> callback) {
+        initialize(callback);
     }
 }
