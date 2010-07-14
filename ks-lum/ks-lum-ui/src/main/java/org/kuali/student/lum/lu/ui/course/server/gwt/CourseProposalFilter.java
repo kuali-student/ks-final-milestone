@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.course.server.gwt.poc;
+package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.util.Map;
 

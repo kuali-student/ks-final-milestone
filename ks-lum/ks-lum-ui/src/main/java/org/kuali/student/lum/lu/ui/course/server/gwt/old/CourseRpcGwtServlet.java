@@ -13,9 +13,9 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.server.gwt;
+package org.kuali.student.lum.lu.ui.course.server.gwt.old;
 
-import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;

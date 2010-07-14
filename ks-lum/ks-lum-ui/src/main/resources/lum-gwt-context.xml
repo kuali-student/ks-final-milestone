@@ -280,7 +280,7 @@
     </bean>
 
     <bean id="WorkflowToolRpcGwtServlet"
-          class="org.kuali.student.lum.lu.ui.course.server.gwt.WorkflowToolRpcGwtServlet">
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.old.WorkflowToolRpcGwtServlet">
         <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
@@ -290,7 +290,7 @@
     </bean>
 
     <bean id="CluProposalRpcGwtServlet"
-          class="org.kuali.student.lum.lu.ui.course.server.gwt.poc.CreditCourseProposalRpcGwtServlet">
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
@@ -332,11 +332,11 @@
         <constructor-arg ref="idTranslator"/>
     </bean>
 
-    <bean id="courseProposalFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.poc.CourseProposalFilter">
+    <bean id="courseProposalFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseProposalFilter">
         <property name="proposalService" ref="proposalClient"/>
     </bean>
 
-    <bean id="courseWorkflowFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.poc.CourseWorkflowFilter">
+    <bean id="courseWorkflowFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseWorkflowFilter">
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
     </bean>
@@ -444,7 +444,7 @@
     </bean>
 
     <bean id="CourseRpcGwtServlet"
-          class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CourseRpcGwtServlet">
         <property name="assembler" ref="courseAssemblerFilterManager"/>
     </bean>
 

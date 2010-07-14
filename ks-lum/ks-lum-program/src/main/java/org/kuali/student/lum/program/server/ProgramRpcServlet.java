@@ -1,6 +1,6 @@
 package org.kuali.student.lum.program.server;
 
-import org.kuali.student.common.ui.server.gwt.poc.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 

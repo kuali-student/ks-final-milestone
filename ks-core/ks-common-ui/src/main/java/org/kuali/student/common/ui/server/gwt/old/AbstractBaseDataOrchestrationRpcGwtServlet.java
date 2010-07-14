@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.ui.server.gwt.poc;
+package org.kuali.student.common.ui.server.gwt.old;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,117 +39,76 @@ import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServic
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.transform.AuthorizationFilter;
-import org.kuali.student.core.assembly.transform.MetadataFilter;
-import org.kuali.student.core.assembly.transform.TransformationManager;
-import org.kuali.student.core.assembly.transform.WorkflowFilter;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * Generic implementation of data gwt data operations calls and workflow operations
+ * Generic implementation of data orchestration calls and workflow calls
  *
  */
 public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteServiceServlet implements BaseDataOrchestrationRpcService {
+	//FIXME issues:
+	// -The Type/state config is hardcoded here which will cause troubles with different types and states
+	// -Workflow filter should be combined with this for save
+	// -The exception handling here needs standardization.  Should RPC errors throw operation failed with just the message and log the message and exception?
+	// also should calls that return Boolean ever throw exceptions?
 
 	private static final long serialVersionUID = 1L;
 
 	final Logger LOG = Logger.getLogger(AbstractBaseDataOrchestrationRpcGwtServlet.class);
 
-	private TransformationManager transformationManager;
-	
-	private SimpleDocumentActionsWebService simpleDocService;
-    private WorkflowUtility workflowUtilityService;
-	private IdentityService identityService;
-	private PermissionService permissionService;
+	private Assembler<Data, Void> assembler;
 
-	public Map<String,String> getDefaultFilterProperties(){
-		Map<String, String> filterProperties = new HashMap<String,String>();
-		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
-		filterProperties.put(WorkflowFilter.WORKFLOW_USER, getCurrentUser());
-		
-		return filterProperties;
-	}
-	
+    private SimpleDocumentActionsWebService simpleDocService;
+    private WorkflowUtility workflowUtilityService;
+	private PermissionService permissionService;
+	private IdentityService identityService;
+
 	@Override
-	public Data getData(String id) {
-		Map<String, String> filterProperties = getDefaultFilterProperties();
-		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
-		
+	public Data getData(String dataId) {
 		try {
-			Object dto = get(id);
-			if (dto != null){
-				return transformationManager.transform(dto, filterProperties);
-			}
-		} catch (Exception e){
-			LOG.error("Error getting Data.",e);			
+			return assembler.get(dataId);
+		} catch (AssemblyException e) {
+			LOG.error("Error getting Data.",e);
 		}
-		
 		return null;
 	}
 
 	@Override
 	public Metadata getMetadata(String idType, String id) {
-		Map<String, String> filterProperties = getDefaultFilterProperties();
-		
-		if (idType != null){
-			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
-		}
-		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
-		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
-		if (checkDocumentLevelPermissions()){
-			filterProperties.put(AuthorizationFilter.DOC_LEVEL_PERM_CHECK, Boolean.TRUE.toString());
-		}
-		
+
 		try {
-			Metadata metadata = transformationManager.getMetadata(getDtoClass().getName(), filterProperties); 
-			return metadata;
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to get metadata");
-		}		
+		    //FIXME: should not pass empty id. What to do here?
+			return assembler.getMetadata(idType, id, getDefaultMetaDataType(), getDefaultMetaDataState());
+		} catch (AssemblyException e) {
+			LOG.error("Error getting Metadata.",e);
+		}
+		return null;
 	}
 
 	@Override
 	public DataSaveResult saveData(Data data) throws OperationFailedException {
-		Map<String, String> filterProperties = getDefaultFilterProperties();
-		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("proposalId"));
-
 		try {
-			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
-			dto = save(dto);
-				
-			Data persistedData = transformationManager.transform(dto, filterProperties);
-			return new DataSaveResult(null, persistedData);
-		} catch (DataValidationErrorException dvee){
-			return new DataSaveResult(dvee.getValidationResults(), null);
+			SaveResult<Data> saveResult = assembler.save(data);
+			if (saveResult != null) {
+				return new DataSaveResult(saveResult.getValidationResults(), saveResult.getValue());
+			}
 		} catch (Exception e) {
 			LOG.error("Unable to save", e);
 			throw new OperationFailedException("Unable to save");
 		}
+		return null;
 	}
 
-	protected DataSaveResult _saveData(Data data, Map<String,String> filterProperties) throws OperationFailedException{
-		try {
-			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
-
-			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
-			dto = save(dto);
-				
-			Data persistedData = transformationManager.transform(dto,filterProperties);
-			return new DataSaveResult(null, persistedData);
-		} catch (DataValidationErrorException dvee){
-			return new DataSaveResult(dvee.getValidationResults(), null);
-		} catch (Exception e) {
-			LOG.error("Unable to save", e);
-			throw new OperationFailedException("Unable to save");
-		}		
-	}
-	
 	@Override
 	public Boolean acknowledgeDocumentWithId(String dataId) throws OperationFailedException {
 		if(simpleDocService==null){
@@ -225,11 +184,30 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	@Override
 	public DataSaveResult approveDocumentWithData(Data data) throws OperationFailedException {
-		Map<String,String> filterProperties = getDefaultFilterProperties();
-	
-		filterProperties.put(WorkflowFilter.WORKFLOW_ACTION, WorkflowFilter.WORKFLOW_APPROVE);
-		
-		return _saveData(data,filterProperties);
+		//First Save
+		DataSaveResult saveResult = saveData(data);
+		if(isValid(saveResult)){
+			try{
+	            //get a user name
+	            String username = getCurrentUser();
+
+	            //Lookup the workflowId from the cluId
+	            DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), deriveAppIdFromData(data));
+	            if(docDetail==null){
+	            	throw new OperationFailedException("Error found getting document. " );
+	            }
+
+		        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), deriveDocContentFromData(data), "");
+	            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+	        		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
+	        	}
+
+			}catch(Exception e){
+	            LOG.error("Could not approve document",e);
+	            throw new OperationFailedException("Could not approve document");
+			}
+		}
+		return saveResult;
 	}
 
 	@Override
@@ -321,12 +299,11 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         }
 
 		try{
+			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
 			KimPrincipalInfo principal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			if (principal == null) {
 				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			}
-			
-//			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
 //	        StandardResponse stdResp = simpleDocService.superUserDisapprove(docDetail.getRouteHeaderId().toString(), principal.getPrincipalId(), "");
 //	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())) {
 //        		LOG.error("Error withdrawing document: " + stdResp.getErrorMessage());
@@ -371,8 +348,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             	}
             }
 
+            String actionsRequested = "";
             //Use StringBuilder to avoid using string concatenations in the for loop.
             StringBuilder actionsRequestedBuffer = new StringBuilder();
+            actionsRequestedBuffer.append(actionsRequested);
 
             String documentStatus = workflowUtilityService.getDocumentStatus(docDetail.getRouteHeaderId());
 
@@ -382,17 +361,20 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             		// show only complete button if complete or approve code in this doc status
             		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
             			actionsRequestedBuffer.append("S");
+//            			actionsRequested+="S";
             		}
             		// if not Complete or Approve code then show the standard buttons
             		else {
     	            	if("true".equals(entry.getValue())){
     	            		actionsRequestedBuffer.append(entry.getKey());
+//    	            		actionsRequested+=entry.getKey();
     	            	}
             		}
             	}
             	else {
                 	if("true".equals(entry.getValue())){
                 		actionsRequestedBuffer.append(entry.getKey());
+//                		actionsRequested+=entry.getKey();
                 	}
             	}
             }
@@ -400,7 +382,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             // if user can withdraw document then add withdraw button
             if (getPermissionService().isAuthorizedByTemplateName(principalId, PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), null, new AttributeSet(KimAttributes.DOCUMENT_NUMBER,docDetail.getRouteHeaderId().toString()))) {
             	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
-//            	actionsRequestedBuffer.append("W");
+//            	actionsRequested+="W";
             }
 
             return actionsRequestedBuffer.toString();
@@ -484,10 +466,38 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	@Override
 	public DataSaveResult submitDocumentWithData(Data data) throws OperationFailedException {
-		Map<String,String> filterProperties = getDefaultFilterProperties();
-		filterProperties.put(WorkflowFilter.WORKFLOW_ACTION, WorkflowFilter.WORKFLOW_SUBMIT);
+		//First Save
+		DataSaveResult saveResult = saveData(data);
+		if(isValid(saveResult)){
+			try {
+	            if(simpleDocService==null){
+	            	throw new OperationFailedException("Workflow Service is unavailable");
+	            }
 
-		return _saveData(data,filterProperties);
+	            //get a user name
+	            String username = getCurrentUser();
+
+	            //Get the workflow ID
+	            DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), deriveAppIdFromData(data));
+
+	            if(docDetail==null){
+	            	throw new OperationFailedException("Error found getting document. " );
+	            }
+
+	            String routeComment = "Routed";
+
+	            StandardResponse stdResp = simpleDocService.route(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), deriveDocContentFromData(data), routeComment);
+
+	            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+	        		throw new OperationFailedException("Error found routing document: " + stdResp.getErrorMessage());
+	        	}
+
+	        } catch (Exception e) {
+	            LOG.error("Error found routing document",e);
+	            throw new OperationFailedException("Error found routing document");
+	        }
+		}
+		return saveResult;
 	}
 
 	@Override
@@ -530,6 +540,16 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
         }
 		return username;
 	}
+	private boolean isValid(DataSaveResult saveResult) {
+		if(saveResult.getValidationResults()!=null){
+			for(ValidationResultInfo validationResult:saveResult.getValidationResults()){
+				if(ErrorLevel.ERROR.equals(validationResult.getLevel())){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 	protected boolean checkDocumentLevelPermissions() {
 		return false;
@@ -565,6 +585,25 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		return Boolean.valueOf(result);
 	}
 
+	protected abstract String deriveAppIdFromData(Data data);
+	protected abstract String deriveDocContentFromData(Data data);
+	protected abstract String getDefaultWorkflowDocumentType();
+	protected abstract String getDefaultMetaDataState();
+	protected abstract String getDefaultMetaDataType();
+
+	//POJO methods
+	public void setAssembler(Assembler<Data, Void> assembler) {
+		this.assembler = assembler;
+	}
+
+	public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+
 	public IdentityService getIdentityService() {
     	return identityService;
     }
@@ -581,6 +620,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		this.workflowUtilityService = workflowUtilityService;
 	}
 
+	protected Assembler<Data, Void> getAssembler() {
+		return assembler;
+	}
+
 	protected SimpleDocumentActionsWebService getSimpleDocService() {
 		return simpleDocService;
 	}
@@ -589,29 +632,5 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		return workflowUtilityService;
 	}
 
-	public TransformationManager getTransformationManager() {
-		return transformationManager;
-	}
 
-	public void setTransformationManager(TransformationManager transformationManager) {
-		this.transformationManager = transformationManager;
-	}
-
-	public PermissionService getPermissionService() {
-		return permissionService;
-	}
-
-	public void setPermissionService(PermissionService permissionService) {
-		this.permissionService = permissionService;
-	}
-
-	protected abstract String getDefaultWorkflowDocumentType();
-	
-	protected abstract String getDefaultMetaDataState();
-	
-	protected abstract Object get(String id) throws Exception;
-	
-	protected abstract Object save(Object dto) throws Exception;
-	
-	protected abstract Class<?> getDtoClass();
 }
