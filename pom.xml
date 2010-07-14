@@ -64,6 +64,7 @@
     <!-- Shared between compiler, pmd, and javadoc plugins -->
     <compileSource>1.6</compileSource>
     <compileTarget>1.6</compileTarget>
+    <clover.history.dir>${user.home}/.m2/repository/.clover/history/${project.groupId}/${project.artifactId}/${project.version}</clover.history.dir>
   
     <!-- artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
@@ -179,7 +180,7 @@ RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
 xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
 UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           <generateHistorical>true</generateHistorical>
-          <historyDir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</historyDir>
+          <historyDir>${clover.history.dir}</historyDir>
         </configuration>
       </plugin>
       <plugin>
@@ -302,7 +303,7 @@ RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
 xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
 UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           <generateHistorical>true</generateHistorical>
-          <historyDir>${user.home}/.clover/history/${project.groupId}/${project.artifactId}</historyDir>
+          <historyDir>${clover.history.dir}</historyDir>
         </configuration>
       </plugin>
       <plugin>
@@ -318,12 +319,6 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <configuration>
-          <!-- this takes forever to complete, enable as needed -->
-          <!--
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                    -->
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
