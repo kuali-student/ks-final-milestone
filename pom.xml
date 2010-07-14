@@ -18,7 +18,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0-M6</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <organization>
@@ -49,9 +49,9 @@
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
-    <url>https://test.kuali.org/svn/student/trunk</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/tags/ks-1.1.0-M6</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/ks-1.1.0-M6</developerConnection>
+    <url>https://test.kuali.org/svn/student/tags/ks-1.1.0-M6</url>
   </scm>
   <properties>
     <!-- artifact versions -->
