@@ -11,11 +11,11 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 class ProgramConfigurer extends AbstractProgramConfigurer {
 
     @Override
-    public void configure(MajorDisciplineController controller) {
+    public void configure(ProgramController controller) {
         configureProgramSections(controller);
     }
 
-    private void configureProgramSections(MajorDisciplineController controller) {
+    private void configureProgramSections(ProgramController controller) {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
         controller.addMenu(programSectionLabel);
         controller.addMenuItem(programSectionLabel, generateProgramDetailsView(), generateProgramDetailsEdit());
@@ -28,19 +28,19 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
     }
 
     private View generateProgramDetailsEdit() {
-        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programDetails(), MajorDisciplineController.PROGRAM_MODEL_ID);
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programDetails(), ProgramController.PROGRAM_MODEL_ID);
         view.addWidget(new Label("Edit view"));
         return view;
     }
 
     private View generateProgramDetailsView() {
-        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programDetails(), MajorDisciplineController.PROGRAM_MODEL_ID);
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programDetails(), ProgramController.PROGRAM_MODEL_ID);
         view.addWidget(new Label("Read only view"));
         return view;
     }
 
     private View generateEmptyView(String label) {
-        return new VerticalSectionView(ProgramSections.EMPTY, label, MajorDisciplineController.PROGRAM_MODEL_ID);
+        return new VerticalSectionView(ProgramSections.EMPTY, label, ProgramController.PROGRAM_MODEL_ID);
     }
 
 

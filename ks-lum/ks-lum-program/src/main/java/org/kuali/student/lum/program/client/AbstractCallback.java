@@ -10,9 +10,14 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
  */
 public class AbstractCallback<T> implements AsyncCallback<T> {
 
-    private BlockingTask loadingTask = new BlockingTask("Loading");
+    private BlockingTask loadingTask;
 
     public AbstractCallback() {
+        this("Loading");
+    }
+
+    public AbstractCallback(String text) {
+        loadingTask = new BlockingTask(text);
         KSBlockingProgressIndicator.addTask(loadingTask);
     }
 

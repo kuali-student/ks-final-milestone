@@ -1,23 +1,9 @@
 package org.kuali.student.lum.program.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
-import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
-import org.kuali.student.common.ui.client.service.MetadataRpcService;
-import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
-import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
@@ -26,7 +12,7 @@ import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
  *
  * @author Igor
  */
-public class MajorDisciplineController extends MenuEditableSectionController {
+public class ProgramController extends MenuEditableSectionController {
 
     public static final String PROGRAM_MODEL_ID = "programModelId";
 
@@ -34,8 +20,8 @@ public class MajorDisciplineController extends MenuEditableSectionController {
 
     private ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
-    public MajorDisciplineController() {
-        super(MajorDisciplineController.class.getName());
+    public ProgramController() {
+        super(ProgramController.class.getName());
     }
 
     private void initialize(final Callback<Boolean> callback) {

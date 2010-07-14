@@ -15,8 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.main.client.controller;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
@@ -36,7 +34,7 @@ import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.view.ActionListView;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
-import org.kuali.student.lum.program.client.MajorDisciplineController;
+import org.kuali.student.lum.program.client.ProgramController;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
@@ -149,7 +147,7 @@ public class LUMApplicationManager extends Controller {
                 browseCatalogController.showDefaultView(NO_OP_CALLBACK);
                 return browseCatalogView;
             case VIEW_MAJOR_DISCIPLINE:
-                Controller majorDisciplineController = new MajorDisciplineController();
+                Controller majorDisciplineController = new ProgramController();
                 DelegatingViewComposite majorDisciplineView = new DelegatingViewComposite(this, majorDisciplineController, LUMViews.VIEW_MAJOR_DISCIPLINE);
                 return majorDisciplineView;
             default:
