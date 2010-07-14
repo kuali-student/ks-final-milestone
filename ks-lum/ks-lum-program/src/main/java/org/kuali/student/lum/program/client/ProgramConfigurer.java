@@ -20,7 +20,7 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
         controller.addMenu(programSectionLabel);
         controller.addMenuItem(programSectionLabel, generateProgramDetailsView(), generateProgramDetailsEdit());
         controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_specializations()), generateEmptyView(ProgramProperties.get().program_menu_sections_specializations()));
-        controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_requirements()), generateEmptyView(ProgramProperties.get().program_menu_sections_requirements()));
+        controller.addMenuItem(programSectionLabel, generateProgramRequirementsView(), generateProgramRequirementsEdit());
         controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_managingBodies()), generateEmptyView(ProgramProperties.get().program_menu_sections_managingBodies()));
         controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_programDescription()), generateEmptyView(ProgramProperties.get().program_menu_sections_programDescription()));
         controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_learningResults()), generateEmptyView(ProgramProperties.get().program_menu_sections_learningResults()));
@@ -39,6 +39,18 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
         return view;
     }
 
+    private View generateProgramRequirementsEdit() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_EDIT, ProgramProperties.get().program_menu_sections_requirements(), MajorDisciplineController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("Edit Requirements"));
+        return view;
+    }
+    
+    private View generateProgramRequirementsView() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, ProgramProperties.get().program_menu_sections_requirements(), MajorDisciplineController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("View Requirements"));
+        return view;
+    }    
+    
     private View generateEmptyView(String label) {
         return new VerticalSectionView(ProgramSections.EMPTY, label, ProgramController.PROGRAM_MODEL_ID);
     }
