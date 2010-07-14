@@ -32,7 +32,7 @@
     <inherits name="org.kuali.student.lum.ui.theme.standard.StandardTheme"/>
     <!--<stylesheet src="LumMain.css"/>-->
 
-    <replace-with class="org.kuali.student.lum.lu.ui.course.client.configuration.course.poc.CourseConfigurer">
-        <when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer"/>
+    <replace-with class="org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer">
+        <when-type-is class="org.kuali.student.lum.lu.ui.course.client.configuration.course.old.CourseConfigurer"/>
     </replace-with>
 </module>

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.client.configuration.course.poc;
+package org.kuali.student.lum.lu.ui.course.client.configuration.course.old;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +30,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
@@ -52,7 +53,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLo
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
@@ -105,10 +106,6 @@ public class ViewCourseProposalSummaryConfigurer implements
     private WorkflowToolRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
     CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
     
-	//Override paths for course and proposal so they are root
-	public static final String PROPOSAL = "";
-	public static final String COURSE = "";
-    
     public ViewCourseProposalSummaryConfigurer(String type, String state,
 			String groupName, DataModelDefinition modelDefinition) {
 		super();
@@ -145,18 +142,22 @@ public class ViewCourseProposalSummaryConfigurer implements
     	pathToLabelTranslationMap.put("maxAmount", "To");
 	}
 
-	public VerticalSectionView generateSummarySection(){
+	public VerticalSectionView generateSummarySection(WorkflowUtilities wf){
     	
         VerticalSectionView summaryTableSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
         summaryTableSection.addStyleName(LUConstants.STYLE_SECTION);
             	
     	QueryPath path = QueryPath.concat(null, null);
     	Metadata meta = modelDefinition.getMetadata(path);
+    	
+    	summaryTableSection.addWidget(wf.getWorkflowActionsWidget());
 
     	FieldDescriptor fd = new FieldDescriptor(path.toString(), null, meta);
         fd.setWidgetBinding(new SummaryTableBinding());
         fd.setFieldWidget(new SummaryTable());
    		summaryTableSection.addField(fd);
+   		
+   		summaryTableSection.addWidget(wf.getWorkflowActionsWidget());
     	
     	return summaryTableSection;
     }
@@ -183,7 +184,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 				
 				//Summary Brief
 				summaryTable.addField(getLabel(LUConstants.BRIEF_LABEL_KEY), 0);
-				summaryTable.addField(LUConstants.TITLE_LABEL_KEY, COURSE + "/" + COURSE_TITLE, model, 1);
+				summaryTable.addField(LUConstants.TITLE_LABEL_KEY, PROPOSAL + "/" + TITLE, model, 1);
 				summaryTable.addField(LUConstants.DIVISION_LABEL_KEY, COURSE + "/" + SUBJECT_AREA, model, 1);
 				summaryTable.addField(LUConstants.COURSE_NUMBER_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
 				summaryTable.addField(LUConstants.CREATED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, model, 1);
@@ -229,10 +230,8 @@ public class ViewCourseProposalSummaryConfigurer implements
 		        populateLearningObjectives((Data)model.get(COURSE + "/" + COURSE_SPECIFIC_LOS), summaryTable, 1);
 		        
 		        //CourseRequisites
-		        /*
 		        summaryTable.addField(LUConstants.REQUISITES_LABEL_KEY, 0);
 		        populateCourseRequisites(model, summaryTable, 1);
-		        */
 		        
 		        //Active Dates
 		        summaryTable.addField(LUConstants.ACTIVE_DATES_LABEL_KEY, 0);
@@ -241,20 +240,16 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField(LUConstants.END_DATE_LABEL_KEY, COURSE + "/" + EXPIRATION_DATE, model, 1);
 				
 				//Financials
-				/*
 				summaryTable.addField(LUConstants.FINANCIALS_LABEL_KEY, COURSE + "/" + FEES, model, 0);
 				summaryTable.addField(LUConstants.FINANCIAL_INFORMATION, 1);
 				populateFinancialRevenue(model, summaryTable, 2);
 				populateFinancialExpenditure(model, summaryTable, 2);
-				*/
 				//summaryTable.addField(LUConstants.REVENUE, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, model, 2);
 				//summaryTable.addField(LUConstants.EXPENDITURE, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, model, 2);
 				
 				//People & Permissions
-				/*
 				summaryTable.addField(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 0);
 				populatePeopleAndPermissions(model, summaryTable, 0);
-				*/
 				
 				summaryTable.setPopulated(true);	        
 	        }

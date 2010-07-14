@@ -9,16 +9,14 @@ import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 
 public class ValidatorFactory {
 
-	private Map<String,Validator> customValidators;
+	private Map<String,Validator> customValidators = new HashMap<String,Validator>();
 	private DefaultValidatorImpl defaultValidator;
 	private ObjectStructureDefinition objStructure;
 	
 	public ValidatorFactory(){
-
 	}
 	
 	public ValidatorFactory(Validator...validators ){
-		this.customValidators = new HashMap<String, Validator>();
 		for(Validator validator:validators){
 			String validatorName = validator.getClass().getSimpleName();
 			customValidators.put(validatorName, validator);

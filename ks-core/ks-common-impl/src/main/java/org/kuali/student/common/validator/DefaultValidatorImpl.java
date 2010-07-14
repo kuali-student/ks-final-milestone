@@ -35,7 +35,7 @@ import org.kuali.student.core.messages.service.MessageService;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.impl.SearchDispatcher;
+import org.kuali.student.core.search.service.SearchDispatcher;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class DefaultValidatorImpl implements Validator{
@@ -163,6 +163,9 @@ public class DefaultValidatorImpl implements Validator{
             // Use Custom Validators
             if (f.getCustomValidatorClass() != null || f.isServerSide() && serverSide) {
             	Validator customValidator = validatorFactory.getValidator(f.getCustomValidatorClass());
+            	if(customValidator==null){
+            		throw new RuntimeException("Custom Validator "+f.getCustomValidatorClass()+" was not configured in this context");
+            	}
             	l = customValidator.validateObject(f,data, objStructure,elementStack);
             	results.addAll(l);
             }

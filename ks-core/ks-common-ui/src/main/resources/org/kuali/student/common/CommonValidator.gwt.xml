@@ -22,13 +22,14 @@
 		Validator.java should not be used in client. Several other classes here may not be required for UI as well
 		and need to be removed.
 	 -->
-	<source path='validator' >
+	<source path='validator/old' >
+		<include name="DateParseException.java"/>
+		<include name="DateParser.java"/>
+	
 		<!--<include name="BeanConstraintDataProvider.java"/>
 		<include name="BeanConstraintSetupFactory.java"/>
 		<include name="ConstraintDataProvider.java"/>
 		<include name="ConstraintSetupFactory.java"/>
-		<include name="DateParseException.java"/>
-		<include name="DateParser.java"/>
 		<include name="ServerDateParser.java"/>
 		<include name="ModelDTOConstraintDataProvider.java"/>
 		<include name="ModelDTOConstraintSetupFactory.java"/>		

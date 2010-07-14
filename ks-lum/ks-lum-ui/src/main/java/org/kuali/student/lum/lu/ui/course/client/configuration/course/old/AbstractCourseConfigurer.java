@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.course.client.configuration.course;
+package org.kuali.student.lum.lu.ui.course.client.configuration.course.old;
 
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.workflow.ui.client.widgets.ContentConfigurer;

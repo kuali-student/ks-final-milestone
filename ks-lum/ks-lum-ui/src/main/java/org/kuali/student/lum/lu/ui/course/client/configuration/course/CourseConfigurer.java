@@ -37,22 +37,26 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -61,19 +65,15 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedControl
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.AbstractCourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.ViewCourseProposalSummaryConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LRBuilder;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -88,18 +88,21 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class CourseConfigurer extends AbstractCourseConfigurer {
+    protected String groupName;
 
-    //FIXME:  [KSCOR-225] Initialize type and state
-    //  protected String type = "course";
-    //  protected String state = "draft";
-    // protected String groupName;
+    protected String type = "course";
+    protected String state = "draft";
 
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
 
-    public static final String PROPOSAL_ID_PATH                     = "proposal/id";
-    public static final String PROPOSAL_TITLE_PATH                  = "proposal/title";
-    public static final String COURSE_TITLE_PATH                    = COURSE + "/" + COURSE_TITLE;
+    public static final String PROPOSAL_ID_PATH                     = "/proposalId";
+    public static final String PROPOSAL_TITLE_PATH                  = "/courseTitle";
+    public static final String COURSE_TITLE_PATH                    = "/courseTitle";
+
+    //Override paths for course and proposal so they are root
+    public static final String PROPOSAL = "";
+    public static final String COURSE = "";
 
     public enum CourseSections{
         CLU_BEGIN, PEOPLE_PERMISSOMS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
@@ -107,17 +110,15 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         PROGRAM_INFO, ASSEMBLER_TEST
     }
 
-    //    protected DataModelDefinition modelDefinition;
-    public CourseConfigurer(){
-        type = "course";
-        state = "draft";
+    protected DataModelDefinition modelDefinition;
+
+    public void setModelDefinition(DataModelDefinition modelDefinition){
+        this.modelDefinition = modelDefinition;
     }
-    //   public void setModelDefinition(DataModelDefinition modelDefinition){
-    //  this.modelDefinition = modelDefinition;
-    // }
 
-        public void configure(final WorkflowEnhancedController layout) {
-
+    @Override
+    public void configure(final WorkflowEnhancedController layout) {
+        groupName = LUConstants.COURSE_GROUP_NAME;
 
         groupName = LUConstants.COURSE_GROUP_NAME;
 
@@ -147,7 +148,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 layout.addMenuItem(sections, generateFinancialsSection());
         }
             //Summary
-        ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
+            ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
             layout.addSpecialMenuItem(summaryConfigurer.generateSummarySection(layout.getWfUtilities()), "Review and Submit");
 
             //Tools
@@ -167,14 +168,48 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
                 }
             }));
+
+//      addCluStartSection(layout);
+//
+//      if(modelDefinition.getMetadata().isCanEdit()) {
+//          String editTabLabel = getLabel(LUConstants.EDIT_TAB_LABEL_KEY);
+//
+//          //ProposalInformation
+//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
+//
+//          //Course Content
+//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
+//
+//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseLogisticsSection());
+//          /*
+//              layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+//            */
+//
+//          //Student Eligibility
+//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+//
+//              //Administrative
+//              layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateGovernanceSection());
+//              layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
+//              //layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
+//      }
+//      //Review Proposal Tab
+//      ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
+//      layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, summaryConfigurer.generateSummarySection());
+//
+//      //Tool Tabs
+//          layout.addTool(new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
+//              getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+//          layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
+//          layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
     }
 
-        public void addCluStartSection(WorkflowEnhancedController layout){
+    public void addCluStartSection(WorkflowEnhancedController layout){
         VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
-        addField(section, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-        addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
-            layout.addStartViewPopup(section);
+        addField(section, COURSE_TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
+        layout.addStartViewPopup(section);
     }
 
 
@@ -182,8 +217,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         VerticalSectionView section = initSectionView(CourseSections.AUTHORS_RATIONALE, LUConstants.AUTHORS_RATIONAL);
 
         VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
-        addField(titleRationale, PROPOSAL + "/" + TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-        addField(titleRationale, PROPOSAL + "/" + RATIONALE, generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+        addField(titleRationale, COURSE_TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        addField(titleRationale, "proposalRationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
 
         section.addSection(titleRationale);
 
@@ -200,9 +235,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         List<Metadata> searchMetadata = new ArrayList<Metadata>();
 
-        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCourse")));
-        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findCluSet")));
-        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, SEARCH + "/" + "findProgram")));
+        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, "findCourse")));
+        searchMetadata.add(modelDefinition.getMetadata(QueryPath.concat(null, "findProgram")));
 
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CLU_PROPOSAL_MODEL, searchMetadata);
         //Setting the section title after initializing the widget won't do anything
@@ -265,11 +299,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         addField(courseNumber, COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY));
         addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY));
 
-        // TODO - hide cross-listed, offered jointly and version codes initially, with
-        // clickable label to disclose them
-        courseNumber.addSection(generateCrossListedSection());
+        //courseNumber.addSection(generateCrossListedSection());
         courseNumber.addSection(generateOfferedJointlySection());
-        courseNumber.addSection(generateVersionCodesSection());
+        //courseNumber.addSection(generateVersionCodesSection());
 
         return courseNumber;
     }
@@ -325,7 +357,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         section.addSection(generateInstructorsSection());
 
         section.addSection(generateSchedulingSection());
-        section.addSection(generateLearningResultsSection());
         section.addSection(generateCourseFormatsSection());
 
 
@@ -342,48 +373,22 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected VerticalSection generateSchedulingSection() {
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
         GroupSection duration = new GroupSection();
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
         scheduling.addSection(duration);
         return scheduling;
     }
 
     protected VerticalSection generateInstructorsSection() {
         VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
-        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR);
+        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR + "/personId");
         return instructors;
     }
 
     protected SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
-        section.addSection(generateLearningObjectivesNestedSection());
+        //section.addSection(generateLearningObjectivesNestedSection());
         return section;
-    }
-
-    protected VerticalSection generateLearningObjectivesNestedSection() {
-        VerticalSection los = initSection(null, NO_DIVIDER);
-
-        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
-        Metadata meta = modelDefinition.getMetadata(path);
-
-        // FIXME [KSCOR-225]  where should repo key come from?
-        FieldDescriptor fd = addField(los,
-                CreditCourseConstants.COURSE_SPECIFIC_LOS,
-                null,
-                new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
-                CreditCourseProposalConstants.COURSE);
-
-        // have to do this here, because decision on binding is done in ks-core,
-        // and we obviously don't want ks-core referring to LOBuilder
-        fd.setWidgetBinding(LOBuilderBinding.INSTANCE);
-
-        los.addStyleName("KS-LUM-Section-Divider");
-        return los;
-    }
-
-    protected VerticalSection generateLearningResultsSection() {
-        LRBuilder lrBuilder = new LRBuilder(type, state, groupName, modelDefinition);
-        return lrBuilder.generateLearningResultsSection();
     }
 
     public class CourseFormatList extends UpdatableMultiplicityComposite {
@@ -419,12 +424,12 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             addField(activity, ACTIVITY_TYPE, generateMessageInfo(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
             activity.nextLine();
 
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
 
             activity.nextLine();
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, generateMessageInfo(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  null, path);
+            addField(activity, CONTACT_HOURS + "/" + "unitQuantity", generateMessageInfo(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
+            addField(activity, CONTACT_HOURS + "/" + "unitType", null,  null, path);
             addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, generateMessageInfo(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
             return activity;
@@ -574,23 +579,25 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     /*
      * Configuring Program specific screens.
      */
-        public void configureProgramProposal(WorkflowEnhancedController layout, String objectKey, String typeKey, String stateKey) {
+    public void configureProgramProposal(WorkflowEnhancedController layout, String objectKey, String typeKey, String stateKey) {
 
         groupName = LUConstants.PROGRAM_GROUP_NAME;
 
         addCluStartSection(layout);
 
-            String programSections = "Program Sections";
+        String programSections = "Program Sections";
 
-            layout.addMenu(programSections);
-            layout.addMenuItem(programSections, generateProgramInfoSection());
+        layout.addMenu(programSections);
+        layout.addMenuItem(programSections, generateProgramInfoSection());
 
-            String tools = "Tools";
-            layout.addMenu(tools);
-            layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
-                getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
-            layout.addMenuItem(tools, new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
-            layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
+        String tools = "Tools";
+        layout.addMenu(tools);
+        layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
+            getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+        layout.addMenuItem(tools, new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
+        layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
+
+        groupName = LUConstants.PROGRAM_GROUP_NAME;
     }
 
 
@@ -626,6 +633,59 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return section;
     }
 
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo(groupName, type, state, labelKey);
+    }
+
+    protected String getLabel(String labelKey) {
+        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
+    }
+
+    protected SectionTitle getH1Title(String labelKey) {
+        return SectionTitle.generateH1Title(getLabel(labelKey));
+    }
+
+    protected SectionTitle getH2Title(String labelKey) {
+        return SectionTitle.generateH2Title(getLabel(labelKey));
+    }
+
+    protected SectionTitle getH3Title(String labelKey) {
+        return SectionTitle.generateH3Title(getLabel(labelKey));
+    }
+
+    protected SectionTitle getH4Title(String labelKey) {
+        return SectionTitle.generateH4Title(getLabel(labelKey));
+    }
+
+    protected SectionTitle getH5Title(String labelKey) {
+        return SectionTitle.generateH5Title(getLabel(labelKey));
+    }
+
+    // TODO - when DOL is pushed farther down into LOBuilder,
+    // revert these 5 methods to returning void again.
+    protected FieldDescriptor addField(Section section, String fieldKey) {
+        return addField(section, fieldKey, null, null, null);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+        return addField(section, fieldKey, messageKey, null, null);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+        return addField(section, fieldKey, messageKey, widget, null);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+        return addField(section, fieldKey, messageKey, null, parentPath);
+    }
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+
+        FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+        if (widget != null) {
+            fd.setFieldWidget(widget);
+        }
+        section.addField(fd);
+        return fd;
+    }
     protected SectionView generateFinancialsSection() {
         VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 
@@ -760,7 +820,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     @Override
     public String[] getWorkflowRequiredFields() {
-        return new String[]{"course/department"};
+        return new String[]{"department"};
     }
 
     @Override
@@ -768,9 +828,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         StringBuffer sb = new StringBuffer();
         sb.append("Modify Course: ");
-        sb.append(model.get("course/courseCode"));
+        sb.append(model.get("courseCode"));
         sb.append(" - ");
-        sb.append(model.get("course/transcriptTitle"));
+        sb.append(model.get("transcriptTitle"));
 
         return sb.toString();
     }
@@ -778,11 +838,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     @Override
     public String getProposalHeaderTitle(DataModel model) {
         StringBuffer sb = new StringBuffer();
-        if (model.get("course/copyOfCourseId") != null){
+        if (model.get("copyOfCourseId") != null){
             sb.append("Modify Course: ");
-            sb.append(model.get("course/courseCode"));
+            sb.append(model.get("courseCode"));
             sb.append(" - ");
-            sb.append(model.get("course/transcriptTitle"));
+            sb.append(model.get("transcriptTitle"));
         } else {
             sb.append("New Course: ");
             sb.append(model.get(getProposalTitlePath()));
@@ -790,5 +850,4 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         return sb.toString();
     }
-
 }
