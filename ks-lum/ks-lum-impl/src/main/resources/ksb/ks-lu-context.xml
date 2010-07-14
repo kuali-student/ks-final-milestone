@@ -470,10 +470,6 @@
                 <value>classpath:ks-programInfo-dictionary-context.xml</value>
             </list>
         </constructor-arg>
-       <!-- <constructor-arg index="0"
-                         value="classpath:ks-courseInfo-dictionary-context.xml"/>
-        <constructor-arg index="1"
-                         value="classpath:ks-programInfo-dictionary-context.xml"/>-->
     </bean>
 
     <bean id="pocServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
