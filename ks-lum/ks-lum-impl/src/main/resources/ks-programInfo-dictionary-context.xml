@@ -2,9 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
-	<import resource="classpath:ks-base-dictionary-context.xml" />
-	<import resource="classpath:ks-cluInfo-dictionary-context.xml" />
-	
+	<import resource="classpath:ks-courseInfo-dictionary-context.xml" />
+
 	<!-- TODO Need a org.kuali.student.lum.program.dto.ProgramInfo-parent"
 		 that this can inherit from -->
 	<!-- MajorDisciplineInfo-->
@@ -19,7 +18,7 @@
 				<ref bean="majorDisciplineInfo.publishedInstructors" />
 				<ref bean="majorDisciplineInfo.credentialProgramId" />
 				<ref bean="majorDisciplineInfo.variations" />
-				<ref bean="majorDisciplineInfo.code" />
+				<!--<ref bean="majorDisciplineInfo.code" />-->
 				<ref bean="majorDisciplineInfo.cipCode" />
 				<ref bean="majorDisciplineInfo.hegisCode" />
 				<ref bean="majorDisciplineInfo.universityClassification" />
@@ -51,7 +50,7 @@
 		<property name="hasMetaData" value="true" />
 	</bean>
 	<bean id="org.kuali.student.lum.course.dto.MajorDisciplineInfo"
-			parent="org.kuali.student.lum.course.dto.MajorDisciplineInfo-parent" />
+			parent="org.kuali.student.lum.program.dto.MajorDisciplineInfo-parent" />
 
 	<bean id="majorDisciplineInfo.programLevel-parent" abstract="true" parent="baseSingleString">
 		<property name="name" value="programLevel" />
@@ -73,7 +72,7 @@
 		<property name="name" value="publishedInstructors" />
 		<!-- I think we should be able to use course's as-is -->
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.lum.course.dto.CluInstructorInfo" />
+			ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
 	</bean>
 	<bean id="majorDisciplineInfo.publishedInstructors" parent="majorDisciplineInfo.publishedInstructors-parent" />
 
@@ -211,7 +210,7 @@
 				<ref bean="programVariationInfo.hegisCode" />
 				<ref bean="programVariationInfo.universityClassification" />
 				<ref bean="programVariationInfo.selectiveEnrollmentCode" />
-				<ref bean="programVariationInfo.resultOptions" />
+				<!--<ref bean="programVariationInfo.resultOptions" />-->
 				<ref bean="programVariationInfo.startTerm" />
 				<ref bean="programVariationInfo.endTerm" />
 				<ref bean="programVariationInfo.lastAdmitTerm" />
@@ -249,7 +248,7 @@
 		<property name="name" value="publishedInstructors" />
 		<!-- I think we should be able to use course's as-is -->
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.lum.course.dto.CluInstructorInfo" />
+			ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
 	</bean>
 	<bean id="programVariationInfo.publishedInstructors" parent="programVariationInfo.publishedInstructors-parent" />
 

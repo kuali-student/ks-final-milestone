@@ -9,6 +9,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSection
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
@@ -16,6 +18,8 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
+import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
 /**
  * TODO: why do I need to implement WorkflowEnhancedController???
@@ -28,7 +32,7 @@ public class MajorDisciplineController extends MenuEditableSectionController {
 
     private AbstractProgramConfigurer configurer = GWT.create(ProgramConfigurer.class);
 
-    private MetadataRpcServiceAsync metadataService = GWT.create(MetadataRpcService.class);
+    private ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
     public MajorDisciplineController() {
         super(MajorDisciplineController.class.getName());
@@ -42,12 +46,12 @@ public class MajorDisciplineController extends MenuEditableSectionController {
                 modelModelRequestCallback.onModelReady(new DataModel());
             }
         });
-        /*  metadataService.getMetadata(null, null, null, new AbstractCallback<Metadata>() {
+          programRemoteService.getMetadata(null, null, new AbstractCallback<Metadata>() {
             @Override
             public void onSuccess(Metadata result) {
                 afterMetadataIsLoaded(result);
             }
-        });*/
+        });
         afterMetadataIsLoaded(null);
         super.showDefaultView(NO_OP_CALLBACK);
     }
