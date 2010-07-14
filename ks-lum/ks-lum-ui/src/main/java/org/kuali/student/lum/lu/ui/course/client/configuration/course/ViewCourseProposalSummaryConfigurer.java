@@ -307,16 +307,16 @@ public class ViewCourseProposalSummaryConfigurer implements
 		
 		//ensure sequence of rule types based on rule summary screen
 		if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ)) != null) {
-		    summaryTable.addField(LUConstants.EREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+		    summaryTable.addField(LUConstants.EREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
 		}
         if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_PREREQ)) != null) {
-            summaryTable.addField(LUConstants.PREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+            summaryTable.addField(LUConstants.PREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
         }
         if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_COREQ)) != null) {
-            summaryTable.addField(LUConstants.CREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+            summaryTable.addField(LUConstants.CREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
         }
         if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_ANTIREQ)) != null) {
-            summaryTable.addField(LUConstants.AREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+            summaryTable.addField(LUConstants.AREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
         }        				
 	}
     

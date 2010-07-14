@@ -1271,7 +1271,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		if (luData.getRuleInfos() != null && !luData.getRuleInfos().isEmpty()) {
 			Data statements = new Data();
 			for (RuleInfo r : luData.getRuleInfos()) {
-			   statements.add(r.getNaturalLanguage());	
+			   statements.add(r.getNaturalLanguageForRuleEdit());	
 			}
 			data.set("statements",statements);
 		}

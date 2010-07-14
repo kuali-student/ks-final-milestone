@@ -300,7 +300,7 @@
 
 	<bean id="kuali.common.lookup.findCourse.suggest" parent="lookup">
 		<property name="id" value="kuali.common.lookup.findCourse.suggest" />
-		<property name="name" value="Find Course" />
+		<property name="name" value="Course" />
 		<property name="searchTypeId" value="lu.search.generic" />
 		<property name="desc" value="Search for courses" />
 		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
@@ -621,7 +621,7 @@
 		<property name="id"
 			value="kuali.common.lookup.findCourse.advanced.proposalsonly" />
 		<property name="searchTypeId" value="lu.search.generic"/>
-		<property name="name" value="Find Course" />
+		<property name="name" value="Course" />
 		<property name="desc" value="Search for courses" />
 		<property name="params">
 			<list>

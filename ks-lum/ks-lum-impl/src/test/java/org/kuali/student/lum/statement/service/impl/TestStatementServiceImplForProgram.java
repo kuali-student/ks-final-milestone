@@ -45,7 +45,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_Completed1ofProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-101", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-101", "KUALI.RULEEDIT", "en");
     	assertEquals("Must have successfully completed a minimum of 1 program from (Sociology, Geology) programs", nl);
 	}
 
@@ -54,7 +54,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_Completed2ofProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-105", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-105", "KUALI.RULEEDIT", "en");
     	assertEquals("Must have successfully completed a minimum of 2 programs from (Sociology, Geology) programs", nl);
 	}
 
@@ -63,7 +63,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_NotCompletedAnyOfProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-102", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-102", "KUALI.RULEEDIT", "en");
     	assertEquals("Must not have successfully completed any of (Sociology, Geology) programs", nl);
 	}
 
@@ -72,7 +72,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_NotCompletedProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-108", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-108", "KUALI.RULEEDIT", "en");
     	assertEquals("Must not have successfully completed Sociology program", nl);
 	}
 
@@ -81,7 +81,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_CompletedAllProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-103", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-103", "KUALI.RULEEDIT", "en");
     	assertEquals("Must have successfully completed all of (Sociology, Geology) programs", nl);
 	}
 
@@ -90,7 +90,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_CompletedSingleProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-107", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-107", "KUALI.RULEEDIT", "en");
     	assertEquals("Must have successfully completed Sociology program", nl);
 	}
 
@@ -99,7 +99,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_1CourseCompletedFromPrograms() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-104", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-104", "KUALI.RULEEDIT", "en");
     	assertEquals("Must have successfully completed a minimum of 1 course from (Sociology, Geology) programs", nl);
 	}
 
@@ -108,7 +108,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_2CourseCompletedFromPrograms() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-106", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-106", "KUALI.RULEEDIT", "en");
     	assertEquals("Must have successfully completed a minimum of 2 courses from (Sociology, Geology) programs", nl);
 	}
 
@@ -117,7 +117,7 @@ public class TestStatementServiceImplForProgram {
 	 */
 	@Test
 	public void testTranslateReqComponent_2CourseCompletedFrom1Program() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-109", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-109", "KUALI.RULEEDIT", "en");
     	assertEquals("Must have successfully completed a minimum of 2 courses from Sociology program", nl);
 	}
 	
@@ -126,7 +126,7 @@ public class TestStatementServiceImplForProgram {
      */
     @Test
     public void testTranslateReqComponent_admittedCreditsProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-110", "KUALI.CATALOG", "en");
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-110", "KUALI.RULEEDIT", "en");
         assertEquals("Must be admitted to program prior to earning 5 credits", nl);
     }	
 }

@@ -433,7 +433,7 @@ public class ManageRulesView extends ViewComposite {
                     	if (managedRule.getStatementVO() == null) {
                     	    ((CourseReqManager)getController()).removeRule(managedRule); 
                     	} else {
-                            managedRule.setNaturalLanguage(naturalLanguage);                     	    
+                            managedRule.setNaturalLanguageForRuleEdit(naturalLanguage);                     	    
                     	}
                     	
                         //switch to first page
@@ -644,7 +644,7 @@ public class ManageRulesView extends ViewComposite {
     private void updateNaturalLanguage() {                 
         
         requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(model.getValue().getCluId(),
-        									model.getValue().getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+        									model.getValue().getStatementVO(), "KUALI.RULEEDIT", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 GWT.log("NL failed", caught);

@@ -6122,7 +6122,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -6311,7 +6311,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -7121,7 +7121,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -7293,7 +7293,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>

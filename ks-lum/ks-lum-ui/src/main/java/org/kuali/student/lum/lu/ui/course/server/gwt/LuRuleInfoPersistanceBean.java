@@ -142,8 +142,8 @@ public class LuRuleInfoPersistanceBean {
 			        editHistory.save(statementVO);
 			        ruleInfo.setEditHistory(editHistory);
 					
-			        String naturalLanguage = getNaturalLanguageForStatementVO(cluId, statementVO,  "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE);
-			        ruleInfo.setNaturalLanguage(naturalLanguage);
+			        String naturalLanguage = getNaturalLanguageForStatementVO(cluId, statementVO,  "KUALI.RULEEDIT", RuleComponentEditorView.TEMLATE_LANGUAGE);
+			        ruleInfo.setNaturalLanguageForRuleEdit(naturalLanguage);
 			        			        
 					ruleInfos.add(ruleInfo);
 				}
@@ -194,7 +194,7 @@ public class LuRuleInfoPersistanceBean {
 					
 				String nl;
 				try {
-				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.CATALOG", "en");
+				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.RULEEDIT", "en");
 				} catch(Exception e) {
 					LOG.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
 					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());

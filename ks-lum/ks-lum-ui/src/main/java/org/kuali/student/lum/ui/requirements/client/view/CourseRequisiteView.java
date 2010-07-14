@@ -169,7 +169,7 @@ public class CourseRequisiteView extends ViewComposite {
     	            rule.getStatementVO().getAllReqComponentVOs();
     	    if (allReqComponentVOs != null && !allReqComponentVOs.isEmpty()) {
                 rulesText.clear();
-                rulesText.add(new KSLabel(rule.getNaturalLanguage()));
+                rulesText.add(new KSLabel(rule.getNaturalLanguageForRuleEdit()));
     	    }
     	}
     }

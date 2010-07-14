@@ -151,32 +151,32 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
 	// FIXME - Investigate why adding clu1, clu3, clu2 works but adding clu1, clu2, clu3 doesn't work
 	public void testGetNaturalLanguageForStatement() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.RULEEDIT", "en");
 //		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		String nl = statementService.getNaturalLanguageForRefStatementRelation("ref-stmt-rel-5", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForRefStatementRelation("ref-stmt-rel-5", "KUALI.RULEEDIT", "en");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_1ofN() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "en");
     	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
     }
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.RULEEDIT", "en");
     	assertEquals("Student must have completed MATH 180", nl);
     }
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_GradeCheck() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.RULEEDIT", "en");
     	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", nl);
     }
 
@@ -191,19 +191,19 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", null);
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", null);
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 
-        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "de");
+        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "de");
         assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", naturalLanguage);
 
-		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
+		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "en");
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
@@ -242,7 +242,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testTranslateReqComponentToNL() throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		ReqComponentInfo reqCompInfo = createReqComponent1();
-		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.CATALOG", "en");
+		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.RULEEDIT", "en");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
@@ -293,7 +293,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 		statementInfo.setReqComponents(Arrays.asList(reqComp1, reqComp2));
 
-		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementInfo, "KUALI.CATALOG", "en");
+		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementInfo, "KUALI.RULEEDIT", "en");
 
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
@@ -326,7 +326,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
     public void testGetNlUsageTypes() throws OperationFailedException {
 		List<NlUsageTypeInfo> infoList = statementService.getNlUsageTypes();
-		assertEquals(4, infoList.size());
+		assertTrue(infoList.size() > 0);
 	}
 
 	private boolean containsTypeId(List<? extends TypeInfo> types, String id) {
