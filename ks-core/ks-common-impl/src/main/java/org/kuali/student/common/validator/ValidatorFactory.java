@@ -12,8 +12,9 @@ public class ValidatorFactory {
 	private Map<String,Validator> customValidators;
 	private DefaultValidatorImpl defaultValidator;
 	private ObjectStructureDefinition objStructure;
+	
 	public ValidatorFactory(){
-		
+
 	}
 	
 	public ValidatorFactory(Validator...validators ){
@@ -26,13 +27,12 @@ public class ValidatorFactory {
 	
 	
 	public Validator getValidator(String customValidator) {
-//		if(defaultValidator==null){
-//			defaultValidator = new DefaultValidatorImpl();
-//			defaultValidator.setValidatorFactory(this);
-//			defaultValidator.setObjStructure(objStructure);
-//			return defaultValidator;
-//		}
-		return customValidators.get(customValidator);
+		if(customValidators!=null){
+			return customValidators.get(customValidator);
+		}
+		else{
+			return null;
+		}
 	}
 	
 	public Validator getValidator(){
