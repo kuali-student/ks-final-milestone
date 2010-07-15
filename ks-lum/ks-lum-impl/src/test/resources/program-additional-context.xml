@@ -26,6 +26,87 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+    <bean id="luClient"
+          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/lu}LuService"/>
+    </bean>
+  
+   <bean id="lrcClient"
+          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.lum.lrc.service.LrcService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
+    </bean>  
+    
+   <bean id="loClient"
+          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService"/>
+    </bean>
+    
+    <bean id="orgClient"
+          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.core.organization.service.OrganizationService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
+    </bean>
 
+    <bean id="enumServiceClient"
+          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
+    </bean>
+    
+    <bean id="pocServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+        <!--<property name="messageService" ref="ks.messageServiceMock"/> -->
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+    
+    <bean id="lumSearchDispatcher"
+          class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="loClient"/>
+                <ref bean="luClient"/>
+                <ref bean="lrcClient"/>
+                <ref bean="orgClient"/>
+                <ref bean="enumServiceClient"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="dictionaryService"
+          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg>
+            <list>
+                <value>classpath:ks-programInfo-dictionary-context.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="programRequirementAssembler"
+          class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
+    </bean>
 
+    <bean id="majorDisciplineAssembler"
+          class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
+    </bean>
+
+    <bean id="programServiceMethodInvoker"
+          class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
+        <property name="luService" ref="luClient"/>
+    </bean>
+    
+   <bean id="programSearchManager"
+          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:lu-search-config.xml"/>
+    </bean>    
 </beans>
