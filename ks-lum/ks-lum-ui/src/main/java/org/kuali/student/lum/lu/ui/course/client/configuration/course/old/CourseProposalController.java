@@ -249,7 +249,7 @@ public class CourseProposalController extends MenuSectionController implements R
     private void init(DataModelDefinition modelDefinition){
         //FIXME: [KSCOR-225] This needs to be moved to the configurer
         workflowUtil = new WorkflowUtilities((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class), this,
-                "proposal/id", createOnWorkflowSubmitSuccessHandler());
+                "proposalId", createOnWorkflowSubmitSuccessHandler());
         workflowUtil.setRequiredFieldPaths(new String[]{"course/department"});
 
         cfg.setModelDefinition(modelDefinition);
