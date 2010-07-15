@@ -34,6 +34,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections();
 
   /**
+   * Translated "Catalog Information".
+   * 
+   * @return translated "Catalog Information"
+   */
+  @DefaultMessage("Catalog Information")
+  @Key("program.menu.sections.catalogInfo")
+  String program_menu_sections_catalogInfo();
+
+  /**
    * Translated "Learning Objectives".
    * 
    * @return translated "Learning Objectives"
@@ -77,6 +86,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Details")
   @Key("program.menu.sections.programDetails")
   String program_menu_sections_programDetails();
+
+  /**
+   * Translated "Program Title".
+   * 
+   * @return translated "Program Title"
+   */
+  @DefaultMessage("Program Title")
+  @Key("program.menu.sections.programDetails.programTitle")
+  String program_menu_sections_programDetails_programTitle();
 
   /**
    * Translated "Program Requirements".

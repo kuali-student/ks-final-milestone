@@ -20,6 +20,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org</groupId>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-ui</artifactId>
             <version>${project.version}</version>

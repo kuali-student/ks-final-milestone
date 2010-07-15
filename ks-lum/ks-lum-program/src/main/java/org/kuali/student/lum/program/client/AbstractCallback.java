@@ -10,25 +10,25 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
  */
 public class AbstractCallback<T> implements AsyncCallback<T> {
 
-    private BlockingTask loadingTask;
+	private BlockingTask loadingTask;
 
-    public AbstractCallback() {
-        this("Loading");
-    }
+	public AbstractCallback() {
+		this("Loading");
+	}
 
-    public AbstractCallback(String text) {
-        loadingTask = new BlockingTask(text);
-        KSBlockingProgressIndicator.addTask(loadingTask);
-    }
+	public AbstractCallback(String text) {
+		loadingTask = new BlockingTask(text);
+		KSBlockingProgressIndicator.addTask(loadingTask);
+	}
 
-    @Override
-    public void onFailure(Throwable caught) {
-        KSBlockingProgressIndicator.removeTask(loadingTask);
-        Window.alert("Call failed on server.");
-    }
+	@Override
+	public void onFailure(Throwable caught) {
+		KSBlockingProgressIndicator.removeTask(loadingTask);
+		Window.alert("Call failed on server.");
+	}
 
-    @Override
-    public void onSuccess(T result) {
-        KSBlockingProgressIndicator.removeTask(loadingTask);
-    }
+	@Override
+	public void onSuccess(T result) {
+		KSBlockingProgressIndicator.removeTask(loadingTask);
+	}
 }

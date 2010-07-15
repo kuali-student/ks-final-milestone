@@ -55,7 +55,7 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
-    	fieldElement = new FieldElement(fieldKey, messageKey);
+    	fieldElement = new FieldElement(fieldKey, messageKey, createFieldWidget());
     	setupField();
     }
 
