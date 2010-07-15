@@ -57,14 +57,13 @@ public abstract class KSButtonAbstract extends Composite implements HasClickHand
 	
 	public abstract void setText(String text);
 	
+    public abstract void init();
+    
 	public abstract void init(String text);
 	
-	public abstract void init(String text, ButtonStyle style);
-	
-	
-	public abstract void init();
-	
+	public abstract void init(String text, ButtonStyle style);		
+
 	public abstract void init(String text, ClickHandler handler);
 
-
+    public abstract void init(String text, ButtonStyle style, ClickHandler handler);
 }

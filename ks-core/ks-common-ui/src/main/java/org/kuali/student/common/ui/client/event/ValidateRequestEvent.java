@@ -18,8 +18,6 @@ package org.kuali.student.common.ui.client.event;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 
-import com.google.gwt.user.client.ui.Widget;
-
 public class ValidateRequestEvent extends UncheckedApplicationEvent<ValidateRequestHandler> {
     public static final Type<ValidateRequestHandler> TYPE = new Type<ValidateRequestHandler>();
     private FieldDescriptor fieldDescriptor;

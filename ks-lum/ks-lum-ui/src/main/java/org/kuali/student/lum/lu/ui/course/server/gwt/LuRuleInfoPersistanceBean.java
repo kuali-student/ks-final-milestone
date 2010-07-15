@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
@@ -34,7 +34,7 @@ import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView
 import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 public class LuRuleInfoPersistanceBean {
-	final Logger logger = Logger.getLogger(LuRuleInfoPersistanceBean.class);
+	final Logger LOG = Logger.getLogger(LuRuleInfoPersistanceBean.class);
 	
 	private LuService luService;
 	private StatementService statementService;
@@ -149,14 +149,14 @@ public class LuRuleInfoPersistanceBean {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Error fetching rules from luService:" + cluId, e);
+			LOG.error("Error fetching rules from luService:" + cluId, e);
 			throw new RuntimeException("Error fetching rules from luService:" + cluId);
 		}
 	
 		return ruleInfos;
 	}
 	
-    //FIXME remove once we can use "kuali.luStatementType.createCourseAcademicReadiness" to
+    //FIXME [KSCOR-225] remove once we can use "kuali.luStatementType.createCourseAcademicReadiness" to
     // determine which rules belong to the course proposal screen
 	private boolean isCourseAcademicReadinessRule(String statementType) {	
         List<String> courseAcademicReadinessRules = new ArrayList<String>();
@@ -196,7 +196,7 @@ public class LuRuleInfoPersistanceBean {
 				try {
 				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.CATALOG", "en");
 				} catch(Exception e) {
-					logger.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
+					LOG.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
 					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());
 				} 				
 				reqComponentVO.setTypeDesc(nl);
@@ -249,8 +249,8 @@ public class LuRuleInfoPersistanceBean {
         try {
             nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new  RuntimeException("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
+        	LOG.error(ex);
+            throw new RuntimeException("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
         }
         
         return nlStatement;

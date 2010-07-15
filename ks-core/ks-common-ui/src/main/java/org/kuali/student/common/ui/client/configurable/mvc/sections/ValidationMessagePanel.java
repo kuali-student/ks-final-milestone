@@ -15,33 +15,41 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
-import java.util.List;
-
-import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Composite;
 
 public class ValidationMessagePanel extends Composite{
 	
 	private KSListPanel listPanel = new KSListPanel();
+	private int count = 0;
+	private boolean topMargin = true;
 	
 	public ValidationMessagePanel(){
 		this.initWidget(listPanel);
 		
 	}
 	
+	public ValidationMessagePanel(boolean topMargin){
+		this.initWidget(listPanel);
+		this.topMargin = topMargin;
+	}
+	
 	public void addMessage(KSLabel message){
+		if(count == 0 && topMargin){
+			message.addStyleName("ks-form-module-single-line-margin");
+		}
 		listPanel.add(message);
+		count++;
 	}
 	
 	public void clear(){
 		listPanel.clear();
+		count = 0;
+	}
+	
+	public int getMessageCount(){
+		return count;
 	}
 }

@@ -41,46 +41,10 @@
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
-  	<inherits name="com.google.gwt.libideas.StyleInjector" /> 
     <inherits name='com.google.gwt.gen2.table.Table'/>
 
  
 	<script src="http://www.google.com/jsapi"/>
-	
-	<!--
-    <stylesheet src="http://www.google.com/uds/modules/gviz/1.0/table/table.css"/>
-  	--><!--<stylesheet src="CommonUI.css"/>
-	--><!--<stylesheet src="KSGeneral.css"/>
-	<stylesheet src="KSAccordionMenu.css"/>
-	<stylesheet src="KSAccordionPanel.css"/>
-	<stylesheet src="KSBlockingProgressIndicator.css"/>
-	<stylesheet src="KSButton.css"/>
-	<stylesheet src="KSCheckbox.css"/>
-	<stylesheet src="KSDatePicker.css"/>
-	<stylesheet src="KSDisclosureSection.css"/>
-	<stylesheet src="KSDropDown.css"/>
-	<stylesheet src="KSFloatPanel.css"/>
-	<stylesheet src="KSFormLayout.css"/>
-	<stylesheet src="KSHelpLink.css"/>
-	<stylesheet src="KSImage.css"/>
-	<stylesheet src="KSInfoDialogPanel.css"/>
-	<stylesheet src="KSModalDialogPanel.css"/>
-	<stylesheet src="KSLabel.css"/>
-	<stylesheet src="KSListBox.css"/>
-	<stylesheet src="KSRadioButton.css"/>
-	<stylesheet src="KSResizablePanel.css"/>
-	<stylesheet src="KSRichTextEditor.css"/>
-	<stylesheet src="KSTable.css"/>
-	<stylesheet src="KSTextArea.css"/>
-	<stylesheet src="KSTextBox.css"/>
-	<stylesheet src="KSDialogPanel.css"/>
-	<stylesheet src="KSProgressIndicator.css"/>
-	<stylesheet src="KSConfirmButtonPanel.css"/>
-	<stylesheet src="KSConfirmationDialog.css"/>
-	<stylesheet src="KSSidebar.css"/>
-	<stylesheet src="KSToolTip.css"/>
-  	
-    -->
     
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>

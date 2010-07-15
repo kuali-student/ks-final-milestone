@@ -15,11 +15,15 @@
 
 package org.kuali.student.common.ui.client.widgets.search;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -36,6 +40,8 @@ public class SwappablePanel extends Composite{
 	//FIXME: eventually we will need 'Search For' label as well. can the use of 'Search By' or 'Search For' be automatically
 	// implied or do we need another lookup configuration parameter?
 	private KSLabel searchForLabel = new KSLabel(Application.getApplicationContext().getMessage("swappablePanelSearchBy"));
+    private List<Callback<LookupMetadata>> lookupChangedCallbacks = new ArrayList<Callback<LookupMetadata>>();
+    private LinkedHashMap<String, LookupMetadata> searchLookups = new LinkedHashMap<String, LookupMetadata>();
 
 	public SwappablePanel(LinkedHashMap<String, Widget> panelMap){
 		this.panelMap = panelMap;
@@ -47,6 +53,14 @@ public class SwappablePanel extends Composite{
 				int i = panelSelector.getSelectedIndex();
 				Widget p = SwappablePanel.this.panelMap.get(panelSelector.getItemText(i));
 				content.setWidget(p);
+                if (lookupChangedCallbacks != null &&
+                        searchLookups != null) {
+                    LookupMetadata selectedLookup = SwappablePanel.this.searchLookups.get(
+                            panelSelector.getItemText(i));
+                    for (Callback<LookupMetadata> callback : lookupChangedCallbacks) {
+                        callback.exec(selectedLookup);
+                    }
+                }
 			}
 		});
 
@@ -67,5 +81,17 @@ public class SwappablePanel extends Composite{
             }
         }
 	}
+	
+    public void addLookupChangedCallback(Callback<LookupMetadata> callback) {
+        lookupChangedCallbacks.add(callback);
+    }
 
+    public LinkedHashMap<String, LookupMetadata> getSearchLookups() {
+        return searchLookups;
+    }
+
+    public void setSearchLookups(LinkedHashMap<String, LookupMetadata> searchLookups) {
+        this.searchLookups = searchLookups;
+    }
+    
 }

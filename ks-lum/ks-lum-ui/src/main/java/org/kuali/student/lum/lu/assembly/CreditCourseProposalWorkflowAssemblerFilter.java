@@ -103,7 +103,11 @@ public class CreditCourseProposalWorkflowAssemblerFilter extends PassThroughAsse
 
             //Check if there were errors saving
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
+            	if(stdResp==null){
+            		throw new RuntimeException("Error found updating document");
+            	}else{
+            		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
+            	}
         	}            
 		}
 	}

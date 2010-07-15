@@ -35,6 +35,7 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.KSEntityConstants;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
@@ -54,10 +55,10 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	@Column(name = "SHRT_NAME")
 	private String shortName; 
 	
-	@Column(name = "SHRT_DESCR",length=500)//TODO what is a good number for these short descriptions?
+	@Column(name = "SHRT_DESCR",length=KSEntityConstants.SHORT_TEXT_LENGTH)
 	private String shortDesc; 
 	
-	@Column(name = "LNG_DESCR",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "LNG_DESCR",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String longDesc; 
 	
 	@Temporal(TemporalType.TIMESTAMP)

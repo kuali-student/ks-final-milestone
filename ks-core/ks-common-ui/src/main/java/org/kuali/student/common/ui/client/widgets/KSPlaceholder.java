@@ -22,12 +22,12 @@ public class KSPlaceholder extends Label {
         super("[PLACEHOLDER]");
         setupDefaultStyle();
     }
-    
+
     /**
      * This method sets the default style for placeholders.
-     * 
+     *
      */
     private void setupDefaultStyle(){
-        addStyleName(KSStyles.KS_PLACEHOLDER_STYLE);
+        addStyleName("KS-Placeholder");
     }
 }

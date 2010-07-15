@@ -19,68 +19,23 @@
     padding: 10px;
 }
 
-.KS-Advanced-Search-Param-Labels{
-	font-weight: bold;
-}
-
-.KS-Advanced-Search-Tab-Panel{
-    width: 100%;
-    height: 100%
-
-}
-.KS-Advanced-Search-Customize-Tab-Panel{
-    width: 100%;
-    height: 100%
-}
-
-.KS-Advanced-Search-Table-Tab-Panel{
-    width: 100%;
-    height: 100%
-}
-
-.KS-Advanced-Search-Panel{
-    width: 100%;
-    height: 100%;
-}
-
-.KS-Advanced-Search-Results-Panel{
-	width: 500;
-}
-
-.KS-Advanced-Search-Results-Table{
-    margin-top: .2em;
-}
-
-/*.gwt-TabPanelBottom{
-	height: 100%;
-}*/
-
-.KS-Advanced-Search-Param-Label-Column{
-	width: 75;
-}
-
-.KS-Advanced-Search-Param-Label-Cells{
-	background-color: #99bbe8;
-}
-
-.KS-Advanced-Search-Results-Label{
-	font-weight: bold;
+.KS-Advanced-Search-Header-Label{
+    font-size:20pt;
+    fcolor:red;
 }
 
 .KS-Advanced-Search-Search-Criteria-Label{
     font-weight: bold;
 }
 
-.KS-Advanced-Search-Search-Criteria-Text{
-    margin-left: .5em;
+.KS-Advanced-Search-Results-Table{
+    margin-top: .2em;
 }
 
 .KS-Advanced-Search-Button{
-	  padding-top: 1.2em;
+    margin-top: 1.2em;
 }
 
-.KS-Advanced-Search-Header-Label{
-	font-weight: bold;
-	font-size: medium;
+.KS-Advanced-Search-Search-Criteria-Text{
+    margin-left: .5em;
 }
-

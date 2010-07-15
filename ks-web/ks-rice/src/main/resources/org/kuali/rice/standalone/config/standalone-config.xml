@@ -84,5 +84,5 @@
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 		
 	<!-- Set all services to /services instead of /remoting -->
-	<param name="serviceServletUrl">${application.url}/remoting/</param>
+	<param name="serviceServletUrl">${application.url}/services/</param>
 </config>

@@ -34,16 +34,13 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
     public String getPrincipalUsername(){
         String username = "unknown";
         
-        try{
             Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (obj instanceof UserDetails) {
                 username = ((UserDetails)obj).getUsername();
               } else {
                 username = obj.toString();
               }
-        } catch (Exception e){
-            //TODO: How do we handle this?
-        }
+
         
         return username;
     }

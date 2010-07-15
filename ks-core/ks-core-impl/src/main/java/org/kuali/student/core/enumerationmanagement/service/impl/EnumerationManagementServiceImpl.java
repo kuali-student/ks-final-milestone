@@ -43,7 +43,6 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +61,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	
 	public EnumerationManagementServiceImpl() {}
     
-    private ValidationResultContainer validateEnumeratedValue(EnumerationMetaInfo meta, EnumeratedValueInfo value){
+    private List<ValidationResultInfo> validateEnumeratedValue(EnumerationMetaInfo meta, EnumeratedValueInfo value){
 //    	
 //    	DictValidationResultContainer result = new DictValidationResultContainer(meta.g);
 //    	List<EnumeratedValueFieldInfo> fields = meta.getEnumeratedValueFields();
@@ -123,7 +122,6 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			EnumeratedValueInfo enumeratedValue) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		ValidationResultContainer result = new ValidationResultContainer(enumerationKey);
     	EnumerationMetaInfo meta;
 		try {
 			meta = this.getEnumerationMeta(enumerationKey);
@@ -132,17 +130,18 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		}
 		
     	if(meta != null){
-	        result = this.validateEnumeratedValue(meta, enumeratedValue);
+    		List<ValidationResultInfo> results = this.validateEnumeratedValue(meta, enumeratedValue);
+    	
+	    	for(ValidationResultInfo result:results){
+	    		if(result !=null && ValidationResultInfo.ErrorLevel.ERROR.equals(result.getErrorLevel())){
+	        		throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to get messages here
+	    		}
+	    	}
     	}
     	
-    	if(result !=null && result.getErrorLevel() != ValidationResultInfo.ErrorLevel.ERROR){
-    		EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
-    		EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, valueEntity);
-        	enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
-    	}
-    	else{
-    		throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to get messages here
-    	}
+    	EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
+    	EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, valueEntity);
+        enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
 
         return enumeratedValue;
 	}
@@ -179,21 +178,21 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
         
-		ValidationResultContainer result = new ValidationResultContainer(enumerationKey);
     	EnumerationMetaInfo meta = this.getEnumerationMeta(enumerationKey);
     	if(meta != null){
-	        result = this.validateEnumeratedValue(meta, enumeratedValue);
+	        List<ValidationResultInfo> results = this.validateEnumeratedValue(meta, enumeratedValue);
+    	
+	    	for(ValidationResultInfo result:results){
+	    		if(result !=null && ValidationResultInfo.ErrorLevel.ERROR.equals(result.getErrorLevel())){
+	        		throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to get messages here
+	    		}
+	    	}
     	}
 
-    	if(result.getErrorLevel() != ValidationResultInfo.ErrorLevel.ERROR){
-		    EnumeratedValueEntity enumeratedValueEntity = new EnumeratedValueEntity();    
-		    EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, enumeratedValueEntity);
-		    enumeratedValueEntity =  enumDAO.updateEnumeratedValue(enumerationKey, code, enumeratedValueEntity);
-		    EnumerationAssembler.toEnumeratedValueInfo(enumeratedValueEntity, enumeratedValue);
-    	}
-    	else{
-    		throw new EnumerationException("updateEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to output messages here
-    	}
+	    EnumeratedValueEntity enumeratedValueEntity = new EnumeratedValueEntity();    
+	    EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, enumeratedValueEntity);
+	    enumeratedValueEntity =  enumDAO.updateEnumeratedValue(enumerationKey, code, enumeratedValueEntity);
+	    EnumerationAssembler.toEnumeratedValueInfo(enumeratedValueEntity, enumeratedValue);
         
         return enumeratedValue;
 	}

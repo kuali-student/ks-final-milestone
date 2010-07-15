@@ -17,8 +17,6 @@ package org.kuali.student.common.ui.client.event;
 
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 
-import com.google.gwt.event.shared.GwtEvent.Type;
-
 public class ModifyEvent<ModifyType extends Enum<?>> extends ApplicationEvent<ModifyHandler>{
     public static final Type<ModifyHandler> TYPE = new Type<ModifyHandler>();
     

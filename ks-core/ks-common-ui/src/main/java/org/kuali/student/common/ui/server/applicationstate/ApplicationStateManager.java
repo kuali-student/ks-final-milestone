@@ -15,25 +15,17 @@
 
 package org.kuali.student.common.ui.server.applicationstate;
 
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-
+/**
+ * TODO: The ApplicationStateManager needs to be reviewed as part of the code clean-up.
+ * 
+ * The old interface worked specifically with the ModelDTO. Can the dao layer
+ * for application state be still used? How and where will this be consumed?
+ * 
+ * The old implementation for this interface has also been removed.
+ * 
+ * @author Will
+ *
+ */
 public interface ApplicationStateManager {
 
-	/**
-	 * Creates or updates a <code>model</code> application state.
-	 * 
-	 * @param model ModelDTO
-	 * @throws Thrown if creating an application state already exists
-	 */
-	public void createOrUpdateApplicationState(ModelDTO model) throws AlreadyExistsException;
-
-	/**
-	 * Gets a <code>model</code> application state
-	 * @param model
-	 * @return
-	 * @throws DoesNotExistException Thrown if application state does not exists
-	 */
-    public ModelDTO getApplicationState(ModelDTO model) throws DoesNotExistException; 
 }

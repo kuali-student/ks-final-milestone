@@ -21,7 +21,7 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.StyleElement;
-import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.dom.client.StyleInjector;
 
 public class CommonUI implements EntryPoint {
     public StyleElement commonStyle;

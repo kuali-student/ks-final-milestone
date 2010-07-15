@@ -25,6 +25,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
@@ -37,13 +38,14 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgPersonHelper;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgPersonHelper;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelper>{
+	final Logger LOG = Logger.getLogger(OrgPersonRelationAssembler.class);
     private OrganizationService orgService;
     private Metadata metadata;
     private DataModel orgPersonModel = new DataModel();
@@ -82,7 +84,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
             
         }
         catch(Exception e){
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return orgRelationMap;
     }
@@ -137,7 +139,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                     }
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                	LOG.error(e);
                     throw(new AssemblyException());
                 }
             }
@@ -150,7 +152,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                     addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                	LOG.error(e);
                     throw new AssemblyException();
                 }
             }
@@ -217,7 +219,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         }
         }
         catch(Exception e){
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return orgRelations;
     }

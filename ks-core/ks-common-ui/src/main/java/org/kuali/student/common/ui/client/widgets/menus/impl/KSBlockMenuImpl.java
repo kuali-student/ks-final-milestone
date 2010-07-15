@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.widgets.menus.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -29,7 +29,8 @@ public class KSBlockMenuImpl extends Composite{
 	private FlowPanel layout = new FlowPanel();
 	private FlowPanel container = new FlowPanel();
 	private List<KSListMenuImpl> menus = new ArrayList<KSListMenuImpl>();
-	
+	private List<KSMenuItemData> data;
+
 	public KSBlockMenuImpl(){
 		//layout.setStyleName("KS-Block-Menu");
 		layout.setStyleName("ks-page-sub-navigation");
@@ -37,26 +38,44 @@ public class KSBlockMenuImpl extends Composite{
 		layout.add(new HTMLPanel("<div class=\"clear\">&nbsp;</div>"));
 		this.initWidget(container);
 	}
-	
+
 	public void addMenu(KSListMenuImpl menu){
 		menu.setStyleName("ks-page-sub-navigation-menu");
 		layout.insert(menu, layout.getWidgetCount() -1);
-		//layout.add(menu);
-		
+		menus.add(menu);
+		menu.addGlobalMenuItemSelectCallback(new Callback<KSMenuItemData>(){
+
+			@Override
+			public void exec(KSMenuItemData result) {
+				for(int i=0; i < KSBlockMenuImpl.this.menus.size(); i++){
+					KSBlockMenuImpl.this.menus.get(i).clearSelected();
+				}
+				
+			}
+		});
+
 	}
-	
+
 	public void setMenus(List<KSListMenuImpl> menus){
 		for(KSListMenuImpl menu: menus){
 			this.addMenu(menu);
 		}
 	}
-	
+
 	/**
 	 * Use the top level menu items of a list of KSMenuItemData to generate separate menus in a block
 	 * layout
 	 * @param data
 	 */
 	public void setTopLevelItems(List<KSMenuItemData> data){
+		this.data = data;
+		refresh();
+	}
+	
+	public void refresh(){
+		layout.clear();
+		menus.clear();
+		layout.add(new HTMLPanel("<div class=\"clear\">&nbsp;</div>"));
 		for(KSMenuItemData item: data){
 			List<KSMenuItemData> list = new ArrayList<KSMenuItemData>();
 			list.add(item);
@@ -65,4 +84,5 @@ public class KSBlockMenuImpl extends Composite{
 			this.addMenu(menu);
 		}
 	}
+	
 }

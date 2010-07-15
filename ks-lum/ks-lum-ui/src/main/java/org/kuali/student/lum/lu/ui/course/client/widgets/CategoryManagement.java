@@ -26,16 +26,17 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -61,7 +62,6 @@ public class CategoryManagement extends Composite {
     VerticalPanel mainPanel = new VerticalPanel();
     KSLabel messageLabel = new KSLabel();
     
-    List<LoCategoryInfo> categoryList;
     List<LoCategoryTypeInfo> categoryTypeList;
     private void initCategoryManagement() {
         super.initWidget(mainPanel);
@@ -477,7 +477,7 @@ public class CategoryManagement extends Composite {
             info.setType(typeListBox.getSelectedItem());
             info.setState("active");
             info.setLoRepository("kuali.loRepository.key.singleUse");
-            // FIXME - user needs to specify what LoRepository they want category to tagged with
+            // FIXME [KSCOR-225] user needs to specify what LoRepository they want category to tagged with
             return info;
         }
     }

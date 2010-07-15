@@ -49,6 +49,7 @@
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescId" subSearchKey="lo" resultParam="lo.resultColumn.loId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="clu" resultParam="lo.resultColumn.loCluId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluOfficialIdentifier.cluCode" subSearchKey="clu" resultParam="lo.resultColumn.loCluCode"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="clu" resultParam="lo.resultColumn.loCluOptionalLongName"/>
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescPlain" subSearchKey="lo" resultParam="lo.resultColumn.loDescPlain"/>
 	</search:crossSearchType>
 	
@@ -343,7 +344,12 @@
         <search:desc>Clu Code</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
-
+	<search:resultColumn id="lo.resultColumn.loCluOptionalLongName" parent="lo.resultColumn.loCluOptionalLongName-parent"/>
+	<search:resultColumn id="lo.resultColumn.loCluOptionalLongName-parent"  abstract="true">
+		<search:name>Clu Long Name</search:name>
+		<search:desc>Clu Long Name</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>		
     <search:resultColumn id="lo.resultColumn.loName" parent="lo.resultColumn.loName-parent"/>
 	<search:resultColumn id="lo.resultColumn.loName-parent"  abstract="true">
         <search:name>Lo Name</search:name>
