@@ -21,10 +21,11 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
         controller.addMenuItem(programSectionLabel, generateProgramDetailsView(), generateProgramDetailsEdit());
         controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_specializations()), generateEmptyView(ProgramProperties.get().program_menu_sections_specializations()));
         controller.addMenuItem(programSectionLabel, generateProgramRequirementsView(), generateProgramRequirementsEdit());
-        controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_managingBodies()), generateEmptyView(ProgramProperties.get().program_menu_sections_managingBodies()));
+        controller.addMenuItem(programSectionLabel, generateManageBodiesView(), generateManageBodiesEdit());
+        controller.addMenuItem(programSectionLabel, generateCatalogInfoView(), generateCatalogInfoEdit());
         controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_programDescription()), generateEmptyView(ProgramProperties.get().program_menu_sections_programDescription()));
         controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_learningResults()), generateEmptyView(ProgramProperties.get().program_menu_sections_learningResults()));
-        controller.addMenuItem(programSectionLabel, generateEmptyView(ProgramProperties.get().program_menu_sections_learningObjectives()), generateEmptyView(ProgramProperties.get().program_menu_sections_learningObjectives()));
+        controller.addMenuItem(programSectionLabel, generateLearningObjectivesView(), generateLearningObjectivesEdit());
     }
 
     private View generateProgramDetailsEdit() {
@@ -50,6 +51,41 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
         view.addWidget(new Label("View Requirements"));
         return view;
     }    
+    
+    private View generateManageBodiesEdit() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.MANAGE_BODIES_EDIT, ProgramProperties.get().program.menu.sections.managingBodies(), ProgramController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("Managing Bodies"));
+        return view;
+    }
+    
+    private View generateManageBodiesView() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program.menu.sections.managingBodies(), ProgramController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("Managing Bodies"));
+        return view;
+    } 
+    
+    private View generateCatalogInfoEdit() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.CATALOG_INFO_EDIT, ProgramProperties.get().program.menu.sections.catalogInfo(), ProgramController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("Catalog Information"));
+        return view;
+    }
+    
+    private View generateCatalogInfoView() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program.menu.sections.catalogInfo(), ProgramController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("Catalog Information"));
+        return view;
+    }
+    private View generateLearningObjectivesEdit() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_EDIT, ProgramProperties.get().program.menu.sections.learningObjectives(), ProgramController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("Learning Objectives"));
+        return view;
+    }
+    
+    private View generateLearningObjectivesView() {
+        VerticalSectionView view = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, ProgramProperties.get().program.menu.sections.learningObjectives(), ProgramController.PROGRAM_MODEL_ID);
+        view.addWidget(new Label("Learning Objectives"));
+        return view;
+    }
     
     private View generateEmptyView(String label) {
         return new VerticalSectionView(ProgramSections.EMPTY, label, ProgramController.PROGRAM_MODEL_ID);
