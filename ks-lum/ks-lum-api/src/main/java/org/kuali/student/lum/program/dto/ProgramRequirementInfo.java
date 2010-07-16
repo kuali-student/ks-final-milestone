@@ -62,7 +62,7 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
     private List<LoDisplayInfo> learningObjectives;
 
     @XmlElement
-    private List<StatementTreeViewInfo> statements;
+    private StatementTreeViewInfo statement;
     
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -115,15 +115,12 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
         this.learningObjectives = learningObjectives;
     }
 
-    public List<StatementTreeViewInfo> getStatements() {
-        if(null == statements) {
-            statements = new ArrayList<StatementTreeViewInfo>(0);
-        }
-        return statements;
+    public StatementTreeViewInfo getStatement() {
+        return statement;
     }
 
-    public void setStatements(List<StatementTreeViewInfo> statements) {
-        this.statements = statements;
+    public void setStatement(StatementTreeViewInfo statement) {
+        this.statement = statement;
     }
 
     /**
