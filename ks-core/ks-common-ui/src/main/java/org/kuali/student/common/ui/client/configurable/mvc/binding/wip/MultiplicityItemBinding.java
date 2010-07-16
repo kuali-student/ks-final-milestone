@@ -15,16 +15,15 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.binding.wip;
 
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityGroupItem;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.core.assembly.data.QueryPath;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.wip.MultiplicityItemSection;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.core.assembly.data.QueryPath;
 
 /**
  * This binding simply adds an index key to the multiplicity item's parent path and then calls the binding ModelWidgetBinding
@@ -32,8 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author Kuali Student Team
  */
-public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<MultiplicityGroupItem> {
-    public static MultiplicityGroupItemBinding INSTANCE = new MultiplicityGroupItemBinding();
+public class MultiplicityItemBinding extends ModelWidgetBindingSupport<MultiplicityItemSection> {
+    public static MultiplicityItemBinding INSTANCE = new MultiplicityItemBinding();
 
     protected static final String RT_CREATED = "_runtimeData" + QueryPath.getPathSeparator() + "created";
     protected static final String RT_UPDATED = "_runtimeData" + QueryPath.getPathSeparator() + "updated";
@@ -43,17 +42,16 @@ public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<Mult
      *     !!!!!! WORK IN PROGRESS  !!!!!!
      *     
      */
-    private MultiplicityGroupItemBinding() {};
+    private MultiplicityItemBinding() {};
 
     /**
      * @see ModelWidgetBindingSupport#setModelValue(Object,
      *      org.kuali.student.common.ui.client.mvc.DataModel, String)
      */
     @Override
-    public void setModelValue(MultiplicityGroupItem multiplicityItem, DataModel model, String path) {
-        // TODO modify this method to use QueryPath.add to build paths, rather than string manipulation
-        String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
-    	String mutiRuntimePath = itemPath;
+    public void setModelValue(MultiplicityItemSection multiplicityItem, DataModel model, String path) {
+        String itemPath = QueryPath.concat(path, String.valueOf(multiplicityItem.getItemKey())).toString();
+    	String itemRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
         if (widget instanceof Section) {
         	itemPath = "";
@@ -67,11 +65,11 @@ public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<Mult
         // Multiplicity metadata?
        QueryPath qPath;
         if (multiplicityItem.isCreated()) {
-            qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_CREATED);
+            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_CREATED);
         } else if (multiplicityItem.isDeleted()) {
-            qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_DELETED);
+            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_DELETED);
         } else {
-            qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_UPDATED);
+            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_UPDATED);
         }
         try {
             Boolean oldValue = model.get(qPath);
@@ -92,7 +90,7 @@ public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<Mult
      *      org.kuali.student.common.ui.client.mvc.DataModel, String)
      */
     @Override
-    public void setWidgetValue(MultiplicityGroupItem multiplicityItem, DataModel model, String path) {
+    public void setWidgetValue(MultiplicityItemSection multiplicityItem, DataModel model, String path) {
 //        String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
         String itemPath ="";
         Widget widget = multiplicityItem.getItemWidget();

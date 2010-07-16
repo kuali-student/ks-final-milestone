@@ -244,10 +244,4 @@ public class LUMApplicationManager extends Controller {
         return LUMViews.valueOf(enumValue);
     }
 
-    @Override
-    public boolean beforeViewChange() {
-        // TODO Do a check here for controllers that may be active and want to respond
-        //(nested controllers in the delegating views)
-        return true;
-    }
 }

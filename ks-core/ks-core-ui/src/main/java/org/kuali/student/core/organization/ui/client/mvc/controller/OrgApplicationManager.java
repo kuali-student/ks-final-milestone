@@ -86,10 +86,4 @@ public class OrgApplicationManager extends Controller{
         
     }
 
-	@Override
-	public boolean beforeViewChange() {
-		// TODO Does this controller need to do anything before a view is changed?
-		return true;
-	}
-
 }

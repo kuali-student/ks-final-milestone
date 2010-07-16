@@ -15,13 +15,14 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip;
 
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
+
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.core.assembly.data.Metadata;
 
 
 
@@ -34,7 +35,8 @@ public class MultiplicityConfiguration {
 
     private String itemLabel;
     private String addItemLabel;
-    private int minEmptyItems;
+    
+    private Metadata metaData;
 
     int row = 0;
     
@@ -64,9 +66,10 @@ public class MultiplicityConfiguration {
      * @param styleType
      * 
      */
-    public MultiplicityConfiguration(MultiplicityType multiplicityType, StyleType styleType) {
+    public MultiplicityConfiguration(MultiplicityType multiplicityType, StyleType styleType, Metadata metaData) {
         this.multiplicityType = multiplicityType;
         this.styleType = styleType;
+        this.metaData = metaData;
     }
 
     /**
@@ -105,8 +108,8 @@ public class MultiplicityConfiguration {
 	 * and concatenate the named fieldKeys into the same cell in the current row of the table
 	 * separated by commas.
      *
-     * e.g. FD = "course/versions", fieldKey = "versionCode", version codes will be concatenated to
-     * display A, B, C in a single table cell
+     * e.g. parentFD = "course/versions", fieldKey = "versionCode", version codes will be concatenated to
+     * display "code1, code2, code3" in a single table cell
 	 *
 	 * @param fieldKey
 	 */
@@ -121,10 +124,10 @@ public class MultiplicityConfiguration {
      * @return  MultiplicityConfiguration
      */
     public MultiplicityConfiguration copy() {
-        MultiplicityConfiguration copy = new MultiplicityConfiguration(getMultiplicityType(), getStyleType());
+        MultiplicityConfiguration copy = new MultiplicityConfiguration(getMultiplicityType(), getStyleType(), getMetaData());
         copy.setAddItemLabel(getAddItemLabel());
         copy.setItemLabel(getItemLabel());
-        copy.setMinEmptyItems(getMinEmptyItems());
+        copy.setMetaData(getMetaData());
         copy.setUpdateable(isUpdateable());
         if (getNestedConfig() != null) {
             copy.setNestedConfig(getNestedConfig().copy());
@@ -212,19 +215,6 @@ public class MultiplicityConfiguration {
 		this.nestedConfig = config;
 	}
 
-	public int getMinEmptyItems() {
-		return minEmptyItems;
-	}
-
-    /**
-     * Sets the number of initial empty multiplicity items created when the multiplicity is first drawn
-     *
-     * @param minEmptyItems
-     */
-    public void setMinEmptyItems(int minEmptyItems) {
-		this.minEmptyItems = minEmptyItems;
-	}
-
     public boolean isShowHeaders() {
          return showHeaders;
     }
@@ -262,5 +252,15 @@ public class MultiplicityConfiguration {
     public void setLayoutType(MultiplicityType multiplicityType) {
         this.multiplicityType = multiplicityType;
     }
+
+	public Metadata getMetaData() {
+		return metaData;
+	}
+
+	public void setMetaData(Metadata metaData) {
+		this.metaData = metaData;
+	}
+    
+    
 }
 
