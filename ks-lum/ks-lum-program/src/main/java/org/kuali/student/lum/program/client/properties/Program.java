@@ -88,6 +88,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_programDetails();
 
   /**
+   * Translated "Long Title".
+   * 
+   * @return translated "Long Title"
+   */
+  @DefaultMessage("Long Title")
+  @Key("program.menu.sections.programDetails.longTitle")
+  String program_menu_sections_programDetails_longTitle();
+
+  /**
    * Translated "Program Title".
    * 
    * @return translated "Program Title"
