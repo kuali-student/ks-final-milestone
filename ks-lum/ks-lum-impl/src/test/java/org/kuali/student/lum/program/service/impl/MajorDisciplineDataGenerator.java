@@ -20,13 +20,13 @@ import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants
 public class MajorDisciplineDataGenerator {
 	private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH,CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
 	Random generator = new Random();
-
+    
 	public MajorDisciplineInfo getMajorDisciplineInfoTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
-		MajorDisciplineInfo testData = generateTestData(MajorDisciplineInfo.class, 0, 0,null);
+		MajorDisciplineInfo testData = generateTestData(MajorDisciplineInfo.class, 0, 0,null, false);
 		return testData;
 	}
 
-	private <T> T generateTestData(Class<T> clazz, Integer propertyIndex, int sameClassNestLevel, String parentPropertyName) throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, NoSuchFieldException {
+	private <T> T generateTestData(Class<T> clazz, Integer propertyIndex, int sameClassNestLevel, String parentPropertyName, boolean isMap) throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, NoSuchFieldException {
 		if(sameClassNestLevel>2){
 			return null;
 		}
@@ -35,7 +35,7 @@ public class MajorDisciplineDataGenerator {
 
 		if(String.class.equals(clazz)){
 			propertyIndex++;
-			instance = (T) (getStringValue(parentPropertyName,parentPropertyName,propertyIndex));
+			instance = (T) (getStringValue(parentPropertyName,parentPropertyName,propertyIndex, isMap));
 			return instance;
 		}
 		
@@ -57,9 +57,9 @@ public class MajorDisciplineDataGenerator {
 					propertyIndex++;
 					Object listItem=null;
 					if(nestedClass.equals(pt)||nestedClass.equals(clazz)){
-						listItem=generateTestData(nestedClass,propertyIndex,sameClassNestLevel+1,pd.getName());
+						listItem=generateTestData(nestedClass,propertyIndex,sameClassNestLevel+1,pd.getName(),false);
 					}else{
-						listItem=generateTestData(nestedClass,propertyIndex,sameClassNestLevel,pd.getName());
+						listItem=generateTestData(nestedClass,propertyIndex,sameClassNestLevel,pd.getName(), false);
 					}
 					if(listItem!=null){
 						list.add(listItem);
@@ -72,7 +72,7 @@ public class MajorDisciplineDataGenerator {
 				Map map = new HashMap();
 				for(int i=0;i<2;i++){
 					propertyIndex++;
-					map.put(generateTestData(keyType,propertyIndex,sameClassNestLevel,pd.getName()),generateTestData(valueType,propertyIndex,sameClassNestLevel,pd.getName()));
+					map.put(generateTestData(keyType,i,sameClassNestLevel,pd.getName(), true),generateTestData(valueType,i,sameClassNestLevel,pd.getName(), true));
 				}
 				value = map;
 			}else if(int.class.equals(pt) || Integer.class.equals(pt)){
@@ -88,9 +88,9 @@ public class MajorDisciplineDataGenerator {
 			}else if(Date.class.equals(pt)){
 				value = new Date();
 			}else if(String.class.equals(pt)){
-				value = getStringValue(pd.getName(),parentPropertyName, propertyIndex);
+				value = getStringValue(pd.getName(),parentPropertyName, propertyIndex, false);
 			}else{
-				value = generateTestData(pt,propertyIndex,sameClassNestLevel,pd.getName());
+				value = generateTestData(pt,propertyIndex,sameClassNestLevel,pd.getName(), false);
 			}
 			pd.getWriteMethod().invoke(instance, value);
 		}
@@ -117,7 +117,7 @@ public class MajorDisciplineDataGenerator {
 	 * @return String value of the element
 	 */
 	private String getStringValue(String name, String parentPropertyName,
-			Integer propertyIndex) {
+			Integer propertyIndex, boolean isMap) {
 		if("id".equals(name)){
 			return null;
 		}
@@ -150,7 +150,10 @@ public class MajorDisciplineDataGenerator {
 			return campusLocations[propertyIndex%2];
 		}
 		//Default
-		return name+"-"+propertyIndex;
+		if(isMap)
+			return name+"-"+propertyIndex;
+		else
+			return name+"-"+"test";
 	}
 
 	public static void main(String[] args) throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
