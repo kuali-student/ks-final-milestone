@@ -9,19 +9,30 @@ import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
+import org.junit.runner.RunWith;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.program.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class TestProgramServiceImpl extends AbstractServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:program-test-context.xml"})
+public class TestProgramServiceImpl {
 
-    @Client(value = "org.kuali.student.lum.program.service.impl.ProgramServiceImpl", additionalContextFile="classpath:program-additional-context.xml")
+    @Autowired
     public ProgramService programService;
 
     @Test
@@ -30,7 +41,7 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
     }
 
 	@Test
-	@Ignore public void testCreateMajorDiscipline() {
+    @Ignore public void testCreateMajorDiscipline() {
 		MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo majorDisciplineInfo = null;
         try {
@@ -43,7 +54,23 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
             fail(e.getMessage());
         }
 	}
-	
+
+	@Test
+	@Ignore
+	public void testCreateProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		ProgramRequirementInfo progReqInfo = new ProgramRequirementInfo();
+
+		ProgramRequirementInfo createdInfo = programService.createProgramRequirement(progReqInfo);
+		assertNotNull(createdInfo);
+	}
+
+	@Test
+	@Ignore
+	public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("CLU-2");
+		assertNotNull(progReqInfo);
+	}
+
     @Test
     @Ignore public void testGetMajorDiscipline() {
         try {
@@ -72,7 +99,7 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
             assertEquals(2, retrievedMD.getVariations().size());
             ProgramVariationInfo variation = retrievedMD.getVariations().get(0);
             assertEquals(ProgramAssemblerConstants.PROGRAM_VARIATION, variation.getType());
-        
+
             assertEquals(2, retrievedMD.getProgramRequirements().size());
             String programRequirements = retrievedMD.getProgramRequirements().get(0);
             assertTrue("programRequirements-test".equals(programRequirements));
@@ -93,13 +120,13 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
                 assertNotNull(value);
                 assertEquals(key, value);
             }
-            
+
           } catch (Exception e) {
         	e.printStackTrace();
             fail(e.getMessage());
         }
     }
-    
+
     @Test
     @Ignore public void testDeleteMajorDiscipline() {
         try {
@@ -123,7 +150,7 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
             fail(e.getMessage());
         }
     }
-    
+
     @Test
     @Ignore public void testUpdateMajorDiscipline() {
         try {
@@ -132,7 +159,7 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
             assertNotNull(majorDisciplineInfo);
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);
-            
+
             // minimal sanity check
             assertEquals("longTitle-test", createdMD.getLongTitle());
             assertEquals("shortTitle-test", createdMD.getShortTitle());
@@ -140,46 +167,46 @@ public class TestProgramServiceImpl extends AbstractServiceTest {
             assertEquals("credentialProgramId-test", createdMD.getCredentialProgramId());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
-           
+
             // update some fields
             createdMD.getCampusLocations().add("MAIN");
             createdMD.setLongTitle("longTitle-toolong");
             createdMD.getProgramRequirements().remove(0);
-            
+
             Map<String, String> attributes = createdMD.getAttributes();
             attributes.put("testKey", "testValue");
             createdMD.setAttributes(attributes);
-            
+
            //Perform the update
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(createdMD);
-            
+
             //Verify the update
             verifyUpdate(updatedMD);
-            
+
             // Now explicitly get it
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(createdMD.getId());
             verifyUpdate(retrievedMD);
-            
-            //TODO: add version update 
-            
+
+            //TODO: add version update
+
         } catch (Exception e) {
         	e.printStackTrace();
             fail(e.getMessage());
         }
     }
-    
+
     private void verifyUpdate(MajorDisciplineInfo updatedMD) {
-    	assertNotNull(updatedMD);   
-    	
+    	assertNotNull(updatedMD);
+
         assertEquals(3, updatedMD.getAttributes().size());
         assertNotNull(updatedMD.getAttributes().get("testKey"));
         assertEquals("testValue", updatedMD.getAttributes().get("testKey"));
-        
+
         assertEquals(3, updatedMD.getCampusLocations().size());
         assertEquals("MAIN", updatedMD.getCampusLocations().get(3));
-        
+
         assertEquals(1, updatedMD.getProgramRequirements().size());
-        
+
         assertEquals("longTitle-toolong", updatedMD.getLongTitle());
     }
 }
