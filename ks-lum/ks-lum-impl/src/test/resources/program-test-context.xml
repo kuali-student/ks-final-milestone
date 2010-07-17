@@ -431,15 +431,26 @@
         class="org.kuali.student.common.validator.SampCustomValidator">
     </bean>
 
-    <bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
-        <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
+    <bean id="dictionaryService"
+          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg>
+            <list>
+                <value>classpath:ks-programInfo-dictionary-context.xml</value>
+            </list>
+        </constructor-arg>
     </bean>
 
     <bean name="programRequirementAssembler" class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
+        <!--<property name="statementService" ref="statementServiceImpl"/>-->
     </bean>
 
-    <bean name="programServiceMethodInvoker" class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
+    <bean id="majorDisciplineAssembler"
+          class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
+    </bean>
+
+    <bean id="programServiceMethodInvoker"
+          class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
+        <property name="luService" ref="luServiceImpl"/>
     </bean>
 
     <bean name="programService" class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
@@ -448,5 +459,6 @@
         <property name="validator" ref="businessServiceValidator"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker" />
+        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
     </bean>
 </beans>
