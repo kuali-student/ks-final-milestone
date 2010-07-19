@@ -26,12 +26,11 @@ import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 
@@ -44,13 +43,13 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -71,25 +70,28 @@ public class KSWrapper extends Composite{
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
-    private VerticalPanel layout = new VerticalPanel();
-	private VerticalPanel leftHeader = new VerticalPanel();
-	private VerticalPanel rightHeader = new VerticalPanel();
-	private HorizontalPanel header = new HorizontalPanel();
-	private HorizontalPanel headerContent = new HorizontalPanel();
-	private HorizontalPanel footer = new HorizontalPanel();
-	private HorizontalPanel headerTopLinks = new HorizontalPanel();
-	private HorizontalPanel headerBottomLinks = new HorizontalPanel();
+    private FlowPanel layout = new FlowPanel();
+	//private VerticalPanel leftHeader = new VerticalPanel();
+	//private VerticalPanel rightHeader = new VerticalPanel();
+//	private HorizontalPanel header = new HorizontalPanel();
+	//private HorizontalPanel headerContent = new HorizontalPanel();
+//	private HorizontalPanel footer = new HorizontalPanel();
+//	private HorizontalPanel headerTopLinks = new HorizontalPanel();
+//	private HorizontalPanel headerBottomLinks = new HorizontalPanel();
+
+	private KSHeader ksHeader = new KSHeader();
+
 	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
-	private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
+	//private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
+//	private KSButton helpLabel = new KSButton(getMessage("wrapperPanelHelp"), ButtonStyle.DEFAULT_ANCHOR);
+	//private KSImage helpImage = Theme.INSTANCE.getCommonImages().getHelpIcon();
+	private Anchor versionAnchor = new Anchor(" ( Version ) ");
+	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
-	private KSButton helpLabel = new KSButton(getMessage("wrapperPanelHelp"), ButtonStyle.DEFAULT_ANCHOR);
-	private KSImage helpImage = Theme.INSTANCE.getCommonImages().getHelpIcon();
-	private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 	private SimplePanel content = new SimplePanel();
-
 	private KSLightBox docSearchDialog = new KSLightBox();
-	private Frame docSearch;
 
+	private Frame docSearch;
     private String docSearchUrl = "";
     private String appUrl = "..";
     private String lumAppUrl = "..";
@@ -101,7 +103,6 @@ public class KSWrapper extends Composite{
     private boolean loaded = false;
 
     private static class WrapperNavigationHandler extends NavigationHandler{
-
 		public WrapperNavigationHandler(String url) {
 			super(url);
 		}
@@ -112,13 +113,10 @@ public class KSWrapper extends Composite{
 			//FIXME before navigation event
 			callback.exec(true);
 		}
-
     }
-
 	public KSWrapper(){
 		this.initWidget(layout);
 	}
-
 	protected void onLoad() {
 		super.onLoad();
 		if (!loaded){
@@ -152,57 +150,37 @@ public class KSWrapper extends Composite{
 			loaded = false;
 		}
 	}
-
-
 	private void init(){
-		headerBottomLinks.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+		//headerBottomLinks.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		createUserDropDown();
-		headerBottomLinks.add(userDropDown);
+		//headerBottomLinks.add(userDropDown);
+		ksHeader.setHiLabelText("Hi,");
+		ksHeader.setUserName(Application.getApplicationContext().getUserId());
+		Anchor logoutLink = new Anchor(getMessage("wrapperPanelLogout"));
+		logoutLink.addClickHandler(new WrapperNavigationHandler("j_spring_security_logout"));
+		ksHeader.addLogout(logoutLink);
+		ksHeader.addLogout(versionAnchor);
 
+		//headerBottomLinks.add(logoutLink);
 		createHelpInfo();
-		headerBottomLinks.add(helpLabel);
-		headerBottomLinks.add(helpImage);
-		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
-		if(headerCustomWidget != null){
-			leftHeader.add(headerCustomWidget);
-			headerCustomWidget.addStyleName("KS-Wrapper-Header-Custom-Widget-Panel");
-		}
-		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		createNavDropDown();
-		leftHeader.add(navDropDown);
-		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+		ksHeader.addNavigation(navDropDown);
+		
+		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
 		setHeaderCustomLinks(topLinks);
-		rightHeader.add(headerTopLinks);
-		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		rightHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		rightHeader.add(headerBottomLinks);
-		headerContent.add(leftHeader);
 
-		headerContent.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		headerContent.add(rightHeader);
-		header.add(headerContent);
-		//layout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
-		layout.add(header);
+		layout.add(ksHeader);
 		layout.add(content);
-		layout.add(footer);
 
 		navDropDown.addStyleName("KS-Navigation-DropDown");
-		userDropDown.addStyleName("KS-Username-DropDown");
-		header.addStyleName("KS-Wrapper-Header");
-		headerContent.addStyleName("KS-Wrapper-Header-Content");
-		footer.addStyleName("KS-Wrapper-Footer");
 		content.addStyleName("KS-Wrapper-Content");
 		layout.addStyleName("KS-Wrapper");
-		helpLabel.addStyleName("KS-Wrapper-Help-Label");
-		rightHeader.addStyleName("KS-Wrapper-Header-Right-Panel");
-		leftHeader.addStyleName("KS-Wrapper-Header-Left-Panel");
-		footer.add(Theme.INSTANCE.getCommonImages().getFooterImage());
 	}
 
 	private void createHelpInfo(){
-	    helpImage.addClickHandler(new ClickHandler(){
+	    versionAnchor.addClickHandler(new ClickHandler(){
 
 	           public void onClick(ClickEvent event) {
 	               final PopupPanel helpPopup = new PopupPanel(true);
@@ -221,19 +199,7 @@ public class KSWrapper extends Composite{
 
 	private void createUserDropDown() {
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-    	items.add(new KSMenuItemData(getMessage("wrapperPanelSettings"),
-    			new ClickHandler(){
-					public void onClick(ClickEvent event) {
-						Window.alert("Settings not yet implemented");
-					}
-    			})
-    	);
-    	items.add(new KSMenuItemData(getMessage("wrapperPanelLogout"),
-    			new WrapperNavigationHandler(
-    					"j_spring_security_logout"))
-    	);
-    	userDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
-    	userDropDown.setItems(items);
+    	items.add(new KSMenuItemData(getMessage("wrapperPanelLogout"),new WrapperNavigationHandler("j_spring_security_logout")));
 	}
 
 	private void createNavDropDown() {
@@ -285,7 +251,7 @@ public class KSWrapper extends Composite{
 		for(KSLabel link: links){
 			FocusPanel panel = new FocusPanel();
 			panel.setWidget(link);
-			headerTopLinks.add(panel);
+			//headerTopLinks.add(panel);
 			panel.addStyleName("KS-Wrapper-Header-Custom-Link-Panel");
 			link.addStyleName("KS-Wrapper-Header-Custom-Link");
 		}
@@ -293,7 +259,7 @@ public class KSWrapper extends Composite{
 
 	public void setFooterLinks(List<KSLabel> links){
 		for(KSLabel link: links){
-			footer.add(link);
+			//footer.add(link);
 			link.addStyleName("KS-Wrapper-Footer-Link");
 		}
 	}
