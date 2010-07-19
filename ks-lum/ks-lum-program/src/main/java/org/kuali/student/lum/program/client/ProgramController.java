@@ -37,7 +37,6 @@ public class ProgramController extends MenuEditableSectionController {
                 callback.exec(true);
             }
         });
-
     }
 
     private void afterMetadataIsLoaded(Metadata metadata) {

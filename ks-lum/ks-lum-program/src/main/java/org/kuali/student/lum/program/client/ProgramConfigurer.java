@@ -42,7 +42,7 @@ class ProgramConfigurer extends AbstractProgramConfigurer {
         HorizontalSection section = new HorizontalSection();
         addField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramProperties.get().program_menu_sections_programDetails_programTitle()));
         addField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramProperties.get().program_menu_sections_programDetails_longTitle()));
-        view.addWidget(section);
+        view.addSection(section);
         return view;
     }
 
