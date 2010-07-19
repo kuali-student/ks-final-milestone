@@ -3,9 +3,10 @@ package org.kuali.student.lum.program.client;
 /**
  * @author Igor
  */
-enum ProgramSections {
+public enum ProgramSections {
     PROGRAM_DETAILS_VIEW,
     PROGRAM_DETAILS_EDIT,
+    SPECIALIZATIONS,
     PROGRAM_REQUIREMENTS_VIEW,
     PROGRAM_REQUIREMENTS_EDIT, 
     MANAGE_BODIES_VIEW,

@@ -9,11 +9,6 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
-/**
- * TODO: why do I need to implement WorkflowEnhancedController???
- *
- * @author Igor
- */
 public class ProgramController extends MenuEditableSectionController {
 
     public static final String PROGRAM_MODEL_ID = "programModelId";
@@ -60,7 +55,7 @@ public class ProgramController extends MenuEditableSectionController {
         initialize(callback);
     }
 
-    private Data getData() {
+    public static Data getData() {
         Data data = new Data();
         data.set(ProgramConstants.SHORT_TITLE, "Biology");
         data.set(ProgramConstants.LONG_TITLE, "Long Biology title here");
