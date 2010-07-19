@@ -17,7 +17,7 @@
 				<ref bean="courseInfo.courseNumberSuffix" />
 	<!--		<ref bean="courseInfo.courseSpecificLOs" /> -->
 				<ref bean="courseInfo.courseTitle" />
-	<!-- 		<ref bean="courseInfo.crossListings" /> -->
+				<ref bean="courseInfo.crossListings" />
 				<ref bean="courseInfo.department" />
 				<ref bean="courseInfo.descr" />
 				<ref bean="courseInfo.duration" />
@@ -30,6 +30,7 @@
 				<ref bean="courseInfo.joints" />
 				<ref bean="courseInfo.offeredAtpTypes" />
 				<ref bean="courseInfo.primaryInstructor" />
+				<ref bean="courseInfo.instructors" />
 	<!-- 		<ref bean-"courseInfo.instructors" /> -->
 				<ref bean="courseInfo.state" />
 				<ref bean="courseInfo.subjectArea" />
@@ -42,6 +43,7 @@
 				<ref bean="courseInfo.finalExamRationale"/>
 				<ref bean="courseInfo.proposalId"/>
 				<ref bean="courseInfo.proposalRationale"/>
+				<ref bean="courseInfo.proposalTitle" />
 				<!-- Searches -->
 				<ref bean="search.cluset" />
 				<ref bean="search.findCourse" />
@@ -93,6 +95,7 @@
 	<bean id="courseInfo.courseTitle-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="courseTitle" />
+		<property name="minOccurs" value="1" />
 		<property name="maxLength" value="60"/>
 	</bean>
 	<bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
@@ -115,6 +118,7 @@
 		parent="baseSingleComplex">
 		<property name="name" value="descr" />
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
+		<property name="maxLength" value="14000"/>
 	</bean>
 	<bean id="courseInfo.descr" parent="courseInfo.descr-parent" />
 
@@ -180,8 +184,27 @@
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
 	</bean>
+	
 	<bean id="courseInfo.primaryInstructor" parent="courseInfo.primaryInstructor-parent" />
 
+	<bean id="courseInfo.instructors-parent" abstract="true"
+		parent="baseRepeatingComplex">
+		<property name="name" value="instructors" />
+		<property name="dataObjectStructure"
+			ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
+		
+	</bean>
+	
+	<bean id="courseInfo.instructors" parent="courseInfo.instructors-parent" />
+
+	<bean id="courseInfo.instructors-translations-parent" abstract="true"
+		parent="baseRepeatingString">
+		<property name="name" value="instructors-translations" />
+		
+	</bean>
+	
+	<bean id="courseInfo.instructors-translations" parent="courseInfo.instructors-translations-parent" />
+	
 	<bean id="courseInfo.state-parent" abstract="true" parent="baseSingleString">
 		<property name="name" value="state" />
 	</bean>
@@ -978,6 +1001,13 @@
   		<property name="name" value="proposalRationale" />
   		<property name="minOccurs" value="0" />
   		<property name="maxOccurs" value="1" />
+  		<!-- Maybe a lookup constraint to restrict the values -->
+  		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="courseInfo.proposalTitle" parent="baseSingleString">
+  		<property name="name" value="proposalTitle" />
+  		<property name="minOccurs" value="1" />
+  		<property name="maxLength" value="60"/>
   		<!-- Maybe a lookup constraint to restrict the values -->
   		<property name="dynamic" value="true"/>
 	</bean>

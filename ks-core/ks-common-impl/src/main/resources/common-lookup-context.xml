@@ -92,6 +92,44 @@
 		<property name="id" value="ks.common.lookup.person.suggest" />
 	</bean>
 
+	<bean id="ks.common.lookup.person.advanced" parent="lookup">
+		<property name="searchTypeId" value="person.search.personQuickViewByGivenName" />
+		<property name="name" value="All org hierarchies" />
+		<property name="desc" value="Returns all org hierarchies, name and id" />
+		<property name="searchParamIdKey" value="person.queryParam.personId" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key"
+						value="person.queryParam.personGivenName" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="false" />
+					<property name="name"
+						value="Name and Username Fuzzy Search" />
+					<property name="desc" value="Name of person" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED" />
+					<property name="widget" value="TEXT_BOX" />
+				</bean>
+				<bean parent="param">
+					<property name="key"
+						value="person.queryParam.personId" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="false" />
+					<property name="name" value="Username" />
+					<property name="desc" value="Username" />
+					<property name="usage" value="ADVANCED" />
+					<property name="caseSensitive" value="false" />
+					<property name="widget" value="TEXT_BOX" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="person.resultColumn.PersonId" />
+		<property name="id" value="ks.common.lookup.person.advanced" />
+	</bean>
+
 	<bean id="kuali.common.lookup.admin.departments.advanced" parent="lookup">
 		<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
 		<property name="name" value="Organization search" />

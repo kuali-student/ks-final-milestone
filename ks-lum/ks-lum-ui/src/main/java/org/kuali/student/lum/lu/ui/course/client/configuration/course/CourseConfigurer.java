@@ -37,8 +37,11 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -48,6 +51,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -57,9 +61,12 @@ import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
@@ -127,9 +134,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //ProposalInformation
             //layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
 
-            //ProposalInformation
                 layout.addMenu(sections);
-                layout.addMenuItem(sections, generateAuthorsRationaleSection());
 
             //Course Content
                 layout.addMenuItem(sections, generateCourseInfoSection());
@@ -210,18 +215,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
 
-    protected SectionView generateAuthorsRationaleSection(){
-        VerticalSectionView section = initSectionView(CourseSections.AUTHORS_RATIONALE, LUConstants.AUTHORS_RATIONAL);
-
-        VerticalSection titleRationale = initSection(getH3Title(getLabel(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY)), WITH_DIVIDER);
-        addField(titleRationale, COURSE_TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
-        addField(titleRationale, "proposalRationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
-
-        section.addSection(titleRationale);
-
-        return section;
-    }
-
     /**
      * Adds a section for adding or modifying rules associated with a given course (program).
      *
@@ -277,12 +270,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     public SectionView generateCourseInfoSection(){
-        VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
-
+    	VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
+        addField(section, PROPOSAL_TITLE, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUConstants.COURSE_TITLE_LABEL_KEY));
+        addField(section, COURSE + "/" + TRANSCRIPT_TITLE, generateMessageInfo(LUConstants.SHORT_TITLE_LABEL_KEY));
         section.addSection(generateCourseNumberSection());
-        section.addSection(generateCourseInfoShortTitleSection());
-        section.addSection(generateLongTitleSection());
-        section.addSection(generateDescriptionSection());
+        FieldDescriptor instructorsFd = addField(section, COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUConstants.INSTRUCTORS_LABEL_KEY));
+        instructorsFd.setWidgetBinding(new KeyListModelWigetBinding("personId"));
+        section.addSection(generateDescriptionRationaleSection());
 
         return section;
     }
@@ -295,12 +290,20 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         addField(courseNumber, COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY));
         addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY));
+//        addField(courseNumber, COURSE + "/" + SUBJECT_AREA);
+//        addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX);
 
-        //courseNumber.addSection(generateCrossListedSection());
-        courseNumber.addSection(generateOfferedJointlySection());
-        //courseNumber.addSection(generateVersionCodesSection());
+        courseNumber.addSection(generateCrossListed_Ver_Joint_Section());
 
         return courseNumber;
+    }
+    
+    protected CollapsableSection generateCrossListed_Ver_Joint_Section() {
+    	CollapsableSection result = new CollapsableSection(getLabel(LUConstants.CL_V_J_LABEL_KEY));
+        addField(result, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
+        addField(result, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
+//        addField(result, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+        return result;
     }
 
     protected VerticalSection generateVersionCodesSection() {
@@ -340,11 +343,12 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return longTitle;
     }
 
-    protected VerticalSection generateDescriptionSection() {
+    protected VerticalSection generateDescriptionRationaleSection() {
         VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
         //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
         //addField(description, COURSE + "/" + DESCRIPTION, null);
         addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, null);
+        addField(description, "proposalRationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
         return description;
     }
 
@@ -847,4 +851,93 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         return sb.toString();
     }
+}
+
+
+class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
+	private String key;
+	HasDataValueBinding hasDataValueBinding = HasDataValueBinding.INSTANCE;
+	
+	public KeyListModelWigetBinding(String key) {
+		this.key = key;
+	}
+	
+	@Override
+	public void setModelValue(HasDataValue widget, DataModel model, String path) {
+		// convert from the structure path/0/<id> into path/0/<key>/<id>
+		hasDataValueBinding.setModelValue(widget, model, path);
+		
+		QueryPath qPath = QueryPath.parse(path);
+        Value value = ((KSSelectedList)widget).getValueWithTranslations();
+        
+        Data idsData = null;
+        Data idsDataStruct = null;
+        
+        if (value != null) {
+        	idsData = value.get();
+        }
+        if (idsData != null) {
+        	for (Data.Property p : idsData) {
+				if(!"_runtimeData".equals(p.getKey())){
+					String id = p.getValue();
+					// old translation path path/_runtimeData/0/id-translation
+                    QueryPath translationPath = new QueryPath();
+                    translationPath.add(new Data.StringKey(qPath.toString()));
+                    translationPath.add(new Data.StringKey("_runtimeData"));
+                    translationPath.add(new Data.IntegerKey((Integer)p.getKey()));
+                    translationPath.add(new Data.StringKey("id-translation"));
+                    
+					Data idItem = new Data();
+                    String translation = model.get(translationPath.toString());
+                    Data idItemRuntime = new Data();
+                    Data idItemTranslation = new Data();
+					idsDataStruct = (idsDataStruct == null)? new Data() : idsDataStruct;
+					idItem.set(this.key, id);
+                    // new translation path/0/_runtimeData/<key>/id-translation
+					idItemTranslation.set("id-translation", translation);
+					idItemRuntime.set(this.key, idItemTranslation);
+					idItem.set("_runtimeData", idItemRuntime);
+					idsDataStruct.add(idItem);
+				}
+        	}
+        }
+
+        model.set(qPath, idsDataStruct);
+	}
+
+	@Override
+	public void setWidgetValue(HasDataValue widget, DataModel model, String path) {
+		// convert from the structure path/0/<key>/<id> into path/0/<id>
+		QueryPath qPath = QueryPath.parse(path);
+		Object value = null;
+		Data idsData = null;
+		Data newIdsData = null;
+		Data newIdsRuntimeData = null;
+		
+		if(model!=null){
+        	value = model.get(qPath);
+        }
+
+		if (value != null && widget != null) {
+			idsData = (Data) value;
+			if (idsData != null) {
+	        	for (Data.Property p : idsData) {
+					if(!"_runtimeData".equals(p.getKey())){
+						Data idItem = p.getValue();
+						String id = idItem.get(this.key);
+						Data runtimeData = idItem.get("_runtimeData");
+						Data translationData = runtimeData.get(this.key);
+						newIdsData = (newIdsData == null)? new Data() : newIdsData;
+						newIdsData.add(id);
+						newIdsRuntimeData = (newIdsRuntimeData == null)? new Data() : newIdsRuntimeData;
+						newIdsRuntimeData.add(translationData);
+					}
+	        	}
+			}
+		}
+		newIdsData.set("_runtimeData", newIdsRuntimeData);
+        model.set(qPath, newIdsData);
+        
+		hasDataValueBinding.setWidgetValue(widget, model, path);
+	}
 }

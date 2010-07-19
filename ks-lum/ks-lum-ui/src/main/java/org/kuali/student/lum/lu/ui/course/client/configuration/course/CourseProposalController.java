@@ -98,6 +98,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     private WorkflowUtilities workflowUtil;
 
     private boolean initialized = false;
+    private boolean initializing = false;
 
     private BlockingTask initializingTask = new BlockingTask("Loading");
     private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
@@ -217,49 +218,54 @@ public class CourseProposalController extends MenuEditableSectionController impl
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
-            KSBlockingProgressIndicator.addTask(initializingTask);
+        	if (!initializing) {
+        		initializing = true;
+        		KSBlockingProgressIndicator.addTask(initializingTask);
 
-            String idType = null;
-            String viewContextId = null;
-            // The switch was added due to the way permissions currently work.
-            // For a new Create Course Proposal or Modify Course we send nulls so that permissions are not checked.
-            if(getViewContext().getIdType() != null){
-                idType = getViewContext().getIdType().toString();
-                viewContextId = getViewContext().getId();
-                if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
-                    viewContextId = null;
-                }
+        		String idType = null;
+        		String viewContextId = null;
+        		// The switch was added due to the way permissions currently work.
+        		// For a new Create Course Proposal or Modify Course we send nulls so that permissions are not checked.
+        		if(getViewContext().getIdType() != null){
+        			idType = getViewContext().getIdType().toString();
+        			viewContextId = getViewContext().getId();
+        			if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
+        				viewContextId = null;
+        			}
 
-//              switch (getViewContext().getIdType()) {
-//                    case KS_KEW_OBJECT_ID :
-//                        idType = getViewContext().getIdType().toString();
-//                        viewContextId = getViewContext().getId();
-//                        break;
-//                    case DOCUMENT_ID :
-//                        idType = getViewContext().getIdType().toString();
-//                        viewContextId = getViewContext().getId();
-//                        break;
-//                }
-            }
+//      			switch (getViewContext().getIdType()) {
+//      			case KS_KEW_OBJECT_ID :
+//      			idType = getViewContext().getIdType().toString();
+//      			viewContextId = getViewContext().getId();
+//      			break;
+//      			case DOCUMENT_ID :
+//      			idType = getViewContext().getIdType().toString();
+//      			viewContextId = getViewContext().getId();
+//      			break;
+//      			}
+        		}
 
-            cluProposalRpcServiceAsync.getMetadata(idType, viewContextId,
-                    new AsyncCallback<Metadata>(){
+        		cluProposalRpcServiceAsync.getMetadata(idType, viewContextId,
+        				new AsyncCallback<Metadata>(){
 
-                public void onFailure(Throwable caught) {
-                            onReadyCallback.exec(false);
-                            KSBlockingProgressIndicator.removeTask(initializingTask);
-                            throw new RuntimeException("Failed to get model definition.", caught);
-                        }
+        			public void onFailure(Throwable caught) {
+        				initializing = false;
+        				onReadyCallback.exec(false);
+        				KSBlockingProgressIndicator.removeTask(initializingTask);
+        				throw new RuntimeException("Failed to get model definition.", caught);
+        			}
 
-                        public void onSuccess(Metadata result) {
-                            DataModelDefinition def = new DataModelDefinition(result);
-                            cluProposalModel.setDefinition(def);
-                            init(def);
-                            initialized = true;
-                            onReadyCallback.exec(true);
-                            KSBlockingProgressIndicator.removeTask(initializingTask);
-                        }
-                });
+        			public void onSuccess(Metadata result) {
+        				DataModelDefinition def = new DataModelDefinition(result);
+        				cluProposalModel.setDefinition(def);
+        				init(def);
+        				initialized = true;
+        				initializing = false;
+        				onReadyCallback.exec(true);
+        				KSBlockingProgressIndicator.removeTask(initializingTask);
+        			}
+        		});
+        	}
         }
     }
 
@@ -601,6 +607,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         Map<String,String> attributes = new HashMap<String,String>();
 //      if (StringUtils.isNotBlank(getViewContext().getId())) {
         GWT.log("Attempting Auth Check.", null);
+//        authCallback.isAuthorized();
         if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
             attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
         }

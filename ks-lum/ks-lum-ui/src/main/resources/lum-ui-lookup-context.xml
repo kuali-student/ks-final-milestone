@@ -25,6 +25,36 @@
 		<property name="path" value="courseInfo.primaryInstructor.personId" />
 		<property name="initialLookup" ref="ks.lookup.person.suggest" />
 	</bean>
+	
+	<bean id="courseInfo.instructors" parent="uilookup">
+		<property name="path" value="courseInfo.instructors" />
+		<property name="initialLookup" ref="ks.lookup.person.suggest" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="ks.lookup.person.advanced" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="courseInfo.instructors.personId" parent="uilookup">
+		<property name="path" value="courseInfo.instructors.personId" />
+		<property name="initialLookup" ref="ks.lookup.person.suggest" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="ks.lookup.person.advanced" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="courseInfo.instructors-translations" parent="uilookup">
+		<property name="path" value="courseInfo.instructors-translations" />
+		<property name="initialLookup" ref="ks.lookup.person.suggest" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="ks.lookup.person.advanced" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="course.academicSubjectOrgs" parent="department-lookup-binding-parent">
 		<property name="path" value="courseInfo.academicSubjectOrgs" />
@@ -211,7 +241,7 @@
 		</property>
 		<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
 		<property name="resultSortKey" value="person.resultColumn.DisplayName" />
-		<property name="id" value="kuali.lookup.people" />
+		<property name="id" value="ks.common.lookup.person.suggest" />
 	</bean>
 
 	<bean id="kuali.lookup.lutypes.activity" parent="kuali.lookup.lutypes">
@@ -1195,6 +1225,62 @@
 				</bean>
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="ks.lookup.person.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="ks.common.lookup.person.advanced">
+		<property name="name" value="Person Search" />
+		<property name="desc" value="Searches for People by Name or username" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="Given name of person" />
+					<property name="hidden" value="false" />
+					<property name="key"
+						value="person.resultColumn.GivenName" />
+					<property name="name" value="Given Name" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="Internal person id" />
+					<property name="hidden" value="true" />
+					<property name="key"
+						value="person.resultColumn.PersonId" />
+					<property name="name" value="Internal id" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="Entity Id of Person" />
+					<property name="hidden" value="false" />
+					<property name="key"
+						value="person.resultColumn.EntityId" />
+					<property name="name" value="Internal ID" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc"
+						value="Principal name of person" />
+					<property name="hidden" value="false" />
+					<property name="key"
+						value="person.resultColumn.PrincipalName" />
+					<property name="name" value="Username" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc"
+						value="Display name of person" />
+					<property name="hidden" value="false" />
+					<property name="key"
+						value="person.resultColumn.DisplayName" />
+					<property name="name" value="Display Name" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
+		<property name="resultSortKey" value="person.resultColumn.DisplayName" />
+		<property name="id" value="ks.common.lookup.person.advanced" />
 	</bean>
 
 </beans>

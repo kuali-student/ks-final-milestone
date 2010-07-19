@@ -54,6 +54,16 @@
 	<bean parent="enCourse" p:id="cluProposalInformation" p:value="Proposal Information" />
 	<bean parent="enCourse" p:id="cluCourseInformation" p:value="Course Information" />
 	<bean parent="enCourse" p:id="cluProposalTitle" p:value="Proposal Title" />
+	<bean parent="enCourse" p:id="cluProposalTitle-help" p:value="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later." />
+	<bean parent="enCourse" p:id="cluProposalTitle-instruct">
+		<property name="value">
+			<value>
+				This title is used for identifying the proposal through the approval process.
+				It is highly recommended that you use the same name for the course and 
+				proposal title.
+			</value>
+		</property>
+	</bean>
 	<bean parent="enCourse" p:id="cluProposalRationale" p:value="Proposal Rationale" />
 	<bean parent="enCourse" p:id="cluProposalRationale-help" p:value="The proposal rationale describes the reason for proposing a new course.  For example, what holes does the new proposed course 
 	curriculum fill or what new or expanded topics will the proposed course cover?  Why is this proposed course necessary?" />
@@ -105,7 +115,7 @@
 
 	<bean parent="enCourse" p:id="cluAcademicContent" p:value="Course Content" />
 	<bean parent="enCourse" p:id="cluInformation" p:value="Course Information" />
-	<bean parent="enCourse" p:id="cluIdentifier" p:value="Course Identifier" />
+	<bean parent="enCourse" p:id="cluIdentifier" p:value="Course Number" />
 	<bean parent="enCourse" p:id="cluIdentifiers" p:value="Course Identifiers" />
 	<bean parent="enCourse" p:id="cluAltIdentifier" p:value="Alternate Course Identifier" />
 	<bean parent="enCourse" p:id="cluAuthorsRationale" p:value="Authors &amp; Rationale"/>
@@ -145,11 +155,15 @@
 	<bean parent="enCourse" p:id="cluVersionCodes" p:value="Version Codes" />
 	<bean parent="enCourse" p:id="cluAddVersionCode" p:value="Add a Version Code" />
 	<bean parent="enCourse" p:id="cluTitle" p:value="Course Title" />
+	<bean parent="enCourse" p:id="courseTitle" p:value="Course Title" />
+	<bean parent="enCourse" p:id="courseTitle-instruct" p:value="It is highly recommended that you use the same name for the course and proposal title." />
 	<bean parent="enCourse" p:id="cluSubjectCode" p:value="Subject Code" />
 	<bean parent="enCourse" p:id="cluCourseNumber" p:value="Course Number" />
+	<bean parent="enCourse" p:id="cluCrossListedVersionJoin" p:value="Cross List, Offer Jointly, Add Version Codes" />
 	<bean parent="enCourse" p:id="cluCourseNumberOrTitle" p:value="Course Number or Title" />
 
-	<bean parent="enCourse" p:id="cluShortTitle" p:value="Short Course Title" />
+	<bean parent="enCourse" p:id="cluShortTitle" p:value="Transcript Course Title" />
+	<bean parent="enCourse" p:id="cluShortTitle-instruct" p:value="This is the truncated title that will appear on the printed transcript." />
 	<bean parent="enCourse" p:id="cluDescription" p:value="Course Description" />
 	<bean parent="enCourse" p:id="cluDescriptionLabel" p:value="Description:    " />
 	<bean parent="enCourse" p:id="cluStatus" p:value="Status:    " />

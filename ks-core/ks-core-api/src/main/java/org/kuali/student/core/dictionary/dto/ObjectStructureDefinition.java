@@ -11,7 +11,9 @@ import javax.xml.bind.annotation.XmlID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectStructureDefinition {
 	@XmlElement(required = true)
-	@XmlID
+	// ? is this required ? XmlID
+	// Removed the XmlIDREF annotation for the dataObjectStructure field of FieldDefinition and 
+	// remove the XmlID annotation.  Since these annotations prevents the dataObjectStructure to be serialized.  This causes a problem when trying to retrieve translation information of data of the form {myKey1=myValue2, myKey2=myValue2}
 	protected String name;// TODO do we need this?
 	@XmlElement
 	protected String businessObjectClass;

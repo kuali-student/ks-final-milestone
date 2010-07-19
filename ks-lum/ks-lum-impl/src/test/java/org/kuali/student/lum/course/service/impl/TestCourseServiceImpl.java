@@ -93,7 +93,7 @@ public class TestCourseServiceImpl {
             String orgId = retrievedCourse.getAcademicSubjectOrgs().get(0);
             assertTrue("academicSubjectOrgs-3".equals(orgId) || "academicSubjectOrgs-4".equals(orgId));
 
-            assertEquals(2, retrievedCourse.getAttributes().size());
+            assertEquals(3, retrievedCourse.getAttributes().size());
             String[] attrKeys = {"attributes-6", "attributes-7"};
             for (String key : attrKeys) {
                 String value = retrievedCourse.getAttributes().get(key);
@@ -179,7 +179,7 @@ public class TestCourseServiceImpl {
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
             assertEquals("courseTitle-15", createdCourse.getCourseTitle());
             assertEquals(2, createdCourse.getAcademicSubjectOrgs().size());
-            assertEquals(2, createdCourse.getAttributes().size());
+            assertEquals(3, createdCourse.getAttributes().size());
 
             // update some fields
             createdCourse.getAcademicSubjectOrgs().clear();
@@ -284,7 +284,7 @@ public class TestCourseServiceImpl {
         assertEquals(1, updatedCourse.getAcademicSubjectOrgs().size());
         assertEquals("testOrgId", updatedCourse.getAcademicSubjectOrgs().get(0));
 
-        assertEquals(3, updatedCourse.getAttributes().size());
+        assertEquals(4, updatedCourse.getAttributes().size());
         assertNotNull(updatedCourse.getAttributes().get("testKey"));
         assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
         
