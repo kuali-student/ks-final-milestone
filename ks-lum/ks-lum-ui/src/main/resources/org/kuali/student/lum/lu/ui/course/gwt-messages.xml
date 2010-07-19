@@ -55,14 +55,7 @@
 	<bean parent="enCourse" p:id="cluCourseInformation" p:value="Course Information" />
 	<bean parent="enCourse" p:id="cluProposalTitle" p:value="Proposal Title" />
 	<bean parent="enCourse" p:id="cluProposalTitle-help" p:value="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later." />
-	<bean parent="enCourse" p:id="cluProposalTitle-instruct">
-		<property name="value">
-			<value>
-				This title is used for identifying the proposal through the approval process.
-				It is highly recommended that you use the same name for the course and 
-				proposal title.
-			</value>
-		</property>
+	<bean parent="enCourse" p:id="cluProposalTitle-instruct" p:value="This title is used for identifying the proposal through the approval process.&lt;/br&gt;It is highly recommended that you use the same name for the course and proposal title.">
 	</bean>
 	<bean parent="enCourse" p:id="cluProposalRationale" p:value="Proposal Rationale" />
 	<bean parent="enCourse" p:id="cluProposalRationale-help" p:value="The proposal rationale describes the reason for proposing a new course.  For example, what holes does the new proposed course 
