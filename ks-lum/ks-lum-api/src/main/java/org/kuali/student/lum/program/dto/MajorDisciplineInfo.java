@@ -34,6 +34,7 @@ import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 /**
  * Detailed information about a single major discipline program
@@ -123,6 +124,36 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlElement
     private List<String> programRequirements;
+
+    @XmlElement
+    private List<AdminOrgInfo> divisionsContentOwner;    
+    
+    @XmlElement
+    private List<AdminOrgInfo> divisionsStudentOversight;    
+
+    @XmlElement
+    private List<AdminOrgInfo> divisionsDeployment;    
+
+    @XmlElement
+    private List<AdminOrgInfo> divisionsFinancialResources;    
+
+    @XmlElement
+    private List<AdminOrgInfo> divisionsFinancialControl;    
+
+    @XmlElement
+    private List<AdminOrgInfo> unitsContentOwner;    
+    
+    @XmlElement
+    private List<AdminOrgInfo> unitsStudentOversight;    
+
+    @XmlElement
+    private List<AdminOrgInfo> unitsDeployment;    
+
+    @XmlElement
+    private List<AdminOrgInfo> unitsFinancialResources;    
+
+    @XmlElement
+    private List<AdminOrgInfo> unitsFinancialControl;    
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -431,6 +462,86 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     public void setProgramRequirements(List<String> programRequirements) {
         this.programRequirements = programRequirements;
+    }
+    
+    public List<AdminOrgInfo> getDivisionsContentOwner() {
+        return divisionsContentOwner;
+    }
+
+    public void setDivisionsContentOwner(List<AdminOrgInfo> divisionsContentOwner) {
+        this.divisionsContentOwner = divisionsContentOwner;
+    }
+
+    public List<AdminOrgInfo> getDivisionsStudentOversight() {
+        return divisionsStudentOversight;
+    }
+
+    public void setDivisionsStudentOversight(List<AdminOrgInfo> divisionsStudentOversight) {
+        this.divisionsStudentOversight = divisionsStudentOversight;
+    }
+
+    public List<AdminOrgInfo> getDivisionsDeployment() {
+        return divisionsDeployment;
+    }
+
+    public void setDivisionsDeployment(List<AdminOrgInfo> divisionsDeployment) {
+        this.divisionsDeployment = divisionsDeployment;
+    }
+
+    public List<AdminOrgInfo> getDivisionsFinancialResources() {
+        return divisionsFinancialResources;
+    }
+
+    public void setDivisionsFinancialResources(List<AdminOrgInfo> divisionsFinancialResources) {
+        this.divisionsFinancialResources = divisionsFinancialResources;
+    }
+
+    public List<AdminOrgInfo> getDivisionsFinancialControl() {
+        return divisionsFinancialControl;
+    }
+
+    public void setDivisionsFinancialControl(List<AdminOrgInfo> divisionsFinancialControl) {
+        this.divisionsFinancialControl = divisionsFinancialControl;
+    }
+
+    public List<AdminOrgInfo> getUnitsContentOwner() {
+        return unitsContentOwner;
+    }
+
+    public void setUnitsContentOwner(List<AdminOrgInfo> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
+    }
+
+    public List<AdminOrgInfo> getUnitsStudentOversight() {
+        return unitsStudentOversight;
+    }
+
+    public void setUnitsStudentOversight(List<AdminOrgInfo> unitsStudentOversight) {
+        this.unitsStudentOversight = unitsStudentOversight;
+    }
+
+    public List<AdminOrgInfo> getUnitsDeployment() {
+        return unitsDeployment;
+    }
+
+    public void setUnitsDeployment(List<AdminOrgInfo> unitsDeployment) {
+        this.unitsDeployment = unitsDeployment;
+    }
+
+    public List<AdminOrgInfo> getUnitsFinancialResources() {
+        return unitsFinancialResources;
+    }
+
+    public void setUnitsFinancialResources(List<AdminOrgInfo> unitsFinancialResources) {
+        this.unitsFinancialResources = unitsFinancialResources;
+    }
+
+    public List<AdminOrgInfo> getUnitsFinancialControl() {
+        return unitsFinancialControl;
+    }
+
+    public void setUnitsFinancialControl(List<AdminOrgInfo> unitsFinancialControl) {
+        this.unitsFinancialControl = unitsFinancialControl;
     }
 
     /**

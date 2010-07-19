@@ -27,7 +27,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -242,10 +242,5 @@ public class CourseReqManager extends Controller {
 
 	public void setFieldsWithLookup(List<Metadata> fieldsWithLookup) {
 		this.fieldsWithLookup = fieldsWithLookup;
-	}
-
-	@Override
-	public boolean beforeViewChange() {
-		return true;
 	}
 }

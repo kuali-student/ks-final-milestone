@@ -15,7 +15,9 @@ public class FieldDefinition extends Constraint {
 	@XmlElement
 	protected DataType dataType;// SHould be
 								// DATE,STRING,INTEGER,BOOLEAN,COMPLEX,...
-	@XmlIDREF
+	// ? is this required ? XmlIDREF
+	// Removed the XmlIDREF annotation for the dataObjectStructure field of FieldDefinition and 
+	// remove the XmlID annotation.  Since these annotations prevents the dataObjectStructure to be serialized.  This causes a problem when trying to retrieve translation information of data of the form {myKey1=myValue2, myKey2=myValue2}
 	@XmlElement
 	protected ObjectStructureDefinition dataObjectStructure;
 

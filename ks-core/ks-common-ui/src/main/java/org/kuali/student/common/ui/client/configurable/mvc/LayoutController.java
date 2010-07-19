@@ -324,12 +324,13 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	}
 	
 	@Override
-	public boolean beforeViewChange() {
-		boolean okToChange = true;
+	public void beforeViewChange(Callback<Boolean> okToChange) {
 		//will this ever be true?  we need HasSubController interface
 		if(this.getCurrentView() instanceof Controller){
-			okToChange = ((Controller)this.getCurrentView()).beforeViewChange();
+			((Controller)this.getCurrentView()).beforeViewChange(okToChange);
 		}
-		return okToChange;
+		else{
+			okToChange.exec(true);
+		}
 	}
 }

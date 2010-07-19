@@ -9,7 +9,6 @@
         CHLD_STMT_TYPE_ID="kuali.luStatementType.enrollAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
     <KSST_STMT_TYP_JN_STMT_TYP
         CHLD_STMT_TYPE_ID="kuali.luStatementType.antireqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
-
     <KSST_STMT_TYP_JN_STMT_TYP
         CHLD_STMT_TYPE_ID="kuali.luStatementType.programEntrance" STMT_TYPE_ID="kuali.luStatementType.program"/>
     <KSST_STMT_TYP_JN_STMT_TYP

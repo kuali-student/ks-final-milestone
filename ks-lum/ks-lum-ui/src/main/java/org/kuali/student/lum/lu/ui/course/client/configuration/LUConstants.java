@@ -168,6 +168,7 @@ public class LUConstants {
     public static final String CODE_LABEL_KEY = "cluCode";
     public static final String TITLE_LITERAL_LABEL_KEY = "cluTitleLiteral";
     public static final String TITLE_LABEL_KEY = "cluTitle";
+    public static final String COURSE_TITLE_LABEL_KEY = "courseTitle";
     public static final String SUBJECT_CODE_LABEL_KEY = "cluSubjectCode";
     public static final String LEVEL_LABEL_KEY = "cluLevel";
     
@@ -181,6 +182,7 @@ public class LUConstants {
     public static final String CROSS_LISTED_ALT_LABEL_KEY = "cluCrosslistedAlt";
     public static final String ADD_CROSS_LISTED_LABEL_KEY = "cluAddCrosslisted";
 
+    public static final String CL_V_J_LABEL_KEY = "cluCrossListedVersionJoin";
     public static final String JOINT_OFFER_ITEM_LABEL_KEY = "cluJointOfferItem";
     public static final String JOINT_OFFERINGS_LABEL_KEY = "cluJointOfferings";
     public static final String JOINT_OFFERINGS_ALT_LABEL_KEY = "cluJointOfferingsAlt";

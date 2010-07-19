@@ -197,6 +197,26 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
         OWNER="kuali.reqCompType.program.admitted.credits"
         TEMPLATE="Must be admitted to program prior to earning $expectedValue $NLHelper.getProperGrammar($expectedValue, &quot;credit&quot;)"/>                                
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="1006" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
+        OWNER="kuali.reqCompType.program.credits.min"
+        TEMPLATE="Must have earned a minimum of $expectedValue total $NLHelper.getProperGrammar($expectedValue, &quot;credit&quot;)"/>                                
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="1007" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
+        OWNER="kuali.reqCompType.program.credits.max"
+        TEMPLATE="Must not have earned more than $expectedValue $NLHelper.getProperGrammar($expectedValue, &quot;credit&quot;)"/>                                
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="1008" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
+        OWNER="kuali.reqCompType.program.completion.duration"
+        TEMPLATE="Must not exceed $expectedValue $durationType without completing program"/>                                
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="1009" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
+        OWNER="kuali.reqCompType.program.candidate.status.duration"
+        TEMPLATE="Must attain candidate status within $expectedValue $durationType after program entry term"/>                                
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="1010" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
+        OWNER="kuali.reqCompType.program.completion.duration.afterentry"
+        TEMPLATE="Must complete program within $expectedValue $durationType after program entry term"/>                                
 
 <!--
     <KSST_REQ_COM_TYPE_NL_TMPL ID="2001" LANGUAGE="en"
@@ -220,6 +240,26 @@
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.program.admitted.credits"
         TEMPLATE="Must be admitted to program prior to earning 60 credits"/> 
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="2006" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.program.credits.min"
+        TEMPLATE="Must have earned a minimum of 120 total credits"/> 
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="2007" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.program.credits.max"
+        TEMPLATE="Must not have earned more than 130 total credits"/> 
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="2008" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.program.completion.duration"
+        TEMPLATE="Must not exceed 10 semesters without completing program"/> 
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="2009" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.program.candidate.status.duration"
+        TEMPLATE="Must attain candidate status within 3 semesters after program entry term"/> 
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="2010" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqCompType.program.completion.duration.afterentry"
+        TEMPLATE="Must complete program within 10 semesters after program entry term"/> 
 
 <!--
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3001" LANGUAGE="en"
@@ -244,4 +284,24 @@
         OWNER="kuali.reqCompType.program.admitted.credits"
         TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Credits>"/>         
                     
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="3006" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.program.credits.min"
+        TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number>"/>         
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="3007" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.program.credits.max"
+        TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number>"/>         
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="3008" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.program.completion.duration"
+        TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number>"/>         
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="3009" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.program.candidate.status.duration"
+        TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number>"/>         
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="3010" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqCompType.program.completion.duration.afterentry"
+        TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number>"/>         
 </dataset>

@@ -5346,12 +5346,22 @@
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FKEE1C67E3B559587">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
+        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKEE1C67E32D8571A5">
+            <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
+        </foreign-key>
+        <unique name="SYS_C0040319">
+            <unique-column name="STMT_TYPE_ID"/>
+            <unique-column name="REQ_COM_TYPE_ID"/>
+        </unique>
     </table>
     <table name="KSST_STMT_TYP_JN_STMT_TYP">
         <column name="STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="CHLD_STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07AB559587">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07A861B91E9">
+            <reference foreign="TYPE_KEY" local="CHLD_STMT_TYPE_ID"/>
         </foreign-key>
         <unique name="SYS_C0040322">
             <unique-column name="CHLD_STMT_TYPE_ID"/>

@@ -57,6 +57,7 @@
     <bean id="orgPermissionContext" class="org.kuali.student.lum.statement.config.context.lu.OrganizationContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
+    <bean id="durationContext" class="org.kuali.student.lum.statement.config.context.lu.DurationContextImpl" />
 
     <bean id="contextRegistryReqComponent"
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
@@ -179,6 +180,21 @@
                 </entry>
                 <entry key="kuali.reqCompType.program.admitted.credits">
                     <ref local="basicContext"/>                
+                </entry>                
+                <entry key="kuali.reqCompType.program.credits.min">
+                    <ref local="basicContext"/>                
+                </entry>                
+                <entry key="kuali.reqCompType.program.credits.max">
+                    <ref local="basicContext"/>                
+                </entry>                
+                <entry key="kuali.reqCompType.program.completion.duration">
+                    <ref local="durationContext"/>                
+                </entry>                
+                <entry key="kuali.reqCompType.program.candidate.status.duration">
+                    <ref local="durationContext"/>                
+                </entry>                
+                <entry key="kuali.reqCompType.program.completion.duration.afterentry">
+                    <ref local="durationContext"/>                
                 </entry>                
             </map>
         </constructor-arg>

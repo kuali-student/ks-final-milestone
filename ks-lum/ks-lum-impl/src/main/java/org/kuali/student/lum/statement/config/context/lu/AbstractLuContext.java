@@ -36,19 +36,6 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 	private LuService luService;
 
 	/**
-	 * Template tokens (keys).
-	 */
-	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
-	protected final static String OPERATOR_TOKEN = "relationalOperator";
-
-	/**
-	 * <code>NLHelper</code> token (key) references a static natural language
-	 * helper class used in templates.
-	 * e.g. '$NLHelper.getProperGrammer($expectedValue, "course", "courses")'
-	 */
-	protected final static String NL_HELPER_TOKEN = "NLHelper";
-
-	/**
 	 * Constructor.
 	 */
 	public AbstractLuContext() {
@@ -184,9 +171,9 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
-        contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
-        contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
-        contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
+        contextMap.put(CommonTemplateTokens.NL_HELPER_TOKEN, NLHelper.class);
+        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(CommonTemplateTokens.OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
         return contextMap;
     }
 }

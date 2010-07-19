@@ -27,8 +27,8 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.core.rice.authorization.PermissionType;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.CourseProposalController;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.ViewCourseController;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CategoryManagementTable;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.view.ActionListView;
@@ -244,10 +244,4 @@ public class LUMApplicationManager extends Controller {
         return LUMViews.valueOf(enumValue);
     }
 
-    @Override
-    public boolean beforeViewChange() {
-        // TODO Do a check here for controllers that may be active and want to respond
-        //(nested controllers in the delegating views)
-        return true;
-    }
 }

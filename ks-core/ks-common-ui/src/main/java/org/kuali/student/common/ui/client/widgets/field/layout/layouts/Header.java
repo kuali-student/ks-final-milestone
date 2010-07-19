@@ -25,24 +25,29 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class Header extends Composite{
 	private FlowPanel header = new FlowPanel();
-	private FlowPanel actions = new FlowPanel();
-	private FlowPanel clearDiv = new FlowPanel();
-	private SectionTitle title;
+    private SectionTitle title;
 	private AbbrButton help = new AbbrButton(AbbrButtonType.HELP);
 	private AbbrButton delete = new AbbrButton(AbbrButtonType.DELETE);
+    boolean updateable;
 	
-	public Header(SectionTitle title){
+	public Header(SectionTitle title, boolean updateable){
 		this.title = title;
-		header.add(title);
+        this.updateable = updateable;
+
+        FlowPanel actions = new FlowPanel();
+        actions.add(help);
+        if (updateable)
+		    actions.add(delete);
 		
-		actions.add(help);
-		actions.add(delete);
-		actions.setStyleName("ks-form-header-title-actions");
-		
+        header.add(title);
 		header.add(actions);
+        FlowPanel clearDiv = new FlowPanel();
+        header.add(clearDiv);
 		
 		clearDiv.setStyleName("clearboth");
-		header.add(clearDiv);
+		header.setStyleName("ks-form-bordered-header");
+		actions.setStyleName("ks-form-header-title-actions");
+
 		this.initWidget(header);
 	}
 

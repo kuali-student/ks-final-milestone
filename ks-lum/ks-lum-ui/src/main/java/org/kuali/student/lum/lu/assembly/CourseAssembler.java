@@ -321,6 +321,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			if (instr != null) {
 				result.setPrimaryInstructor(instr.getPersonId());
 			}
+			
+			for (CluInstructorInfo instructor : course.getInstructors()) {
+				result.getInstructors().add(instructor.getPersonId());
+			}
 			result.setState(course.getState());
 			result.setSubjectArea(course.getOfficialIdentifier().getDivision());
 			result.setTranscriptTitle(course.getOfficialIdentifier().getShortName());
@@ -553,6 +557,20 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				courseClu.setPrimaryInstructor(instr);
 			}
 			instr.setPersonId(instrId);
+			
+			if (course.getInstructors() != null) {
+				for (Data.Property p : course.getInstructors()) {
+					if(!"_runtimeData".equals(p.getKey())){
+						String instructorId = p.getValue();
+						CluInstructorInfo instructor = new CluInstructorInfo();
+						instructor.setPersonId(instructorId);
+						if (courseClu.getInstructors() == null) {
+							courseClu.setInstructors(new ArrayList<CluInstructorInfo>());
+						}
+						courseClu.getInstructors().add(instructor);
+					}
+				}
+			}
 
 			//AuthzCheck
 			if(courseMetadata.getProperties().get("department").getWriteAccess()!=WriteAccess.NEVER){

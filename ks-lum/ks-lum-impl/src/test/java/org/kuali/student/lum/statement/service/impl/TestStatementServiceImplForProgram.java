@@ -129,4 +129,58 @@ public class TestStatementServiceImplForProgram {
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-110", "KUALI.RULEEDIT", "en");
         assertEquals("Must be admitted to program prior to earning 5 credits", nl);
     }	
+
+    /**
+     * Requirement component type: kuali.reqCompType.program.credits.min
+     */
+    @Test
+    public void testTranslateReqComponent_minTotalCredits_1Credit() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-111", "KUALI.RULEEDIT", "en");
+        assertEquals("Must have earned a minimum of 1 total credit", nl);
+    }	
+
+    /**
+     * Requirement component type: kuali.reqCompType.program.credits.min
+     */
+    @Test
+    public void testTranslateReqComponent_minTotalCredits_120Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-112", "KUALI.RULEEDIT", "en");
+        assertEquals("Must have earned a minimum of 120 total credits", nl);
+    }	
+
+    /**
+     * Requirement component type: kuali.reqCompType.program.credits.max
+     */
+    @Test
+    public void testTranslateReqComponent_maxTotalCredits_130Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-113", "KUALI.RULEEDIT", "en");
+        assertEquals("Must not have earned more than 130 credits", nl);
+    }	
+
+    /**
+     * Requirement component type: kuali.reqCompType.program.completion.duration
+     */
+    @Test
+    public void testTranslateReqComponent_CompletionDuration_10Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-114", "KUALI.RULEEDIT", "en");
+        assertEquals("Must not exceed 10 semesters without completing program", nl);
+    }	
+
+    /**
+     * Requirement component type: kuali.reqCompType.program.candidate.status.duration
+     */
+    @Test
+    public void testTranslateReqComponent_CandidateStatusDuration_3Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-115", "KUALI.RULEEDIT", "en");
+        assertEquals("Must attain candidate status within 3 semesters after program entry term", nl);
+    }	
+
+    /**
+     * Requirement component type: kuali.reqCompType.program.completion.duration.afterentry
+     */
+    @Test
+    public void testTranslateReqComponent_CompletionDurationAfterEntry_3Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-116", "KUALI.RULEEDIT", "en");
+        assertEquals("Must complete program within 10 semesters after program entry term", nl);
+    }	
 }

@@ -262,9 +262,4 @@ public class HomeMenuController extends Controller{
     public Enum<?> getViewEnumValue(String enumValue) {
         return MenuViews.valueOf(enumValue);
     }
-
-	@Override
-	public boolean beforeViewChange() {
-		return true;
-	}
 }

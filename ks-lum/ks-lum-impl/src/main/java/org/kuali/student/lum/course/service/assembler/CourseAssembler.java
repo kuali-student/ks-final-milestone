@@ -107,6 +107,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		course.setType(clu.getType());
 		course.setTermsOffered(clu.getOfferedAtpTypes());
 		course.setPrimaryInstructor(clu.getPrimaryInstructor());
+		course.setInstructors(clu.getInstructors());
 		course.setState(clu.getState());
 		course.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 		course.setTranscriptTitle(clu.getOfficialIdentifier().getShortName());

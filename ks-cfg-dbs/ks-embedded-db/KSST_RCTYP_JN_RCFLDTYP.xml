@@ -79,4 +79,20 @@
         REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.gradeType" REQ_COMP_TYPE_ID="kuali.reqCompType.course.courseset.nof.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.program.admitted.credits"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.program.credits.min"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.program.credits.max"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.program.completion.duration"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.durationType" REQ_COMP_TYPE_ID="kuali.reqCompType.program.completion.duration"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.program.candidate.status.duration"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.durationType" REQ_COMP_TYPE_ID="kuali.reqCompType.program.candidate.status.duration"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.requiredCount" REQ_COMP_TYPE_ID="kuali.reqCompType.program.completion.duration.afterentry"/>                                        
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="reqCompFieldType.durationType" REQ_COMP_TYPE_ID="kuali.reqCompType.program.completion.duration.afterentry"/>                                        
 </dataset>

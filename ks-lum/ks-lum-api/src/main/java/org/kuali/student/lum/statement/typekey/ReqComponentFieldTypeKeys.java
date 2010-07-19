@@ -45,7 +45,8 @@ public enum ReqComponentFieldTypeKeys {
     GRADE_TYPE_KEY("reqCompFieldType.gradeType"),
     GRADE_KEY("reqCompFieldType.grade"),	
     ORG_PERMISSION_KEY("reqCompFieldType.orgid"),
-    INSTRUCTOR_PERMISSION_KEY("reqCompFieldType.personid");    
+    INSTRUCTOR_PERMISSION_KEY("reqCompFieldType.personid"),    
+    DURATION_TYPE_KEY("reqCompFieldType.durationType");
     
 	private String key;
 	
