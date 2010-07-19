@@ -13,12 +13,11 @@
  * permissions and limitations under the License.
  * <p/>
  */
-package org.kuali.student.common.ui.client.configurable.mvc.binding.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityTable;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityTable;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -29,20 +28,25 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *   
- *      !!!!!! WORK IN PROGRESS  !!!!!!
- *     
- *
+ * This class handles transferring data between the model and the widgets 
  */
 public class MultiplicityTableBinding extends ModelWidgetBindingSupport<MultiplicityTable> {
 
-    @Override
+
+    /**
+     * @see ModelWidgetBindingSupport#setModelValue(Object,
+     *      org.kuali.student.common.ui.client.mvc.DataModel, String)
+     */
     public void setModelValue(MultiplicityTable table, DataModel model, String path) {
         // Not required  - MultiplicityTable is read only
         GWT.log("Method setModelValue not implemented for MultiplicityTable");
     }
 
-    @Override
+
+    /**
+     * @see ModelWidgetBindingSupport#setWidgetValue(Object,
+     *      org.kuali.student.common.ui.client.mvc.DataModel, String)
+     */
     public void setWidgetValue(MultiplicityTable table, DataModel model, String path) {
         table.initTable();
         

@@ -13,13 +13,12 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.ui.client.configurable.mvc.binding.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityGroup;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.wip.MultiplicityItemSection;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -33,27 +32,21 @@ import org.kuali.student.core.assembly.data.Data.Property;
 public class MultiplicityGroupBinding extends ModelWidgetBindingSupport<MultiplicityGroup> {
     public static MultiplicityGroupBinding INSTANCE = new MultiplicityGroupBinding();
 
-    /**
-     * 
-     *      !!!!!! WORK IN PROGRESS  !!!!!!
-     *     
-     */
     public MultiplicityGroupBinding() {};
 
     /**
      * @see ModelWidgetBindingSupport#setModelValue(Object,
      *      org.kuali.student.common.ui.client.mvc.DataModel, String)
      */
-    @Override
     public void setModelValue(MultiplicityGroup mcWidget, DataModel model, String path) {
-        for (MultiplicityItemSection item : mcWidget.getItems()) {
-            MultiplicityItemBinding.INSTANCE.setModelValue(item, model, mcWidget.getParentPath());
+        for (MultiplicityGroupItem item : mcWidget.getItems()) {
+            MultiplicityGroupItemBinding.INSTANCE.setModelValue(item, model, mcWidget.getParentPath());
         }
-        for (MultiplicityItemSection item : mcWidget.getRemovedItems()) {
+        for (MultiplicityGroupItem item : mcWidget.getRemovedItems()) {
             //Check flag to add model binding for only those elements that are either added to the DB or
             // loading frm the DB.
             if(item.isCreated()==false){
-                MultiplicityItemBinding.INSTANCE.setModelValue(item, model, path);
+                MultiplicityGroupItemBinding.INSTANCE.setModelValue(item, model, path);
             }
         }
     }
@@ -81,10 +74,10 @@ public class MultiplicityGroupBinding extends ModelWidgetBindingSupport<Multipli
                 Property p = (Property) itr.next();
 
                 if (p.getKey() instanceof Integer && !isItemDeleted(model, path, (Integer)p.getKey(), mg)) {
-                	MultiplicityItemSection mgi = mg.createItem();
+                	MultiplicityGroupItem mgi = mg.createItem();
                     mgi.setCreated(false);
                     mgi.setItemKey((Integer) p.getKey());
-                    MultiplicityItemBinding.INSTANCE.setWidgetValue(mgi, model, fieldPath);
+                    MultiplicityGroupItemBinding.INSTANCE.setWidgetValue(mgi, model, fieldPath);
                 } else {
                 	mg.incrementItemKey();
                 }
@@ -105,7 +98,7 @@ public class MultiplicityGroupBinding extends ModelWidgetBindingSupport<Multipli
     	// If multiplicity read only no point checking for deletions
     	if (!mcWidget.getConfig().isUpdateable()) {
 
-    		QueryPath runtimeDeletedPath = QueryPath.concat(path, String.valueOf(index), MultiplicityItemBinding.RT_DELETED);
+    		QueryPath runtimeDeletedPath = QueryPath.concat(path, String.valueOf(index), MultiplicityGroupItemBinding.RT_DELETED);
 
     		Boolean runtimeDeleted = model.get(runtimeDeletedPath);
     		if (runtimeDeleted != null){

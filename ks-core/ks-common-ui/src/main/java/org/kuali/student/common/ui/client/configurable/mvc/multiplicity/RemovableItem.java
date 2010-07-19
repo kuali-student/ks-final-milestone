@@ -26,6 +26,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author Kuali Student Team
  */
+
+/**
+ * @deprecated
+ */
 public class RemovableItem extends MultiplicityItem {
     private boolean loaded = false;
 

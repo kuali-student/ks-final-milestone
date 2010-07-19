@@ -15,14 +15,19 @@
  * <p/>
  *
  */
-package org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.List;
-
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-
 import com.google.gwt.user.client.ui.FlexTable;
 
+/**
+ * A MultiplicityTable displays data in a GWT FlexTable, one cell per field defined, one row per iteration in the supplied data.
+ * Data is displayed as defined in the MultiplicityConfiguration passed in the ctor
+ * If concatenated fields have been defined the values will be concatenated (comma delimited)  and displayed in a single table cell
+ *
+ * Fields are included in the table based on the FieldDescriptors added to the configuration
+ */
 public class MultiplicityTable extends FlexTable {
 
     private MultiplicityConfiguration config;
@@ -39,13 +44,8 @@ public class MultiplicityTable extends FlexTable {
     }
 
     /**
-     * 
-     *     !!!!!! WORK IN PROGRESS  !!!!!!
-     *     
-     * Creates an instance of a MultiplicityTable based on the options in the MultiplicityConfiguration
      *
-     * A MultiplicityTable displays data in a GWT FlexTable, one cell per field defined, one row per iteration in the supplied data.
-     * If concatenated fields have been defined the values will be concatenated (comma delimited)  and displayed in a single table cell
+     * Creates an instance of a MultiplicityTable based on the options in the MultiplicityConfiguration
      *
      * @param config
      */

@@ -17,14 +17,14 @@
  *
  */
 
-package org.kuali.student.common.ui.client.configurable.mvc.sections.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
-import org.kuali.student.common.ui.client.configurable.mvc.binding.wip.MultiplicityGroupBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.wip.MultiplicityTableBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityGroup;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityTable;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityGroupBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityTableBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityTable;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.TableFieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 
@@ -36,9 +36,8 @@ public class MultiplicitySection extends BaseSection {
     private Widget widget;
 
     /**
-     *       !!!! WORK IN PROGRESS !!!!
      *  
-     *  Creates a section containing a multiplicity widget based on the configuration
+     *  Creates a section containing a multiplicity widget based on the supplied configuration
      */
     public MultiplicitySection(MultiplicityConfiguration config) {
         this.config = config;
@@ -52,29 +51,36 @@ public class MultiplicitySection extends BaseSection {
 
     private void buildLayout() {
 
-        switch (config.getLayoutType()) {
+        if (config.getParentFd() == null) {
+            KSErrorDialog.show (new Throwable ("Multiplicity Parent FD cannot be null"));
+            return;
+        }
+         switch (config.getLayoutType()) {
             case GROUP:
                 layout = new VerticalFieldLayout();
                 widget = new MultiplicityGroup(config);
                 config.getParentFd().setFieldWidget(widget);
                 config.getParentFd().setWidgetBinding(new MultiplicityGroupBinding());
                 this.addField(config.getParentFd());
-                
+
                 break;
-            case TABLE:	
+            case TABLE:
+                if (config.getFields().size() > 1) {
+                    KSErrorDialog.show (new Throwable ("MultiplicityTable can have only one row defined"));
+                    return;
+                }
                 layout = new TableFieldLayout();
-                widget = new MultiplicityTable(config);                              
+                widget = new MultiplicityTable(config);
                 config.getParentFd().setFieldWidget(widget);
                 config.getParentFd().setWidgetBinding(new MultiplicityTableBinding());
                 this.addField(config.getParentFd());
-                
+
                 break;
             default:
                 layout = null;
             }
+        }
 
-    }
-    
     public void setParentPath(String parentPath) {
     	if (widget instanceof MultiplicityGroup) {
     		((MultiplicityGroup)widget).setParentPath(parentPath);

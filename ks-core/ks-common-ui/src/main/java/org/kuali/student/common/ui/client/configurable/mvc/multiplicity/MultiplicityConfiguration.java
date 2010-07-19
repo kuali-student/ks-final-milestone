@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  * <p/>
  */
-package org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +25,17 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.core.assembly.data.Metadata;
 
 
-
+ /**
+ *
+ * MultiplicityConfiguration is passed into a MultiplicitySection to control the type of multiplicity created.
+ * Used to control the Multiplicity, e.g. if its updateable, has headers, min number of items, labels etc.
+ * It also holds FieldDescriptors for the fields required to be included in the multiplicity. They are
+ * held in a HashMap keyed by rows, i.e. Map<Integer, List<FieldDescriptor>>
+ *
+ * @param multiplicityType
+ * @param styleType
+ *
+ */
 public class MultiplicityConfiguration {
 
     private MultiplicityType multiplicityType;
@@ -50,23 +60,17 @@ public class MultiplicityConfiguration {
     public static enum MultiplicityType {GROUP, TABLE }
     public static enum StyleType {TOP_LEVEL, SUB_LEVEL}
 
+
      /**
-     * 
-     *      !!!!!! WORK IN PROGRESS  !!!!!!
-     *     
-     * MultiplicityConfiguration is passed into a MultiplicitySection to control the type of multiplicity created.
-     * Used to control the Multiplicity, e.g. if its updateable, has headers, min number of items, labels etc.
-     * It also holds FieldDescriptors for the fields required to be included in the multiplicity. They are
-     * held in a HashMap keyed by rows, i.e. Map<Integer, List<FieldDescriptor>>
      *
      * Creates a new MultiplicityConfiguration of the specified type and the specified style (selected from
      * MultiplicityType and StyleType enums)
-     *
+      *
      * @param multiplicityType
      * @param styleType
-     * 
+     * @param metaData
      */
-    public MultiplicityConfiguration(MultiplicityType multiplicityType, StyleType styleType, Metadata metaData) {
+     public MultiplicityConfiguration(MultiplicityType multiplicityType, StyleType styleType, Metadata metaData) {
         this.multiplicityType = multiplicityType;
         this.styleType = styleType;
         this.metaData = metaData;
@@ -83,8 +87,6 @@ public class MultiplicityConfiguration {
     /**
      * Includes this field (as defined by the FieldDescriptor) on the current line at the next horizontal position
      *
-     * N.B For MultiplicityGroup field paths should be full (including wildcards where appropriate) For MultiplicityTable
-     * field paths are relative to the parentpath.  //TODO Fix this!!
      *
      * @param fieldDescriptor
      */
