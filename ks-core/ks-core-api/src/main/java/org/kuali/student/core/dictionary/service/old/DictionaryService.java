@@ -31,12 +31,12 @@ import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
 public interface DictionaryService {
 
     @WebMethod
-    @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectTypes", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
-    @ResponseWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectTypesResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
+    @RequestWrapper(className="org.kuali.student.core.dictionary.service.old.jaxws.GetObjectTypes", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
+    @ResponseWrapper(className="org.kuali.student.core.dictionary.service.old.jaxws.GetObjectTypesResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
     public List<String> getObjectTypes();
 
     @WebMethod
-    @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectStructure", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
-    @ResponseWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectStructureResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
+    @RequestWrapper(className="org.kuali.student.core.dictionary.service.old.jaxws.GetObjectStructure", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
+    @ResponseWrapper(className="org.kuali.student.core.dictionary.service.old.jaxws.GetObjectStructureResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
     public ObjectStructure getObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey);
 }
