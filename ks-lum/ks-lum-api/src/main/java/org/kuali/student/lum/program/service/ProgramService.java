@@ -21,7 +21,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.service.poc.DictionaryService;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -219,12 +219,11 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @param validationType identifier of the extent of validation
      * @param credentialProgramInfo Credential Program information to be tested
      * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, cluInfo
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultInfo> validateCredentialProgram(@WebParam(name="validationType")String validationType, @WebParam(name="credentialProgramInfo")CredentialProgramInfo credentialProgramInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateCredentialProgram(@WebParam(name="validationType")String validationType, @WebParam(name="credentialProgramInfo")CredentialProgramInfo credentialProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Creates a Major Discipline Program
@@ -270,12 +269,11 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @param validationType identifier of the extent of validation
      * @param majorDisciplineInfo Major discipline information to be tested
      * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, cluInfo
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultInfo> validateMajorDiscipline(@WebParam(name="validationType")String validationType, @WebParam(name="majorDisciplineInfo")MajorDisciplineInfo majorDisciplineInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateMajorDiscipline(@WebParam(name="validationType")String validationType, @WebParam(name="majorDisciplineInfo")MajorDisciplineInfo majorDisciplineInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Creates a Minor Discipline Program
@@ -321,12 +319,11 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @param validationType identifier of the extent of validation
      * @param minorDisciplineInfo Minor discipline information to be tested
      * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, cluInfo
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultInfo> validateMinorDiscipline(@WebParam(name="validationType")String validationType, @WebParam(name="minorDisciplineInfo")MinorDisciplineInfo minorDisciplineInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateMinorDiscipline(@WebParam(name="validationType")String validationType, @WebParam(name="minorDisciplineInfo")MinorDisciplineInfo minorDisciplineInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Creates a Honors Program
@@ -372,12 +369,11 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @param validationType identifier of the extent of validation
      * @param honorsProgramInfo Honors Program information to be tested
      * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, cluInfo
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultInfo> validateHonorsProgram(@WebParam(name="validationType")String validationType, @WebParam(name="honorsProgramInfo")HonorsProgramInfo honorsProgramInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateHonorsProgram(@WebParam(name="validationType")String validationType, @WebParam(name="honorsProgramInfo")HonorsProgramInfo honorsProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Creates a Program Requirement
@@ -390,7 +386,7 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public ProgramRequirementInfo createHonorsProgram(@WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ProgramRequirementInfo createProgramRequirement(@WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a Program Requirement
@@ -423,11 +419,10 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @param validationType identifier of the extent of validation
      * @param programRequirementInfo Program Requirement information to be tested
      * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, cluInfo
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultInfo> validateProgramRequirement(@WebParam(name="validationType")String validationType, @WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateProgramRequirement(@WebParam(name="validationType")String validationType, @WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
 }

@@ -67,9 +67,9 @@ public class RuleExpressionEditor extends ViewComposite {
     
     // helper object
     private RuleExpressionParser ruleExpressionParser = new RuleExpressionParser();
-
+    public enum Views{RULES_EXPRESSION}
     public RuleExpressionEditor(Controller controller) {
-        super(controller, "Rule Expression Editor");
+        super(controller, "Rule Expression Editor", Views.RULES_EXPRESSION);
         super.initWidget(mainPanel);
         setupHandlers();
         doneCancelButtons.getButton(ConfirmCancelEnum.CONFIRM).setText("Done");

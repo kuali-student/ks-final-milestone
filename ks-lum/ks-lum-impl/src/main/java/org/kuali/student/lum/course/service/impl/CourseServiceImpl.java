@@ -3,12 +3,14 @@ package org.kuali.student.lum.course.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.poc.Validator;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.poc.DictionaryService;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
@@ -42,9 +44,10 @@ public class CourseServiceImpl implements CourseService {
 
     private LuService luService;
     private CourseAssembler courseAssembler;
-    private CourseServiceMethodInvoker courseServiceMethodInvoker;
+    private BusinessServiceMethodInvoker courseServiceMethodInvoker;
     private DictionaryService dictionaryServiceDelegate;
     private Validator validator;
+    private ValidatorFactory validatorFactory;
 
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException {
@@ -146,24 +149,35 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<LoDisplayInfo> updateCourseLos(String courseId, List<LoDisplayInfo> loDisplayInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("updateCourseLos");
-    }
-
-    @Override
-    public List<StatementTreeViewInfo> updateCourseStatements(String courseId, List<StatementTreeViewInfo> statementTreeViewInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("updateCourseStatements");
-    }
-
-    @Override
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
-        List<ValidationResultInfo> validationResults = validator.validateObject(courseInfo, objStructure);
-
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(courseInfo, objStructure);
         return validationResults;
     }
 
+    @Override
+    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("createCourseStatement");
+    }
+
+    @Override
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("deleteCourseStatement");
+    }
+
+    @Override
+    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("updateCourseStatement");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("validateCourseStatement");
+    }
+    
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
@@ -182,11 +196,11 @@ public class CourseServiceImpl implements CourseService {
         this.courseAssembler = courseAssembler;
     }
 
-    public CourseServiceMethodInvoker getCourseServiceMethodInvoker() {
+    public BusinessServiceMethodInvoker getCourseServiceMethodInvoker() {
         return courseServiceMethodInvoker;
     }
 
-    public void setCourseServiceMethodInvoker(CourseServiceMethodInvoker courseServiceMethodInvoker) {
+    public void setCourseServiceMethodInvoker(BusinessServiceMethodInvoker courseServiceMethodInvoker) {
         this.courseServiceMethodInvoker = courseServiceMethodInvoker;
     }
 
@@ -223,7 +237,15 @@ public class CourseServiceImpl implements CourseService {
         return validator;
     }
 
-    public LuService getLuService() {
+    public ValidatorFactory getValidatorFactory() {
+		return validatorFactory;
+	}
+
+	public void setValidatorFactory(ValidatorFactory validatorFactory) {
+		this.validatorFactory = validatorFactory;
+	}
+
+	public LuService getLuService() {
         return luService;   
     }
 

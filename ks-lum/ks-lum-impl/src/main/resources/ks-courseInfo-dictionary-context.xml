@@ -19,7 +19,7 @@
 				<ref bean="courseInfo.courseTitle" />
 	<!-- 		<ref bean="courseInfo.crossListings" /> -->
 				<ref bean="courseInfo.department" />
-				<ref bean="courseInfo.description" />
+				<ref bean="courseInfo.descr" />
 				<ref bean="courseInfo.duration" />
 				<ref bean="courseInfo.effectiveDate" />
 				<ref bean="courseInfo.expirationDate" />
@@ -30,6 +30,7 @@
 				<ref bean="courseInfo.joints" />
 				<ref bean="courseInfo.offeredAtpTypes" />
 				<ref bean="courseInfo.primaryInstructor" />
+	<!-- 		<ref bean-"courseInfo.instructors" /> -->
 				<ref bean="courseInfo.state" />
 				<ref bean="courseInfo.subjectArea" />
 				<ref bean="courseInfo.termsOffered" />
@@ -38,9 +39,16 @@
 				<!-- <ref bean="courseInfo.variations" /> -->
 				<!-- Dynamic Attributes -->
 				<ref bean="courseInfo.finalExamStatus" />
-				<ref bean="courseInfo.altFinalExamStatusDescr"/>
+				<ref bean="courseInfo.finalExamRationale"/>
 				<ref bean="courseInfo.proposalId"/>
 				<ref bean="courseInfo.proposalRationale"/>
+				<!-- Searches -->
+				<ref bean="search.cluset" />
+				<ref bean="search.findCourse" />
+				<ref bean="search.proposedCourses" />				
+				<ref bean="search.approvedCourses" />
+				<ref bean="search.reusableCluSets" />
+				<ref bean="search.courseRanges" />																				
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -50,6 +58,10 @@
 	<bean id="courseInfo.academicSubjectOrgs-parent" abstract="true"
 		parent="baseRequiredRepeatingString">
 		<property name="name" value="academicSubjectOrgs" />
+		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
+		<property name="customValidatorClass" value="SampCustomValidator"/>
+		<property name="serverSide" value="true"/>
+		
 	</bean>
 	<bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
 
@@ -99,12 +111,12 @@
 	</bean>
 	<bean id="courseInfo.department" parent="courseInfo.department-parent" />
 
-	<bean id="courseInfo.description-parent" abstract="true"
+	<bean id="courseInfo.descr-parent" abstract="true"
 		parent="baseSingleComplex">
-		<property name="name" value="description" />
+		<property name="name" value="descr" />
 		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
 	</bean>
-	<bean id="courseInfo.description" parent="courseInfo.description-parent" />
+	<bean id="courseInfo.descr" parent="courseInfo.descr-parent" />
 
 	<bean id="courseInfo.duration-parent" abstract="true" parent="baseSingleComplex">
 		<property name="name" value="duration" />
@@ -830,6 +842,7 @@
 				<ref bean="activityInfo.duration" />
 				<ref bean="activityInfo.id" />
 				<ref bean="activityInfo.state" />
+				<ref bean="activityInfo.dynamic" />
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -880,7 +893,13 @@
 		<property name="name" value="state" />
 	</bean>
 	<bean id="activityInfo.state" parent="activityInfo.state-parent" />
-
+	<bean id="activityInfo.dynamic" parent="baseSingleString">
+  		<property name="name" value="proposalRationale" />
+  		<property name="minOccurs" value="0" />
+  		<property name="maxOccurs" value="1" />
+  		<!-- Maybe a lookup constraint to restrict the values -->
+  		<property name="dynamic" value="true"/>
+	</bean>
 	<!-- AmountInfo-->
 	<bean id="org.kuali.student.core.dto.AmountInfo-parent" abstract="true"
 		parent="ObjectStructureDefinition">
@@ -934,18 +953,18 @@
   		<property name="name" value="finalExamStatus" />
   		<property name="minOccurs" value="0" />
   		<property name="maxOccurs" value="1" />
-  		<property name="maxLength" value="3" />
+  		<property name="maxLength" value="15" />
   		<property name="validChars" ref="alpha"/>
   		<!-- Maybe a lookup constraint to restrict the values -->
   		<property name="dynamic" value="true"/>
 	</bean>
 
-	<bean id="courseInfo.altFinalExamStatusDescr" parent="baseSingleString">
+	<bean id="courseInfo.finalExamRationale" parent="baseSingleString">
   		<property name="name" value="altFinalExamStatusDescr" />
   		<property name="dynamic" value="true"/>
   		<property name="minOccurs" value="0" />
   		<property name="maxOccurs" value="1" />
-  		<property name="maxLength" value="50" />
+  		<property name="maxLength" value="250" />
   		<property name="validChars" ref="alphanumbericHyphenPeriod"/>
 	</bean>	
 	<bean id="courseInfo.proposalId" parent="baseSingleString">
@@ -962,4 +981,43 @@
   		<!-- Maybe a lookup constraint to restrict the values -->
   		<property name="dynamic" value="true"/>
 	</bean>
+	
+	<!-- Searches -->
+	
+	<bean id="cluset-parent" abstract="true" parent="ObjectStructureDefinition">
+		<property name="name" value="cluset" />
+		<property name="attributes">
+			<list>
+				<ref bean="search.approvedCourses" />
+			</list>
+		</property>
+		<property name="hasMetaData" value="true" />
+	</bean>
+	<bean id="cluset" parent="cluset-parent" />		
+	<bean id="search.cluset-parent" abstract="true" parent="baseRepeatingComplex">
+		<property name="name" value="cluset" />
+		<property name="dataObjectStructure" ref="cluset" />
+	</bean>
+	<bean id="search.cluset" parent="search.cluset-parent" />	
+	
+	<bean id="search.findCourse-parent" abstract="true" parent="cluInfo.id">
+		<property name="name" value="findCourse" />
+	</bean>
+	<bean id="search.findCourse" parent="search.findCourse-parent" />
+	<bean id="search.proposedCourses-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="proposedCourses" />
+	</bean>
+	<bean id="search.proposedCourses" parent="search.proposedCourses-parent" />		
+	<bean id="search.approvedCourses-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="approvedCourses" />
+	</bean>
+	<bean id="search.approvedCourses" parent="search.approvedCourses-parent" />
+	<bean id="search.reusableCluSets-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="reusableCluSets" />
+	</bean>
+	<bean id="search.reusableCluSets" parent="search.reusableCluSets-parent" />
+	<bean id="search.courseRanges-parent" abstract="true" parent="baseRepeatingString">
+		<property name="name" value="courseRanges" />
+	</bean>
+	<bean id="search.courseRanges" parent="search.courseRanges-parent" />					
 </beans>

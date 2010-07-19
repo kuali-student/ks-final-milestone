@@ -16,7 +16,9 @@
 package org.kuali.student.lum.course.service.assembler;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,6 +29,7 @@ import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -39,8 +42,10 @@ import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluResultInfo;
+import org.kuali.student.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
-
 /**
  * Assembler for CourseInfo. Provides assemble and disassemble operation on
  * CourseInfo from/to CluInfo and other base DTOs
@@ -76,7 +81,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		course.setCode(clu.getOfficialIdentifier().getCode());
 		course.setCourseNumberSuffix(clu.getOfficialIdentifier()
 				.getSuffixCode());
-
+		course.setOutOfClassHours(clu.getIntensity());
+		course.setInstructors(clu.getInstructors());
+		course.setStartTerm(clu.getExpectedFirstAtp());
+		course.setEndTerm(clu.getLastAtp());
+		
 		// TODO: LO
 		// course.setCourseSpecificLOs();
 
@@ -86,7 +95,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		// course.setCrossListings();
 
 		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
-		course.setDescription(clu.getDescr());
+		course.setDescr(clu.getDescr());
 		course.setDuration(clu.getStdDuration());
 		course.setEffectiveDate(clu.getEffectiveDate());
 		course.setExpirationDate(clu.getExpirationDate());
@@ -96,7 +105,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		course.setId(clu.getId());
 		course.setType(clu.getType());
-		course.setFirstExpectedOffering(clu.getExpectedFirstAtp());
 		course.setTermsOffered(clu.getOfferedAtpTypes());
 		course.setPrimaryInstructor(clu.getPrimaryInstructor());
 		course.setState(clu.getState());
@@ -143,8 +151,38 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				throw new AssemblyException("Error getting related formats", e);
 			}
 
+			try{
+				//Set Credit and Grading options
+				List<CluResultInfo> cluResults = luService.getCluResultByClu(course.getId());
+				
+				List<String> creditOptions = assembleCluResults(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, cluResults);
+				course.setCreditOptions(creditOptions);
+				
+				List<String> gradingOptions = assembleCluResults(CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE, cluResults);
+				course.setGradingOptions(gradingOptions);
+			} catch (DoesNotExistException e){
+			} catch (Exception e) {
+				throw new AssemblyException("Error getting course results", e);
+			}
 		}
 
+		//Special topics code
+		course.setSpecialTopicsCourse(false);
+		for(LuCodeInfo luCode : clu.getLuCodes()){
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getValue())){
+				course.setSpecialTopicsCourse(true);
+				break;
+			}
+		}
+		//Pilot Course code
+		course.setPilotCourse(false);
+		for(LuCodeInfo luCode : clu.getLuCodes()){
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getValue())){
+				course.setPilotCourse(true);
+				break;
+			}
+		}
+		
 		// TODO: Variations
 		// course.setVariations(variations)
 
@@ -188,7 +226,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		identifier.setCode(course.getCode());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());
-
+		
 		identifier.setDivision(course.getSubjectArea());
 		identifier.setShortName(course.getTranscriptTitle());
 		clu.setOfficialIdentifier(identifier);
@@ -208,14 +246,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		
 		clu.setAttributes(course.getAttributes());
 		clu.setCampusLocations(course.getCampusLocations());
-		clu.setDescr(course.getDescription());
+		clu.setDescr(course.getDescr());
 		clu.setStdDuration(course.getDuration());
 		clu.setEffectiveDate(course.getEffectiveDate());
 		clu.setExpirationDate(course.getExpirationDate());
 
-		clu.setExpectedFirstAtp(course.getFirstExpectedOffering());
 		clu.setOfferedAtpTypes(course.getTermsOffered());
 		clu.setPrimaryInstructor(course.getPrimaryInstructor());
+		
+		clu.setIntensity(course.getOutOfClassHours());
+		clu.setInstructors(course.getInstructors());
+		
+		clu.setExpectedFirstAtp(course.getStartTerm());
+		clu.setLastAtp(course.getEndTerm());
 		
 		clu.setMetaInfo(course.getMetaInfo());
 
@@ -242,7 +285,157 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				clu.getId(), course, operation);
 		result.getChildNodes().addAll(courseJointResults);
 
+		//Disassemble the CluResults (grading and credit options)
+		BaseDTOAssemblyNode<?, ?> creditOptions = disassembleCluResults(
+				clu.getId(), course.getState(), course.getCreditOptions(), operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, "Credit outcome options", "Credit outcome option");
+		result.getChildNodes().add(creditOptions);
+
+		BaseDTOAssemblyNode<?, ?> gradingOptions = disassembleCluResults(
+				clu.getId(), course.getState(), course.getGradingOptions(), operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE, "Grading options", "Grading option");
+		result.getChildNodes().add(gradingOptions);
+		
+		//add the special topics code if it did not exist, or remove if it was not wanted
+		boolean alreadyHadSpecialTopicsCode = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getValue())){
+				alreadyHadSpecialTopicsCode = true;
+				if(!course.isSpecialTopicsCourse()){
+					luCodeIterator.remove();
+				}
+				break;
+			}
+		}
+		if(!alreadyHadSpecialTopicsCode && course.isSpecialTopicsCourse()){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setValue(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS);
+			clu.getLuCodes().add(luCode);
+		}
+		
+		//add the special topics code if it did not exist, or remove if it was not wanted
+		boolean alreadyHadPilotCourseCode = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getValue())){
+				alreadyHadPilotCourseCode = true;
+				if(!course.isPilotCourse()){
+					luCodeIterator.remove();
+				}
+				break;
+			}
+		}
+		if(!alreadyHadPilotCourseCode && course.isPilotCourse()){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setValue(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE);
+			clu.getLuCodes().add(luCode);
+		}
+		
 		return result;
+	}
+
+
+	private List<String> assembleCluResults(String courseResultType, List<CluResultInfo> cluResults) throws AssemblyException{
+		if(courseResultType==null){
+			throw new AssemblyException("courseResultType can not be null");
+		}
+		List<String> results = new ArrayList<String>();
+		//Loop through all the CluResults to find the one with the matching type
+		for(CluResultInfo cluResult:cluResults){
+			if(courseResultType.equals(cluResult.getType())){
+				//Loop through all options and add to the list of Strings
+				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
+					results.add(resultOption.getResultComponentId());
+				}
+				break;
+			}
+		}
+		return results;
+	}
+
+	private BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
+			String courseState, List<String> options, NodeOperation operation, String courseResultType, 
+			String resultsDescription, String resultDescription) throws AssemblyException {
+		BaseDTOAssemblyNode<List<String>, CluResultInfo> cluResultNode = new BaseDTOAssemblyNode<List<String>, CluResultInfo>(null);
+		if(courseResultType==null){
+			throw new AssemblyException("courseResultType can not be null");
+		}
+		
+		// Get the current options and put them in a map of option type id/cluResult
+		Map<String, ResultOptionInfo> currentResults = new HashMap<String, ResultOptionInfo>();
+
+		CluResultInfo cluResult = null;
+		
+		//If this is not a create, lookup the results for this clu
+		if (!NodeOperation.CREATE.equals(operation)) {
+			try {
+				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
+				
+				for (CluResultInfo currentResult : cluResultList) {
+					if (courseResultType
+							.equals(currentResult.getType())) {
+						cluResult = currentResult;
+						if(NodeOperation.DELETE.equals(operation)){
+							//if this is a delete, then we only need the CluResultInfo
+							cluResultNode.setOperation(NodeOperation.DELETE);
+						}else{
+							//Find all the Result options and store in a map for easy access later
+							cluResultNode.setOperation(NodeOperation.UPDATE);
+							for(ResultOptionInfo resultOption:currentResult.getResultOptions()){
+								currentResults.put(resultOption.getResultComponentId(), resultOption);
+							}
+						}
+						break;
+					}
+				}
+			} catch (DoesNotExistException e) {
+			} catch (InvalidParameterException e) {
+				throw new AssemblyException("Error getting related " + resultsDescription, e);
+			} catch (MissingParameterException e) {
+				throw new AssemblyException("Error getting related " + resultsDescription, e);
+			} catch (OperationFailedException e) {
+				throw new AssemblyException("Error getting related " + resultsDescription, e);
+			}
+		}
+
+		//If this is a delete we don't need the result options, just the CluResultInfo
+		if(!NodeOperation.DELETE.equals(operation)){
+			if(cluResult == null){
+				//Create a new resultInfo of the given type if one does not exist and set operation to Create
+				cluResult = new CluResultInfo();
+				cluResult.setCluId(cluId);
+				cluResult.setState(courseState);
+				cluResult.setType(courseResultType);
+				RichTextInfo desc = new RichTextInfo();
+				desc.setPlain(resultsDescription);
+				cluResult.setDesc(desc);
+				cluResult.setEffectiveDate(new Date());
+				cluResultNode.setOperation(NodeOperation.CREATE);
+			}
+	
+			cluResult.setResultOptions(new ArrayList<ResultOptionInfo>());
+	
+			// Loop through all the credit options in this course
+			for (String optionType : options) {
+				if(currentResults.containsKey(optionType)){
+					//If the option exists already copy it to the new list of result options
+					ResultOptionInfo resultOptionInfo = currentResults.get(optionType);
+					cluResult.getResultOptions().add(resultOptionInfo);
+				}else{
+					//Otherwise create a new result option
+					ResultOptionInfo resultOptionInfo = new ResultOptionInfo();
+					RichTextInfo desc = new RichTextInfo();
+					desc.setPlain(resultDescription);
+					resultOptionInfo.setDesc(desc);
+					resultOptionInfo.setResultComponentId(optionType);
+					resultOptionInfo.setState(courseState);
+					
+					cluResult.getResultOptions().add(resultOptionInfo);
+				}
+			}
+		}
+		
+		cluResultNode.setNodeData(cluResult);
+		return cluResultNode;
 	}
 
 	// TODO This is pretty much a copy of the FormatAssembler's

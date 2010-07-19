@@ -34,17 +34,17 @@ import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.view.ActionListView;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
+import org.kuali.student.lum.program.client.ProgramController;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
-import org.kuali.student.lum.program.client.MajorDisciplineController;
 
 public class LUMApplicationManager extends Controller {
 
     private final SimplePanel viewPanel = new SimplePanel();
 
-    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
+    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController(), LUMViews.HOME_MENU);
 
     private Controller createCourseController = null;
     private DelegatingViewComposite createCourseView;
@@ -60,7 +60,7 @@ public class LUMApplicationManager extends Controller {
 
     private boolean loaded = false;
 
-    private View actionListView = new ActionListView(this, "Action List");
+    private View actionListView = new ActionListView(this, "Action List", LUMViews.ACTION_LIST);
 
     public LUMApplicationManager() {
         super(LUMApplicationManager.class.getName());
@@ -138,18 +138,17 @@ public class LUMApplicationManager extends Controller {
                 return createCourseView; // createProgramView;
             case MANAGE_CLU_SETS:
                 manageCluSetsController = new CluSetsManagementController();
-                manageCluSetsView = new DelegatingViewComposite(LUMApplicationManager.this, manageCluSetsController);
+                manageCluSetsView = new DelegatingViewComposite(LUMApplicationManager.this, manageCluSetsController, LUMViews.MANAGE_CLU_SETS);
                 manageCluSetsController.showDefaultView(NO_OP_CALLBACK);
                 return manageCluSetsView;
             case BROWSE_COURSE_CATALOG:
                 browseCatalogController = new CatalogBrowserController(this);
-                browseCatalogView = new DelegatingViewComposite(LUMApplicationManager.this, browseCatalogController);
+                browseCatalogView = new DelegatingViewComposite(LUMApplicationManager.this, browseCatalogController, LUMViews.BROWSE_COURSE_CATALOG);
                 browseCatalogController.showDefaultView(NO_OP_CALLBACK);
                 return browseCatalogView;
             case VIEW_MAJOR_DISCIPLINE:
-                Controller majorDisciplineController = new MajorDisciplineController();
-                DelegatingViewComposite majorDisciplineView = new DelegatingViewComposite(this, majorDisciplineController);
-                majorDisciplineController.showDefaultView(NO_OP_CALLBACK);
+                Controller majorDisciplineController = new ProgramController();
+                DelegatingViewComposite majorDisciplineView = new DelegatingViewComposite(this, majorDisciplineController, LUMViews.VIEW_MAJOR_DISCIPLINE);
                 return majorDisciplineView;
             default:
                 return null;
@@ -160,14 +159,14 @@ public class LUMApplicationManager extends Controller {
         ViewContext context = new ViewContext();
         context.setPermissionType(PermissionType.INITIATE);
         createCourseController = new CourseProposalController(context);
-        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
+        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController, LUMViews.CREATE_COURSE);
 
         return createCourseView;
     }
 
     private View initCreateCourse(ViewContext context) {
         createCourseController = new CourseProposalController(context);
-        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
+        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController, LUMViews.CREATE_COURSE);
 
         return createCourseView;
     }
@@ -177,7 +176,7 @@ public class LUMApplicationManager extends Controller {
         createCourseController = new CourseProposalController(context, layoutTitle);
         // FIXME: ADD IN VALID PERMISSION CHECK HERE
         context.setPermissionType(null);
-        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
+        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController, LUMViews.MODIFY_COURSE);
 
         return createCourseView;
     }
@@ -194,7 +193,7 @@ public class LUMApplicationManager extends Controller {
             ViewContext context = new ViewContext();
             context.setPermissionType(PermissionType.OPEN);
             viewCourseController = new ViewCourseController(context);
-            viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, viewCourseController);
+            viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, viewCourseController, LUMViews.VIEW_COURSE);
         }
 
         ((ViewCourseController) viewCourseController).clear();
@@ -244,4 +243,5 @@ public class LUMApplicationManager extends Controller {
     public Enum<?> getViewEnumValue(String enumValue) {
         return LUMViews.valueOf(enumValue);
     }
+
 }

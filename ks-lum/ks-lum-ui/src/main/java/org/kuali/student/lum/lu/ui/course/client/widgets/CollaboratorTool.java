@@ -537,5 +537,8 @@ public class CollaboratorTool extends Composite implements ToolView{
 	public KSImage getImage() {
 		return Theme.INSTANCE.getCommonImages().getPersonIcon();
 	}
-
+	
+	public Widget asWidget(){
+		return this;
+	}
 }

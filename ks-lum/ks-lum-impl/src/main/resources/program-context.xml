@@ -27,9 +27,5 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-  <!-- ProgramService config -->
-  <bean id="programServiceImpl"
-    class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
-  </bean>
 
 </beans>

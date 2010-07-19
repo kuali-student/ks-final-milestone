@@ -86,7 +86,14 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
                 }
             }
             if(itemToSelect != null){
-                itemToSelect.fireEvent(new ClickEvent(){});
+            	if(e.firesClickEvent()){
+            		itemToSelect.fireEvent(new ClickEvent(){});
+            	}
+            	else{
+                    selectMenuItemPanel(itemToSelect);
+                    itemToSelect.removeStyleName("KS-Basic-Menu-Item-Panel-Hover");
+                    itemToSelect.getItemLabel().removeStyleName("KS-Basic-Menu-Item-Label-Hover");
+            	}
             }
         }
     };
@@ -165,15 +172,15 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
     }
 
     private void selectMenuItemPanel(MenuItemPanel toBeSelected) {
+        for(Callback<KSMenuItemData> c: globalCallbacks){
+        	c.exec(toBeSelected.getItem());
+        }
         if(toBeSelected.isSelectable()){
 
             clearSelected();
 
             toBeSelected.select();
             toBeSelected.getItem().unhandledSetSelected(true);
-        }
-        for(Callback<KSMenuItemData> c: globalCallbacks){
-        	c.exec(toBeSelected.getItem());
         }
 
     }
@@ -195,8 +202,14 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             this.itemNum = itemNum;
 
             itemLabel.setWordWrap(true);
-            this.addStyleName("KS-Basic-Menu-Item-Panel");
+            if(item.getSpecialStyle() != null){
+            	this.addStyleName(item.getSpecialStyle());
+            }
+            else{
+            	this.addStyleName("KS-Basic-Menu-Item-Panel");
+            }
             itemLabel.addStyleName("KS-Basic-Menu-Item-Label");
+            itemLabel.getElement().setAttribute("style", "white-space: nowrap");
             if(item.getClickHandler() != null)
             {
                 this.addClickHandler(item.getClickHandler());

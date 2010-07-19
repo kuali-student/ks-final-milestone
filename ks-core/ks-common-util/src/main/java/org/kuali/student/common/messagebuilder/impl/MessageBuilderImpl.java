@@ -24,8 +24,8 @@ import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderExc
 
 /**
  * This <code>MessageBuilder</code> class builds a summary message from 
- * plain strings or Velocity template messages. Summary message is built 
- * from analysing the outcome of a boolean expression.
+ * plain strings or templates. Summary message is built from analysing the 
+ * outcome of a boolean expression.
  */
 public class MessageBuilderImpl extends AbstractMessageBuilder implements MessageBuilder {
 
@@ -41,9 +41,8 @@ public class MessageBuilderImpl extends AbstractMessageBuilder implements Messag
 	/**
 	 * Constructor.
 	 * 
-	 * @param executor A simple rule engine executor
-     * @param andOperator String representation of boolean 'and'
-     * @param orOperator String representation of boolean 'or'
+     * @param language String Boolean operators' language (English and/or) 
+     * @param booleanOperators Boolean operators (and/or)
 	 */
 	public MessageBuilderImpl(final String language, final BooleanOperators booleanOperators) {
 		super(language, booleanOperators);

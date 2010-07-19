@@ -17,7 +17,6 @@ package org.kuali.student.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +27,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * Detailed information about a program requirement
@@ -49,6 +50,21 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    private String shortTitle;
+
+    @XmlElement
+    private String longTitle;
+
+    @XmlElement
+    private RichTextInfo descr;
+
+    @XmlElement
+    private List<LoDisplayInfo> learningObjectives;
+
+    @XmlElement
+    private StatementTreeViewInfo statement;
+    
+    @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
@@ -63,6 +79,49 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
 
     @XmlAttribute
     private String id;
+
+    public String getShortTitle() {
+        return shortTitle;
+    }
+
+    public void setShortTitle(String shortTitle) {
+        this.shortTitle = shortTitle;
+    }
+
+    public String getLongTitle() {
+        return longTitle;
+    }
+
+    public void setLongTitle(String longTitle) {
+        this.longTitle = longTitle;
+    }
+
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+
+    public List<LoDisplayInfo> getLearningObjectives() {
+        if(null == learningObjectives) {
+            learningObjectives = new ArrayList<LoDisplayInfo>(0);
+        }
+        return learningObjectives;
+    }
+
+    public void setLearningObjectives(List<LoDisplayInfo> learningObjectives) {
+        this.learningObjectives = learningObjectives;
+    }
+
+    public StatementTreeViewInfo getStatement() {
+        return statement;
+    }
+
+    public void setStatement(StatementTreeViewInfo statement) {
+        this.statement = statement;
+    }
 
     /**
      * List of key/value pairs, typically used for dynamic attributes.

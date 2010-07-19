@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets.menus;
 public class MenuSelectEvent extends MenuEvent<MenuEventHandler>{
     public static final Type<MenuEventHandler> TYPE = new Type<MenuEventHandler>();
     
+    private boolean fireClickEvent = true;
     @Override
     public Type<MenuEventHandler> getAssociatedType() {
         return TYPE;
@@ -26,6 +27,14 @@ public class MenuSelectEvent extends MenuEvent<MenuEventHandler>{
     @Override
     protected void dispatch(MenuEventHandler handler) {
        handler.onSelect(this);  
+    }
+    
+    public void setFireClickEvent(boolean fire){
+    	fireClickEvent = fire;
+    }
+    
+    public boolean firesClickEvent(){
+    	return fireClickEvent;
     }
 
 }

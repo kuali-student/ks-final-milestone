@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.poc.MetadataServiceImpl;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 
 public class TransformationManager {
 	final Logger LOG = Logger.getLogger(TransformationManager.class);

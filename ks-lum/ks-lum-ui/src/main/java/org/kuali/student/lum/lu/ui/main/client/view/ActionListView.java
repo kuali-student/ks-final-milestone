@@ -38,8 +38,8 @@ public class ActionListView extends ViewComposite {
 	
 	private String actionListUrl = null;
 	
-	public ActionListView(Controller controller, String name) {
-		super(controller, name);
+	public ActionListView(Controller controller, String name, Enum<?> viewType) {
+		super(controller, name, viewType);
 		actionList.addStyleName("KS-Action-List");
 		initWidget(actionList);
 	}

@@ -52,6 +52,7 @@ public class LUConstants {
     public final static String LU_STATE_RETIRED = "Retired";
 
     //Section names
+    public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
     public static final String SECTION_AUTHORS_AND_COLLABORATORS = "People & Permissions";
     public static final String SECTION_GOVERNANCE = "Governance";
@@ -92,7 +93,6 @@ public class LUConstants {
     public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
 
     // Message keys for top-level section label lookup
-    public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
     public static final String COURSE_INFORMATION_LABEL_KEY = "cluCourseInformation";
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
     public static final String STUDENT_ELIGIBILITY_LABEL_KEY = "cluStudentEligibility";

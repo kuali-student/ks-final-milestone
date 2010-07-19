@@ -62,6 +62,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObj
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseRepositoryCategoryConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;

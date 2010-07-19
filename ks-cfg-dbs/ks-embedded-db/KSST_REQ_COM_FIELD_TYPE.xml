@@ -25,4 +25,6 @@
         ID="reqCompFieldType.personid" NAME="PERSON" READ_ONLY="0"/>                                
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="TEST"
         ID="reqCompFieldType.test.score" NAME="TEST" READ_ONLY="0"/>                                
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="DURATIONTYPE"
+        ID="reqCompFieldType.durationType" NAME="DURATIONTYPE" READ_ONLY="0"/>                                
 </dataset>

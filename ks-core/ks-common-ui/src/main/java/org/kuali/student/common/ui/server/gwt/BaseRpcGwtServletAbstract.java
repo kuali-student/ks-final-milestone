@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -69,7 +69,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
 
 	/**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
+     * @see org.kuali.student.core.dictionary.service.old.DictionaryService#getObjectStructure(java.lang.String)
      */
     @Override
     public ObjectStructure getObjectStructure(String objectTypeKey) {
@@ -77,7 +77,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
 
     /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectTypes()
+     * @see org.kuali.student.core.dictionary.service.old.DictionaryService#getObjectTypes()
      */
     @Override
     public List<String> getObjectTypes() {

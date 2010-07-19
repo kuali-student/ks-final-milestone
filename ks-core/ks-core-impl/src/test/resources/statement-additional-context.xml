@@ -67,6 +67,7 @@
 
     <bean id="courseListContext" class="org.kuali.student.core.statement.config.context.lu.CourseListContextImpl" />
     <bean id="gradeCheckContext" class="org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl" />
+    <bean id="creditContext" class="org.kuali.student.core.statement.config.context.lu.CreditContextImpl" />
 
     <!--bean id="contextRegistryLuStatement"
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
@@ -114,6 +115,12 @@
                     <list>
                         <ref local="courseListContext"/>
                         <ref local="gradeCheckContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.reqCompType.grdCondCourseList">
+                    <list>
+                        <ref local="courseListContext"/>
+                        <ref local="creditContext"/>
                     </list>
                 </entry>
                 <!-- Co-Req Contexts -->
@@ -202,7 +209,7 @@
         <property name="language" value="en" />
     </bean>
 
-    <bean id="statementTestDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl" autowire-candidate="false">
+    <bean id="statementTestDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl" autowire-candidate="false">
         <constructor-arg index="0" value="classpath:statement-dictionary-config.xml" />
     </bean>
 
@@ -219,7 +226,7 @@
         </property>
     </bean>
 
-    <bean id="serviceValidator" class="org.kuali.student.common.validator.Validator">
+    <bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
         <property name="messageService" ref="ks.messageServiceMock"/>
     </bean>
 

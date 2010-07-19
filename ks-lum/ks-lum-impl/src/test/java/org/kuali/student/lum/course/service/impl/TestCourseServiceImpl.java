@@ -1,6 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -13,6 +14,8 @@ import java.util.TreeSet;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -29,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:course-dev-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:course-test-context.xml"})
 public class TestCourseServiceImpl {
     @Autowired
     CourseService courseService;
@@ -57,6 +60,8 @@ public class TestCourseServiceImpl {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
+            cInfo.setSpecialTopicsCourse(true);
+            cInfo.setPilotCourse(true);
             CourseInfo createdCourse = courseService.createCourse(cInfo);
             assertNotNull(createdCourse);
 
@@ -69,10 +74,10 @@ public class TestCourseServiceImpl {
             assertEquals("323", retrievedCourse.getCourseNumberSuffix());
 
             assertEquals("courseTitle-15", retrievedCourse.getCourseTitle());
-            assertEquals("transcriptTitle-33", retrievedCourse.getTranscriptTitle());
+            assertEquals("transcriptTitle-46", retrievedCourse.getTranscriptTitle());
 
-            assertEquals("plain-19", retrievedCourse.getDescription().getPlain());
-            assertEquals("formatted-18", retrievedCourse.getDescription().getFormatted());
+            assertEquals("plain-22", retrievedCourse.getDescr().getPlain());
+            assertEquals("formatted-21", retrievedCourse.getDescr().getFormatted());
 
             assertEquals(2, retrievedCourse.getFormats().size());
             FormatInfo info = retrievedCourse.getFormats().get(0);
@@ -82,7 +87,7 @@ public class TestCourseServiceImpl {
 
             assertEquals(2, retrievedCourse.getTermsOffered().size());
             String termOffered = retrievedCourse.getTermsOffered().get(0);
-            assertTrue("termsOffered-32".equals(termOffered) || "termsOffered-33".equals(termOffered));
+            assertTrue("termsOffered-45".equals(termOffered) || "termsOffered-44".equals(termOffered));
 
             assertEquals(2, retrievedCourse.getAcademicSubjectOrgs().size());
             String orgId = retrievedCourse.getAcademicSubjectOrgs().get(0);
@@ -110,36 +115,49 @@ public class TestCourseServiceImpl {
              * retrievedCourse.getCrossListings().get(0); // TODO - check its contents
              */
 
-            assertEquals("department-16", retrievedCourse.getDepartment());
+            assertEquals("department-19", retrievedCourse.getDepartment());
 
             TimeAmountInfo timeInfo = retrievedCourse.getDuration();
             assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
-            assertEquals(20, timeInfo.getTimeQuantity().intValue());
+            assertEquals(23, timeInfo.getTimeQuantity().intValue());
 
             // TODO - check effective/expiration dates
 
             // TODO - check feeInfo
 
-            assertEquals("firstExpectedOffering-22", retrievedCourse.getFirstExpectedOffering());
 
             // TODO - check joints
             // TODO - check metaInfo
 
             assertEquals(2, retrievedCourse.getTermsOffered().size());
-            String atpType = retrievedCourse.getTermsOffered().get(1);
-            assertTrue("termsOffered-32".equals(atpType) || "termsOffered-33".equals(atpType));
 
+            String atpType = retrievedCourse.getTermsOffered().get(0);
             CluInstructorInfo instructor = retrievedCourse.getPrimaryInstructor();
-            assertEquals("orgId-31", instructor.getOrgId());
-            assertEquals("personId-32", instructor.getPersonId());
+                   
+            assertTrue("termsOffered-45".equals(atpType) || "termsOffered-44".equals(atpType));
+
+            assertEquals("orgId-42", instructor.getOrgId());
+            assertEquals("personId-43", instructor.getPersonId());
 
             assertEquals("draft", retrievedCourse.getState());
             assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
 
             assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
 
+            assertEquals(2,retrievedCourse.getCreditOptions().size());
+            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-18"));
+            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-19"));
+
+            assertEquals(2,retrievedCourse.getGradingOptions().size());
+            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-31"));
+            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-32"));
+            
+            assertTrue(createdCourse.isSpecialTopicsCourse());
+            assertTrue(createdCourse.isPilotCourse());
+            
             // TODO - check variotions
         } catch (Exception e) {
+        	e.printStackTrace();
             fail(e.getMessage());
         }
     }
@@ -150,6 +168,8 @@ public class TestCourseServiceImpl {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
+            cInfo.setSpecialTopicsCourse(true);
+            cInfo.setPilotCourse(true);
             CourseInfo createdCourse = courseService.createCourse(cInfo);
 
             int initialFormatCount = createdCourse.getFormats().size();
@@ -203,6 +223,15 @@ public class TestCourseServiceImpl {
             attributes.put("testKey", "testValue");
             createdCourse.setAttributes(attributes);
 
+            createdCourse.getCreditOptions().remove(1);
+            createdCourse.getCreditOptions().add("NewCreditOption");
+            createdCourse.getGradingOptions().remove(1);
+            createdCourse.getGradingOptions().add("NewGradingOption");
+            
+            createdCourse.setSpecialTopicsCourse(false);
+            createdCourse.setPilotCourse(false);
+            
+            //Perform the update
             CourseInfo updatedCourse = courseService.updateCourse(createdCourse);
             assertEquals(initialFormatCount + 1, updatedCourse.getFormats().size());
 
@@ -258,6 +287,17 @@ public class TestCourseServiceImpl {
         assertEquals(3, updatedCourse.getAttributes().size());
         assertNotNull(updatedCourse.getAttributes().get("testKey"));
         assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
+        
+        assertEquals(2,updatedCourse.getCreditOptions().size());
+        assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-18"));
+        assertTrue(updatedCourse.getCreditOptions().contains("NewCreditOption"));
+
+        assertEquals(2,updatedCourse.getGradingOptions().size());
+        assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-31"));
+        assertTrue(updatedCourse.getGradingOptions().contains("NewGradingOption"));
+        
+        assertFalse(updatedCourse.isSpecialTopicsCourse());
+        assertFalse(updatedCourse.isPilotCourse());
     }
 
     @Test
@@ -344,4 +384,37 @@ public class TestCourseServiceImpl {
     public void testCluIsUpdated() {
         
     }
+    
+	@Test
+	public void testGetMetadata(){
+		MetadataServiceImpl metadataService = new MetadataServiceImpl(courseService);
+		metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
+        Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.course.dto.CourseInfo");
+            
+        Map<String, Metadata> properties = metadata.getProperties();
+        assertTrue(properties.size() > 0);
+        
+        assertTrue(properties.containsKey("state"));
+        assertTrue(properties.containsKey("campusLocations"));
+           
+        assertTrue(properties.containsKey("formats"));
+        metadata = properties.get("formats");
+        
+        properties = metadata.getProperties();
+        assertTrue(properties.containsKey("*"));
+        metadata = properties.get("*");
+               
+        properties = metadata.getProperties();
+        assertTrue(properties.containsKey("activities"));
+        metadata = properties.get("activities");
+
+        properties = metadata.getProperties();
+        assertTrue(properties.containsKey("*"));
+        metadata = properties.get("*");
+
+        properties = metadata.getProperties();
+        assertFalse(properties.containsKey("foo"));
+        
+        return;
+	}
 }
