@@ -66,7 +66,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsConfigurer;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ToolsConstants;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsConfigurer.CluSetEditOptionList;

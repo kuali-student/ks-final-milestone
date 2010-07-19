@@ -47,7 +47,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;

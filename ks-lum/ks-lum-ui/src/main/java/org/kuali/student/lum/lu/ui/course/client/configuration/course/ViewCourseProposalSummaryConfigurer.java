@@ -30,6 +30,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
@@ -157,6 +158,26 @@ public class ViewCourseProposalSummaryConfigurer implements
         fd.setWidgetBinding(new SummaryTableBinding());
         fd.setFieldWidget(new SummaryTable());
    		summaryTableSection.addField(fd);
+    	
+    	return summaryTableSection;
+    }
+	
+	public VerticalSectionView generateSummarySection(WorkflowUtilities wf){
+    	
+        VerticalSectionView summaryTableSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
+        summaryTableSection.addStyleName(LUConstants.STYLE_SECTION);
+            	
+    	QueryPath path = QueryPath.concat(null, null);
+    	Metadata meta = modelDefinition.getMetadata(path);
+    	
+    	summaryTableSection.addWidget(wf.getWorkflowActionsWidget());
+
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), null, meta);
+        fd.setWidgetBinding(new SummaryTableBinding());
+        fd.setFieldWidget(new SummaryTable());
+   		summaryTableSection.addField(fd);
+   		
+   		summaryTableSection.addWidget(wf.getWorkflowActionsWidget());
     	
     	return summaryTableSection;
     }

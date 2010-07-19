@@ -68,7 +68,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.old.ViewCourseProposalSummaryConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseProposalSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 
