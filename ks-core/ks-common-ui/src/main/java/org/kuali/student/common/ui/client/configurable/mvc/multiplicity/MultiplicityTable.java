@@ -39,6 +39,8 @@ public class MultiplicityTable extends FlexTable {
     private int col = 0;
     protected int row = 0;
 
+    private String parentPath;
+
     {
         setStyleName(STYLE_TABLE);
     }
@@ -106,5 +108,13 @@ public class MultiplicityTable extends FlexTable {
 
     public void setConfig(MultiplicityConfiguration config) {
         this.config = config;
+    }
+
+    public String getParentPath() {
+        return parentPath;
+    }
+
+    public void setParentPath(String parentPath) {
+        this.parentPath = parentPath;
     }
 }

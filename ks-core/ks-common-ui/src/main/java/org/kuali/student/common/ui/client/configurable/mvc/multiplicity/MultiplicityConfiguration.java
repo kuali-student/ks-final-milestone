@@ -26,15 +26,21 @@ import org.kuali.student.core.assembly.data.Metadata;
 
 
  /**
- *
- * MultiplicityConfiguration is passed into a MultiplicitySection to control the type of multiplicity created.
- * Used to control the Multiplicity, e.g. if its updateable, has headers, min number of items, labels etc.
- * It also holds FieldDescriptors for the fields required to be included in the multiplicity. They are
- * held in a HashMap keyed by rows, i.e. Map<Integer, List<FieldDescriptor>>
- *
- * @param multiplicityType
- * @param styleType
- *
+  *
+  * MultiplicityConfiguration is passed into a MultiplicitySection to control the creation of the multiplicity.
+  *
+  * This class is used to control the Multiplicity, e.g. if its updateable, has headers, min number of items, labels etc.
+  * It also holds FieldDescriptors for the fields required to be included in the multiplicity. They are
+  * held in a HashMap keyed by rows, i.e. Map<Integer, List<FieldDescriptor>> .
+  *
+  * The parent for the multiplicity refers to the path to the high level field that owns
+  * the repeating elements, e.g. course/versions is the parent field for course version fields versionCode and
+  * versionTitle
+  *
+  * For multiplicities nested inside another multiplicity, create a MultiplicityConfiguration for the nested
+  * multiplicity and call setNestedConfig to add the lower level multiplicity
+  *
+  *
  */
 public class MultiplicityConfiguration {
 
@@ -63,12 +69,12 @@ public class MultiplicityConfiguration {
 
      /**
      *
-     * Creates a new MultiplicityConfiguration of the specified type and the specified style (selected from
-     * MultiplicityType and StyleType enums)
-      *
-     * @param multiplicityType
-     * @param styleType
-     * @param metaData
+     * Creates a new MultiplicityConfiguration.
+     *
+     *
+     * @param multiplicityType      the type of multiplicity required, MultiplicityType
+     * @param styleType             the style type for this multiplicity, StyleType
+     * @param metaData              the metadata for the parentFd
      */
      public MultiplicityConfiguration(MultiplicityType multiplicityType, StyleType styleType, Metadata metaData) {
         this.multiplicityType = multiplicityType;
@@ -104,7 +110,10 @@ public class MultiplicityConfiguration {
     }
 
 	/**
-	 *   !!!!!  Currently only implemented for MultiplicityTable !!!!!
+	 * Concatenates multiple field values into a single table cell
+     *
+     *  !!!!!  Currently only implemented for MultiplicityTable !!!!!
+     *
      * The parentField should define a field with a Data value. The fieldKey should resolve to a single value
 	 * field in that Data value. The binding will iterate the values in the Data object
 	 * and concatenate the named fieldKeys into the same cell in the current row of the table
@@ -150,7 +159,13 @@ public class MultiplicityConfiguration {
         return multiplicityType;
     }
 
-    public void setMultiplicityType(MultiplicityType multiplicityType) {
+     /**
+      * Sets the MultiplicityType required for this config
+      *
+      * Valid values are defined in {@link #MultiplicityConfiguration.MultiplicityType}
+      * @param multiplicityType
+      */
+     public void setMultiplicityType(MultiplicityType multiplicityType) {
         this.multiplicityType = multiplicityType;
     }
 
@@ -238,8 +253,8 @@ public class MultiplicityConfiguration {
     }
 
     /**
-     * Sets if this multiplicity will be updateable or read only.
-     * Add delete buttons/links will not be displayed for read only multiplicities
+     * Sets if this multiplicity will be updateable or display.
+     * Add delete buttons/links will not be shown for display multiplicities
      *
      * @param updateable
      */

@@ -30,15 +30,44 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalF
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class MultiplicitySection extends BaseSection {
+/**
+ *
+ * This class creates a section containing a multiplicity widget based on the supplied configuration
+ *
+ * Sample code to use this class
+ *
+
+    private void addVersionCodeFields(Section section) {
+        QueryPath parentPath = QueryPath.concat(COURSE, QueryPath.getPathSeparator(), VERSIONS);
+
+        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.TOP_LEVEL, getMetaData(parentPath.toString()));
+        config.setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
+        config.setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
+        config.setUpdateable(true);
+
+        FieldDescriptor parentFd = buildFieldDescriptor(COURSE + QueryPath.getPathSeparator() + VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), null);
+        config.setParentFd(parentFd);
+
+        FieldDescriptor versionCode = buildFieldDescriptor(CreditCourseVersionsConstants.VERSION_CODE, LUConstants.VERSION_CODE_LABEL_KEY, parentPath.toString());
+        FieldDescriptor versionTitle = buildFieldDescriptor(CreditCourseVersionsConstants.VERSION_TITLE, LUConstants.TITLE_LABEL_KEY, parentPath.toString());
+        config.addField(versionCode);
+        config.addField(versionTitle);
+
+        MultiplicitySection ms = new MultiplicitySection(config);
+        section.addSection(ms);
+
+    }
+
+ * 
+ *
+ */
+    public class MultiplicitySection extends BaseSection {
 
     private MultiplicityConfiguration config;
     private Widget widget;
 
-    /**
-     *  
-     *  Creates a section containing a multiplicity widget based on the supplied configuration
-     */
+
     public MultiplicitySection(MultiplicityConfiguration config) {
         this.config = config;
         initialize();
@@ -49,6 +78,14 @@ public class MultiplicitySection extends BaseSection {
         this.add(layout);
     }
 
+    /**
+     * Builds a suitable layout and adds the required multiplicity widget
+     *
+     * Builds a MultiplicityGroup for a grid layout or a MultiplicityTable
+     * for a FlexTable layout . Sets the appropriate binding for the selected
+     * widget
+     *
+     */
     private void buildLayout() {
 
         if (config.getParentFd() == null) {
@@ -86,7 +123,7 @@ public class MultiplicitySection extends BaseSection {
     		((MultiplicityGroup)widget).setParentPath(parentPath);
     	}
     	else {
-    		//TODO Need this for MultiplicityTable ???
+            ((MultiplicityTable)widget).setParentPath(parentPath);
     	}
     	
     }
