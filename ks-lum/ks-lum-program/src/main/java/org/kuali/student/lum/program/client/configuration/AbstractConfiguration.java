@@ -1,11 +1,11 @@
 package org.kuali.student.lum.program.client.configuration;
 
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 
 /**
  * @author Igor
  */
-public abstract class AbstractConfiguration<T> implements Configuration<T>{
+public abstract class AbstractConfiguration<T extends Configurer> implements Configuration<T>{
 
     protected T configurer;
 
