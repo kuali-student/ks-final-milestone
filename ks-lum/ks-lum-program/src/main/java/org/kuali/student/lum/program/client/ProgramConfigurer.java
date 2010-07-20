@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client;
 
+import com.google.gwt.core.client.GWT;
 import org.kuali.student.lum.program.client.configuration.*;
 import org.kuali.student.lum.program.client.configuration.base.Configuration;
 import org.kuali.student.lum.program.client.configuration.base.ConfigurationManager;
@@ -15,16 +16,16 @@ public class ProgramConfigurer extends AbstractProgramConfigurer {
 
     private ProgramController controller;
 
-    private ConfigurationManager<ProgramConfigurer> configurationManager;
+    private ConfigurationManager<ProgramConfigurer> programSectionConfigManager;
 
     public ProgramConfigurer() {
-        configurationManager = new ConfigurationManager<ProgramConfigurer>(this);
-        configurationManager.registerEditableConfiguration(ProgramInformationConfiguration.class);
-        configurationManager.registerConfiguration(SpecializationsConfiguration.class);
-        configurationManager.registerConfiguration(RequirementsConfiguration.class);
-        configurationManager.registerConfiguration(ManagingBodiesConfiguration.class);
-        configurationManager.registerConfiguration(CatalogInformationConfiguration.class);
-        configurationManager.registerConfiguration(LearningObjectivesConfiguration.class);
+        programSectionConfigManager = new ConfigurationManager<ProgramConfigurer>(this);
+        programSectionConfigManager.registerConfiguration(GWT.<EditableConfiguration<ProgramConfigurer>>create(ProgramInformationConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramConfigurer>>create(SpecializationsConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramConfigurer>>create(RequirementsConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramConfigurer>>create(ManagingBodiesConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramConfigurer>>create(CatalogInformationConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramConfigurer>>create(LearningObjectivesConfiguration.class));
     }
 
     @Override
@@ -37,7 +38,7 @@ public class ProgramConfigurer extends AbstractProgramConfigurer {
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
         controller.addMenu(programSectionLabel);
-        ArrayList<Configuration<ProgramConfigurer>> configurations = configurationManager.getConfigurations();
+        ArrayList<Configuration<ProgramConfigurer>> configurations = programSectionConfigManager.getConfigurations();
         for (Configuration<ProgramConfigurer> configuration : configurations) {
             if (configuration instanceof EditableConfiguration) {
                 EditableConfiguration editableConfiguration = (EditableConfiguration) configuration;

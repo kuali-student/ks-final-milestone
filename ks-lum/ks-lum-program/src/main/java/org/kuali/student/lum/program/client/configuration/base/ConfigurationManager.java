@@ -1,17 +1,15 @@
 package org.kuali.student.lum.program.client.configuration.base;
 
-import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 /**
  * @author Igor
  */
 public class ConfigurationManager<T extends Configurer> {
 
-    private LinkedHashMap<String, Configuration<T>> configurationMap = new LinkedHashMap<String, Configuration<T>>();
+    private ArrayList<Configuration<T>> configurations = new ArrayList<Configuration<T>>();
 
     private T configurer;
 
@@ -19,27 +17,20 @@ public class ConfigurationManager<T extends Configurer> {
         this.configurer = configurer;
     }
 
-    public void registerConfiguration(Class clazz) {
-        Configuration<T> configuration = GWT.create(clazz);
-        configurationMap.put(clazz.getName(), configuration);
+    public void registerConfiguration(Configuration<T> configuration) {
+        configurations.add(configuration);
         setConfigurerOn(configuration);
     }
 
-    public void registerEditableConfiguration(Class clazz) {
-        EditableConfiguration<T> editableConfiguration = GWT.create(clazz);
-        configurationMap.put(clazz.getName(), editableConfiguration);
-        setConfigurerOn(editableConfiguration);
+    public void removeConfiguration(Configuration<T> configuration) {
+        configurations.remove(configuration);
     }
 
-    public void removeConfiguration(Class clazz) {
-        configurationMap.remove(clazz.getName());
+    public ArrayList<Configuration<T>> getConfigurations() {
+        return configurations;
     }
 
     private void setConfigurerOn(Configuration<T> configuration) {
         configuration.setConfigurer(configurer);
-    }
-
-    public ArrayList<Configuration<T>> getConfigurations() {
-        return new ArrayList<Configuration<T>>(configurationMap.values());
     }
 }
