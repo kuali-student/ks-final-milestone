@@ -89,14 +89,11 @@ rsync -av $mount_dir/img-mnt/ /vol/
 echo "Setting up the fstab up..."
 
 cat > /vol/etc/fstab << FSTABEOF
-#
-<file system>                                 <mount
-point>   <type>  <options>       <dump> 
-<pass>
-proc                                            /proc           proc    defaults        0       0
-/dev/sda3                                       None            swap    defaults        0       0
-/dev/sdb                                       /               ext3    defaults        0       0
-/dev/sda2                                       /mnt            ext3    defaults        0       0
+# <file system> <mountpoint> <type> <options> <dump> <pass>
+proc               /proc           proc    defaults        0       0
+/dev/sda3          None            swap    defaults        0       0
+/dev/sdb           /               ext3    defaults        0       0
+/dev/sda2          /mnt            ext3    defaults        0       0
 FSTABEOF
 
 
@@ -105,3 +102,4 @@ echo "Taking snapshot of the volume..."
 echo "ec2addsnap -C $EC2_CERT -K $EC2_PRIVATE_KEY -d $desc $vol"
 umount /vol
 ec2addsnap -C $EC2_CERT -K $EC2_PRIVATE_KEY -d "$desc" $vol
+umount $mount_dir/image
