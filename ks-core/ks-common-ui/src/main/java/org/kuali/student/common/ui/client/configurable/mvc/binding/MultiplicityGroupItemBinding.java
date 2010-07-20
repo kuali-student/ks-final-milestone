@@ -13,15 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.ui.client.configurable.mvc.binding.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.wip.MultiplicityItemSection;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.QueryPath;
 
@@ -31,25 +29,21 @@ import org.kuali.student.core.assembly.data.QueryPath;
  *
  * @author Kuali Student Team
  */
-public class MultiplicityItemBinding extends ModelWidgetBindingSupport<MultiplicityItemSection> {
-    public static MultiplicityItemBinding INSTANCE = new MultiplicityItemBinding();
+public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<MultiplicityGroupItem> {
+    public static MultiplicityGroupItemBinding INSTANCE = new MultiplicityGroupItemBinding();
 
     protected static final String RT_CREATED = "_runtimeData" + QueryPath.getPathSeparator() + "created";
     protected static final String RT_UPDATED = "_runtimeData" + QueryPath.getPathSeparator() + "updated";
     protected static final String RT_DELETED = "_runtimeData" + QueryPath.getPathSeparator() + "deleted";
 
-    /**
-     *     !!!!!! WORK IN PROGRESS  !!!!!!
-     *     
-     */
-    private MultiplicityItemBinding() {};
+    private MultiplicityGroupItemBinding() {};
 
     /**
      * @see ModelWidgetBindingSupport#setModelValue(Object,
      *      org.kuali.student.common.ui.client.mvc.DataModel, String)
      */
     @Override
-    public void setModelValue(MultiplicityItemSection multiplicityItem, DataModel model, String path) {
+    public void setModelValue(MultiplicityGroupItem multiplicityItem, DataModel model, String path) {
         String itemPath = QueryPath.concat(path, String.valueOf(multiplicityItem.getItemKey())).toString();
     	String itemRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
@@ -90,7 +84,7 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
      *      org.kuali.student.common.ui.client.mvc.DataModel, String)
      */
     @Override
-    public void setWidgetValue(MultiplicityItemSection multiplicityItem, DataModel model, String path) {
+    public void setWidgetValue(MultiplicityGroupItem multiplicityItem, DataModel model, String path) {
 //        String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
         String itemPath ="";
         Widget widget = multiplicityItem.getItemWidget();

@@ -16,10 +16,9 @@
  * Time: 10:52:16 AM
  */
 
-package org.kuali.student.common.ui.client.configurable.mvc.sections.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityConfiguration.StyleType;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration.StyleType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.BorderedHeadedLayout;
@@ -30,12 +29,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MultiplicityItemSection extends BaseSection {
+public class MultiplicityGroupItem extends BaseSection {
 	
     private boolean updateable=false;
     private Integer itemKey;      
     private Widget itemWidget;
-    private Callback<MultiplicityItemSection> removeCallback;
+    private Callback<MultiplicityGroupItem> removeCallback;
     private boolean created = true;
     private boolean deleted = false;
 	private boolean loaded = false;
@@ -53,7 +52,7 @@ public class MultiplicityItemSection extends BaseSection {
      * @param style
      * @param updateable
      */
-    public MultiplicityItemSection(String itemLabel, StyleType style, boolean updateable){
+    public MultiplicityGroupItem(String itemLabel, StyleType style, boolean updateable){
 
 		this.itemLabel = itemLabel;
 		this.style = style;
@@ -80,7 +79,7 @@ public class MultiplicityItemSection extends BaseSection {
 			if(updateable){
 	    	    ((HeadedLayout)layout).addDeleteHandler(new ClickHandler() {
 	                public void onClick(ClickEvent event) {
-	                    getRemoveCallback().exec(MultiplicityItemSection.this);
+	                    getRemoveCallback().exec(MultiplicityGroupItem.this);
 	                }
 	            });
 	    	}
@@ -105,11 +104,11 @@ public class MultiplicityItemSection extends BaseSection {
         this.itemWidget = itemWidget;
     }
 
-    public void setRemoveCallback(Callback<MultiplicityItemSection> callback){
+    public void setRemoveCallback(Callback<MultiplicityGroupItem> callback){
         removeCallback = callback;
     }
 
-    public Callback<MultiplicityItemSection> getRemoveCallback(){
+    public Callback<MultiplicityGroupItem> getRemoveCallback(){
         return removeCallback;
     }
 

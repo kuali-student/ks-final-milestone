@@ -25,6 +25,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBindin
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -228,7 +230,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 					}
 				}
 
-				if(f.getFieldWidget() instanceof MultiplicityComposite){
+				if(f.getFieldWidget() instanceof MultiplicityComposite ){
 					MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
 
 					//possibly return error state from processValidationResults to give composite title bar a separate color
@@ -241,6 +243,21 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            		}
 	            	}
 				}
+				//TODO Can we do this without checking for instanceof  MG??
+				if(f.getFieldWidget() instanceof MultiplicityGroup ){
+					MultiplicityGroup mg = (MultiplicityGroup) f.getFieldWidget();
+
+					//possibly return error state from processValidationResults to give composite title bar a separate color
+	            	for(MultiplicityGroupItem item: mg.getItems()){
+	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results);
+							if(fieldStatus.getLevel() > status.getLevel()){
+								status = fieldStatus;
+							}
+	            		}
+	            	}
+				}
+			
 			}
 
 	        for(Section s: sections){

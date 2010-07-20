@@ -30,6 +30,10 @@ import org.kuali.student.core.assembly.data.Data.Property;
  * 
  * @author Kuali Student Team
  */
+
+/**
+ * @deprecated
+ */
 public class MultiplicityCompositeBinding extends ModelWidgetBindingSupport<MultiplicityComposite> {
     public static MultiplicityCompositeBinding INSTANCE = new MultiplicityCompositeBinding();
 

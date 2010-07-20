@@ -13,35 +13,48 @@
  * permissions and limitations under the License.
  * <p/>
  */
-package org.kuali.student.common.ui.client.configurable.mvc.binding.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
+import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip.MultiplicityTable;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityTable;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataType;
 
 import java.util.Iterator;
 import java.util.List;
 
 /**
- *   
- *      !!!!!! WORK IN PROGRESS  !!!!!!
- *     
- *
+ * This class handles transferring data between the model and the widgets 
  */
 public class MultiplicityTableBinding extends ModelWidgetBindingSupport<MultiplicityTable> {
 
-    @Override
+
+    /**
+     * @see ModelWidgetBindingSupport#setModelValue(Object,
+     *      org.kuali.student.common.ui.client.mvc.DataModel, String)
+     */
     public void setModelValue(MultiplicityTable table, DataModel model, String path) {
-        // shouldn't ever need this
+        // Not required  - MultiplicityTable is read only
+        GWT.log("Method setModelValue not implemented for MultiplicityTable");
     }
 
-    @Override
+
+    /**
+     * @see ModelWidgetBindingSupport#setWidgetValue(Object,
+     *      org.kuali.student.common.ui.client.mvc.DataModel, String)
+     */
     public void setWidgetValue(MultiplicityTable table, DataModel model, String path) {
         table.initTable();
-
+        
+        path = path.trim();
+        if (path.startsWith(QueryPath.getPathSeparator())) {
+            path = path.substring(QueryPath.getPathSeparator().length());
+        }
+        
         QueryPath qPath = QueryPath.parse(path);
         Data data = null;
         if (model != null) {
@@ -62,7 +75,10 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
                     for (Integer row  : table.getConfig().getFields().keySet()) {
                         List<FieldDescriptor> fields = table.getConfig().getFields().get(row);
                         for (FieldDescriptor fd : fields) {
-                            QueryPath fieldPath = QueryPath.parse(fd.getFieldKey());
+                            
+                            QueryPath fullPath = QueryPath.parse(fd.getFieldKey());
+                            QueryPath fieldPath = translatePath(path, fullPath, model);                           
+                            
                             Object o = rowData.query(fieldPath);
                             if (o != null) {
                                 // multiple values required in the table cell, concatenate values
@@ -77,7 +93,7 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
                                         while (iter.hasNext()) {
                                         	Data.Property p = iter.next();
                                         	Data d = p.getValue();
-                                            String key = table.getConfig().getConcatenatedFields().get(fieldPath.toString());
+                                            String key = table.getConfig().getConcatenatedFields().get(fullPath.toString());
                                             sb.append(d.get(key)).append(", ");
                                         }
                                         sb.deleteCharAt(sb.lastIndexOf(", "));
@@ -99,5 +115,44 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
                 }
             }
         }
+    }
+
+    /**
+     * 
+     * This method checks the meta data for an initial lookup for this field. If found, the field path
+     * is translated to lookup the id_translation data in the _runtimeData structure in the model
+     * 
+     * @param path
+     * @param fullPath
+     * @param model
+     * @return
+     */
+    private QueryPath translatePath(String path, QueryPath fullPath, DataModel model) {
+        QueryPath parentPath = QueryPath.parse(path);
+        int i = parentPath.size();
+
+        Metadata metadata = model.getMetadata(fullPath);
+        QueryPath fieldPath = null;
+
+        if(metadata!=null&&metadata.getInitialLookup()!=null){
+            if (metadata.getDataType().equals(DataType.STRING)) {
+                QueryPath translatedPath = fullPath.subPath(0, fullPath.size()-1);
+                translatedPath.add(new Data.StringKey("_runtimeData"));
+                translatedPath.add(new Data.StringKey((String)fullPath.get(fullPath.size() - 1).get()));
+                translatedPath.add(new Data.StringKey("id-translation"));
+                fieldPath  =  translatedPath.subPath(i, translatedPath.size());
+            }
+            else {
+                fieldPath =  fullPath.subPath(i, fullPath.size());
+            }
+        }
+        else {
+            fieldPath =  fullPath.subPath(i, fullPath.size());
+        }
+
+        if (fieldPath.get(0).toString().equals(QueryPath.getWildCard())) {
+            fieldPath.remove(0);
+        }
+        return fieldPath;
     }
 }

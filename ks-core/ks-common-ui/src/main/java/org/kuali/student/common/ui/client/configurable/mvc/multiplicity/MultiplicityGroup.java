@@ -13,15 +13,14 @@
  * permissions and limitations under the License.
  * <p/>
  */
-package org.kuali.student.common.ui.client.configurable.mvc.multiplicity.wip;
+package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.wip.MultiplicityItemSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.wip.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -40,8 +39,8 @@ public class MultiplicityGroup extends Composite {
 
     private MultiplicityConfiguration config;
 
-    private List<MultiplicityItemSection> items = new ArrayList<MultiplicityItemSection>();
-    private List<MultiplicityItemSection> removed = new ArrayList<MultiplicityItemSection>();
+    private List<MultiplicityGroupItem> items = new ArrayList<MultiplicityGroupItem>();
+    private List<MultiplicityGroupItem> removed = new ArrayList<MultiplicityGroupItem>();
 
     private FlowPanel mainPanel = new FlowPanel();
     private FlowPanel itemsPanel = new FlowPanel();
@@ -52,9 +51,7 @@ public class MultiplicityGroup extends Composite {
     public MultiplicityGroup() {
     }
 
-    /**
-     *   !!!! WORK IN PROGRESS !!!!
-     *   
+    /**  
      * Creates an instance of a MultiplicityGroup based on the options in the MultiplicityConfiguration
      *
      * A MultiplicityGroup uses GroupSection to display data in a variable grid.  May be multiple rows and multiple fields per row based on
@@ -69,9 +66,9 @@ public class MultiplicityGroup extends Composite {
         initWidget(mainPanel);
     }
 
-    protected Callback<MultiplicityItemSection> removeCallback = new Callback<MultiplicityItemSection>(){
+    protected Callback<MultiplicityGroupItem> removeCallback = new Callback<MultiplicityGroupItem>(){
 
-        public void exec(MultiplicityItemSection itemToRemove) {
+        public void exec(MultiplicityGroupItem itemToRemove) {
             itemToRemove.setDeleted(true);
             removed.add(itemToRemove);
             itemsPanel.remove(itemToRemove);
@@ -122,11 +119,11 @@ public class MultiplicityGroup extends Composite {
      *
      * @return
      */
-	public MultiplicityItemSection createItem(){
+	public MultiplicityGroupItem createItem(){
     
 		itemCount++;
 
-		MultiplicityItemSection item = new MultiplicityItemSection(config.getItemLabel() + " " + itemCount, config.getStyleType(), config.isUpdateable());
+		MultiplicityGroupItem item = new MultiplicityGroupItem(config.getItemLabel() + " " + itemCount, config.getStyleType(), config.isUpdateable());
 		
         Widget itemWidget = createWidget();
         
@@ -134,8 +131,8 @@ public class MultiplicityGroup extends Composite {
 		    item.setItemKey(new Integer(itemCount -1));
 		    item.setItemWidget(itemWidget);
 		    item.setRemoveCallback(removeCallback);
-	    } else if (itemWidget instanceof MultiplicityItemSection){
-	    	item = (MultiplicityItemSection)itemWidget;
+	    } else if (itemWidget instanceof MultiplicityGroupItem){
+	    	item = (MultiplicityGroupItem)itemWidget;
 	    	item.setItemKey(new Integer(itemCount -1));
 	    }
 	    items.add(item);
@@ -200,7 +197,7 @@ public class MultiplicityGroup extends Composite {
     }
 
     public void redraw(){
-        for (MultiplicityItemSection item:items){
+        for (MultiplicityGroupItem item:items){
             item.redraw();
         }
     }
@@ -219,11 +216,11 @@ public class MultiplicityGroup extends Composite {
 	}
 
 
-    public List<MultiplicityItemSection> getItems() {
+    public List<MultiplicityGroupItem> getItems() {
         return items;
     }
 
-    public List<MultiplicityItemSection> getRemovedItems() {
+    public List<MultiplicityGroupItem> getRemovedItems() {
         return removed;
     }
 
