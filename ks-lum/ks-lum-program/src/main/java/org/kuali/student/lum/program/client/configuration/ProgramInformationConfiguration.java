@@ -9,6 +9,8 @@ import org.kuali.student.lum.program.client.ProgramConfigurer;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
+import org.kuali.student.lum.program.client.configuration.base.EditableConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**

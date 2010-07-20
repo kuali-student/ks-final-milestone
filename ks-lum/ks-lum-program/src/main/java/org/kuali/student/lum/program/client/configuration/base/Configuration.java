@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.configuration;
+package org.kuali.student.lum.program.client.configuration.base;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.mvc.View;
 
