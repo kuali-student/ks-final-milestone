@@ -3,12 +3,17 @@ package org.kuali.student.lum.program.server;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.service.ProgramService;
 
 /**
  * @author Igor
  */
 public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements ProgramRpcService {
 
+    private static final long serialVersionUID = 1L;
+    
+    private ProgramService programService;
+    
     @Override
     protected String getDefaultWorkflowDocumentType() {
         return null;
@@ -21,7 +26,7 @@ public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServle
 
     @Override
     protected Object get(String id) throws Exception {
-        return null;
+        return programService.getMajorDiscipline(id);
     }
 
     @Override

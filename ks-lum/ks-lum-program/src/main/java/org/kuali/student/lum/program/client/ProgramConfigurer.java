@@ -1,13 +1,19 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.core.client.GWT;
-import org.kuali.student.lum.program.client.configuration.*;
+import java.util.ArrayList;
+
+import org.kuali.student.lum.program.client.configuration.CatalogInformationConfiguration;
+import org.kuali.student.lum.program.client.configuration.LearningObjectivesConfiguration;
+import org.kuali.student.lum.program.client.configuration.ManagingBodiesConfiguration;
+import org.kuali.student.lum.program.client.configuration.ProgramInformationConfiguration;
+import org.kuali.student.lum.program.client.configuration.RequirementsConfiguration;
+import org.kuali.student.lum.program.client.configuration.SpecializationsConfiguration;
 import org.kuali.student.lum.program.client.configuration.base.Configuration;
 import org.kuali.student.lum.program.client.configuration.base.ConfigurationManager;
 import org.kuali.student.lum.program.client.configuration.base.EditableConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-import java.util.ArrayList;
+import com.google.gwt.core.client.GWT;
 
 /**
  * This class represents configuration for  {@link org.kuali.student.lum.program.client.ProgramController}.
@@ -16,9 +22,11 @@ import java.util.ArrayList;
  */
 public class ProgramConfigurer extends AbstractProgramConfigurer {
 
+    public static final String MAJOR_DISCIPLINE_MODEL = "majorDisciplineModel";
+
     private ProgramController controller;
 
-    private ConfigurationManager<ProgramConfigurer> programSectionConfigManager;
+    private final ConfigurationManager<ProgramConfigurer> programSectionConfigManager;
 
     public ProgramConfigurer() {
         programSectionConfigManager = new ConfigurationManager<ProgramConfigurer>(this);

@@ -7,8 +7,8 @@ import javax.jws.WebService;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -39,6 +39,7 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.lum.program.service.ProgramService", serviceName = "ProgramService", portName = "ProgramService", targetNamespace = "http://student.kuali.org/wsdl/program")
@@ -233,7 +234,12 @@ public class ProgramServiceImpl implements ProgramService {
             throw new OperationFailedException("Error assembling course");
         }
 
-        return majorDiscipline;
+        // return majorDiscipline;
+        try {
+            return new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

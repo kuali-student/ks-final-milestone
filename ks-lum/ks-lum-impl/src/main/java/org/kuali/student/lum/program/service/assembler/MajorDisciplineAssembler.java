@@ -27,16 +27,15 @@ import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
  *
  */
 public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo, CluInfo> {
+    // private LuService luService;
 
     @Override
     public MajorDisciplineInfo assemble(CluInfo baseDTO, MajorDisciplineInfo businessDTO, boolean shallowBuild) throws AssemblyException {
-        // TODO jimt - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> disassemble(MajorDisciplineInfo businessDTO, NodeOperation operation) throws AssemblyException {
-        // TODO jimt - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
