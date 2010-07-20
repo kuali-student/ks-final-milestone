@@ -79,8 +79,8 @@ public class ProgramController extends MenuEditableSectionController {
     }
 
     private void initialize() {
-        super.setDefaultModelId(ProgramConfigurer.MAJOR_DISCIPLINE_MODEL);
-        super.registerModel(ProgramConfigurer.MAJOR_DISCIPLINE_MODEL, new ModelProvider<DataModel>() {
+        super.setDefaultModelId(PROGRAM_MODEL_ID);
+        super.registerModel(PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -101,7 +101,6 @@ public class ProgramController extends MenuEditableSectionController {
 
                 };
                 modelRequestQueue.submit(workItem);
-
             }
 
     private void initHandlers() {
@@ -233,7 +232,6 @@ public class ProgramController extends MenuEditableSectionController {
     // }
 
     private void init(final Callback<Boolean> onReadyCallback) {
-
         if (initialized) {
             onReadyCallback.exec(true);
         } else {

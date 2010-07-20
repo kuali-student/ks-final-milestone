@@ -38,4 +38,8 @@ public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServle
     protected Class<?> getDtoClass() {
         return MajorDisciplineInfo.class;
     }
+
+    public void setProgramService(ProgramService programService) {
+        this.programService = programService;
+    }
 }

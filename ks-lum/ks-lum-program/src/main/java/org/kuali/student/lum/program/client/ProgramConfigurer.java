@@ -12,7 +12,6 @@ import org.kuali.student.lum.program.client.configuration.base.Configuration;
 import org.kuali.student.lum.program.client.configuration.base.ConfigurationManager;
 import org.kuali.student.lum.program.client.configuration.base.EditableConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-
 import com.google.gwt.core.client.GWT;
 
 /**
@@ -21,8 +20,6 @@ import com.google.gwt.core.client.GWT;
  * @author Igor
  */
 public class ProgramConfigurer extends AbstractProgramConfigurer {
-
-    public static final String MAJOR_DISCIPLINE_MODEL = "majorDisciplineModel";
 
     private ProgramController controller;
 
