@@ -74,7 +74,6 @@ public class LUMApplicationManager extends Controller {
                         @SuppressWarnings("unchecked")
                         public void onViewStateChange(ChangeViewActionEvent event) {
                             ViewContext context = event.getViewContext();
-
                             if (context != null && context.getId() != null) {
                                 context.setPermissionType(PermissionType.OPEN);
                                 switch ((LUMViews) event.getViewType()) {

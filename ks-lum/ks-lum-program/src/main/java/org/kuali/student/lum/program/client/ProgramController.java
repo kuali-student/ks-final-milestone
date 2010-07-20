@@ -8,12 +8,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableS
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.WorkQueue;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
@@ -102,24 +97,6 @@ public class ProgramController extends MenuEditableSectionController {
                 };
                 modelRequestQueue.submit(workItem);
             }
-
-    private void initHandlers() {
-        saveButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                setEditMode(false);
-            }
-        });
-        cancelButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                setEditMode(false);
-            }
-        });
-    }
-
         });
         super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
 
@@ -142,7 +119,6 @@ public class ProgramController extends MenuEditableSectionController {
                     public void onRequestFail(Throwable cause) {
                         GWT.log("Unable to retrieve model for validation", cause);
                     }
-
                 });
             }
         });
@@ -168,45 +144,6 @@ public class ProgramController extends MenuEditableSectionController {
         });
     }
 
-    // private void initialize(final Callback<Boolean> callback) {
-    //
-    // programRemoteService.getMetadata(null, null, new AbstractCallback<Metadata>() {
-    // @Override
-    // public void onSuccess(Metadata result) {
-    // super.onSuccess(result);
-    // afterMetadataIsLoaded(result);
-    // callback.exec(true);
-    // }
-    // });
-    //
-    // }
-
-    // private void afterMetadataIsLoaded(final Metadata metadata) {
-    // registerModel(PROGRAM_MODEL_ID, new ModelProvider<Model>() {
-    // @Override
-    // public void requestModel(ModelRequestCallback<Model> modelModelRequestCallback) {
-    // modelModelRequestCallback.onModelReady(programModel);
-    // }
-    // });
-    // final DataModelDefinition dataModelDefinition = new DataModelDefinition(metadata);
-    // programRemoteService.getData("1", new AsyncCallback<Data>() {
-    //
-    // @Override
-    // public void onSuccess(Data result) {
-    // programModel = new DataModel(dataModelDefinition, result);
-    // configurer.setModelDefinition(new DataModelDefinition(metadata));
-    // configurer.configure(ProgramController.this);
-    // ProgramController.super.showDefaultView(NO_OP_CALLBACK);
-    // addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, new KSButton("Save"));
-    // addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, new KSButton("cancel"));
-    // }
-    //
-    // @Override
-    // public void onFailure(Throwable caught) {
-    // throw new RuntimeException("Failed to get MajorDiscipline from ProgramService.", caught);
-    // }
-    // });
-    // }
 
     @Override
     public void showDefaultView(final Callback<Boolean> onReadyCallback) {
@@ -214,33 +151,19 @@ public class ProgramController extends MenuEditableSectionController {
 
             @Override
             public void exec(Boolean result) {
-                if (result) {
-                    ProgramController.super.showDefaultView(NO_OP_CALLBACK);
-                } else {
-                    onReadyCallback.exec(false);
-                }
+                onReadyCallback.exec(result);
+                ProgramController.super.showDefaultView(Controller.NO_OP_CALLBACK);
             }
         });
     }
-
-    // TODO: temporary method for mock data.
-    // public static Data getData() {
-    // Data data = new Data();
-    // data.set(ProgramConstants.SHORT_TITLE, "Biology");
-    // data.set(ProgramConstants.LONG_TITLE, "Long Biology title here");
-    // return data;
-    // }
 
     private void init(final Callback<Boolean> onReadyCallback) {
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
             KSBlockingProgressIndicator.addTask(initializingTask);
-
             String idType = null;
             String viewContextId = null;
-            // The switch was added due to the way permissions currently work.
-            // For a new Create Course Proposal or Modify Course we send nulls so that permissions are not checked.
             if (getViewContext().getIdType() != null) {
                 idType = getViewContext().getIdType().toString();
                 viewContextId = getViewContext().getId();

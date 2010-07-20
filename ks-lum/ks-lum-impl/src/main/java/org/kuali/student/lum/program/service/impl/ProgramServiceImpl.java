@@ -224,15 +224,15 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        CluInfo clu = luService.getClu(majorDisciplineId);
 
         MajorDisciplineInfo majorDiscipline = null;
-        try {
+      /*  try {
+            CluInfo clu = luService.getClu(majorDisciplineId);
             majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false);
         } catch (AssemblyException e) {
             LOG.error("Error assembling course", e);
             throw new OperationFailedException("Error assembling course");
-        }
+        }*/
 
         // return majorDiscipline;
         try {
