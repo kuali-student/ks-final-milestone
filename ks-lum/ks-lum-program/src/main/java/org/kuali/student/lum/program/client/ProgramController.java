@@ -79,6 +79,7 @@ public class ProgramController extends MenuEditableSectionController {
         initialize(callback);
     }
 
+    //TODO: temporary method for mock data.
     public static Data getData() {
         Data data = new Data();
         data.set(ProgramConstants.SHORT_TITLE, "Biology");

@@ -10,6 +10,8 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import java.util.ArrayList;
 
 /**
+ * This class represents configuration for  {@link org.kuali.student.lum.program.client.ProgramController}.
+ *
  * @author Igor
  */
 public class ProgramConfigurer extends AbstractProgramConfigurer {
@@ -35,6 +37,9 @@ public class ProgramConfigurer extends AbstractProgramConfigurer {
         configureProgramSections();
     }
 
+    /**
+     * Configures menu for Program Sections and Sections itself
+     */
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
         controller.addMenu(programSectionLabel);
@@ -49,6 +54,7 @@ public class ProgramConfigurer extends AbstractProgramConfigurer {
         }
     }
 
+    //TODO: this method will be removed once the real data will be loaded.
     public String getData(String key) {
         return controller.getProgramModel().get(key);
     }
