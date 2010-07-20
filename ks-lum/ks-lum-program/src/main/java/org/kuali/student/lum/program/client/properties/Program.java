@@ -7,6 +7,24 @@ package org.kuali.student.lum.program.client.properties;
 public interface Program extends com.google.gwt.i18n.client.Messages {
   
   /**
+   * Translated "Cancel".
+   * 
+   * @return translated "Cancel"
+   */
+  @DefaultMessage("Cancel")
+  @Key("common.cancel")
+  String common_cancel();
+
+  /**
+   * Translated "Save".
+   * 
+   * @return translated "Save"
+   */
+  @DefaultMessage("Save")
+  @Key("common.save")
+  String common_save();
+
+  /**
    * Translated "Actions".
    * 
    * @return translated "Actions"

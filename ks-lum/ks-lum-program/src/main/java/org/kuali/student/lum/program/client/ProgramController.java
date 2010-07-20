@@ -1,11 +1,14 @@
 package org.kuali.student.lum.program.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
@@ -17,10 +20,31 @@ public class ProgramController extends MenuEditableSectionController {
 
     private ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
+    private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
+    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
+
     private DataModel programModel;
 
     public ProgramController() {
         super(ProgramController.class.getName());
+        initHandlers();
+    }
+
+    private void initHandlers() {
+        saveButton.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                setEditMode(false);
+            }
+        });
+        cancelButton.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                setEditMode(false);
+            }
+        });
     }
 
     private void initialize(final Callback<Boolean> callback) {
@@ -46,8 +70,8 @@ public class ProgramController extends MenuEditableSectionController {
         configurer.setModelDefinition(new DataModelDefinition(metadata));
         configurer.configure(this);
         super.showDefaultView(NO_OP_CALLBACK);
-        addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, new KSButton("Save"));
-        addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, new KSButton("cancel"));
+        addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, saveButton);
+        addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, cancelButton);
     }
 
     @Override
