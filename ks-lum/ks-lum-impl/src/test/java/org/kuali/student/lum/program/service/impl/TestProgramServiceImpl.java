@@ -10,6 +10,8 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -41,6 +43,21 @@ public class TestProgramServiceImpl {
     }
 
 	@Test
+    public void testGetMetaData() {
+        MetadataServiceImpl metadataService = new MetadataServiceImpl(programService);
+        metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
+        Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.program.dto.MajorDisciplineInfo");
+        assertNotNull(metadata);
+
+        Map<String, Metadata> properties = metadata.getProperties();
+        assertTrue(properties.size() > 0);
+
+        assertTrue(properties.containsKey("universityClassification"));
+        metadata = properties.get("universityClassification");
+        assertEquals("STRING", metadata.getDataType().name());
+    }
+
+    @Test
     @Ignore public void testCreateMajorDiscipline() {
 		MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo majorDisciplineInfo = null;

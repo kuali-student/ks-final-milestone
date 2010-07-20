@@ -414,8 +414,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public List<String> getObjectTypes() {
-        // TODO Auto-generated method stub
-        return null;
+        return dictionaryService.getObjectTypes();
     }
 
     @Override
