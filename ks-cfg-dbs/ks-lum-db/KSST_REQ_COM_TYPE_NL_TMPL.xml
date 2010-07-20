@@ -175,7 +175,6 @@
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.course.courseset.nof.grade.min" TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses> with &lt;reqCompFieldType=reqCompFieldType.gradeType;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=reqCompFieldType.grade;reqCompFieldLabel=Grade>"/>
    
-<!--        
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1001" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
         OWNER="kuali.reqCompType.program.programset.completed.nof"
@@ -192,7 +191,6 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
         OWNER="kuali.reqCompType.program.programset.coursecompleted.nof"
         TEMPLATE="Must have successfully completed a minimum of $expectedValue $NLHelper.getProperGrammar($expectedValue, &quot;course&quot;) from $cluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($cluSet.getCluList().size(), &quot;program&quot;)"/>
-        -->
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1005" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
         OWNER="kuali.reqCompType.program.admitted.credits"
@@ -217,8 +215,6 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
         OWNER="kuali.reqCompType.program.completion.duration.afterentry"
         TEMPLATE="Must complete program within $expectedValue $durationType after program entry term"/>                                
-
-<!--
     <KSST_REQ_COM_TYPE_NL_TMPL ID="2001" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.program.programset.completed.nof"
@@ -235,7 +231,6 @@
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.program.programset.coursecompleted.nof"
         TEMPLATE="Must have successfully completed a minimum of 14 courses from ( Sociology and CORE Advanced Studies) programs"/>
-        -->
     <KSST_REQ_COM_TYPE_NL_TMPL ID="2005" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqCompType.program.admitted.credits"
@@ -261,7 +256,6 @@
         OWNER="kuali.reqCompType.program.completion.duration.afterentry"
         TEMPLATE="Must complete program within 10 semesters after program entry term"/> 
 
-<!--
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3001" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.program.programset.completed.nof"
@@ -278,12 +272,10 @@
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.program.programset.coursecompleted.nof"
         TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Number> from &lt;reqCompFieldType=reqCompFieldType.cluSet.id;reqCompFieldLabel=Courses>"/>
-        -->
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3005" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.program.admitted.credits"
         TEMPLATE="&lt;reqCompFieldType=reqCompFieldType.requiredCount;reqCompFieldLabel=Credits>"/>         
-                    
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3006" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqCompType.program.credits.min"
