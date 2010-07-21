@@ -604,6 +604,7 @@ public class RuleComponentEditorView extends ViewComposite {
 			
 			final CluSetHelper cluSet = CluSetHelper.wrap((Data)cluProposalModel.get("cluset"));
 			cluSet.setName(course.getCourseTitle());
+			//cluSet.setName("test_li");
 			cluSet.setDescription(course.getId());
 			cluSet.setEffectiveDate(course.getEffectiveDate());
 			cluSet.setExpirationDate(course.getExpirationDate());
@@ -750,8 +751,8 @@ public class RuleComponentEditorView extends ViewComposite {
 	    	if(cluProposalModel.get("cluset/clusets") != null)
 	    		cluSet.setCluSets(null);
 
-	    	if(cluProposalModel.get("cluset/cluSetRangeViewDetails") != null)
-			cluSet.setCluRangeViewDetails(null);
+	    	if(cluProposalModel.get("cluset/clusetRange") != null)
+	    		cluSet.setCluRangeViewDetails(null);
     	}
     }
     
@@ -764,14 +765,14 @@ public class RuleComponentEditorView extends ViewComposite {
         
          // ****** Add Approved Clus *******
          Section approvedClusSection = new VerticalSection();
-         fdApprovedClus= addField(approvedClusSection, "approvedCourses", generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE));
+         fdApprovedClus= addField(approvedClusSection, ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE));
          fdApprovedClus.setModelId(modelId);
          clusetDetails.addSection(approvedClusSection, ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS);
          // END OF items related to Add Approved Clus
          
          // ****** Add Proposed Clus *******
          Section proposedClusSection = new VerticalSection();
-         fdProposedClus = addField(proposedClusSection, "proposedCourses", generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE));
+         fdProposedClus = addField(proposedClusSection, ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE));
          fdProposedClus.setModelId(modelId);
          clusetDetails.addSection(proposedClusSection, ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS);
          // END OF items related to Add Approved Clus
@@ -779,12 +780,14 @@ public class RuleComponentEditorView extends ViewComposite {
          // ****** Add Clu Range *******
          //TODO add cluset and clurange here
          Section cluRangeSection = new VerticalSection();
-         final Picker cluSetRangePicker = configureSearch("courseRanges");
-       //  final FieldDescriptor cluRangeFieldEditDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
+         //final Picker cluSetRangePicker = configureSearch("courseRanges");
+         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD);
+         //final FieldDescriptor cluRangeFieldEditDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
          final CluSetRangeDataHelper clusetRangeModelHelper = new CluSetRangeDataHelper();
          final KSItemLabel clusetRangeLabel = new KSItemLabel(true, clusetRangeModelHelper);
          clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
-         final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, "courseRanges", null, clusetRangeLabel);
+         //final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, "courseRanges", null, clusetRangeLabel);
+         final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
          cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
          
              @Override
@@ -836,7 +839,7 @@ public class RuleComponentEditorView extends ViewComposite {
          // END OF items related to Add Clu Range
          // ****** Add cluSets *******
          Section cluSetSection = new VerticalSection();
-         fdClusets = addField(cluSetSection, "reusableCluSets", generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET));
+         fdClusets = addField(cluSetSection, ToolsConstants.CLU_SET_CLU_SETS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET));
          fdClusets.setModelId(modelId);
          clusetDetails.addSection(cluSetSection, ToolsConstants.CLU_SET_SWAP_CLU_SETS);
          // END OF items related to Add CluSets
