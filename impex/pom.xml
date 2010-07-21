@@ -3,24 +3,15 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>1</version>
+    <version>15</version>
   </parent>
-  <groupId>org.kuali.impex</groupId>
+  <groupId>org.kuali.maven.impex</groupId>
   <artifactId>impex-parent</artifactId>
   <packaging>pom</packaging>
   <version>1.0.1-SNAPSHOT</version>
   <name>Impex Parent</name>
   <description>This is the parent pom for the Maven Impex Plugin</description>
   <url>http://student.kuali.org/site/maven-plugins/impex/${project.version}</url>
-  <repositories>
-    <repository>
-      <id>kuali.central</id>
-      <url>https://test.kuali.org/maven</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   <modules>
     <module>torque-generator</module>
     <module>torque-templates</module>
