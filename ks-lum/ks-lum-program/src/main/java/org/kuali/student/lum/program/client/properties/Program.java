@@ -16,6 +16,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_cancel();
 
   /**
+   * Translated "Retrieving Data...".
+   * 
+   * @return translated "Retrieving Data..."
+   */
+  @DefaultMessage("Retrieving Data...")
+  @Key("common.retrievingData")
+  String common_retrievingData();
+
+  /**
    * Translated "Save".
    * 
    * @return translated "Save"

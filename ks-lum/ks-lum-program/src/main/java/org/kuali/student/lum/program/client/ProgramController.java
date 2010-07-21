@@ -1,8 +1,9 @@
 package org.kuali.student.lum.program.client;
 
 
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
@@ -11,8 +12,6 @@ import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -20,11 +19,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
 
 public class ProgramController extends MenuEditableSectionController {
 
@@ -34,9 +29,6 @@ public class ProgramController extends MenuEditableSectionController {
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
 
     private boolean initialized = false;
-
-    private final BlockingTask initializingTask = new BlockingTask("Loading");
-    private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 
     private final DataModel programModel = new DataModel();
 
@@ -118,21 +110,19 @@ public class ProgramController extends MenuEditableSectionController {
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, final Callback<Boolean> workCompleteCallback) {
-        KSBlockingProgressIndicator.addTask(loadDataTask);
-        programRemoteService.getData("1", new AsyncCallback<Data>() {
+        programRemoteService.getData("1", new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert("Error loading Program from programId: " + getViewContext().getId() + ". " + caught.getMessage());
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                super.onFailure(caught);
             }
 
             @Override
             public void onSuccess(Data result) {
+                super.onSuccess(result);
                 programModel.setRoot(result);
                 callback.onModelReady(programModel);
                 workCompleteCallback.exec(true);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
             }
         });
     }
@@ -154,7 +144,6 @@ public class ProgramController extends MenuEditableSectionController {
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
-            KSBlockingProgressIndicator.addTask(initializingTask);
             String idType = null;
             String viewContextId = null;
             if (getViewContext().getIdType() != null) {
@@ -165,23 +154,23 @@ public class ProgramController extends MenuEditableSectionController {
                 }
             }
 
-            programRemoteService.getMetadata(idType, viewContextId, new AsyncCallback<Metadata>() {
+            programRemoteService.getMetadata(idType, viewContextId, new AbstractCallback<Metadata>() {
 
                 @Override
                 public void onSuccess(Metadata result) {
+                    super.onSuccess(result);
                     DataModelDefinition def = new DataModelDefinition(result);
                     programModel.setDefinition(def);
                     init(def);
                     initialized = true;
                     onReadyCallback.exec(true);
-                    KSBlockingProgressIndicator.removeTask(initializingTask);
                 }
 
                 @Override
                 public void onFailure(Throwable caught) {
+                    super.onFailure(caught);
                     onReadyCallback.exec(false);
-                    KSBlockingProgressIndicator.removeTask(initializingTask);
-                    GWT.log("Failed to get model definition.", caught);
+
                 }
             });
         }
