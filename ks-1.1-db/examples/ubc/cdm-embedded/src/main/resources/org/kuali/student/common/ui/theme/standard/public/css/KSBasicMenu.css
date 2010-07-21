@@ -1,0 +1,469 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/*.KS-Basic-Menu-Parent-Container{
+	width: 200px;
+	margin: 2px;
+	background-color: white;
+	border-top: 1px solid #dedede;
+	border-right: 1px solid #dedede;
+	border-bottom: 1px solid #dedede;
+}
+.KS-Basic-Menu-Title-Panel{
+	background-color: #f4f4f4;
+	border-bottom: 2px solid #dedede;
+	border-top: 2px solid #dedede;
+	border-right: 2px solid #dedede;
+	width: 100%;
+	height: 40px;
+}
+.KS-Basic-Menu-Panel{
+	width: 100%;
+}
+.KS-Basic-Menu-Global-Indent{
+	margin-left: 5px;
+}
+.KS-Basic-Menu-Title-Label{
+	font-weight: bold;
+	font-size: 12pt;
+	color: #990000;
+	margin-top: 5px;
+}
+.KS-Basic-Menu-Desc-Label{
+	margin-bottom: 5px;
+	font-size: 8pt;
+	color: black;
+}
+.KS-Basic-Menu-Item-Label{
+	font-size: 10pt;
+	color: black;
+	margin-top: 3px;
+}
+.KS-Basic-Menu-Toplevel-Item-Label{
+	font-weight: bold;
+	color: #990000;
+}
+.KS-Basic-Menu-Toplevel-Item-Panel{
+	margin-top: 10px;
+	 
+}
+.KS-Basic-Menu-Clickable-Item-Label{
+	color: black;
+}
+.KS-Basic-Menu-Item-Panel{
+	width: 99%;
+	margin-bottom: 3px;
+	border-left: 2px solid white;
+}
+.KS-Basic-Menu-Item-Panel-Selected{
+	background-color: #dddddd;
+	border-left: 2px solid #666666;
+}
+.KS-Basic-Menu-Item-Label-Selected{
+	color: #ab0000;
+}
+.KS-Basic-Menu-Item-Panel-Hover{
+	background-color: #f4f4f4;
+	border-left: 2px solid #990000;
+	cursor: pointer;
+}
+.KS-Basic-Menu-Item-Label-Hover{
+	
+}*/
+.KS-Basic-Menu-Panel{
+}
+
+.KS-Basic-Menu-Item-Panel{
+}
+
+.KS-Basic-Menu-Panel ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	
+}
+
+.KS-Basic-Menu-Panel li{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 0px;
+	
+}
+
+.KS-Basic-Menu-Item-Label{
+}
+
+.KS-Basic-Menu-Item-Label-Selected{
+}
+
+.KS-Basic-Menu-Toplevel-Item-Label{
+
+}
+
+.KS-Basic-Menu-Item-Panel-Hover{
+}
+
+.KS-Basic-Menu-Item-Label-Hover{
+	
+}
+
+.KS-TabbedSectionLayout-Menu ul{
+	padding-bottom: 1em;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #d5d5d5;
+	background-color: #F4F5F4;
+	\-moz-border-radius: 1em; 
+	\-webkit-border-radius: 1em;
+	border-radius: 1em;
+	padding-left: 20px;
+	padding-right: 10px;
+	width: 260px;
+}
+
+.KS-TabbedSectionLayout-Menu .KS-Basic-Menu-Item-Label-Selected{
+	color: black;
+	text-decoration: underline;
+}
+
+.KS-TabbedSectionLayout-Menu .KS-Basic-Menu-Item-Label{
+	font-size: 10pt;
+	color: #315caa;
+	cursor: pointer;
+}
+
+.KS-TabbedSectionLayout-Menu  .KS-Basic-Menu-Toplevel-Item-Label{
+	font-size: 9pt;
+	font-weight: bold;
+	color: #8e181b;
+	margin-top: 20px;
+	text-transform: uppercase;
+}
+
+.KS-CustomDropDown-Arrow{
+	float: right;
+}
+
+.KS-CustomDropDown-Layout{
+	width: 100%;
+}
+
+/* Navigation DropDown */
+
+.KS-Navigation-DropDown{
+	width: 230px;
+}
+
+.KS-Navigation-DropDown li{
+	border-bottom: 1px solid #CECECE;
+	line-height: 1.8em;
+	zoom: 1;
+}
+
+.KS-Navigation-DropDown .KS-CustomDropDown-TitlePanel{
+	cursor: pointer;
+	background-color: #002859;
+	border: 1px solid #ffffff;
+	padding: 4px;
+}
+
+.KS-Navigation-DropDown .KS-CutomDropDown-TitleLabel{
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.KS-Navigation-DropDown ul{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #9C9C9C;
+	border-bottom: medium none;
+	background-color: #F5F5F5;
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Toplevel-Item-Label{
+	color: white;
+	font-size: .8em;
+	font-weight: bold;
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Label{
+	font-size: 12px;
+	margin-left: 4px;
+	white-space: nowrap;	
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Label-Selected {
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel{
+	padding: 3px;
+	color: #333333;
+	cursor: pointer;
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel a{
+	color: #333333;
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel a:hover{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Hover{
+	background-color: #AC0000;
+}
+
+.KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Selected a:hover{
+	color: #333333;
+	cursor: pointer;
+}
+
+/* Workflow DropDown */
+
+.KS-Workflow-DropDown{
+	width: 200px;
+}
+
+.KS-Workflow-DropDown li{
+	border-bottom: 1px solid #CECECE;
+	line-height: 1.8em;
+	zoom: 1;
+}
+
+.KS-Workflow-DropDown .KS-CustomDropDown-TitlePanel{
+	cursor: pointer;
+	background-color: #F3F3F3;
+	border: 1px solid #B2B2B2;
+	padding: 4px;
+}
+
+.KS-Workflow-DropDown .KS-CutomDropDown-TitleLabel{
+	color: #15317E;
+	font-size: 12px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.KS-Workflow-DropDown ul{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #9C9C9C;
+	background-color: #F5F5F5;
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Toplevel-Item-Label{
+	color: white;
+	font-size: .8em;
+	font-weight: bold;
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Item-Label{
+	font-size: 12px;
+	margin-left: 4px;
+	white-space: nowrap;	
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Item-Label-Selected {
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Item-Panel{
+	padding: 3px;
+	color: #333333;
+	cursor: pointer;
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Item-Panel a{
+	color: #333333;
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Item-Panel a:hover{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Item-Panel-Hover{
+	background-color: #15317E;
+}
+
+.KS-Workflow-DropDown .KS-Basic-Menu-Item-Panel-Selected a:hover{
+	color: #333333;
+	cursor: pointer;
+}
+
+/* Landing Page Navigation DropDown */
+
+.KS-LPNavigation-DropDown{
+	width: 230px;
+}
+
+.KS-LPNavigation-DropDown .KS-CustomDropDown-TitlePanel{
+	cursor: pointer;
+	padding: 3px;
+}
+
+.KS-LPNavigation-DropDown .KS-CutomDropDown-TitleLabel{
+	color: black;
+	font-size: .9em;
+	white-space: nowrap;
+}
+
+.KS-LPNavigation-DropDown .KS-Basic-Menu-Item-Label{
+	color: black;
+	margin: 0;
+	padding-top: 1em;
+	padding-bottom: 0;
+	padding-left: 3px;
+	padding-right: 2px;
+	font-size: .8em;
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+.KS-LPNavigation-DropDown .KS-Basic-Menu-Clickable-Item-Label{
+	font-weight: normal;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.KS-LPNavigation-DropDown ul{
+	background-color: #e3e4e5;
+	border: 2px solid #7f7f7f;
+	border-bottom: medium none;
+}
+
+.KS-LPNavigation-DropDown li{
+	zoom: 1;
+}
+
+.KS-LPNavigation-DropDown .KS-Basic-Menu-Item-Panel{
+	margin-top: 1px;
+	margin-bottom: 1px;
+	cursor: pointer;
+}
+
+.KS-LPNavigation-DropDown .KS-Basic-Menu-Item-Panel-Selected{
+	background-color: white;
+	border-bottom: 1px solid #7f7f7f;
+	border-top: 1px solid #7f7f7f;
+}
+
+
+
+.KS-LPNavigation-DropDown .KS-Basic-Menu-Item-Label-Selected{
+}
+
+.KS-LPNavigation-DropDown .KS-Basic-Menu-Item-Panel-Hover{
+	background-color: white;
+}
+
+.KS-LPNavigation-DropDown  .KS-Basic-Menu-Toplevel-Item-Label{
+	color: black;
+	font-size: .8em;
+	font-weight: bold;
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+/* Username dropdown */
+
+
+.KS-Username-DropDown{
+	width: 90px;
+}
+
+.KS-Username-DropDown li{
+	border-bottom: 1px solid #CECECE;
+	line-height: 1.8em;
+	zoom: 1;
+}
+
+.KS-Username-DropDown .KS-CustomDropDown-TitlePanel{
+	cursor: pointer;
+  background-color:#002859;
+  border:1px solid #FFFFFF;
+	padding: 4px;
+}
+
+.KS-Username-DropDown .KS-CutomDropDown-TitleLabel{
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.KS-Username-DropDown ul{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #9C9C9C;
+	border-bottom: medium none;
+	background-color: #F5F5F5;
+}
+
+.KS-Username-DropDown  .KS-Basic-Menu-Toplevel-Item-Label{
+	color: white;
+	font-size: .8em;
+	font-weight: bold;
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Label{
+	font-size: 12px;
+	margin-left: 4px;
+	white-space: nowrap;		
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel-Selected{
+}
+
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel{
+	padding: 3px;
+	color: #333333;
+	cursor: pointer;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel a{
+	color: #333333;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel a:hover{
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel-Hover{
+	background-color: #AC0000;
+}
+
+.KS-Username-DropDown .KS-Basic-Menu-Item-Panel-Selected a:hover{
+	color: #333333;
+	cursor: pointer;
+}
+
+
+
+
+
+
+

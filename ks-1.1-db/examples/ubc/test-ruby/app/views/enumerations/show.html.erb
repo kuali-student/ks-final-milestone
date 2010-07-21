@@ -1,0 +1,33 @@
+<p>
+  <b>Id:</b>
+  <%=h @enumeration.id %>
+</p>
+
+<p>
+  <b>Abbrev val:</b>
+  <%=h @enumeration.abbrev_val %>
+</p>
+
+<p>
+  <b>Cd:</b>
+  <%=h @enumeration.cd %>
+</p>
+
+<p>
+  <b>Enum key:</b>
+  <%=h @enumeration.enum_key %>
+</p>
+
+<p>
+  <b>Sort key:</b>
+  <%=h @enumeration.sort_key %>
+</p>
+
+<p>
+  <b>Val:</b>
+  <%=h @enumeration.val %>
+</p>
+
+
+<%= link_to 'Edit', edit_enumeration_path(@enumeration) %> |
+<%= link_to 'Back', enumerations_path %>

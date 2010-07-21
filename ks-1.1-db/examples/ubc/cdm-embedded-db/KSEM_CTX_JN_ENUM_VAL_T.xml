@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSEM_CTX_JN_ENUM_VAL_T CTX_ID="2" ENUM_VAL_ID="9000000"/>
+    <KSEM_CTX_JN_ENUM_VAL_T CTX_ID="2" ENUM_VAL_ID="9000001"/>
+	<KSEM_CTX_JN_ENUM_VAL_T CTX_ID="2" ENUM_VAL_ID="9000002"/>
+</dataset>
