@@ -270,12 +270,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     private void init(DataModelDefinition modelDefinition){
-        //FIXME: [KSCOR-225] This needs to be moved to the configurer
-        workflowUtil = new WorkflowUtilities((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class), this,
-                "proposal/id", createOnWorkflowSubmitSuccessHandler());
-        workflowUtil.setRequiredFieldPaths(new String[]{"course/department"});
 
         CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
+
+        //FIXME: [KSCOR-225] This needs to be moved to the configurer
+        workflowUtil = new WorkflowUtilities((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class), this,
+                cfg.getProposalIdPath(), createOnWorkflowSubmitSuccessHandler());
+        workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
+
         cfg.setModelDefinition(modelDefinition);
         cfg.configure(this);
         this.setContentTitle("New Course");
