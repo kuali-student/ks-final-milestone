@@ -911,7 +911,7 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 		QueryPath qPath = QueryPath.parse(path);
 		Object value = null;
 		Data idsData = null;
-		Data newIdsData = new Data();
+		Data newIdsData = null;
 		Data newIdsRuntimeData = null;
 		
 		if(model!=null){
@@ -927,6 +927,7 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 						String id = idItem.get(this.key);
 						Data runtimeData = idItem.get("_runtimeData");
 						Data translationData = runtimeData.get(this.key);
+						newIdsData = (newIdsData == null)? new Data() : newIdsData;
 						newIdsData.add(id);
 						newIdsRuntimeData = (newIdsRuntimeData == null)? new Data() : newIdsRuntimeData;
 						newIdsRuntimeData.add(translationData);
@@ -934,9 +935,12 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 	        	}
 			}
 		}
-		newIdsData.set("_runtimeData", newIdsRuntimeData);
-        model.set(qPath, newIdsData);
-        
-		hasDataValueBinding.setWidgetValue(widget, model, path);
+		
+		if (newIdsData != null){
+			newIdsData.set("_runtimeData", newIdsRuntimeData);
+	        model.set(qPath, newIdsData);
+	        
+			hasDataValueBinding.setWidgetValue(widget, model, path);
+		}
 	}
 }
