@@ -192,7 +192,48 @@
 			</list>
 		</property>
 	</bean>	
+	<bean id="search.cluset.approvedClus" parent="uilookup">
+		<property name="path" value="search.cluset.approvedClus" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.approvedCourses" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.approvedCourses" />
+			</list>
+		</property>
+	</bean>
 	
+	<bean id="search.cluset.proposedClus" parent="uilookup">
+		<property name="path" value="search.cluset.proposedClus" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.proposedCourses" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.proposedCourses" />
+			</list>
+		</property>
+	</bean>		
+	
+	<bean id="search.cluset.clusets" parent="uilookup">
+		<property name="path" value="search.cluset.clusets" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableCluSets" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.reusableCluSets" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="search.cluset.clusetRange" parent="uilookup">
+		<property name="path" value="search.cluset.clusetRange" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.courseRanges" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.courseNumber" />
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.learningObjectives" />
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.effectiveDate" />				
+			</list>
+		</property>
+	</bean>	
+		
 	<!-- Initial Lookup Definitions (For suggestbox & dropdown widgets) -->
 
 	<bean id="ks.lookup.person.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
