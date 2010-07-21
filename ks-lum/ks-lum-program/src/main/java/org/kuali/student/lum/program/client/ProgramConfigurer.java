@@ -58,9 +58,4 @@ public class ProgramConfigurer extends AbstractProgramConfigurer {
             }
         }
     }
-
-    //TODO: this method will be removed once the real data will be loaded.
-    public String getData(String key) {
-        return controller.getProgramModel().get(key);
-    }
 }

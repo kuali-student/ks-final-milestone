@@ -106,24 +106,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_programDetails();
 
   /**
-   * Translated "Long Title".
-   * 
-   * @return translated "Long Title"
-   */
-  @DefaultMessage("Long Title")
-  @Key("program.menu.sections.programDetails.longTitle")
-  String program_menu_sections_programDetails_longTitle();
-
-  /**
-   * Translated "Program Title".
-   * 
-   * @return translated "Program Title"
-   */
-  @DefaultMessage("Program Title")
-  @Key("program.menu.sections.programDetails.programTitle")
-  String program_menu_sections_programDetails_programTitle();
-
-  /**
    * Translated "Program Requirements".
    * 
    * @return translated "Program Requirements"
@@ -140,4 +122,175 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Specializations")
   @Key("program.menu.sections.specializations")
   String program_menu_sections_specializations();
+
+  /**
+   * Translated "Accrediting Agency".
+   * 
+   * @return translated "Accrediting Agency"
+   */
+  @DefaultMessage("Accrediting Agency")
+  @Key("programInformation.accreditingAgency")
+  String programInformation_accreditingAgency();
+
+  /**
+   * Translated "CIP Code".
+   * 
+   * @return translated "CIP Code"
+   */
+  @DefaultMessage("CIP Code")
+  @Key("programInformation.cipCode")
+  String programInformation_cipCode();
+
+  /**
+   * Translated "Credential Program".
+   * 
+   * @return translated "Credential Program"
+   */
+  @DefaultMessage("Credential Program")
+  @Key("programInformation.credentialProgram")
+  String programInformation_credentialProgram();
+
+  /**
+   * Translated "Degree Type".
+   * 
+   * @return translated "Degree Type"
+   */
+  @DefaultMessage("Degree Type")
+  @Key("programInformation.degreeType")
+  String programInformation_degreeType();
+
+  /**
+   * Translated "Duration".
+   * 
+   * @return translated "Duration"
+   */
+  @DefaultMessage("Duration")
+  @Key("programInformation.duration")
+  String programInformation_duration();
+
+  /**
+   * Translated "Full Time/Part Time".
+   * 
+   * @return translated "Full Time/Part Time"
+   */
+  @DefaultMessage("Full Time/Part Time")
+  @Key("programInformation.fullPartTime")
+  String programInformation_fullPartTime();
+
+  /**
+   * Translated "HEGIS Code".
+   * 
+   * @return translated "HEGIS Code"
+   */
+  @DefaultMessage("HEGIS Code")
+  @Key("programInformation.hegisCode")
+  String programInformation_hegisCode();
+
+  /**
+   * Translated "Institution".
+   * 
+   * @return translated "Institution"
+   */
+  @DefaultMessage("Institution")
+  @Key("programInformation.institution")
+  String programInformation_institution();
+
+  /**
+   * Translated "Location".
+   * 
+   * @return translated "Location"
+   */
+  @DefaultMessage("Location")
+  @Key("programInformation.location")
+  String programInformation_location();
+
+  /**
+   * Translated "Program Title (long)".
+   * 
+   * @return translated "Program Title (long)"
+   */
+  @DefaultMessage("Program Title (long)")
+  @Key("programInformation.longTitle")
+  String programInformation_longTitle();
+
+  /**
+   * Translated "More Information".
+   * 
+   * @return translated "More Information"
+   */
+  @DefaultMessage("More Information")
+  @Key("programInformation.moreInformation")
+  String programInformation_moreInformation();
+
+  /**
+   * Translated "Program Classification".
+   * 
+   * @return translated "Program Classification"
+   */
+  @DefaultMessage("Program Classification")
+  @Key("programInformation.programClassification")
+  String programInformation_programClassification();
+
+  /**
+   * Translated "Program Code".
+   * 
+   * @return translated "Program Code"
+   */
+  @DefaultMessage("Program Code")
+  @Key("programInformation.programCode")
+  String programInformation_programCode();
+
+  /**
+   * Translated "Program Description".
+   * 
+   * @return translated "Program Description"
+   */
+  @DefaultMessage("Program Description")
+  @Key("programInformation.programDescription")
+  String programInformation_programDescription();
+
+  /**
+   * Translated "Program Title (diploma)".
+   * 
+   * @return translated "Program Title (diploma)"
+   */
+  @DefaultMessage("Program Title (diploma)")
+  @Key("programInformation.programDiploma")
+  String programInformation_programDiploma();
+
+  /**
+   * Translated "Program Level".
+   * 
+   * @return translated "Program Level"
+   */
+  @DefaultMessage("Program Level")
+  @Key("programInformation.programLevel")
+  String programInformation_programLevel();
+
+  /**
+   * Translated "Program Title (transcript)".
+   * 
+   * @return translated "Program Title (transcript)"
+   */
+  @DefaultMessage("Program Title (transcript)")
+  @Key("programInformation.programTranscript")
+  String programInformation_programTranscript();
+
+  /**
+   * Translated "Program Title (short)".
+   * 
+   * @return translated "Program Title (short)"
+   */
+  @DefaultMessage("Program Title (short)")
+  @Key("programInformation.shortTitle")
+  String programInformation_shortTitle();
+
+  /**
+   * Translated "Specialization Required".
+   * 
+   * @return translated "Specialization Required"
+   */
+  @DefaultMessage("Specialization Required")
+  @Key("programInformation.specializationRequired")
+  String programInformation_specializationRequired();
 }

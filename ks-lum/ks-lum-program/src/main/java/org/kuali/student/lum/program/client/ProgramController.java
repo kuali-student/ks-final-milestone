@@ -28,13 +28,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class ProgramController extends MenuEditableSectionController {
 
-    public static final String PROGRAM_MODEL_ID = "programModelId";
-
-    public enum ProgramViews {
-        MAJOR_DISCIPLINE_VIEW_ALL, MAJOR_DISCIPLINE_VIEW_DETAILS
-        /* , ... */
-    }
-
     private final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
@@ -74,8 +67,8 @@ public class ProgramController extends MenuEditableSectionController {
     }
 
     private void initialize() {
-        super.setDefaultModelId(PROGRAM_MODEL_ID);
-        super.registerModel(PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
+        super.setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
+        super.registerModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -188,7 +181,7 @@ public class ProgramController extends MenuEditableSectionController {
                 public void onFailure(Throwable caught) {
                     onReadyCallback.exec(false);
                     KSBlockingProgressIndicator.removeTask(initializingTask);
-                    throw new RuntimeException("Failed to get model definition.", caught);
+                    GWT.log("Failed to get model definition.", caught);
                 }
             });
         }
@@ -201,16 +194,12 @@ public class ProgramController extends MenuEditableSectionController {
             programModel.setRoot(new Data());
         }
         configurer.configure(this);
-        this.setContentTitle("New Course");
+        this.setContentTitle("Programs");
 
         if (!initialized) {
             addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, saveButton);
             addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, cancelButton);
         }
         initialized = true;
-    }
-
-    public DataModel getProgramModel() {
-        return programModel;
     }
 }
