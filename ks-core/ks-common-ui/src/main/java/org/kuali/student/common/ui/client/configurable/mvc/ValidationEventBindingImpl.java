@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -37,8 +38,10 @@ public class ValidationEventBindingImpl  implements ValidationEventBinding {
         	((HasSelectionChangeHandlers) w).addSelectionChangeHandler(new SelectionChangeHandler(){
 				@Override
 				public void onSelectionChange(SelectionChangeEvent event) {
-					fd.setHasHadFocus(true);
-                	fd.getValidationRequestCallback().exec(true);
+					if(event.isUserInitiated()){
+						fd.setHasHadFocus(true);
+	                	fd.getValidationRequestCallback().exec(true);
+					}
 				}
 			});
         }
@@ -60,7 +63,8 @@ public class ValidationEventBindingImpl  implements ValidationEventBinding {
 			});
         }
         else if(w instanceof KSLabel 
-        		|| w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite){
+        		|| w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite
+        		|| w instanceof MultiplicityGroup){
         	//Do nothing these are valid but do not fire validation events (maybe?)
         }
         else {

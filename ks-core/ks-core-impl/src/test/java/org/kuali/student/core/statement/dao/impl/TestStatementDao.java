@@ -160,8 +160,8 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         GregorianCalendar gregExp = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
         
         assertNotNull(nlUsageTypeList);
-        assertEquals(4, nlUsageTypeList.size());
-        NlUsageType nlUsageType = nlUsageTypeList.get(2);
+        assertTrue(nlUsageTypeList.size() > 0);
+        NlUsageType nlUsageType = nlUsageTypeList.get(4);
         assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
         assertEquals("Kuali Course Catalog", nlUsageType.getName());
         assertEquals("Full Kuali Course Catalog", nlUsageType.getDescr());
@@ -205,12 +205,12 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         assertEquals(templates.size(), 3);
         
         ReqComponentTypeNLTemplate template = null;
-        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.CATALOG")) {
+        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.RULEEDIT")) {
             template = templates.get(0);
         } else {
             template = templates.get(1);
         }
-        assertEquals("KUALI.CATALOG", template.getNlUsageTypeKey());
+        assertEquals("KUALI.RULEEDIT", template.getNlUsageTypeKey());
         assertTrue(template.getTemplate().startsWith("Student must have completed $expectedValue"));
     }
 
@@ -222,7 +222,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
 //
 //        StatementTypeHeaderTemplate header = templates.get(0);
 //        assertEquals(templates.size(), 2);
-//        assertEquals("KUALI.CATALOG", header.getNlUsageTypeKey());
+//        assertEquals("KUALI.RULEEDIT", header.getNlUsageTypeKey());
 //        // should the statement header template be "$clu.getLongName()" instead of 
 //        //       "$clu.getOfficialIdentifier().getLongName()"? 
 //        //       in the old test sql file ks-lu.sql it is "$clu.getOfficialIdentifier().getLongName()" 

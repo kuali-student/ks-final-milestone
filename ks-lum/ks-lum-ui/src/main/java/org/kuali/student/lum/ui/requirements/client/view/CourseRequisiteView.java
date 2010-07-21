@@ -70,10 +70,11 @@ public class CourseRequisiteView extends ViewComposite {
            		
    	//view's data   			
 	public static List<String> applicableLuStatementTypes = new ArrayList<String>();		//rule types we deal with
-	private List<RuleInfo> courseRules; 							//contains all rules belonging to this course
-
+	private List<RuleInfo> courseRules;//contains all rules belonging to this course
+	private enum ReqViews{COURSE_REQ}
+	
     public CourseRequisiteView(Controller controller) {
-        super(controller, "Course Requisites");
+        super(controller, "Course Requisites", ReqViews.COURSE_REQ);
         super.initWidget(mainPanel);   
         
         this.prereqRationaleTextArea.setVisible(false);
@@ -147,7 +148,6 @@ public class CourseRequisiteView extends ViewComposite {
         KSButton submitButton = new KSButton(ruleExist(rule) ? "Manage Rule" : "Add rule");
         submitButtons.put(luStatementTypeKey, submitButton);
         submitButton.setTitle(luStatementTypeKey);
-        submitButton.setStyleName("KS-Rules-Tight-Button");
         submitButton.addClickHandler(handler);    
         rationalePanel3.add(submitButton);        
     	
@@ -169,7 +169,7 @@ public class CourseRequisiteView extends ViewComposite {
     	            rule.getStatementVO().getAllReqComponentVOs();
     	    if (allReqComponentVOs != null && !allReqComponentVOs.isEmpty()) {
                 rulesText.clear();
-                rulesText.add(new KSLabel(rule.getNaturalLanguage()));
+                rulesText.add(new KSLabel(rule.getNaturalLanguageForRuleEdit()));
     	    }
     	}
     }

@@ -26,9 +26,9 @@
 	<bean id="lookup" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataObjectStructure" />
+		class="org.kuali.student.core.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataFieldDescriptor">
+		class="org.kuali.student.core.assembly.dictionary.old.DataFieldDescriptor">
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="canUnmask" value="false" />
 		<property name="canEdit" value="true" />
@@ -748,6 +748,7 @@
 				<ref bean="CreditCourseProposal.state" />
 				<ref bean="CreditCourseProposal.type" />
 				<ref bean="CreditCourseProposal.search" />
+				<ref bean="CreditCourseProposal.cluset" />
 			</list>
 		</property>
 	</bean>
@@ -817,6 +818,18 @@
 				<ref bean="constraint.course.proposal.types" />
 				<ref bean="constraint.required" />
 				<ref bean="constraint.proposal.types" />
+			</list>
+		</property>
+	</bean>
+	<bean id="CreditCourseProposal.cluset" parent="dataFieldDescriptor">
+		<property name="name" value="cluset" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="cluset" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
 			</list>
 		</property>
 	</bean>
@@ -1290,7 +1303,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -1703,7 +1716,7 @@
 					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
 					<property name="name" value="Courses and Proposals"/>
 					<property name="desc" value="Search for courses and proposals"/>
-					<property name="title" value="Advanced Search: Course or Proposal"/>
+					<property name="title" value="Course or Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -1822,7 +1835,7 @@
 					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
 					<property name="name" value="Courses Only"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Advanced Search: Course or Proposal"/>
+					<property name="title" value="Course or Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -1937,7 +1950,7 @@
 					<property name="searchTypeId" value="lu.search.cluGenericCrossSearch"/>
 					<property name="name" value="Proposals Only"/>
 					<property name="desc" value="Search for proposals"/>
-					<property name="title" value="Advanced Search: Course or Proposal"/>
+					<property name="title" value="Course or Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -3292,7 +3305,7 @@
 					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
 					<property name="name" value="keyword in Learning Objective"/>
 					<property name="desc" value="Search for descriptions in existing learning objectives."/>
-					<property name="title" value="Search for Learning Objectives"/>
+					<property name="title" value="Learning Objectives"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -4237,7 +4250,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -4778,7 +4791,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -5771,7 +5784,9 @@
 				<ref bean="cluset.description" />
 				<ref bean="cluset.effectiveDate" />
 				<ref bean="cluset.expirationDate" />
-				<ref bean="cluset.clus"/>
+				<ref bean="cluset.approvedClus"/>
+				<ref bean="cluset.proposedClus"/>
+				<ref bean="cluset.allClus"/>
 				<ref bean="cluset.clusets"/>
 				<ref bean="cluset.type"/>
 				<ref bean="cluset.clusetRangeEdit"/>
@@ -5877,7 +5892,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
-					<property name="name" value="Find Organizations"/>
+					<property name="name" value="Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -6025,8 +6040,8 @@
 		</property>
 	</bean>
 	<!-- this bean will be shared so changes are all in one place to ease maintenance -->
-	<bean id="clusFieldParent" parent="dataFieldDescriptor">
-		<property name="name" value="clus" />
+	<bean id="approvedClusFieldParent" parent="dataFieldDescriptor">
+		<property name="name" value="approvedClus" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
@@ -6060,7 +6075,20 @@
 							<property name="writeAccess" value="NEVER" />
 							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 							<property name="caseSensitive" value="true" />
-						</bean>					
+						</bean>
+						<bean parent="param"><!-- limit search to only return activated clus -->
+							<property name="key" value="lu.queryParam.luOptionalState" />
+							<property name="name" value="State" />
+							<property name="desc" value="CLU State" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueList">
+								<list>
+									<value>approved</value>
+									<value>active</value>
+								</list>
+							</property>
+							<property name="caseSensitive" value="true" />
+						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="lu.resultColumn.cluId" />
@@ -6092,9 +6120,9 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -6146,6 +6174,20 @@
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
+							<bean parent="param"><!-- limit search to only return activated clus -->
+								<property name="key" value="lu.queryParam.luOptionalState" />
+								<property name="name" value="State" />
+								<property name="desc" value="CLU State" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueList">
+									<list>
+										<value>approved</value>
+										<value>active</value>
+									</list>
+								</property>
+								<property name="caseSensitive"
+									value="true" />
+							</bean>
 						</list>
 					</property>
 					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
@@ -6187,8 +6229,258 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="cluset.clus" parent="clusFieldParent" />
-	<bean id="cluset.clusets" parent="dataFieldDescriptor">
+	<bean id="cluset.approvedClus" parent="approvedClusFieldParent" />
+	<bean id="proposedClusFieldParent" parent="dataFieldDescriptor">
+		<property name="name" value="proposedClus" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<!--  define configuration for a suggest box -->
+			<bean parent="lookup">
+				<property name="id" value="kuali.lu.lookup.findCourse.suggest" />
+				<property name="searchTypeId" value="lu.search.generic" />
+				<property name="name" value="Find an existing course." />
+				<property name="desc" value="Search for courses" />
+				<property name="widget" value="SUGGEST_BOX"/>
+				<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+				<property name="params">
+					<list>
+						<bean parent="param">   <!-- suggest box entry definition -->
+							<property name="key" value="lu.queryParam.luOptionalCode" />
+							<property name="name" value="Code" />
+							<property name="desc" value="Course code." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param">   <!-- limit search to credit course for this UI context -->
+							<property name="key" value="lu.queryParam.luOptionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of a learning unit" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return activated clus -->
+							<property name="key" value="lu.queryParam.luOptionalState" />
+							<property name="name" value="State" />
+							<property name="desc" value="State" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueList">
+								<list>
+									<value>draft</value>
+								</list>
+							</property>
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+				<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+				<property name="resultSortKey" value="" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="lu.resultColumn.cluId" />
+							<property name="name" value="Course Identifier" />
+							<property name="desc" value="Identifier for the course" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="true" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="lu.resultColumn.luOptionalCode" />
+							<property name="name" value="Code" />
+							<property name="desc" value="Course code." />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list>
+				<!-- definition of advanced search window -->
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
+					<property name="searchTypeId" value="lu.search.generic"/>
+					<property name="name" value="Course"/>
+					<property name="desc" value="Search for courses"/>
+					<property name="title" value="Course"/>
+					<property name="widget" value="ADVANCED_LIGHTBOX"/>
+					<property name="params">
+						<list>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalLongName"/>
+								<property name="name" value="Title"/>
+								<property name="desc" value="Course title."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalCode"/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course number."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="false"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalDescr"/>
+								<property name="name" value="Description"/>
+								<property name="desc" value="Course description"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="true"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
+							</bean>							
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalLevel"/>
+								<property name="name" value="Level"/>
+								<property name="desc" value="Course level."/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="ALWAYS"/>
+								<property name="caseSensitive" value="true"/>
+								<property name="usage" value="CUSTOM"/>
+							</bean>
+							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.queryParam.luOptionalType"/>
+								<property name="name" value="Type"/>
+								<property name="desc" value="Type of a course"/>
+								<property name="dataType" value="STRING"/>
+								<property name="writeAccess" value="NEVER"/>
+								<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
+								<property name="optional" value="true"/>
+								<property name="caseSensitive" value="true"/>
+							</bean>
+							<bean parent="param"><!-- limit search to only return activated clus -->
+								<property name="key" value="lu.queryParam.luOptionalState" />
+								<property name="name" value="State" />
+								<property name="desc" value="State" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueList">
+									<list>
+										<value>draft</value>
+									</list>
+								</property>
+								<property name="caseSensitive" value="true" />
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
+					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
+					<property name="resultSortKey" value=""/>
+					<property name="results">
+						<list>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.cluId"/>
+								<property name="name" value="Identifier"/>
+								<property name="desc" value="Identifier for the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalCode"/>
+								<property name="name" value="Code"/>
+								<property name="desc" value="Course code."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
+								<property name="name" value="Level"/>
+								<property name="desc" value="Course level."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
+								<property name="name" value="Long Name"/>
+								<property name="desc" value="Long name for the course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="false"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="cluset.proposedClus" parent="proposedClusFieldParent" />
+	<bean id="allClusFieldParent" parent="dataFieldDescriptor">
+		<property name="name" value="allClus" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<!--  define configuration for a suggest box -->
+			<bean parent="lookup">
+				<property name="id" value="kuali.lu.lookup.findCourse.suggest" />
+				<property name="searchTypeId" value="lu.search.generic" />
+				<property name="name" value="Find an existing course." />
+				<property name="desc" value="Search for courses" />
+				<property name="widget" value="SUGGEST_BOX"/>
+				<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+				<property name="params">
+					<list>
+						<bean parent="param">   <!-- suggest box entry definition -->
+							<property name="key" value="lu.queryParam.luOptionalCode" />
+							<property name="name" value="Code" />
+							<property name="desc" value="Course code." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param">   <!-- limit search to credit course for this UI context -->
+							<property name="key" value="lu.queryParam.luOptionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of a learning unit" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+				<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+				<property name="resultSortKey" value="" />
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="key" value="lu.resultColumn.cluId" />
+							<property name="name" value="Course Identifier" />
+							<property name="desc" value="Identifier for the course" />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="true" />
+						</bean>
+						<bean parent="result">
+							<property name="key" value="lu.resultColumn.luOptionalCode" />
+							<property name="name" value="Code" />
+							<property name="desc" value="Course code." />
+							<property name="dataType" value="STRING" />
+							<property name="hidden" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="cluset.allClus" parent="allClusFieldParent" />
+	<bean id="clusetsFieldParent" parent="dataFieldDescriptor">
 		<property name="name" value="clusets" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
@@ -6215,6 +6507,14 @@
 							<property name="desc" value="CLU Set Name." />
 							<property name="writeAccess" value="ALWAYS" />
 							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
 				</property>
@@ -6261,7 +6561,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
 					<property name="searchTypeId" value="cluset.search.generic"/>
-					<property name="name" value="Find Clu Set"/>
+					<property name="name" value="Clu Set"/>
 					<property name="desc" value="Search for Clu Set"/>
 					<property name="title" value="Advanced CLU Set Search"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -6307,6 +6607,15 @@
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
+							<bean parent="param"><!-- limit search to only return reusable clusets -->
+								<property name="key" value="cluset.queryParam.optionalReusable" />
+								<property name="name" value="Reusable" />
+								<property name="desc" value="Reusable" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueString" value="true" />
+								<property name="caseSensitive"
+									value="true" />
+							</bean>
 						</list>
 					</property>
 					<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
@@ -6334,6 +6643,7 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="cluset.clusets" parent="clusetsFieldParent"/>
 	<bean id="cluset.type" parent="dataFieldDescriptor">
 		<property name="name" value="type" />
 		<property name="writeAccess" value="NEVER" />
@@ -6620,45 +6930,6 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="clus._runtimeData" parent="dataFieldDescriptor">
-		<property name="name" value="_runtimeData" />
-		<property name="writeAccess" value="NEVER" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataObjectStructure" ref="_runtimeData" />
-		<property name="dataType" value="DATA" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-			</list>
-		</property>
-	</bean>
-	<bean id="clus.id" parent="dataFieldDescriptor">
-		<property name="name" value="id" />
-		<property name="writeAccess" value="NEVER" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.hidden" />
-				<ref bean="constraint.read.only" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.kuali.id" />
-			</list>
-		</property>
-	</bean>
-	<bean id="clus.name" parent="dataFieldDescriptor">
-		<property name="name" value="name" />
-		<property name="writeAccess" value="ALWAYS" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
-		<property name="defaultValue" value="" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-			</list>
-		</property>
-	</bean>
 	
 	<bean id="clusetRange" parent="clusetRange-parent" />
 	<bean id="clusetRange-parent" abstract="true" parent="dataObjectStructure">
@@ -6848,9 +7119,9 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -7020,9 +7291,9 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Course"/>
+					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -7142,7 +7413,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.proposal.lookup.Proposals"/>
 					<property name="searchTypeId" value="proposal.search.generic"/>
-					<property name="name" value="Find Proposal"/>
+					<property name="name" value="Proposal"/>
 					<property name="desc" value="Search for proposals"/>
 					<property name="title" value="Find Proposal"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7228,6 +7499,14 @@
 							<property name="writeAccess" value="ALWAYS" />
 							<property name="usage" value="DEFAULT" />
 						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="cluset.resultColumn.cluSetId" />
@@ -7273,7 +7552,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
 					<property name="searchTypeId" value="cluset.search.generic"/>
-					<property name="name" value="Find Clu Set"/>
+					<property name="name" value="Clu Set"/>
 					<property name="desc" value="Search for Clu Set"/>
 					<property name="title" value="Advanced CLU Set Search"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7318,6 +7597,14 @@
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
+							</bean>
+							<bean parent="param"><!-- limit search to only return reusable clusets -->
+								<property name="key" value="cluset.queryParam.optionalReusable" />
+								<property name="name" value="Reusable" />
+								<property name="desc" value="Reusable" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueString" value="true" />
+								<property name="caseSensitive" value="true" />
 							</bean>
 						</list>
 					</property>
@@ -7416,7 +7703,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findProgram.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Find Program"/>
+					<property name="name" value="Program"/>
 					<property name="desc" value="Search for programs"/>
 					<property name="title" value="Find Program"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -7652,7 +7939,7 @@
 	<!-- definition of advanced search window -->
 	<bean id="kuali.lu.lookup.admin.departments.advanced" parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 		<property name="searchTypeId" value="org.search.generic"/>
-		<property name="name" value="Find Organizations"/>
+		<property name="name" value="Organizations"/>
 		<property name="desc" value="Search for administrative department organization"/>
 		<property name="title" value="Find Organization"/>
 		<property name="widget" value="ADVANCED_LIGHTBOX"/>

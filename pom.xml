@@ -14,30 +14,40 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>6</version>
+    <version>15</version>
   </parent>
   <groupId>org.kuali.student</groupId>
-  <artifactId>ks</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <artifactId>student</artifactId>
+  <version>1.1.0-poc-M7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <organization>
     <name>The Kuali Foundation</name>
     <url>http://student.kuali.org/</url>
   </organization>
+  <url>http://student.kuali.org/site/${project.version}</url>
+  <distributionManagement>
+    <site>
+      <id>ks.site</id>
+      <url>scp://student.kuali.org:/opt/www/student/site/${project.version}</url>
+    </site>
+  </distributionManagement>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <name>Main Kuali Repository</name>
-      <url>https://test.kuali.org/maven</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
   <ciManagement>
     <system>hudson</system>
-    <url>https://ci.ks.kuali.org</url>
+    <url>http://ci.ks.kuali.org</url>
   </ciManagement>
   <modules>
     <module>ks-security</module>
@@ -46,10 +56,16 @@
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</developerConnection>
+    <url>https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</url>
   </scm>
   <properties>
+    <!-- Shared between compiler, pmd, and javadoc plugins -->
+    <compileSource>1.6</compileSource>
+    <compileTarget>1.6</compileTarget>
+    <clover.history.dir>${user.home}/.m2/repository/.clover/history/${project.groupId}/${project.artifactId}/${project.version}</clover.history.dir>
+  
     <!-- artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
@@ -61,22 +77,23 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.1</kuali.rice.version>
+    <kuali.rice.version>1.0.2.1-SNAPSHOT</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
     <spring.version>2.5.4</spring.version>
     <spring.security.version>2.0.4</spring.security.version>
     <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
-    <velocity.version>1.5</velocity.version>
-    <velocity.tools.version>1.4</velocity.tools.version>
+    <velocity.version>1.6.4</velocity.version>
+    <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
+    <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
 
     <!-- plugin versions -->
-    <cobertura.plugin.version>2.2</cobertura.plugin.version>
-    <javadoc.plugin.version>2.6.1</javadoc.plugin.version>
-    <site.plugin.version>2.0-beta-7</site.plugin.version>
+    <cobertura.plugin.version>2.4</cobertura.plugin.version>
+    <javadoc.plugin.version>2.7</javadoc.plugin.version>
+    <site.plugin.version>2.0.1</site.plugin.version>
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <war.plugin.version>2.1-beta-1</war.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
@@ -87,99 +104,32 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
+    <!--
+     - This profile makes it easier to place Oracle's ojdbc14.jar into your local repository so Maven can find it
+     - Download ojdbc14.jar from http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html
+     - Run the maven-install-plugin using the oracle profile and pass in the download location
 
-    <!-- External Repository Profiles -->
+      mvn -N -Poracle install:install-file -Dfile=/tmp/ojdbc14.jar
+
+     - You should see output like this:
+       [INFO] Installing /tmp/ojdbc14.jar to /opt/m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar
+     -->
     <profile>
-      <id>external.repositories</id>
-      <activation>
-        <property>
-          <name>!ks.use.proxy</name>
-        </property>
-      </activation>
-      <repositories>
-        <!--
-                    central defined here to ensure maven checks it first as it has the best chance
-                    at finding dependencies
-                -->
-        <repository>
-          <id>central</id>
-          <url>http://repo1.maven.org/maven2/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>maven2-repository.dev.java.net</id>
-          <url>http://download.java.net/maven/2</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>ks.public</id>
-          <url>http://archiva.kuali.umd.edu/repository/public/</url>
-        </repository>
-        <!--
-                    adding until maven repository resolution fixed (does not work in 2.0.9 or
-                    2.1.0.20080530 embedded)
-                -->
-        <repository>
-          <id>repository.jboss.org</id>
-          <url>http://repository.jboss.org/maven2</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>EclipseLink Repo</id>
-          <url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>central</id>
-          <url>http://repo1.maven.org/maven2/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-          <id>kuali.release</id>
-          <url>http://archiva.kuali.umd.edu/repository/release</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-          <id>codehaus</id>
-          <url>http://repository.codehaus.org/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-          <id>ks-public</id>
-          <url>http://archiva.kuali.umd.edu/repository/public</url>
-        </pluginRepository>
-      </pluginRepositories>
+      <id>oracle</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <configuration>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>${oracle.ojdbc.version}</version>
+              <packaging>jar</packaging>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
     <!-- License plugin -->
@@ -220,6 +170,20 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
+RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
+xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
+UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
+          <generateHistorical>true</generateHistorical>
+          <historyDir>${clover.history.dir}</historyDir>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>2.1.1</version>
@@ -239,8 +203,8 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>${compileSource}</source>
+            <target>${compileTarget}</target>
             <!-- Don't compile sources that are in jars -->
             <compilerArgument>-implicit:none</compilerArgument>
           </configuration>
@@ -330,6 +294,19 @@
   <reporting>
     <plugins>
       <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <configuration>
+          <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
+RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
+xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
+UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
+          <generateHistorical>true</generateHistorical>
+          <historyDir>${clover.history.dir}</historyDir>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
         <version>${findbugs.plugin.version}</version>
@@ -342,12 +319,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <configuration>
-          <!-- this takes forever to complete, enable as needed -->
-          <!--
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                    -->
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -357,16 +328,17 @@
           <maxmemory>256m</maxmemory>
           <aggregate>true</aggregate>
           <show>private</show>
-          <bottom>Copyright © 2009 The Kuali Foundation. All rights reserved.</bottom>
+          <quite>true</quite>
+          <bottom>Copyright © 2010 The Kuali Foundation. All rights reserved.</bottom>
           <excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
-          <source>1.6</source>
+          <source>${compileSource}</source>
           <links>
             <link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
             <link>http://java.sun.com/javase/6/docs/api/</link>
             <link>http://java.sun.com/javaee/5/docs/api/</link>
             <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
             <link>http://static.springsource.org/spring-security/site/docs/${spring.security.javadoc.version}/apidocs/</link>
-            <link>http://student.kuali.org/site/security/${project.version}/apidocs/</link>
+            <link>http://student.kuali.org/site/${project.version}/apidocs/</link>
             <link>http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/</link>
             <link>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</link>
             <link>http://ws.apache.org/wss4j/apidocs/</link>
@@ -376,6 +348,7 @@
           <reportSet>
             <reports>
               <report>javadoc</report>
+              <report>test-javadoc</report>
             </reports>
           </reportSet>
         </reportSets>
@@ -387,10 +360,48 @@
         <configuration>
           <formats>
             <format>html</format>
-            <!--
-                        <format>xml</format>
-                        -->
           </formats>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.1.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <targetJdk>${compileSource}</targetJdk>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- NOTE: 2.3 or more requires java 1.5 -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <aggregate>true</aggregate>
         </configuration>
       </plugin>
     </plugins>
@@ -881,12 +892,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
@@ -911,7 +922,7 @@
         <version>${velocity.version}</version>
       </dependency>
       <dependency>
-        <groupId>velocity-tools</groupId>
+        <groupId>org.apache.velocity</groupId>
         <artifactId>velocity-tools</artifactId>
         <version>${velocity.tools.version}</version>
       </dependency>
@@ -1108,6 +1119,11 @@
         <groupId>xalan</groupId>
         <artifactId>xalan</artifactId>
         <version>${xalan.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.oracle</groupId>
+        <artifactId>ojdbc14</artifactId>
+        <version>${oracle.ojdbc.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

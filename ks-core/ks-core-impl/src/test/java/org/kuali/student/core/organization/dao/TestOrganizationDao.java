@@ -52,7 +52,7 @@ import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SortDirection;
-import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 
 import edu.emory.mathcs.backport.java.util.Collections;

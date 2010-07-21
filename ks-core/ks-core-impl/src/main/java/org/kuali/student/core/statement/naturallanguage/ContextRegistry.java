@@ -15,7 +15,9 @@
 
 package org.kuali.student.core.statement.naturallanguage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,7 +28,7 @@ import java.util.Map;
 public class ContextRegistry<T extends Context<?>>  {
 
 	/** Registry context map */
-	private Map<String, T> registry = new HashMap<String, T>();
+	private Map<String, List<T>> registry = new HashMap<String, List<T>>();
 
 	/**
 	 * Constructor.
@@ -39,7 +41,7 @@ public class ContextRegistry<T extends Context<?>>  {
 	 * 
 	 * @param registry Context registry
 	 */
-	public ContextRegistry(final Map<String, T> registry) {
+	public ContextRegistry(final Map<String, List<T>> registry) {
 		this.registry = registry;
 	}
 
@@ -51,7 +53,13 @@ public class ContextRegistry<T extends Context<?>>  {
 	 * @param context Context
 	 */
 	public void add(final String key, final T context) {
-		this.registry.put(key, context);
+		if(this.registry.containsKey(key)) {
+			this.registry.get(key).add(context);
+		} else {
+			List<T> list = new ArrayList<T>();
+			list.add(context);
+			this.registry.put(key, list);
+		}
 	}
 
 	/**
@@ -61,7 +69,7 @@ public class ContextRegistry<T extends Context<?>>  {
 	 * @param key Context key
 	 * @return A context
 	 */
-	public T get(final String key) {
+	public List<T> get(final String key) {
 		return this.registry.get(key);
 	}
 
@@ -82,8 +90,17 @@ public class ContextRegistry<T extends Context<?>>  {
 	 * @param key
 	 * @return
 	 */
-	public T remove(final String key) {
+	public List<T> remove(final String key) {
 		return this.registry.remove(key);
+	}
+
+	/**
+	 * Returns the number of keys of the registry.
+	 * 
+	 * @return Number of keys in the registry
+	 */
+	public int size() {
+		return this.registry.size();
 	}
 
 	@Override

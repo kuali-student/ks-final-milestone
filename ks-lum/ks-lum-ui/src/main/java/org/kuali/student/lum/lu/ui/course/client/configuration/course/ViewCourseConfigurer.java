@@ -28,11 +28,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBi
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -66,6 +62,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObj
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseRepositoryCategoryConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
@@ -137,9 +134,9 @@ CreditCourseLearningResultsConstants
         return section; 
     }
 
-	private BaseSection generateBasicSection() {
+	private Section generateBasicSection() {
 		
-		VerticalSection section = initSection(null, false);
+		Section section = initSection(null);
 		
         addField(section, TRANSCRIPT_TITLE, LUConstants.SHORT_TITLE_LABEL_KEY, new KSLabel());
 		addField(section, CreditCourseConstants.COURSE_TITLE, LUConstants.TITLE_LABEL_KEY, new KSLabel());
@@ -157,8 +154,7 @@ CreditCourseLearningResultsConstants
     	
   	    CollapsableSection section = new CollapsableSection(getLabel(LUConstants.DISCLOSURE_PANEL_LABEL_KEY));
 
-		VerticalSection logistics = initSection(getH3Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)), true);
-		logistics.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+		Section logistics = initSection(getH2Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
         addField(logistics, PRIMARY_INSTRUCTOR, LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY, new KSLabel());
         addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, QUANTITY).toString(), LUConstants.DURATION_QUANTITY_LABEL_KEY, new KSLabel());
         addField(logistics, QueryPath.concat(CreditCourseConstants.DURATION, TERM_TYPE).toString(), LUConstants.DURATION_TYPE_LABEL_KEY, new KSLabel());
@@ -166,30 +162,30 @@ CreditCourseLearningResultsConstants
         addField(logistics, OUTCOME_OPTIONS,  LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY, new OutcomesList(OUTCOME_OPTIONS));
         addField(logistics,  FORMATS, LUConstants.FORMATS_LABEL_KEY, new CourseFormatList(FORMATS));
 
-		VerticalSection learningObjectives = initSection(getH3Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)), true);
+		Section learningObjectives = initSection(getH2Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)));
     	addLearningObjectives(learningObjectives);
     	
-		VerticalSection governance = initSection(getH3Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)), true);
+		Section governance = initSection(getH2Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)));
         addField(governance, ACADEMIC_SUBJECT_ORGS, LUConstants.ACADEMIC_SUBJECT_ORGS_KEY, new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
         addField(governance, CAMPUS_LOCATIONS, LUConstants.CAMPUS_LOCATION_LABEL_KEY, new TranslatedStringList(CAMPUS_LOCATIONS));        
         addField(governance, DEPARTMENT, LUConstants.DEPT_LABEL_KEY, new KSLabel());
  
-		VerticalSection scheduling = initSection(getH3Title(getLabel(LUConstants.SCHEDULING_LABEL_KEY)), true);
+		Section scheduling = initSection(getH2Title(getLabel(LUConstants.SCHEDULING_LABEL_KEY)));
         addField(scheduling, CreditCourseConstants.EFFECTIVE_DATE, LUConstants.EFFECTIVE_DATE_LABEL_KEY, new KSLabel());
         addField(scheduling, EXPIRATION_DATE, LUConstants.EXPIRATION_DATE_LABEL_KEY, new KSLabel());
         addField(scheduling, FIRST_EXPECTED_OFFERING, LUConstants.FIRST_OFFERING_KEY, new KSLabel());
         
-		VerticalSection financials = initSection(getH3Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)), true);
+		Section financials = initSection(getH2Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)));
         addFinancials(financials);       
  
-		VerticalSection requisites = initSection(getH3Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)), true);
+		Section requisites = initSection(getH2Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
         addField(requisites, STATEMENTS_PATH, null, new KSLabelList(true));
 
     	section.addSection(logistics);
         section.addSection(learningObjectives);
         section.addSection(requisites);
         section.addSection(governance);
-        section.addSection(scheduling);
+        section.addSection(scheduling); 
         section.addSection(financials);
         
         return section;
@@ -210,7 +206,7 @@ CreditCourseLearningResultsConstants
 
 	private void addLearningObjectives(Section section) {
 		String loPath = QueryPath.concat(COURSE_SPECIFIC_LOS).toString();
-    	addDisplayTable(section, loPath, null, buildLoTable(loPath), null );
+        addDisplayTable(section, loPath, null, buildLoTable(loPath), null );
     }
 
     private class TranslatedStringList extends DisplayMultiplicityComposite {
@@ -461,16 +457,13 @@ CreditCourseLearningResultsConstants
         return section;
     }
     
-    protected VerticalSection initSection(SectionTitle title, boolean withDivider) {
-        VerticalSection section;
+    protected Section initSection(SectionTitle title) {
+        HorizontalSection section;
     	if(title!=null){
-        	section = new VerticalSection(title);
+        	section = new HorizontalSection(title);
         }else{
-        	section = new VerticalSection();
+        	section = new HorizontalSection();
         }
-        section.addStyleName(LUConstants.STYLE_SECTION);
-        if (withDivider)
-            section.addStyleName(LUConstants.STYLE_BOTTOM_DIVIDER);
         return section;
     }
 
@@ -486,6 +479,10 @@ CreditCourseLearningResultsConstants
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
 
+    private SectionTitle getH2Title(String labelKey) {
+        return SectionTitle.generateH2Title(getLabel(labelKey));
+    }
+    
     private SectionTitle getH3Title(String labelKey) {
         return SectionTitle.generateH3Title(getLabel(labelKey));
     } 

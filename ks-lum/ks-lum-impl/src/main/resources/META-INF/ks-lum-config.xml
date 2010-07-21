@@ -54,6 +54,7 @@
     
     <param name="ks.lum.dictionary.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
     <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
+    <param name="ks.lum.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
     
     
         <!-- Rice URLS -->

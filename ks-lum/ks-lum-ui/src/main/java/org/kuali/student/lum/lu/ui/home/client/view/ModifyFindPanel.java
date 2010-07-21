@@ -50,9 +50,10 @@ public class ModifyFindPanel extends ViewComposite{
     private VerticalPanel mainPanel = new VerticalPanel();
 
     private boolean loaded = false;
+    public enum Views{MODIFY_FIND}
 
     public ModifyFindPanel(Controller controller) {
-        super(controller, "Find Course");
+        super(controller, "Find Course", Views.MODIFY_FIND);
         mainPanel.addStyleName("KS-Picker-Border");
         this.initWidget(mainPanel);
     }

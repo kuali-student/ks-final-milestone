@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.QueryPath;
 
@@ -28,6 +29,10 @@ import com.google.gwt.user.client.ui.Widget;
  * of the underlying multiplicity item's widget.
  * 
  * @author Kuali Student Team
+ */
+
+/**
+ * @deprecated
  */
 public class MultiplicityItemBinding extends ModelWidgetBindingSupport<MultiplicityItem> {
     public static MultiplicityItemBinding INSTANCE = new MultiplicityItemBinding();

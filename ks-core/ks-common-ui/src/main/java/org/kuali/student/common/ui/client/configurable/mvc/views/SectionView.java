@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public abstract class SectionView extends BaseSection implements View{
@@ -34,20 +35,6 @@ public abstract class SectionView extends BaseSection implements View{
 
     private Enum<?> viewEnum;
     private String viewName;
-
-    /**
-     * Constructs a new view with an associated controller and view name
-     *
-     * @param controller
-     *            the controller associated with the view
-     * @param name
-     *            the view name
-     */
-    public SectionView(LayoutController controller, Enum<?> viewEnum, String viewName) {
-    	super.setLayoutController(controller);
-        this.viewEnum = viewEnum;
-        this.viewName = viewName;
-    }
 
     public SectionView(Enum<?> viewEnum, String viewName) {
         this.viewEnum = viewEnum;
@@ -59,6 +46,7 @@ public abstract class SectionView extends BaseSection implements View{
      *
      * @return
      */
+    @Override
     public Enum<?> getViewEnum() {
         return viewEnum;
     }
@@ -70,7 +58,22 @@ public abstract class SectionView extends BaseSection implements View{
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	this.resetFieldInteractionFlags();
-    	onReadyCallback.exec(true);
+        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert("Failed to get model: " + getName());
+                onReadyCallback.exec(false);
+            }
+
+            @Override
+            public void onModelReady(DataModel m) {
+                model = m;
+                updateWidgetData(m);
+                onReadyCallback.exec(true);
+            }
+            
+        });
     }
 
 	/**
@@ -81,8 +84,6 @@ public abstract class SectionView extends BaseSection implements View{
      */
     @Override
     public boolean beforeHide() {
-    	//This update model call was added due to KSCOR-162
-    	this.updateModel();
         return true;
     }
 
@@ -146,5 +147,9 @@ public abstract class SectionView extends BaseSection implements View{
 		this.model = m;
          updateWidgetData(m);
 	}
+	
+    public Widget asWidget(){
+    	return this.getLayout();
+    }
 
 }

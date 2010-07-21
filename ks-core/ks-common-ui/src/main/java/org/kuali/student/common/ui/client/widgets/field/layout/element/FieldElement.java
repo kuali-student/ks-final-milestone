@@ -198,14 +198,14 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     public void setInstructions(String text){
     	instructionText = text;
     	if(instructionText != null && !instructionText.trim().equals("")){
-    		instructions.setText(text);
+    		instructions.setHTML(text);
     		instructions.setVisible(true);
     	}
     }
 
     public void setConstraintText(String text){
     	if(text != null && !text.trim().equals("")){
-    		constraintText.setText(text);
+    		constraintText.setHTML(text);
     		constraintText.setVisible(true);
     	}
     }

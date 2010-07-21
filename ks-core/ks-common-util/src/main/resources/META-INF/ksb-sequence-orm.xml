@@ -30,4 +30,14 @@
             </id>
         </attributes>
     </entity>
+
+    <entity class="org.kuali.rice.ksb.messaging.FlattenedServiceDefinition" >
+        <attributes>
+            <id name="flattenedServiceDefinitionId">
+                <column name="FLT_SVC_DEF_ID"/>
+                <generated-value strategy="SEQUENCE" generator="fltSvcDefIdSeq"/>
+                <sequence-generator name="fltSvcDefIdSeq" sequence-name="KRSB_FLT_SVC_DEF_S"/>
+            </id>
+        </attributes>
+    </entity>
 </entity-mappings>

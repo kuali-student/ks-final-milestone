@@ -73,7 +73,7 @@ public class CourseRequisitesReadOnlyView extends Composite {
 		rootPanel.clear();
 		if(data.getRuleInfos()!=null){
 			for(RuleInfo ruleInfo:data.getRuleInfos()){
-				KSLabel label = new KSLabel(ruleInfo.getNaturalLanguage());
+				KSLabel label = new KSLabel(ruleInfo.getNaturalLanguageForRuleEdit());
 				rootPanel.add(label);
 			}
 		}

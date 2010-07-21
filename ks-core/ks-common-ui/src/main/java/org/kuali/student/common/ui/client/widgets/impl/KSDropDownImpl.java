@@ -74,7 +74,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
 
 		listBox.addChangeHandler(new ChangeHandler(){
             public void onChange(ChangeEvent event) {
-                fireChangeEvent();
+                fireChangeEvent(true);
             }
 		});
 	}
@@ -123,6 +123,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
     		for(int i = 0; i < listBox.getItemCount(); i++){
     			if(id.equals(listBox.getValue(i))){
     				listBox.setSelectedIndex(i);
+    				fireChangeEvent(false);
     			}
     		}
 	    }
@@ -137,6 +138,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
         if (i >= 0 && listBox.getValue(i).equals(id)){
             listBox.setItemSelected(i, false);
             listBox.setItemSelected(0, true);
+            fireChangeEvent(false);
         }
     }
 
@@ -225,6 +227,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
             for (String id: super.getListItems().getItemIds()){
                 listBox.addItem(super.getListItems().getItemText(id),id);
             }
+            fireChangeEvent(false);
         }
     }
 }
