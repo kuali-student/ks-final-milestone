@@ -28,6 +28,7 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:statement-context.xml"/>
 
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -142,7 +143,7 @@
     </bean>
     
     <bean id="statementDao"
-        class="org.kuali.student.brms.statement.dao.impl.StatementDaoImpl">
+        class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
         <property name="em" ref="stmtEntityManager" />        
     </bean>
 
@@ -154,12 +155,12 @@
             <map>
                 <entry key="Statement">
                     <list>
-                        <value>classpath:ks-statement-config.sql</value>
-	                    <value>classpath:ks-statement.sql</value>
+                        <value>classpath:ks-statement.sql</value>
+	                    <value>classpath:ks-statement-data.sql</value>
                     </list>
                 </entry>
                 <entry key="Lu">
-                    <value>classpath:ks-statement-lu.sql</value>
+                    <value>classpath:ks-statement-lu-data.sql</value>
                 </entry>
             </map>
         </property>
@@ -183,147 +184,23 @@
         <aop:aspect id="dataAccessToBusinessException"
             ref="mapExceptionAdvisor">
             <aop:after-throwing
-                pointcut="execution(* org.kuali.student.brms.statement.service.*.*(..))"
+                pointcut="execution(* org.kuali.student.core.statement.service.*.*(..))"
                 method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>
 
-    <bean id="LuServiceImpl"
+    <bean id="luServiceImpl"
         class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
         <property name="luDao" ref="luDao"/>
     </bean>
 
-    <bean id="courseListContext" class="org.kuali.student.lum.statement.config.context.lu.CourseListContextImpl">
-        <property name="luService" ref="LuServiceImpl" />
-    </bean>
-
-    <bean id="contextRegistryReqComponent"
-        class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">
-        <constructor-arg>
-            <map>
-                <!-- Pre-Req Contexts-->
-                <entry key="kuali.reqCompType.courseList.none">
-                    <ref local="courseListContext"/>
-                </entry>
-                <entry key="kuali.reqCompType.courseList.all">
-                    <ref local="courseListContext"/>
-                </entry>
-                <entry key="kuali.reqCompType.courseList.nof">
-                    <ref local="courseListContext"/>
-                </entry>
-                <entry key="kuali.reqCompType.courseList.1of1">
-                    <ref local="courseListContext"/>
-                </entry>
-                <entry key="kuali.reqCompType.courseList.1of2">
-                    <ref local="courseListContext"/>
-                </entry>
-                <entry key="kuali.reqCompType.grdCondCourseList">
-                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeConditionCourseListContextImpl">
-				        <property name="luService" ref="LuServiceImpl" />
-                    </bean>
-                </entry>
-                <entry key="kuali.reqCompType.gradecheck">
-                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeCheckContextImpl">
-				        <property name="luService" ref="LuServiceImpl" />
-                    </bean>
-                </entry>
-                <!-- Co-Req Contexts -->
-                <entry key="kuali.reqCompType.courseList.coreq.all">
-                    <ref local="courseListContext"/>
-                </entry>
-                <entry key="kuali.reqCompType.courseList.coreq.oneof">
-                    <ref local="courseListContext"/>
-                </entry>
-            </map>
-        </constructor-arg>
-    </bean>
-
-    <bean id="droolsKnowledgeBase" class="org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase" />
-
-    <bean id="droolsExecutor"
-        class="org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
-        <property name="enableStatisticsLogging" value="false" />
-        <property name="ruleBaseCache" ref="droolsKnowledgeBase" />
-    </bean>
-
-    <bean id="booleanOperatorLanguageMap"
-    	class="org.springframework.beans.factory.config.MapFactoryBean">
-    	<property name="sourceMap">
-    		<map>
-    			<entry key="en">
-    				<bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
-    				    <constructor-arg index="0" value="and" />
-                        <constructor-arg index="1" value="or" />
-    				</bean>
-    			</entry>
-                <entry key="dk">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
-                        <constructor-arg index="0" value="og" />
-                        <constructor-arg index="1" value="eller" />
-                    </bean>
-                </entry>
-                <entry key="de">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
-                        <constructor-arg index="0" value="und" />
-                        <constructor-arg index="1" value="oder" />
-                    </bean>
-                </entry>
-                <entry key="fr">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
-                        <constructor-arg index="0" value="et" />
-                        <constructor-arg index="1" value="ou" />
-                    </bean>
-                </entry>
-                <entry key="jp">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
-                        <constructor-arg index="0" value="および" />
-                        <constructor-arg index="1" value="または" />
-                    </bean>
-                </entry>
-                <entry key="zh">
-                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
-                        <constructor-arg index="0" value="和" />
-                        <constructor-arg index="1" value="或" />
-                    </bean>
-                </entry>
-    		</map>
-    	</property>
-    </bean>
-
-    <bean id="naturalLanguageMessageBuilder"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
-        <constructor-arg index="0" ref="droolsExecutor" />
-        <constructor-arg index="1" value="en" />
-        <constructor-arg index="2" ref="booleanOperatorLanguageMap" />
-    </bean>
-
-    <bean id="reqComponentTranslator"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.ReqComponentTranslator">
-        <property name="contextRegistry" ref="contextRegistryReqComponent" />
-        <!--property name="language" value="en" /-->
-    </bean>
-
-    <bean id="statementTranslator"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.StatementTranslator">
-        <property name="reqComponentTranslator" ref="reqComponentTranslator" />
-        <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
-        <!--property name="language" value="en" /-->
-    </bean>
-
-    <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
-        <property name="reqComponentTranslator" ref="reqComponentTranslator" />
-        <property name="statementTranslator" ref="statementTranslator" />
-        <property name="language" value="en" />
-    </bean>
-    
     <bean id="statementAssembler"
-        class="org.kuali.student.brms.statement.service.impl.StatementAssembler">
+        class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="statementDao"/>
     </bean>
     
     <bean id="statementService" autowire="byName"
-        class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
+        class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>

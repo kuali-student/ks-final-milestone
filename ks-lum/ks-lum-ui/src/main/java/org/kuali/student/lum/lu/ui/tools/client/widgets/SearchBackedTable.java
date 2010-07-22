@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -44,196 +45,180 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SearchBackedTable extends Composite
 {
 
- private List<ResultRow> resultRows = new ArrayList<ResultRow> ();
- private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs =
-  new ArrayList<AbstractColumnDefinition<ResultRow, ?>> ();
- private GenericTableModel<ResultRow> tableModel =
-  new GenericTableModel<ResultRow> (resultRows);
- private PagingScrollTableBuilder<ResultRow> builder =
-  new PagingScrollTableBuilder<ResultRow> ();
- private String resultIdColumnKey;
- protected PagingScrollTable<ResultRow> pagingScrollTable;
- private VerticalPanel layout = new VerticalPanel ();
-// private PagingOptions pagingOptions;
- private SearchRpcServiceAsync searchRpcServiceAsync =
-  GWT.create (SearchRpcService.class);
+	private List<ResultRow> resultRows = new ArrayList<ResultRow> ();
+	private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>> ();
+	private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow> (resultRows);
+	private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow> ();
+	private String resultIdColumnKey;
+	protected PagingScrollTable<ResultRow> pagingScrollTable;
+	private VerticalPanel layout = new VerticalPanel ();
 
-// private PagingOptions createPagingOptions (
-//  PagingScrollTable<ResultRow> pagingScrollTable)
-// {
-//  PagingOptions po = new PagingOptions (pagingScrollTable);
-//  po.setPixelSize (pagingScrollTable.getOffsetWidth (), po.
-//   getOffsetHeight ());
-//  return po;
-// }
+	private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create (SearchRpcService.class);
 
- public SearchBackedTable ()
- {
-  super ();
-  redraw ();
-  layout.setWidth ("100%");
-  initWidget (layout);
- }
+	public SearchBackedTable ()
+	{
+		super ();
+		redraw ();
+		layout.setWidth ("100%");
+		initWidget (layout);
+	}
 
- public void clearTable ()
- {
-  resultRows.clear ();
-  this.redraw ();
- }
+	public void clearTable ()
+	{
+		resultRows.clear ();
+		this.redraw ();
+	}
 
- public void removeSelected ()
- {
-  for (ResultRow r : getSelectedRows ())
-  {
-   resultRows.remove (r);
-  }
-  this.redraw ();
- }
+	public void removeSelected ()
+	{
+		for (ResultRow r : getSelectedRows ())
+		{
+			resultRows.remove (r);
+		}
+		this.redraw ();
+	}
 
- public void performSearch (SearchRequest searchRequest,
-                            List<LookupResultMetadata> listResultMetadata,
-                            String resultIdKey)
- {
+	public void performSearch (SearchRequest searchRequest,
+			List<LookupResultMetadata> listResultMetadata,
+			String resultIdKey)
+	{
 
-  initializeTable (listResultMetadata, resultIdKey);
+		initializeTable (listResultMetadata, resultIdKey);
 
-  searchRequest.setNeededTotalResults (false);
+		searchRequest.setNeededTotalResults (false);
 
-  if (pagingScrollTable != null)
-  {
-   pagingScrollTable.setEmptyTableWidget (new Label ("Processing Search..."));
-  }
+		if (pagingScrollTable != null)
+		{
+			pagingScrollTable.setEmptyTableWidget (new Label ("Processing Search..."));
+		}
 
-//  Window.alert ("About to invoke asynch search...");
-  searchRpcServiceAsync.search (searchRequest, new AsyncCallback<SearchResult> ()
-  {
+		//  Window.alert ("About to invoke asynch search...");
+		searchRpcServiceAsync.search (searchRequest, new AsyncCallback<SearchResult> ()
+				{
 
-   @Override
-   public void onFailure (Throwable cause)
-   {
-    GWT.log ("Failed to perform search", cause); //FIXME more detail info here
-//    Window.alert ("Failed to perform search");
-   }
+			@Override
+			public void onFailure (Throwable cause)
+			{
+				KSErrorDialog.show(cause);
+			}
 
-   @Override
-   public void onSuccess (SearchResult searchResults)
-   {
-//    Window.alert ("Got back search results...");
-    resultRows.clear ();
-    if (searchResults != null)
-    {
-     for (SearchResultRow searchResultRow : searchResults.getRows ())
-     {
-//      Window.alert ("adding row");
-      ResultRow resultRow = new ResultRow ();
-      for (SearchResultCell searchResultCell : searchResultRow.getCells ())
-      {
-       if (searchResultCell.getKey ().equals (resultIdColumnKey))
-       {
-        resultRow.setId (searchResultCell.getValue ());
-       }
-       resultRow.setValue (searchResultCell.getKey (), searchResultCell.getValue ());
-      }
-      resultRows.add (resultRow);
-     }
-    }
-//    Window.alert ("about to redraw...");
-    redraw ();
-   }
+			@Override
+			public void onSuccess (SearchResult searchResults)
+			{
+				//    Window.alert ("Got back search results...");
+				resultRows.clear ();
+				if (searchResults != null)
+				{
+					for (SearchResultRow searchResultRow : searchResults.getRows ())
+					{
+						//      Window.alert ("adding row");
+						ResultRow resultRow = new ResultRow ();
+						for (SearchResultCell searchResultCell : searchResultRow.getCells ())
+						{
+							if (searchResultCell.getKey ().equals (resultIdColumnKey))
+							{
+								resultRow.setId (searchResultCell.getValue ());
+							}
+							resultRow.setValue (searchResultCell.getKey (), searchResultCell.getValue ());
+						}
+						resultRows.add (resultRow);
+					}
+				}
+				//    Window.alert ("about to redraw...");
+				redraw ();
+			}
 
-  });
- }
+				});
+	}
 
- private void initializeTable (List<LookupResultMetadata> listResultMetadata,
-                              String resultIdKey)
- {
-  clearTable ();
+	private void initializeTable (List<LookupResultMetadata> listResultMetadata,
+			String resultIdKey)
+	{
+		clearTable ();
 
-  this.resultIdColumnKey = resultIdKey;
-  builder = new PagingScrollTableBuilder<ResultRow> ();
-  builder.tablePixelSize (900, 200); // width, height
+		this.resultIdColumnKey = resultIdKey;
+		builder = new PagingScrollTableBuilder<ResultRow> ();
+		builder.tablePixelSize (900, 200); // width, height
 
-  columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>> ();
-  for (LookupResultMetadata r : listResultMetadata)
-  {
-   //TODO: use this as a token to get a message from message service instead
-   String header = r.getName ();
-   String key = r.getKey ();
-   if ( ! r.isHidden ())
-   {
-    columnDefs.add (new SearchColumnDefinition (header, key));
-   }
-  }
-  if (columnDefs.size () == 1)
-  {
-   //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
-   columnDefs.get (0).setMinimumColumnWidth (370);
-  }
-  builder.columnDefinitions (columnDefs);
-  tableModel.setColumnDefs (columnDefs);
+		columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>> ();
+		for (LookupResultMetadata r : listResultMetadata)
+		{
+			//TODO: use this as a token to get a message from message service instead
+			String header = r.getName ();
+			String key = r.getKey ();
+			if ( ! r.isHidden ())
+			{
+				columnDefs.add (new SearchColumnDefinition (header, key));
+			}
+		}
+		if (columnDefs.size () == 1)
+		{
+			columnDefs.get (0).setMinimumColumnWidth (370);
+		}
+		builder.columnDefinitions (columnDefs);
+		tableModel.setColumnDefs (columnDefs);
 
-  redraw ();
- }
+		redraw ();
+	}
 
- public void redraw ()
- {
-  tableModel.setRows (resultRows);
-  pagingScrollTable = builder.build (tableModel); // FIXME do we really need to recreate the table for every refresh?
-  pagingScrollTable.setResizePolicy (ResizePolicy.FILL_WIDTH);
-//  pagingOptions = createPagingOptions (pagingScrollTable);
-  layout.clear ();
-//  layout.add (pagingOptions);
-  layout.add (pagingScrollTable);
-  pagingScrollTable.fillWidth ();
- }
+	public void redraw ()
+	{
+		tableModel.setRows (resultRows);
+		pagingScrollTable = builder.build (tableModel); 
+		pagingScrollTable.setResizePolicy (ResizePolicy.FILL_WIDTH);
+		layout.clear ();
+		layout.add (pagingScrollTable);
+		pagingScrollTable.fillWidth ();
+		pagingScrollTable.reloadPage();
+	}
 
- public void addSelectionHandler (RowSelectionHandler selectionHandler)
- {
-  pagingScrollTable.getDataTable ().addRowSelectionHandler (selectionHandler);
- }
+	public void addSelectionHandler (RowSelectionHandler selectionHandler)
+	{
+		pagingScrollTable.getDataTable ().addRowSelectionHandler (selectionHandler);
+	}
 
- public List<ResultRow> getSelectedRows ()
- {
-  List<ResultRow> rows = new ArrayList<ResultRow> ();
-  Set<Integer> selectedRows =
-   pagingScrollTable.getDataTable ().getSelectedRows ();
-  for (Integer i : selectedRows)
-  {
-   rows.add (pagingScrollTable.getRowValue (i));
-  }
-  return rows;
- }
+	public List<ResultRow> getSelectedRows ()
+	{
+		List<ResultRow> rows = new ArrayList<ResultRow> ();
+		Set<Integer> selectedRows =
+			pagingScrollTable.getDataTable ().getSelectedRows ();
+		for (Integer i : selectedRows)
+		{
+			rows.add (pagingScrollTable.getRowValue (i));
+		}
+		return rows;
+	}
 
- public List<String> getSelectedIds ()
- {
-  List<String> ids = new ArrayList<String> ();
-  Set<Integer> selectedRows =
-   pagingScrollTable.getDataTable ().getSelectedRows ();
-  for (Integer i : selectedRows)
-  {
-   ids.add (pagingScrollTable.getRowValue (i).getId ());
-  }
-  return ids;
- }
+	public List<String> getSelectedIds ()
+	{
+		List<String> ids = new ArrayList<String> ();
+		Set<Integer> selectedRows =
+			pagingScrollTable.getDataTable ().getSelectedRows ();
+		for (Integer i : selectedRows)
+		{
+			ids.add (pagingScrollTable.getRowValue (i).getId ());
+		}
+		return ids;
+	}
 
- public List<String> getAllIds ()
- {
-  List<String> ids = new ArrayList<String> ();
-  for (ResultRow r : resultRows)
-  {
-   ids.add (r.getId ());
-  }
-  return ids;
- }
+	public List<String> getAllIds ()
+	{
+		List<String> ids = new ArrayList<String> ();
+		for (ResultRow r : resultRows)
+		{
+			ids.add (r.getId ());
+		}
+		return ids;
+	}
 
- public List<ResultRow> getAllRows ()
- {
-  List<ResultRow> rows = new ArrayList<ResultRow> ();
-  for (ResultRow r : resultRows)
-  {
-   rows.add (r);
-  }
-  return rows;
- }
+	public List<ResultRow> getAllRows ()
+	{
+		List<ResultRow> rows = new ArrayList<ResultRow> ();
+		for (ResultRow r : resultRows)
+		{
+			rows.add (r);
+		}
+		return rows;
+	}
 
 }

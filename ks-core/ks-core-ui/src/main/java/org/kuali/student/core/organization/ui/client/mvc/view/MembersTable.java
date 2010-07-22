@@ -35,7 +35,6 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
@@ -52,23 +51,14 @@ public class MembersTable extends Composite{
     private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
     private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
-    private String resultIdColumnKey;
     protected PagingScrollTable<ResultRow> pagingScrollTable;
     private VerticalPanel layout = new VerticalPanel();
-    private PagingOptions pagingOptions;
     private String orgId;
     private HashMap<String,String> positionTypes;
     private List<String> personIds;
     private List<MembershipInfo> members;
 
     private OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
-
-
-    private PagingOptions createPagingOptions(PagingScrollTable<ResultRow> pagingScrollTable) {
-        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable);
-        pagingOptions.setPixelSize(pagingScrollTable.getOffsetWidth(), pagingOptions.getOffsetHeight());
-        return pagingOptions;
-    }
 
     public MembersTable(){
         super();
@@ -79,8 +69,6 @@ public class MembersTable extends Composite{
         initializeTable();
 
     }
-
-
 
     public void clearTable(){
         resultRows.clear();
@@ -105,10 +93,6 @@ public class MembersTable extends Composite{
         columnDefs.add(new SearchColumnDefinition(getLabel("orgMembersTableLastName"), LNAME));
         columnDefs.add(new SearchColumnDefinition(getLabel("orgMembersTablePoistionName"), POSITION));
 
-        if(columnDefs.size() == 1){
-            //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
-            columnDefs.get(0).setMinimumColumnWidth(370);
-        }
         builder.columnDefinitions(columnDefs);
         tableModel.setColumnDefs(columnDefs);
         redraw();
@@ -123,10 +107,9 @@ public class MembersTable extends Composite{
         tableModel.setRows(resultRows);
         pagingScrollTable = builder.build(tableModel);
         pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
-//        pagingOptions = createPagingOptions(pagingScrollTable);
         layout.clear();
-//        layout.add(pagingOptions);
         layout.add(pagingScrollTable);
+        pagingScrollTable.reloadPage();
         pagingScrollTable.fillWidth();
     }
 
@@ -257,7 +240,4 @@ public class MembersTable extends Composite{
         }
     }
 
-    private void drawMembershipTable(){
-
-    }
 }

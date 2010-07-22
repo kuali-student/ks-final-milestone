@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * KSTextArea wraps gwt TextArea.  This class provides most of the same functionality, but sets KS css styles
  * for its default look and a variety of TextArea events (for improved browser compatibility and customizability).
- * 
+ *
  * @author Kuali Student Team
  *
  *
@@ -38,7 +38,7 @@ public class KSTextBox extends TextBox{
 
     /**
      * Creates an empty text box.
-     * 
+     *
      */
     public KSTextBox() {
         super();
@@ -47,50 +47,50 @@ public class KSTextBox extends TextBox{
 
     /**
      *  Creates a new text box using the text box element specified.
-     * 
+     *
      * @param element a <input> element of type 'text'
      */
     public KSTextBox(Element element) {
         super(element);
         setupDefaultStyle();
     }
-    
+
     /**
      * This method sets the default style for the text box and text box events.
-     * 
+     *
      */
     private void setupDefaultStyle() {
-        addStyleName(KSStyles.KS_TEXTBOX_STYLE);
-        
+        addStyleName("KS-Textbox");
+
         this.addBlurHandler(new BlurHandler(){
             public void onBlur(BlurEvent event) {
-                KSTextBox.this.removeStyleName(KSStyles.KS_TEXTBOX_FOCUS_STYLE);
-                
-            }   
-        }); 
+                KSTextBox.this.removeStyleName("KS-Textbox-Focus");
+
+            }
+        });
 
         this.addFocusHandler(new FocusHandler(){
             public void onFocus(FocusEvent event) {
-                KSTextBox.this.addStyleName(KSStyles.KS_TEXTBOX_FOCUS_STYLE);
+                KSTextBox.this.addStyleName("KS-Textbox-Focus");
 
-            }       
+            }
         });
-        
+
         this.addMouseOverHandler(new MouseOverHandler(){
             public void onMouseOver(MouseOverEvent event) {
-                KSTextBox.this.addStyleName(KSStyles.KS_TEXTBOX_HOVER_STYLE);
-                
-            }       
+                KSTextBox.this.addStyleName("KS-Textbox-Hover");
+
+            }
         });
-        
+
         this.addMouseOutHandler(new MouseOutHandler(){
 
             public void onMouseOut(MouseOutEvent event) {
-                KSTextBox.this.removeStyleName(KSStyles.KS_TEXTBOX_HOVER_STYLE);
-                
+                KSTextBox.this.removeStyleName("KS-Textbox-Hover");
+
             }
-            
+
         });
-        
+
     }
 }

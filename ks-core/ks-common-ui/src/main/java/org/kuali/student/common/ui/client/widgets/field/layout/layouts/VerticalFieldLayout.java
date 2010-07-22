@@ -20,7 +20,9 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,10 +31,14 @@ public class VerticalFieldLayout extends FieldLayout{
 	private Map<String, FlowPanel> fieldContainers = new HashMap<String, FlowPanel>();
 	
 	protected FlowPanel verticalLayout = new FlowPanel();
+	private SpanPanel buttonArea = new SpanPanel();
+	private FlowPanel top = new FlowPanel();
 	
 	public VerticalFieldLayout(){
 		super();
-		this.initWidget(verticalLayout);
+		top.add(verticalLayout);
+		top.add(buttonArea);
+		this.add(top);
 		hasValidation = true;
 		verticalLayout.setStyleName("ks-form-module");
 	}
@@ -40,21 +46,28 @@ public class VerticalFieldLayout extends FieldLayout{
 	public VerticalFieldLayout(boolean hasValidation){
 		super();
 		this.hasValidation = hasValidation;
-		this.initWidget(verticalLayout);
+		top.add(verticalLayout);
+		top.add(buttonArea);
+		this.add(top);
 		verticalLayout.setStyleName("ks-form-module");
 	}
 	
 	public VerticalFieldLayout(SectionTitle title){
 		super();
 		this.setLayoutTitle(title);
-		this.initWidget(verticalLayout);
+		top.add(verticalLayout);
+		top.add(buttonArea);
+		this.add(top);
+		hasValidation = true;
 		verticalLayout.setStyleName("ks-form-module");
 	}
 	
 	public VerticalFieldLayout(SectionTitle title, boolean hasValidation){
 		super();
 		this.setLayoutTitle(title);
-		this.initWidget(verticalLayout);
+		top.add(verticalLayout);
+		top.add(buttonArea);
+		this.add(top);
 		this.hasValidation = hasValidation;
 		verticalLayout.setStyleName("ks-form-module");
 	}
@@ -116,9 +129,17 @@ public class VerticalFieldLayout extends FieldLayout{
 		if(this.layoutTitle != null){
 			verticalLayout.remove(this.layoutTitle);
 		}
-		this.layoutTitle = layoutTitle;
-		verticalLayout.insert(layoutTitle, 0);
-		layoutTitle.addStyleName("ks-heading-page-section");
+		if(layoutTitle != null){
+			this.layoutTitle = layoutTitle;
+			verticalLayout.insert(layoutTitle, 0);
+			layoutTitle.addStyleName("ks-layout-header");
+		}
+	}
+
+	@Override
+	public void addButtonLayoutToLayout(ButtonLayout buttonLayout) {
+		buttonArea.add(buttonLayout);
+		
 	}
 
 }

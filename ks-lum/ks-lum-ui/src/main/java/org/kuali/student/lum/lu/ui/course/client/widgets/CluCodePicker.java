@@ -60,6 +60,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class CluCodePicker extends Composite implements SuggestPicker {
 
+    //FIXME:  [KSCOR-225]  Class needs to be rewritten to use KSPicker instead of SuggestPicker and use lookup config through metadata rt
+	
+
     private String type;
     private String state;
     private String messageGroup;
@@ -78,7 +81,7 @@ public class CluCodePicker extends Composite implements SuggestPicker {
 
     private final FocusGroup focus = new FocusGroup(this);
 
-    //FIXME: These should come from an enumeration somehow
+    //FIXME: [KSCOR-225] These should come from an enumeration somehow
     private static final String STATE_EXPLORE = "Explore";
     private static final String STATE_TEMPLATE = "Template";
     private static final String STATE_DRAFT = "Draft";

@@ -16,7 +16,7 @@ package org.kuali.student.common.ui.server.gwt;
 
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

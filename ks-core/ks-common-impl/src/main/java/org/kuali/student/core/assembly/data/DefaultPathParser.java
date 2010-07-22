@@ -27,7 +27,7 @@ import org.kuali.student.core.assembly.data.Data.Key;
  */
 public class DefaultPathParser implements PathParser {
 
-    private final String PATH_SEPARATOR = "/";
+    private static final String PATH_SEPARATOR = "/";
     
 	@Override
 	public String format(final QueryPath path) {

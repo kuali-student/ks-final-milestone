@@ -20,7 +20,7 @@ import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.impl.SearchDispatcher;
+import org.kuali.student.core.search.service.SearchDispatcher;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

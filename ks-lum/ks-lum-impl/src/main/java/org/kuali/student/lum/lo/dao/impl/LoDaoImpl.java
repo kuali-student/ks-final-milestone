@@ -147,7 +147,7 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	@Override
 	public boolean deleteLoCategory(String loCategoryId) throws DoesNotExistException, DependentObjectsExistException {
 		List<Lo> los = getLosByLoCategory(loCategoryId);
-		if (null != los & ! los.isEmpty()) {
+		if (null != los && !los.isEmpty()) {
 			throw new DependentObjectsExistException("LoCategory(" + loCategoryId + ") still has " + los.size() + " Learning Objective(s) associated with it.");
 		}
 		delete(LoCategory.class, loCategoryId);

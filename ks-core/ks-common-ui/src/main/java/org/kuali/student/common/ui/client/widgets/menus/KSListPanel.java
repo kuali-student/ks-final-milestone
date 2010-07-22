@@ -15,8 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets.menus;
 
-import java.util.LinkedList;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -33,8 +31,6 @@ public class KSListPanel extends ComplexPanel {
 
 	private final ListType listType;
 	private final Element listElement;
-	private final LinkedList<Widget> widgets = new LinkedList<Widget>();
-
 	public KSListPanel() {
 		this(ListType.UNORDERED);
 	}
@@ -68,9 +64,8 @@ public class KSListPanel extends ComplexPanel {
 	@Override
 	public boolean remove(final int index) {
 		final Widget w = super.getWidget(index);
-		final Element e = w.getElement();
 		final boolean result = super.remove(index);
-		
+
 		return result;
 	}
 
@@ -88,8 +83,8 @@ public class KSListPanel extends ComplexPanel {
 		for(int i = 0; i < listElement.getChildNodes().getLength(); i++){
 			listElement.removeChild(listElement.getChildNodes().getItem(i));
 		}
-		
+
 	}
-	
-	
+
+
 }

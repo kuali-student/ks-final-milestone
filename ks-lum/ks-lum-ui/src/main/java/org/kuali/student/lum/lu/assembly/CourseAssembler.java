@@ -31,7 +31,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -87,7 +87,6 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
-import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -312,7 +311,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				result.getTermsOffered().add(atpType);
 			}
 
-			result.setFirstExpectedOffering(new String());
+			result.setFirstExpectedOffering("");
 			String atp = course.getExpectedFirstAtp();
 			if (atp != null && !atp.isEmpty()) {
 				result.setFirstExpectedOffering(atp);
@@ -321,6 +320,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
 			if (instr != null) {
 				result.setPrimaryInstructor(instr.getPersonId());
+			}
+			
+			for (CluInstructorInfo instructor : course.getInstructors()) {
+				result.getInstructors().add(instructor.getPersonId());
 			}
 			result.setState(course.getState());
 			result.setSubjectArea(course.getOfficialIdentifier().getDivision());
@@ -411,7 +414,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 
 	private void buildRelatedCourse(CluInfoHierarchy currentClu, RelationshipHierarchy currentRel) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		System.out.println("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
+		LOG.info("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
@@ -554,6 +557,20 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				courseClu.setPrimaryInstructor(instr);
 			}
 			instr.setPersonId(instrId);
+			
+			if (course.getInstructors() != null) {
+				for (Data.Property p : course.getInstructors()) {
+					if(!"_runtimeData".equals(p.getKey())){
+						String instructorId = p.getValue();
+						CluInstructorInfo instructor = new CluInstructorInfo();
+						instructor.setPersonId(instructorId);
+						if (courseClu.getInstructors() == null) {
+							courseClu.setInstructors(new ArrayList<CluInstructorInfo>());
+						}
+						courseClu.getInstructors().add(instructor);
+					}
+				}
+			}
 
 			//AuthzCheck
 			if(courseMetadata.getProperties().get("department").getWriteAccess()!=WriteAccess.NEVER){
@@ -768,7 +785,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			rel.setRelatedCluId(input.getCluInfo().getId());
 			rel.setType(input.getParentRelationType());
 			rel.setState(input.getParentRelationState());
-			System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
+			LOG.info("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
 			try {
 				luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
 			} catch (CircularRelationshipException e) {
@@ -1272,7 +1289,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		if (luData.getRuleInfos() != null && !luData.getRuleInfos().isEmpty()) {
 			Data statements = new Data();
 			for (RuleInfo r : luData.getRuleInfos()) {
-			   statements.add(r.getNaturalLanguage());	
+			   statements.add(r.getNaturalLanguageForRuleEdit());	
 			}
 			data.set("statements",statements);
 		}

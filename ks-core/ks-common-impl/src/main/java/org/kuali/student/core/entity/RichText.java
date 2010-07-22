@@ -30,10 +30,10 @@ public class RichText {
 	@Id
 	private String id;
 
-	@Column(name = "PLAIN",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "PLAIN",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String plain;
 
-	@Column(name = "FORMATTED",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "FORMATTED",length=KSEntityConstants.SHORT_TEXT_LENGTH)
 	private String formatted;
 
 	/**

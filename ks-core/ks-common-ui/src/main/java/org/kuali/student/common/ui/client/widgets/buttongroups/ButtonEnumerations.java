@@ -17,25 +17,45 @@ package org.kuali.student.common.ui.client.widgets.buttongroups;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 
 public class ButtonEnumerations {
     public interface ButtonEnum{
         public String getText();
+        public ButtonStyle getStyle();
+        public ButtonEnum getActionType();
+        public ButtonEnum getCancelType();
     };
 
     final static ApplicationContext context = Application.getApplicationContext();
 
     public static enum OkEnum implements ButtonEnum{Ok;
 
-    @Override
-    public String getText() {
-        switch(this){
-            case Ok:
-                return "Ok";
+        @Override
+        public String getText() {
+            switch(this){
+                case Ok:
+                    return "Ok";
+            }
+            return null;  
         }
-        return null;  
-    }
+    
+    	@Override
+    	public ButtonStyle getStyle() {
+    		return ButtonStyle.PRIMARY;
+    	}
+    
+        @Override
+        public ButtonEnum getActionType() {
+            return Ok;
+        }
+    
+        @Override
+        public ButtonEnum getCancelType() {
+            return Ok;
+        }
+	
     };
 
 
@@ -51,7 +71,21 @@ public class ButtonEnumerations {
         }
         return null;  
     }
-    };
+	@Override
+	public ButtonStyle getStyle() {
+		return ButtonStyle.PRIMARY;
+	}
+	
+    @Override
+    public ButtonEnum getActionType() {
+        return YES;
+    }
+
+    @Override
+    public ButtonEnum getCancelType() {
+        return NO;
+    }
+    }; 
 
     public static enum ConfirmCancelEnum implements ButtonEnum{CONFIRM, CANCEL;
 
@@ -65,7 +99,26 @@ public class ButtonEnumerations {
         }
         return null;  
     }
+	@Override
+	public ButtonStyle getStyle() {
+        switch(this){
+        case CONFIRM:
+            return ButtonStyle.PRIMARY;
+        case CANCEL:
+            return ButtonStyle.DEFAULT_ANCHOR;
+        }
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return CONFIRM;
+    }
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
+    }	
     };
+    
 
     public static enum YesNoCancelEnum implements ButtonEnum{YES, NO, CANCEL;
 
@@ -80,6 +133,19 @@ public class ButtonEnumerations {
                 return context.getMessage("cancel");
         }
         return null;  
+    }
+	@Override
+	public ButtonStyle getStyle() {
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return YES;
+    }
+
+    @Override
+    public ButtonEnum getCancelType() {
+        return NO;
     }
     };
 
@@ -97,6 +163,19 @@ public class ButtonEnumerations {
         }
         return null;  
     }
+	@Override
+	public ButtonStyle getStyle() {
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return null;
+    }
+
+    @Override
+    public ButtonEnum getCancelType() {
+        return null;
+    }	
     };
 
     public static enum SendCancelEnum implements ButtonEnum{SEND, CANCEL;
@@ -111,6 +190,19 @@ public class ButtonEnumerations {
         }
         return null;  
     }
+	@Override
+	public ButtonStyle getStyle() {
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return SEND;
+    }
+
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
+    }	
     };
 
     public static enum GoCancelEnum implements ButtonEnum{GO, CANCEL;
@@ -124,6 +216,19 @@ public class ButtonEnumerations {
                 return context.getMessage("cancel");
         }
         return null;  
+    }
+	@Override
+	public ButtonStyle getStyle() {
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return GO;
+    }
+
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
     }
     };
     
@@ -139,19 +244,50 @@ public class ButtonEnumerations {
         }
         return null;  
     }
+	@Override
+	public ButtonStyle getStyle() {
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return CREATE;
+    }
+
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
+    }
     };
     
     public static enum SearchCancelEnum implements ButtonEnum{SEARCH, CANCEL;
 
-    @Override
-    public String getText() {
-        switch(this){
-            case SEARCH:
-                return context.getMessage("search");
-            case CANCEL:
-                return context.getMessage("cancel");
+        @Override
+        public String getText() {
+            switch(this){
+                case SEARCH:
+                    return context.getMessage("search");
+                case CANCEL:
+                    return context.getMessage("cancel");
+            }
+            return null;  
         }
-        return null;  
-    }
+    	@Override
+        public ButtonStyle getStyle() {
+            switch(this){
+            case SEARCH:
+                return ButtonStyle.PRIMARY;
+            case CANCEL:
+                return ButtonStyle.DEFAULT_ANCHOR;
+            }
+            return ButtonStyle.PRIMARY;
+        }
+        @Override
+        public ButtonEnum getActionType() {
+            return SEARCH;
+        }
+        @Override
+        public ButtonEnum getCancelType() {
+            return CANCEL;
+        }    	    	
     };
 }

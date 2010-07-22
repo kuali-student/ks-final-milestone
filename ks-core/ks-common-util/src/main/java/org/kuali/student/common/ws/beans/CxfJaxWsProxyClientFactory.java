@@ -15,13 +15,9 @@
 
 package org.kuali.student.common.ws.beans;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.ws.security.handler.WSHandlerConstants;
 import org.kuali.student.security.cxf.interceptors.SamlTokenCxfInInterceptor;
 
 public class CxfJaxWsProxyClientFactory extends JaxWsProxyFactoryBean implements JaxWsClientFactory {

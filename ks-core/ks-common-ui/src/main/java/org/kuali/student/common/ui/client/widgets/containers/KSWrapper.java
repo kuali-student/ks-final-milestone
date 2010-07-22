@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 
@@ -58,12 +59,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSWrapper extends Composite{
 
-    private final String LUM_APP_URL		= "lum.application.url";
-    private final String APP_URL			= "application.url";
-    private final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
-    private final String RICE_URL           = "ks.rice.url";
-    private final String RICE_LINK_LABEL	= "ks.rice.label";
-    private final String APP_VERSION		= "ks.application.version";
+    private static final String LUM_APP_URL		= "lum.application.url";
+    private static final String APP_URL			= "application.url";
+    private static final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
+    private static final String RICE_URL           = "ks.rice.url";
+    private static final String RICE_LINK_LABEL	= "ks.rice.label";
+    private static final String APP_VERSION		= "ks.application.version";
+    
+    //This property is used to append code server param to urls so links displayed in get dev mode works as intended
+    private static final String CODE_SERVER		= "ks.gwt.codeServer"; 
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
@@ -78,14 +82,8 @@ public class KSWrapper extends Composite{
 	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
 	private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
 
-	//TODO replace with raw link widget list
-	private List<KSLabel> headerLinkList = new ArrayList<KSLabel>();
-	private List<KSLabel> footerLinkList = new ArrayList<KSLabel>();
-
-	//TODO replace with raw link widget(?)
-	private KSLabel helpLabel = new KSLabel(getMessage("wrapperPanelHelp"));
+	private KSButton helpLabel = new KSButton(getMessage("wrapperPanelHelp"), ButtonStyle.DEFAULT_ANCHOR);
 	private KSImage helpImage = Theme.INSTANCE.getCommonImages().getHelpIcon();
-	//TODO
 	private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 	private SimplePanel content = new SimplePanel();
 
@@ -98,10 +96,11 @@ public class KSWrapper extends Composite{
     private String riceURL ="..";
     private String riceLinkLabel="Rice";
     private String appVersion = "";
+    private String codeServer = "";
 
     private boolean loaded = false;
 
-    public class WrapperNavigationHandler extends NavigationHandler{
+    private static class WrapperNavigationHandler extends NavigationHandler{
 
 		public WrapperNavigationHandler(String url) {
 			super(url);
@@ -123,7 +122,7 @@ public class KSWrapper extends Composite{
 	protected void onLoad() {
 		super.onLoad();
 		if (!loaded){
-			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION);
+			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION, CODE_SERVER);
 
 	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
 	            public void onFailure(Throwable caught) {
@@ -140,6 +139,10 @@ public class KSWrapper extends Composite{
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
+	                    
+	                    if (result.get(CODE_SERVER) != null){
+	                    	codeServer		= result.get(CODE_SERVER);
+	                    }
 	                }
 	                init();
 	            }
@@ -154,8 +157,7 @@ public class KSWrapper extends Composite{
 	private void init(){
 		headerBottomLinks.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		createUserDropDown();
-		headerBottomLinks.add(userDropDown);//Todo, put in current user
-		//headerBottomLinks.add(buildUserIdPanel());
+		headerBottomLinks.add(userDropDown);
 
 		createHelpInfo();
 		headerBottomLinks.add(helpLabel);
@@ -167,7 +169,7 @@ public class KSWrapper extends Composite{
 		}
 		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		createNavDropDown();
-		leftHeader.add(navDropDown);//TODO Put back in with operations
+		leftHeader.add(navDropDown);
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
@@ -219,7 +221,6 @@ public class KSWrapper extends Composite{
 
 	private void createUserDropDown() {
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-    	//TODO preferences real link here
     	items.add(new KSMenuItemData(getMessage("wrapperPanelSettings"),
     			new ClickHandler(){
 					public void onClick(ClickEvent event) {
@@ -246,11 +247,11 @@ public class KSWrapper extends Composite{
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleMyActionList"),Theme.INSTANCE.getCommonImages().getApplicationIcon(),
     			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"+(codeServer.isEmpty()?"":"?"+codeServer)))
     	);
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleCurriculumManagement"),Theme.INSTANCE.getCommonImages().getBookIcon(),
     			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"))
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"+(codeServer.isEmpty()?"":"&"+codeServer)))
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleOrg"), Theme.INSTANCE.getCommonImages().getPeopleIcon(),
     			new WrapperNavigationHandler(
@@ -281,7 +282,6 @@ public class KSWrapper extends Composite{
 	}
 
 	public void setHeaderCustomLinks(List<KSLabel> links){
-		headerLinkList = links;
 		for(KSLabel link: links){
 			FocusPanel panel = new FocusPanel();
 			panel.setWidget(link);
@@ -292,7 +292,6 @@ public class KSWrapper extends Composite{
 	}
 
 	public void setFooterLinks(List<KSLabel> links){
-		footerLinkList = links;
 		for(KSLabel link: links){
 			footer.add(link);
 			link.addStyleName("KS-Wrapper-Footer-Link");
@@ -301,7 +300,6 @@ public class KSWrapper extends Composite{
 
 
     private KSLabel buildLink(final String text, final String title, final String actionUrl) {
-        //TODO need to add the action for the link
 
         //Using KSLabel for now - couldn't change color for Anchor
         final KSLabel link = new KSLabel(text);
@@ -325,7 +323,6 @@ public class KSWrapper extends Composite{
 
             @Override
             public void onClick(ClickEvent event) {
-                //TODO need to set actionUrl
                 Window.Location.assign(actionUrl);
             }});
 
@@ -352,6 +349,7 @@ public class KSWrapper extends Composite{
 
 	        docSearchPanel.add(closeActionButton);
 	        docSearchDialog.setWidget(docSearchPanel);
+	        docSearchDialog.setSize(750, 550);
     	}
     }
 

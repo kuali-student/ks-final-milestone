@@ -82,6 +82,12 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private String expectedFirstAtp;
 
     @XmlElement
+    private String lastAtp;
+
+    @XmlElement
+    private String lastAdmitAtp;    
+    
+    @XmlElement
     private Date effectiveDate;
 
     @XmlElement
@@ -526,4 +532,20 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 	public void setExpectedFirstAtp(String expectedFirstAtp) {
 		this.expectedFirstAtp = expectedFirstAtp;
 	}
+
+    public String getLastAtp() {
+        return lastAtp;
+    }
+
+    public void setLastAtp(String lastAtp) {
+        this.lastAtp = lastAtp;
+    }
+
+    public String getLastAdmitAtp() {
+        return lastAdmitAtp;
+    }
+
+    public void setLastAdmitAtp(String lastAdmitAtp) {
+        this.lastAdmitAtp = lastAdmitAtp;
+    }	
 }
