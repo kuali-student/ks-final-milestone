@@ -4,8 +4,6 @@ svn copy -m "Creating ks-1.1-db branch" https://test.kuali.org/svn/student/branc
 set DB=ks-embedded-db
 call migrate-one-db %BASE_URL% %DB%
 
-pause
-
 set DB=ks-core-db
 call migrate-one-db %BASE_URL% %DB%
 
