@@ -437,12 +437,22 @@
 
 	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
 		<property name="luService" ref="luServiceImpl"/>
+		<property name="loService" ref="loServiceImpl"/>
+		<property name="statementService" ref="statementServiceImpl"/>
+		<property name="atpService" ref="atpServiceImpl"/>
+		<property name="orgService" ref="orgServiceImpl"/>
 	</bean>
 	
 	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
 		<property name="formatAssembler" ref="formatAssembler"/>
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
 		<property name="luService" ref="luServiceImpl"/>
+		<property name="loService" ref="loServiceImpl"/>
+		<property name="loAssembler" ref="loAssembler"/>
+	</bean>
+	
+	<bean id="loAssembler" class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+		<property name="loService" ref="loServiceImpl"/>
 	</bean>
 	
 	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
@@ -530,9 +540,30 @@
 						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.credits"/>-->
 						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.gradeCourseResult"/>
 						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.creditCourseResult"/>
+						<bean class="org.kuali.student.lum.lu.entity.CluLoRelationType" p:id="cluLuType.default"/>
+					</list>
+				</entry>
+				<entry key-ref="loEntityManager">
+					<list>
+						<bean class="org.kuali.student.lum.lo.entity.LoType" p:id="kuali.lo.type.singleUse" />
+						<bean class="org.kuali.student.lum.lo.entity.LoLoRelationType" p:id="kuali.lo.relation.type.includes" />
+						<ref bean="loCategoryType.skillarea"/>
+						<ref bean="loCatRepo"/>
 					</list>
 				</entry>
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="loCategoryType.skillarea" class="org.kuali.student.lum.lo.entity.LoCategoryType" p:id="loCategoryType.skillarea" />
+	<bean id="loCatRepo" class="org.kuali.student.lum.lo.entity.LoRepository" p:id="kuali.loRepository.key.singleUse">
+		<property name="categories">
+			<list>
+				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-1" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
+				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-2" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
+				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-3" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
+			</list>
+		</property>
+	</bean>
+	
 </beans>

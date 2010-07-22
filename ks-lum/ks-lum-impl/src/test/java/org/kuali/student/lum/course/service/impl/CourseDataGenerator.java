@@ -27,6 +27,7 @@ public class CourseDataGenerator {
 							CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /* CourseAssemblerConstants.COURSE_ACTIVITY_WEBDISCUSS_TYPE, */ // not in DB
 							CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE };
 	public static String subjectAreas[] = { "GEOG", "COMP", "BIOL", "ENGL", "SOCY" };
+	public static String loCategories[] = {"category-1","category-2"};
 	Random generator = new Random();
 
 	public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
@@ -129,6 +130,9 @@ public class CourseDataGenerator {
 	private String getStringValue(String name, String parentPropertyName,
 			Integer propertyIndex) {
 		if("id".equals(name)){
+			if("loCategoryInfoList".equals(parentPropertyName)){
+				return loCategories[propertyIndex%loCategories.length];
+			}
 			return null;
 		}
 		if("type".equals(name)){

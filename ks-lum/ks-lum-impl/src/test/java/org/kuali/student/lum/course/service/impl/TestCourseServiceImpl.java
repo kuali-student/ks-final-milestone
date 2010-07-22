@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -23,8 +24,11 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -230,6 +234,16 @@ public class TestCourseServiceImpl {
             
             createdCourse.setSpecialTopicsCourse(false);
             createdCourse.setPilotCourse(false);
+            
+            createdCourse.getCourseSpecificLOs().get(0).getLoInfo().getDesc().setPlain("UPDATED!!!");
+            createdCourse.getCourseSpecificLOs().remove(1);
+            LoDisplayInfo displayInfo = new LoDisplayInfo();
+            displayInfo.setLoInfo(new LoInfo());
+            displayInfo.getLoInfo().setDesc(new RichTextInfo());
+            createdCourse.getCourseSpecificLOs().add(displayInfo);
+            createdCourse.getCourseSpecificLOs().get(1).getLoInfo().getDesc().setPlain("BrandNew!!!");
+            createdCourse.getCourseSpecificLOs().get(1).getLoCategoryInfoList().add(new LoCategoryInfo());
+            createdCourse.getCourseSpecificLOs().get(1).getLoCategoryInfoList().get(0).setId("category-3");
             
             //Perform the update
             CourseInfo updatedCourse = courseService.updateCourse(createdCourse);

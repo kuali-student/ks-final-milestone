@@ -37,11 +37,15 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.lo.dto.LoInfo;
+import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
@@ -60,7 +64,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	private LuService luService;
 	private FormatAssembler formatAssembler;
 	private CourseJointAssembler courseJointAssembler;
-
+	private LoAssembler loAssembler;
+	private LearningObjectiveService loService;
+	
 	@Override
 	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo,
 			boolean shallowBuild) throws AssemblyException {
@@ -187,6 +193,21 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		// TODO: Variations
 		// course.setVariations(variations)
 
+		//Learning Objectives
+		try {
+			List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(clu.getId());
+			for(CluLoRelationInfo cluLoRelation:cluLoRelations){
+				String loId = cluLoRelation.getLoId();
+				LoInfo lo = loService.getLo(loId);
+				LoDisplayInfo loDisplay = loAssembler.assemble(lo, null, shallowBuild);
+				course.getCourseSpecificLOs().add(loDisplay);
+			}
+		} catch (DoesNotExistException e) {
+		} catch (Exception e) {
+			throw new AssemblyException("Error getting learning objectives", e);
+		}
+		
+		
 		return course;
 	}
 
@@ -295,6 +316,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				clu.getId(), course.getState(), course.getGradingOptions(), operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE, "Grading options", "Grading option");
 		result.getChildNodes().add(gradingOptions);
 		
+		//Use the LoAssembler to disassemble Los
+        try {
+    		List<BaseDTOAssemblyNode<?, ?>> loResults;
+    		loResults = disassembleLos(clu.getId(), course, operation);
+            result.getChildNodes().addAll(loResults);
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling los", e);
+        }
+		
 		//add the special topics code if it did not exist, or remove if it was not wanted
 		boolean alreadyHadSpecialTopicsCode = false;
 		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
@@ -334,7 +365,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return result;
 	}
 
-
 	private List<String> assembleCluResults(String courseResultType, List<CluResultInfo> cluResults) throws AssemblyException{
 		if(courseResultType==null){
 			throw new AssemblyException("courseResultType can not be null");
@@ -352,7 +382,107 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		return results;
 	}
+	
+	private List<BaseDTOAssemblyNode<?, ?>> disassembleLos(String cluId,
+			CourseInfo course, NodeOperation operation) throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
+		// Get the current formats and put them in a map of format id/relation
+		// id
+		Map<String, CluLoRelationInfo> currentCluLoRelations = new HashMap<String, CluLoRelationInfo>();
+		try {
+			List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
+			for(CluLoRelationInfo cluLoRelation:cluLoRelations){
+				if(CourseAssemblerConstants.COURSE_LO_COURSE_SPECIFIC_RELATION.equals(cluLoRelation.getType())){
+					currentCluLoRelations.put(cluLoRelation.getLoId(), cluLoRelation);
+				}
+			}
+		} catch (DoesNotExistException e) {
+		} catch (Exception e) {
+			throw new AssemblyException("Error finding related Los");
+		}
+		
+		// Loop through all the los in this clu
+		for(LoDisplayInfo loDisplay : course.getCourseSpecificLOs()){
+
+			// If this is a clu create/new lo update then all los will be created
+		    if (NodeOperation.CREATE == operation
+		            || (NodeOperation.UPDATE == operation &&  !currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId()))) {
+		        
+                // the lo does not exist, so create
+                // Assemble and add the lo
+                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+                        .disassemble(loDisplay, NodeOperation.CREATE);
+                results.add(loNode);
+
+                // Create the relationship and add it as well
+                CluLoRelationInfo relation = new CluLoRelationInfo();
+                relation.setCluId(cluId);
+                relation.setLoId(loNode.getNodeData().getId());
+                relation
+                        .setType(CourseAssemblerConstants.COURSE_LO_COURSE_SPECIFIC_RELATION);
+                relation.setState(course.getState());
+
+                BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
+                        null);
+                relationNode.setNodeData(relation);
+                relationNode.setOperation(NodeOperation.CREATE);
+
+                results.add(relationNode);
+            } else if (NodeOperation.UPDATE == operation
+					&& currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
+				// If the clu already has this lo, then just update the lo
+                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+                		.disassemble(loDisplay, NodeOperation.UPDATE);
+				results.add(loNode);
+
+				// remove this entry from the map so we can tell what needs to
+				// be deleted at the end
+				currentCluLoRelations.remove(loDisplay.getLoInfo().getId());
+			} else if (NodeOperation.DELETE == operation
+                    && currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
+			    
+                // Delete the Format and its relation
+				CluLoRelationInfo relationToDelete = currentCluLoRelations.get(loDisplay.getLoInfo().getId());
+                BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
+                        null);
+                relationToDeleteNode.setNodeData(relationToDelete);
+                relationToDeleteNode.setOperation(NodeOperation.DELETE);
+                results.add(relationToDeleteNode);
+            
+                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+        				.disassemble(loDisplay, NodeOperation.DELETE);
+                results.add(loNode);                                
+
+                // remove this entry from the map so we can tell what needs to
+                // be deleted at the end
+                currentCluLoRelations.remove(loDisplay.getLoInfo().getId());			    
+			}
+		}         
+
+        // Now any leftover lo ids are no longer needed, so delete
+        // los and relations
+        for (Entry<String, CluLoRelationInfo> entry : currentCluLoRelations.entrySet()) {
+            // Create a new relation with the id of the relation we want to
+            // delete
+        	CluLoRelationInfo relationToDelete = entry.getValue();
+            BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
+                    null);
+            relationToDeleteNode.setNodeData(relationToDelete);
+            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+            results.add(relationToDeleteNode);
+
+            LoInfo loToDelete = loService.getLo(entry.getKey());
+            LoDisplayInfo loDisplayToDelete = loAssembler.assemble(loToDelete, null, false);
+            BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+            		.disassemble(loDisplayToDelete, NodeOperation.DELETE);
+            results.add(loNode);                                            
+        }
+		
+		return results;
+	}
+	
 	private BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
 			String courseState, List<String> options, NodeOperation operation, String courseResultType, 
 			String resultsDescription, String resultDescription) throws AssemblyException {
@@ -651,5 +781,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	public void setCourseJointAssembler(
 			CourseJointAssembler courseJointAssembler) {
 		this.courseJointAssembler = courseJointAssembler;
+	}
+
+	public void setLoAssembler(LoAssembler loAssembler) {
+		this.loAssembler = loAssembler;
+	}
+
+	public void setLoService(LearningObjectiveService loService) {
+		this.loService = loService;
 	}
 }
