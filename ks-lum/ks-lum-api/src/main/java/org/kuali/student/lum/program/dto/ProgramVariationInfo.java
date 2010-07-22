@@ -57,9 +57,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String referenceURL;
 
     @XmlElement
-    private List<CluInstructorInfo> publishedInstructors;
-
-    @XmlElement
     private String code;
 
     @XmlElement
@@ -75,7 +72,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String selectiveEnrollmentCode;
 
     @XmlElement
-    private List<ResultOptionInfo> resultOptions;
+    private List<String> resultOptions;
 
     @XmlElement
     private String startTerm;
@@ -185,20 +182,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * Instructors associated with this Variation. This may not be an exhaustive list, and instead may only be used to indicate potential instructors in publication.
-     */
-    public List<CluInstructorInfo> getPublishedInstructors() {
-        if (publishedInstructors == null) {
-            publishedInstructors = new ArrayList<CluInstructorInfo>(0);
-        }
-        return publishedInstructors;
-    }
-
-    public void setPublishedInstructors(List<CluInstructorInfo> publishedInstructors) {
-        this.publishedInstructors = publishedInstructors;
-    }
-
-    /**
      * The composite string that is used to officially reference or publish the Variation. Note it may have an internal structure that each Institution may want to enforce.
      */
     public String getCode() {
@@ -253,17 +236,12 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
 
-    /**
-     * Result outcomes from taking the Variation. This list is a subset of the outcomes in the associated Major
-     */
-    public List<ResultOptionInfo> getResultOptions() {
-        if (resultOptions == null) {
-            resultOptions = new ArrayList<ResultOptionInfo>(0);
-        }
+    
+    public List<String> getResultOptions() {
         return resultOptions;
     }
 
-    public void setResultOptions(List<ResultOptionInfo> resultOptions) {
+    public void setResultOptions(List<String> resultOptions) {
         this.resultOptions = resultOptions;
     }
 
