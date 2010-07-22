@@ -21,7 +21,7 @@
           <execution>
             <id>generate-oracle-sql</id>
             <goals>
-              <goal>schemasql</goal>cd
+              <goal>schemasql</goal>
             </goals>
             <configuration>
               <targetDatabase>oracle</targetDatabase>
