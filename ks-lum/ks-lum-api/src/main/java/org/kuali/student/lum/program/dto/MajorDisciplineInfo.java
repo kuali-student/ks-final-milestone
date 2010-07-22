@@ -34,6 +34,7 @@ import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 /**
@@ -82,9 +83,12 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlElement
     private String selectiveEnrollmentCode;
+        
+    @XmlElement
+    private List<String> resultOptions;
 
     @XmlElement
-    private List<ResultOptionInfo> resultOptions;
+    private TimeAmountInfo stdDuration;
 
     @XmlElement
     private String startTerm;
@@ -93,8 +97,11 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private String endTerm;
 
     @XmlElement
-    private String lastAdmitTerm;
+    private String endProgramEntryTerm;
 
+    @XmlElement
+    private String nextReviewPeriod;
+    
     @XmlElement
     private Date effectiveDate;
 
@@ -124,6 +131,12 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlElement
     private List<String> programRequirements;
+
+    @XmlElement
+    private AdminOrgInfo institution;
+
+    @XmlElement
+    private List<AdminOrgInfo> accreditingAgencies;    
 
     @XmlElement
     private List<AdminOrgInfo> divisionsContentOwner;    
@@ -297,21 +310,7 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
         this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
-
-    /**
-     * Result outcomes from taking the Major. This list is a subset of the outcomes in the associated credential program e.g B.A, B.S
-     */
-    public List<ResultOptionInfo> getResultOptions() {
-        if (resultOptions == null) {
-            resultOptions = new ArrayList<ResultOptionInfo>(0);
-        }
-        return resultOptions;
-    }
-
-    public void setResultOptions(List<ResultOptionInfo> resultOptions) {
-        this.resultOptions = resultOptions;
-    }
-
+    
     /**
      * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Major.
      */
@@ -333,16 +332,13 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     public void setEndTerm(String endTerm) {
         this.endTerm = endTerm;
     }
-
-    /**
-     * The last academic time period that this Major would be available for enrollment. This may not reflect the last "real" academic time period for this Major.
-     */
-    public String getLastAdmitTerm() {
-        return lastAdmitTerm;
+    
+    public String getNextReviewPeriod() {
+        return nextReviewPeriod;
     }
 
-    public void setLastAdmitTerm(String lastAdmitTerm) {
-        this.lastAdmitTerm = lastAdmitTerm;
+    public void setNextReviewPeriod(String nextReviewPeriod) {
+        this.nextReviewPeriod = nextReviewPeriod;
     }
 
     /**
@@ -389,9 +385,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
         this.transcriptTitle = transcriptTitle;
     }
 
-    /**
-     * 
-     */
     public String getDiplomaTitle() {
         return diplomaTitle;
     }
@@ -458,6 +451,46 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
             programRequirements = new ArrayList<String>(0);
         }
         return programRequirements;
+    }
+
+    public List<String> getResultOptions() {
+        return resultOptions;
+    }
+
+    public void setResultOptions(List<String> resultOptions) {
+        this.resultOptions = resultOptions;
+    }
+
+    public TimeAmountInfo getStdDuration() {
+        return stdDuration;
+    }
+
+    public void setStdDuration(TimeAmountInfo stdDuration) {
+        this.stdDuration = stdDuration;
+    }
+
+    public String getEndProgramEntryTerm() {
+        return endProgramEntryTerm;
+    }
+
+    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
+        this.endProgramEntryTerm = endProgramEntryTerm;
+    }
+
+    public AdminOrgInfo getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(AdminOrgInfo institution) {
+        this.institution = institution;
+    }
+
+    public List<AdminOrgInfo> getAccreditingAgencies() {
+        return accreditingAgencies;
+    }
+
+    public void setAccreditingAgencies(List<AdminOrgInfo> accreditingAgencies) {
+        this.accreditingAgencies = accreditingAgencies;
     }
 
     public void setProgramRequirements(List<String> programRequirements) {
