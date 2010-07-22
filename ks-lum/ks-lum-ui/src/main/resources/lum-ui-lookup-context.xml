@@ -689,6 +689,7 @@
 		<property name="desc" value="Search for cluSets" />
 		<property name="widget" value="SUGGEST_BOX"/>
 		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
 		<property name="resultSortKey" value="" />
 		<property name="results">
 			<list>
@@ -1134,6 +1135,7 @@
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
 		<property name="resultSortKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
 		<property name="results">
 			<list>
 				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
