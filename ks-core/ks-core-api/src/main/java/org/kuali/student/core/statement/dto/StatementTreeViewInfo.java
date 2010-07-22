@@ -58,6 +58,12 @@ public class StatementTreeViewInfo implements Serializable, Idable, HasTypeState
     private String id;
     @XmlAttribute
     private String parentId;
+    /**
+     * <code>naturalLanguageTranslation</code> attribute is a read-only 
+     * attribute which generated on-the-fly and should not be persisted.
+     */
+    @XmlAttribute
+    private String naturalLanguageTranslation;
     
     @Override
     public String getId() {
@@ -153,9 +159,16 @@ public class StatementTreeViewInfo implements Serializable, Idable, HasTypeState
         this.parentId = parentId;
     }
 
+	public String getNaturalLanguageTranslation() {
+		return naturalLanguageTranslation;
+	}
+
+	public void setNaturalLanguageTranslation(String naturalLanguageTranslation) {
+		this.naturalLanguageTranslation = naturalLanguageTranslation;
+	}
+
 	@Override
 	public String toString() {
 		return "StatementTreeViewInfo[id=" + id + "]";
 	}
-    
 }

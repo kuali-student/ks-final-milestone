@@ -1078,6 +1078,58 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
+    public void testGetStatementTreeViewForNlUsageType() throws Exception {
+        // Tree structure should be:
+        //                          STMT-TV-1:OR
+        //          STMT-TV-2:AND                   STMT-TV-3:AND
+        //     REQCOMP-TV-1  REQCOMP-TV-2      REQCOMP-TV-3  REQCOMP-TV-4
+    	//
+    	// Statement translation:
+    	// (Student must have completed all of MATH 152, MATH 180 AND Student needs a minimum GPA of 3.5 in MATH 152, MATH 180)
+    	// OR
+    	// (Student must have completed 1 of MATH 152, MATH 180 AND Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)
+
+        StatementTreeViewInfo rootTreeView = statementService.getStatementTreeViewForNlUsageType("STMT-TV-1", "KUALI.RULEEDIT", "en");
+
+        List<StatementTreeViewInfo> subTreeView = rootTreeView.getStatements();
+        StatementTreeViewInfo subTree1 = (subTreeView == null)? null : subTreeView.get(0);
+        StatementTreeViewInfo subTree2 = (subTreeView == null)? null : subTreeView.get(1);
+
+        // root statement
+        assertNotNull(rootTreeView);
+        assertEquals(subTreeView.size(), 2);
+        assertNotNull(subTree1);
+        assertNotNull(subTree2);
+
+        // check reqComps of sub-tree 1
+        assertEquals(subTree1.getId(), "STMT-TV-2");
+        assertEquals(subTree1.getReqComponents().size(), 2);
+        assertEquals(subTree1.getReqComponents().get(0).getId(), "REQCOMP-TV-1");
+        assertEquals(subTree1.getReqComponents().get(1).getId(), "REQCOMP-TV-2");
+        assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
+        assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
+        assertEquals("Student must have completed all of MATH 152, MATH 180 " +
+        		"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", 
+        		subTree1.getNaturalLanguageTranslation());
+
+        // check reqComps of sub-tree 2
+        assertEquals(subTree2.getId(), "STMT-TV-3");
+        assertEquals(subTree2.getReqComponents().size(), 2);
+        assertEquals(subTree2.getReqComponents().get(0).getId(), "REQCOMP-TV-3");
+        assertEquals(subTree2.getReqComponents().get(1).getId(), "REQCOMP-TV-4");
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
+        assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
+        		"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", 
+        		subTree2.getNaturalLanguageTranslation());
+
+        assertEquals(
+        		"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
+        		"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)", 
+        		rootTreeView.getNaturalLanguageTranslation());
+    }
+
+    @Test
     public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //     After tree is updated
         //                          STMT-TV-1:OR
