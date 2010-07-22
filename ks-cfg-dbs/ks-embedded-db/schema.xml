@@ -4114,6 +4114,7 @@
     <table name="KSLU_LO_JN_LOCATEGORY">
         <column name="LO_ID" required="true" size="255" type="VARCHAR"/>
         <column name="LOCATEGORY_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LO_CATEGORY" name="FK931B812ECF832A9B">
             <reference foreign="ID" local="LOCATEGORY_ID"/>
         </foreign-key>
