@@ -28,7 +28,8 @@
                     -->
                 <ref bean="majorDisciplineInfo.startTerm"/>
                 <ref bean="majorDisciplineInfo.endTerm"/>
-                <ref bean="majorDisciplineInfo.lastAdmitTerm"/>
+                <ref bean="majorDisciplineInfo.endProgramEntryTerm"/>
+                <ref bean="majorDisciplineInfo.nextReviewPeriod"/>
                 <ref bean="majorDisciplineInfo.effectiveDate"/>
                 <ref bean="majorDisciplineInfo.shortTitle"/>
                 <ref bean="majorDisciplineInfo.longTitle"/>
@@ -42,6 +43,9 @@
                 <ref bean="majorDisciplineInfo.type"/>
                 <ref bean="majorDisciplineInfo.state"/>
                 <!-- Dynamic Attributes -->
+                <ref bean="majorDisciplineInfo.lastReviewDate"/>
+                <ref bean="majorDisciplineInfo.isVariationRequired"/>
+                <ref bean="majorDisciplineInfo.endInstAdmitTerm"/>
                 <!--
                     <ref bean="majorDisciplineInfo.somethingSomethingSomethingDynamic" />
                 -->
@@ -123,10 +127,15 @@
     </bean>
     <bean id="majorDisciplineInfo.endTerm" parent="majorDisciplineInfo.endTerm-parent"/>
 
-    <bean id="majorDisciplineInfo.lastAdmitTerm-parent" abstract="true" parent="baseSingleString">
-        <property name="name" value="lastAdmitTerm"/>
+    <bean id="majorDisciplineInfo.endProgramEntryTerm-parent" abstract="true" parent="baseSingleString">
+        <property name="name" value="endProgramEntryTerm"/>
     </bean>
-    <bean id="majorDisciplineInfo.lastAdmitTerm" parent="majorDisciplineInfo.lastAdmitTerm-parent"/>
+    <bean id="majorDisciplineInfo.endProgramEntryTerm" parent="majorDisciplineInfo.endProgramEntryTerm-parent"/>
+
+    <bean id="majorDisciplineInfo.nextReviewPeriod-parent" abstract="true" parent="baseSingleString">
+        <property name="name" value="endProgramEntryTerm"/>
+    </bean>
+    <bean id="majorDisciplineInfo.nextReviewPeriod" parent="majorDisciplineInfo.nextReviewPeriod-parent"/>
 
     <bean id="majorDisciplineInfo.effectiveDate-parent" abstract="true"
           parent="baseSingleDate">
@@ -208,7 +217,6 @@
             <list>
                 <ref bean="programVariationInfo.intensity"/>
                 <ref bean="programVariationInfo.referenceURL"/>
-                <ref bean="programVariationInfo.publishedInstructors"/>
                 <ref bean="programVariationInfo.code"/>
                 <ref bean="programVariationInfo.cipCode"/>
                 <ref bean="programVariationInfo.hegisCode"/>
@@ -246,15 +254,6 @@
         <property name="name" value="referenceURL"/>
     </bean>
     <bean id="programVariationInfo.referenceURL" parent="programVariationInfo.referenceURL-parent"/>
-
-    <bean id="programVariationInfo.publishedInstructors-parent" abstract="true"
-          parent="baseRepeatingComplex">
-        <property name="name" value="publishedInstructors"/>
-        <!-- I think we should be able to use course's as-is -->
-        <property name="dataObjectStructure"
-                  ref="org.kuali.student.lum.lu.dto.CluInstructorInfo"/>
-    </bean>
-    <bean id="programVariationInfo.publishedInstructors" parent="programVariationInfo.publishedInstructors-parent"/>
 
     <bean id="programVariationInfo.code-parent" abstract="true" parent="baseSingleString">
         <property name="name" value="code"/>
@@ -369,5 +368,25 @@
     </bean>
     <bean id="programVariationInfo.state" parent="programVariationInfo.state-parent"/>
     <!-- end ProgramVariationInfo-->
+
+	<!--  Dynamic Attributes: Major Discipline Info  -->
+    <bean id="majorDisciplineInfo.lastReviewDate-parent" abstract="true"
+          parent="baseSingleDate">
+        <property name="name" value="lastReviewDate"/>
+        <property name="dynamic" value="true"/>
+    </bean>
+    <bean id="majorDisciplineInfo.lastReviewDate" parent="majorDisciplineInfo.lastReviewDate-parent"/>
+	
+    <bean id="majorDisciplineInfo.isVariationRequired-parent" abstract="true" parent="baseSingleString">
+        <property name="name" value="isVariationRequired"/>
+        <property name="dynamic" value="true"/>
+    </bean>
+    <bean id="majorDisciplineInfo.isVariationRequired" parent="majorDisciplineInfo.isVariationRequired-parent"/>
+
+    <bean id="majorDisciplineInfo.endInstAdmitTerm-parent" abstract="true" parent="baseSingleString">
+        <property name="name" value="endInstAdmitTerm"/>
+        <property name="dynamic" value="true"/>
+    </bean>
+    <bean id="majorDisciplineInfo.endInstAdmitTerm" parent="majorDisciplineInfo.endInstAdmitTerm-parent"/>
 
 </beans>
