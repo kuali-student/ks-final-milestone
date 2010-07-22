@@ -86,7 +86,7 @@ public class ProgramInformationConfiguration extends AbstractConfiguration<Progr
         configurer.addField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()), new KSLabel());
         configurer.addField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditingAgency()), new KSLabel());
         configurer.addField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()), new KSLabel());
-        configurer.addField(section, ProgramConstants.DESCRIPTION, new MessageKeyInfo(ProgramProperties.get().programInformation_programDescription()), new HTML());
+        configurer.addField(section, ProgramConstants.DESCRIPTION_FORMATTED, new MessageKeyInfo(ProgramProperties.get().programInformation_programDescription()), new HTML());
         configurer.addField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().programInformation_moreInformation()), new KSLabel());
         showView.addSection(section);
     }

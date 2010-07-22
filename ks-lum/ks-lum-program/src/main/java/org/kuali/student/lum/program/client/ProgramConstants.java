@@ -11,7 +11,7 @@ public class ProgramConstants {
     public static final String PROGRAM_LEVEL = "programLevel";
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
     public static final String DEGREE_TYPE = "";
-    public static final String FULL_PART_TIME = "";
+    public static final String FULL_PART_TIME = "intensity";
     public static final String DURATION = "";
     public static final String TRANSCRIPT = "transcriptTitle";
     public static final String DIPLOMA = "diplomaTitle";
@@ -22,6 +22,7 @@ public class ProgramConstants {
     public static final String LOCATION = "campusLocations";
     public static final String ACCREDITING_AGENCY = "accreditingAgency";
     public static final String INSTITUTION = "institution";
+    public static final String DESCRIPTION_FORMATTED = "descr/formatted";
     public static final String DESCRIPTION = "descr";
-    public static final String MORE_INFORMATION = "referenceUrl";
+    public static final String MORE_INFORMATION = "referenceURL";
 }
