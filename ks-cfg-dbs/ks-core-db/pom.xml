@@ -9,13 +9,20 @@
   <name>KS Core DB</name>
   <description>Kuali Student Core Database</description>
   <build>
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/generated-impex</directory>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/generated-sql</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <configuration>
-          <schemaDir>${basedir}/target/generated-impex</schemaDir>
-          <targetDatabase>oracle</targetDatabase>
+          <schemaDir>${project.build.directory}/generated-impex</schemaDir>
         </configuration>
         <executions>
           <execution>
