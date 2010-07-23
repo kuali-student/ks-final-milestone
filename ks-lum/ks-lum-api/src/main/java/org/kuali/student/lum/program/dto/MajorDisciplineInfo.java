@@ -35,6 +35,7 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 /**
@@ -136,7 +137,7 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private AdminOrgInfo institution;
 
     @XmlElement
-    private List<AdminOrgInfo> accreditingAgencies;    
+    private List<AccreditationInfo> accreditingAgencies;    
 
     @XmlElement
     private List<AdminOrgInfo> divisionsContentOwner;    
@@ -485,11 +486,11 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
         this.institution = institution;
     }
 
-    public List<AdminOrgInfo> getAccreditingAgencies() {
+    public List<AccreditationInfo> getAccreditingAgencies() {
         return accreditingAgencies;
     }
 
-    public void setAccreditingAgencies(List<AdminOrgInfo> accreditingAgencies) {
+    public void setAccreditingAgencies(List<AccreditationInfo> accreditingAgencies) {
         this.accreditingAgencies = accreditingAgencies;
     }
 
