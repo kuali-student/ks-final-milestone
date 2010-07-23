@@ -71,7 +71,7 @@ public class HomeMenuController extends Controller{
     public static String MODIFY_PROGRAM = "Modify a Program";
     public static String RETIRE_COURSE = "Retire a Course";
     public static String RETIRE_PROGRAM = "Retire a Program";
-    public static String FIND = "Find Course or Proposal";
+    public static String FIND = "Find Proposal, Course or Major";
     
     private MenuItemPanel creditCourse = new MenuItemPanel(CREATE_CREDIT_COURSE);
     private MenuItemPanel nonCreditCourse = new MenuItemPanel(CREATE_NON_CREDIT_COURSE);

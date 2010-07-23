@@ -62,6 +62,7 @@ public class FindPanel extends ViewComposite{
         if (!loaded){
             addIfPermitted(PermissionType.SEARCH, "Courses");
             addIfPermitted(PermissionType.SEARCH, "Proposals");
+            addIfPermitted(PermissionType.SEARCH, "Majors");
             loaded = true;
         }
         onReadyCallback.exec(true);
@@ -82,6 +83,8 @@ public class FindPanel extends ViewComposite{
                 if(result) {
                     if (searchType.equals("Courses")) {
                         addCourseSearchWindow(); 
+                    } else if (searchType.equals("Majors")) {
+                        addMajorSearchWindow(); 
                     } else {
                         addProposalSearchWindow();
                     }
@@ -132,6 +135,31 @@ public class FindPanel extends ViewComposite{
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
                         FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
+                    }                    
+                });
+                mainPanel.add(proposalSearchWindow);
+            }
+        });       
+    }
+    
+    private void addMajorSearchWindow(){
+        
+        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
+            }
+            @Override
+            public void onSuccess(Metadata metadata) {
+                metadata = metadata.getProperties().get("findMajor");                
+                KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+                proposalSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+                    public void onValueChange(ValueChangeEvent<List<String>> event) {
+                        List<String> selection = (List<String>)event.getValue();
+                        ViewContext viewContext = new ViewContext();
+                        viewContext.setId(selection.get(0));
+                        viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+                        FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_MAJOR_DISCIPLINE, viewContext));
                     }                    
                 });
                 mainPanel.add(proposalSearchWindow);
