@@ -20,6 +20,8 @@ import java.util.LinkedList;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -41,7 +43,8 @@ public class KSBlockingProgressIndicator{
 	private static KSLightBox popupIndicator;
 
 	private static boolean initialized = false;
-
+    private static int width = 400;
+    private static int height = 100;
 	/**
 	 * Initializes the blocking progress indicator.  This must be called before
 	 * blocking task are added.
@@ -52,9 +55,12 @@ public class KSBlockingProgressIndicator{
 
 		mainPanel.add(listPanel);
 
+		//popupIndicator = new KSLightBox(false);
 		popupIndicator = new KSLightBox(false);
-
+		//popupIndicator.setShowCloseLink(false);
+		
 		popupIndicator.setWidget(mainPanel);
+	//	popupIndicator.setSize(400, 50);
 		setupDefaultStyle();
 		initialized = true;
 	}
@@ -82,28 +88,33 @@ public class KSBlockingProgressIndicator{
 		} else {
 			updateIndicator();
 		}
-
 	}
-
+    public static void setSize(final int w, final int h) {
+     width = w;
+     height = h;
+    }
 	private static void updateIndicator() {
 
-		showIndicator();
 		listPanel.clear();
-		KSImage kSImage = new KSImage("images/common/twiddler3.gif");
+		int i=1;
 		for(BlockingTask task: tasks){
 			HorizontalPanel taskPanel = new HorizontalPanel();
-			taskPanel.add(new Label(task.getDescription()));
+		    KSImage kSImage = new KSImage("images/common/twiddler3.gif");
+
 			taskPanel.add(kSImage);
-			taskPanel.addStyleName("KS-Blocking-Task-Item");
+			taskPanel.add(new Label(task.getDescription()));
+			//taskPanel.addStyleName("KS-Blocking-Task-Item");
+			height =  25*(i++);
+			//listPanel.setSize(300, )
 			listPanel.add(taskPanel);
 		}
-
+        showIndicator();		
 	}
-
 	private static void showIndicator(){
 		if(!initialized){
 			initialize();
 		}
+		popupIndicator.setSize(width, height);
 		popupIndicator.show();
 	}
 
@@ -116,5 +127,4 @@ public class KSBlockingProgressIndicator{
 		mainPanel.addStyleName("KS-Blocking-Task-Main");
 		mainPanel.addStyleName("KS-Mouse-Normal");
 	}
-
 }

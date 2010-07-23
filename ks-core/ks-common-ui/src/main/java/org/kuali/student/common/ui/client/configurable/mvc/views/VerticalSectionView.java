@@ -16,13 +16,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
-
-import com.google.gwt.user.client.Window;
 
 public class VerticalSectionView extends SectionView{
 
@@ -34,32 +28,7 @@ public class VerticalSectionView extends SectionView{
         layout = new VerticalFieldLayout(sectionTitle);
         this.add(layout);
     }
-	
-    @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback){
-        super.beforeShow(new Callback<Boolean>() {
-			@Override
-			public void exec(Boolean result) {
-		        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
-		            @Override
-		            public void onRequestFail(Throwable cause) {
-		                Window.alert("Failed to get model: " + getName());
-		                onReadyCallback.exec(false);
-		            }
-
-		            @Override
-		            public void onModelReady(DataModel m) {
-		                model = m;
-		                updateWidgetData(m);
-		                onReadyCallback.exec(true);
-		            }
-		            
-		        });
-			}
-        });
-
-    }	
 	
     /**
      * This updates the model
@@ -74,21 +43,12 @@ public class VerticalSectionView extends SectionView{
         }
     }
 
-
-	
-    @Override
-    public void collectHistory(HistoryStackFrame frame) {
-        // do nothing
-    }
-
-    @Override
-    public void onHistoryEvent(HistoryStackFrame frame) {
-        // do nothing
-    }
-
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
 }

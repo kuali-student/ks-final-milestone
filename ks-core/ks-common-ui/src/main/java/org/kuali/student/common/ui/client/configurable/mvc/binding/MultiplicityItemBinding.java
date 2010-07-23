@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.QueryPath;
 
@@ -28,6 +29,10 @@ import com.google.gwt.user.client.ui.Widget;
  * of the underlying multiplicity item's widget.
  * 
  * @author Kuali Student Team
+ */
+
+/**
+ * @deprecated
  */
 public class MultiplicityItemBinding extends ModelWidgetBindingSupport<MultiplicityItem> {
     public static MultiplicityItemBinding INSTANCE = new MultiplicityItemBinding();
@@ -66,11 +71,16 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
         } else {
             qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_UPDATED);
         }
-        Boolean oldValue = model.get(qPath);
-        Boolean newValue = true;
-        if (!nullsafeEquals(oldValue, newValue)) {
-            model.set(qPath, newValue);
-            setDirtyFlag(model, qPath);
+        try {
+            Boolean oldValue = model.get(qPath);
+            Boolean newValue = true;
+            if (!nullsafeEquals(oldValue, newValue)) {
+                model.set(qPath, newValue);
+                setDirtyFlag(model, qPath);
+            }
+        } catch (java.lang.IllegalArgumentException e) {
+            // model.get(qPath) will throw this exception if there is no such path
+            GWT.log("Warning: Ignoring error attempting to setValue for " + widget.getClass().getName() + " path: " + qPath, e);
         }
 
     }

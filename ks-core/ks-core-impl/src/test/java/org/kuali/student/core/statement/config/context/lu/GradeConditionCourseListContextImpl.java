@@ -39,7 +39,7 @@ public class GradeConditionCourseListContextImpl extends AbstractLuContext<ReqCo
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         
-        contextMap.put(TOTAL_CREDITS_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey()));
+        contextMap.put(TOTAL_CREDITS_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey()));
         contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
 
         return contextMap;

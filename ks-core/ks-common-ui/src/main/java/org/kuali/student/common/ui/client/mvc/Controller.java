@@ -19,10 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
+import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
-import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
 import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
@@ -44,7 +45,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-public abstract class Controller extends Composite implements HistorySupport{
+public abstract class Controller extends Composite implements HistorySupport, BreadcrumbSupport{
 	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
 		@Override
 		public void exec(Boolean result) {
@@ -64,6 +65,17 @@ public abstract class Controller extends Composite implements HistorySupport{
 
     protected Controller(final String controllerId) {
         this.controllerId = controllerId;
+    }
+    
+    /**
+     * Simple Version of showView, no callback
+     * @param <V>
+     * 			view enum type
+     * @param viewType
+     * 			enum value representing the view to show
+     */
+    public <V extends Enum<?>> void showView(final V viewType){
+    	this.showView(viewType, NO_OP_CALLBACK);
     }
     
     /**
@@ -91,40 +103,60 @@ public abstract class Controller extends Composite implements HistorySupport{
         	onReadyCallback.exec(false);
             throw new ControllerException("View not registered: " + viewType.toString());
         }
+        
+        beforeViewChange(new Callback<Boolean>(){
 
-        boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
-
-        if (requiresAuthz){
-        	ViewContext tempContext = view.getController().getViewContext();
-        	if (view instanceof DelegatingViewComposite) {
-        		tempContext = ((DelegatingViewComposite)view).getChildController().getViewContext();
-        	}
-        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
-        	if (permType != null) {
-        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
-            	//A callback is required if async rpc call is required for authz check
-	        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
-					public void isAuthorized() {
-						showView(view, viewType, onReadyCallback);
-					}
-
-					public void isNotAuthorized(String msg) {
-						Window.alert(msg);
-						onReadyCallback.exec(false);					
-					}        		
-	        	});
-        	}
-        	else {
-        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
-            	showView(view, viewType, onReadyCallback);
-        	}
-        } else {
-    		GWT.log("Not Requiring Auth.", null);
-        	showView(view, viewType, onReadyCallback);
-        }
+			@Override
+			public void exec(Boolean result) {
+				if(result){
+					 boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
+						
+				        if (requiresAuthz){
+				        	ViewContext tempContext = new ViewContext();
+				        	if(view instanceof LayoutController){
+				        		tempContext = ((LayoutController) view).getViewContext();
+				        	}
+				        	else{
+				        		tempContext = view.getController().getViewContext();
+				        	}
+				        	
+				        	if (view instanceof DelegatingViewComposite) {
+				        		tempContext = ((DelegatingViewComposite)view).getChildController().getViewContext();
+				        	}
+				        	
+				        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
+				        	if (permType != null) {
+				        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
+				            	//A callback is required if async rpc call is required for authz check
+					        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
+									public void isAuthorized() {
+										showView(view, viewType, onReadyCallback);
+									}
+				
+									public void isNotAuthorized(String msg) {
+										Window.alert(msg);
+										onReadyCallback.exec(false);					
+									}        		
+					        	});
+				        	}
+				        	else {
+				        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
+				            	showView(view, viewType, onReadyCallback);
+				        	}
+				        } else {
+				    		GWT.log("Not Requiring Auth.", null);
+				        	showView(view, viewType, onReadyCallback);
+				        }
+				}
+				else{
+					onReadyCallback.exec(false);
+				}
+				
+			}
+		});
     }
     
-    protected <V extends Enum<?>> void showView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
+    private <V extends Enum<?>> void showView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
         if ((currentView == null) || currentView.beforeHide()) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override
@@ -330,6 +362,16 @@ public abstract class Controller extends Composite implements HistorySupport{
      * @return
      */
     protected abstract <V extends Enum<?>> View getView(V viewType);
+    
+    /**
+     * If a controller which extends this class must perform some action or check before a view
+     * is changed, then override this method.  Do not call super() in the override, as it will
+     * allow the view to continue to change.
+     * @param okToChangeCallback
+     */
+    public void beforeViewChange(Callback<Boolean> okToChangeCallback){
+    	okToChangeCallback.exec(true);
+    }
 
     /**
      * Shows the default view. Must be implemented by subclass, in order to define the default view.
@@ -341,49 +383,101 @@ public abstract class Controller extends Composite implements HistorySupport{
     public abstract Enum<?> getViewEnumValue(String enumValue);
     
     @Override
-    public void collectHistory(HistoryStackFrame frame) {
-        HistoryToken token = getHistoryToken();
-        frame.getTokens().put(token.getKey(), token);
-        if (currentView != null) {
-            currentView.collectHistory(frame);
-        }
+    public String collectHistory(String historyStack) {
+    	String token = getHistoryToken();
+    	historyStack = historyStack + "/" + token;
+    	
+    	if(currentView != null){
+    		String tempHistoryStack = historyStack;
+    		historyStack = currentView.collectHistory(historyStack);
+    		
+    		//Sanity check, if collectHistory returns null or empty string, restore
+    		if(historyStack == null){
+    			historyStack = tempHistoryStack;
+    		}
+    		else if(historyStack != null && historyStack.isEmpty()){
+    			historyStack = tempHistoryStack;
+    		}
+    	}
+    	return historyStack;
     }
     
-    protected HistoryToken getHistoryToken() {
-        HistoryToken token = new HistoryToken(controllerId);
+    protected String getHistoryToken() {
+    	String historyToken = "";
         if (currentViewEnum != null) {
-            token.getParameters().put("view", currentViewEnum.toString());
+            historyToken = currentViewEnum.toString();
+            if(currentView != null && currentView instanceof Controller 
+            		&& ((Controller)currentView).getViewContext() != null){
+            	ViewContext context = ((Controller) currentView).getViewContext();
+            	historyToken = HistoryManager.appendContext(historyToken, context);
+            }
+             
         }
-        return token;
+        return historyToken;
     }
 
     @Override
-    public void onHistoryEvent(final HistoryStackFrame frame) {
-        HistoryToken token = frame.getTokens().get(controllerId);
-        if (token != null) {
-            String s = token.getParameters().get("view");
-            if (s != null) {
-                Enum<?> viewEnum = getViewEnumValue(s);
+    public void onHistoryEvent(String historyStack) {
+    	final String nextHistoryStack = HistoryManager.nextHistoryStack(historyStack);
+        String[] tokens = HistoryManager.splitHistoryStack(nextHistoryStack);
+        if (tokens.length >= 1 && tokens[0] != null && !tokens[0].isEmpty()) {
+            Map<String, String> tokenMap = HistoryManager.getTokenMap(tokens[0]);
+            //TODO add some automatic view context setting here, get and set
+            String viewEnumString = tokenMap.get("view");
+            if (viewEnumString != null) {
+                Enum<?> viewEnum = getViewEnumValue(viewEnumString);
+                
                 if (viewEnum != null) {
-                    if (currentViewEnum == null || !viewEnum.equals(currentViewEnum)) {
+                	View theView = getView(viewEnum);
+                	boolean sameContext = true;
+                	if(theView instanceof Controller){
+                		
+                		ViewContext newContext = new ViewContext();
+                		if(tokenMap.get(ViewContext.ID_ATR) != null){
+                			newContext.setId(tokenMap.get(ViewContext.ID_ATR));
+                		}
+                		if(tokenMap.get(ViewContext.ID_TYPE_ATR) != null){
+                			newContext.setIdType(tokenMap.get(ViewContext.ID_TYPE_ATR));
+                		}
+                		
+                		ViewContext viewContext = ((Controller) theView).getViewContext();
+                		if(viewContext.compareTo(newContext) != 0){
+                			((Controller) theView).setViewContext(newContext);
+                			sameContext = false;
+                		}
+                	}
+                    if (currentViewEnum == null || !viewEnum.equals(currentViewEnum) 
+                    		|| !sameContext) {
                         showView(viewEnum, new Callback<Boolean>() {
                             @Override
                             public void exec(Boolean result) {
                                 if (result) {
-                                    currentView.onHistoryEvent(frame);
+                                    currentView.onHistoryEvent(nextHistoryStack);
                                 }
                             }
                         });
                     } else if (currentView != null) {
-                        currentView.onHistoryEvent(frame);
+                    	currentView.onHistoryEvent(nextHistoryStack);
                     }
                 }
             }
         }
+        else{
+    		this.showDefaultView(new Callback<Boolean>(){
+
+				@Override
+				public void exec(Boolean result) {
+					if(result){
+						currentView.onHistoryEvent(nextHistoryStack);
+					}
+					
+				}
+			});
+    	}
+        
     }
 
     public void setViewContext(ViewContext viewContext){
-    	clear();
     	this.context = viewContext;
     }
 
@@ -391,7 +485,7 @@ public abstract class Controller extends Composite implements HistorySupport{
     	return this.context;
     }
 
-    public void clear(){
+    public void clearViewContext(){
         this.context = new ViewContext();
     }
 
@@ -399,7 +493,9 @@ public abstract class Controller extends Composite implements HistorySupport{
         return this.controllerId;
     }
     
-    public void reset(){
+    public void resetCurrentView(){
     	currentView = null;
-    }        
+    }
+    
+
 }

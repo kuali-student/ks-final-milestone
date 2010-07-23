@@ -44,6 +44,7 @@ import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
 import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
@@ -575,6 +576,20 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public CluSetInfo getCluSetInfo(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /** 
+     * Retrieve information on a CLU set and its sub clu set fully expanded.
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved CLU set tree view information
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public CluSetTreeViewInfo getCluSetTreeView(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /** 
      * Retrieve information on CLU sets from a list of cluSet Ids.
      * @param cluSetIdList List of identifiers of CLU sets

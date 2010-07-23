@@ -29,7 +29,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -371,14 +370,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 	public void updateModel() {
 		//do nothing
 	}
-
-	@Override
-	public void collectHistory(HistoryStackFrame frame) {
-	}
-
-	@Override
-	public void onHistoryEvent(HistoryStackFrame frame) {
-	}
+	
     /**
      * @see org.kuali.student.common.ui.client.mvc.View#getName()
      */
@@ -537,5 +529,30 @@ public class CollaboratorTool extends Composite implements ToolView{
 	public KSImage getImage() {
 		return Theme.INSTANCE.getCommonImages().getPersonIcon();
 	}
+	
+	public Widget asWidget(){
+		return this;
+	}
 
+
+
+	@Override
+	public String collectHistory(String historyStack) {
+		return historyStack;
+	}
+
+
+
+	@Override
+	public void onHistoryEvent(String historyStack) {
+		
+	}
+
+
+
+	@Override
+	public void collectBreadcrumbNames(List<String> names) {
+		names.add(this.getName());
+		
+	}
 }

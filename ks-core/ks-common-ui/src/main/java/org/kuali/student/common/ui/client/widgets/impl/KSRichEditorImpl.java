@@ -30,6 +30,10 @@ import com.google.gwt.user.client.ui.RichTextArea;
  */
 public class KSRichEditorImpl extends KSRichEditorAbstract {
 	private final RichTextArea textArea = new RichTextArea();
+	
+	public KSRichEditorImpl(){
+		init();
+	}
 
 	@Override
 	public String getHTML() {

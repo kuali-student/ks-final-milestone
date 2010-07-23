@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.widgets;
 
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.libideas.resources.client.ImageResource;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 

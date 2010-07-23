@@ -34,6 +34,7 @@ import com.google.gwt.event.shared.GwtEvent.Type;
  */
 public class KSMenuItemData {
 	private String label;
+	private String styleName;
 	private ClickHandler clickHandler;
 	private List<KSMenuItemData> subItems = new ArrayList<KSMenuItemData>();
 	private KSMenuItemData parent = null;
@@ -142,6 +143,15 @@ public class KSMenuItemData {
         }
     }
     
+    public void setSelected(boolean selected, boolean fireClick) {
+        this.selected = selected;
+        if(selected == true){
+        	MenuSelectEvent e = new MenuSelectEvent();
+        	e.setFireClickEvent(fireClick);
+            manager.fireEvent(e);
+        }
+    }
+    
     public void unhandledSetSelected(boolean selected){
         this.selected = selected;
     }
@@ -160,5 +170,12 @@ public class KSMenuItemData {
         return manager.addHandler(type, meh);
     }
     
+    public void addSpecialStyle(String style){
+    	styleName = style;
+    }
+    
+    public String getSpecialStyle(){
+    	return styleName;
+    }
     
 }

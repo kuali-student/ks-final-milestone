@@ -60,7 +60,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 	private Map<String, String> sectionNameTabMap = new HashMap<String, String>();
 
-    private KSLightBox startSectionWindow = new KSLightBox();
     private SectionView startSectionView;
 
 	private boolean loaded = false;
@@ -293,7 +292,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 	@Override
 	protected <V extends Enum<?>> View getView(V viewType) {
-		return sectionViewMap.get(viewType.name());
+		return viewMap.get(viewType);
 	}
 
 	@Override
@@ -345,7 +344,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		String tabKey = hierarchy[0];
 
 		sectionNameTabMap.put(section.getName(), tabKey);
-		sectionViewMap.put(section.getViewEnum().name(), section);
+		viewMap.put(section.getViewEnum(), section);
 		section.setController(this);
 		section.setLayoutController(this);
 
@@ -411,7 +410,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 		//layout.renderView(tool);
 		sectionNameTabMap.put(tool.getName(), tabKey);
-		sectionViewMap.put(tool.getViewEnum().name(), tool);
+		viewMap.put(tool.getViewEnum(), tool);
         tool.setController(this);
 
 	}
@@ -425,15 +424,11 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			@Override
 			public void exec(Boolean result) {
 				if (result) {
-					startSectionWindow.show();
+					startViewWindow.show();
 				}
 				onReadyCallback.exec(result);
 			}
         });
-    }
-
-    public boolean isStartSectionShowing(){
-    	return startSectionWindow.isShowing();
     }
 
     public SectionView getStartSection(){
@@ -455,7 +450,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
                 saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
                     public void onActionComplete(ActionEvent action) {
-                        startSectionWindow.hide();
+                        startViewWindow.hide();
                     }
                 });
 
@@ -464,13 +459,13 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	    }));
 	    buttonPanel.add(new KSButton("Cancel", new ClickHandler(){
             public void onClick(ClickEvent event) {
-                startSectionWindow.hide();
+                startViewWindow.hide();
             }
 	    }));
 
 	    panel.add(buttonPanel);
         section.setController(this);
-	    startSectionWindow.setWidget(panel);
+	    startViewWindow.setWidget(panel);
 	}
 
 	public void addButton(String tabKey, KSButton button){
@@ -534,7 +529,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 		if (checkCurrentSectionOnly){
 			//Check for validation errors on the currently displayed section only
-	    	if(this.isStartSectionShowing()){
+	    	if(this.isStartViewShowing()){
 	    		isValid = isValid(validationResults, getStartSection());
 	    	} else {
 	    		View v = getCurrentView();
@@ -548,7 +543,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			String errorSections = "";
 			StringBuilder errorSectionsbuffer = new StringBuilder();
 			errorSectionsbuffer.append(errorSections);
-			for (Entry<String, View> entry:sectionViewMap.entrySet()) {
+			for (Entry<Enum<?>, View> entry:viewMap.entrySet()) {
 				View v = entry.getValue();
 				if (v instanceof Section){
 					if (!isValid(validationResults, (Section)v)){

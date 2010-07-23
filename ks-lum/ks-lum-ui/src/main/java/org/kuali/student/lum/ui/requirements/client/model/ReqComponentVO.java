@@ -30,6 +30,7 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
     private String typeDesc;
     private boolean dirty;
     private boolean checkBoxOn;
+    private String clusetId = null;
     // for GUI use only the As, Bs and Cs, has no meaning in the 
     // LUM service
     private String guiReferenceLabelId;
@@ -71,6 +72,14 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
 
     public void setCheckBoxOn(boolean checkBoxOn) {
         this.checkBoxOn = checkBoxOn;
+    }
+ 
+    public String getClusetId() {
+        return clusetId;
+    }
+
+    public void setClusetId(String clusetId) {
+        this.clusetId = clusetId;
     }
     
     public String getGuiReferenceLabelId() {

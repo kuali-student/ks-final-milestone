@@ -36,6 +36,7 @@
   }
   .table {
     table-layout: fixed;
+    word-wrap:break-word;
     width: 100%;
   }
 
@@ -45,7 +46,9 @@
     border-right: 1px solid #DDDDDD;
     padding: 2px 0 2px 10px;
   }
-  
+    .tableColumnHeader{
+    valign:top;
+  }
   </ui:style>
   <ui:style field='selectionStyle' type='org.kuali.student.common.ui.client.widgets.table.scroll.Table.SelectionStyle'>
   .selectedRow {
@@ -56,26 +59,29 @@
   }
   .columnAscending {
   	  background: #686868;
-	  background-image:url("./images/up_arrow_white.png");
+	  
+	  background-image:url("./images/common/up_arrow_white.png");
 	  background-position:center;
 	  background-repeat:no-repeat;
   }
   .columnDescending {
   	  background: #686868;
-	  background-image:url("./images/down_arrow_white.png");
+	  background-image:url("./images/common/down_arrow_white.png");
 	  background-position:center;
 	  background-repeat:no-repeat;
   }
-  
+
   </ui:style>
+  <!-- background-image:url("./images/up_arrow_white.png"); -->
   <g:HTMLPanel  styleName='{style.outer}'>
       <table  cellSpacing='0' cellPadding='0'>
-        <tr><td> 
+        <tr><td class='{style.tableColumnHeader}'> 
 	      <g:FlexTable ui:field='header' styleName='{style.header}' cellSpacing='0' cellPadding='0'/>
 	      </td>
-	      <td>
+<!-- 	      <td>
 	      <g:Label styleName='{style.tableHeaderControllerButton}'/>
-      </td></tr>
+          </td> -->
+      </tr>
       </table>
       <g:ScrollPanel ui:field='scrollPanel'>
         <g:FlexTable ui:field='table' styleName='{style.table}' cellSpacing='0' cellPadding='0'/>

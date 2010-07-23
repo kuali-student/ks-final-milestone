@@ -20,28 +20,62 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
+import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsConfigurer;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.ToolsConstants;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsConfigurer.CluSetEditOptionList;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsConfigurer.Picker;
+import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
+import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -61,10 +95,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class RuleComponentEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-
+    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
+    
     public enum ReqCompFieldDefinitions { TODO }
 
     //view's widgets
@@ -79,9 +115,9 @@ public class RuleComponentEditorView extends ViewComposite {
     private VerticalPanel mainPanel = new VerticalPanel();
     private VerticalPanel addEditRuleView = new VerticalPanel();
     private HorizontalPanel ruleDetailsPanel = new HorizontalPanel();
-    private KSButton btnCancelView = new KSButton("Cancel");
-    private KSButton addReqComp = new KSButton("Add Rule");
-    private KSButton updateReqComp = new KSButton("Update Rule");
+    private ConfirmCancelGroup confirmCancelButtons = new ConfirmCancelGroup();
+    private KSButton confirmButton;
+    private KSButton cancelButton;
     private KSDropDown compReqTypesList = new KSDropDown();
     private SimplePanel reqCompDesc = new SimplePanel();
     private KSLabel exampleText = new KSLabel();
@@ -105,15 +141,27 @@ public class RuleComponentEditorView extends ViewComposite {
     private List<ReqCompPicker> valueWidgets = new ArrayList<ReqCompPicker>();
     private List<Metadata> fieldsWithLookup = new ArrayList<Metadata>();  //contains definition of lookups
 
+    public enum Views{RULES_EDITOR}
+    
+    //cluset data
+    private DataModel clusetModel = new DataModel();
+    private FieldDescriptor fdApprovedClus = null;
+    private FieldDescriptor fdProposedClus = null;
+    private FieldDescriptor fdClusets = null;
+    private SwapSection clusetDetails = null;
+    
     public RuleComponentEditorView(Controller controller) {
-        super(controller, "Clause Editor View");
+        super(controller, "Clause Editor View", Views.RULES_EDITOR);
         super.initWidget(mainPanel);
+        confirmButton = confirmCancelButtons.getButton(ConfirmCancelEnum.CONFIRM);
+        cancelButton = confirmCancelButtons.getButton(ConfirmCancelEnum.CANCEL);        
         setupHandlers();
     }
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
         setupReqCompTypesList();
+        confirmButton.setEnabled(true);
 
         getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
             public void onModelReady(CollectionModel<RuleInfo> theModel) {
@@ -125,6 +173,18 @@ public class RuleComponentEditorView extends ViewComposite {
             }
         });
 
+        getController().requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelRequestCallback<DataModel>(){
+	           @Override
+	            public void onModelReady(DataModel model) {
+	        	    clusetModel = model;
+            }       			
+	           
+	            @Override
+	            public void onRequestFail(Throwable cause) {
+	                throw new RuntimeException("Unable to connect to model", cause);
+	            }       	
+       });
+        
         requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(getSelectedStatementType(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
             public void onFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + getSelectedStatementType(), cause);
@@ -176,22 +236,17 @@ public class RuleComponentEditorView extends ViewComposite {
 
     public void redraw() {
 
-        //1. show view HEADING
-        SimplePanel headingPanel = new SimplePanel();
+        VerticalPanel bodyPanel = new VerticalPanel();
+        
+        //1. show editor HEADING
         KSLabel heading = new KSLabel((addingNewReqComp ? "Add " : "Edit ") + getRuleTypeName() + " Rule");
-        heading.setStyleName("KS-Rules-FullWidth");
         heading.setStyleName("KS-ReqMgr-Heading");
-        headingPanel.add(heading);
+        bodyPanel.add(heading);
 
         //2. show RULE TYPES
-        HorizontalPanel ruleTypesPanel = new HorizontalPanel();
-
-        //show requirement component label
-        SimplePanel labelPanel = new SimplePanel();
-        KSLabel reqTypeLabel = new KSLabel("Rule");
+        KSLabel reqTypeLabel = new KSLabel("Step 1: Select rule type");
         reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading");
-        labelPanel.add(reqTypeLabel);
-        ruleTypesPanel.add(labelPanel);
+        bodyPanel.add(reqTypeLabel);
 
         addEditRuleView.clear();
         addEditRuleView.setStyleName("KS-Rules-FullWidth");
@@ -208,35 +263,21 @@ public class RuleComponentEditorView extends ViewComposite {
         addEditRuleView.add(ruleDetailsPanel);
 
         //buttons at the bottom
-        SimplePanel horizSpacer = new SimplePanel();
-        horizSpacer.setWidth("30px");
-        HorizontalPanel tempPanelButtons = new HorizontalPanel();
-        tempPanelButtons.setSpacing(0);
-        tempPanelButtons.setStyleName("KS-ReqCompEditor-BottomButtons");
-        btnCancelView.setStyleName("KS-Rules-Tight-Button");
         if (addingNewReqComp) {
-            tempPanelButtons.add(addReqComp);
-            addReqComp.setStyleName("KS-Rules-Tight-Button");
-            addReqComp.setEnabled(false);
+            confirmButton.setText("Add Rule");
+            confirmButton.setEnabled(false);
         } else {
-            tempPanelButtons.add(updateReqComp);
-            updateReqComp.setStyleName("KS-Rules-Tight-Button");
-            updateReqComp.setEnabled(true);
-            if (selectedReqType == null) {
-                updateReqComp.setEnabled(false);
+            confirmButton.setText("Update Rule");
+            confirmButton.setEnabled(false);
+            if (selectedReqType != null) {
+                confirmButton.setEnabled(true);
             }
         }
-        tempPanelButtons.add(horizSpacer);
-        tempPanelButtons.add(btnCancelView);
-        addEditRuleView.add(tempPanelButtons);
-
-        HorizontalPanel bodyPanel = new HorizontalPanel();
-        bodyPanel.add(ruleTypesPanel);
+        addEditRuleView.add(confirmCancelButtons);
         bodyPanel.add(addEditRuleView);
 
         mainPanel.clear();
         mainPanel.setStyleName("Content-Margin");
-        mainPanel.add(headingPanel);
         mainPanel.add(bodyPanel);
 
         //updateExampleContext(); TODO - download all necessary contexts?
@@ -256,8 +297,8 @@ public class RuleComponentEditorView extends ViewComposite {
             newButton.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
                 @Override
                 public void onValueChange(ValueChangeEvent<Boolean> event) {
-                	addReqComp.setEnabled(true);
-                	updateReqComp.setEnabled(true);
+                    confirmButton.setEnabled(true);
+                    resetClusetModel();
                 	if (compReqTypesList.getSelectedItem() != null) {
                         compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
                     }
@@ -284,6 +325,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
         //now add a drop down for advanced Requirement Component Types
         HorizontalPanel hodler = new HorizontalPanel();
+        hodler.setSpacing(5);
         KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, RULE_TYPES_OTHER);
         rbRuleType.add(newButton);
         hodler.add(newButton);
@@ -293,7 +335,7 @@ public class RuleComponentEditorView extends ViewComposite {
         	int i = 0;
             for (ReqComponentTypeInfo comp : advReqCompTypeList) {
                 if (comp.getId().equals(selectedReqType.getId())) {
-                    compReqTypesList.selectItem(Integer.toString(i));    //comp.getId());
+                    compReqTypesList.selectItem(Integer.toString(i)); 
                     newButton.setValue(true);
                     break;
                 }
@@ -323,7 +365,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private void displayReqComponentDetailsCont() {
         //show heading
         VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel();
-        KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDescr() + ":");
+        KSLabel reqCompTypeName = new KSLabel("Step 2: Enter rule details"); // + selectedReqType.getDescr());
         reqCompTypeName.setStyleName("KS-ReqMgr-SubHeading");
         reqCompDetailsExampleContainerPanel.add(reqCompTypeName);
 
@@ -344,8 +386,8 @@ public class RuleComponentEditorView extends ViewComposite {
            //     editedReqCompVO.setCheckBoxOn(true);
            //     editedStatementVO.clearSelections();
                 ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
-                displayReqComponentText(reqCompNaturalLanguage, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
-                reqCompDetailsPanel.add(reqCompDesc);
+                 displayReqComponentText(reqCompNaturalLanguage, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
+            	 reqCompDetailsPanel.add(reqCompDesc);           
             }
         });
 
@@ -387,7 +429,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     private void setupHandlers() {
 
-        btnCancelView.addClickHandler(new ClickHandler() {
+        cancelButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 //if rule has not been created, cancel should return user back to initial rules summary screen
                 if (editedStatementVO.getReqComponentVOs().size() == 0) {
@@ -406,46 +448,42 @@ public class RuleComponentEditorView extends ViewComposite {
             }
         });
 
-        addReqComp.addClickHandler(new ClickHandler() {
+        confirmButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-
-            	//1. check that all fields have values
-                if (retrieveReqCompFields() == false) {
-                    return;
-                }
-
-            	//2. update req. component being edited
-                editedReqComp.setReqCompFields(editedFields);
-                editedReqComp.setType(selectedReqType.getId());
-
-                //3. create new req. component and possibly new statement if none exists yet
-                editedStatementVO.addReqComponentVO(editedReqCompVO);
-                updateNLAndExit();
-            }
-        });
-
-        updateReqComp.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-
-            	//1. check that all fields have values
-                if (retrieveReqCompFields() == false) {
-                    return;
-                }
-
-            	//2. update req. component being edited (type was updated already)
-                editedReqComp.setReqCompFields(editedFields);
-
-                //3. update rule
-                updateNLAndExit();
+            	
+            	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null) && isReqCompFieldType(ReqComponentFieldTypes.CLUSET_KEY.getKey())){
+            		saveCluSet();
+            	}else{
+	            	//1. check that all fields have values
+	                if (retrieveReqCompFields() == false) {
+	                    return;
+	                }
+	
+	            	//2. update req. component being edited
+	                editedReqComp.setReqCompFields(editedFields);
+	                editedReqComp.setType(selectedReqType.getId());
+	
+	                //3. create new req. component and possibly new statement if none exists yet
+	                if (addingNewReqComp) {
+	                    editedStatementVO.addReqComponentVO(editedReqCompVO);
+	                }
+	                
+	                confirmButton.setEnabled(false);
+	                updateNLAndExit();
+	            }
             }
         });
 
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
 			@Override
             public void onSelectionChange(SelectionChangeEvent event) {
-                 addReqComp.setEnabled(true);
-                 updateReqComp.setEnabled(true);
+			    
+			    if (!event.isUserInitiated()) {
+			        return;
+			    }
+			    
+                 confirmButton.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
                      button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);
                  }
@@ -469,7 +507,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private boolean retrieveReqCompFields() {
         StringBuffer enteredCluCodes = new StringBuffer();
     	editedFields = new ArrayList<ReqCompFieldInfo>();
-
+    	
     	for (Object reqCompWidget : reqCompWidgets) {
         	String name = "";
         	String value = "";
@@ -496,7 +534,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 return false;
             }
 
-            if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
+            if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
             	enteredCluCodes.append((enteredCluCodes.length() > 0 ? ", " : "") + fieldInfo.getValue());
             } else {
             	editedFields.add(fieldInfo);
@@ -505,7 +543,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     	if (enteredCluCodes.length() > 0) {
             ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-            fieldInfo.setId("reqCompFieldType.clu");
+            fieldInfo.setId(ReqComponentFieldTypes.CLU_KEY.getKey());
             fieldInfo.setValue(enteredCluCodes.toString());
             editedFields.add(fieldInfo);
         }
@@ -513,23 +551,379 @@ public class RuleComponentEditorView extends ViewComposite {
         return true;
     }
 
+    private boolean isReqCompFieldType(String fieldType) {
+        List<ReqCompFieldTypeInfo> fieldTypes = editedReqComp.getRequiredComponentType().getReqCompFieldTypeInfos();
+        return fieldTypes.contains(fieldType);
+    }
+    
     private String getFieldName(ReqCompFieldInfo fieldInfo) {
 
-        if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
+        if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
             return "Course";
-        } else if (fieldInfo.getId().equals("reqCompFieldType.cluSet")) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
             return "Courses";
-        } else if (fieldInfo.getId().equals("reqCompFieldType.requiredCount")) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey())) {
             return "count";
-        } else if (fieldInfo.getId().equals("reqCompFieldType.gpa")) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.GPA_KEY.getKey())) {
             return "GPA";
-        } else if (fieldInfo.getId().equals("reqCompFieldType.totalCredits")) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey())) {
             return "Total Credits";
         }
 
         return "";
     }
+    
+    private void saveCluSet(){
+        try {
+        	
+        	//1. check other fields have values
+        	  if (retrieveReqCompFields() == false) {
+                  return;
+              }
 
+        	//2. create a new cluset and get it's Id
+        	if(clusetDetails != null)
+        		clusetDetails.updateModel(clusetModel);
+        	
+        	Data input = clusetModel.getRoot();
+        	CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(input);
+        	 if (root.getCourse() == null) {
+        		 Window.alert("Please fill out Course Information.");
+				 return;
+        	 }
+        	 
+        	CreditCourseHelper course =CreditCourseHelper.wrap(root.getCourse().getData());  
+			
+			if(course.getCourseTitle() == null || course.getCourseTitle().trim().isEmpty()){
+				 Window.alert("Course Title can't be empty.");
+				 return;
+			}
+			
+			final CluSetHelper cluSet = CluSetHelper.wrap((Data)clusetModel.get("cluset"));
+			cluSet.setName(course.getCourseTitle());
+			cluSet.setDescription(course.getId());
+			cluSet.setEffectiveDate(course.getEffectiveDate());
+			cluSet.setExpirationDate(course.getExpirationDate());
+			cluSet.setReusable(new Boolean(false));
+			cluSet.setReferenceable(new Boolean(false));
+
+			cluSetManagementRpcServiceAsync.saveData(clusetModel.getRoot(), new AsyncCallback<DataSaveResult>() {
+                @Override
+                public void onFailure(Throwable caught) {
+	                Window.alert(caught.getMessage());
+	                GWT.log("Create Cluset failed",caught);
+                }
+
+                @Override
+                public void onSuccess(DataSaveResult result) {
+                	String clusetId = CluSetHelper.wrap((Data)result.getValue().get("cluset")).getId();
+
+                	if (clusetId != null && !clusetId.trim().isEmpty()){
+	                	 ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+	                     fieldInfo.setId(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+	                     fieldInfo.setValue(CluSetHelper.wrap((Data)result.getValue().get("cluset")).getId());
+	                     editedFields.add(fieldInfo);
+	                     
+	                    editedReqComp.setReqCompFields(editedFields);
+	 	                editedReqComp.setType(selectedReqType.getId());
+	 	                editedReqCompVO.setClusetId(CluSetHelper.wrap((Data)result.getValue().get("cluset")).getId());
+
+	 	                if (addingNewReqComp) {
+	 	                    editedStatementVO.addReqComponentVO(editedReqCompVO);
+	 	                }
+	 	                
+	 	                confirmButton.setEnabled(false);
+	 	                updateNLAndExit();
+                	}
+                	else{
+                        Window.alert("ClusetId is invalid. ");
+                    	editedFields.clear();               		
+                	}
+                }
+            });
+        } catch (Exception e) {
+        	Window.alert(e.getMessage());
+        }       
+    }
+    
+    public AsyncCallback<DataSaveResult> getAsyncCallback() {
+        
+        final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
+
+			@Override
+			public void exec(Throwable caught) {
+				 GWT.log("Save Failed.", caught);
+			}      	
+        };
+     
+    	AsyncCallback<DataSaveResult> saveCluSetCallback = new AsyncCallback<DataSaveResult>() {
+    		@Override
+    		public void onFailure(Throwable caught) {
+    			saveFailedCallback.exec(caught);    
+    		}
+    		
+    		@Override
+    		public void onSuccess(DataSaveResult result) {
+    			final CluSetHelper cluSet = CluSetHelper.wrap((Data)clusetModel.get("cluset"));
+    			cluSet.setId(CluSetHelper.wrap(result.getValue()).getId());
+    		}
+    	};
+    	
+    	return saveCluSetCallback;
+    }
+    
+	private static LookupMetadata findLookupMetadata(String lookupId,
+			List<LookupMetadata> lookupMetadatas) {
+		LookupMetadata result = null;
+		if (lookupMetadatas != null) {
+			for (LookupMetadata lookupMetadata : lookupMetadatas) {
+				if (nullSafeEquals(lookupMetadata.getSearchTypeId(), lookupId)) {
+					result = lookupMetadata;
+				}
+			}
+		}
+		return result;
+	}
+	
+	private static boolean nullSafeEquals(Object obj1, Object obj2) {
+		return (obj1 == null && obj2 == null || obj1 != null && obj2 != null
+				&& obj1.equals(obj2));
+	}
+	
+	private Picker configureSearch(String fieldKey) {	    
+		QueryPath path = QueryPath.concat(null, fieldKey);
+		Metadata meta = clusetModel.getDefinition().getMetadata(path);
+	        
+		Picker picker = new Picker(meta.getInitialLookup(), meta.getAdditionalLookups());
+		return picker;
+	}
+	
+    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+    	return addField(null, section, fieldKey, messageKey, null, null);
+    }
+
+	protected FieldDescriptor addField(Section section, String fieldKey,
+			MessageKeyInfo messageKey, Widget widget) {
+		return addField(null, section, fieldKey, messageKey, widget, null);
+	}
+	
+    private FieldDescriptor addField(ModelIdPlaceHolder modelId, Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = clusetModel.getDefinition().getMetadata(path);
+
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+    	if (widget != null) {
+    		fd.setFieldWidget(widget);
+    	}
+    	if (modelId != null) {
+    		fd.setModelId(modelId.getModelId());
+    	}
+    	section.addField(fd);
+    	return fd;
+    }
+    
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo("clusetmanagement", "clusetmanagement", "draft", labelKey);
+    }
+    
+    private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
+        VerticalSection section = new VerticalSection(title);
+        section.addStyleName(LUConstants.STYLE_SECTION);
+        if (withDivider)
+            section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+        return section;
+    }
+ 
+    private void resetClusetModel(){
+    	if(clusetModel.get("cluset") != null){
+	    	final CluSetHelper cluSet = CluSetHelper.wrap((Data)clusetModel.get("cluset"));
+	    	
+	    	if(clusetModel.get("cluset/approvedClus") != null)
+	    		cluSet.setApprovedClus(null);
+	    	
+	    	if(clusetModel.get("cluset/proposedClus") != null)
+	    		cluSet.setProposedClus(null);
+	    	
+	    	if(clusetModel.get("cluset/clusets") != null)
+	    		cluSet.setCluSets(null);
+
+	    	if(clusetModel.get("cluset/cluSetRangeViewDetails") != null)
+	    		cluSet.setCluRangeViewDetails(null);
+    	}
+    }
+    
+    private SwapSection displayCluSetsSection( final String modelId, CluSetEditOptionList cluSetEditOptions){
+         SwapSection clusetDetails = new SwapSection(
+                 cluSetEditOptions,
+                 new ConfirmationDialog("Delete Clu Set Details",
+                         "You are about to delete clu set details.  Continue?")
+                 );
+        
+         // ****** Add Approved Clus *******
+         Section approvedClusSection = new VerticalSection();
+         fdApprovedClus= addField(approvedClusSection, ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE));
+         fdApprovedClus.setModelId(modelId);
+         clusetDetails.addSection(approvedClusSection, ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS);
+         // END OF items related to Add Approved Clus
+         
+         // ****** Add Proposed Clus *******
+         Section proposedClusSection = new VerticalSection();
+         fdProposedClus = addField(proposedClusSection, ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE));
+         fdProposedClus.setModelId(modelId);
+         clusetDetails.addSection(proposedClusSection, ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS);
+         // END OF items related to Add Approved Clus
+
+         // ****** Add Clu Range *******
+         //TODO add cluset and clurange here
+         Section cluRangeSection = new VerticalSection();
+         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
+         final FieldDescriptor cluRangeFieldEditDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
+         final CluSetRangeDataHelper clusetRangeModelHelper = new CluSetRangeDataHelper();
+         final KSItemLabel clusetRangeLabel = new KSItemLabel(true, clusetRangeModelHelper);
+         clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
+         final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
+         cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
+         
+             @Override
+             public void exec(Boolean result) {
+                 cluSetRangePicker.getSearchWindow().hide();
+                 final LayoutController parent = LayoutController.findParentLayout(cluSetRangePicker);
+                 if(parent != null){
+                     parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+                         @Override
+                         public void onModelReady(DataModel model) {
+//                             ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).setWidgetValue(widget, model, path)
+//                             CluSetHelper cluSetHelper = CluSetHelper.wrap(model.getRoot());
+//                             cluSetHelper.setCluRangeParams(value)
+                             SearchRequest searchRequest = cluSetRangePicker.getSearchWindow()
+                             .getSearchRequest();
+                             String selectedLookupName = cluSetRangePicker.getSearchWindow()
+                             .getSelectedLookupName();
+                             Data searchRequestData = CluSetRangeModelUtil.INSTANCE.
+                             toData(searchRequest, null);
+                             DataValue dataValue = new DataValue(searchRequestData);
+                             LookupMetadata lookupMetadata = null;
+                             
+                             // look for the lookupMetaData corresponding to the searchRequest
+                             List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
+                             lookupMDs.add(cluSetRangePicker.getInitLookupMetadata());
+                             lookupMetadata = findLookupMetadata(searchRequest.getSearchKey(), 
+                                     lookupMDs);
+                             if (lookupMetadata == null || 
+                                     !nullSafeEquals(lookupMetadata.getName(), 
+                                             selectedLookupName)) {
+                                 lookupMetadata = findLookupMetadata(selectedLookupName, 
+                                         cluSetRangePicker.getAdditionalLookupMetadata());
+                             }
+                             
+                             clusetRangeModelHelper.setLookupMetadata(lookupMetadata);
+                             clusetRangeLabel.setValue(dataValue);
+                         }
+
+                         @Override
+                         public void onRequestFail(Throwable cause) {
+                             GWT.log("Unable to retrieve model" + cluRangeFieldDescriptor.getFieldKey(), null);
+                         }
+                         
+                     });
+                 }
+             }
+         });
+         clusetDetails.addSection(cluRangeSection, ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE);
+         // END OF items related to Add Clu Range
+         // ****** Add cluSets *******
+         Section cluSetSection = new VerticalSection();
+         fdClusets = addField(cluSetSection, ToolsConstants.CLU_SET_CLU_SETS_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET));
+         fdClusets.setModelId(modelId);
+         clusetDetails.addSection(cluSetSection, ToolsConstants.CLU_SET_SWAP_CLU_SETS);
+         // END OF items related to Add CluSets
+         
+         //clusetSection.addWidget(cluSetEditOptions);
+         //clusetSection.addSection(clusetDetails);
+         //parentWidget.setWidget(clusetSection);      
+         
+        // return clusetSection;
+         return clusetDetails;
+    }
+    private void selectCluSetOptionList(DataModel model, CluSetEditOptionList cluSetEditOptions) {
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD,
+                ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS);
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, 
+                ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS);
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
+                ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE);
+        selectCluSetOption(model, cluSetEditOptions, ToolsConstants.CLU_SET_CLU_SETS_FIELD,
+                ToolsConstants.CLU_SET_SWAP_CLU_SETS);
+    }
+    
+    private void selectCluSetOption(DataModel model, CluSetEditOptionList cluSetEditOptions,
+            String queryPath, String selectionId) {
+        final QueryPath qPath = QueryPath.parse(queryPath);
+        Data queryData = model.get(qPath);
+        if (hasData(queryPath, queryData)) {
+            cluSetEditOptions.selectItem(selectionId);
+        } else {
+            cluSetEditOptions.deSelectItem(selectionId);
+        }
+    }
+    
+    private boolean hasCluSetRange(Data cluSetRangeData) {
+        boolean hasCluSetRange = false;
+        MembershipQueryInfo membershipQueryInfo = 
+            CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(cluSetRangeData);
+        if (membershipQueryInfo != null) {
+            hasCluSetRange = true;
+        }
+        return hasCluSetRange;
+    }
+    
+    private boolean hasClus(Data clusData) {
+        boolean clusExist = false;
+        if (clusData != null) {
+            for (Data.Property p : clusData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluId = p.getValue();
+                    if (cluId != null && !cluId.trim().isEmpty()) {
+                        clusExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return clusExist;
+    }
+    
+    private boolean hasCluSets(Data clusetData) {
+        boolean cluSetsExist = false;
+        if (clusetData != null) {
+            for (Data.Property p : clusetData) {
+                if(!"_runtimeData".equals(p.getKey())){
+                    String cluSetId = p.getValue();
+                    if (cluSetId != null && !cluSetId.trim().isEmpty()) {
+                        cluSetsExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return cluSetsExist;
+    }
+    
+    private boolean hasData(String queryPath, Data queryData) {
+        boolean hasData = false;
+        if (queryPath != null && (queryPath.equals(ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD) ||
+                queryPath.equals(ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD))) {
+            hasData = hasClus(queryData);
+        } else if (queryPath != null && queryPath.equals(ToolsConstants.CLU_SET_CLU_SETS_FIELD)) {
+            hasData = hasCluSets(queryData);
+        } else if (queryPath != null && queryPath.equals(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD)) {
+            hasData = hasCluSetRange(queryData);
+        } else {
+            throw new IllegalArgumentException("Unexpected queryPath: " + queryPath);
+        }
+        return hasData;
+    }
+    
     private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) {
 
         // resets the list of reqCompWidgets to make sure it is created fresh.
@@ -575,7 +969,8 @@ public class RuleComponentEditorView extends ViewComposite {
             }
             tagCounts.put(tag, tagCount);
 
-            if ((tag.equals("reqCompFieldType.requiredCount")) || (tag.equals("reqCompFieldType.gpa")) || (tag.equals("reqCompFieldType.totalCredits"))) {
+            if ((tag.equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey())) || 
+            		(tag.equals(ReqComponentFieldTypes.GPA_KEY.getKey())) || (tag.equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getKey()))) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
@@ -597,7 +992,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals("reqCompFieldType.clu")) {
+            if (tag.equals(ReqComponentFieldTypes.CLU_KEY.getKey())) {
             	final ReqCompPicker valueWidget = configureCourseSearch(fieldLabel);
                 valueWidgets.add(valueWidget);
                 String cluIdsInClause = getSpecificFieldValue(fields, tag);
@@ -628,16 +1023,35 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals("reqCompFieldType.cluSet")) {
+            if (tag.equals(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
 
-				//need a better way to determine what pickers to use for given req. component type field
-                final ReqCompPicker valueWidget;
-                if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.oneof")) ||
-                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.none"))) {
-                    valueWidget = configureProgramCluSetSearch(fieldLabel);
-                } else {
-                    valueWidget = configureCourseCluSetSearch(fieldLabel);
+                CluSetsConfigurer clusetConfig = new CluSetsConfigurer();
+                CluSetEditOptionList cluSetEditOptions = clusetConfig.new CluSetEditOptionList();
+                innerReqComponentTextPanel.add(cluSetEditOptions);
+                
+                //         	       final SwapSection clusetDetails = displayCluSetsSection(CourseConfigurer.CLU_PROPOSAL_MODEL, cluSetEditOptions);   
+                clusetDetails = displayCluSetsSection(CourseConfigurer.CLU_PROPOSAL_MODEL, cluSetEditOptions);
+                   
+                selectCluSetOptionList(clusetModel, cluSetEditOptions);
+                clusetDetails.updateWidgetData(clusetModel);
+                   
+                if (i > 1) {
+                    SimplePanel verticalSpacer = new SimplePanel();
+                    verticalSpacer.setHeight("30px");
+                    innerReqComponentTextPanel.add(verticalSpacer);
                 }
+   
+                innerReqComponentTextPanel.add(clusetDetails);
+                continue;                
+         	}
+            	
+            //need a better way to determine what pickers to use for given req. component type field
+            if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.oneof")) ||
+                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.none")))
+            {
+                final ReqCompPicker valueWidget;
+                valueWidget = configureProgramCluSetSearch(fieldLabel);
+                 
                 valueWidgets.add(valueWidget);
                 String cluSetIdsInClause = getSpecificFieldValue(fields, tag);
 
@@ -663,8 +1077,10 @@ public class RuleComponentEditorView extends ViewComposite {
                     innerReqComponentTextPanel.add(new KSLabel(fieldLabel + ":"));
                 }
                 innerReqComponentTextPanel.add(tempPanel);
+  
                 continue;
             }
+            
         }
         parentWidget.setWidget(innerReqComponentTextPanel);
     }
@@ -867,4 +1283,20 @@ public class RuleComponentEditorView extends ViewComposite {
 	public void setFieldsWithLookup(List<Metadata> fieldsWithLookup) {
 		this.fieldsWithLookup = fieldsWithLookup;
 	}
+	
+    class ModelIdPlaceHolder {
+    	private String modelId;
+    	
+    	public ModelIdPlaceHolder(String modelId) {
+    		setModelId(modelId);
+    	}
+    	
+		public String getModelId() {
+			return modelId;
+		}
+
+		public void setModelId(String modelId) {
+			this.modelId = modelId;
+		}
+    }
 }

@@ -73,6 +73,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
@@ -2395,6 +2396,63 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(getCluSet);
 		assertNotNull(getCluSet.getCluIds());
 		assertEquals(createdCluSet.getCluIds().size(), getCluSet.getCluIds().size());
+	}
+
+	@Test
+	public void testGetCluSetTreeView() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		CluSetTreeViewInfo treeView = client.getCluSetTreeView("CLUSET-2");
+		assertNotNull(treeView);
+		assertEquals(2, treeView.getCluSets().size());
+
+		CluSetTreeViewInfo cluSet = treeView.getCluSets().get(1);
+		assertNotNull(cluSet);
+		assertEquals("CLUSET-4", cluSet.getId());
+		assertEquals(2, cluSet.getClus().size());
+
+		CluInfo clu = cluSet.getClus().get(1);
+		assertNotNull(clu);
+		assertEquals("CLU-3", clu.getId());
+	}
+
+	@Test
+	public void testGetCluSetTreeView_dynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DoesNotExistException {
+		CluSetInfo cluSet = createCluSetInfo();
+
+		MembershipQueryInfo query = new MembershipQueryInfo();
+		query.setSearchTypeKey("lu.search.clus");
+
+		cluSet.setMembershipQuery(query);
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.creditCourse", cluSet);
+		assertNotNull(createdCluSet);
+		assertNotNull(createdCluSet.getCluIds());
+
+		CluSetTreeViewInfo treeView = client.getCluSetTreeView(createdCluSet.getId());
+		assertNotNull(treeView);
+		assertEquals(createdCluSet.getCluIds().size(), treeView.getClus().size());
+	}
+
+	@Test
+	public void testGetCluSetTreeView_invalidCluSet()
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		try {
+			client.getCluSetTreeView("CLUSET-XX");
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public  void testGetCluSetTreeView_nullCluSet()
+			throws DoesNotExistException, InvalidParameterException,
+			OperationFailedException, PermissionDeniedException {
+		try {
+			client.getCluSetTreeView(null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
 	}
 
 	@Test

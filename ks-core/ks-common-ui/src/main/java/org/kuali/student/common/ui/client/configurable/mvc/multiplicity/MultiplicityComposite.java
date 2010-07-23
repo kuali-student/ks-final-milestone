@@ -35,6 +35,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+
+/**
+ * @deprecated
+ */
 public abstract class MultiplicityComposite extends Composite {
 
     protected FlowPanel mainPanel = new FlowPanel();
