@@ -60,7 +60,7 @@ public class StatementTreeViewInfo implements Serializable, Idable, HasTypeState
     private String parentId;
     /**
      * <code>naturalLanguageTranslation</code> attribute is a read-only 
-     * attribute which generated on-the-fly and should not be persisted.
+     * attribute which is generated on-the-fly and should not be persisted.
      */
     @XmlAttribute
     private String naturalLanguageTranslation;

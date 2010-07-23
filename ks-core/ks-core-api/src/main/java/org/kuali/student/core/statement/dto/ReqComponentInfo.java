@@ -67,7 +67,7 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
 
     /**
      * <code>naturalLanguageTranslation</code> attribute is a read-only 
-     * attribute which generated on-the-fly and should not be persisted.
+     * attribute which is generated on-the-fly and should not be persisted.
      */
     @XmlAttribute
     private String naturalLanguageTranslation;
