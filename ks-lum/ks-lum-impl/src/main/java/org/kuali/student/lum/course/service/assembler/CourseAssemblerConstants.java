@@ -49,6 +49,9 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_CAMPUS_LOCATION_CD_NORTH = "NORTH";
 	public static final String COURSE_CAMPUS_LOCATION_CD_SOUTH = "SOUTH";
 	
+	// Course Variation Identifier
+	public static final String COURSE_VARIATION_IDENT_TYPE  = "kuali.lu.type.CreditCourse.identifier.variation";
+	
 	//Learning result Constants
 	//FIXME follow Norm's Type Keys (this requires impex changes)
 //	public final static String COURSE_RESULT_TYPE_GRADE   = "kuali.resultType.grades";

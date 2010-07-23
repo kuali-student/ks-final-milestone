@@ -451,7 +451,7 @@
         <property name="activityAssembler" ref="activityAssembler"/>
         <property name="luService" ref="luClient"/>
     </bean>
-
+    
     <bean id="activityAssembler"
           class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
         <property name="luService" ref="luClient"/>

@@ -185,6 +185,7 @@ public class LUConstants {
     public static final String CL_V_J_LABEL_KEY = "cluCrossListedVersionJoin";
     public static final String JOINT_OFFER_ITEM_LABEL_KEY = "cluJointOfferItem";
     public static final String JOINT_OFFERINGS_LABEL_KEY = "cluJointOfferings";
+    public static final String JOINT_OFFERINGS_SECTION_TITLE_LABEL_KEY = "cluJointOfferingsSectionTitle";
     public static final String JOINT_OFFERINGS_ALT_LABEL_KEY = "cluJointOfferingsAlt";
     public static final String EVALUATION_TYPE_LABEL_KEY = "cluEvaluationType";
     public static final String TERM_LITERAL_LABEL_KEY = "cluTermLiteral";

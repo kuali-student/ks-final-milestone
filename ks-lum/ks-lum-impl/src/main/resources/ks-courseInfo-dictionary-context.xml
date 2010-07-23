@@ -31,13 +31,12 @@
 				<ref bean="courseInfo.offeredAtpTypes" />
 				<ref bean="courseInfo.primaryInstructor" />
 				<ref bean="courseInfo.instructors" />
-	<!-- 		<ref bean-"courseInfo.instructors" /> -->
 				<ref bean="courseInfo.state" />
 				<ref bean="courseInfo.subjectArea" />
 				<ref bean="courseInfo.termsOffered" />
 				<ref bean="courseInfo.transcriptTitle" />
 				<ref bean="courseInfo.type" />
-				<!-- <ref bean="courseInfo.variations" /> -->
+				<ref bean="courseInfo.variations" />
 				<!-- Dynamic Attributes -->
 				<ref bean="courseInfo.finalExamStatus" />
 				<ref bean="courseInfo.finalExamRationale"/>

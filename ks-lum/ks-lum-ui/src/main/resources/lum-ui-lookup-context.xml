@@ -113,6 +113,13 @@
 			ref="kuali.enumeration.management.search.subjectAreas" />
 	</bean>
 
+	<bean id="courseInfo.crossListings.subjectArea" parent="uilookup">
+		<property name="path" value="courseInfo.crossListings.subjectArea" />
+		<!-- <property name="lookupContextPath" value="department" /> -->
+		<property name="initialLookup"
+			ref="kuali.enumeration.management.search.subjectAreas" />
+	</bean>
+
 	<bean id="joints.courseId" parent="uilookup">
 		<property name="path" value="courseInfo.joints.courseId" />
 		<property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />

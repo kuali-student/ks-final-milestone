@@ -36,6 +36,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
+import org.kuali.student.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -191,6 +192,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		
 		// TODO: Variations
+		List<CourseVariationInfo> variations = assembleVariations(clu.getAlternateIdentifiers()); 
+		course.setVariations(variations);
 		// course.setVariations(variations)
 
 		//Learning Objectives
@@ -253,6 +256,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		identifier.setShortName(course.getTranscriptTitle());
 		clu.setOfficialIdentifier(identifier);
 
+		// Use the Course Variation assembler to disassemble the variations
+		List<BaseDTOAssemblyNode<?, ?>> variationResults;
+        try {
+        	
+        	
+            variationResults = disassembleVariations(clu, course, operation);
+            result.getChildNodes().addAll(variationResults);
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling format", e);
+        }
+		
+		
 		AdminOrgInfo orgInfo = (null != clu.getPrimaryAdminOrg()) ? clu.getPrimaryAdminOrg() : new AdminOrgInfo();
 		orgInfo.setOrgId(course.getDepartment());
 		clu.setPrimaryAdminOrg(orgInfo);
@@ -687,6 +703,93 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             results.add(formatNode);                                            
         }
 
+		return results;
+	}
+	
+	private List<CourseVariationInfo> assembleVariations(List<CluIdentifierInfo> cluIdents) {
+		List<CourseVariationInfo> variations = new ArrayList<CourseVariationInfo>();
+		if (cluIdents != null) {
+			for (CluIdentifierInfo cluIdent : cluIdents) {
+				if (cluIdent.getType() != null && 
+						cluIdent.getType().equals(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE)) {
+					CourseVariationInfo variation = new CourseVariationInfo();
+					variation.setId(cluIdent.getId());
+					variation.setType(cluIdent.getType());
+					variation.setCourseNumberSuffix(cluIdent.getSuffixCode());
+					variation.setSubjectArea(cluIdent.getDivision());
+					variation.setVariationCode(cluIdent.getVariation());
+					variation.setVariationTitle(cluIdent.getLongName());
+					variations.add(variation);
+				}
+			}
+		}
+		return variations;
+	}
+	
+	private List<BaseDTOAssemblyNode<?, ?>> disassembleVariations(CluInfo cluInfo,
+			CourseInfo course, NodeOperation operation)
+			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+		Map<String, CluIdentifierInfo> newVariationsIdents = new HashMap<String, CluIdentifierInfo>();
+		Map<String, CluIdentifierInfo> otherIdents = new HashMap<String, CluIdentifierInfo>();
+		if (course != null && course.getVariations() != null) {
+			for (CourseVariationInfo variation : course.getVariations()) {
+				BaseDTOAssemblyNode<CourseVariationInfo, CluIdentifierInfo> courseVersionAssemblyNode =
+					new BaseDTOAssemblyNode<CourseVariationInfo, CluIdentifierInfo>(null); 
+				variation.setSubjectArea(course.getSubjectArea());
+				variation.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
+				variation.setCourseNumberSuffix(course.getCourseNumberSuffix());
+				if (variation == null) {
+					throw new AssemblyException("Course variation cannot be null");
+				}
+				// cluIdentInfo is the base DTO that corresponds to the business DTO
+				CluIdentifierInfo cluIdentInfo = null;
+				try {
+					if (NodeOperation.UPDATE == operation && variation.getId() != null) {
+						if (cluInfo.getAlternateIdentifiers() != null) {
+							for (CluIdentifierInfo identInfo : cluInfo.getAlternateIdentifiers()) {
+								if (identInfo.getType() != null && identInfo.getType()
+										.equals(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE)) {
+									if (variation.getId() != null && identInfo.getId() != null && 
+											identInfo.getId().equals(variation.getId())) {
+										cluIdentInfo = identInfo;
+									}
+								} else {
+									otherIdents.put(identInfo.getId(), identInfo);
+								}
+							}
+						} else {
+							cluIdentInfo = new CluIdentifierInfo();
+						}
+					} else {
+						cluIdentInfo = new CluIdentifierInfo();
+					}
+				} catch (Exception e) {
+					throw new AssemblyException("Error retrieving course variation during update", e);
+				}
+				
+				// copy all fields
+				cluIdentInfo.setId(UUIDHelper.genStringUUID(variation.getId()));
+				cluIdentInfo.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
+				cluIdentInfo.setCode(course.getCode());
+				cluIdentInfo.setSuffixCode(course.getCourseNumberSuffix());
+				cluIdentInfo.setDivision(course.getSubjectArea());
+				// TODO what to do with short name for a variation? Transcript title?
+//				cluIdentInfo.setShortName(course.getTranscriptTitle());
+				cluIdentInfo.setVariation(variation.getVariationCode());
+				cluIdentInfo.setLongName(variation.getVariationTitle());
+				courseVersionAssemblyNode.setNodeData(cluIdentInfo);
+				courseVersionAssemblyNode.setOperation(operation);
+				courseVersionAssemblyNode.setBusinessDTORef(variation);
+				results.add(courseVersionAssemblyNode);
+				newVariationsIdents.put(cluIdentInfo.getId(), cluIdentInfo);
+			}
+			if (cluInfo.getAlternateIdentifiers() != null) {
+				cluInfo.setAlternateIdentifiers(new ArrayList<CluIdentifierInfo>());
+				cluInfo.getAlternateIdentifiers().addAll(otherIdents.values());
+				cluInfo.getAlternateIdentifiers().addAll(newVariationsIdents.values());
+			}
+		}
 		return results;
 	}
 

@@ -190,6 +190,9 @@ public class CourseDataGenerator {
 		if("campusLocations".equals(parentPropertyName)){
 			return campusLocations[propertyIndex%2];
 		}
+		if ("variationCode".equals(name)) {
+			return "A";
+		}
 		//Default
 		return name+"-"+propertyIndex;
 	}

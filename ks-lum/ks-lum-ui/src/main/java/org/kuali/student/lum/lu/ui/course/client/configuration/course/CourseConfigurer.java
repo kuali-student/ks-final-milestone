@@ -31,6 +31,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
@@ -82,6 +84,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -300,18 +303,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     
     protected CollapsableSection generateCrossListed_Ver_Joint_Section() {
     	CollapsableSection result = new CollapsableSection(getLabel(LUConstants.CL_V_J_LABEL_KEY));
+    	
         addField(result, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
         addField(result, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
-//        addField(result, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+        addField(result, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
         return result;
-    }
-
-    protected VerticalSection generateVersionCodesSection() {
-        //Version Codes
-        VerticalSection versionCodes = new VerticalSection(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
-        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
-        //versionCodes.addStyleName("KS-LUM-Section-Divider");
-        return versionCodes;
     }
 
     protected VerticalSection generateOfferedJointlySection() {
@@ -320,15 +316,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
         //offeredJointly.addStyleName("KS-LUM-Section-Divider");
         return offeredJointly;
-    }
-
-    protected VerticalSection generateCrossListedSection() {
-        // Cross-listed
-        VerticalSection crossListed = new VerticalSection(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
-        // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-        addField(crossListed, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
-        //crossListed.addStyleName("KS-LUM-Section-Divider");
-        return crossListed;
     }
 
     protected VerticalSection generateCourseInfoShortTitleSection() {
@@ -541,8 +528,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, DEPARTMENT, generateMessageInfo(LUConstants.DEPT_LABEL_KEY), null, path);
-            ns.nextLine();
+//            addField(ns, DEPARTMENT, generateMessageInfo(LUConstants.DEPT_LABEL_KEY), null, path);
+//            ns.nextLine();
             addField(ns, SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY), path);
             addField(ns, COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY), path);
 
@@ -570,8 +557,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, "versionCode", generateMessageInfo(LUConstants.CODE_LABEL_KEY), path);
-            addField(ns, "versionTitle", generateMessageInfo(LUConstants.TITLE_LITERAL_LABEL_KEY), path);
+            addField(ns, "variationCode", generateMessageInfo(LUConstants.CODE_LABEL_KEY), path);
+            addField(ns, "variationTitle", generateMessageInfo(LUConstants.TITLE_LITERAL_LABEL_KEY), path);
 
             return ns;
         }
@@ -907,6 +894,10 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 
 	@Override
 	public void setWidgetValue(HasDataValue widget, DataModel model, String path) {
+		DataModel middleManModel = new DataModel();
+		if (model != null && model.getRoot() != null) {
+			middleManModel = new DataModel(model.getDefinition(), model.getRoot().copy());
+		}
 		// convert from the structure path/0/<key>/<id> into path/0/<id>
 		QueryPath qPath = QueryPath.parse(path);
 		Object value = null;
@@ -914,19 +905,19 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 		Data newIdsData = null;
 		Data newIdsRuntimeData = null;
 		
-		if(model!=null){
-        	value = model.get(qPath);
+		if(middleManModel!=null){
+        	value = middleManModel.get(qPath);
         }
 
-		if (value != null && widget != null) {
+		if (value != null) {
 			idsData = (Data) value;
 			if (idsData != null) {
 	        	for (Data.Property p : idsData) {
 					if(!"_runtimeData".equals(p.getKey())){
 						Data idItem = p.getValue();
-						String id = idItem.get(this.key);
+						String id = idItem.get(key);
 						Data runtimeData = idItem.get("_runtimeData");
-						Data translationData = runtimeData.get(this.key);
+						Data translationData = runtimeData.get(key);
 						newIdsData = (newIdsData == null)? new Data() : newIdsData;
 						newIdsData.add(id);
 						newIdsRuntimeData = (newIdsRuntimeData == null)? new Data() : newIdsRuntimeData;
@@ -935,12 +926,10 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 	        	}
 			}
 		}
-		
-		if (newIdsData != null){
+		if (newIdsData != null) {
 			newIdsData.set("_runtimeData", newIdsRuntimeData);
-	        model.set(qPath, newIdsData);
-	        
-			hasDataValueBinding.setWidgetValue(widget, model, path);
+			middleManModel.set(qPath, newIdsData);
+			hasDataValueBinding.setWidgetValue(widget, middleManModel, path);
 		}
 	}
 }
