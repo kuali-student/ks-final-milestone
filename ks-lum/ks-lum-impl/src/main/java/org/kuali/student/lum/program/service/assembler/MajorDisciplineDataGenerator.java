@@ -139,7 +139,13 @@ public class MajorDisciplineDataGenerator {
 				return ProgramAssemblerConstants.PROGRAM_VARIATION;
 			}
 			
-			throw new RuntimeException("Code what to do with this type");
+			//Temporary change added because of addition of type field to AdminOrgInfo.
+			// Please add the type values for MajorDisciplineInfo admin orgs
+			else{
+				return "default.temp.type";
+			}
+			
+//			throw new RuntimeException("Code what to do with this type");
 		}
 
 		if("state".equals(name)){
