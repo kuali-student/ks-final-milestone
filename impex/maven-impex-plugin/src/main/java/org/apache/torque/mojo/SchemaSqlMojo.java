@@ -58,6 +58,7 @@ public class SchemaSqlMojo extends SqlMojoBase {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Generating SQL for " + getTargetDatabase() + " from schema XML files");
 		getLog().info("------------------------------------------------------------------------");
+		new SchemaMorpher().morphSchema(getProject(),getLog());
 		super.execute();
 	}
 }
