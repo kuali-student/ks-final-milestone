@@ -89,7 +89,7 @@ public class MorphDataMojo extends MorpherMojo {
 	}
 
 	protected String getMorphedContents(String contents) {
-		return StringUtils.replace(contents, "\"data.dtd\"", '"' + getProject().getArtifactId() + "-schema.dtd\"");
+		return StringUtils.replace(contents, "\"data.dtd\"", '"' + getProject().getArtifactId() + "-data.dtd\"");
 	}
 
 	public String getDataXMLIncludes() {
