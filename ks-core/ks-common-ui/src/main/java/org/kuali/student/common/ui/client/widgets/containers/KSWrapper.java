@@ -71,20 +71,10 @@ public class KSWrapper extends Composite{
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
     private FlowPanel layout = new FlowPanel();
-	//private VerticalPanel leftHeader = new VerticalPanel();
-	//private VerticalPanel rightHeader = new VerticalPanel();
-//	private HorizontalPanel header = new HorizontalPanel();
-	//private HorizontalPanel headerContent = new HorizontalPanel();
-//	private HorizontalPanel footer = new HorizontalPanel();
-//	private HorizontalPanel headerTopLinks = new HorizontalPanel();
-//	private HorizontalPanel headerBottomLinks = new HorizontalPanel();
 
 	private KSHeader ksHeader = new KSHeader();
 
 	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
-	//private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
-//	private KSButton helpLabel = new KSButton(getMessage("wrapperPanelHelp"), ButtonStyle.DEFAULT_ANCHOR);
-	//private KSImage helpImage = Theme.INSTANCE.getCommonImages().getHelpIcon();
 	private Anchor versionAnchor = new Anchor(" ( Version ) ");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
@@ -209,7 +199,7 @@ public class KSWrapper extends Composite{
 
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleHome"),Theme.INSTANCE.getCommonImages().getSpacerIcon(),
     			new WrapperNavigationHandler(
-    					lumAppUrl+"/index.html"))
+    					"#"))
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleMyActionList"),Theme.INSTANCE.getCommonImages().getApplicationIcon(),
     			new WrapperNavigationHandler(

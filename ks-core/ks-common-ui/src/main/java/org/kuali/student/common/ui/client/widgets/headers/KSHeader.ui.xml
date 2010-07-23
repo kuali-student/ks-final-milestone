@@ -4,12 +4,16 @@
 	xmlns:ks="urn:import:org.kuali.student.common.ui.client.widgets">
 	<ui:style>
 .leftRightContainer{
+  padding-top: 10px;
   width:100%;
- 
+  margin-bottom: 10px;
+  
 }
 .leftPart{
    width:50%;
    float: left;
+   margin-bottom: 5px;
+   
 }
 .rightPart{
    float:right;
@@ -28,6 +32,7 @@
    padding: 2px;   
 }
 .title{
+  padding-left: 5px;
   font-weight: bold;
   font-size: 20px;
   color: gray;
@@ -55,40 +60,57 @@
    clear:both;
 }
 .bottomLine{
-   background-color:gray;
+   border-top: 3px solid gray;
+   background-color: #E8E8E8;
    width:100%;
    clear:both;
-   height:2px;
-   
+   padding-top: 3px;
+   padding-bottom: 4px;
+   padding-left: 5px;
+   font-size: 1.1em;
 }
-.applicationTitle {
-	font-weight: bold;
-	font-size: 20px;
-}
-	</ui:style>
-	<g:HTMLPanel >
 
-<div class='{style.leftRightContainer}'>
-    <g:Label ui:field='applicationTitleLabel' styleName='{style.applicationTitle}'>KRU</g:Label>
-    <div>
-        <g:FlowPanel ui:field="leftPartPanel" styleName='{style.leftPart}'>
-          <g:Label styleName='{style.title}'></g:Label>
-        </g:FlowPanel>
-        <div class='{style.rightPart}'>
-           <g:Label styleName='{style.searchButton}'></g:Label><!-- place holder -->
-           <g:Label styleName='{style.searchControl}'></g:Label><!-- place holder -->
-           <g:Label ui:field="searchLabel" styleName='{style.course}'></g:Label>
-           
-           <div class='{style.clearBothDiv}'></div>
-           
-           <g:FlowPanel ui:field="logoutPanel" styleName='{style.logoutButton}'></g:FlowPanel>
-           <div class='{style.separator}'>|</div>
-           <g:FlowPanel ui:field="userNamePanel" styleName='{style.userName}'></g:FlowPanel>
-           <g:FlowPanel ui:field="hiPanel" styleName='{style.hiPanel}'></g:FlowPanel>
-        </div>
-    </div>
-    <div class="{style.bottomLine}"></div>
-    <!-- Your Breadcrum here, Brian,-->
-</div>		
-	</g:HTMLPanel>
+.bottomLine a{
+   color: black;
+   font-weight: bold;
+}
+
+.bottomLine a:hover{
+	color: gray;
+}
+
+.applicationTitle {
+  padding-left: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  color: gray;
+}
+.innerDiv{
+  padding-right: 10px;
+  padding-left: 5px;
+}
+
+</ui:style>
+<g:HTMLPanel >
+	<div class='{style.leftRightContainer}'>
+	    <g:Label ui:field='applicationTitleLabel' styleName='{style.applicationTitle}'>KRU</g:Label>
+	    <div class='{style.innerDiv}'>
+	        <g:FlowPanel ui:field="leftPartPanel" styleName='{style.leftPart}'>
+	        </g:FlowPanel>
+	        <div class='{style.rightPart}'>
+	           <g:Label styleName='{style.searchButton}'></g:Label><!-- place holder -->
+	           <g:Label styleName='{style.searchControl}'></g:Label><!-- place holder -->
+	           <g:Label ui:field="searchLabel" styleName='{style.course}'></g:Label>
+	           
+	           <div class='{style.clearBothDiv}'></div>
+	           
+	           <g:FlowPanel ui:field="logoutPanel" styleName='{style.logoutButton}'></g:FlowPanel>
+	           <div class='{style.separator}'>|</div>
+	           <g:FlowPanel ui:field="userNamePanel" styleName='{style.userName}'></g:FlowPanel>
+	           <g:FlowPanel ui:field="hiPanel" styleName='{style.hiPanel}'></g:FlowPanel>
+	        </div>
+	    </div>
+	    <g:FlowPanel ui:field="bottomContainer" styleName="{style.bottomLine}"></g:FlowPanel>
+	</div>		
+</g:HTMLPanel>
 </ui:UiBinder> 

@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -105,16 +105,21 @@ public abstract class ViewComposite extends Composite implements View {
     }
     
     @Override
-    public void collectHistory(HistoryStackFrame frame) {
-        // do nothing
-    }
+	public String collectHistory(String historyStack) {
+		return historyStack;
+	}
 
-    @Override
-    public void onHistoryEvent(HistoryStackFrame frame) {
-        // do nothing
-    }
-    
-    @Override
+	@Override
+	public void onHistoryEvent(String historyStack) {
+
+	}
+	
+	@Override
+	public void collectBreadcrumbNames(List<String> names) {
+		names.add(this.getName());
+	}
+
+	@Override
     public Enum<?> getViewEnum() {
 		return viewType;
     	

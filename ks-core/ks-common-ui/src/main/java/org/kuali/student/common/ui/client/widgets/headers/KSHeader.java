@@ -33,6 +33,9 @@ public class KSHeader extends Composite {
 
     @UiField
     Label applicationTitleLabel;
+    
+    @UiField
+    FlowPanel bottomContainer;
 
     
     Label userNameLabel =  new Label("");
@@ -59,4 +62,7 @@ public class KSHeader extends Composite {
         userNameLabel.setText(name);
     }
 
+    public void addBottomContainerWidget(Widget w){
+    	bottomContainer.add(w);
+    }
 }
