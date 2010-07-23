@@ -61,7 +61,7 @@ public class SchemaMorpher {
 			String filename = project.getBasedir().getAbsolutePath() + "/src/main/impex/schema.xml";
 			String newDir = project.getBuild().getDirectory() + "/generated-impex";
 			FileUtils.forceMkdir(new File(newDir));
-			String newFilename = new File(newDir).getAbsolutePath() + "/schema.xml";
+			String newFilename = new File(newDir).getAbsolutePath() + "/" + project.getArtifactId() + "-schema.xml";
 			File file = new File(filename);
 			String contents = getContents(file);
 			if (isMorphNeeded(contents)) {
