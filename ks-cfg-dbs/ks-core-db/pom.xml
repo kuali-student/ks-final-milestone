@@ -21,19 +21,28 @@
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <configuration>
-          <schemaDir>${project.build.directory}/generated-impex</schemaDir>
-        </configuration>
         <executions>
+          <execution>
+            <id>morph-xml</id>
+            <goals>
+              <goal>morphschema</goal>
+              <goal>morphdata</goal>
+            </goals>
+          </execution>
           <execution>
             <id>generate-oracle-sql</id>
             <goals>
               <goal>schemasql</goal>
+              <goal>datadtd</goal>
+              <goal>datasql</goal>
             </goals>
             <configuration>
+              <schemaDir>${project.build.directory}/generated-impex</schemaDir>
+              <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
               <targetDatabase>oracle</targetDatabase>
             </configuration>
           </execution>
+          <!-- 
           <execution>
             <id>generate-mysql-sql</id>
             <goals>
@@ -42,7 +51,7 @@
             <configuration>
               <targetDatabase>mysql</targetDatabase>
             </configuration>
-          </execution>
+          </execution> -->
         </executions>
       </plugin>
     </plugins>
