@@ -1,19 +1,11 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -23,20 +15,10 @@ import org.codehaus.plexus.util.StringUtils;
  * @goal morphdata
  * @phase generate-sources
  */
-public class MorphDataMojo extends AbstractMojo {
-	private static final String FS = System.getProperty("file.separator");
+public class MorphDataMojo extends MorpherMojo {
 
 	/**
-	 * The Maven project this plugin runs in.
-	 * 
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	private MavenProject project;
-
-	/**
-	 * The directory in which the SQL will be generated.
+	 * The directory in which the morphed XML will be generated.
 	 * 
 	 * @parameter expression="${outputDir}"
 	 *            default-value="${project.build.directory}/generated-impex/data"
@@ -45,7 +27,7 @@ public class MorphDataMojo extends AbstractMojo {
 	private String outputDir;
 
 	/**
-	 * The directory containing data XML files
+	 * The directory containing the source (non-morphed) data XML files
 	 * 
 	 * @parameter expression="${dataXMLDir}"
 	 *            default-value="${basedir}/src/main/impex/data"
@@ -106,51 +88,8 @@ public class MorphDataMojo extends AbstractMojo {
 		}
 	}
 
-	protected void writeContents(String filename, String contents) throws IOException {
-		OutputStream out = null;
-		try {
-			out = new FileOutputStream(filename);
-			IOUtils.write(contents, out, "UTF-8");
-		} catch (IOException e) {
-			throw e;
-		} finally {
-			IOUtils.closeQuietly(out);
-		}
-	}
-
 	protected String getMorphedContents(String contents) {
 		return StringUtils.replace(contents, "\"data.dtd\"", '"' + getProject().getArtifactId() + "-schema.dtd\"");
-	}
-
-	protected String getContents(String filename) throws IOException {
-		InputStream in = null;
-		try {
-			in = new FileInputStream(filename);
-			return IOUtils.toString(in, "UTF-8");
-		} catch (IOException e) {
-			throw e;
-		} finally {
-			IOUtils.closeQuietly(in);
-		}
-	}
-
-	/**
-	 * Sets the maven project.
-	 * 
-	 * @param project
-	 *            the maven project where this plugin runs in.
-	 */
-	public void setProject(MavenProject project) {
-		this.project = project;
-	}
-
-	/**
-	 * Returns the maven project.
-	 * 
-	 * @return The maven project where this plugin runs in.
-	 */
-	public MavenProject getProject() {
-		return project;
 	}
 
 	public String getDataXMLIncludes() {
