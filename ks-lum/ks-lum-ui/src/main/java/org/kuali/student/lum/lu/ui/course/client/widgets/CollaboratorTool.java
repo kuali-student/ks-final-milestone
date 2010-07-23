@@ -14,6 +14,7 @@
  */
 
 package org.kuali.student.lum.lu.ui.course.client.widgets;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
@@ -81,9 +83,9 @@ public class CollaboratorTool extends Composite implements ToolView{
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
     
     //Todo MESSAGES
-    private final String VIEW = "View";
-    private final String COMMENT_VIEW = "Comment, View";
-    private final String EDIT_COMMENT_VIEW = "Edit, Comment, View";
+    private static final String VIEW = "View";
+    private static final String COMMENT_VIEW = "Comment, View";
+    private static final String EDIT_COMMENT_VIEW = "Edit, Comment, View";
         
     private SimpleListItems permissionListItems = new SimpleListItems();
     private SimpleListItems actionRequestListItems = new SimpleListItems();
@@ -209,7 +211,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 		if (!loaded){
 			init();
 		}
-		section.redraw();
+		//section.redraw();
 		controller.requestModel(CollaboratorModel.class, new ModelRequestCallback<CollaboratorModel>(){
 
 			@Override
@@ -262,34 +264,12 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 			@Override
 			public void onRequestFail(Throwable cause) {
-				// TODO Auto-generated method stub
 				onReadyCallback.exec(true);
 			}
 		});
-		
-/*		workflowRpcServiceAsync.getMetadata("workflow", null, new AsyncCallback<Metadata>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-				GWT.log("error getting meta", caught);
-			}
-
-			@Override
-			public void onSuccess(Metadata result) {
-				// TODO Auto-generated method stub
-				System.out.println("got here!!!");
-				Metadata personIdMeta = result
-				FieldDescriptor fd = new FieldDescriptor(null, "Person", personIdMeta);
-				section.addField(fd);
-				//fd.getWidgetBinding().getV
-				//addField(section, "workflow/personId", "Person");
-				onReadyCallback.exec(true);
-			}
-		});*/
-		
 	}
 	
-	private void refreshDocumentStatus(final Callback onReadyCallback){
+	private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback){
 		cluProposalRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
 			@Override
 			public void onFailure(Throwable caught) {
@@ -308,11 +288,12 @@ public class CollaboratorTool extends Composite implements ToolView{
 		
 	private void createAddCollabSection(){
 		Metadata personIdMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("personId");
-		person = new FieldDescriptor(null, "Person", personIdMeta);
+		//TODO use real keys here
+		person = new FieldDescriptor(null, generateMessageInfo("Person"), personIdMeta);
 		Metadata typeMeta = CollaboratorTool.this.workflowAttrMeta.getProperties().get("collaboratorType");
-		permissions = new FieldDescriptor(null, "Permissions", typeMeta);
+		permissions = new FieldDescriptor(null, generateMessageInfo("Person"), typeMeta);
 		permissions.setFieldWidget(permissionList);
-		actionRequests = new FieldDescriptor(null, "Action Requests", typeMeta);
+		actionRequests = new FieldDescriptor(null, generateMessageInfo("Person"), typeMeta);
 		actionRequests.setFieldWidget(actionRequestList);
 		section.addField(person);
 		section.addField(permissions);
@@ -322,6 +303,10 @@ public class CollaboratorTool extends Composite implements ToolView{
 		permissionList.setBlankFirstItem(false);
 		actionRequestList.setBlankFirstItem(false);
 	}
+	
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo(null, null, null, labelKey);
+    }
 	
 	private boolean isDocumentPreRoute() {
 		return "I".equals(documentStatus) || "S".equals(documentStatus);
@@ -374,8 +359,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		//do nothing, nothing to clear
 	}
 
 	@Override
@@ -385,23 +369,16 @@ public class CollaboratorTool extends Composite implements ToolView{
 
 	@Override
 	public void updateModel() {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
 	@Override
 	public void collectHistory(HistoryStackFrame frame) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onHistoryEvent(HistoryStackFrame frame) {
-		// TODO Auto-generated method stub
-		
 	}
-	
-
     /**
      * @see org.kuali.student.common.ui.client.mvc.View#getName()
      */
@@ -478,43 +455,43 @@ public class CollaboratorTool extends Composite implements ToolView{
 							rowWidgets.add(new KSLabel(person.getPrincipalId()));
 						}
 						
-						String permString = "";
+						StringBuffer permString = new StringBuffer("");
 						int count = 0;
 						for(String perm: person.getPermList()){
 							if(perm != null){
 								if(count > 0){
-									permString = permString + ", " + perm;
+									permString.append(", " + perm);
 								}
 								else{
-									permString = permString + perm;
+									permString.append(perm);
 								}
 								count++;
 							}
 						}
-						rowWidgets.add(new KSLabel(permString));
+						rowWidgets.add(new KSLabel(permString.toString()));
 						
-						String actionString = "";
+						StringBuffer actionString = new StringBuffer("");
 						count = 0;
 						for(String action: person.getActionList()){
 							if(action != null){
 								if(count > 0){
-									actionString = actionString + ", " + action;
+									actionString.append(", " + action);
 								}
 								else{
-									actionString = actionString + action;
+									actionString.append(action);
 								}
 								count++;
 							}
 						}
-						rowWidgets.add(new KSLabel(actionString));
+						rowWidgets.add(new KSLabel(actionString.toString()));
 						if(numberCollabs > 0){
-							tableSection.setSectionTitle(SectionTitle.generateH3Title("Added People (" + numberCollabs + ")"));
+							tableSection.getLayout().setLayoutTitle(SectionTitle.generateH3Title("Added People (" + numberCollabs + ")"));
 						}
 						rowWidgets.add(new KSLabel(person.getActionRequestStatus()));
 						//TODO add back in when we have remove
 /*
 						if (person.isCanRevokeRequest()) {
-							KSLinkButton remove = new KSLinkButton("X", ButtonStyle.DELETE);
+							KSButton remove = new KSButton("X", ButtonStyle.DELETE);
 							remove.addClickHandler(new ClickHandler() {
 	
 								@Override
@@ -560,5 +537,8 @@ public class CollaboratorTool extends Composite implements ToolView{
 	public KSImage getImage() {
 		return Theme.INSTANCE.getCommonImages().getPersonIcon();
 	}
-
+	
+	public Widget asWidget(){
+		return this;
+	}
 }

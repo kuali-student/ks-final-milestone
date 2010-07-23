@@ -18,11 +18,12 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
+import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -78,7 +79,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         		this.searchTextKey = param.getKey();
         	}
         	//Add in any writeaccess never default values to the additional params
-        	if(param.getWriteAccess().equals("NEVER")||param.getDefaultValueString()!=null||param.getDefaultValueList()!=null){
+        	if(WriteAccess.NEVER.equals(param.getWriteAccess())||param.getDefaultValueString()!=null||param.getDefaultValueList()!=null){
         		SearchParam searchParam = new SearchParam();
         		searchParam.setKey(param.getKey());
 				if(param.getDefaultValueList()==null){
@@ -90,8 +91,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         	}
         }
         if (this.searchTextKey == null) {
-        	//FIXME deal with missing default key
-        	GWT.log("Cannot find searchTextKey for " + searchTypeKey, null);
+        	KSErrorDialog.show(new Throwable("Cannot find searchTextKey for " + searchTypeKey) );
         }
         
         this.searchIdKey = lookupMetadata.getSearchParamIdKey();

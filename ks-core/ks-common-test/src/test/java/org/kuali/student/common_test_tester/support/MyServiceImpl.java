@@ -17,12 +17,13 @@ package org.kuali.student.common_test_tester.support;
 
 import javax.jws.WebService;
 
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.common_test_tester.support.MyService", serviceName = "MyService", portName = "MyService", targetNamespace = "http://student.kuali.org/poc/wsdl/test/my")
 @Transactional
 public class MyServiceImpl implements MyService {
-
+	final Logger LOG = Logger.getLogger(MyServiceImpl.class);
 	private MyDao dao0;
 	private OtherDao otherDao;
 	private SomeClass myClass;
@@ -62,7 +63,7 @@ public class MyServiceImpl implements MyService {
 		if(myClass==null){
 			throw new RuntimeException("ListIsNull");
 		}
-		System.out.println("######==" + dao0);
+		LOG.info("######==" + dao0);
 		if (dao0 == null) {
 			return "";
 		}

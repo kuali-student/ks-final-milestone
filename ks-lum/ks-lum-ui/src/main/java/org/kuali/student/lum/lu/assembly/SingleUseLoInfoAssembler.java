@@ -47,6 +47,8 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLo
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
+import com.google.gwt.core.client.GWT;
+
 // TODO - need a CourseSpecificLosAssembler that implements Assembler<Data, List<LoInfo>>
 // that calls this class' methods, rather than using this directly
 public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
@@ -345,7 +347,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 				// ??
 				removeOrphans(clrInfo.getLoId());
 			} catch (Exception e) {
-				e.printStackTrace();
+				GWT.log("Exception while saving", e);
 				throw new AssemblyException(e);
 			}
     	}
@@ -353,9 +355,9 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	
 	private void removeOrphans(String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		// debug
-		LoInfo lo = loService.getLo(loId);
+		loService.getLo(loId);
 		// end debug
-		List<LoInfo> relatedLos = loService.getRelatedLosByLoId(loId, "kuali.lo.relation.type.includes");
+		loService.getRelatedLosByLoId(loId, "kuali.lo.relation.type.includes");
 		/*
 		if (null != loloReltns) {
 			for (LoLoRelationInfo info : loloReltns) {

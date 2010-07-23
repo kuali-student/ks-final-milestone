@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 import java.util.Date;
+
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
@@ -53,6 +54,7 @@ public class CreditCourseHelper
 		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
+		INSTRUCTORS ("instructors"),
 		COURSE_SPECIFIC_LOS ("courseSpecificLOs"),
 		GRADING_OPTIONS("gradingOptions"),
 		OUTCOME_OPTIONS("outcomeOptions"),
@@ -403,6 +405,20 @@ public class CreditCourseHelper
 	public String getPrimaryInstructor ()
 	{
 		return (String) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ());
+	}
+	
+	public void setInstructors (Data value)
+	{
+		data.set (Properties.INSTRUCTORS.getKey(), value);
+	}
+	
+	public Data getInstructors() {
+        Data instructorsData = data.get(Properties.INSTRUCTORS.getKey());
+        if (instructorsData == null) {
+            instructorsData = new Data();
+            setInstructors(instructorsData);
+        }
+        return instructorsData;
 	}
 	
 	

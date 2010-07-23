@@ -1,70 +1,65 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.kuali.student.db</groupId>
-    <artifactId>ks-cfg-dbs</artifactId>
-    <version>1.0.0</version>
+    <groupId>org.kuali.student.dbs</groupId>
+    <artifactId>ks-dbs</artifactId>
+    <version>1.1.0-poc-M7-SNAPSHOT</version>
   </parent>
   <artifactId>ks-core-db</artifactId>
-  <name>KS Core Database</name>
+  <name>KS Core DB</name>
   <description>Kuali Student Core Database</description>
-  <properties>
-    <ks.core.url>jdbc:oracle:thin:@localhost:1521:XE</ks.core.url>
-    <ks.core.schema>KSCORE</ks.core.schema>
-    <ks.core.username>KSCORE</ks.core.username>
-    <ks.core.password>KSCORE</ks.core.password>
-  </properties>
   <build>
     <resources>
       <resource>
-        <directory>src/main/resources/impex</directory>
+        <directory>${project.build.directory}/generated-impex</directory>
       </resource>
       <resource>
-        <directory>${project.build.directory}/generated-sql/impex</directory>
+        <directory>${project.build.directory}/generated-sql</directory>
       </resource>
     </resources>
     <plugins>
       <plugin>
-        <groupId>org.kuali.impex</groupId>
+        <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <configuration>
-          <targetDatabase>${ks.db.type}</targetDatabase>
-          <driver>${ks.db.driver}</driver>
-          <url>${ks.core.url}</url>
-          <schema>${ks.core.schema}</schema>
-          <username>${ks.core.username}</username>
-          <password>${ks.core.password}</password>
+          <dataXMLDir>${project.build.directory}/generated-impex/data</dataXMLDir>
+          <schemaDir>${project.build.directory}/generated-impex</schemaDir>
+          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
         </configuration>
-        <!-- 
         <executions>
           <execution>
-            <id>generate-data-dtd</id>
+            <id>morph-xml</id>
             <goals>
-              <goal>datadtd</goal>
+              <goal>morphschema</goal>
+              <goal>morphdata</goal>
             </goals>
+            <configuration>
+              <dataXMLDir>${basedir}/src/main/impex/data</dataXMLDir>
+            </configuration>
           </execution>
           <execution>
             <id>generate-oracle-sql</id>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datadtd</goal>
+              <goal>datasql</goal>
+            </goals>
             <configuration>
               <targetDatabase>oracle</targetDatabase>
             </configuration>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
           </execution>
           <execution>
             <id>generate-mysql-sql</id>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datadtd</goal>
+              <goal>datasql</goal>
+            </goals>
             <configuration>
               <targetDatabase>mysql</targetDatabase>
             </configuration>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
           </execution>
         </executions>
-         -->
       </plugin>
     </plugins>
   </build>

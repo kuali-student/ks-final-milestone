@@ -18,6 +18,7 @@ package org.kuali.student.core.workflow.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
@@ -48,6 +49,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.*;
+
 public class WorkflowToolbar extends Composite {
 	DataModel dataModel=null;
 	
@@ -71,7 +74,6 @@ public class WorkflowToolbar extends Composite {
     private String idPath;
     private String workflowId;
     
-    //FIXME: This should be determined from metadata/dictionary
     private String[] requiredFieldPaths;
     
 	private HorizontalBlockFlowPanel rootPanel = new HorizontalBlockFlowPanel();
@@ -384,14 +386,15 @@ public class WorkflowToolbar extends Composite {
 	
 									@Override
 									public void onSuccess(List<String> result) {
-										String workflowNodes = "";
+										StringBuilder workflowNodesBuffer = new StringBuilder();
 										for (String nodeName:result){
-											workflowNodes += nodeName + " ";
+											workflowNodesBuffer.append(nodeName);
+											workflowNodesBuffer.append(" ");
 										}
-										if (workflowNodes.isEmpty()){
-											workflowNodes = "Not in workflow";
+										if (workflowNodesBuffer.toString().isEmpty()){
+											workflowNodesBuffer.append("Not in workflow");
 										}
-										wfNodeLabel.setText(workflowNodes);
+										wfNodeLabel.setText(workflowNodesBuffer.toString());
 									}
 								});		
 							}						
@@ -407,26 +410,27 @@ public class WorkflowToolbar extends Composite {
 	}
 
 	private void displayWorkflowStatus(String statusCd){
-		//TODO: Remove hardcoded translations
 		String statusTranslation = "";
-		if ("S".equals(statusCd)){
-			statusTranslation = "Saved";
-		} else  if ("I".equals(statusCd)){
-			statusTranslation = "Initiated";
-		} else if ("R".equals(statusCd)){
-			statusTranslation = "Enroute";
-		} else if ("A".equals(statusCd)){
-			statusTranslation = "Approved";
-		} else if ("X".equals(statusCd)){
-			statusTranslation = "Cancelled";
-		} else if ("E".equals(statusCd)){
-			statusTranslation = "Exception";
-		} else if ("D".equals(statusCd)){
-			statusTranslation = "Dissaproved";
-		} else if ("F".equals(statusCd)){
-			statusTranslation = "Final";
-		} else if ("C".equals(statusCd)){
-			statusTranslation = "Dissaproved-Cancel";
+		if (ROUTE_HEADER_SAVED_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_SAVED_LABEL_KEY);
+		} else  if (ROUTE_HEADER_INITIATED_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_INITIATED_LABEL_KEY);
+		} else if (ROUTE_HEADER_ENROUTE_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_ENROUTE_LABEL_KEY);
+		} else if (ROUTE_HEADER_APPROVED_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_APPROVED_LABEL_KEY);
+		} else if (ROUTE_HEADER_CANCEL_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_CANCEL_LABEL_KEY);
+		} else if (ROUTE_HEADER_EXCEPTION_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_EXCEPTION_LABEL_KEY);
+		} else if (ROUTE_HEADER_DISAPPROVED_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_DISAPPROVED_LABEL_KEY);
+		} else if (ROUTE_HEADER_FINAL_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_FINAL_LABEL_KEY);
+		} else if (ROUTE_HEADER_DISAPPROVE_CANCEL_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_DISAPPROVE_CANCEL_LABEL_KEY);
+		} else if (ROUTE_HEADER_PROCESSED_CD.equals(statusCd)){
+			statusTranslation = getLabel(ROUTE_HEADER_PROCESSED_LABEL_KEY);
 		} else {
 			statusTranslation = statusCd;
 		}
@@ -474,6 +478,13 @@ public class WorkflowToolbar extends Composite {
 		this.idPath = idPath;
 	}
 	
+	/**
+	 * Use to indicate which fields are required for workflow before workflow actions are allowed.
+	 * 
+	 * NOTE: We want this to be configurable via metadata rather than hardcoding a call to this in configurers or controllers.
+	 * 
+	 * @param requiredFieldPaths An array of paths to fields to check in the data model
+	 */
 	public void setRequiredFieldPaths(String[] requiredFieldPaths){
 		this.requiredFieldPaths = requiredFieldPaths;
 	}
@@ -486,4 +497,7 @@ public class WorkflowToolbar extends Composite {
 		updateWorkflow(dataModel);
 	}
 	
+    private String getLabel(String labelKey) {
+        return Application.getApplicationContext().getUILabel("common", null, null, labelKey);
+    }
 }

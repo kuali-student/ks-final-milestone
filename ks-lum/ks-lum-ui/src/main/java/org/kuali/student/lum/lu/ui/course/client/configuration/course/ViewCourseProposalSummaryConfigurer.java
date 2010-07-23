@@ -30,6 +30,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
@@ -105,6 +106,10 @@ public class ViewCourseProposalSummaryConfigurer implements
     private WorkflowToolRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
     CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
     
+	//Override paths for course and proposal so they are root
+	public static final String PROPOSAL = "";
+	public static final String COURSE = "";
+    
     public ViewCourseProposalSummaryConfigurer(String type, String state,
 			String groupName, DataModelDefinition modelDefinition) {
 		super();
@@ -145,15 +150,34 @@ public class ViewCourseProposalSummaryConfigurer implements
     	
         VerticalSectionView summaryTableSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
         summaryTableSection.addStyleName(LUConstants.STYLE_SECTION);
-        summaryTableSection.getSectionTitle().addStyleName("ks-heading-page-title");
             	
     	QueryPath path = QueryPath.concat(null, null);
     	Metadata meta = modelDefinition.getMetadata(path);
 
-    	FieldDescriptor fd = new FieldDescriptor(path.toString(), "", meta);
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), null, meta);
         fd.setWidgetBinding(new SummaryTableBinding());
         fd.setFieldWidget(new SummaryTable());
    		summaryTableSection.addField(fd);
+    	
+    	return summaryTableSection;
+    }
+	
+	public VerticalSectionView generateSummarySection(WorkflowUtilities wf){
+    	
+        VerticalSectionView summaryTableSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
+        summaryTableSection.addStyleName(LUConstants.STYLE_SECTION);
+            	
+    	QueryPath path = QueryPath.concat(null, null);
+    	Metadata meta = modelDefinition.getMetadata(path);
+    	
+    	summaryTableSection.addWidget(wf.getWorkflowActionsWidget());
+
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), null, meta);
+        fd.setWidgetBinding(new SummaryTableBinding());
+        fd.setFieldWidget(new SummaryTable());
+   		summaryTableSection.addField(fd);
+   		
+   		summaryTableSection.addWidget(wf.getWorkflowActionsWidget());
     	
     	return summaryTableSection;
     }
@@ -180,9 +204,9 @@ public class ViewCourseProposalSummaryConfigurer implements
 				
 				//Summary Brief
 				summaryTable.addField(getLabel(LUConstants.BRIEF_LABEL_KEY), 0);
-				summaryTable.addField(LUConstants.TITLE_LABEL_KEY, PROPOSAL + "/" + TITLE, model, 1);
+				summaryTable.addField(LUConstants.TITLE_LABEL_KEY, COURSE + "/" + COURSE_TITLE, model, 1);
 				summaryTable.addField(LUConstants.DIVISION_LABEL_KEY, COURSE + "/" + SUBJECT_AREA, model, 1);
-				summaryTable.addField(LUConstants.SUFFIX_CODE_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
+				summaryTable.addField(LUConstants.COURSE_NUMBER_LABEL_KEY, COURSE + "/" + COURSE_NUMBER_SUFFIX, model, 1);
 				summaryTable.addField(LUConstants.CREATED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, model, 1);
 				summaryTable.addField(LUConstants.LAST_CHANGED_DATE_LABEL_KEY, PROPOSAL + "/" + META_INFO + "/" + UPDATE_TIME, model, 1);
 
@@ -226,8 +250,10 @@ public class ViewCourseProposalSummaryConfigurer implements
 		        populateLearningObjectives((Data)model.get(COURSE + "/" + COURSE_SPECIFIC_LOS), summaryTable, 1);
 		        
 		        //CourseRequisites
+		        /*
 		        summaryTable.addField(LUConstants.REQUISITES_LABEL_KEY, 0);
 		        populateCourseRequisites(model, summaryTable, 1);
+		        */
 		        
 		        //Active Dates
 		        summaryTable.addField(LUConstants.ACTIVE_DATES_LABEL_KEY, 0);
@@ -236,16 +262,20 @@ public class ViewCourseProposalSummaryConfigurer implements
 				summaryTable.addField(LUConstants.END_DATE_LABEL_KEY, COURSE + "/" + EXPIRATION_DATE, model, 1);
 				
 				//Financials
+				/*
 				summaryTable.addField(LUConstants.FINANCIALS_LABEL_KEY, COURSE + "/" + FEES, model, 0);
 				summaryTable.addField(LUConstants.FINANCIAL_INFORMATION, 1);
 				populateFinancialRevenue(model, summaryTable, 2);
 				populateFinancialExpenditure(model, summaryTable, 2);
+				*/
 				//summaryTable.addField(LUConstants.REVENUE, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, model, 2);
 				//summaryTable.addField(LUConstants.EXPENDITURE, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, model, 2);
 				
 				//People & Permissions
+				/*
 				summaryTable.addField(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 0);
 				populatePeopleAndPermissions(model, summaryTable, 0);
+				*/
 				
 				summaryTable.setPopulated(true);	        
 	        }
@@ -298,16 +328,16 @@ public class ViewCourseProposalSummaryConfigurer implements
 		
 		//ensure sequence of rule types based on rule summary screen
 		if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_ENROLLREQ)) != null) {
-		    summaryTable.addField(LUConstants.EREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+		    summaryTable.addField(LUConstants.EREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
 		}
         if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_PREREQ)) != null) {
-            summaryTable.addField(LUConstants.PREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+            summaryTable.addField(LUConstants.PREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
         }
         if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_COREQ)) != null) {
-            summaryTable.addField(LUConstants.CREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+            summaryTable.addField(LUConstants.CREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
         }
         if ((ruleInfo = getRuleInfo(ruleInfos, RuleConstants.KS_STATEMENT_TYPE_ANTIREQ)) != null) {
-            summaryTable.addField(LUConstants.AREQS_LABEL_KEY, ruleInfo.getNaturalLanguage(), indent);
+            summaryTable.addField(LUConstants.AREQS_LABEL_KEY, ruleInfo.getNaturalLanguageForRuleEdit(), indent);
         }        				
 	}
     
@@ -336,7 +366,7 @@ public class ViewCourseProposalSummaryConfigurer implements
         				summaryTable.addField(getLabel(LUConstants.FORMAT_LABEL_KEY) + " " + formatProp.getKey(), 2);
         			}
         			Data activitiesData = ((Data)formatProp.getValue()).get(ACTIVITIES);
-        			if(activitiesData != null && activitiesData instanceof Data){
+        			if(activitiesData != null){
         				Iterator<Data.Property> activityIter = activitiesData.realPropertyIterator();
         				while(activityIter.hasNext()){
         					Data.Property activityProp = activityIter.next();
@@ -468,29 +498,29 @@ public class ViewCourseProposalSummaryConfigurer implements
 									nameString = person.getPrincipalId();
 								}
 								
-								String permString = "";
+								StringBuffer permString = new StringBuffer("");
 								int count = 0;
 								for(String perm: person.getPermList()){
 									if(perm != null){
 										if(count > 0){
-											permString = permString + ", " + perm;
+											permString.append(", " + perm);
 										}
 										else{
-											permString = permString + perm;
+											permString.append(perm);
 										}
 										count++;
 									}
 								}
 								
-								String actionString = "";
+								StringBuffer actionString = new StringBuffer("");
 								count = 0;
 								for(String action: person.getActionList()){
 									if(action != null){
 										if(count > 0){
-											actionString = actionString + ", " + action;
+											actionString.append(", " + action);
 										}
 										else{
-											actionString = actionString + action;
+											actionString.append(action);
 										}
 										count++;
 									}
@@ -498,8 +528,8 @@ public class ViewCourseProposalSummaryConfigurer implements
 								
 								if(summaryTable!=null){
 									summaryTable.addField("Name",nameString, nestLevel+1);
-									summaryTable.addField("Permissions", permString, nestLevel+2);
-									summaryTable.addField("Workflow Action", actionString, nestLevel+2);
+									summaryTable.addField("Permissions", permString.toString(), nestLevel+2);
+									summaryTable.addField("Workflow Action", actionString.toString(), nestLevel+2);
 								}
 							}
 						}
@@ -606,9 +636,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 		        	        	stringValue = translation;
 		        	        }
 		    				addField(propertyLabel, stringValue, indent+1);
-						}else if(value instanceof Data){
-							addField(propertyLabel,propertyPath,model,indent+1);//added this in
-                    	}else{
+						} else {
 							addField(propertyLabel,propertyPath,model,indent+1);
 						}
                     }

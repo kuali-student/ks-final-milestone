@@ -76,6 +76,7 @@ public class Metadata implements Serializable {
     private boolean canUnmask = false;
     private boolean canView = true;
     private boolean canEdit = true;
+    private boolean dynamic = false;
     
     private boolean onChangeRefreshMetadata;
 
@@ -196,25 +197,30 @@ public class Metadata implements Serializable {
     }
 
     public void setConstraints(List<ConstraintMetadata> constraints) {
-        this.constraints = constraints;
+    	this.constraints = constraints;
+    }
+
+    /**
+     * This is used to set all non-server side constraints for the metadata.
+     * 
+     * @param constraints
+     */
+    public void setNonServerConstraints(List<ConstraintMetadata> constraints) {
+    	if (constraints != null){
+    		List<ConstraintMetadata> metadataConstraints = new ArrayList<ConstraintMetadata>();
+    		for (ConstraintMetadata constraint:constraints){
+    			if (!"single".equals(constraint.getId()) && 
+    				!"optional".equals(constraint.getId()) &&
+    				!constraint.getServerSide()){
+    				metadataConstraints.add(constraint);
+    			}
+    		}
+            this.constraints = metadataConstraints;
+    	}
     }
 
     public Data.DataType getDataType() {
         return dataType;
-    }
-
-    /**
-     * @deprecated
-     * @see #setDataType
-     */
-    public void setDataType(String strType) {
-        for (Data.DataType dt : Data.DataType.values()) {
-            if (dt.toString().equalsIgnoreCase(strType)) {
-                setDataType(dt);
-                return;
-            }
-        }
-        throw new IllegalArgumentException(strType);
     }
 
     public void setDataType(Data.DataType dataType) {
@@ -255,7 +261,7 @@ public class Metadata implements Serializable {
 
     public List<LookupMetadata> getAdditionalLookups() {
         if (additionalLookups == null) {
-            additionalLookups = new ArrayList();
+            additionalLookups = new ArrayList<LookupMetadata>();
         }
         return additionalLookups;
     }
@@ -331,4 +337,12 @@ public class Metadata implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+	public boolean isDynamic() {
+		return dynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
+	}
 }

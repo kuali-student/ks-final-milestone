@@ -14,6 +14,7 @@
  */
 
 package org.kuali.student.core.organization.ui.client.mvc.view;
+
 import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
@@ -47,20 +47,11 @@ public class PositionTable extends Composite{
     private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
     private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
-    private String resultIdColumnKey;
     protected PagingScrollTable<ResultRow> pagingScrollTable;
     private VerticalPanel layout = new VerticalPanel();
-    private PagingOptions pagingOptions;
     private String orgId;
 
     private OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
-
-
-    private PagingOptions createPagingOptions(PagingScrollTable<ResultRow> pagingScrollTable) {
-        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable);
-        pagingOptions.setPixelSize(pagingScrollTable.getOffsetWidth(), pagingOptions.getOffsetHeight());
-        return pagingOptions;
-    }
 
     public PositionTable(){
         super();
@@ -93,13 +84,7 @@ public class PositionTable extends Composite{
         columnDefs.add(new SearchColumnDefinition(getLabel("orgPositionTablePersonId"), PERSON));
         columnDefs.add(new SearchColumnDefinition(getLabel("orgPositionTablePositionName"), POSITION));
         columnDefs.add(new SearchColumnDefinition(getLabel("orgPositionTablePositionDesc"), DESC));
-//        columnDefs.add(new SearchColumnDefinition("Maximum No.", "max"));
-//        columnDefs.add(new SearchColumnDefinition("Minimum No.", "min"));
 
-        if(columnDefs.size() == 1){
-            //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
-            columnDefs.get(0).setMinimumColumnWidth(370);
-        }
         builder.columnDefinitions(columnDefs);
         tableModel.setColumnDefs(columnDefs);
         redraw();
@@ -125,8 +110,6 @@ public class PositionTable extends Composite{
                                     ResultRow theRow = new ResultRow();
                                     theRow.setValue(POSITION, positionRelation.getTitle());
                                     theRow.setValue(DESC, positionRelation.getDesc());
-//                                    theRow.setValue("max", positionRelation.getMaxNumRelations());
-//                                    theRow.setValue("min", positionRelation.getMinNumRelations().toString());
                                     theRow.setValue(PERSON, (String) personId);
                                     resultRows.add(theRow);
                                 }
@@ -135,8 +118,6 @@ public class PositionTable extends Composite{
                                 theRow.setValue(POSITION, positionRelation.getTitle());
                                 theRow.setValue(DESC, positionRelation.getDesc());
                                 theRow.setValue(PERSON, " ");
-//                                theRow.setValue("max", positionRelation.getMaxNumRelations());
-//                                theRow.setValue("min", positionRelation.getMinNumRelations().toString());
                                 resultRows.add(theRow);
                             }
 
@@ -157,10 +138,9 @@ public class PositionTable extends Composite{
         tableModel.setRows(resultRows);
         pagingScrollTable = builder.build(tableModel);
         pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
-//        pagingOptions = createPagingOptions(pagingScrollTable);
         layout.clear();
-//        layout.add(pagingOptions);
         layout.add(pagingScrollTable);
+        pagingScrollTable.reloadPage();
         pagingScrollTable.fillWidth();
     }
 

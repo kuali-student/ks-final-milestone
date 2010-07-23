@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
 
 public class ActionListView extends ViewComposite {
-    private final String ACTION_LIST_URL	= "ks.rice.actionList.serviceAddress";
+    private static final String ACTION_LIST_URL	= "ks.rice.actionList.serviceAddress";
 	
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
     
@@ -38,8 +38,8 @@ public class ActionListView extends ViewComposite {
 	
 	private String actionListUrl = null;
 	
-	public ActionListView(Controller controller, String name) {
-		super(controller, name);
+	public ActionListView(Controller controller, String name, Enum<?> viewType) {
+		super(controller, name, viewType);
 		actionList.addStyleName("KS-Action-List");
 		initWidget(actionList);
 	}
@@ -56,7 +56,7 @@ public class ActionListView extends ViewComposite {
 	            
 	            public void onSuccess(Map<String,String> result) {
 	                if(result != null){
-	                	String actionListUrl 	= result.get(ACTION_LIST_URL);
+	                	actionListUrl = result.get(ACTION_LIST_URL);
 	            	    actionList.setUrl(actionListUrl);
 	            	    loaded = true;
 	                }

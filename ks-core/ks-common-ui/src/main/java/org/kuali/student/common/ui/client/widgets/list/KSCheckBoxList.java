@@ -95,10 +95,6 @@ public class KSCheckBoxList extends KSSelectItemWidgetAbstract implements HasBlu
         return selectItemWidget.addSelectionChangeHandler(handler);
     }
 
-    protected void fireChangeEvent() {
-        selectItemWidget.fireChangeEvent();
-    }
-
     public ListItems getListItems() {
         return selectItemWidget.getListItems();
     }

@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-//import org.kuali.student.core.organization.ui.client.view.SingleListItem;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

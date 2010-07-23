@@ -45,6 +45,8 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OutlineNode;
 
+import com.google.gwt.core.client.GWT;
+
 /**
  * @author Jim Tomlinson
  * 
@@ -86,7 +88,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 				helper = createLoHelper(node);
 			} catch (AssemblyException e) {
 				// TODO - what to do in this situation?
-				e.printStackTrace();
+				GWT.log("Assembly Exception was caught",e);
 				return;
 			}
 		    		

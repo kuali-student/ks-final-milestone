@@ -40,6 +40,10 @@ public class GetClusByRelationResponse {
     private java.util.List<CluInfo> _return;
 
     public java.util.List<CluInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<CluInfo>(0);
+		}
+
         return this._return;
     }
 

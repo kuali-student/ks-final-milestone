@@ -27,20 +27,18 @@
 	height: 130px;
 	background-color: #A20000;
 	width: 100%;
-	
+
 }
 
 .KS-Wrapper-Footer{
-	padding-left: 20px; 
+	padding-left: 20px;
 	height: 60px;
 	background-color: #A20000;
 	width: 100%;
 }
 .KS-Wrapper-Content{
-	background-color: #d5d5d5;
 }
 .KS-Wrapper{
-	background-color: #d5d5d5;
 	width: 100%;
 }
 .KS-Wrapper-Help-Label{
@@ -57,9 +55,6 @@
 .KS-Wrapper-Header-Left-Panel{
 	height: 100%;
 }
-.KS-Wrapper-Navigation-Dropdown{}
-.KS-Wrapper-User-Dropdown{}
-.KS-Wrapper-Footer-Link{}
 
 .KS-Wrapper-Header-Custom-Link{
 	font-size: 14px;
@@ -75,7 +70,7 @@
 	padding-bottom: 8px;
 	margin-left: 3px;
 	\-moz-border-radius: 15px;
-	\-webkit-border-radius: 15px; 
+	\-webkit-border-radius: 15px;
 	\-khtml-border-radius: 15px;
 	border-radius:15px;
 }

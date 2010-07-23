@@ -35,7 +35,6 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
-import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
@@ -58,22 +57,21 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
 
 	private Map<String, TabLayout> tabLayoutMap = new HashMap<String, TabLayout>();
-		
+
 	private Map<String, String> sectionNameTabMap = new HashMap<String, String>();
-	
-    private KSLightBox startSectionWindow = new KSLightBox();
+
     private SectionView startSectionView;
-    
+
 	private boolean loaded = false;
 	private final Map<String, Enum<?>> viewEnums = new HashMap<String, Enum<?>>();
-	
+
 	Enum<?> defaultView = null;
-		
+
 	private KSTabPanel tabPanel = new KSTabPanel();
 	private KSTitleContainerImpl container = new KSTitleContainerImpl();
-	
+
 	private boolean updateableSection = true;
-	
+
 	private class TabLayout extends Composite{
 		private FlowPanel layout = new FlowPanel();
 		private SimplePanel content = new SimplePanel();
@@ -85,10 +83,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		private final HorizontalPanel sectionButtonPanel = new HorizontalPanel();
 		private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
 		private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
-		private Map<String, KSListPanel> sectionMap = new HashMap<String, KSListPanel>();
 		private boolean menuAdded = false;
 		private Enum<?> tabDefaultView = null;
-		
+
 		public Enum<?> getTabDefaultView() {
 			return tabDefaultView;
 		}
@@ -96,18 +93,18 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		public void setTabDefaultView(Enum<?> tabDefaultView) {
 			this.tabDefaultView = tabDefaultView;
 		}
-		
+
 		public HorizontalPanel getButtonPanel(){
 		    return this.sectionButtonPanel;
 		}
-		
+
 		public KSButton getNextButton() {
 		    return nextButton;
 		}
-		
+
 		private KSButton nextButton = new KSButton("Save & Continue", new ClickHandler(){
 	        public void onClick(final ClickEvent event) {
-                
+
                 final SaveActionEvent saveActionEvent = new SaveActionEvent();
                 saveActionEvent.setAcknowledgeRequired(false);
                 saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
@@ -117,39 +114,41 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
                         if (nextSectionIndex < sectionMenuItems.size()) {
                             sectionMenuItems.get(nextSectionIndex).getClickHandler().onClick(event);
                         }
-                    }                    
+                    }
                 });
-                
-                fireApplicationEvent(saveActionEvent);	            	            
-	        }	    
+
+                fireApplicationEvent(saveActionEvent);
+	        }
 	    }
 		);
-		
+
 		public TabLayout(){
 		    if (updateableSection) {
-	            sectionButtonPanel.add(nextButton);		        
+	            sectionButtonPanel.add(nextButton);
 		    }
 			menu.setTopLevelItems(topLevelMenuItems);
 			contentLayout.add(content);
 			contentLayout.add(sectionButtonPanel);
-			
+
 			layout.add(contentLayout);
 			this.initWidget(layout);
 		}
-		
+
 		public void init(){
 			contentLayout.setStyleName("ks-page-content");
-			//menu.addStyleName("KS-TabbedSectionLayout-Menu");
+			//menu.addStyleName("KS-TabbedSectionLayout-Menu"); // FIXME keep or delete?
 			menu.setStyleName("ks-page-sub-navigation-container");
 			menu.setTopLevelItems(topLevelMenuItems);
 		}
-		
+
 		public void setContent(Widget content){
 			this.content.setWidget(content);
 		}
 
 		public void addMenuItem(String[] hierarchy, final SectionView section) {
 			String path = "";
+			StringBuilder pathBuffer= new StringBuilder();
+			pathBuffer.append(path);
 			KSMenuItemData current = null;
 			for (int i=1; i<hierarchy.length; i++) {
 						    // For configurable section layout the hierarchy element obtained from XML file might contain
@@ -157,8 +156,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			    if(hierarchy[i]==null){
 			        return;
 			    }
-				path = path + "/" + hierarchy[i];
-				KSMenuItemData item = menuHierarchyMap.get(path);
+				pathBuffer.append("/");
+				pathBuffer.append(hierarchy[i]);
+				KSMenuItemData item = menuHierarchyMap.get(pathBuffer.toString());
 				if (item == null) {
 					item = new KSMenuItemData(hierarchy[i]);
 					if (current == null) {
@@ -168,20 +168,20 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 						current.addSubItem(item);
 						current = item;
 					}
-					menuHierarchyMap.put(path, item);
+					menuHierarchyMap.put(pathBuffer.toString(), item);
 				} else {
 					current = item;
 				}
 			}
-			
+
 			final KSMenuItemData sectionItem = new KSMenuItemData(section.getName());
 			current.addSubItem(sectionItem);
 			sectionMenuItems.add(sectionItem);
 			orderedSectionViews.add(section);
-			
+
 			sectionItem.setClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-				    
+
 				    int newMenuItemIdx = sectionMenuItems.indexOf(sectionItem);
 				    if (currSectionIdx != newMenuItemIdx){
 	                    currSectionIdx = newMenuItemIdx;
@@ -190,18 +190,18 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 				    }
 				}
 			});
-			
+
 			if(!menuAdded){
 				layout.insert(menu, 0);
 				menuAdded = true;
 			}
-			
+
 			if (tabDefaultView == null){
 			    tabDefaultView = section.getViewEnum();
 			}
 		}
 
-		public void renderView(View view) {			
+		public void renderView(View view) {
 			content.setWidget((Widget)view);
 			if(menuAdded){
 			    if (currSectionIdx == sectionMenuItems.size() - 1){
@@ -230,25 +230,25 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 		public void clear() {
 	        for (View view:orderedSectionViews){
-	            view.clear();            
+	            view.clear();
 	        }
-			
+
 		}
 
 		public void updateModel() {
             for(View sectionView : orderedSectionViews){
             	sectionView.updateModel();
             }
-			
+
 		}
 
 		public void beforeShow(final Callback<Boolean> onReadyCallback) {
 			showView(tabDefaultView, onReadyCallback);
 		}
-		
-		
+
+
 	}
-	
+
 	private void init(){
     	for(TabLayout layout: tabLayoutMap.values()){
 			layout.init();
@@ -259,19 +259,19 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
                List<ValidationResultInfo> list = event.getValidationResult();
                if(startSectionView!=null){
                    startSectionView.processValidationResults(list);
-                   
+
                }
             }
         });
 	}
-	
+
 	public TabbedSectionLayout(String controllerId){
 	    super(controllerId);
 	    container.setContent(tabPanel);
 		container.setTitle("New Course Proposal");
 		super.initWidget(container);
 	}
-	
+
 	public TabbedSectionLayout(String controllerId, KSTitleContainerImpl container){
 	    super(controllerId);
 	    this.container.setContent(tabPanel);
@@ -280,26 +280,26 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
         this.container.setLinkText(container.getLinkText());
         super.initWidget(this.container);
 	}
-	
-	
+
+
     public KSTitleContainerImpl getContainer(){
         return this.container;
     }
-    
+
     public void setContainer(KSTitleContainerImpl container){
         this.container=container;
     }
-    
+
 	@Override
 	protected <V extends Enum<?>> View getView(V viewType) {
-		return sectionViewMap.get(viewType.name());
+		return viewMap.get(viewType);
 	}
 
 	@Override
     public Enum<?> getViewEnumValue(String enumValue) {
         return viewEnums.get(enumValue);
     }
-	
+
 	public boolean isUpdateableSection() {
         return updateableSection;
     }
@@ -323,7 +323,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			tabPanel.selectTab(tabName);
 		}
 		TabLayout layout = tabLayoutMap.get(tabName);
-		
+
 		layout.renderView(view);
 		view.getName();
 	}
@@ -334,7 +334,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
             init();
             loaded = true;
         }
-                   
+
         showView(defaultView, onReadyCallback);
 	}
 
@@ -342,9 +342,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	public void addSection(String[] hierarchy, final SectionView section) {
 		viewEnums.put(section.getViewEnum().toString(), section.getViewEnum());
 		String tabKey = hierarchy[0];
-		
+
 		sectionNameTabMap.put(section.getName(), tabKey);
-		sectionViewMap.put(section.getViewEnum().name(), section);
+		viewMap.put(section.getViewEnum(), section);
 		section.setController(this);
 		section.setLayoutController(this);
 
@@ -356,7 +356,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			if(section != null){
 				layout.setTabDefaultView(section.getViewEnum());
 			}
-			
+
 			//Handler for when tab is clicked
 			tabPanel.addTabCustomCallback(tabKey, new Callback<String>(){
 
@@ -364,30 +364,30 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 				public void exec(String result) {
 					layout.beforeShow(NO_OP_CALLBACK);
 				}
-				
+
 			});
 		}
 		else{
 			layout = tabLayoutMap.get(tabKey);
 		}
-		
+
 		if(hierarchy.length > 1){
 			layout.addMenuItem(hierarchy, section);
 		}
 		else{
 			layout.renderView(section);
 		}
-				
+
 		if (defaultView == null){
 		    defaultView = section.getViewEnum();
-		}				
+		}
 	}
 
 	@Override
 	public void addTool(final ToolView tool) {
 		viewEnums.put(tool.getViewEnum().toString(), tool.getViewEnum());
 		String tabKey = tool.getName();
-		
+
 		TabLayout layout;
 		if(!(tabPanel.hasTabKey(tabKey))){
 			layout = new TabLayout();
@@ -401,111 +401,107 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 					//layout.beforeShow();
 					showView(tool.getViewEnum(), NO_OP_CALLBACK);
 				}
-				
-			});		
+
+			});
 		}
 		else{
 			layout = tabLayoutMap.get(tabKey);
 		}
-			
+
 		//layout.renderView(tool);
 		sectionNameTabMap.put(tool.getName(), tabKey);
-		sectionViewMap.put(tool.getViewEnum().name(), tool);
+		viewMap.put(tool.getViewEnum(), tool);
         tool.setController(this);
-		
+
 	}
-	
+
 	public void addToolbar(Widget toolbar){
 		this.container.setToolbar(toolbar);
 	}
-	
+
     public void showStartSection(final Callback<Boolean> onReadyCallback){
         startSectionView.beforeShow(new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {
 				if (result) {
-					startSectionWindow.show();
+					startViewWindow.show();
 				}
 				onReadyCallback.exec(result);
 			}
         });
     }
-    
-    public boolean isStartSectionShowing(){
-    	return startSectionWindow.isShowing();
-    }
-    
+
     public SectionView getStartSection(){
         return startSectionView;
     }
-    
+
     @Override
 	public void addStartSection(final SectionView section){
 	    startSectionView = section;
-	    
+
 	    HorizontalPanel buttonPanel = new HorizontalPanel();
-	    
-	    VerticalPanel panel = new VerticalPanel();        	    
-	    panel.add(section);	    
+
+	    VerticalPanel panel = new VerticalPanel();
+	    panel.add(section);
 	    buttonPanel.add(new KSButton("Save",new ClickHandler(){
             public void onClick(ClickEvent event) {
                 section.updateModel();
                 SaveActionEvent saveActionEvent = new SaveActionEvent();
-                
+
                 saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
                     public void onActionComplete(ActionEvent action) {
-                        startSectionWindow.hide();
-                    }                    
+                        startViewWindow.hide();
+                    }
                 });
-                
+
                 fireApplicationEvent(saveActionEvent);
-            }	        
+            }
 	    }));
 	    buttonPanel.add(new KSButton("Cancel", new ClickHandler(){
             public void onClick(ClickEvent event) {
-                startSectionWindow.hide();
-            }	        
+                startViewWindow.hide();
+            }
 	    }));
 
 	    panel.add(buttonPanel);
         section.setController(this);
-	    startSectionWindow.setWidget(panel);
+	    startViewWindow.setWidget(panel);
 	}
-        
+
 	public void addButton(String tabKey, KSButton button){
 		TabLayout layout = tabLayoutMap.get(tabKey);
-		
+
 		if(layout != null){
 			layout.addButton(button);
 		}
-	        
+
 	}
-	
+
     public HorizontalPanel getButtonPanel(String tabKey){
         TabLayout layout = tabLayoutMap.get(tabKey);
-        
+
         if(layout != null){
             return layout.getButtonPanel();
         }
-        return null;  
+        return null;
     }
-    
+
     public KSButton getNextButton(String tabKey) {
         TabLayout layout = tabLayoutMap.get(tabKey);
-        
+
         if (layout != null) {
             return layout.getNextButton();
         }
         return null;
     }
-	    
+
     public void clear(){
     	super.clear();
     	for(TabLayout layout: tabLayoutMap.values()){
 			layout.clear();
 		}
 
-        
+
     }
 
     public void updateModel(){
@@ -520,53 +516,57 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		return null;
 	}
 
-	
+
 	/**
  	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)
- 	 * 
+ 	 *
 	 * @param validationResults List of validation results for the layouts model.
-	 * @param checkCurrentSectionOnly true if errors should be checked on current section only, false if all sections should be checked 
+	 * @param checkCurrentSectionOnly true if errors should be checked on current section only, false if all sections should be checked
 	 * @return true if the specified sections (all or current) has any validation errors
 	 */
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly){
 		boolean isValid = true;
-		
+
 		if (checkCurrentSectionOnly){
 			//Check for validation errors on the currently displayed section only
-	    	if(this.isStartSectionShowing()){
+	    	if(this.isStartViewShowing()){
 	    		isValid = isValid(validationResults, getStartSection());
 	    	} else {
 	    		View v = getCurrentView();
 	        	if(v instanceof Section){
-	        		isValid = isValid(validationResults, (Section)v); 
+	        		isValid = isValid(validationResults, (Section)v);
 	        	}
 	    	}
 		} else {
 			//Check for validation errors on all sections
 			container.clearMessages();
 			String errorSections = "";
-			for (Entry<String, View> entry:sectionViewMap.entrySet()) {
+			StringBuilder errorSectionsbuffer = new StringBuilder();
+			errorSectionsbuffer.append(errorSections);
+			for (Entry<Enum<?>, View> entry:viewMap.entrySet()) {
 				View v = entry.getValue();
 				if (v instanceof Section){
 					if (!isValid(validationResults, (Section)v)){
 						isValid = false;
-						errorSections += ((SectionView)v).getName() + ", ";
+						errorSectionsbuffer.append(((SectionView)v).getName() + ", ");
+//						errorSections += ((SectionView)v).getName() + ", ";
 					}
 				}
 			}
+			errorSections = errorSectionsbuffer.toString();
 			if (!errorSections.isEmpty()){
 				errorSections = errorSections.substring(0, errorSections.length()-2);
 				container.addMessage("Following section(s) has errors & must be corrected: " + errorSections);
 			}
 		}
-		
+
 		return isValid;
 	}
-		
+
 	private boolean isValid(List<ValidationResultInfo> validationResults, Section section){
 		section.setFieldHasHadFocusFlags(true);
 		ErrorLevel status = section.processValidationResults(validationResults);
-		
+
 		return (status != ErrorLevel.ERROR);
-	}		
+	}
 }

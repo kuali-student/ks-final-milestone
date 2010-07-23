@@ -16,7 +16,6 @@
 package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -33,14 +32,14 @@ import org.kuali.student.core.search.dto.SearchResultRow;
 public class SearchResultListItems implements ListItems{
 
     private ArrayList<String> attrKeys;
-    private HashMap<String, SearchResultRow> resultDataMap = new HashMap<String, SearchResultRow>();
+    private List<SearchResultRow> resultDataMap = new ArrayList<SearchResultRow>();
     private int attrOffset = 0;
     //default values for attr indexes
     //these are necessary for use in search dispatcher assumed 2 columns min
     //we may want to switch these all to 0 to allow for 1 column result lists
-    private int sortAttrNdx = 1;
+    private int sortAttrNdx = 1;        //sort key
     private int itemTextAttrNdx = 1;
-    private int keyAttrNdx = 0;
+    private int keyAttrNdx = 0;         //unique key
         
     public int getSortAttrNdx() {
 		return sortAttrNdx;
@@ -118,12 +117,11 @@ public class SearchResultListItems implements ListItems{
         attrOffset = 1;
     }
            
-    public void setResults(List<SearchResultRow> results, int keyNdx){            
+    public void setResults(List<SearchResultRow> results) {          
         resultDataMap.clear();
-        if (results != null){
-            for (SearchResultRow r: results){
-                resultDataMap.put(r.getCells().get(keyNdx).getValue(), r);
-            }
+
+        if (results != null){            
+            resultDataMap = new ArrayList<SearchResultRow>(results);           
             
             //Default keys for column attributes
             if (results.size() > 0){
@@ -151,10 +149,6 @@ public class SearchResultListItems implements ListItems{
 		return 0;
 	}
     
-    public void setResults(List<SearchResultRow> results) {
-    	setResults(results, this.keyAttrNdx);
-    }
-    
     @Override
     public List<String> getAttrKeys() {                       
         return attrKeys;
@@ -162,10 +156,10 @@ public class SearchResultListItems implements ListItems{
 
     @Override
     public String getItemAttribute(String id, String attrKey) {
-        SearchResultRow r = resultDataMap.get(id);
+        SearchResultRow r = getListItem(id);
         
         int attrIndex = attrKeys.indexOf(attrKey);
-        if (attrIndex >= 0 ){
+        if (attrIndex >= 0 && r != null){
             return r.getCells().get(attrIndex + attrOffset).getValue(); 
         }
 
@@ -185,13 +179,13 @@ public class SearchResultListItems implements ListItems{
      */
     @Override
     public List<String> getItemIds() {
-        List<String> keys = new ArrayList<String>();
+        List<String> ids = new ArrayList<String>();
 
-        for (String s:resultDataMap.keySet()){
-            keys.add(s);
+        for (SearchResultRow s:resultDataMap){
+            ids.add(s.getCells().get(keyAttrNdx).getValue());
         }
         
-        return keys;
+        return ids;
     }
 
     /**
@@ -199,7 +193,16 @@ public class SearchResultListItems implements ListItems{
      */
     @Override
     public String getItemText(String id) {
-        return resultDataMap.get(id).getCells().get(itemTextAttrNdx).getValue();
+        return getListItem(id).getCells().get(itemTextAttrNdx).getValue();
+    }
+    
+    private SearchResultRow getListItem(String id) {
+        for (SearchResultRow s : resultDataMap) {
+            if (s.getCells().get(keyAttrNdx).getValue().equals(id)) {
+                return s;
+            }
+        }
+        return null;
     }
     
 }
