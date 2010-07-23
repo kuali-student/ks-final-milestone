@@ -72,6 +72,21 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>org.kuali.student.dbs</groupId>
+      <artifactId>ks-core-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.dbs</groupId>
+      <artifactId>ks-lum-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.dbs</groupId>
+      <artifactId>ks-rice-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
     </dependency>
@@ -199,7 +214,7 @@
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
-      <dependency>
+    <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-program</artifactId>
       <classifier>sources</classifier>
