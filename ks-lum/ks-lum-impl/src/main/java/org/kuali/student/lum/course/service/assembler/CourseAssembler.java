@@ -34,6 +34,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.CourseVariationInfo;
@@ -98,8 +99,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		course.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 
-		// TODO: CrossListings
+		// CrossListings
 		// course.setCrossListings();
+		List<CourseCrossListingInfo> crossListings = assembleCrossListings(clu.getAlternateIdentifiers()); 
+		course.setCrossListings(crossListings);
 
 		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
 		course.setDescr(clu.getDescr());
@@ -191,10 +194,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 		}
 		
-		// TODO: Variations
+		//Variation
 		List<CourseVariationInfo> variations = assembleVariations(clu.getAlternateIdentifiers()); 
 		course.setVariations(variations);
-		// course.setVariations(variations)
 
 		//Learning Objectives
 		try {
@@ -265,9 +267,20 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             result.getChildNodes().addAll(variationResults);
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
-            throw new AssemblyException("Error while disassembling format", e);
+            throw new AssemblyException("Error while disassembling Variation", e);
         }
 		
+		// Use the Course CrossListing assembler to disassemble the variations
+		List<BaseDTOAssemblyNode<?, ?>> crossListingResults;
+        try {
+        	
+        	
+        	crossListingResults = disassembleCrossListings(clu, course, operation);
+            result.getChildNodes().addAll(crossListingResults);
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling CrossListings", e);
+        }
 		
 		AdminOrgInfo orgInfo = (null != clu.getPrimaryAdminOrg()) ? clu.getPrimaryAdminOrg() : new AdminOrgInfo();
 		orgInfo.setOrgId(course.getDepartment());
@@ -768,6 +781,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					throw new AssemblyException("Error retrieving course variation during update", e);
 				}
 				
+				if (cluIdentInfo == null) {
+					cluIdentInfo = new CluIdentifierInfo();
+				}
+				
 				// copy all fields
 				cluIdentInfo.setId(UUIDHelper.genStringUUID(variation.getId()));
 				cluIdentInfo.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
@@ -788,6 +805,91 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				cluInfo.setAlternateIdentifiers(new ArrayList<CluIdentifierInfo>());
 				cluInfo.getAlternateIdentifiers().addAll(otherIdents.values());
 				cluInfo.getAlternateIdentifiers().addAll(newVariationsIdents.values());
+			}
+		}
+		return results;
+	}
+	
+	private List<CourseCrossListingInfo> assembleCrossListings(List<CluIdentifierInfo> cluIdents) {
+		List<CourseCrossListingInfo> crossListings = new ArrayList<CourseCrossListingInfo>();
+		if (cluIdents != null) {
+			for (CluIdentifierInfo cluIdent : cluIdents) {
+				if (cluIdent.getType() != null && 
+						cluIdent.getType().equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
+					CourseCrossListingInfo crosslisting = new CourseCrossListingInfo();
+					crosslisting.setId(cluIdent.getId());
+					crosslisting.setType(cluIdent.getType());
+					crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
+					crosslisting.setSubjectArea(cluIdent.getDivision());
+					crossListings.add(crosslisting);
+				}
+			}
+		}
+		return crossListings;
+	}
+	
+	private List<BaseDTOAssemblyNode<?, ?>> disassembleCrossListings(CluInfo cluInfo,
+			CourseInfo course, NodeOperation operation)
+			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+		Map<String, CluIdentifierInfo> newCrossListingsIdents = new HashMap<String, CluIdentifierInfo>();
+		Map<String, CluIdentifierInfo> otherIdents = new HashMap<String, CluIdentifierInfo>();
+		if (course != null && course.getCrossListings() != null) {
+			for (CourseCrossListingInfo crossListing : course.getCrossListings()) {
+				BaseDTOAssemblyNode<CourseCrossListingInfo, CluIdentifierInfo> courseCrossListingsAssemblyNode =
+					new BaseDTOAssemblyNode<CourseCrossListingInfo, CluIdentifierInfo>(null); 
+				if (crossListing == null) {
+					throw new AssemblyException("Course Cross Listing cannot be null");
+				}
+				// cluIdentInfo is the base DTO that corresponds to the business DTO
+				CluIdentifierInfo cluIdentInfo = null;
+				try {
+					if (NodeOperation.UPDATE == operation && crossListing.getId() != null) {
+						if (cluInfo.getAlternateIdentifiers() != null) {
+							for (CluIdentifierInfo identInfo : cluInfo.getAlternateIdentifiers()) {
+								if (identInfo.getType() != null && identInfo.getType()
+										.equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
+									if (crossListing.getId() != null && identInfo.getId() != null && 
+											identInfo.getId().equals(crossListing.getId())) {
+										cluIdentInfo = identInfo;
+									}
+								} else {
+									otherIdents.put(identInfo.getId(), identInfo);
+								}
+							}
+						} else {
+							cluIdentInfo = new CluIdentifierInfo();
+						}
+					} else {
+						cluIdentInfo = new CluIdentifierInfo();
+					}
+				} catch (Exception e) {
+					throw new AssemblyException("Error retrieving course cross listings during update", e);
+				}
+				
+				if (cluIdentInfo == null) {
+					cluIdentInfo = new CluIdentifierInfo();
+				}
+				
+				// copy all fields
+				cluIdentInfo.setId(UUIDHelper.genStringUUID(crossListing.getId()));
+				cluIdentInfo.setType(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
+//				cluIdentInfo.setCode(crossListing.getCode());
+				cluIdentInfo.setSuffixCode(crossListing.getCourseNumberSuffix());
+				cluIdentInfo.setDivision(crossListing.getSubjectArea());
+				// TODO what to do with short name for a crossListing? Transcript title?
+//				cluIdentInfo.setShortName(course.getTranscriptTitle());
+//				cluIdentInfo.setLongName(variation.getVariationTitle());
+				courseCrossListingsAssemblyNode.setNodeData(cluIdentInfo);
+				courseCrossListingsAssemblyNode.setOperation(operation);
+				courseCrossListingsAssemblyNode.setBusinessDTORef(crossListing);
+				results.add(courseCrossListingsAssemblyNode);
+				newCrossListingsIdents.put(cluIdentInfo.getId(), cluIdentInfo);
+			}
+			if (cluInfo.getAlternateIdentifiers() != null) {
+				cluInfo.setAlternateIdentifiers(new ArrayList<CluIdentifierInfo>());
+				cluInfo.getAlternateIdentifiers().addAll(otherIdents.values());
+				cluInfo.getAlternateIdentifiers().addAll(newCrossListingsIdents.values());
 			}
 		}
 		return results;

@@ -51,6 +51,9 @@ public class CourseAssemblerConstants {
 	
 	// Course Variation Identifier
 	public static final String COURSE_VARIATION_IDENT_TYPE  = "kuali.lu.type.CreditCourse.identifier.variation";
+
+	// Course CrossListing Identifier
+	public static final String COURSE_CROSSLISTING_IDENT_TYPE = "kuali.lu.type.CreditCourse.identifier.crosslisting";
 	
 	//Learning result Constants
 	//FIXME follow Norm's Type Keys (this requires impex changes)
