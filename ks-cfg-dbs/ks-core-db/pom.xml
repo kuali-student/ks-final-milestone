@@ -37,6 +37,7 @@
               <goal>datasql</goal>
             </goals>
             <configuration>
+              <dataXMLDir>${project.build.directory}/generated-impex/data</dataXMLDir>
               <schemaDir>${project.build.directory}/generated-impex</schemaDir>
               <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
               <targetDatabase>oracle</targetDatabase>
