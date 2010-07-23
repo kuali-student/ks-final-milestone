@@ -77,6 +77,8 @@
             <map>
                 <entry key="hibernate.transaction.manager_lookup_class" value="${ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.connection.release_mode" value="${ks.core.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+               	<entry key="hibernate.connection.autocommit" value="${ks.core.jpa.JpaProperties.hibernate.connection.autocommit}"/>
             </map>
         </property>
     </bean>

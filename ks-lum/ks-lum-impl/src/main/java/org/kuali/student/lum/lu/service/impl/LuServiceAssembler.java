@@ -77,6 +77,7 @@ import org.kuali.student.lum.lu.entity.CluCampusLocation;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluCredit;
 import org.kuali.student.lum.lu.entity.CluFee;
+import org.kuali.student.lum.lu.entity.CluFeeAmount;
 import org.kuali.student.lum.lu.entity.CluFeeAttribute;
 import org.kuali.student.lum.lu.entity.CluFeeRecord;
 import org.kuali.student.lum.lu.entity.CluFeeRecordAttribute;
@@ -890,6 +891,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setCluFeeRecords(toCluFeeRecordInfos(entity.getCluFeeRecords()));
 		dto.setId(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setDescr(toRichTextInfo(entity.getDescr()));
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
@@ -914,25 +916,32 @@ public class LuServiceAssembler extends BaseAssembler {
 		CluFeeRecordInfo dto = new CluFeeRecordInfo();
 
 		BeanUtils.copyProperties(entity, dto,
-				new String[] { "affiliatedOrgs", "currencyAmount","attributes" });
+				new String[] { "affiliatedOrgs", "currencyAmount","attributes","descr" });
 
-		dto.setAffiliatedOrgInfoList(toAffiliatedOrgInfos(entity
-				.getAffiliatedOrgs()));
-		dto.setFeeAmount(toCurrencyAmountInfo(entity.getCurrencyAmmount()));
+		dto.setAffiliatedOrgs(toAffiliatedOrgInfos(entity.getAffiliatedOrgs()));
+		dto.setFeeAmounts(toFeeAmounts(entity.getFeeAmounts()));
+		dto.setDescr(toRichTextInfo(entity.getDescr()));
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
 
-	private static CurrencyAmountInfo toCurrencyAmountInfo(CurrencyAmount entity) {
-		if (entity == null) {
-			return null;
+	private static List<CurrencyAmountInfo> toFeeAmounts(List<CluFeeAmount> cluFees) {
+		List<CurrencyAmountInfo> feeAmounts = new ArrayList<CurrencyAmountInfo>();
+		
+		if (cluFees != null){
+			for (CluFeeAmount cluFeeAmount:cluFees){
+				CurrencyAmountInfo dto = new CurrencyAmountInfo();
+				CurrencyAmount ca = cluFeeAmount.getCurrencyAmount();
+				if(ca!=null){
+					dto.setCurrencyQuantity(ca.getCurrencyQuantity());
+					dto.setCurrencyTypeKey(ca.getCurrencyTypeKey());
+				}
+				feeAmounts.add(dto);
+			}
 		}
-
-		CurrencyAmountInfo dto = new CurrencyAmountInfo();
-		BeanUtils.copyProperties(entity, dto);
-
-		return dto;
+		
+		return feeAmounts;
 	}
 
 	private static List<AffiliatedOrgInfo> toAffiliatedOrgInfos(
@@ -1134,6 +1143,13 @@ public class LuServiceAssembler extends BaseAssembler {
 			fee = new CluFee();
 		}
 
+		if (feeInfo.getDescr() != null) {
+		    LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, feeInfo.getDescr());
+		    if (descr.getPlain() != null || descr.getFormatted() != null) {
+		        fee.setDescr(descr);
+		    }
+		}
+
 		fee.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluFeeAttribute.class, feeInfo.getAttributes(), fee, dao));
 		toCluFeeRecords(isUpdate, fee, feeInfo.getCluFeeRecords(), dao);
@@ -1152,16 +1168,11 @@ public class LuServiceAssembler extends BaseAssembler {
 
 			for (CluFeeRecordInfo feeRecordInfo : cluFeeRecords) {
 				CluFeeRecord feeRec = new CluFeeRecord();
-				feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(), feeRecordInfo.getAffiliatedOrgInfoList(), dao));
+				feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(), feeRecordInfo.getAffiliatedOrgs(), dao));
 				feeRec.setFeeType(feeRecordInfo.getFeeType());
-				if (null != feeRecordInfo.getFeeAmount()) {
-					CurrencyAmount ca = new CurrencyAmount();
-					ca.setCurrencyQuantity(feeRecordInfo.getFeeAmount()
-							.getCurrencyQuantity());
-					ca.setCurrencyTypeKey(feeRecordInfo.getFeeAmount()
-							.getCurrencyTypeKey());
-					feeRec.setCurrencyAmmount(ca);
-				}
+				feeRec.setRateType(feeRecordInfo.getRateType());
+				feeRec.setDescr(toRichText(LuRichText.class, feeRecordInfo.getDescr()));
+				feeRec.setFeeAmounts(toFeeAmounts(isUpdate, feeRec.getFeeAmounts(), feeRecordInfo.getFeeAmounts(), dao));
 				feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(
 						CluFeeRecordAttribute.class, feeRecordInfo
 								.getAttributes(), feeRec, dao));
@@ -1183,16 +1194,11 @@ public class LuServiceAssembler extends BaseAssembler {
 					feeRec = new CluFeeRecord();
 				}
 
-				feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(), feeRecordInfo.getAffiliatedOrgInfoList(),dao));
+				feeRec.setAffiliatedOrgs(toAffiliatedOrgs(isUpdate, feeRec.getAffiliatedOrgs(), feeRecordInfo.getAffiliatedOrgs(),dao));
 				feeRec.setFeeType(feeRecordInfo.getFeeType());
-				if (null != feeRecordInfo.getFeeAmount()) {
-					CurrencyAmount ca = new CurrencyAmount();
-					ca.setCurrencyQuantity(feeRecordInfo.getFeeAmount()
-							.getCurrencyQuantity());
-					ca.setCurrencyTypeKey(feeRecordInfo.getFeeAmount()
-							.getCurrencyTypeKey());
-					feeRec.setCurrencyAmmount(ca);
-				}
+				feeRec.setRateType(feeRecordInfo.getRateType());
+				feeRec.setDescr(toRichText(LuRichText.class, feeRecordInfo.getDescr()));
+				feeRec.setFeeAmounts(toFeeAmounts(isUpdate, feeRec.getFeeAmounts(), feeRecordInfo.getFeeAmounts(),dao));
 				feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(
 						CluFeeRecordAttribute.class, feeRecordInfo
 								.getAttributes(), feeRec, dao));
@@ -1246,6 +1252,41 @@ public class LuServiceAssembler extends BaseAssembler {
 		return orgList;
 	}
 
+	public static List<CluFeeAmount> toFeeAmounts(boolean isUpdate, List<CluFeeAmount> caList, List<CurrencyAmountInfo> caInfoList, LuDao dao){
+		if(null == caInfoList) {
+			return caList;
+		}
+		
+		if (!isUpdate) {
+			for (CurrencyAmountInfo caInfo:caInfoList){
+				CurrencyAmount ca = new CurrencyAmount();
+				ca.setCurrencyQuantity(caInfo.getCurrencyQuantity());
+				ca.setCurrencyTypeKey(caInfo.getCurrencyTypeKey());
+				CluFeeAmount cluFeeAmount = new CluFeeAmount();
+				cluFeeAmount.setCurrencyAmount(ca);
+				caList.add(cluFeeAmount);
+			}
+		} else {
+			// Delete existing fee amounts (this assumes feeAmounts are not individually updated)
+			for (CluFeeAmount cluFeeAmount:caList) {
+				dao.delete(cluFeeAmount);
+			}					
+			caList.clear();
+
+			for (CurrencyAmountInfo caInfo : caInfoList) {
+				CurrencyAmount ca = new CurrencyAmount();
+
+				ca.setCurrencyQuantity(caInfo.getCurrencyQuantity());
+				ca.setCurrencyTypeKey(caInfo.getCurrencyTypeKey());
+				CluFeeAmount cluFeeAmount = new CluFeeAmount();
+				cluFeeAmount.setCurrencyAmount(ca);
+				caList.add(cluFeeAmount);
+			}
+		}
+
+		return caList;
+	}
+	
 	public static CluIdentifier createOfficialIdentifier(CluInfo cluInfo) {
         CluIdentifier officialIdentifier = new CluIdentifier();
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),

@@ -580,11 +580,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("FeeAttrValue2", createdClu.getFeeInfo().getAttributes()
 				.get("FeeAttrKey2"));
 
+		assertEquals("Clu Fee", createdClu.getFeeInfo().getDescr().getPlain());
 		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().size());
 		assertEquals("FEE_TYPE_X", createdClu.getFeeInfo().getCluFeeRecords().get(0).getFeeType());
+		assertEquals("RATE_TYPE_X", createdClu.getFeeInfo().getCluFeeRecords().get(0).getRateType());
+		assertEquals("Clu Fee Record", createdClu.getFeeInfo().getCluFeeRecords().get(0).getDescr().getPlain());
+		assertEquals(3, createdClu.getFeeInfo().getCluFeeRecords().get(0).getFeeAmounts().size());
+		assertEquals(Integer.valueOf(200), createdClu.getFeeInfo().getCluFeeRecords().get(0).getFeeAmounts().get(0).getCurrencyQuantity());
+		assertEquals(0, createdClu.getFeeInfo().getCluFeeRecords().get(1).getFeeAmounts().size());
 
-		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().size());
-		assertEquals(35l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().get(0).getPercentage());
+		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().size());
+		assertEquals(35l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().get(0).getPercentage());
 
 		assertTrue(createdClu.isHasEarlyDropDeadline());
 		assertTrue(createdClu.isHazardousForDisabledStudents());
@@ -747,7 +753,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getFeeInfo().getAttributes().put("FeeAttrKey3",
 				"FeeAttrValue3");
 
-		createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().remove(0);
+		createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().remove(0);
 		createdClu.getFeeInfo().getCluFeeRecords().get(1).setFeeType("FEE_TYPE_Z");
 
 		createdClu.setHasEarlyDropDeadline(false);
@@ -935,8 +941,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().size());
 		assertEquals("FEE_TYPE_Z", createdClu.getFeeInfo().getCluFeeRecords().get(1).getFeeType());
 
-		assertEquals(1, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().size());
-		assertEquals(65l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgInfoList().get(0).getPercentage());
+		assertEquals(1, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().size());
+		assertEquals(65l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().get(0).getPercentage());
 
 		assertFalse(updatedClu.isHasEarlyDropDeadline());
 		assertFalse(updatedClu.isHazardousForDisabledStudents());
@@ -1871,25 +1877,46 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CurrencyAmountInfo ca = new CurrencyAmountInfo();
 		ca.setCurrencyQuantity(100);
 		ca.setCurrencyTypeKey("DLLR");
+		
+		CurrencyAmountInfo ca1 = new CurrencyAmountInfo();
+		ca.setCurrencyQuantity(200);
+		ca.setCurrencyTypeKey("DLLR");
+		
+		List<CurrencyAmountInfo> caList = new ArrayList<CurrencyAmountInfo>();
+		caList.add(ca);
+
+		List<CurrencyAmountInfo> caList1 = new ArrayList<CurrencyAmountInfo>();
+		caList.add(ca);
+		caList.add(ca1);
+		
+		RichTextInfo cfRecDesc = new RichTextInfo();
+		cfRecDesc.setPlain("Clu Fee Record");
 
 		CluFeeRecordInfo feeRec = new CluFeeRecordInfo();
-		feeRec.setAffiliatedOrgInfoList(affiliatedOrgs);
-		feeRec.setFeeAmount(ca);
+		feeRec.setAffiliatedOrgs(affiliatedOrgs);
+		feeRec.setFeeAmounts(caList);
 		feeRec.setFeeType("FEE_TYPE_X");
+		feeRec.setRateType("RATE_TYPE_X");
+		feeRec.setDescr(cfRecDesc);
 
 		CluFeeRecordInfo feeRec1 = new CluFeeRecordInfo();
-		feeRec1.setAffiliatedOrgInfoList(affiliatedOrgs);
-		feeRec1.setFeeAmount(ca);
+		feeRec1.setAffiliatedOrgs(affiliatedOrgs);
+		feeRec1.setFeeAmounts(caList1);
 		feeRec1.setFeeType("FEE_TYPE_Y");
+		feeRec1.setRateType("RATE_TYPE_Y");
 
 		List<CluFeeRecordInfo> feeRecList = new ArrayList<CluFeeRecordInfo>();
 		feeRecList.add(feeRec);
 		feeRecList.add(feeRec1);
 
+		RichTextInfo cfDesc = new RichTextInfo();
+		cfDesc.setPlain("Clu Fee");
+
 		CluFeeInfo feeInfo = new CluFeeInfo();
 		feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
 		feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
 		feeInfo.setCluFeeRecords(feeRecList);
+		feeInfo.setDescr(cfDesc);
 		clu.setFeeInfo(feeInfo);
 
 		clu.setHasEarlyDropDeadline(true);
@@ -2885,25 +2912,46 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CurrencyAmountInfo ca = new CurrencyAmountInfo();
 		ca.setCurrencyQuantity(100);
 		ca.setCurrencyTypeKey("DLLR");
+		
+		CurrencyAmountInfo ca1 = new CurrencyAmountInfo();
+		ca.setCurrencyQuantity(200);
+		ca.setCurrencyTypeKey("DLLR");
+		
+		List<CurrencyAmountInfo> caList = new ArrayList<CurrencyAmountInfo>();
+		caList.add(ca);
+
+		List<CurrencyAmountInfo> caList1 = new ArrayList<CurrencyAmountInfo>();
+		caList.add(ca);
+		caList.add(ca1);
+		
+		RichTextInfo cfRecDesc = new RichTextInfo();
+		cfRecDesc.setPlain("Clu Fee Record");
 
 		CluFeeRecordInfo feeRec = new CluFeeRecordInfo();
-		feeRec.setAffiliatedOrgInfoList(affiliatedOrgs);
-		feeRec.setFeeAmount(ca);
+		feeRec.setAffiliatedOrgs(affiliatedOrgs);
+		feeRec.setFeeAmounts(caList);
 		feeRec.setFeeType("FEE_TYPE_X");
+		feeRec.setRateType("RATE_TYPE_X");
+		feeRec.setDescr(cfRecDesc);
 
 		CluFeeRecordInfo feeRec1 = new CluFeeRecordInfo();
-		feeRec1.setAffiliatedOrgInfoList(affiliatedOrgs);
-		feeRec1.setFeeAmount(ca);
+		feeRec1.setAffiliatedOrgs(affiliatedOrgs);
+		feeRec1.setFeeAmounts(caList1);
 		feeRec1.setFeeType("FEE_TYPE_Y");
+		feeRec1.setRateType("RATE_TYPE_Y");
 
 		List<CluFeeRecordInfo> feeRecList = new ArrayList<CluFeeRecordInfo>();
 		feeRecList.add(feeRec);
 		feeRecList.add(feeRec1);
+		
+		RichTextInfo cfDesc = new RichTextInfo();
+		cfDesc.setPlain("Clu Fee");
 
 		CluFeeInfo feeInfo = new CluFeeInfo();
 		feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
 		feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
 		feeInfo.setCluFeeRecords(feeRecList);
+		feeInfo.setDescr(cfDesc);
 		clu.setFeeInfo(feeInfo);
 
 		clu.setHasEarlyDropDeadline(true);

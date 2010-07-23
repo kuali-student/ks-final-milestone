@@ -3343,17 +3343,11 @@
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK1C27ACBEABDD272F">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_CLU_FEE" name="FK1C27ACBE4BA2C995">
-            <reference foreign="ID" local="FEE_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK1C27ACBE29BAD238">
             <reference foreign="ID" local="PRI_ADMIN_ORG_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_IDENT" name="FK1C27ACBE3C2119F2">
             <reference foreign="ID" local="OFFIC_CLU_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_CLU_ACCT" name="FK1C27ACBEDB74FD61">
-            <reference foreign="ID" local="ACCT_ID"/>
         </foreign-key>
     </table>
     <table name="KSLU_CLUCLU_RELTN">
@@ -3569,6 +3563,10 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK33135C65ABDD272F">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
     </table>
     <table name="KSLU_CLU_FEEREC_JN_AFFIL_ORG">
         <column name="CLU_FEE_REC_ID" required="true" size="255" type="VARCHAR"/>
@@ -3578,6 +3576,15 @@
         </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FKE784DE42269273C8">
             <reference foreign="ID" local="CLU_FEE_REC_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSLU_CLU_FEE_AMOUNT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CURRENCY_QUANT" size="10" type="DECIMAL"/>
+        <column name="CURRENCY_TYPE" size="255" type="VARCHAR"/>
+        <column name="CLUE_FEE_REC_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FKBE411972BEB9861B">
+            <reference foreign="ID" local="CLUE_FEE_REC_ID"/>
         </foreign-key>
     </table>
     <table name="KSLU_CLU_FEE_ATTR">
@@ -3609,6 +3616,11 @@
         <column name="CURRENCY_QUANT" size="10" type="DECIMAL"/>
         <column name="CURRENCY_TYPE" size="255" type="VARCHAR"/>
         <column name="FEE_TYPE" size="255" type="VARCHAR"/>
+        <column name="RATE_TYPE" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK87C10D96ABDD272F">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
     </table>
     <table name="KSLU_CLU_FEE_REC_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
