@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -21,6 +22,7 @@ import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -45,6 +47,7 @@ public class TestCourseServiceImpl {
     
     @Test
     public void testCreateCourse() {
+     System.out.println ("testCreateCourse");
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = null;
         try {
@@ -53,13 +56,34 @@ public class TestCourseServiceImpl {
             assertNotNull(createdCourse);
             assertEquals("draft", createdCourse.getState());
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
-        } catch (Exception e) {
+        } 
+        catch (DataValidationErrorException e)
+        {
+           dumpValidationErrors (cInfo);
+           fail("DataValidationError: " + e.getMessage());         
+        }  catch (Exception e) {
             fail(e.getMessage());
         }
     }
 
+    private void dumpValidationErrors (CourseInfo cInfo) {
+      List<ValidationResultInfo> errors = null;
+      try
+      {
+       errors = courseService.validateCourse ("SYSTEM", cInfo);
+       }
+      catch (Exception ex)
+      {
+       System.out.println ("Could not get validation errors because: " + ex.getMessage ());
+      }
+      for (ValidationResultInfo error : errors) {
+       System.out.println (error.getElement () + " " + error.getMessage ());
+      }
+    }
+
     @Test
     public void testGetCourse() {
+     System.out.println ("testGetCourse");
         try {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
@@ -168,12 +192,19 @@ public class TestCourseServiceImpl {
 
     @Test
     public void testUpdateCourse() {
-        try {
-            CourseDataGenerator generator = new CourseDataGenerator();
-            CourseInfo cInfo = generator.getCourseTestData();
+       System.out.println ("testUpdateCourse");
+
+       CourseDataGenerator generator = new CourseDataGenerator();
+       CourseInfo cInfo = null;
+       try {
+            cInfo = generator.getCourseTestData();
+            } catch (Exception ex) {
+             fail (ex.getMessage ());
+            }
             assertNotNull(cInfo);
             cInfo.setSpecialTopicsCourse(true);
             cInfo.setPilotCourse(true);
+        try {
             CourseInfo createdCourse = courseService.createCourse(cInfo);
 
             int initialFormatCount = createdCourse.getFormats().size();
@@ -285,7 +316,10 @@ public class TestCourseServiceImpl {
                 fail("Failed to throw VersionMismatchException");
             } catch (VersionMismatchException e) {
                 System.out.println("Correctly received " + e.getMessage());
-            } 
+            }
+        } catch (DataValidationErrorException e) {
+           dumpValidationErrors (cInfo);
+           fail("DataValidationError: " + e.getMessage());
         } catch (Exception e) {
         	e.printStackTrace();
             fail(e.getMessage());
@@ -316,6 +350,7 @@ public class TestCourseServiceImpl {
 
     @Test
     public void testDeleteCourse() {
+          System.out.println ("testDeleteCourse");
         try {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
@@ -339,18 +374,35 @@ public class TestCourseServiceImpl {
     }
 
     @Test
-    public void testCourseIdStateValidation() {
+    public void testCourseDescrRequiredBasedOnState () {
+     System.out.println ("testCourseIdStateValidation");
         CourseDataGenerator generator = new CourseDataGenerator();
          try {
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
-
             cInfo.setState("ACTIVE");
-            cInfo.setId(null);
-            try {
-                courseService.createCourse(cInfo);
-                fail("Should have thrown data validation exception");
-            } catch (DataValidationErrorException e) {} 
+            cInfo.setDescr (null);
+            List <ValidationResultInfo> errors = courseService.validateCourse("SYSTEM", cInfo);
+            System.out.println ("errors state=ACTIVE");
+            for (ValidationResultInfo error : errors)
+            {
+             System.out.println (error.getElement () + " " + error.getMessage ());
+            }
+            if (errors.size () == 0) {
+                fail("Should have an error requiring description");
+            }
+
+            cInfo.setState("DRAFT");
+            cInfo.setDescr (null);
+            errors = courseService.validateCourse("SYSTEM", cInfo);
+            System.out.println ("errors state=DRAFT");
+            for (ValidationResultInfo error : errors)
+            {
+             System.out.println (error.getElement () + " " + error.getMessage ());
+            }
+            if (errors.size () > 0) {
+                fail("Should not have any errors");
+            }                   
         } catch (Exception e) {
             e.printStackTrace();
         } 
@@ -358,6 +410,7 @@ public class TestCourseServiceImpl {
     
     @Test
     public void testDynamicAttributes() {
+     System.out.println ("testDynamicAttributes");
         CourseDataGenerator generator = new CourseDataGenerator();
          try {
             CourseInfo cInfo = generator.getCourseTestData();

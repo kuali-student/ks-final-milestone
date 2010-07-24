@@ -158,7 +158,7 @@ public class CourseDataGenerator {
 				return "kuali.lu.relation.type.co-located";
 			}
 			if("variations".equals(parentPropertyName)){
-				return "kuali.lu.type.CreditCourse.identifier.version";
+				return "kuali.lu.type.CreditCourse.identifier.variation";
 			}
 			
 			throw new RuntimeException("Code what to do with this type");
@@ -180,7 +180,13 @@ public class CourseDataGenerator {
 		}
 		if("duration".equals(parentPropertyName)&&"timeQuantity".equals(name)){
 			return propertyIndex.toString();
-		} 
+		}
+  if("outOfClassHours".equals(parentPropertyName)&&"unitType".equals(name)){
+			return "kuali.atp.duration.Week";
+		}
+ 	if("outOfClassHours".equals(parentPropertyName)&&"unitQuantity".equals(name)){
+			return propertyIndex.toString();
+		}
         if("courseNumberSuffix".equals(name)){
             return "323";
         } 
@@ -190,6 +196,7 @@ public class CourseDataGenerator {
 		if("campusLocations".equals(parentPropertyName)){
 			return campusLocations[propertyIndex%2];
 		}
+  // TODO: make it return A, B, C...
 		if ("variationCode".equals(name)) {
 			return "A";
 		}
