@@ -2,6 +2,14 @@ Given /^(?:|I )am on (.+)$/ do |page_name|
   @browser.goto path_to(page_name)
 end
 
+#Then /^I fill in labeled field "([^\"]*)" for id with "([^\"]*)"$/ do |field, value|
+#  text_field(:id, @browser.label(:text, field).for).set(value)
+#end
+
+When /^(?:|I )fill in labeled field "([^\"]*)" with "([^\"]*)"$/ do |field, value|
+  @browser.text_field(:id, @browser.label(:text, /^#{field}/).for).set(value)
+end
+
 When /^(?:|I )fill in "([^\"]*)" with "([^\"]*)"$/ do |field, value|
   @browser.text_field(:name, field).set(value)
 end
@@ -14,6 +22,13 @@ When /^(?:|I )fill in next field with "([^\"]*)"$/ do |content|
   index = @inputscount + 1
   @browser.text_field(:index, index).set(content)
   @inputscount = index
+end
+
+When /^(?:|I )fill in last field with "([^\"]*)"$/ do |content|
+  index = @inputscount
+  @browser.text_field(:index, index).set(content)
+  #@inputscount = index
+  #puts "index: #{index}"
 end
 
 When /^(?:|I )fill field id "([^\"]*)" with "([^\"]*)"$/ do |id, content|
@@ -50,6 +65,10 @@ end
 
 When /^(?:|I )follow "([^\"]*)"$/ do |text|
     @browser.link(:text, text).click
+end
+
+When /^(?:|I )follow link "([^\"]*)" in frameclass "([^\"]*)"$/ do |text,frame_class|
+    @browser.frame(:class, frame_class).link(:text, /^#{text}/).click
 end
 
 When /^(?:|I )follow linkid "([^\"]*)"$/ do |id|
@@ -507,15 +526,19 @@ Then /^I map csv users from "([^\"]*)" to "([^\"]*)" rows to organizations$/ do 
          @browser.div(:text, "Search/Modify").click    
          previousdept = row[3] 
          sleep 1.0
-         @browser.text_field(:index, 1).set(@sheetvalue)
+         #@browser.text_field(:index, 1).set(@sheetvalue)
+         #@browser.text_field(:index, 3).set(@sheetvalue)
+         Findnumberofinputfields()
+         Filllastfieldwiththeuserbookvalue()
          sleep 1.0
          rescue_wait_retry {@browser.div(:class, 'suggestPopupMiddleCenterInner suggestPopupContent').table(:index, 1).cell(:role=>'menuitem', :text=>@sheetvalue).click}
          sleep 1.0
          @browser.link(:text, "Modify").click
-         sleep 1.0
+         sleep 2.0
          rescue_wait_retry {@browser.div(:text, "Positions/Members").click}
          Findnumberofinputfields()
          Findnumberofselectboxes()
+         sleep 1.0
      end
      sleep 1.0
      @browser.link(:text, "Add").click
@@ -538,8 +561,7 @@ Then /^I map csv users from "([^\"]*)" to "([^\"]*)" rows to organizations$/ do 
          rowin += 1
       else
         @browser.link(:text,"Save").click
-        rescue_wait_retry {@browser.link(:text, "Ok").click}
-        puts "row:#{rowin}"        
+        rescue_wait_retry {@browser.link(:text, "Ok").click}     
          break
       end         
     end
@@ -553,7 +575,8 @@ def wait_table1_exists()
     sleep 1.0
     found = @browser.div(:class, 'suggestPopupMiddleCenterInner suggestPopupContent').exists?
     tries +=1
-    if tries > 20
+    #if tries > 20
+    if tries > 40
         #we want just wait and see
         found = true
         break
@@ -594,6 +617,12 @@ def Fillnextfieldwiththeuserbookvalue()
     index = @inputscount + 1
     @browser.text_field(:index, index).set(@sheetvalue)
     @inputscount = index
+end
+
+def Filllastfieldwiththeuserbookvalue()
+    index = @inputscount
+    @browser.text_field(:index, index).set(@sheetvalue)
+    #@inputscount = index
 end
 
 def Selectsheetvaluefromnextajaxselectbox()
