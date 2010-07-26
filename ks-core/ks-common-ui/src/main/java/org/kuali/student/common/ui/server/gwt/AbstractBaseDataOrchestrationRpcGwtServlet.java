@@ -97,8 +97,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	public Metadata getMetadata(String idType, String id) {
 		Map<String, String> filterProperties = getDefaultFilterProperties();
 		
-		if (idType != null){
+		if (idType == null){
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
+		} else {
+			filterProperties.put(MetadataFilter.METADATA_ID_TYPE, idType);
 		}
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
