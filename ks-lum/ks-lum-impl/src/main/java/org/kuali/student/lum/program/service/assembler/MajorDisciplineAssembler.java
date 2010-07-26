@@ -225,7 +225,11 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         this.programVariationAssembler = programVariationAssembler;
     }
 
-    public void setLoAssembler(LoAssembler loAssembler) {
+    public ProgramVariationAssembler getProgramVariationAssembler() {
+		return programVariationAssembler;
+	}
+
+	public void setLoAssembler(LoAssembler loAssembler) {
         this.loAssembler = loAssembler;
     }
 }
