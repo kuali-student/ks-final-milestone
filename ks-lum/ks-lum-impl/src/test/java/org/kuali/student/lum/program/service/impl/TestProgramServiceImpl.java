@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Ignore;
@@ -19,8 +20,10 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
@@ -154,6 +157,40 @@ public class TestProgramServiceImpl {
         }
     }
 
+    @Test
+    @Ignore
+    public void testGetVariationsByMajorDisciplineId(){
+    	MajorDisciplineInfo majorDisciplineInfo = null;
+        try {
+			MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();   
+//			majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
+        	
+			majorDisciplineInfo = programService.getMajorDiscipline("D4EA77DD-B492-4554-B104-863E42C5F8B7");
+			assertNotNull(majorDisciplineInfo);
+			 
+			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("D4EA77DD-B492-4554-B104-863E42C5F8B7");
+			assertNotNull(pvInfos);
+			assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
+			
+			/*MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
+			assertNotNull(createdMD);
+			
+			// get it fresh from database
+			MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(createdMD.getId());
+			assertNotNull(retrievedMD);
+			
+			// get program variations
+			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId(retrievedMD.getId());
+			assertNotNull(pvInfos);
+			assertEquals(pvInfos.size(), retrievedMD.getVariations().size());
+			assertEquals(pvInfos, retrievedMD.getVariations());*/
+			
+        } catch (Exception e) {
+        	e.printStackTrace();
+            fail(e.getMessage());
+        }        	
+    }
+    
     @Test
     @Ignore public void testDeleteMajorDiscipline() {
         try {
