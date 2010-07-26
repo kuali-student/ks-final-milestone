@@ -31,7 +31,7 @@
         CLU_RELTN_REQ="1" CREATEID="ID1" CREATETIME="20100216100000"
         EFF_DT="20100116100000"
         ID="CLUCLUREL-3"
-        LU_RELTN_TYPE_ID="kuali.lu.lu.relation.type.hasMajorProgram"
+        LU_RELTN_TYPE_ID="kuali.lu.relation.type.hasMajorProgram"
         RELATED_CLU_ID="D4EA77DD-B492-4554-B104-863E42C5F8B7"
         ST="Active" VERSIONIND="0"/>
 </dataset>
