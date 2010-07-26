@@ -58,6 +58,9 @@ public class LUMApplicationManager extends Controller {
     private Controller browseCatalogController = null;
     private DelegatingViewComposite browseCatalogView;
 
+    private Controller majorDisciplineController = null;
+    private DelegatingViewComposite majorDisciplineView;
+
     private boolean loaded = false;
 
     private View actionListView = new ActionListView(this, "Action List", LUMViews.ACTION_LIST);
@@ -85,6 +88,9 @@ public class LUMApplicationManager extends Controller {
                                         break;
                                     case MODIFY_COURSE:
                                         initModifyCourse(context);
+                                        break;
+                                    case VIEW_MAJOR_DISCIPLINE:
+                                        initViewMajorFromId(context.getId());
                                         break;
                                 }
                             }
@@ -146,9 +152,7 @@ public class LUMApplicationManager extends Controller {
                 browseCatalogController.showDefaultView(NO_OP_CALLBACK);
                 return browseCatalogView;
             case VIEW_MAJOR_DISCIPLINE:
-                Controller majorDisciplineController = new ProgramController();
-                DelegatingViewComposite majorDisciplineView = new DelegatingViewComposite(this, majorDisciplineController, LUMViews.VIEW_MAJOR_DISCIPLINE);
-                return majorDisciplineView;
+                return initViewMajor();
             default:
                 return null;
         }
@@ -200,6 +204,22 @@ public class LUMApplicationManager extends Controller {
         return viewCourseView;
     }
 
+    private View initViewMajorFromId(String id) {
+        initViewMajor();
+        ((ProgramController) majorDisciplineController).setProgramId(id);
+
+        return majorDisciplineView;
+    }
+    
+	private View initViewMajor() {
+        if (majorDisciplineController == null) {
+        	majorDisciplineController = new ProgramController();
+        	majorDisciplineView = new DelegatingViewComposite(this, majorDisciplineController, LUMViews.VIEW_MAJOR_DISCIPLINE);     	
+        }
+		return majorDisciplineView;
+	}
+	
+	
     // Accessor for get view
     public <V extends Enum<?>> View getControllerView(V viewType) {
         return this.getView(viewType);

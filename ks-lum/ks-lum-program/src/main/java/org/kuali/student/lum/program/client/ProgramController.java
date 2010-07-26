@@ -36,6 +36,8 @@ public class ProgramController extends MenuEditableSectionController {
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
 
     private boolean initialized = false;
+    
+    private String programId = null;
 
     private final DataModel programModel = new DataModel();
 
@@ -117,7 +119,12 @@ public class ProgramController extends MenuEditableSectionController {
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, final Callback<Boolean> workCompleteCallback) {
-        programRemoteService.getData("D4EA77DD-B492-4554-B104-863E42C5F8B7", new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+    	
+    	//FIXME: testing only
+//    	if (programId == null || programId.isEmpty()) {
+//    		programId = "D4EA77DD-B492-4554-B104-863E42C5F8B7";    		
+//    	}
+        programRemoteService.getData(programId, new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -197,5 +204,14 @@ public class ProgramController extends MenuEditableSectionController {
             addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, cancelButton);
         }
         initialized = true;
+    }
+    
+    public String getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(String programId) {
+        this.programId = programId;
+        this.programModel.setRoot(new Data());        
     }
 }
