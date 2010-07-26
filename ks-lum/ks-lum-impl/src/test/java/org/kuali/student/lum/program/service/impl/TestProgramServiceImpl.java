@@ -87,6 +87,7 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
+    @Ignore
     public void testGetMajorDiscipline() {
         MajorDisciplineInfo majorDisciplineInfo = null;
         try {
