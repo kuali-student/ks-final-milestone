@@ -654,10 +654,10 @@
  <bean id="loInfo.type" parent="loInfo.type-parent" />
 
 <!-- CluInstructorInfo-->
- <bean id="org.kuali.student.lum.program.dto.CluInstructorInfo-parent"
+ <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.lum.program.dto.CluInstructorInfo" />
+            value="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
   <property name="attributes">
    <list>
     <ref bean="cluInstructorInfo.orgId" />
@@ -667,7 +667,7 @@
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
- <bean id="org.kuali.student.lum.program.dto.CluInstructorInfo" parent="org.kuali.student.lum.program.dto.CluInstructorInfo-parent" />
+ <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo" parent="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent" />
 
  <bean id="cluInstructorInfo.orgId-parent" abstract="true"
        parent="baseKualiId">
