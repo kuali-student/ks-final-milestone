@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -38,6 +39,7 @@ import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor = {Throwable.class})
@@ -51,7 +53,7 @@ public class ProgramServiceImpl implements ProgramService {
     private SearchManager searchManager;
     private MajorDisciplineAssembler majorDisciplineAssembler;
     private ProgramRequirementAssembler programRequirementAssembler;
-
+    
     @Override
     public CredentialProgramInfo createCredentialProgram(
             CredentialProgramInfo credentialProgramInfo)
@@ -285,8 +287,25 @@ public class ProgramServiceImpl implements ProgramService {
             String majorDisciplineId) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	List<ProgramVariationInfo> pvInfos = new ArrayList<ProgramVariationInfo>();
+    	
+    	try {
+    			List<CluInfo> clus = luService.getRelatedClusByCluId(majorDisciplineId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
+		        
+		        if(clus != null && clus.size() > 0){
+		        	for(CluInfo clu : clus){
+		        		ProgramVariationInfo pvInfo = majorDisciplineAssembler.getProgramVariationAssembler().assemble(clu, null, false);
+		        		if(pvInfo != null){
+		        			pvInfos.add(pvInfo);
+		        		}
+		        	}
+		        }
+		    } catch (AssemblyException e) {
+		        LOG.error("Error assembling ProgramVariation", e);
+		        throw new OperationFailedException("Error assembling ProgramVariation");
+		    }
+		    
+        return pvInfos;
     }
 
     @Override
@@ -563,4 +582,5 @@ public class ProgramServiceImpl implements ProgramService {
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
+
 }
