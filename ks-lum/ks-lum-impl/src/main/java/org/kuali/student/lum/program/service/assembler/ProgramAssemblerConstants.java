@@ -29,13 +29,13 @@ public class ProgramAssemblerConstants {
 	public static final String BACCALAUREATE_PROGRAM = "kuali.lu.type.credential.Baccalaureate";
 	public static final String MASTERS_PROGRAM = "kuali.lu.type.credential.Masters";
 	public static final String PROFESSIONAL_PROGRAM = "kuali.lu.type.credential.Professional";
-	public static final String DOCOTORAL_PROGRAM = "kuali.lu.type.credential.Doctoral";
+    public static final String DOCTORAL_PROGRAM = "kuali.lu.type.credential.Doctoral";
 	public static final String UNDERGRADUATE_CERTIFICATE = "kuali.lu.type.credential.UndergraduateCertificate";
 	public static final String GRADUATE_CERTIFICATE = "kuali.lu.type.credential.GraduateCertificate";
 
 	public static final String[] CREDENTIAL_PROGRAM = { BACCALAUREATE_PROGRAM,
-			MASTERS_PROGRAM, PROFESSIONAL_PROGRAM, DOCOTORAL_PROGRAM,
-			UNDERGRADUATE_CERTIFICATE, GRADUATE_CERTIFICATE };
+								MASTERS_PROGRAM, PROFESSIONAL_PROGRAM, DOCTORAL_PROGRAM,
+								UNDERGRADUATE_CERTIFICATE, GRADUATE_CERTIFICATE };
 
 	public static final String MAJOR_DISCIPLINE = "kuali.lu.type.MajorDiscipline";
 	public static final String PROGRAM_VARIATION = "kuali.lu.type.Variation";

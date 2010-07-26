@@ -18,14 +18,13 @@
                 <ref bean="majorDisciplineInfo.publishedInstructors"/>
                 <ref bean="majorDisciplineInfo.credentialProgramId"/>
                 <ref bean="majorDisciplineInfo.variations"/>
-                <!--<ref bean="majorDisciplineInfo.code" />-->
+                <ref bean="majorDisciplineInfo.code" />
                 <ref bean="majorDisciplineInfo.cipCode"/>
                 <ref bean="majorDisciplineInfo.hegisCode"/>
                 <ref bean="majorDisciplineInfo.universityClassification"/>
                 <ref bean="majorDisciplineInfo.selectiveEnrollmentCode"/>
-                <!--
-                    <ref bean="majorDisciplineInfo.resultOptions" />
-                    -->
+                <ref bean="majorDisciplineInfo.resultOptions" />
+                <ref bean="majorDisciplineInfo.stdDuration" />
                 <ref bean="majorDisciplineInfo.startTerm"/>
                 <ref bean="majorDisciplineInfo.endTerm"/>
                 <ref bean="majorDisciplineInfo.endProgramEntryTerm"/>
@@ -37,18 +36,29 @@
                 <ref bean="majorDisciplineInfo.diplomaTitle"/>
                 <ref bean="majorDisciplineInfo.descr"/>
                 <ref bean="majorDisciplineInfo.catalogDescr"/>
+                <!--
                 <ref bean="majorDisciplineInfo.learningObjectives"/>
+                -->
                 <ref bean="majorDisciplineInfo.campusLocations"/>
                 <ref bean="majorDisciplineInfo.programRequirements"/>
+                <ref bean="majorDisciplineInfo.institution"/>
+                <ref bean="majorDisciplineInfo.accreditingAgencies"/>
+                <ref bean="majorDisciplineInfo.divisionsContentOwner"/>
+                <ref bean="majorDisciplineInfo.divisionsStudentOversight"/>
+                <ref bean="majorDisciplineInfo.divisionsDeployment"/>
+                <ref bean="majorDisciplineInfo.divisionsFinancialResources"/>
+                <ref bean="majorDisciplineInfo.divisionsFinancialControl"/>
+                <ref bean="majorDisciplineInfo.unitsContentOwner"/>
+                <ref bean="majorDisciplineInfo.unitsStudentOversight"/>
+                <ref bean="majorDisciplineInfo.unitsDeployment"/>
+                <ref bean="majorDisciplineInfo.unitsFinancialResources"/>
+                <ref bean="majorDisciplineInfo.unitsFinancialControl"/>
                 <ref bean="majorDisciplineInfo.type"/>
                 <ref bean="majorDisciplineInfo.state"/>
                 <!-- Dynamic Attributes -->
                 <ref bean="majorDisciplineInfo.lastReviewDate"/>
                 <ref bean="majorDisciplineInfo.isVariationRequired"/>
                 <ref bean="majorDisciplineInfo.endInstAdmitTerm"/>
-                <!--
-                    <ref bean="majorDisciplineInfo.somethingSomethingSomethingDynamic" />
-                -->
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -93,6 +103,11 @@
     </bean>
     <bean id="majorDisciplineInfo.variations" parent="majorDisciplineInfo.variations-parent"/>
 
+    <bean id="majorDisciplineInfo.code-parent" abstract="true" parent="baseString">
+        <property name="name" value="code"/>
+    </bean>
+    <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent"/>
+
     <bean id="majorDisciplineInfo.cipCode-parent" abstract="true" parent="baseString">
         <property name="name" value="cipCode"/>
     </bean>
@@ -114,8 +129,17 @@
     </bean>
     <bean id="majorDisciplineInfo.selectiveEnrollmentCode" parent="majorDisciplineInfo.selectiveEnrollmentCode-parent"/>
 
-    <!-- resultOptions" -->
+    <bean id="majorDisciplineInfo.resultOptions-parent" abstract="true" parent="baseStringRepeating">
+        <property name="name" value="resultOptions"/>
+    </bean>
+    <bean id="majorDisciplineInfo.resultOptions" parent="majorDisciplineInfo.resultOptions-parent"/>
 
+	<bean id="majorDisciplineInfo.stdDuration-parent" abstract="true" parent="baseComplex">
+		<property name="name" value="stdDuration" />
+		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
+	</bean>
+	<bean id="majorDisciplineInfo.stdDuration" parent="majorDisciplineInfo.stdDuration-parent" />
+	
     <bean id="majorDisciplineInfo.startTerm-parent" abstract="true" parent="baseString">
         <property name="name" value="startTerm"/>
     </bean>
@@ -197,6 +221,63 @@
     </bean>
     <bean id="majorDisciplineInfo.programRequirements" parent="majorDisciplineInfo.programRequirements-parent"/>
 
+	<bean id="majorDisciplineInfo.institution-parent" abstract="true"
+		parent="baseComplex">
+		<property name="name" value="institution" />
+		<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo" />
+	</bean>
+	<bean id="majorDisciplineInfo.institution" parent="majorDisciplineInfo.institution-parent" />
+
+	<bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="baseComplexRepeating">
+		<property name="name" value="accreditingAgencies" />
+		<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo" />
+	</bean>
+	<bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent" />
+	
+	<bean id="majorDisciplineInfo.repeatingAdminOrgs-parent" abstract="true" parent="baseComplexRepeating">
+		<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="divisionsContentOwner" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="divisionsStudentOversight" />
+	</bean>
+
+	<bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="divisionsDeployment" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsFinancialResources" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="divisionsFinancialResources" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.divisionsFinancialControl" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="divisionsFinancialControl" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsContentOwner" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="unitsContentOwner" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsStudentOversight" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="unitsStudentOversight" />
+	</bean>
+
+	<bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="unitsDeployment" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsFinancialResources" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="unitsFinancialResources" />
+	</bean>
+	
+	<bean id="majorDisciplineInfo.unitsFinancialControl" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
+		<property name="name" value="unitsFinancialControl" />
+	</bean>
+	
     <bean id="majorDisciplineInfo.type-parent" abstract="true" parent="baseString">
         <property name="name" value="type"/>
     </bean>
@@ -221,7 +302,7 @@
                 <ref bean="programVariationInfo.hegisCode"/>
                 <ref bean="programVariationInfo.universityClassification"/>
                 <ref bean="programVariationInfo.selectiveEnrollmentCode"/>
-                <!--<ref bean="programVariationInfo.resultOptions" />-->
+                <ref bean="programVariationInfo.resultOptions" />
                 <ref bean="programVariationInfo.startTerm"/>
                 <ref bean="programVariationInfo.endTerm"/>
                 <ref bean="programVariationInfo.lastAdmitTerm"/>
@@ -290,7 +371,10 @@
     <bean id="programVariationInfo.selectiveEnrollmentCode"
           parent="programVariationInfo.selectiveEnrollmentCode-parent"/>
 
-    <!-- resultOptions" -->
+    <bean id="programVariationInfo.resultOptions-parent" abstract="true" parent="baseStringRepeating">
+        <property name="name" value="resultOptions"/>
+    </bean>
+    <bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent"/>
 
     <bean id="programVariationInfo.startTerm-parent" abstract="true" parent="baseString">
         <property name="name" value="startTerm"/>

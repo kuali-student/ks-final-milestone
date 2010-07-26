@@ -2,8 +2,6 @@ package org.kuali.student.lum.program.service.impl;
 
 import java.util.List;
 
-import javax.jws.WebService;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
@@ -42,7 +40,6 @@ import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.lum.program.service.ProgramService", serviceName = "ProgramService", portName = "ProgramService", targetNamespace = "http://student.kuali.org/wsdl/program")
 @Transactional(rollbackFor = {Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
     final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
@@ -225,21 +222,26 @@ public class ProgramServiceImpl implements ProgramService {
             PermissionDeniedException {
 
 
-        MajorDisciplineInfo majorDiscipline = null;
-      /*  try {
-            CluInfo clu = luService.getClu(majorDisciplineId);
-            majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false);
-        } catch (AssemblyException e) {
-            LOG.error("Error assembling course", e);
-            throw new OperationFailedException("Error assembling course");
-        }*/
-
-        // return majorDiscipline;
-        try {
-            return new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
-        } catch (Exception e) {
-            return null;
-        }
+//        MajorDisciplineInfo majorDiscipline = null;
+// 
+//        try {
+//            CluInfo clu = luService.getClu(majorDisciplineId);
+//            if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
+//                throw new DoesNotExistException("Specified CLU is not a Major Discipline");
+//            }
+//            majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false);
+//        } catch (AssemblyException e) {
+//            LOG.error("Error assembling course", e);
+//            throw new OperationFailedException("Error assembling course");
+//        }
+//        return majorDiscipline;
+		// comment out the above, and uncomment below to get auto-generated data
+        // (and vice-versa)
+		try {
+			return new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
+		} catch (Exception e) {
+			return null;
+		}
     }
 
     @Override

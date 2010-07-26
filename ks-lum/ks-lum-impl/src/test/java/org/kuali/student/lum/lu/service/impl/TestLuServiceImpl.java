@@ -1299,7 +1299,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-4"));
 		Collections.sort(luiInfos, new Comparator<LuiInfo>() {
-			public int compare(LuiInfo o1, LuiInfo o2) {
+			@Override
+            public int compare(LuiInfo o1, LuiInfo o2) {
 				return o1.getId().compareTo(o2.getId());
 			}
 		});
@@ -1491,13 +1492,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luLuRelTypeInfos = client.getLuLuRelationTypes();
 		Collections.sort(luLuRelTypeInfos,
 				new Comparator<LuLuRelationTypeInfo>() {
-					public int compare(LuLuRelationTypeInfo o1,
+					@Override
+                    public int compare(LuLuRelationTypeInfo o1,
 							LuLuRelationTypeInfo o2) {
 						return o1.getId().compareTo(o2.getId());
 					}
 				});
-		assertEquals(8, luLuRelTypeInfos.size());
-		assertEquals("kuali.lu.relation.type.co-located", luLuRelTypeInfos.get(0).getId());
+        assertEquals(13, luLuRelTypeInfos.size());
+        assertEquals("kuali.lu.lu.relation.type.hasCoreProgram", luLuRelTypeInfos.get(0).getId());
 	}
 
 	@Test
@@ -1556,7 +1558,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertTrue(luis == null || luis.size() == 0);
 		luis = client.getLuisByRelation("LUI-2", "luLuType.type1");
 		Collections.sort(luis, new Comparator<LuiInfo>() {
-			public int compare(LuiInfo o1, LuiInfo o2) {
+			@Override
+            public int compare(LuiInfo o1, LuiInfo o2) {
 				return o1.getId().compareTo(o2.getId());
 			}
 		});
@@ -1698,10 +1701,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 
-		List<String> ids = client
-				.getCluIdsByRelation("CLU-1", "luLuType.type1");
+        List<String> ids = client.getCluIdsByRelation("CLU-2", "luLuType.type1");
 		assertNotNull(ids);
-		assertEquals(2, ids.size());
+        assertEquals(1, ids.size());
 
 		ids = client.getCluIdsByRelation("CLUXX-2", "luLuType.type1");
 		assertTrue(null == ids || ids.size() == 0);
@@ -1736,7 +1738,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		searchRequest.setParams(queryParamValues);
 		SearchResult clus = client.search(searchRequest);
 		Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
-			public int compare(SearchResultRow o1, SearchResultRow o2) {
+			@Override
+            public int compare(SearchResultRow o1, SearchResultRow o2) {
 				return o1.getCells().get(0).getValue().compareTo(
 						o2.getCells().get(0).getValue());
 			}
@@ -1772,6 +1775,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         searchRequest.setParams(queryParamValues);
         SearchResult clus = client.search(searchRequest);
         Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
+            @Override
             public int compare(SearchResultRow o1, SearchResultRow o2) {
                 return o1.getCells().get(0).getValue().compareTo(
                         o2.getCells().get(0).getValue());
@@ -2277,7 +2281,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-		assertEquals(103, createdCluSet.getCluIds().size());
+        assertEquals(105, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {

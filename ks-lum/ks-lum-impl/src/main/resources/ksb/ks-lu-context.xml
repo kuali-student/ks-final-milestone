@@ -514,6 +514,20 @@
 
     <bean id="majorDisciplineAssembler"
           class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
+        <property name="luService" ref="luClient"/>
+        <property name="loService" ref="loServiceImpl"/>
+        <property name="programVariationAssembler" ref="programVariationAssembler"/>
+        <property name="loAssembler" ref="loAssembler"/>
+    </bean>
+
+    <bean id="programVariationAssembler"
+          class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
+        <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="loAssembler"
+              class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+        <property name="loService" ref="loServiceImpl"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"
@@ -525,11 +539,11 @@
           class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
         <property name="luService" ref="luClient"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
-        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
         <property name="dictionaryService" ref="dictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker"/>
+        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

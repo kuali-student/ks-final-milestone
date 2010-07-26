@@ -63,6 +63,18 @@
                             <goal>java2ws</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>program-wsdl</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>org.kuali.student.lum.program.service.ProgramService</className>
+                            <serviceName>ProgramService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/program</targetNameSpace>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
                 </executions>
                 <!-- CXF does classloading does not agree with Maven3, requiring the ks-core-api
        dependency to be duplicated here inside the plugin configuration -->

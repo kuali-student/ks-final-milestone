@@ -15,7 +15,6 @@ import java.util.Random;
 
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 
 public class MajorDisciplineDataGenerator {
 	private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH,CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};

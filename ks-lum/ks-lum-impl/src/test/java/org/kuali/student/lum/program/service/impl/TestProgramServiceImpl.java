@@ -19,12 +19,10 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.program.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -89,12 +87,22 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
-    @Ignore public void testGetMajorDiscipline() {
+    public void testGetMajorDiscipline() {
+        MajorDisciplineInfo majorDisciplineInfo = null;
         try {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
-        	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
+            // MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
+            try {
+                majorDisciplineInfo = programService.getMajorDiscipline("0d8c42bc-77ba-450e-ae0e-eecd76fae779");
+                fail("Should have received DoesNotExistException");
+            } catch (DoesNotExistException dnee) {
+                String expectedExceptionMessage = "Specified CLU is not a Major Discipline";
+                assertEquals("Expected DoesNotExistException has incorrect message:", expectedExceptionMessage, dnee.getMessage());
+            }
+            majorDisciplineInfo = programService.getMajorDiscipline("D4EA77DD-B492-4554-B104-863E42C5F8B7");
             assertNotNull(majorDisciplineInfo);
 
+            /*
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);
 
@@ -137,6 +145,7 @@ public class TestProgramServiceImpl {
                 assertNotNull(value);
                 assertEquals(key, value);
             }
+            */
 
           } catch (Exception e) {
         	e.printStackTrace();

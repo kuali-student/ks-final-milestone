@@ -1,15 +1,20 @@
 package org.kuali.student.lum.program.client;
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.assembly.data.Data;
@@ -19,7 +24,9 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 
 public class ProgramController extends MenuEditableSectionController {
 
@@ -110,7 +117,7 @@ public class ProgramController extends MenuEditableSectionController {
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, final Callback<Boolean> workCompleteCallback) {
-        programRemoteService.getData("1", new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.getData("D4EA77DD-B492-4554-B104-863E42C5F8B7", new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
             public void onFailure(Throwable caught) {

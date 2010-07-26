@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.jws.WebService;
 
@@ -477,13 +477,8 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(relatedCluId, "relatedCluId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 
-		List<Clu> clus = luDao.getClusByRelation(relatedCluId,
-				luLuRelationTypeKey);
-		List<String> ids = new ArrayList<String>(clus.size());
-		for (Clu clu : clus) {
-			ids.add(clu.getId());
-		}
-		return ids;
+        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, luLuRelationTypeKey);
+        return cluIds;
 	}
 
 	@Override
@@ -1703,7 +1698,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 
-		return validator.validateTypeStateObject(cluPublicationInfo, getObjectStructure("cluPlublicationInfo"));
+        return validator.validateTypeStateObject(cluPublicationInfo, getObjectStructure("cluPublicationInfo"));
 	}
 
 	@Override

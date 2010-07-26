@@ -28,12 +28,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 /**
@@ -480,6 +481,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -487,6 +489,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         return attributes;
     }
 
+    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
@@ -505,10 +508,12 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -516,10 +521,12 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * The current status of the major program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
      */
+    @Override
     public String getState() {
         return state;
     }
 
+    @Override
     public void setState(String state) {
         this.state = state;
     }
@@ -527,10 +534,12 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * The page majorProgramId Structure does not exist. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
      */
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
