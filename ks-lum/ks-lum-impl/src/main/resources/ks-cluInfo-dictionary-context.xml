@@ -81,7 +81,8 @@
  </bean>
  <bean id="cluInfo.alternateIdentifiers" parent="cluInfo.alternateIdentifiers-parent" />
 
- <!--This is an example of adding a lookup constraint in addition to base constraint -->
+ <!--This is an example of adding a lookup constraint in addition to base constraint
+-->
  <bean id="cluInfo.campusLocations-parent" abstract="true" parent="baseKualiCodeRepeating">
   <property name="name" value="campusLocations" />
   <!--TODO: uncomment out and figure out why it fails with constants from CourseAssemblerConstants-->
@@ -114,6 +115,7 @@
  <bean id="cluInfo.descr" parent="cluInfo.descr-parent" />
 
  <bean id="cluInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+ 	<property name="minOccurs" value="0" />
   <property name="name" value="effectiveDate" />
  </bean>
  <bean id="cluInfo.effectiveDate" parent="cluInfo.effectiveDate-parent" />
