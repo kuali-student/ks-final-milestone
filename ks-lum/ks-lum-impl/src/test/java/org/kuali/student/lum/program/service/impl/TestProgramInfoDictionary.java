@@ -16,6 +16,7 @@ import org.kuali.student.lum.course.service.impl.CourseDataGenerator;
 import org.kuali.student.lum.course.service.impl.Dictionary2BeanComparer;
 import org.kuali.student.lum.course.service.impl.DictionaryFormatter;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
