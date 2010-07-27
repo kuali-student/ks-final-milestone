@@ -30,8 +30,8 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +39,14 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -67,7 +70,6 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
@@ -77,14 +79,12 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseProposalSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -304,20 +304,91 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected CollapsableSection generateCrossListed_Ver_Joint_Section() {
     	CollapsableSection result = new CollapsableSection(getLabel(LUConstants.CL_V_J_LABEL_KEY));
     	
-        addField(result, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
-        addField(result, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
-        addField(result, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+//        addField(result, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
+//        addField(result, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
+//        addField(result, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+    	addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + CROSS_LISTINGS,
+    			LUConstants.ADD_CROSS_LISTED_LABEL_KEY,
+    			LUConstants.CROSS_LISTED_ITEM_LABEL_KEY,
+    			Arrays.asList(
+    					Arrays.asList(SUBJECT_AREA, LUConstants.SUBJECT_CODE_LABEL_KEY),
+    					Arrays.asList(COURSE_NUMBER_SUFFIX, LUConstants.COURSE_NUMBER_LABEL_KEY)));
+    	addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + JOINTS,
+    			LUConstants.ADD_EXISTING_LABEL_KEY,
+    			LUConstants.JOINT_OFFER_ITEM_LABEL_KEY,
+    			Arrays.asList(
+    					Arrays.asList(CreditCourseJointsConstants.COURSE_ID, LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY)));
+    	addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + VERSIONS,
+    			LUConstants.ADD_VERSION_CODE_LABEL_KEY,
+    			LUConstants.VERSION_CODE_LABEL_KEY,
+    			Arrays.asList(
+    					Arrays.asList("variationCode", LUConstants.VERSION_CODE_LABEL_KEY),
+    					Arrays.asList("variationTitle", LUConstants.TITLE_LABEL_KEY)));
         return result;
     }
+    
+    private void addMultiplicityFields(Section section, String path, String addItemlabelMessageKey,
+    		String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels) {
+        QueryPath parentPath = QueryPath.concat(path);
 
-    protected VerticalSection generateOfferedJointlySection() {
-        // Offered jointly
-        VerticalSection offeredJointly = new VerticalSection(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
-        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
-        //offeredJointly.addStyleName("KS-LUM-Section-Divider");
-        return offeredJointly;
+        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.TOP_LEVEL, getMetaData(parentPath.toString()));
+        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
+        config.setItemLabel(getLabel(itemLabelMessageKey));
+        config.setUpdateable(true);
+
+        FieldDescriptor parentFd = buildFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
+        config.setParentFd(parentFd);
+
+        if (fieldKeysAndLabels != null) {
+        	for (List<String> fieldKeyAndLabel : fieldKeysAndLabels) {
+        		FieldDescriptor fd = buildMultiplicityFD(fieldKeyAndLabel.get(0), 
+        				fieldKeyAndLabel.get(1), parentPath.toString());
+                config.addField(fd);
+        	}
+        }
+        MultiplicitySection ms = new MultiplicitySection(config);
+        section.addSection(ms);
+
+    }
+    
+    private Metadata getMetaData(String fieldKey) {
+    	return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
 
+    private FieldDescriptor buildMultiplicityFD( String fieldKey, String labelKey, String parentPath) {
+
+    	QueryPath path = QueryPath.concat(parentPath);
+    	int i = path.size();
+
+    	QueryPath fieldPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
+    	Metadata meta = modelDefinition.getMetadata(fieldPath);
+
+    	FieldDescriptor fd = new FieldDescriptor(fieldPath.toString(), generateMessageInfo(labelKey), meta);
+
+    	return fd;
+
+    }
+
+    private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey,String parentPath) {
+    	return buildFieldDescriptor(fieldKey, messageKey, parentPath, null, null);
+    }
+    
+    private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey, String parentPath, Widget widget, ModelWidgetBinding<?> binding) {
+
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+
+        FieldDescriptor fd = new FieldDescriptor(path.toString(), generateMessageInfo(messageKey), meta);
+        if (widget != null) {
+            fd.setFieldWidget(widget);
+        }
+        if (binding != null) {
+            fd.setWidgetBinding(binding);
+        }
+        return fd;
+    }
+    
     protected VerticalSection generateCourseInfoShortTitleSection() {
         VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
         addField(shortTitle, COURSE + "/" + TRANSCRIPT_TITLE, null);

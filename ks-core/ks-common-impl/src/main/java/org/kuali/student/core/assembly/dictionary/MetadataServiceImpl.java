@@ -428,8 +428,8 @@ public class MetadataServiceImpl {
             	}
             	List<LookupMetadata> additionalLookupMetadata = null;
             	if (lookup.getAdditionalLookups() != null) {
+					additionalLookupMetadata = new ArrayList<LookupMetadata>();
 					for (UILookupData additionallookup : lookup.getAdditionalLookups()) {
-						additionalLookupMetadata = new ArrayList<LookupMetadata>();
 						additionalLookupMetadata
 								.add(mapLookupDatatoMeta(additionallookup));
 					}
