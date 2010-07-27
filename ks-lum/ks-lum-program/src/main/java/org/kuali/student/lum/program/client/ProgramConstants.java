@@ -25,4 +25,8 @@ public class ProgramConstants {
     public static final String DESCRIPTION_FORMATTED = "descr/formatted";
     public static final String DESCRIPTION = "descr";
     public static final String MORE_INFORMATION = "referenceURL";
+
+    //Managing Bodies
+    public static final String STUDENT_OVERSIGHT_DIVISION = "divisionsStudentOversight";
+    public static final String STUDENT_OVERSIGHT_UNIT = "unitsStudentOversight";
 }

@@ -34,6 +34,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_save();
 
   /**
+   * Translated "Curriculum Oversight Division".
+   * 
+   * @return translated "Curriculum Oversight Division"
+   */
+  @DefaultMessage("Curriculum Oversight Division")
+  @Key("managingBodies.curriculumOversightDivision")
+  String managingBodies_curriculumOversightDivision();
+
+  /**
+   * Translated "Curriculum Oversight Unit".
+   * 
+   * @return translated "Curriculum Oversight Unit"
+   */
+  @DefaultMessage("Curriculum Oversight Unit")
+  @Key("managingBodies.curriculumOversightUnit")
+  String managingBodies_curriculumOversightUnit();
+
+  /**
    * Translated "Actions".
    * 
    * @return translated "Actions"
