@@ -10,9 +10,7 @@ import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.impl.ComplexSubstructuresHelper;
-import org.kuali.student.lum.course.service.impl.CourseDataGenerator;
 import org.kuali.student.lum.course.service.impl.Dictionary2BeanComparer;
 import org.kuali.student.lum.course.service.impl.DictionaryFormatter;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -33,15 +31,15 @@ public class TestProgramInfoDictionary
 //  {
 //   System.out.println ("beanName=" + beanName);
 //  }
-  List<String> errors = new ArrayList ();
+  List<String> discrepancies = new ArrayList ();
   for (Class<?> clazz : getComplexStructures (MajorDisciplineInfo.class))
   {
-   errors.addAll (validate (clazz, ac));
+   discrepancies.addAll (compare (clazz, ac));
   }
-  if (errors.size () > 0)
+  if (discrepancies.size () > 0)
   {
-   System.out.println (formatAsString (errors));
-//   fail (formatAsString (errors));
+   System.out.println (formatAsString (discrepancies));
+//   fail (formatAsString (discrepancies));
    return;
   }
 
@@ -52,35 +50,35 @@ public class TestProgramInfoDictionary
   return new ComplexSubstructuresHelper ().getComplexStructures (clazz);
  }
 
- 
- public List<String> validate (Class<?> clazz, ApplicationContext ac)
+ private List<String> compare (Class<?> clazz, ApplicationContext ac)
  {
   ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
     clazz.getName ());
   os.getAttributes ();
   System.out.println (new DictionaryFormatter (os, "|").format ());
-  return validate (clazz, os);
+  return compare (clazz, os);
  }
 
- private List<String> validate (Class<?> clazz, ObjectStructureDefinition os)
+ private List<String> compare (Class<?> clazz, ObjectStructureDefinition os)
  {
-  Dictionary2BeanComparer validator = new Dictionary2BeanComparer (clazz, os);
-  List<String> errors = validator.validate ();
-  if (errors.size () > 0)
+  Dictionary2BeanComparer comparer = new Dictionary2BeanComparer (clazz, os);
+  List<String> discrepancies = comparer.compare ();
+  if (discrepancies.size () > 0)
   {
-   errors.add (0, errors.size () + " errors in " + clazz.getSimpleName ());
+   discrepancies.add (0, discrepancies.size () + " discrepancies in "
+                         + clazz.getSimpleName ());
   }
-  return errors;
+  return discrepancies;
  }
 
- private String formatAsString (List<String> errors)
+ private String formatAsString (List<String> discrepancies)
  {
   int i = 0;
   StringBuilder builder = new StringBuilder ();
-  for (String error : errors)
+  for (String discrep : discrepancies)
   {
    i ++;
-   builder.append (i + ". " + error + "\n");
+   builder.append (i + ". " + discrep + "\n");
   }
   return builder.toString ();
  }
@@ -91,18 +89,18 @@ public class TestProgramInfoDictionary
   ApplicationContext ac = new ClassPathXmlApplicationContext (
     "classpath:ks-programInfo-dictionary-context.xml");
   DefaultValidatorImpl val = new DefaultValidatorImpl ();
-  val.setValidatorFactory (new ValidatorFactory(new SampCustomValidator ()));
+  val.setValidatorFactory (new ValidatorFactory (new SampCustomValidator ()));
   val.setDateParser (new ServerDateParser ());
   MajorDisciplineInfo info = new MajorDisciplineInfo ();
   ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
     info.getClass ().getName ());
-  List<ValidationResultInfo> errors = val.validateObject (info, os);
-  System.out.println ("errors with just a blank");
-  for (ValidationResultInfo error : errors)
+  List<ValidationResultInfo> validationResults = val.validateObject (info, os);
+  System.out.println ("validation results with just a blank");
+  for (ValidationResultInfo vr : validationResults)
   {
-   System.out.println (error.getElement () + " " + error.getMessage ());
+   System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (1, errors.size ());
+  assertEquals (1, validationResults.size ());
 
 
   try
@@ -114,13 +112,12 @@ public class TestProgramInfoDictionary
   {
    throw new RuntimeException (ex);
   }
-  errors = val.validateObject (info, os);
-  System.out.println ("errors with generated data");
-  for (ValidationResultInfo error : errors)
+  validationResults = val.validateObject (info, os);
+  System.out.println ("validation results with generated data");
+  for (ValidationResultInfo vr : validationResults)
   {
-   System.out.println (error.getElement () + " " + error.getMessage ());
+   System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (0, errors.size ());
+  assertEquals (0, validationResults.size ());
  }
-
 }

@@ -67,17 +67,17 @@ public class TestCourseServiceImpl {
     }
 
     private void dumpValidationErrors (CourseInfo cInfo) {
-      List<ValidationResultInfo> errors = null;
+      List<ValidationResultInfo> validationResults = null;
       try
       {
-       errors = courseService.validateCourse ("SYSTEM", cInfo);
+       validationResults = courseService.validateCourse ("SYSTEM", cInfo);
        }
       catch (Exception ex)
       {
-       System.out.println ("Could not get validation errors because: " + ex.getMessage ());
+       System.out.println ("Could not get validation results because: " + ex.getMessage ());
       }
-      for (ValidationResultInfo error : errors) {
-       System.out.println (error.getElement () + " " + error.getMessage ());
+      for (ValidationResultInfo vr : validationResults) {
+       System.out.println (vr.getElement () + " " + vr.getMessage ());
       }
     }
 
@@ -382,26 +382,26 @@ public class TestCourseServiceImpl {
             assertNotNull(cInfo);
             cInfo.setState("ACTIVE");
             cInfo.setDescr (null);
-            List <ValidationResultInfo> errors = courseService.validateCourse("SYSTEM", cInfo);
-            System.out.println ("errors state=ACTIVE");
-            for (ValidationResultInfo error : errors)
+            List <ValidationResultInfo> vrs = courseService.validateCourse("SYSTEM", cInfo);
+            System.out.println ("validation results state=ACTIVE");
+            for (ValidationResultInfo vr : vrs)
             {
-             System.out.println (error.getElement () + " " + error.getMessage ());
+             System.out.println (vr.getElement () + " " + vr.getMessage ());
             }
-            if (errors.size () == 0) {
-                fail("Should have an error requiring description");
+            if (vrs.size () == 0) {
+                fail("Should have a validation result requiring description");
             }
 
             cInfo.setState("DRAFT");
             cInfo.setDescr (null);
-            errors = courseService.validateCourse("SYSTEM", cInfo);
-            System.out.println ("errors state=DRAFT");
-            for (ValidationResultInfo error : errors)
+            vrs = courseService.validateCourse("SYSTEM", cInfo);
+            System.out.println ("validation result state=DRAFT");
+            for (ValidationResultInfo vr : vrs)
             {
-             System.out.println (error.getElement () + " " + error.getMessage ());
+             System.out.println (vr.getElement () + " " + vr.getMessage ());
             }
-            if (errors.size () > 0) {
-                fail("Should not have any errors");
+            if (vrs.size () > 0) {
+                fail("Should not have any validation results");
             }                   
         } catch (Exception e) {
             e.printStackTrace();

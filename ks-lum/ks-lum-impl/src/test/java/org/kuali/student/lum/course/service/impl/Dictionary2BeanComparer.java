@@ -21,7 +21,7 @@ public class Dictionary2BeanComparer
  }
 
  
- public List<String> validate ()
+ public List<String> compare ()
  {
   ObjectStructureDefinition osBean = new Bean2DictionaryConverter (clazz).convert ();
   return compare (osDict, osBean);
@@ -31,10 +31,10 @@ public class Dictionary2BeanComparer
  private List<String> compare (ObjectStructureDefinition osDict,
                                ObjectStructureDefinition osBean)
  {
-  List<String> errors = new ArrayList ();
-  compareAddError (errors, "Java Object Name", osBean.getName (), osDict.getName ());
-  compareAddError (errors, "hasMetaData", osBean.isHasMetaData (), osDict.isHasMetaData ());
-  compareAddError (errors, "BusinessObjectClass", osBean.getBusinessObjectClass (), osDict.getBusinessObjectClass ());
+  List<String> discrepancies = new ArrayList ();
+  compareAddDiscrepancy (discrepancies, "Java Object Name", osBean.getName (), osDict.getName ());
+  compareAddDiscrepancy (discrepancies, "hasMetaData", osBean.isHasMetaData (), osDict.isHasMetaData ());
+  compareAddDiscrepancy (discrepancies, "BusinessObjectClass", osBean.getBusinessObjectClass (), osDict.getBusinessObjectClass ());
   for (FieldDefinition fdDict : osDict.getAttributes ())
   {
    FieldDefinition fdBean = findField (fdDict.getName (), osBean);
@@ -42,23 +42,23 @@ public class Dictionary2BeanComparer
    {
     if ( ! fdDict.isDynamic ())
     {
-     errors.add ("Field " + fdDict.getName () + " missing from bean");
+     discrepancies.add ("Field " + fdDict.getName () + " missing from bean");
     }
     continue;
    }
-   compareAddError (errors, fdDict.getName () + " dataType", fdDict.getDataType (), fdBean.getDataType ());
-   compareAddError (errors, fdDict.getName () + " maxOccurs", fdDict.getMaxOccurs (), fdBean.getMaxOccurs ());
+   compareAddDiscrepancy (discrepancies, fdDict.getName () + " dataType", fdDict.getDataType (), fdBean.getDataType ());
+   compareAddDiscrepancy (discrepancies, fdDict.getName () + " maxOccurs", fdDict.getMaxOccurs (), fdBean.getMaxOccurs ());
   }
    for (FieldDefinition fdBean : osBean.getAttributes ())
   {
    FieldDefinition fdDict = findField (fdBean.getName (), osDict);
    if (fdDict == null)
    {
-    errors.add ("Field " + fdBean.getName () + " missing from dict");
+    discrepancies.add ("Field " + fdBean.getName () + " missing from dict");
     continue;
    }
   }
-  return errors;
+  return discrepancies;
  }
 
  private FieldDefinition findField (String name, ObjectStructureDefinition os)
@@ -73,13 +73,13 @@ public class Dictionary2BeanComparer
   return null;
  }
 
- private void compareAddError (List<String> errors, String field, Object value1,
+ private void compareAddDiscrepancy (List<String> discrepancies, String field, Object value1,
                                Object value2)
  {
-  String error = compare (field, value1, value2);
-  if (error != null)
+  String discrep = compare (field, value1, value2);
+  if (discrep != null)
   {
-   errors.add (error);
+   discrepancies.add (discrep);
   }
  }
 

@@ -632,6 +632,7 @@
     <ref bean="luCodeInfo.descr" />
     <ref bean="luCodeInfo.id" />
     <ref bean="luCodeInfo.value" />
+    <ref bean="luCodeInfo.type" />
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -652,6 +653,12 @@
   <property name="name" value="value" />
  </bean>
  <bean id="luCodeInfo.value" parent="luCodeInfo.value-parent" />
+
+ <bean id="luCodeInfo.type-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="type" />
+ </bean>
+ <bean id="luCodeInfo.type" parent="luCodeInfo.type-parent" />
+
 
  <!-- TimeAmountInfo-->
  <bean id="org.kuali.student.core.dto.TimeAmountInfo-parent"

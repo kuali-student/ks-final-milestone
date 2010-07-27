@@ -68,23 +68,23 @@ public class TestDictionaryLoad
  private void validate (Class<?> clazz, ObjectStructureDefinition os)
  {
   Dictionary2BeanComparer validator = new Dictionary2BeanComparer (clazz, os);
-  List<String> errors = validator.validate ();
-  if (errors.size () > 0)
+  List<String> discrepancies = validator.compare ();
+  if (discrepancies.size () > 0)
   {
-   System.out.println (toString (clazz.getSimpleName (), errors));
-//   fail (toString (clazz.getSimpleName (), errors));
+   System.out.println (toString (clazz.getSimpleName (), discrepancies));
+//   fail (toString (clazz.getSimpleName (), discrepancies));
   }
  }
 
- private String toString (String objectName, List<String> errors)
+ private String toString (String objectName, List<String> discrepancies)
  {
   int i = 0;
   StringBuilder builder = new StringBuilder ();
-  builder.append (errors.size () + " errors found in " + objectName + ":\n");
-  for (String error : errors)
+  builder.append (discrepancies.size () + " discrepancies found in " + objectName + ":\n");
+  for (String discrep : discrepancies)
   {
    i ++;
-   builder.append (i + ". " + error + "\n");
+   builder.append (i + ". " + discrep + "\n");
   }
   return builder.toString ();
  }
