@@ -544,27 +544,36 @@
 
  <bean id="courseJointInfo.courseNumberSuffix-parent" abstract="true" parent="courseInfo.courseNumberSuffix-parent">
   <property name="name" value="courseNumberSuffix" />
+  <property name="minOccurs" value="0"/>
+  <property name="minLength" value="0" />
  </bean>
  <bean id="courseJointInfo.courseNumberSuffix" parent="courseJointInfo.courseNumberSuffix-parent" />
 
  <bean id="courseJointInfo.courseTitle-parent" abstract="true" parent="courseInfo.courseTitle-parent">
   <property name="name" value="courseTitle" />
+  <property name="minOccurs" value="0"/>
+  <property name="minLength" value="0" />
  </bean>
  <bean id="courseJointInfo.courseTitle" parent="courseJointInfo.courseTitle-parent" />
 
  <bean id="courseJointInfo.relationId-parent" abstract="true" parent="baseKualiId">
   <property name="name" value="relationId" />
+  <property name="minOccurs" value="0"/>
+  <property name="minLength" value="0" />
  </bean>
  <bean id="courseJointInfo.relationId" parent="courseJointInfo.relationId-parent" />
 
  <bean id="courseJointInfo.subjectArea-parent" abstract="true" parent="courseInfo.subjectArea-parent">
   <property name="name" value="subjectArea" />
   <property name="minOccurs" value="0"/>
+  <property name="minLength" value="0" />
  </bean>
  <bean id="courseJointInfo.subjectArea" parent="courseJointInfo.subjectArea-parent" />
 
  <bean id="courseJointInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
   <property name="name" value="type" />
+  <property name="minOccurs" value="0"/>
+  <property name="minLength" value="0" />
  </bean>
  <bean id="courseJointInfo.type" parent="courseJointInfo.type-parent" />
 
