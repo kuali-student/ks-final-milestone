@@ -90,7 +90,6 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
-    @Ignore
     public void testGetMajorDiscipline() {
         MajorDisciplineInfo majorDisciplineInfo = null;
         try {
@@ -106,6 +105,7 @@ public class TestProgramServiceImpl {
             majorDisciplineInfo = programService.getMajorDiscipline("D4EA77DD-B492-4554-B104-863E42C5F8B7");
             assertNotNull(majorDisciplineInfo);
 
+            assertNotNull(majorDisciplineInfo.getOrgCoreProgram());
             /*
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);

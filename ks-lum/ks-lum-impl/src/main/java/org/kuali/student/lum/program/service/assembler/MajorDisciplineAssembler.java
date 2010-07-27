@@ -24,6 +24,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.LoAssembler;
@@ -37,6 +38,7 @@ import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 
@@ -52,6 +54,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
     private ProgramVariationAssembler programVariationAssembler;
     private LoAssembler loAssembler;
+    private CoreProgramAssembler coreProgramAssembler;
 
     @Override
     public MajorDisciplineInfo assemble(CluInfo clu, MajorDisciplineInfo majorDiscipline, boolean shallowBuild) throws AssemblyException {
@@ -81,7 +84,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setCatalogDescr(getCatalogDescr(clu.getId()));
         mdInfo.setLearningObjectives(getLearningObjectives(clu.getId(), shallowBuild));
         mdInfo.setCampusLocations(clu.getCampusLocations());
-        // TODO - what about orgCoreProgram, listed on https://test.kuali.org/confluence/display/KULSTU/majorDisciplineInfo+Structure
+        mdInfo.setOrgCoreProgram(getCoreProgram(clu.getId(), shallowBuild));
         /* TODO
         mdInfo.setProgramRequirements(???);
         */
@@ -117,7 +120,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         }
         // Can a MajorDiscipline have more than one Credential Program?
         // TODO - do we need to validate that?
-        if (null == credentialProgramIDs || credentialProgramIDs.size() != 1) {
+        if (null == credentialProgramIDs || credentialProgramIDs.size() == 0) {
+            throw new AssemblyException("MajorDiscipline with ID == " + cluId + " has no Credential Program associated with it.");
+        } else if (credentialProgramIDs.size() > 1) {
             throw new AssemblyException("MajorDiscipline with ID == " + cluId + " has more than one Credential Program associated with it.");
         }
 
@@ -201,10 +206,31 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         return loInfos;
     }
 
+    private CoreProgramInfo getCoreProgram(String cluId, boolean shallowBuild) throws AssemblyException {
+        CoreProgramInfo coreProgramInfo = null;
+        try {
+            List<CluInfo> corePrograms = luService.getRelatedClusByCluId(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM);
+            // TODO - is it an error if there's more than one core program?
+            if (corePrograms.size() == 1) {
+                coreProgramInfo = coreProgramAssembler.assemble(corePrograms.get(0), null, shallowBuild);
+            } else if (corePrograms.size() > 1) {
+                throw new AssemblyException(new DataValidationErrorException("MajorDiscipline has more than one associated Core Program"));
+            }
+        } catch (Exception e) {
+            throw new AssemblyException(e);
+        }
+        return coreProgramInfo;
+    }
+
     // TODO - set institution, accreditingAgencies,
     //            divisionsContentOwner, divisionsStudentOversight, divisionsDeployment, divisionsFinancialResources, divisionsFinancialControl,
     //            unitsContentOwner, unitsStudentOversight, unitsDeployment, unitsFinancialResources, unitsFinancialControl
     private void setOrgs(MajorDisciplineInfo mdInfo, List<AdminOrgInfo> orgInfos) {
+        /*
+        for (AdminOrgInfo orgInfo : orgInfos) {
+
+        }
+        */
     }
 
     @Override
@@ -226,10 +252,14 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     public ProgramVariationAssembler getProgramVariationAssembler() {
-		return programVariationAssembler;
-	}
+        return programVariationAssembler;
+    }
 
 	public void setLoAssembler(LoAssembler loAssembler) {
         this.loAssembler = loAssembler;
+    }
+
+    public void setCoreProgramAssembler(CoreProgramAssembler coreProgramAssembler) {
+        this.coreProgramAssembler = coreProgramAssembler;
     }
 }

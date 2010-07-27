@@ -133,6 +133,9 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private List<String> campusLocations;
 
     @XmlElement
+    private CoreProgramInfo orgCoreProgram;
+
+    @XmlElement
     private List<String> programRequirements;
 
     @XmlElement
@@ -444,6 +447,14 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     public void setCampusLocations(List<String> campusLocations) {
         this.campusLocations = campusLocations;
+    }
+
+    public CoreProgramInfo getOrgCoreProgram() {
+        return orgCoreProgram;
+    }
+
+    public void setOrgCoreProgram(CoreProgramInfo orgCoreProgram) {
+        this.orgCoreProgram = orgCoreProgram;
     }
 
     /**

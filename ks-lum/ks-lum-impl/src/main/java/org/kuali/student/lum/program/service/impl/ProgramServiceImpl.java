@@ -38,7 +38,7 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
-import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -224,26 +224,26 @@ public class ProgramServiceImpl implements ProgramService {
             PermissionDeniedException {
 
 
-//        MajorDisciplineInfo majorDiscipline = null;
-// 
-//        try {
-//            CluInfo clu = luService.getClu(majorDisciplineId);
-//            if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
-//                throw new DoesNotExistException("Specified CLU is not a Major Discipline");
-//            }
-//            majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false);
-//        } catch (AssemblyException e) {
-//            LOG.error("Error assembling course", e);
-//            throw new OperationFailedException("Error assembling course");
-//        }
-//        return majorDiscipline;
+        MajorDisciplineInfo majorDiscipline = null;
+ 
+        try {
+            CluInfo clu = luService.getClu(majorDisciplineId);
+            if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
+                throw new DoesNotExistException("Specified CLU is not a Major Discipline");
+            }
+            majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false);
+        } catch (AssemblyException e) {
+            LOG.error("Error assembling course", e);
+            throw new OperationFailedException("Error assembling course");
+        }
+        return majorDiscipline;
 		// comment out the above, and uncomment below to get auto-generated data
         // (and vice-versa)
-		try {
-			return new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
-		} catch (Exception e) {
-			return null;
-		}
+//		try {
+//			return new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
+//		} catch (Exception e) {
+//			return null;
+//		}
     }
 
     @Override

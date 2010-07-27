@@ -29,15 +29,15 @@
         EXPIR_DT="20100101000000" ID="luLuType.type3" NAME="manolin"
         REV_DESC="rev desc3" REV_NAME="rev name3" VERSIONIND="0"/>
     <KSLU_LULU_RELTN_TYPE DESCR="my desc9" EFF_DT="20080101000000"
-        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.hasCoreProgram" NAME="lazlo"
+        EXPIR_DT="20100101000000" ID="kuali.lu.lu.relation.type.hasCoreProgram" NAME="lazlo"
         REV_DESC="rev desc9" REV_NAME="rev name9" VERSIONIND="0"/>
     <KSLU_LULU_RELTN_TYPE DESCR="my desc10" EFF_DT="20080101000000"
-        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.hasVariationProgram" NAME="artemis"
+        EXPIR_DT="20100101000000" ID="kuali.lu.lu.relation.type.hasVariationProgram" NAME="artemis"
         REV_DESC="rev desc10" REV_NAME="rev name10" VERSIONIND="0"/>
     <KSLU_LULU_RELTN_TYPE DESCR="my desc11" EFF_DT="20080101000000"
-        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.hasMajorProgram" NAME="brian"
+        EXPIR_DT="20100101000000" ID="kuali.lu.lu.relation.type.hasMajorProgram" NAME="brian"
         REV_DESC="rev desc11" REV_NAME="rev name11" VERSIONIND="0"/>
     <KSLU_LULU_RELTN_TYPE DESCR="my desc12" EFF_DT="20080101000000"
-        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.hasProgramRequirement" NAME="reginald"
+        EXPIR_DT="20100101000000" ID="kuali.lu.lu.relation.type.hasProgramRequirement" NAME="reginald"
         REV_DESC="rev desc12" REV_NAME="rev name12" VERSIONIND="0"/>
 </dataset>

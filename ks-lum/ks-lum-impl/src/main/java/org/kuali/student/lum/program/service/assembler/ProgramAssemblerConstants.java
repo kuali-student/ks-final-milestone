@@ -74,4 +74,16 @@ public class ProgramAssemblerConstants {
 	// publication types
 	public static final String CATALOG = "kuali,lu.publication.Catalog";
 
+    // adminorg types
+    public static final String CURRICULUM_OVERSIGHT_DIVISION = "kuali.adminOrg.type.CurriculumOversightDivision";
+    public static final String STUDENT_OVERSIGHT_DIVISION = "kuali.adminOrg.type.StudentOversightDivision";
+    public static final String DEPLOYMENT_DIVISION = "kuali.adminOrg.type.DeploymentDivision";
+    public static final String FINANCIAL_RESOURCES_DIVISION = "kuali.adminOrg.type.FinancialResourcesDivision";
+    public static final String FINANCIAL_CONTROL_DIVISION = "kuali.adminOrg.type.FinancialControlDivision";
+    public static final String CURRICULUM_OVERSIGHT_UNIT = "kuali.adminOrg.type.CurriculumOversightUnit";
+    public static final String STUDENT_OVERSIGHT_UNIT = "kuali.adminOrg.type.StudentOversightUnit";
+    public static final String DEPLOYMENT_UNIT = "kuali.adminOrg.type.DeploymentUnit";
+    public static final String FINANCIAL_RESOURCES_UNIT = "kuali.adminOrg.type.FinancialResourcesUnit";
+    public static final String FINANCIAL_CONTROL_UNIT = "kuali.adminOrg.type.FinancialControlUnit";
+    public static final String INSTITUTION = "kuali.adminOrg.type.Institution";
 }

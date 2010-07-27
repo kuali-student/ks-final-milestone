@@ -449,12 +449,18 @@
         <property name="luService" ref="luServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
+        <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <property name="loAssembler" ref="loAssembler"/>
     </bean>
 
     <bean id="programVariationAssembler"
           class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
         <property name="luService" ref="luServiceImpl"/>
+    </bean>
+
+    <bean id="coreProgramAssembler"
+          class="org.kuali.student.lum.program.service.assembler.CoreProgramAssembler">
+        <property name="programService" ref="programService"/>
     </bean>
 
     <bean id="loAssembler"
