@@ -1,12 +1,8 @@
 package org.kuali.student.lum.course.service.impl;
 
-import java.beans.IntrospectionException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.SampCustomValidator;

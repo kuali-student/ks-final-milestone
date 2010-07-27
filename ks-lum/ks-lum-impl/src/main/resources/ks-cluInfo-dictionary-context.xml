@@ -115,6 +115,7 @@
  <bean id="cluInfo.descr" parent="cluInfo.descr-parent" />
 
  <bean id="cluInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+  <!--TODO: make this required again once it is set to today as a default in the assembler-->
  	<property name="minOccurs" value="0" />
   <property name="name" value="effectiveDate" />
  </bean>

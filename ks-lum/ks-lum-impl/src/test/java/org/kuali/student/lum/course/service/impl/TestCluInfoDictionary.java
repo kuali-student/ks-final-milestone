@@ -96,7 +96,8 @@ public class TestCluInfoDictionary
   {
    System.out.println (error.getElement () + " " + error.getMessage ());
   }
-  assertEquals (4, errors.size ());
+  // TODO: change back to 4 when we undo Will Gomes making effective date not required
+  assertEquals (3, errors.size ());
 
   //
   info.setOfficialIdentifier (new CluIdentifierInfo ());
@@ -106,6 +107,7 @@ public class TestCluInfoDictionary
   {
    System.out.println (error.getElement () + " " + error.getMessage ());
   }
-  assertEquals (5, errors.size ());
+  // TODO: change back to 5 when we undo Will Gomes making effective date not required
+  assertEquals (4, errors.size ());
  }
 }
