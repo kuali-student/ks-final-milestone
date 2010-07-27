@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
@@ -552,17 +551,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         	editActions.setVisible(show);
         }
 
-    }
-
-
-    @Override
-    public void collectHistory(HistoryStackFrame frame) {
-        // do nothing
-    }
-
-    @Override
-    public void onHistoryEvent(HistoryStackFrame frame) {
-        // do nothing
     }
 
 	@Override

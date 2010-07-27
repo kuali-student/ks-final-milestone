@@ -175,7 +175,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		layout.removeLayoutElement(section.getLayout());
 	}
 
-	private void clearValidation() {
+	protected void clearValidation() {
 		layout.clearValidation();
 
 	}

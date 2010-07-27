@@ -307,7 +307,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 
 	public void clearValidationPanel(){
 		this.setErrorState(false);
-		this.validationPanel.clear();
+		if(validationPanel != null){
+			this.validationPanel.clear();
+		}
 	}
 
 	@Override

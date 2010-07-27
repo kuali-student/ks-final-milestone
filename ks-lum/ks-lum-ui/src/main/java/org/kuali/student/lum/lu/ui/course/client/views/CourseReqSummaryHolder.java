@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.client.configuration;
+package org.kuali.student.lum.lu.ui.course.client.views;
 
 public class CourseReqSummaryHolder {
 

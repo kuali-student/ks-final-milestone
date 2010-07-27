@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.ui.client.widgets.containers;
+package org.kuali.student.lum.lu.ui.main.client.widgets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
@@ -45,18 +46,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class KSWrapper extends Composite{
+public class ApplicationHeader extends Composite{
 
     private static final String LUM_APP_URL		= "lum.application.url";
     private static final String APP_URL			= "application.url";
@@ -70,11 +69,9 @@ public class KSWrapper extends Composite{
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
-    private FlowPanel layout = new FlowPanel();
-
 	private KSHeader ksHeader = new KSHeader();
 
-	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
+	private StylishDropDown navDropDown = new StylishDropDown("Navigate to...");
 	private Anchor versionAnchor = new Anchor(" ( Version ) ");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
@@ -104,8 +101,8 @@ public class KSWrapper extends Composite{
 			callback.exec(true);
 		}
     }
-	public KSWrapper(){
-		this.initWidget(layout);
+	public ApplicationHeader(){
+		this.initWidget(ksHeader);
 	}
 	protected void onLoad() {
 		super.onLoad();
@@ -129,7 +126,7 @@ public class KSWrapper extends Composite{
 	                    appVersion		= result.get(APP_VERSION);
 	                    
 	                    if (result.get(CODE_SERVER) != null){
-	                    	codeServer		= result.get(CODE_SERVER);
+	                    	codeServer	= result.get(CODE_SERVER);
 	                    }
 	                }
 	                init();
@@ -155,18 +152,14 @@ public class KSWrapper extends Composite{
 		createHelpInfo();
 		createNavDropDown();
 		ksHeader.addNavigation(navDropDown);
-		
+		ksHeader.addBottomContainerWidget(BreadcrumbManager.getBreadcrumbPanel());
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
 		setHeaderCustomLinks(topLinks);
 
-		layout.add(ksHeader);
-		layout.add(content);
-
 		navDropDown.addStyleName("KS-Navigation-DropDown");
 		content.addStyleName("KS-Wrapper-Content");
-		layout.addStyleName("KS-Wrapper");
 	}
 
 	private void createHelpInfo(){
@@ -197,21 +190,14 @@ public class KSWrapper extends Composite{
 
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 
-		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleHome"),Theme.INSTANCE.getCommonImages().getSpacerIcon(),
-    			new WrapperNavigationHandler(
-    					"#"))
-    	);
-    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleMyActionList"),Theme.INSTANCE.getCommonImages().getApplicationIcon(),
-    			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"+(codeServer.isEmpty()?"":"?"+codeServer)))
+		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleHome"),Theme.INSTANCE.getCommonImages().getApplicationIcon(),
+    			new WrapperNavigationHandler("#/HOME"))
     	);
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleCurriculumManagement"),Theme.INSTANCE.getCommonImages().getBookIcon(),
-    			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"+(codeServer.isEmpty()?"":"&"+codeServer)))
+    			new WrapperNavigationHandler("#/HOME/CURRICULUM_HOME"))
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleOrg"), Theme.INSTANCE.getCommonImages().getPeopleIcon(),
-    			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
+    			new WrapperNavigationHandler(lumAppUrl+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleWorkflowDocSearch"), Theme.INSTANCE.getCommonImages().getNodeIcon(),
     			new ClickHandler(){
@@ -305,7 +291,6 @@ public class KSWrapper extends Composite{
 
 	        docSearchPanel.add(closeActionButton);
 	        docSearchDialog.setWidget(docSearchPanel);
-	        docSearchDialog.setSize(750, 550);
     	}
     }
 
