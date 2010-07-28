@@ -53,7 +53,7 @@ public class ProgramServiceImpl implements ProgramService {
     private SearchManager searchManager;
     private MajorDisciplineAssembler majorDisciplineAssembler;
     private ProgramRequirementAssembler programRequirementAssembler;
-    
+
     @Override
     public CredentialProgramInfo createCredentialProgram(
             CredentialProgramInfo credentialProgramInfo)
@@ -225,7 +225,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 
         MajorDisciplineInfo majorDiscipline = null;
- 
+
         try {
             CluInfo clu = luService.getClu(majorDisciplineId);
             if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
@@ -278,6 +278,8 @@ public class ProgramServiceImpl implements ProgramService {
 
         checkForMissingParameter(programRequirementId, "programRequirementId");
 
+		CluInfo cluInfo = luService.getClu(programRequirementId);
+
         // TODO Auto-generated method stub
         return null;
     }
@@ -288,10 +290,10 @@ public class ProgramServiceImpl implements ProgramService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
     	List<ProgramVariationInfo> pvInfos = new ArrayList<ProgramVariationInfo>();
-    	
+
     	try {
     			List<CluInfo> clus = luService.getRelatedClusByCluId(majorDisciplineId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
-		        
+
 		        if(clus != null && clus.size() > 0){
 		        	for(CluInfo clu : clus){
 		        		ProgramVariationInfo pvInfo = majorDisciplineAssembler.getProgramVariationAssembler().assemble(clu, null, false);
@@ -304,7 +306,7 @@ public class ProgramServiceImpl implements ProgramService {
 		        LOG.error("Error assembling ProgramVariation", e);
 		        throw new OperationFailedException("Error assembling ProgramVariation");
 		    }
-		    
+
         return pvInfos;
     }
 
