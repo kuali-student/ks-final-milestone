@@ -1,9 +1,9 @@
 package org.kuali.student.lum.course.service.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -196,17 +196,30 @@ public class TestCourseServiceImpl {
 
        CourseDataGenerator generator = new CourseDataGenerator();
        CourseInfo cInfo = null;
+       CourseInfo retrievedCourse = null;
+       CourseInfo updatedCourse = null;
+       CourseInfo createdCourse = null;
        try {
-            cInfo = generator.getCourseTestData();
-            } catch (Exception ex) {
-             fail (ex.getMessage ());
-            }
-            assertNotNull(cInfo);
-            cInfo.setSpecialTopicsCourse(true);
-            cInfo.setPilotCourse(true);
-        try {
-            CourseInfo createdCourse = courseService.createCourse(cInfo);
+        System.out.println ("Getting test data...");
+       cInfo = generator.getCourseTestData();
+       } catch (Exception ex) {
+        ex.printStackTrace();
+        fail ("Got exception getting test data:" + ex.getMessage ());
+       }
 
+       assertNotNull(cInfo);
+       cInfo.setSpecialTopicsCourse(true);
+       cInfo.setPilotCourse(true);
+       try {
+        System.out.println ("creating course...");
+         createdCourse = courseService.createCourse(cInfo);
+        } catch (DataValidationErrorException e) {
+           dumpValidationErrors (cInfo);
+           fail("DataValidationError: " + e.getMessage());
+        } catch (Exception ex) {
+         ex.printStackTrace();
+         fail ("failed creating course" + ":" + ex.getMessage ());
+        }
             int initialFormatCount = createdCourse.getFormats().size();
 
             // minimal sanity check
@@ -277,7 +290,16 @@ public class TestCourseServiceImpl {
             createdCourse.getCourseSpecificLOs().get(1).getLoCategoryInfoList().get(0).setId("category-3");
             
             //Perform the update
-            CourseInfo updatedCourse = courseService.updateCourse(createdCourse);
+            try {
+            System.out.println ("updating course...");
+            updatedCourse = courseService.updateCourse(createdCourse);
+            } catch (DataValidationErrorException e) {
+             dumpValidationErrors (createdCourse);
+             fail("DataValidationError: " + e.getMessage());
+            } catch (Exception ex) {
+             ex.printStackTrace();
+             fail ("failed updating course: " + ex.getMessage ());
+            }
             assertEquals(initialFormatCount + 1, updatedCourse.getFormats().size());
 
             for (FormatInfo uFrmt : updatedCourse.getFormats()) {
@@ -293,12 +315,17 @@ public class TestCourseServiceImpl {
                     assertEquals(1, uFrmt.getActivities().size());
                 }
             }
-
             // Test what was returned by updateCourse
             verifyUpdate(updatedCourse);
 
             // Now explicitly get it
-            CourseInfo retrievedCourse = courseService.getCourse(createdCourse.getId());
+            try {
+            System.out.println ("Getting course again...");
+            retrievedCourse = courseService.getCourse(createdCourse.getId());
+            } catch (Exception ex) {
+             ex.printStackTrace();
+             fail ("failed getting course again:" + ex.getMessage ());
+            }
             verifyUpdate(retrievedCourse);
 
             // and test for optimistic lock exception
@@ -312,18 +339,18 @@ public class TestCourseServiceImpl {
                 retrievedCourse.getMetaInfo().setVersionInd(Integer.toString(--currVersion));
             }
             try {
+                System.out.println ("Updating course again trying to get a version mismatch...");
                 courseService.updateCourse(retrievedCourse);
                 fail("Failed to throw VersionMismatchException");
             } catch (VersionMismatchException e) {
                 System.out.println("Correctly received " + e.getMessage());
+            } catch (DataValidationErrorException e) {
+             dumpValidationErrors (retrievedCourse);
+             fail("DataValidationError: " + e.getMessage());
+            } catch (Exception e) {
+        	    e.printStackTrace();
+             fail(e.getMessage());
             }
-        } catch (DataValidationErrorException e) {
-           dumpValidationErrors (cInfo);
-           fail("DataValidationError: " + e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     private void verifyUpdate(CourseInfo updatedCourse) {
@@ -350,7 +377,7 @@ public class TestCourseServiceImpl {
 
     @Test
     public void testDeleteCourse() {
-          System.out.println ("testDeleteCourse");
+       System.out.println ("testDeleteCourse");
         try {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
@@ -375,7 +402,7 @@ public class TestCourseServiceImpl {
 
     @Test
     public void testCourseDescrRequiredBasedOnState () {
-     System.out.println ("testCourseIdStateValidation");
+     System.out.println ("testCourseDescrRequiredBasedOnState");
         CourseDataGenerator generator = new CourseDataGenerator();
          try {
             CourseInfo cInfo = generator.getCourseTestData();
@@ -422,8 +449,15 @@ public class TestCourseServiceImpl {
             
             cInfo.setAttributes(attrMap);
 
+            try {
             cInfo = courseService.createCourse(cInfo);
-
+            } catch (DataValidationErrorException e) {
+             dumpValidationErrors (cInfo);
+             fail("DataValidationError: " + e.getMessage());
+            } catch (Exception e) {
+        	    e.printStackTrace();
+             fail("failed creating course:" + e.getMessage());
+            }
             // Check in LuService if the attributes are mapped properly
             
             CourseInfo rInfo = courseService.getCourse(cInfo.getId());
@@ -437,9 +471,12 @@ public class TestCourseServiceImpl {
             try {
                 courseService.updateCourse(rInfo);
                 fail("Should have thrown data validation exception for invalid chars");
-            } catch (DataValidationErrorException e) {}
+            } catch (DataValidationErrorException e) {
+             System.out.println ("threw data validaiton exception as expected");
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            fail (e.getMessage ());
         } 
         
 
@@ -454,6 +491,7 @@ public class TestCourseServiceImpl {
     
 	@Test
 	public void testGetMetadata(){
+  System.out.println ("testGetMetadata");
 		MetadataServiceImpl metadataService = new MetadataServiceImpl(courseService);
 		metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
         Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.course.dto.CourseInfo");

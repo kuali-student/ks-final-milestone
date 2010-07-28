@@ -9,15 +9,15 @@
  <bean id="objectStructureDefinition"
        class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition"
        abstract="true" />
- <bean id="FieldDefinition"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition"
-       abstract="true" />
  <bean id="constraint" abstract="true"
        class="org.kuali.student.core.dictionary.dto.Constraint" />
  <bean id="caseConstraint" abstract="true"
        class="org.kuali.student.core.dictionary.dto.CaseConstraint" />
  <bean id="whenConstraint" abstract="true"
        class="org.kuali.student.core.dictionary.dto.WhenConstraint" />
+ <!--TODO: rename the java dto to be requiresConstraint-->
+ <bean id="requiresConstraint" abstract="true"
+       class="org.kuali.student.core.dictionary.dto.RequiredConstraint" />
 
 
  <bean id="ValidCharDefinition" abstract="true"
@@ -181,7 +181,7 @@
  <bean id="baseDateRequired" parent="baseDate">
   <property name="minOccurs" value="1" />
  </bean>
- <bean id="baseKualiEffectiveDate" parent="baseDateRequired">
+ <bean id="baseKualiEffectiveDate" parent="baseDate">
  </bean>
  <!--Need to add	cross field field validation with effective date-->
  <bean id="baseKualiExpirationDate" parent="baseDate">
@@ -222,6 +222,9 @@
  </bean>
  <bean id="baseKualiTypeRequired" parent="baseKualiType" abstract="true">
   <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiTypeRepeating" parent="baseKualiType" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="baseKualiType" parent="baseKualiCode" abstract="true">
  </bean>

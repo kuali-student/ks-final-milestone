@@ -1,6 +1,8 @@
 package org.kuali.student.lum.course.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
@@ -9,8 +11,10 @@ import org.kuali.student.common.validator.SampCustomValidator;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
@@ -27,8 +31,17 @@ public class TestCourseInfoDictionary
 //  {
 //   System.out.println ("beanName=" + beanName);
 //  }
+  Set<Class<?>> structures = new LinkedHashSet ();
+  List<Class<?>> startingClasses = new ArrayList ();
+  startingClasses.add (CourseInfo.class);
+  startingClasses.add (StatementTreeViewInfo.class);
+  for (Class<?> clazz : startingClasses)
+  {
+   structures.addAll (getComplexStructures (clazz));
+  }
+
   List<String> discrepancies = new ArrayList ();
-  for (Class<?> clazz : getComplexStructures (CourseInfo.class))
+  for (Class<?> clazz : structures)
   {
    discrepancies.addAll (compare (clazz, ac));
   }
@@ -48,8 +61,15 @@ public class TestCourseInfoDictionary
 
  private List<String> compare (Class<?> clazz, ApplicationContext ac)
  {
-  ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
-    clazz.getName ());
+  ObjectStructureDefinition os = null;
+  try
+  {
+   os = (ObjectStructureDefinition) ac.getBean (clazz.getName ());
+  }
+  catch (NoSuchBeanDefinitionException ex)
+  {
+   return Arrays.asList (ex.getMessage ());
+  }
   os.getAttributes ();
   System.out.println (new DictionaryFormatter (os, "|").format ());
   return compare (clazz, os);
@@ -96,8 +116,7 @@ public class TestCourseInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  //TODO: change this back to 4 once we fix make the effective date required again
-  assertEquals (4, validationResults.size ());
+  assertEquals (3, validationResults.size ());
 
 
   try

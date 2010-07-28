@@ -1,6 +1,8 @@
 package org.kuali.student.lum.program.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
@@ -14,7 +16,9 @@ import org.kuali.student.lum.course.service.impl.ComplexSubstructuresHelper;
 import org.kuali.student.lum.course.service.impl.Dictionary2BeanComparer;
 import org.kuali.student.lum.course.service.impl.DictionaryFormatter;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
@@ -31,8 +35,17 @@ public class TestProgramInfoDictionary
 //  {
 //   System.out.println ("beanName=" + beanName);
 //  }
+  Set<Class<?>> structures = new LinkedHashSet ();
+  List<Class<?>> startingClasses = new ArrayList ();
+  startingClasses.add (MajorDisciplineInfo.class);
+  startingClasses.add (MinorDisciplineInfo.class);
+  for (Class<?> clazz : startingClasses)
+  {
+   structures.addAll (getComplexStructures (clazz));
+  }
+
   List<String> discrepancies = new ArrayList ();
-  for (Class<?> clazz : getComplexStructures (MajorDisciplineInfo.class))
+  for (Class<?> clazz : structures)
   {
    discrepancies.addAll (compare (clazz, ac));
   }
@@ -52,8 +65,15 @@ public class TestProgramInfoDictionary
 
  private List<String> compare (Class<?> clazz, ApplicationContext ac)
  {
-  ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
-    clazz.getName ());
+  ObjectStructureDefinition os = null;
+  try
+  {
+   os = (ObjectStructureDefinition) ac.getBean (clazz.getName ());
+  }
+  catch (NoSuchBeanDefinitionException ex)
+  {
+   return Arrays.asList (ex.getMessage ());
+  }
   os.getAttributes ();
   System.out.println (new DictionaryFormatter (os, "|").format ());
   return compare (clazz, os);
@@ -100,7 +120,7 @@ public class TestProgramInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (1, validationResults.size ());
+  assertEquals (0, validationResults.size ());
 
 
   try

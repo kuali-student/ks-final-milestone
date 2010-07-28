@@ -115,8 +115,6 @@
  <bean id="cluInfo.descr" parent="cluInfo.descr-parent" />
 
  <bean id="cluInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
-  <!--TODO: make this required again once it is set to today as a default in the assembler-->
- 	<property name="minOccurs" value="0" />
   <property name="name" value="effectiveDate" />
  </bean>
  <bean id="cluInfo.effectiveDate" parent="cluInfo.effectiveDate-parent" />
@@ -201,7 +199,7 @@
  </bean>
  <bean id="cluInfo.offeredAtpTypes" parent="cluInfo.offeredAtpTypes-parent" />
 
- <bean id="cluInfo.officialIdentifier-parent" abstract="true" parent="baseComplexRequired">
+ <bean id="cluInfo.officialIdentifier-parent" abstract="true" parent="baseComplex">
   <property name="name" value="officialIdentifier" />
   <property name="dataObjectStructure"
             ref="org.kuali.student.lum.lu.dto.CluIdentifierInfo" />
@@ -352,7 +350,7 @@
  </bean>
  <bean id="cluFeeRecordInfo.affiliatedOrgs" parent="cluFeeRecordInfo.affiliatedOrgs-parent" />
 
-<bean id="cluFeeRecordInfo.descr-parent" abstract="true" parent="baseComplex">
+ <bean id="cluFeeRecordInfo.descr-parent" abstract="true" parent="baseComplex">
   <property name="name" value="descr" />
   <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
  </bean>
@@ -396,13 +394,17 @@
  </bean>
  <bean id="org.kuali.student.core.dto.CurrencyAmountInfo" parent="org.kuali.student.core.dto.CurrencyAmountInfo-parent" />
 
- <bean id="currencyAmountInfo.currencyQuantity-parent" abstract="true"
-       parent="baseInteger">
+ <bean id="currencyAmountInfo.currencyQuantity-parent" abstract="true" parent="baseInteger">
   <property name="name" value="currencyQuantity" />
+  <property name="requireConstraint">
+   <bean parent="requiresConstraint">
+    <property name="fieldPath" value="currencyTypeKey"/>
+   </bean>
+  </property>
  </bean>
  <bean id="currencyAmountInfo.currencyQuantity" parent="currencyAmountInfo.currencyQuantity-parent" />
 
- <bean id="currencyAmountInfo.currencyTypeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+ <bean id="currencyAmountInfo.currencyTypeKey-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="currencyTypeKey" />
  </bean>
  <bean id="currencyAmountInfo.currencyTypeKey" parent="currencyAmountInfo.currencyTypeKey-parent" />
@@ -466,13 +468,17 @@
  </bean>
  <bean id="org.kuali.student.core.dto.AmountInfo" parent="org.kuali.student.core.dto.AmountInfo-parent" />
 
- <bean id="amountInfo.unitQuantity-parent" abstract="true"
-       parent="baseString">
+ <bean id="amountInfo.unitQuantity-parent" abstract="true" parent="baseString">
   <property name="name" value="unitQuantity" />
+  <property name="requireConstraint">
+   <bean parent="requiresConstraint">
+    <property name="fieldPath" value="unitType"/>
+   </bean>
+  </property>
  </bean>
  <bean id="amountInfo.unitQuantity" parent="amountInfo.unitQuantity-parent" />
 
- <bean id="amountInfo.unitType-parent" abstract="true" parent="baseKualiTypeRequired">
+ <bean id="amountInfo.unitType-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="unitType" />
  </bean>
  <bean id="amountInfo.unitType" parent="amountInfo.unitType-parent" />
@@ -654,7 +660,7 @@
  </bean>
  <bean id="luCodeInfo.value" parent="luCodeInfo.value-parent" />
 
- <bean id="luCodeInfo.type-parent" abstract="true" parent="baseKualiType">
+ <bean id="luCodeInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
   <property name="name" value="type" />
  </bean>
  <bean id="luCodeInfo.type" parent="luCodeInfo.type-parent" />
@@ -674,13 +680,18 @@
  </bean>
  <bean id="org.kuali.student.core.dto.TimeAmountInfo" parent="org.kuali.student.core.dto.TimeAmountInfo-parent" />
 
- <bean id="timeAmountInfo.atpDurationTypeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+ <bean id="timeAmountInfo.atpDurationTypeKey-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="atpDurationTypeKey" />
  </bean>
  <bean id="timeAmountInfo.atpDurationTypeKey" parent="timeAmountInfo.atpDurationTypeKey-parent" />
 
  <bean id="timeAmountInfo.timeQuantity-parent" abstract="true" parent="baseInteger">
   <property name="name" value="timeQuantity" />
+  <property name="requireConstraint">
+   <bean parent="requiresConstraint">
+    <property name="fieldPath" value="atpDurationTypeKey"/>
+   </bean>
+  </property>
  </bean>
  <bean id="timeAmountInfo.timeQuantity" parent="timeAmountInfo.timeQuantity-parent" />
 

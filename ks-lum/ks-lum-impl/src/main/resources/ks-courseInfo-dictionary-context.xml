@@ -14,9 +14,10 @@
     <ref bean="courseInfo.campusLocations" />
     <ref bean="courseInfo.code" />
     <ref bean="courseInfo.courseNumberSuffix" />
-    <!--<ref bean="courseInfo.courseSpecificLOs" />-->
+    <ref bean="courseInfo.courseSpecificLOs" />
     <ref bean="courseInfo.courseTitle" />
     <ref bean="courseInfo.crossListings" />
+    <ref bean="courseInfo.creditOptions"/>
     <ref bean="courseInfo.department" />
     <ref bean="courseInfo.descr" />
     <ref bean="courseInfo.duration" />
@@ -26,6 +27,7 @@
     <ref bean="courseInfo.startTerm" />
     <ref bean="courseInfo.endTerm" />
     <ref bean="courseInfo.formats" />
+    <ref bean="courseInfo.gradingOptions"/>
     <ref bean="courseInfo.id" />
     <ref bean="courseInfo.joints" />
     <ref bean="courseInfo.primaryInstructor" />
@@ -102,6 +104,16 @@
   <property name="maxLength" value="60"/>
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
+
+ <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
+ <property name="name" value="creditOptions"/>
+ </bean>
+ <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
+
+ <bean id="courseInfo.gradingOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
+ <property name="name" value="gradingOptions"/>
+ </bean>
+ <bean id="courseInfo.gradingOptions" parent="courseInfo.gradingOptions-parent"/>
 
  <bean id="courseInfo.crossListings-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
   <property name="name" value="crossListings" />
@@ -762,7 +774,7 @@
  </bean>
  <bean id="courseInfo.proposalTitle" parent="baseString">
   <property name="name" value="proposalTitle" />
-  <property name="minOccurs" value="1" />
+  <property name="minOccurs" value="0" />
   <property name="maxLength" value="60"/>
   <!-- Maybe a lookup constraint to restrict the values -->
   <property name="dynamic" value="true"/>
