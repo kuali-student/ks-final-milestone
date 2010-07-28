@@ -25,15 +25,11 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.lum.course.service.assembler.LoAssembler;
-import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
@@ -41,6 +37,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 /**
  * @author KS TODO - Much of this should be shared with ProgramVariationAssembler (and probably other Program Assemblers to
@@ -53,8 +50,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     private LearningObjectiveService loService;
 
     private ProgramVariationAssembler programVariationAssembler;
-    private LoAssembler loAssembler;
     private CoreProgramAssembler coreProgramAssembler;
+    private CluAssemblerUtils cluAssemblerUtils;
 
     @Override
     public MajorDisciplineInfo assemble(CluInfo clu, MajorDisciplineInfo majorDiscipline, boolean shallowBuild) throws AssemblyException {
@@ -82,7 +79,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         setTitles(mdInfo, clu);
         mdInfo.setDescr(clu.getDescr());
         mdInfo.setCatalogDescr(getCatalogDescr(clu.getId()));
-        mdInfo.setLearningObjectives(getLearningObjectives(clu.getId(), shallowBuild));
+        mdInfo.setLearningObjectives(cluAssemblerUtils.getLearningObjectives(clu.getId(), shallowBuild));
         mdInfo.setCampusLocations(clu.getCampusLocations());
         mdInfo.setOrgCoreProgram(getCoreProgram(clu.getId(), shallowBuild));
         /* TODO
@@ -195,22 +192,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         return returnInfo;
     }
 
-    private List<LoDisplayInfo> getLearningObjectives(String cluId, boolean shallowBuild) throws AssemblyException {
-        List<LoDisplayInfo> loInfos = new ArrayList<LoDisplayInfo>();
-        try {
-            List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
-            for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
-                String loId = cluLoRelation.getLoId();
-                LoInfo lo = loService.getLo(loId);
-                loInfos.add(loAssembler.assemble(lo, null, shallowBuild));
-            }
-        } catch (Exception e) {
-            throw new AssemblyException("Error getting learning objectives", e);
-        }
-
-        return loInfos;
-    }
-
     private CoreProgramInfo getCoreProgram(String cluId, boolean shallowBuild) throws AssemblyException {
         CoreProgramInfo coreProgramInfo = null;
         try {
@@ -260,11 +241,11 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         return programVariationAssembler;
     }
 
-	public void setLoAssembler(LoAssembler loAssembler) {
-        this.loAssembler = loAssembler;
-    }
-
     public void setCoreProgramAssembler(CoreProgramAssembler coreProgramAssembler) {
         this.coreProgramAssembler = coreProgramAssembler;
+    }
+
+    public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
+        this.cluAssemblerUtils = cluAssemblerUtils;
     }
 }

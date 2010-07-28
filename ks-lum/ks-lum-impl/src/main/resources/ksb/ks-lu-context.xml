@@ -512,13 +512,25 @@
           class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
     </bean>
 
+    <bean id="loAssembler"
+              class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+        <property name="loService" ref="loServiceImpl"/>
+    </bean>
+
+    <bean id="cluAssemblerUtils"
+          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
+        <property name="luService" ref="luClient"/>
+        <property name="loService" ref="loServiceImpl"/>
+        <property name="loAssembler" ref="loAssembler"/>
+    </bean>
+
     <bean id="majorDisciplineAssembler"
           class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
         <property name="luService" ref="luClient"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
-        <property name="loAssembler" ref="loAssembler"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
     <bean id="coreProgramAssembler"
@@ -529,11 +541,6 @@
     <bean id="programVariationAssembler"
           class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
         <property name="luService" ref="luClient"/>
-    </bean>
-
-    <bean id="loAssembler"
-              class="org.kuali.student.lum.course.service.assembler.LoAssembler">
-        <property name="loService" ref="loServiceImpl"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"

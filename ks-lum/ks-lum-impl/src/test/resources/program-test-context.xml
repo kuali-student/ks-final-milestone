@@ -278,6 +278,7 @@
         <constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
     </bean>
 
+<!--
     <bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
@@ -287,6 +288,7 @@
         <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
+-->
 
     <bean id="luServiceImpl"
         class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
@@ -447,10 +449,9 @@
     <bean id="majorDisciplineAssembler"
           class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
         <property name="luService" ref="luServiceImpl"/>
-        <property name="loService" ref="loServiceImpl"/>
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
-        <property name="loAssembler" ref="loAssembler"/>
+        <property name="assemblerUtils" ref="assemblerUtils"/>
     </bean>
 
     <bean id="programVariationAssembler"
@@ -471,6 +472,13 @@
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luServiceImpl"/>
+    </bean>
+
+    <bean id="assemblerUtils"
+          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="loService" ref="loServiceImpl"/>
+        <property name="loAssembler" ref="loAssembler"/>
     </bean>
 
     <bean name="programService" class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
