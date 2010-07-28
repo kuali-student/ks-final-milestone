@@ -82,6 +82,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String endTerm;
 
     @XmlElement
+    private String endProgramEntryTerm;
+
+    @XmlElement
     private String lastAdmitTerm;
 
     @XmlElement
@@ -266,6 +269,14 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
 
     public void setEndTerm(String endTerm) {
         this.endTerm = endTerm;
+    }
+
+    public String getEndProgramEntryTerm() {
+        return endProgramEntryTerm;
+    }
+
+    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
+        this.endProgramEntryTerm = endProgramEntryTerm;
     }
 
     /**
