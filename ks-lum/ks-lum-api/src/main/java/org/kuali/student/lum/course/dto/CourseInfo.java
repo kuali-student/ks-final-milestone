@@ -36,15 +36,14 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
  * Detailed information about a single course.
  *
  * @Author KSContractMojo
- * @Author Kamal
- * @Since Tue May 18 11:30:53 PDT 2010
+ * @Author Daniel Epstein
+ * @Since Mon Jul 26 14:12:05 EDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseInfo+Structure">CourseInfo</>
  *
  */
@@ -95,6 +94,30 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     @XmlElement
     private AmountInfo outOfClassHours;
 
+	@XmlElement
+	private List<String> academicSubjectOrgs;
+
+    @XmlElement
+    private CluInstructorInfo primaryInstructor;
+
+    @XmlElement
+    private List<CluInstructorInfo> instructors;
+
+    @XmlElement
+    private RichTextInfo feeJustification;
+
+    @XmlElement
+    private List<CourseFeeInfo> fees;
+
+    @XmlElement
+    private List<CourseRevenueInfo> revenues;
+
+    @XmlElement
+    private CourseExpenditureInfo expenditure;
+
+    @XmlElement
+    private List<LoDisplayInfo> courseSpecificLOs;
+
     @XmlElement
     private List<String> gradingOptions;
 
@@ -105,32 +128,17 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private String department;
 
     @XmlElement
-    private List<String> academicSubjectOrgs;
+    private boolean specialTopicsCourse;
 
     @XmlElement
-    private CluInstructorInfo primaryInstructor;
+    private boolean pilotCourse;
 
-    @XmlElement
-    private List<CluInstructorInfo> instructors;
-    
-    @XmlElement
-    private CluFeeInfo feeInfo;
-
-    @XmlElement
-    private List<LoDisplayInfo> courseSpecificLOs;
-
-    @XmlElement
-    private boolean isSpecialTopicsCourse;
-
-    @XmlElement
-    private boolean isPilotCourse;
-    
     @XmlElement
     private String startTerm;
 
     @XmlElement
     private String endTerm;
-    
+
     @XmlElement
     private Date effectiveDate;
 
@@ -312,73 +320,17 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     public void setCampusLocations(List<String> campusLocations) {
         this.campusLocations = campusLocations;
-    }        
-    
+    }
+
+    /**
+     * The expected level of out of class time commitment between the student and the course.
+     */
     public AmountInfo getOutOfClassHours() {
         return outOfClassHours;
     }
 
     public void setOutOfClassHours(AmountInfo outOfClassHours) {
         this.outOfClassHours = outOfClassHours;
-    }
-
-    /**
-     * @return the gradingOptions
-     */
-    public List<String> getGradingOptions() {
-    	if(gradingOptions == null){
-    		gradingOptions = new ArrayList<String>();
-    	}
-    	return gradingOptions;
-    }
-
-    /**
-     * @param gradingOptions the gradingOptions to set
-     */
-    public void setGradingOptions(List<String> gradingOptions) {
-        this.gradingOptions = gradingOptions;
-    }
-
-    /**
-     * @return the creditOptions
-     */
-    public List<String> getCreditOptions() {
-    	if(creditOptions == null){
-    		creditOptions = new ArrayList<String>();
-    	}
-        return creditOptions;
-    }
-
-    /**
-     * @param creditOptions the creditOptions to set
-     */
-    public void setCreditOptions(List<String> creditOptions) {
-        this.creditOptions = creditOptions;
-    }
-
-    /**
-     * The primary organization (typically, an academic department) with administrative oversight over the Course.
-     */
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    /**
-     * The organizations that represents the Subject area of the course.
-     */
-    public List<String> getAcademicSubjectOrgs() {
-        if (academicSubjectOrgs == null) {
-            academicSubjectOrgs = new ArrayList<String>(0);
-        }
-        return academicSubjectOrgs;
-    }
-
-    public void setAcademicSubjectOrgs(List<String> academicSubjectOrgs) {
-        this.academicSubjectOrgs = academicSubjectOrgs;
     }
 
     /**
@@ -391,8 +343,14 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     public void setPrimaryInstructor(CluInstructorInfo primaryInstructor) {
         this.primaryInstructor = primaryInstructor;
     }
-    
+
+    /**
+     * Instructors associated with this course.
+     */
     public List<CluInstructorInfo> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<CluInstructorInfo>(0);
+        }
         return instructors;
     }
 
@@ -401,14 +359,53 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Fee information associated with this Course.
+     * Narrative description of overall course fee justification.
      */
-    public CluFeeInfo getFeeInfo() {
-        return feeInfo;
+    public RichTextInfo getFeeJustification() {
+        return feeJustification;
     }
 
-    public void setFeeInfo(CluFeeInfo feeInfo) {
-        this.feeInfo = feeInfo;
+    public void setFeeJustification(RichTextInfo feeJustification) {
+        this.feeJustification = feeJustification;
+    }
+
+    /**
+     * Fees information associated with this Course.
+     */
+    public List<CourseFeeInfo> getFees() {
+        if (fees == null) {
+            fees = new ArrayList<CourseFeeInfo>(0);
+        }
+        return fees;
+    }
+
+    public void setFees(List<CourseFeeInfo> fees) {
+        this.fees = fees;
+    }
+
+    /**
+     * Revenue information associated with this Course.
+     */
+    public List<CourseRevenueInfo> getRevenues() {
+        if (revenues == null) {
+            revenues = new ArrayList<CourseRevenueInfo>(0);
+        }
+        return revenues;
+    }
+
+    public void setRevenues(List<CourseRevenueInfo> revenues) {
+        this.revenues = revenues;
+    }
+
+    /**
+     * Expenditure information associated with this Course.
+     */
+    public CourseExpenditureInfo getExpenditure() {
+        return expenditure;
+    }
+
+    public void setExpenditure(CourseExpenditureInfo expenditure) {
+        this.expenditure = expenditure;
     }
 
     /**
@@ -424,23 +421,60 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     public void setCourseSpecificLOs(List<LoDisplayInfo> courseSpecificLOs) {
         this.courseSpecificLOs = courseSpecificLOs;
     }
-    
+
+    /**
+     * Grading opitons available for the course
+     */
+    public List<String> getGradingOptions() {
+        if (gradingOptions == null) {
+            gradingOptions = new ArrayList<String>(0);
+        }
+        return gradingOptions;
+    }
+
+    public void setGradingOptions(List<String> gradingOptions) {
+        this.gradingOptions = gradingOptions;
+    }
+
+    /**
+     * Credit outcomes from taking the course
+     */
+    public List<String> getCreditOptions() {
+        if (creditOptions == null) {
+            creditOptions = new ArrayList<String>(0);
+        }
+        return creditOptions;
+    }
+
+    public void setCreditOptions(List<String> creditOptions) {
+        this.creditOptions = creditOptions;
+    }
+
+    /**
+     * Flag to indicate the course as a special topics course
+     */
     public boolean isSpecialTopicsCourse() {
-        return isSpecialTopicsCourse;
+        return specialTopicsCourse;
     }
 
-    public void setSpecialTopicsCourse(boolean isSpecialTopicsCourse) {
-        this.isSpecialTopicsCourse = isSpecialTopicsCourse;
+    public void setSpecialTopicsCourse(boolean specialTopicsCourse) {
+        this.specialTopicsCourse = specialTopicsCourse;
     }
-        
+
+    /**
+     * Flag to indicate a one-time or pilot course, which is likely to have expedited approval process
+     */
     public boolean isPilotCourse() {
-        return isPilotCourse;
+        return pilotCourse;
     }
 
-    public void setPilotCourse(boolean isPilotCourse) {
-        this.isPilotCourse = isPilotCourse;
+    public void setPilotCourse(boolean pilotCourse) {
+        this.pilotCourse = pilotCourse;
     }
 
+    /**
+     * The first academic time period that this Course would be effective.
+     */
     public String getStartTerm() {
         return startTerm;
     }
@@ -449,6 +483,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
         this.startTerm = startTerm;
     }
 
+    /**
+     * The last academic time period that this Course would be effective.
+     */
     public String getEndTerm() {
         return endTerm;
     }
@@ -457,6 +494,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
         this.endTerm = endTerm;
     }
 
+    /**
+     * Date and time the Course became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     */
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -465,6 +505,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
         this.effectiveDate = effectiveDate;
     }
 
+    /**
+     * Date and time that this Course expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     */
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -530,4 +573,23 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     public void setId(String id) {
         this.id = id;
     }
+    
+    /**
+     * The primary organization (typically, an academic department) with administrative oversight over the Course.
+     */
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+	public List<String> getAcademicSubjectOrgs() {
+		return academicSubjectOrgs;
+	}
+
+	public void setAcademicSubjectOrgs(List<String> academicSubjectOrgs) {
+		this.academicSubjectOrgs = academicSubjectOrgs;
+	}
 }

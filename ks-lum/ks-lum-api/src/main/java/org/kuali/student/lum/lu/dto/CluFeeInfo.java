@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.dto;
  
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,9 @@ public class CluFeeInfo implements Serializable, HasAttributes {
     }
 
 	public List<CluFeeRecordInfo> getCluFeeRecords() {
+		if(cluFeeRecords == null){
+			cluFeeRecords = new ArrayList<CluFeeRecordInfo>(0);
+		}
 		return cluFeeRecords;
 	}
 

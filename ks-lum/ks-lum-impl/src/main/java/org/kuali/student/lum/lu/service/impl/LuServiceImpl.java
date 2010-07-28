@@ -1349,6 +1349,7 @@ public class LuServiceImpl implements LuService {
 			}
 		} else if (clu.getFee() != null) {
 			luDao.delete(clu.getFee());
+			clu.setFee(null);
 		}
 
 		if (cluInfo.getAccountingInfo() != null) {

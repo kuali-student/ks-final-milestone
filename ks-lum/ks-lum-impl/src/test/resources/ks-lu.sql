@@ -288,10 +288,10 @@ INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, VERSIONIND) values ('FEE-REC-2','DOL
 INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, VERSIONIND) values ('FEE-REC-3','DOLLAR', 0)
 
 // AffiliatedOrgs
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-1', 'ORG-1', 30, 'FEE-REC-1', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-2', 'ORG-1', 70, 'FEE-REC-2', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-3', 'ORG-2', 40, 'FEE-REC-1', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-4', 'ORG-2', 60, 'FEE-REC-3', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-1', 'ORG-1', 30, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-2', 'ORG-1', 70, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-3', 'ORG-2', 40, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-4', 'ORG-2', 60, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
 
 // CluFee
 INSERT INTO KSLU_CLU_FEE (ID, VERSIONIND) VALUES ('FEE-1', 0)
@@ -545,13 +545,13 @@ insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('9
 insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('996b50ac-c09f-4915-b3ad-7e77b940fcf2', 'rateType' , 'perCreditFee','99756442-3855-4e56-b617-cd4e7e18f3be' );
 
 // Financials - Revenue
-insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('99eab0f0-0687-4c90-9ce5-7d4993e4b84a', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, '42', 50 );
-insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('99770bb5-e340-47e0-87d6-7cd88c13c2dd', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, '54', 50 );
+insert into KSLU_CLU_AFFIL_ORG (id, org_id, perct ) values ('99eab0f0-0687-4c90-9ce5-7d4993e4b84a', '42', 50 );
+insert into KSLU_CLU_AFFIL_ORG (id, org_id, perct ) values ('99770bb5-e340-47e0-87d6-7cd88c13c2dd', '54', 50 );
 insert into KSLU_CLU_FEEREC_JN_AFFIL_ORG (clu_fee_rec_id, affil_org_id ) values ('99978a91-b272-4d34-aef2-a8208811fa87' , '99eab0f0-0687-4c90-9ce5-7d4993e4b84a');
 insert into KSLU_CLU_FEEREC_JN_AFFIL_ORG (clu_fee_rec_id, affil_org_id ) values ('99978a91-b272-4d34-aef2-a8208811fa87' , '99770bb5-e340-47e0-87d6-7cd88c13c2dd');
 // Financials - Expenditure
 insert into KSLU_CLU_ACCT (id) values ('993a091e-d720-4c0b-944d-4ea133cbe7ec' );
-insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('99199f7a-4c28-4a99-b6cd-e628c2d559a4', 'admin', {ts '2010-04-12 10:00:00.0'}, 0, '72', 100 );
+insert into KSLU_CLU_AFFIL_ORG (id, org_id, perct ) values ('99199f7a-4c28-4a99-b6cd-e628c2d559a4', '72', 100 );
 insert into KSLU_CLU_ACCT_JN_AFFIL_ORG (clu_acct_id, affil_org_id) values ('993a091e-d720-4c0b-944d-4ea133cbe7ec', '99199f7a-4c28-4a99-b6cd-e628c2d559a4'  );
 // Connect clu to revenue/expenditure data
 update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_FIRST_ATP = 'kuali.atp.season.Summer', FEE_ID = '99de7877-b443-4a47-bb18-1d668b73f583', ACCT_ID='993a091e-d720-4c0b-944d-4ea133cbe7ec', ATP_DUR_TYP_KEY = 'kuali.atp.duration.Week', TM_QUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';

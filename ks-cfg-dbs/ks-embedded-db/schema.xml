@@ -3343,11 +3343,17 @@
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK1C27ACBEABDD272F">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
+        <foreign-key foreignTable="KSLU_CLU_FEE" name="FK1C27ACBE4BA2C995">
+            <reference foreign="ID" local="FEE_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK1C27ACBE29BAD238">
             <reference foreign="ID" local="PRI_ADMIN_ORG_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_IDENT" name="FK1C27ACBE3C2119F2">
             <reference foreign="ID" local="OFFIC_CLU_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_CLU_ACCT" name="FK1C27ACBEDB74FD61">
+            <reference foreign="ID" local="ACCT_ID"/>
         </foreign-key>
     </table>
     <table name="KSLU_CLUCLU_RELTN">
@@ -3453,19 +3459,10 @@
     </table>
     <table name="KSLU_CLU_AFFIL_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="PERCT" size="19" type="DECIMAL"/>
-        <column name="CLU_FEE_RCRD_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FK2D521B681375653D">
-            <reference foreign="ID" local="CLU_FEE_RCRD_ID"/>
-        </foreign-key>
     </table>
     <table name="KSLU_CLU_ATP_TYPE_KEY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>

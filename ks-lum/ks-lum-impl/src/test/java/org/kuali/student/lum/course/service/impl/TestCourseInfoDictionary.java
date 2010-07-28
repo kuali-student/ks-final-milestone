@@ -1,10 +1,13 @@
 package org.kuali.student.lum.course.service.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.SampCustomValidator;
@@ -17,7 +20,6 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
 
 public class TestCourseInfoDictionary
 {
@@ -31,8 +33,8 @@ public class TestCourseInfoDictionary
 //  {
 //   System.out.println ("beanName=" + beanName);
 //  }
-  Set<Class<?>> structures = new LinkedHashSet ();
-  List<Class<?>> startingClasses = new ArrayList ();
+  Set<Class<?>> structures = new LinkedHashSet<Class<?>> ();
+  List<Class<?>> startingClasses = new ArrayList<Class<?>> ();
   startingClasses.add (CourseInfo.class);
   startingClasses.add (StatementTreeViewInfo.class);
   for (Class<?> clazz : startingClasses)
@@ -40,7 +42,7 @@ public class TestCourseInfoDictionary
    structures.addAll (getComplexStructures (clazz));
   }
 
-  List<String> discrepancies = new ArrayList ();
+  List<String> discrepancies = new ArrayList<String> ();
   for (Class<?> clazz : structures)
   {
    discrepancies.addAll (compare (clazz, ac));
@@ -116,7 +118,7 @@ public class TestCourseInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (3, validationResults.size ());
+  assertEquals (4, validationResults.size ());
 
 
   try
