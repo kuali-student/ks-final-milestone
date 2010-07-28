@@ -34,6 +34,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_save();
 
   /**
+   * Translated "Saving Data...".
+   * 
+   * @return translated "Saving Data..."
+   */
+  @DefaultMessage("Saving Data...")
+  @Key("common.savingData")
+  String common_savingData();
+
+  /**
    * Translated "Curriculum Oversight Division".
    * 
    * @return translated "Curriculum Oversight Division"
