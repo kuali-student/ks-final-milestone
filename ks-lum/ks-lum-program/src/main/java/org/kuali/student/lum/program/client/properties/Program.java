@@ -52,6 +52,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_curriculumOversightUnit();
 
   /**
+   * Translated "See All Managing Bodies".
+   * 
+   * @return translated "See All Managing Bodies"
+   */
+  @DefaultMessage("See All Managing Bodies")
+  @Key("managingBodies.seeAll")
+  String managingBodies_seeAll();
+
+  /**
    * Translated "Actions".
    * 
    * @return translated "Actions"
