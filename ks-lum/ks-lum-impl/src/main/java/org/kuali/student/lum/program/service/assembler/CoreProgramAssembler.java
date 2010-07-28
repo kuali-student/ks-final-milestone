@@ -46,6 +46,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         // List<String> reqStrs = new ArrayList<String>();
         // reqStrs.add(reqInfo.getId());
         // cpInfo.setProgramRequirements(reqStrs);
+        cpInfo.setId(clu.getId());
         cpInfo.setAttributes(clu.getAttributes());
         cpInfo.setMetaInfo(clu.getMetaInfo());
         cpInfo.setType(clu.getType());

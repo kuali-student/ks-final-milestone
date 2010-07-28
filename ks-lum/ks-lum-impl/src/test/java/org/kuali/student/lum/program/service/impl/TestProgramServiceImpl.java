@@ -20,7 +20,6 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
@@ -106,6 +105,8 @@ public class TestProgramServiceImpl {
             assertNotNull(majorDisciplineInfo);
 
             assertNotNull(majorDisciplineInfo.getOrgCoreProgram());
+            assertNotNull(majorDisciplineInfo.getStartTerm());
+            assertEquals("kuali.atp.SU2009-2010S1", majorDisciplineInfo.getStartTerm());
             /*
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);
