@@ -88,6 +88,16 @@ public class TestProgramServiceImpl {
 		assertNotNull(progReqInfo);
 	}
 
+	@Test(expected = MissingParameterException.class)
+	public void testGetProgramRequirement_nullId() throws Exception {
+		programService.getProgramRequirement(null);
+	}
+
+	@Test(expected = DoesNotExistException.class)
+	public void testGetProgramRequirement_badId() throws Exception {
+		programService.getProgramRequirement("CLU-XXX ");
+	}
+
     @Test
     public void testGetMajorDiscipline() {
         MajorDisciplineInfo majorDisciplineInfo = null;
@@ -163,35 +173,35 @@ public class TestProgramServiceImpl {
     public void testGetVariationsByMajorDisciplineId(){
     	MajorDisciplineInfo majorDisciplineInfo = null;
         try {
-			MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();   
+			MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
 //			majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
-        	
+
 			majorDisciplineInfo = programService.getMajorDiscipline("D4EA77DD-B492-4554-B104-863E42C5F8B7");
 			assertNotNull(majorDisciplineInfo);
-			 
+
 			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("D4EA77DD-B492-4554-B104-863E42C5F8B7");
 			assertNotNull(pvInfos);
 			assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
-			
+
 			/*MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
 			assertNotNull(createdMD);
-			
+
 			// get it fresh from database
 			MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(createdMD.getId());
 			assertNotNull(retrievedMD);
-			
+
 			// get program variations
 			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId(retrievedMD.getId());
 			assertNotNull(pvInfos);
 			assertEquals(pvInfos.size(), retrievedMD.getVariations().size());
 			assertEquals(pvInfos, retrievedMD.getVariations());*/
-			
+
         } catch (Exception e) {
         	e.printStackTrace();
             fail(e.getMessage());
-        }        	
+        }
     }
-    
+
     @Test
     @Ignore public void testDeleteMajorDiscipline() {
         try {
