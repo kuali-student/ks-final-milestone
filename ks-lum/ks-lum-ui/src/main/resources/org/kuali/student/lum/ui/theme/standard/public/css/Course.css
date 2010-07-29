@@ -6,6 +6,10 @@
 	width: 37.5em;
 }
 
+.instructors .gwt-SuggestBox {
+	width: 37.5em;
+}
+
 /* The title for Description and Rationale section */
 .cluProposalTitleSection {
 	border-bottom: 1px solid #D8D8D8;
