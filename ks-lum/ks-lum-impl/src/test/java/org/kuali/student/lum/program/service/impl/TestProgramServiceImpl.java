@@ -238,7 +238,6 @@ public class TestProgramServiceImpl {
             // minimal sanity check
             assertEquals("longTitle-test", createdMD.getLongTitle());
             assertEquals("shortTitle-test", createdMD.getShortTitle());
-            assertEquals("programLevel-test", createdMD.getProgramLevel());
             assertEquals("credentialProgramId-test", createdMD.getCredentialProgramId());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());

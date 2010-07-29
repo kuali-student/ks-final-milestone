@@ -12,7 +12,6 @@
         <property name="name" value="org.kuali.student.lum.program.dto.MajorDisciplineInfo"/>
         <property name="attributes">
             <list>
-                <ref bean="majorDisciplineInfo.programLevel"/>
                 <ref bean="majorDisciplineInfo.intensity"/>
                 <ref bean="majorDisciplineInfo.referenceURL"/>
                 <ref bean="majorDisciplineInfo.publishedInstructors"/>
@@ -36,12 +35,12 @@
                 <ref bean="majorDisciplineInfo.diplomaTitle"/>
                 <ref bean="majorDisciplineInfo.descr"/>
                 <ref bean="majorDisciplineInfo.catalogDescr"/>
+                <ref bean="majorDisciplineInfo.catalogPublicationTargets"/>
                 <!--
                 <ref bean="majorDisciplineInfo.learningObjectives"/>
                 -->
                 <ref bean="majorDisciplineInfo.campusLocations"/>
                 <ref bean="majorDisciplineInfo.programRequirements"/>
-                <ref bean="majorDisciplineInfo.institution"/>
                 <ref bean="majorDisciplineInfo.accreditingAgencies"/>
                 <ref bean="majorDisciplineInfo.divisionsContentOwner"/>
                 <ref bean="majorDisciplineInfo.divisionsStudentOversight"/>
@@ -65,11 +64,6 @@
     </bean>
     <bean id="org.kuali.student.lum.program.dto.MajorDisciplineInfo"
           parent="org.kuali.student.lum.program.dto.MajorDisciplineInfo-parent"/>
-
-    <bean id="majorDisciplineInfo.programLevel-parent" abstract="true" parent="baseString">
-        <property name="name" value="programLevel"/>
-    </bean>
-    <bean id="majorDisciplineInfo.programLevel" parent="majorDisciplineInfo.programLevel-parent"/>
 
     <bean id="majorDisciplineInfo.intensity-parent" abstract="true" parent="baseString">
         <property name="name" value="intensity"/>
@@ -202,6 +196,11 @@
     </bean>
     <bean id="majorDisciplineInfo.catalogDescr" parent="majorDisciplineInfo.catalogDescr-parent"/>
 
+	<bean id="majorDisciplineInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
+		<property name="name" value="catalogPublicationTargets"/>
+ 	</bean>
+	<bean id="majorDisciplineInfo.catalogPublicationTargets" parent="majorDisciplineInfo.catalogPublicationTargets-parent"/>
+
     <bean id="majorDisciplineInfo.learningObjectives-parent" abstract="true"
           parent="baseComplexRepeating">
         <property name="name" value="learningObjectives"/>
@@ -220,12 +219,6 @@
         <property name="name" value="programRequirements"/>
     </bean>
     <bean id="majorDisciplineInfo.programRequirements" parent="majorDisciplineInfo.programRequirements-parent"/>
-
-	<bean id="majorDisciplineInfo.institution-parent" abstract="true"
-		parent="adminOrgInfo.id-parent">
-		<property name="name" value="institution" />
-	</bean>
-	<bean id="majorDisciplineInfo.institution" parent="majorDisciplineInfo.institution-parent" />
 
 	<bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="adminOrgInfo.id-parent">
 		<property name="name" value="accreditingAgencies" />
@@ -311,6 +304,7 @@
                 <ref bean="programVariationInfo.diplomaTitle"/>
                 <ref bean="programVariationInfo.descr"/>
                 <ref bean="programVariationInfo.catalogDescr"/>
+                <ref bean="programVariationInfo.catalogPublicationTargets"/>                
                 <ref bean="programVariationInfo.learningObjectives"/>
                 <ref bean="programVariationInfo.campusLocations"/>
                 <ref bean="programVariationInfo.programRequirements"/>
@@ -428,6 +422,11 @@
         <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
     </bean>
     <bean id="programVariationInfo.catalogDescr" parent="programVariationInfo.catalogDescr-parent"/>
+
+	<bean id="programVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
+		<property name="name" value="catalogPublicationTargets"/>
+ 	</bean>
+	<bean id="programVariationInfo.catalogPublicationTargets" parent="programVariationInfo.catalogPublicationTargets-parent"/>
 
     <bean id="programVariationInfo.learningObjectives-parent" abstract="true"
           parent="baseComplexRepeating">
