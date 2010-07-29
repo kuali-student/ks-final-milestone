@@ -18,7 +18,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.0-M7-SNAPSHOT</version>
+  <version>1.1.0-poc-M7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <organization>
@@ -56,16 +56,16 @@
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
-    <url>https://test.kuali.org/svn/student/trunk</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</developerConnection>
+    <url>https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</url>
   </scm>
   <properties>
     <!-- Shared between compiler, pmd, and javadoc plugins -->
     <compileSource>1.6</compileSource>
     <compileTarget>1.6</compileTarget>
     <clover.history.dir>${user.home}/.m2/repository/.clover/history/${project.groupId}/${project.artifactId}/${project.version}</clover.history.dir>
-
+  
     <!-- artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
@@ -91,8 +91,8 @@
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
 
     <!-- plugin versions -->
-    <cobertura.plugin.version>2.2</cobertura.plugin.version>
-    <javadoc.plugin.version>2.6.1</javadoc.plugin.version>
+    <cobertura.plugin.version>2.4</cobertura.plugin.version>
+    <javadoc.plugin.version>2.7</javadoc.plugin.version>
     <site.plugin.version>2.0.1</site.plugin.version>
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
     <war.plugin.version>2.1-beta-1</war.plugin.version>
@@ -104,13 +104,13 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
-    <!-- 
+    <!--
      - This profile makes it easier to place Oracle's ojdbc14.jar into your local repository so Maven can find it
      - Download ojdbc14.jar from http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html
      - Run the maven-install-plugin using the oracle profile and pass in the download location
 
       mvn -N -Poracle install:install-file -Dfile=/tmp/ojdbc14.jar
-      
+
      - You should see output like this:
        [INFO] Installing /tmp/ojdbc14.jar to /opt/m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar
      -->
@@ -203,8 +203,8 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>${compileSource}</source>
+            <target>${compileTarget}</target>
             <!-- Don't compile sources that are in jars -->
             <compilerArgument>-implicit:none</compilerArgument>
           </configuration>
@@ -296,6 +296,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
+        <version>3.0.2</version>
         <configuration>
           <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
 mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0

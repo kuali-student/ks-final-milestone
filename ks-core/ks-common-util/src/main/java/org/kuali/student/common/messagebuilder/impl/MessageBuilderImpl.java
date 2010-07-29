@@ -18,35 +18,25 @@ package org.kuali.student.common.messagebuilder.impl;
 import java.util.Map;
 
 import org.kuali.student.common.messagebuilder.MessageBuilder;
+import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.booleanmessage.MessageContainer;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanFunctionResult;
 import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderException;
 
 /**
  * This <code>MessageBuilder</code> class builds a summary message from 
- * plain strings or Velocity template messages. Summary message is built 
- * from analysing the outcome of a boolean expression.
+ * plain strings or templates. Summary message is built from analysing the 
+ * outcome of a boolean expression.
  */
 public class MessageBuilderImpl extends AbstractMessageBuilder implements MessageBuilder {
-
 	/**
 	 * Constructor.
 	 * 
-	 * @param executor A simple rule engine executor
+     * @param language String Boolean operators' language (English and/or) 
+     * @param treeNodeMessageBuilder AST tree node Message builder
 	 */
-	public MessageBuilderImpl() {
-		super();
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param executor A simple rule engine executor
-     * @param andOperator String representation of boolean 'and'
-     * @param orOperator String representation of boolean 'or'
-	 */
-	public MessageBuilderImpl(final String language, final BooleanOperators booleanOperators) {
-		super(language, booleanOperators);
+	public MessageBuilderImpl(final String language, final MessageTreeBuilder treeNodeMessageBuilder) {
+		super(language, treeNodeMessageBuilder);
 	}
 	
     /**

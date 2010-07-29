@@ -40,6 +40,10 @@ public class GetCluResultByCluResponse {
     private java.util.List<CluResultInfo> _return;
 
     public java.util.List<CluResultInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<CluResultInfo>(0);
+		}
+
         return this._return;
     }
 

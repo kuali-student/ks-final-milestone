@@ -17,10 +17,10 @@ package org.kuali.student.common.messagebuilder.impl;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
+import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.booleanmessage.BooleanMessage;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BinaryMessageTree;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanFunction;
@@ -44,31 +44,17 @@ public abstract class AbstractMessageBuilder {
     private Map<String, ? extends BooleanMessage> messageMap;
     private Map<String, Object> messageContextMap;
     private String language;
-    private SuccessFailureMessageBuilder successFailureMessageBuilder;
-
-    /**
-     * Constructor. 
-     * Default 'and' operator is translated as 'AND' and 
-     * default 'or' operator is translated as 'OR'
-     * 
-     * @param executor Rule engine
-     */
-    public AbstractMessageBuilder() {
-        this.language = Locale.getDefault().getLanguage(); 
-        BooleanOperators bo = new BooleanOperators();
-        this.successFailureMessageBuilder = new SuccessFailureMessageBuilder(bo);
-    }
+    private MessageTreeBuilder treeNodeMessageBuilder;
 
     /**
      * Constructor.
      * 
-     * @param executor Rule engine
-     * @param andOperator String representation of boolean 'and'
-     * @param orOperator String representation of boolean 'or'
+     * @param language Language
+     * @param treeNodeMessageBuilder AST tree node Message builder
      */
-    public AbstractMessageBuilder(final String language, final BooleanOperators booleanOperators) {
+    public AbstractMessageBuilder(final String language, final MessageTreeBuilder treeNodeMessageBuilder) {
         this.language = language; 
-        this.successFailureMessageBuilder = new SuccessFailureMessageBuilder(booleanOperators);
+        this.treeNodeMessageBuilder = treeNodeMessageBuilder;
     }
     
 	/**
@@ -141,7 +127,7 @@ public abstract class AbstractMessageBuilder {
             List<BooleanNode> treeNodes = astTree.getAllNodes();
             // tree node order in the list is important for building 
             // the success and failure message
-            this.successFailureMessageBuilder.buildMessage(treeNodes);
+            this.treeNodeMessageBuilder.buildMessage(treeNodes);
         } catch(VelocityException e) {
             throw new MessageBuilderException("Building Velocity message failed: " + e.getMessage(), e);
     	} catch (BooleanFunctionException e) {

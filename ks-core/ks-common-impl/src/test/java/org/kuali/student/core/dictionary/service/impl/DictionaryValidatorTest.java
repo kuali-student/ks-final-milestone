@@ -20,10 +20,11 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.common.validator.old.ServerDateParser;
+import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class DictionaryValidatorTest {

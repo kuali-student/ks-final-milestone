@@ -27,11 +27,6 @@
 
 	<bean id="kimIdentityService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl" />
 	
-	<bean id="kimPermissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl">
-		<property name="permissionDao" ref="kimPermissionDao" />
-		<property name="roleService" ref="kimRoleService" />
-	</bean>
-	
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">

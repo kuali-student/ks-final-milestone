@@ -3459,19 +3459,10 @@
     </table>
     <table name="KSLU_CLU_AFFIL_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="PERCT" size="19" type="DECIMAL"/>
-        <column name="CLU_FEE_RCRD_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FK2D521B681375653D">
-            <reference foreign="ID" local="CLU_FEE_RCRD_ID"/>
-        </foreign-key>
     </table>
     <table name="KSLU_CLU_ATP_TYPE_KEY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3569,6 +3560,10 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK33135C65ABDD272F">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
     </table>
     <table name="KSLU_CLU_FEEREC_JN_AFFIL_ORG">
         <column name="CLU_FEE_REC_ID" required="true" size="255" type="VARCHAR"/>
@@ -3578,6 +3573,15 @@
         </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FKE784DE42269273C8">
             <reference foreign="ID" local="CLU_FEE_REC_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSLU_CLU_FEE_AMOUNT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CURRENCY_QUANT" size="10" type="DECIMAL"/>
+        <column name="CURRENCY_TYPE" size="255" type="VARCHAR"/>
+        <column name="CLUE_FEE_REC_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FKBE411972BEB9861B">
+            <reference foreign="ID" local="CLUE_FEE_REC_ID"/>
         </foreign-key>
     </table>
     <table name="KSLU_CLU_FEE_ATTR">
@@ -3609,6 +3613,11 @@
         <column name="CURRENCY_QUANT" size="10" type="DECIMAL"/>
         <column name="CURRENCY_TYPE" size="255" type="VARCHAR"/>
         <column name="FEE_TYPE" size="255" type="VARCHAR"/>
+        <column name="RATE_TYPE" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK87C10D96ABDD272F">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
     </table>
     <table name="KSLU_CLU_FEE_REC_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4114,6 +4123,7 @@
     <table name="KSLU_LO_JN_LOCATEGORY">
         <column name="LO_ID" required="true" size="255" type="VARCHAR"/>
         <column name="LOCATEGORY_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LO_CATEGORY" name="FK931B812ECF832A9B">
             <reference foreign="ID" local="LOCATEGORY_ID"/>
         </foreign-key>
@@ -5130,9 +5140,6 @@
         <foreign-key foreignTable="KSST_REQ_COM_FIELD_TYPE" name="FK63DCE85E76C3C296">
             <reference foreign="ID" local="REQ_COMP_FIELD_TYPE_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FK63DCE85ECF3E3955">
-            <reference foreign="TYPE_KEY" local="REQ_COMP_TYPE_ID"/>
-        </foreign-key>
     </table>
     <table name="KSST_RC_JN_RC_FIELD">
         <column name="REQ_COM_ID" required="true" size="255" type="VARCHAR"/>
@@ -5353,6 +5360,7 @@
             <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
         </foreign-key>
         <unique name="SYS_C0040319">
+            <unique-column name="STMT_TYPE_ID"/>
             <unique-column name="REQ_COM_TYPE_ID"/>
         </unique>
     </table>

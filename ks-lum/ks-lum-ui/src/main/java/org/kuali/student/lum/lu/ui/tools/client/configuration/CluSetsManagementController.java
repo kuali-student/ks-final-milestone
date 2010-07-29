@@ -17,10 +17,10 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
@@ -47,8 +47,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
@@ -272,8 +271,7 @@ public class CluSetsManagementController extends TabbedSectionLayout {
     private KSButton getQuitButton(){
         return new KSButton("Quit", new ClickHandler(){
             public void onClick(ClickEvent event) {
-                Controller parentController = CluSetsManagementController.this.getParentController(); 
-                parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
+                Application.navigate("/HOME/CURRICULUM_HOME");
             }
         });       
     }
@@ -503,6 +501,11 @@ public class CluSetsManagementController extends TabbedSectionLayout {
                 }
             }
         });
+    }
+    
+    @Override
+    public void beforeShow(Callback<Boolean> onReadyCallback) {
+    	showDefaultView(onReadyCallback);
     }
 
     private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {

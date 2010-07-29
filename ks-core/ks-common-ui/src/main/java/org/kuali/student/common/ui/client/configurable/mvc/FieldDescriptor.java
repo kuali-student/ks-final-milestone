@@ -55,7 +55,7 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
-    	fieldElement = new FieldElement(fieldKey, messageKey);
+    	fieldElement = new FieldElement(fieldKey, messageKey, createFieldWidget());
     	setupField();
     }
 
@@ -116,7 +116,7 @@ public class FieldDescriptor {
 	    	return result;
     	} else {
     		Widget result = DefaultWidgetFactory.getInstance().getWidget(this);
-	    	if(fieldKey != null){
+	    	if(fieldKey != null && !fieldKey.isEmpty()){
 	    		String style = this.fieldKey.replaceAll("/", "-");
 	    		result.addStyleName(style);
 	    	}

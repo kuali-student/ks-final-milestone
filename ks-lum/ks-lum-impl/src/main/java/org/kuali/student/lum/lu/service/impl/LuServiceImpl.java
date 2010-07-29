@@ -21,15 +21,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.entity.Amount;
 import org.kuali.student.core.entity.TimeAmount;
@@ -51,7 +51,7 @@ import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
@@ -477,13 +477,8 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(relatedCluId, "relatedCluId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 
-		List<Clu> clus = luDao.getClusByRelation(relatedCluId,
-				luLuRelationTypeKey);
-		List<String> ids = new ArrayList<String>(clus.size());
-		for (Clu clu : clus) {
-			ids.add(clu.getId());
-		}
-		return ids;
+        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, luLuRelationTypeKey);
+        return cluIds;
 	}
 
 	@Override
@@ -1354,6 +1349,7 @@ public class LuServiceImpl implements LuService {
 			}
 		} else if (clu.getFee() != null) {
 			luDao.delete(clu.getFee());
+			clu.setFee(null);
 		}
 
 		if (cluInfo.getAccountingInfo() != null) {
@@ -1703,7 +1699,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 
-		return validator.validateTypeStateObject(cluPublicationInfo, getObjectStructure("cluPlublicationInfo"));
+        return validator.validateTypeStateObject(cluPublicationInfo, getObjectStructure("cluPublicationInfo"));
 	}
 
 	@Override

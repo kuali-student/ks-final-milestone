@@ -30,7 +30,8 @@ public class RuleInfo implements Idable, Serializable {
     private String cluId;
     private StatementVO statementVO;       //top-level statement (tree ROOT)
     private String rationale;
-    private String naturalLanguage;
+    private String naturalLanguageForRuleEdit;
+    private String naturalLanguageForRuleView;    
     private String expression; // current state of rule expression
     private String previewedExpression; // the state of the expression when it was previewed
     private EditHistory editHistory;
@@ -73,13 +74,19 @@ public class RuleInfo implements Idable, Serializable {
     }
     public void setRationale(String rationale) {
         this.rationale = rationale;
+    }   
+    public String getNaturalLanguageForRuleEdit() {
+        return naturalLanguageForRuleEdit;
     }
-    public String getNaturalLanguage() {
-        return naturalLanguage;
+    public void setNaturalLanguageForRuleEdit(String naturalLanguageForRuleEdit) {
+        this.naturalLanguageForRuleEdit = naturalLanguageForRuleEdit;
     }
-    public void setNaturalLanguage(String naturalLanguage) {
-        this.naturalLanguage = naturalLanguage;
-    }    
+    public String getNaturalLanguageForRuleView() {
+        return naturalLanguageForRuleView;
+    }
+    public void setNaturalLanguageForRuleView(String naturalLanguageForRuleView) {
+        this.naturalLanguageForRuleView = naturalLanguageForRuleView;
+    }
     public StatementVO getStatementVO() {
         return statementVO;
     }    

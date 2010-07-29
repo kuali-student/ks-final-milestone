@@ -26,6 +26,11 @@ INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, E
 INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('luLuRelationType.colocated', 'jim', 'my desc6', 'rev name6', 'rev desc6', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
 INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('luLuRelationType.hasCourseFormat', 'sam', 'my desc7', 'rev name7', 'rev desc7', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
 INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.relation.type.co-located', 'dan', 'my desc8', 'rev name8', 'rev desc8', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.relation.type.copyOfClu', 'dan', 'my desc8', 'rev name8', 'rev desc8', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.lu.relation.type.hasCoreProgram', 'lazlo', 'my desc9', 'rev name9', 'rev desc9', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.lu.relation.type.hasVariationProgram', 'artemis', 'my desc10', 'rev name10', 'rev desc10', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.lu.relation.type.hasMajorProgram', 'brian', 'my desc11', 'rev name11', 'rev desc11', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lu.lu.relation.type.hasProgramRequirement', 'reginald', 'my desc12', 'rev name12', 'rev desc12', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
 
 // LU Type
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('luType.shell.course', 'A Shell Course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course')
@@ -39,13 +44,17 @@ INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('k
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.activity.Discussion', 'The exchange of opinions or questions on course material.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Discussion')
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.activity.Lab', 'Student working on projects in a defined laboratory space.  Instructors are on-hand for students to ask questions and guidance.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Lab')
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.activity.Directed', 'The exchange of opinions or questions on course material, directed by the instructor.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Directed')
+INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.credential.Baccalaureate', 'A Baccalaureate Program', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Baccalaureate')
+INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.MajorDiscipline', 'A Major Discipline', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Major')
+INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.Variation', 'Specialization of a Major Discipline', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Specialization')
+INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.CoreProgram', 'Program containing core requirements', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Core')
 
 // CluInstructor
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) VALUES ('INSTR-1', 'ORG-1', 'PersonID')
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) VALUES ('INSTR-2', 'ORG-2', 'PersonID')
 
 // CLU LO RelationType
-INSERT INTO KSLU_CLU_LO_RELTN_TYPE(TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT) values ('cluLuType.default', 'Default Clu-Lo relation type', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_CLU_LO_RELTN_TYPE(TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT) values ('cluLoType.default', 'Default Clu-Lo relation type', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
 
 // RichText
 INSERT INTO KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-101', '<p>Desc</p>', 'Desc')
@@ -156,6 +165,8 @@ insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('4ef2aad6-dfbc-4ea0-
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('ee0a76ec-002d-4e38-9934-202154b7ebab', null, 'Boundary value problems for elliptic partial differential equations via operator-theoretic methods. Hilbert spaces of functions. Duality, weak convergence. Sobolev spaces. Spectral theory of compact operators. Eigenfunction expansions.')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('baa98141-3fd9-45f9-8e1b-afca879cd618', null, 'The students participate in a vertically integrated (undergraduate, graduate and/or postdoctoral, faculty) research group. Format varies, but includes regular meetings, readings and presentations of material. See graduate program''s online syllabus or contact the graduate program director for more information.')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('cf94f50b-3313-4f1d-a654-acfb751f7f07', null, 'Lectures, experimental courses, and other special subjects in the fields of animal sciences and veterinary medicine.')
+insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('9623C41C-AE72-473A-A1AC-6874C433967D', null, 'Bachelor of Arts')
+insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('8B7DF2EA-A0E0-4CA6-B524-5554D3194C92', null, 'Anthropology Major')
 
 // CluIdentifier
 INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-1', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
@@ -259,6 +270,8 @@ insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, 
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('ddaf48f6-15a1-4c6f-90ef-3bcde235769c', 'AMST851', 'AMST', '800', '851', 'Interpretation of Cultural Landscapes', 'INTERP CULTRL LNDSCAPES', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('9caa02ff-4b4a-4caa-94da-d81113fcbb5f', 'AMST856', 'AMST', '800', '856', 'Museum Research Seminar', 'MUSEUM RSRCH SEMINAR', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('cca4eb70-c4af-4f14-894f-d89b6810605c', 'AMST857', 'AMST', '800', '857', 'Museum Scholarship Practicum', 'MUSEUM SCHLRSHP PRACT', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4AB05FEB-B550-4DB6-9F65-97A74372A137', '', '', '', '', 'Bachelor of Science', 'B.S.', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('918040DF-964B-46F0-AEF9-F8DB92B07A41', '', '', '', '', 'Anthropology', 'Anthro', null, null, null)
 
 
 // CluCredit
@@ -270,15 +283,15 @@ INSERT INTO KSLU_CLU_ACCT (ID) VALUES ('ACCT-1')
 INSERT INTO KSLU_CLU_ACCT (ID) VALUES ('ACCT-2')
 
 // CluFeeRecord
-INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, CURRENCY_TYPE, CURRENCY_QUANT, VERSIONIND) values ('FEE-REC-1','FEE-TYP-1','DOLLAR',100, 0)
-INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, CURRENCY_TYPE, CURRENCY_QUANT, VERSIONIND) values ('FEE-REC-2','FEE-TYP-1','DOLLAR',100, 0)
-INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, CURRENCY_TYPE, CURRENCY_QUANT, VERSIONIND) values ('FEE-REC-3','FEE-TYP-2','DOLLAR',200, 0)
+INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, VERSIONIND) values ('FEE-REC-1','DOLLAR', 0)
+INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, VERSIONIND) values ('FEE-REC-2','DOLLAR', 0)
+INSERT INTO KSLU_CLU_FEE_REC (ID, FEE_TYPE, VERSIONIND) values ('FEE-REC-3','DOLLAR', 0)
 
 // AffiliatedOrgs
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-1', 'ORG-1', 30, 'FEE-REC-1', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-2', 'ORG-1', 70, 'FEE-REC-2', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-3', 'ORG-2', 40, 'FEE-REC-1', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, CLU_FEE_RCRD_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('AFF-ORG-4', 'ORG-2', 60, 'FEE-REC-3', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-1', 'ORG-1', 30, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-2', 'ORG-1', 70, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-3', 'ORG-2', 40, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_CLU_AFFIL_ORG (ID, ORG_ID, PERCT, EFF_DT, EXPIR_DT) values ('AFF-ORG-4', 'ORG-2', 60, {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
 
 // CluFee
 INSERT INTO KSLU_CLU_FEE (ID, VERSIONIND) VALUES ('FEE-1', 0)
@@ -397,7 +410,9 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, PRI_ADMIN_ORG_ID)  values ('f57e6cf7-8056-4030-80d4-1c9382e8e019', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, '2573199d-4f3e-4a32-88d5-458463711774', null,  'kuali.lu.type.CreditCourse', 'a6e9cfce-2dff-41e1-a29c-30555e3b886d', 'INSTR-1', 'ADMIN-ORG-2')
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, PRI_ADMIN_ORG_ID)  values ('427913be-02cc-4b1e-ace4-a4abae630a3a', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, 'ba6da522-8aa0-467e-97d9-2daecdc4b9cc', null,  'kuali.lu.type.CreditCourse', 'fc2e2016-9e45-4f53-b1aa-f111441b1d66', 'INSTR-1', 'ADMIN-ORG-2')
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, PRI_ADMIN_ORG_ID)  values ('0d8c42bc-77ba-450e-ae0e-eecd76fae779', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, '63e3270d-4bb8-4e97-9fa8-2f8be03cf053', null,  'kuali.lu.type.CreditCourse', 'ac9d68c7-999c-4c5d-805d-342051e060d6', 'INSTR-1', 'ADMIN-ORG-2')
-
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, PRI_ADMIN_ORG_ID)  values ('D02DBBD3-20E2-410D-AB52-1BD6D362748B', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, '9623C41C-AE72-473A-A1AC-6874C433967D', null,  'kuali.lu.type.credential.Baccalaureate', '4AB05FEB-B550-4DB6-9F65-97A74372A137', 'INSTR-1', 'ADMIN-ORG-2')
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, PRI_ADMIN_ORG_ID, EXP_FIRST_ATP) values ('D4EA77DD-B492-4554-B104-863E42C5F8B7', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, '8B7DF2EA-A0E0-4CA6-B524-5554D3194C92', null,  'kuali.lu.type.MajorDiscipline', '918040DF-964B-46F0-AEF9-F8DB92B07A41', 'INSTR-1', 'ADMIN-ORG-2', 'kuali.atp.SU2009-2010S1')
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, PRI_ADMIN_ORG_ID)  values ('00F5F8C5-FFF1-4C8B-92FC-789B891E0849', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, null, null,  'kuali.lu.type.CoreProgram', null, 'INSTR-1', 'ADMIN-ORG-2')
 
 //Lui
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-1', 'CLU-1', 'ATP-1', 'MENG 329 section 101', 50, {ts '2000-01-01 00:00:00.0'}, {ts '2000-06-01 00:00:00.0'}, 'Approved', 1)
@@ -456,6 +471,8 @@ insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('ba20b990-5
 // CluCluRelation
 INSERT INTO KSLU_CLUCLU_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CLU_RELTN_REQ, EFF_DT, EXPIR_DT, ST, CLU_ID, LU_RELTN_TYPE_ID, RELATED_CLU_ID) VALUES ('CLUCLUREL-1', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, 1, {ts '2003-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'Active', 'CLU-1', 'luLuType.type1', 'CLU-2')
 INSERT INTO KSLU_CLUCLU_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CLU_RELTN_REQ, EFF_DT, EXPIR_DT, ST, CLU_ID, LU_RELTN_TYPE_ID, RELATED_CLU_ID) VALUES ('CLUCLUREL-2', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, 1, {ts '2003-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'Active', 'CLU-1', 'luLuType.type1', 'CLU-3')
+INSERT INTO KSLU_CLUCLU_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CLU_RELTN_REQ, EFF_DT, EXPIR_DT, ST, CLU_ID, LU_RELTN_TYPE_ID, RELATED_CLU_ID) VALUES ('CLUCLUREL-3', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, 1, {ts '2003-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'Active', 'D02DBBD3-20E2-410D-AB52-1BD6D362748B', 'kuali.lu.lu.relation.type.hasMajorProgram', 'D4EA77DD-B492-4554-B104-863E42C5F8B7')
+INSERT INTO KSLU_CLUCLU_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CLU_RELTN_REQ, EFF_DT, EXPIR_DT, ST, CLU_ID, LU_RELTN_TYPE_ID, RELATED_CLU_ID) VALUES ('CLUCLUREL-4', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, 1, {ts '2003-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'Active', 'D4EA77DD-B492-4554-B104-863E42C5F8B7', 'kuali.lu.lu.relation.type.hasCoreProgram', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849')
 
 // LuiLuiRelation
 INSERT INTO KSLU_LUILUI_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, LUI_ID,RELATED_LUI_ID,LULU_RELTN_TYPE_ID, EFF_DT, EXPIR_DT, ST) VALUES ('LUILUIREL-1', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, 'LUI-1', 'LUI-2','luLuType.type1', {ts '2003-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'Active')
@@ -490,6 +507,7 @@ insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-12', '
 // CluResultType
 INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.gradeCourseResult', 'Final learning result for an LU. A stereotypical usage is the final grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Grade')
 INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.creditCourseResult', 'Final learning result for an LU. A stereotypical usage is the course credits.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Credits')
+INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.certificate', 'Final learning result for a Major.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Certificate')
 
 // CLU <-> CLU join
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID) values ('3142b5bb-899a-4f59-8022-cf9b411040c0', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture')
@@ -504,10 +522,13 @@ insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_r
 insert into KSLU_RICH_TEXT_T (id, plain ) values ('9909ad61-2cc1-4706-a08f-c66bcee9d0d8','Temporary description');
 insert into KSLU_CLU_RSLT  (ID,  CREATEID, CREATETIME, versionind, eff_dt,  st,  clu_id, type_key_id) values ('99efa3c1-de2b-4fae-a20f-24f08a457292',  'admin',  {ts '2010-04-15 10:00:00.0'}, 0,  {ts '2010-04-15 10:00:00.0'},  'active',  '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'kuali.resultType.gradeCourseResult' );
 insert into KSLU_CLU_RSLT  (ID,  CREATEID, CREATETIME, versionind, eff_dt,  st,  clu_id, type_key_id,  rt_descr_id   ) values ('995e7e57-6565-4fb9-a231-5fc2e688bb0f',  'admin',  {ts '2010-04-15 10:00:00.0'}, 0,  {ts '2010-04-07 10:00:00.0'},  'active',  '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'kuali.resultType.creditCourseResult' , '9909ad61-2cc1-4706-a08f-c66bcee9d0d8');
-insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST )Values ('99080d6d-59ad-4159-95ee-35b39fb160d4','admin', {ts '2010-04-15 10:00:00.0'}, 0, 'kuali.resultComponent.grade.passFail', 'active');
+insert into KSLU_CLU_RSLT  (ID,  CREATEID, CREATETIME, versionind, eff_dt,  st,  clu_id, type_key_id) values ('982CB0DB-E362-4E7B-A817-170D349E0FEB',  'admin',  {ts '2010-04-15 10:00:00.0'}, 0,  {ts '2010-04-07 10:00:00.0'},  'active',  'D4EA77DD-B492-4554-B104-863E42C5F8B7', 'kuali.resultType.certificate');
+insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST ) Values ('99080d6d-59ad-4159-95ee-35b39fb160d4','admin', {ts '2010-04-15 10:00:00.0'}, 0, 'kuali.resultComponent.grade.passFail', 'active');
 insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST ) Values ('99238bf0-6ea4-4447-95cd-fd2010bd5b0d','admin',{ts '2010-04-15 10:00:00.0'},   0, 'kuali.creditType.credit.degree.10','active');
+insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST, RT_DESCR_ID) Values ('7CB0F936-3EF3-4029-8980-5A628DAEEB61','admin',{ts '2010-04-15 10:00:00.0'}, 0, 'kuali.certificateType.degree','active', '9623C41C-AE72-473A-A1AC-6874C433967D');
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('99efa3c1-de2b-4fae-a20f-24f08a457292','99080d6d-59ad-4159-95ee-35b39fb160d4');
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('995e7e57-6565-4fb9-a231-5fc2e688bb0f','99238bf0-6ea4-4447-95cd-fd2010bd5b0d');
+insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('982CB0DB-E362-4E7B-A817-170D349E0FEB','7CB0F936-3EF3-4029-8980-5A628DAEEB61');
 
 // Financials
 insert into KSLU_CLU_FEE(id, versionind) values ('99de7877-b443-4a47-bb18-1d668b73f583', 0);
@@ -524,13 +545,13 @@ insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('9
 insert into KSLU_CLU_FEE_REC_ATTR (id, attr_name, attr_value, owner ) values ('996b50ac-c09f-4915-b3ad-7e77b940fcf2', 'rateType' , 'perCreditFee','99756442-3855-4e56-b617-cd4e7e18f3be' );
 
 // Financials - Revenue
-insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('99eab0f0-0687-4c90-9ce5-7d4993e4b84a', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, '42', 50 );
-insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('99770bb5-e340-47e0-87d6-7cd88c13c2dd', 'admin', {ts '2010-04-07 10:00:00.0'}, 0, '54', 50 );
+insert into KSLU_CLU_AFFIL_ORG (id, org_id, perct ) values ('99eab0f0-0687-4c90-9ce5-7d4993e4b84a', '42', 50 );
+insert into KSLU_CLU_AFFIL_ORG (id, org_id, perct ) values ('99770bb5-e340-47e0-87d6-7cd88c13c2dd', '54', 50 );
 insert into KSLU_CLU_FEEREC_JN_AFFIL_ORG (clu_fee_rec_id, affil_org_id ) values ('99978a91-b272-4d34-aef2-a8208811fa87' , '99eab0f0-0687-4c90-9ce5-7d4993e4b84a');
 insert into KSLU_CLU_FEEREC_JN_AFFIL_ORG (clu_fee_rec_id, affil_org_id ) values ('99978a91-b272-4d34-aef2-a8208811fa87' , '99770bb5-e340-47e0-87d6-7cd88c13c2dd');
 // Financials - Expenditure
 insert into KSLU_CLU_ACCT (id) values ('993a091e-d720-4c0b-944d-4ea133cbe7ec' );
-insert into KSLU_CLU_AFFIL_ORG (id, createid, createtime,versionind, org_id, perct ) values ('99199f7a-4c28-4a99-b6cd-e628c2d559a4', 'admin', {ts '2010-04-12 10:00:00.0'}, 0, '72', 100 );
+insert into KSLU_CLU_AFFIL_ORG (id, org_id, perct ) values ('99199f7a-4c28-4a99-b6cd-e628c2d559a4', '72', 100 );
 insert into KSLU_CLU_ACCT_JN_AFFIL_ORG (clu_acct_id, affil_org_id) values ('993a091e-d720-4c0b-944d-4ea133cbe7ec', '99199f7a-4c28-4a99-b6cd-e628c2d559a4'  );
 // Connect clu to revenue/expenditure data
 update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_FIRST_ATP = 'kuali.atp.season.Summer', FEE_ID = '99de7877-b443-4a47-bb18-1d668b73f583', ACCT_ID='993a091e-d720-4c0b-944d-4ea133cbe7ec', ATP_DUR_TYP_KEY = 'kuali.atp.duration.Week', TM_QUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';

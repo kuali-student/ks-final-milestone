@@ -72,6 +72,7 @@ public class AdvancedSearchWindow {
 		layout.add(panel);
 		layout.add(actionCancelButtons);
 		//dialog.setWidget(layout);
+		dialog.setSize(600,400);
 	}
 	
     public void show(){

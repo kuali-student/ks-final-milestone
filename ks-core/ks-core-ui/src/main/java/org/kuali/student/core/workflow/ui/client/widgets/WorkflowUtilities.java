@@ -96,7 +96,6 @@ public class WorkflowUtilities{
 	private ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
     
     private KSLabel workflowStatusLabel = new KSLabel("");
-    private String workflowStatus;
     
     private LayoutController parentController;
     
@@ -199,48 +198,48 @@ public class WorkflowUtilities{
 	private void updateWorkflow(DataModel model){
 		String proposalId = getProposalIdFromModel(model);
 		
-		//Determine which workflow actions are displayed in the drop down
-		workflowRpcServiceAsync.getActionsRequested(proposalId, new AsyncCallback<String>(){
-
-			public void onFailure(Throwable caught) {
-				// TODO
-			}
-
-			public void onSuccess(String result) {
-					items.clear();
-					if(result.contains("S")){
-						items.add(wfStartWorkflowItem);
-					}
-					if(result.contains("W")){
-						items.add(wfWithdrawItem);
-					}
-					if(result.contains("A")){
+		if (proposalId != null && !proposalId.isEmpty()){
+			//Determine which workflow actions are displayed in the drop down
+			workflowRpcServiceAsync.getActionsRequested(proposalId, new AsyncCallback<String>(){
 	
-						items.add(wfApproveItem);
-						items.add(wfDisApproveItem);
-	
-					}
-					if(result.contains("K")){
-						items.add(wfAcknowledgeItem);
-					}
-					
-					if(result.contains("F")){
-						items.add(wfFYIWorkflowItem);
-					}
-				for(StylishDropDown widget: workflowWidgets){	
-					widget.setItems(items);
+				public void onFailure(Throwable caught) {
+					// TODO
 				}
-			}
-		});
+	
+				public void onSuccess(String result) {
+						items.clear();
+						if(result.contains("S")){
+							items.add(wfStartWorkflowItem);
+						}
+						if(result.contains("W")){
+							items.add(wfWithdrawItem);
+						}
+						if(result.contains("A")){
 		
-		//Get and display workflow status and workflow nodes
-		if (proposalId != null){
+							items.add(wfApproveItem);
+							items.add(wfDisApproveItem);
+		
+						}
+						if(result.contains("K")){
+							items.add(wfAcknowledgeItem);
+						}
+						
+						if(result.contains("F")){
+							items.add(wfFYIWorkflowItem);
+						}
+					for(StylishDropDown widget: workflowWidgets){	
+						widget.setItems(items);
+					}
+				}
+			});
+		
+			//Get and display workflow status and workflow nodes
 			workflowRpcServiceAsync.getWorkflowIdFromDataId(proposalId, new AsyncCallback<String>(){
 	
 				@Override
 				public void onFailure(Throwable caught) {
 					workflowId = null;
-					workflowStatus = "Status: Unknown";
+					workflowStatusLabel.setText("Status: Unknown");
 				}
 	
 				@Override
@@ -250,23 +249,20 @@ public class WorkflowUtilities{
 						workflowRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
 							@Override
 							public void onFailure(Throwable caught) {
-								workflowStatus = "Status: Unknown";
+								workflowStatusLabel.setText("Status: Unknown");
 							}
 		
 							@Override
 							public void onSuccess(String result) {
-								getWorkflowStatus(result);
+								setWorkflowStatus(result);
 							}						
 						});
 					}				
 				}			
 			});
 		} else {
-			workflowStatus = "Status: Draft";
-		}
-		
-		workflowStatusLabel.setText(workflowStatus);
-		
+			workflowStatusLabel.setText("Status: Draft");
+		}			
 	}
 	
 	private KSMenuItemData getFYIWorkflowItem() {
@@ -433,7 +429,7 @@ public class WorkflowUtilities{
 	}
 	
 
-	private String getWorkflowStatus(String statusCd){
+	private void setWorkflowStatus(String statusCd){
 		String statusTranslation = "";
 		if (ROUTE_HEADER_SAVED_CD.equals(statusCd)){
 			statusTranslation = getLabel(ROUTE_HEADER_SAVED_LABEL_KEY);
@@ -459,7 +455,7 @@ public class WorkflowUtilities{
 			statusTranslation = statusCd;
 		}
 		
-		return "Status: " + statusTranslation;		
+		workflowStatusLabel.setText("Status: " + statusTranslation);	
 	}
 	
 	private void showSuccessDialog(String successMessage) {

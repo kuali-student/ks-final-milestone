@@ -305,6 +305,7 @@ public class KSWrapper extends Composite{
 
 	        docSearchPanel.add(closeActionButton);
 	        docSearchDialog.setWidget(docSearchPanel);
+	        docSearchDialog.setSize(750, 550);
     	}
     }
 

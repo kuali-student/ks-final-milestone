@@ -29,7 +29,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -169,7 +169,7 @@ public class CourseRequisiteView extends ViewComposite {
     	            rule.getStatementVO().getAllReqComponentVOs();
     	    if (allReqComponentVOs != null && !allReqComponentVOs.isEmpty()) {
                 rulesText.clear();
-                rulesText.add(new KSLabel(rule.getNaturalLanguage()));
+                rulesText.add(new KSLabel(rule.getNaturalLanguageForRuleEdit()));
     	    }
     	}
     }
