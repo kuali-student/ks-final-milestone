@@ -7,5 +7,7 @@ public class KSEntityConstants {
 
 	// Default Length for short text columns
 	public static final int SHORT_TEXT_LENGTH = 500;
+
+	public static final int ATTRIBUTE_TEXT_LENGTH = 2000;
 	
 }

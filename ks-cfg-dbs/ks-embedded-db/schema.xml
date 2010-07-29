@@ -2863,7 +2863,7 @@
     <table name="KSAP_ATP_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_ATP" name="FKD2FA861BB47270E">
             <reference foreign="ID" local="OWNER"/>
@@ -2879,7 +2879,7 @@
     <table name="KSAP_ATP_DUR_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_ATP_DUR_TYPE" name="FKF32EB20E331B319C">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -2895,7 +2895,7 @@
     <table name="KSAP_ATP_SEASONAL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_ATP_SEASONAL_TYPE" name="FK12F7C5CF75414156">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -2919,7 +2919,7 @@
     <table name="KSAP_ATP_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_ATP_TYPE" name="FKF4C7CDEC3BB784E8">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -2952,7 +2952,7 @@
     <table name="KSAP_DT_RANGE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_DT_RANGE" name="FKBE235C3A66A1DC20">
             <reference foreign="DATERANGE_KEY" local="OWNER"/>
@@ -2968,7 +2968,7 @@
     <table name="KSAP_DT_RANGE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="FK249AF32D51AD60FA">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3000,7 +3000,7 @@
     <table name="KSAP_MLSTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_MLSTN" name="FKD83FAD2A36BAFF61">
             <reference foreign="ID" local="OWNER"/>
@@ -3016,7 +3016,7 @@
     <table name="KSAP_MLSTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_MLSTN_TYPE" name="FK193BB83D5E10FBBB">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3053,7 +3053,7 @@
     <table name="KSCO_COMMENT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSCO_COMMENT" name="FK39D20A7C6117DFCE">
             <reference foreign="ID" local="OWNER"/>
@@ -3069,7 +3069,7 @@
     <table name="KSCO_COMMENT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSCO_COMMENT_TYPE" name="FK2188DE2B54FDDDA8">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3097,7 +3097,7 @@
     <table name="KSCO_REFERENCE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="FK8E9ABAD75FB9994">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3133,7 +3133,7 @@
     <table name="KSCO_TAG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSCO_TAG" name="FKC1BECBA155D86F09">
             <reference foreign="ID" local="OWNER"/>
@@ -3149,7 +3149,7 @@
     <table name="KSCO_TAG_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSCO_TAG_TYPE" name="FK43900C26CC1E5763">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3180,7 +3180,7 @@
     <table name="KSDO_DOCUMENT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSDO_DOCUMENT" name="FK4E8D0749BB72873E">
             <reference foreign="DOC_ID" local="OWNER"/>
@@ -3199,7 +3199,7 @@
     <table name="KSDO_DOCUMENT_CATEGORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSDO_DOCUMENT_CATEGORY" name="FKAA79A3AD5A3ED5C">
             <reference foreign="CATEGORY_ID" local="OWNER"/>
@@ -3225,7 +3225,7 @@
     <table name="KSDO_DOCUMENT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSDO_DOCUMENT_TYPE" name="FK541CD97E29D74D18">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3383,7 +3383,7 @@
     <table name="KSLU_CLUCLU_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLUCLU_RELTN" name="FK15BFEF4E2E7C6896">
             <reference foreign="ID" local="OWNER"/>
@@ -3416,7 +3416,7 @@
     <table name="KSLU_CLU_ACCRED_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_ACCRED" name="FK8EF5565F1CC528C8">
             <reference foreign="ID" local="OWNER"/>
@@ -3428,7 +3428,7 @@
     <table name="KSLU_CLU_ACCT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_ACCT" name="FK6ABF605C27F3734D">
             <reference foreign="ID" local="OWNER"/>
@@ -3453,7 +3453,7 @@
     <table name="KSLU_CLU_ADMIN_ORG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK6100AB3D66E32B0D">
             <reference foreign="ID" local="OWNER"/>
@@ -3477,7 +3477,7 @@
     <table name="KSLU_CLU_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK2F5624D2A2347ED8">
             <reference foreign="ID" local="OWNER"/>
@@ -3533,7 +3533,7 @@
     <table name="KSLU_CLU_DOC_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_DOC_RELTN" name="FKC53F91257F147A7A">
             <reference foreign="ID" local="OWNER"/>
@@ -3549,7 +3549,7 @@
     <table name="KSLU_CLU_DOC_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_DOC_RELTN_TYPE" name="FK7C02192298954254">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3589,7 +3589,7 @@
     <table name="KSLU_CLU_FEE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_FEE" name="FK7059258B9E29CBD4">
             <reference foreign="ID" local="OWNER"/>
@@ -3624,7 +3624,7 @@
     <table name="KSLU_CLU_FEE_REC_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FK5D2F8AFA35FC0785">
             <reference foreign="ID" local="OWNER"/>
@@ -3651,7 +3651,7 @@
     <table name="KSLU_CLU_INSTR_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="FK57EAE5A5AAFE4155">
             <reference foreign="ID" local="OWNER"/>
@@ -3777,7 +3777,7 @@
     <table name="KSLU_CLU_LO_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_LO_RELTN" name="FK9BD81C78934B6957">
             <reference foreign="ID" local="OWNER"/>
@@ -3793,7 +3793,7 @@
     <table name="KSLU_CLU_LO_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_LO_RELTN_TYPE" name="FKC3AAA9AFC7CF7AB1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3813,7 +3813,7 @@
     <table name="KSLU_CLU_PUBL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_PUBL" name="FK260A08E0CA43DD2B">
             <reference foreign="ID" local="OWNER"/>
@@ -3835,7 +3835,7 @@
     <table name="KSLU_CLU_RESULT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="FK250B779535BFA5AF">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3916,7 +3916,7 @@
     <table name="KSLU_CLU_SET_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_SET" name="FKD0611E2F9E29FCB0">
             <reference foreign="ID" local="OWNER"/>
@@ -3952,7 +3952,7 @@
     <table name="KSLU_CLU_SET_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_SET_TYPE" name="FKE9E122585012B98A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3968,7 +3968,7 @@
     <table name="KSLU_DLVMTHD_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_DLVMTHD_TYPE" name="FK6A1B07FA59848969">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -3984,7 +3984,7 @@
     <table name="KSLU_INSTFRMT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_INSTFRMT_TYPE" name="FK5406B7DE709F6516">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4053,7 +4053,7 @@
     <table name="KSLU_LOLO_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LOLO_RELTN" name="FK267A32483FCC956">
             <reference foreign="ID" local="OWNER"/>
@@ -4071,7 +4071,7 @@
     <table name="KSLU_LOLO_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LOLO_RELTN_TYPE" name="FKC6FDB5DFC0C2C330">
             <reference foreign="ID" local="OWNER"/>
@@ -4080,7 +4080,7 @@
     <table name="KSLU_LO_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LO" name="FK14C979DF8DFF0197">
             <reference foreign="ID" local="OWNER"/>
@@ -4113,7 +4113,7 @@
     <table name="KSLU_LO_CATEGORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LO_CATEGORY" name="FK5F53B06484E0FEB5">
             <reference foreign="ID" local="OWNER"/>
@@ -4129,7 +4129,7 @@
     <table name="KSLU_LO_CATEGORY_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LO_CATEGORY_TYPE" name="FK602AA9431FBF310F">
             <reference foreign="ID" local="OWNER"/>
@@ -4168,7 +4168,7 @@
     <table name="KSLU_LO_REPOSITORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LO_REPOSITORY" name="FKBF279183CCD6C01">
             <reference foreign="ID" local="OWNER"/>
@@ -4184,7 +4184,7 @@
     <table name="KSLU_LO_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LO_TYPE" name="FK9BCE94A8927CF2F1">
             <reference foreign="ID" local="OWNER"/>
@@ -4203,7 +4203,7 @@
     <table name="KSLU_LRC_CREDENTIAL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_CREDENTIAL" name="FKCA20BBC924E48D23">
             <reference foreign="ID" local="OWNER"/>
@@ -4219,7 +4219,7 @@
     <table name="KSLU_LRC_CREDENTIAL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_CREDENTIAL_TYPE" name="FK1F25F4FEDD59D87D">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4238,7 +4238,7 @@
     <table name="KSLU_LRC_CREDIT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_CREDIT" name="FK20DE3E671ADD4445">
             <reference foreign="ID" local="OWNER"/>
@@ -4254,7 +4254,7 @@
     <table name="KSLU_LRC_CREDIT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_CREDIT_TYPE" name="FK5A2765202BFE2E9F">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4278,7 +4278,7 @@
     <table name="KSLU_LRC_GRADE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_GRADE" name="FKB628089C52554D1">
             <reference foreign="ID" local="OWNER"/>
@@ -4294,7 +4294,7 @@
     <table name="KSLU_LRC_GRADE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_GRADE_TYPE" name="FK3C01283E5B73192B">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4323,7 +4323,7 @@
     <table name="KSLU_LRC_RESCOMP_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_RESCOMP" name="FK8B75C7B1C6D5ED9A">
             <reference foreign="ID" local="OWNER"/>
@@ -4350,7 +4350,7 @@
     <table name="KSLU_LRC_RESCOMP_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_RESCOMP_TYPE" name="FK3C241A166E282574">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4395,7 +4395,7 @@
     <table name="KSLU_LRC_SCALE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LRC_SCALE" name="FK760326F6C5C79E44">
             <reference foreign="ID" local="OWNER"/>
@@ -4445,7 +4445,7 @@
     <table name="KSLU_LUILUI_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LUILUI_RELTN" name="FK9AA41FCE4FA0816">
             <reference foreign="ID" local="OWNER"/>
@@ -4454,7 +4454,7 @@
     <table name="KSLU_LUI_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LUI" name="FK9DDEA67EA234A1AC">
             <reference foreign="ID" local="OWNER"/>
@@ -4477,7 +4477,7 @@
     <table name="KSLU_LULU_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="FK7CF7346B8C1B35C2">
             <reference foreign="ID" local="OWNER"/>
@@ -4512,7 +4512,7 @@
     <table name="KSLU_LU_CD_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LU_CD_TYPE" name="FK902BC92099BB190A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4536,7 +4536,7 @@
     <table name="KSLU_LU_CODE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LU_CODE" name="FKB708DE5BADEE1C30">
             <reference foreign="ID" local="OWNER"/>
@@ -4574,7 +4574,7 @@
     <table name="KSLU_LU_PUBL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LU_PUBL_TYPE" name="FK13599A4E24194CA9">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4583,7 +4583,7 @@
     <table name="KSLU_LU_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LUTYPE" name="FK192AC52EADF5FD7D">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4674,7 +4674,7 @@
     <table name="KSLU_RSLT_USG_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="FK1E3A8058D801410A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4742,7 +4742,7 @@
     <table name="KSOR_ORG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG" name="FK15378F00716FD90F">
             <reference foreign="ID" local="OWNER"/>
@@ -4762,7 +4762,7 @@
     <table name="KSOR_ORG_HIRCHY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_HIRCHY" name="FK89519D3EA52425EC">
             <reference foreign="ID" local="OWNER"/>
@@ -4814,7 +4814,7 @@
     <table name="KSOR_ORG_ORG_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_ORG_RELTN" name="FK97D3ECA7D0624BB7">
             <reference foreign="ID" local="OWNER"/>
@@ -4836,7 +4836,7 @@
     <table name="KSOR_ORG_ORG_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_ORG_RELTN_TYPE" name="FK4CC49EE0FFEE2D11">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4870,7 +4870,7 @@
     <table name="KSOR_ORG_PERS_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN" name="FKF3FFDE77556628A0">
             <reference foreign="ID" local="OWNER"/>
@@ -4886,7 +4886,7 @@
     <table name="KSOR_ORG_PERS_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="FK76574F1074776D7A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4917,7 +4917,7 @@
     <table name="KSOR_ORG_POS_RESTR_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_POS_RESTR" name="FKE877FFCC58A41D9A">
             <reference foreign="ID" local="OWNER"/>
@@ -4933,7 +4933,7 @@
     <table name="KSOR_ORG_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_TYPE" name="FKBE358C271A454E69">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -4970,7 +4970,7 @@
     <table name="KSPR_PROPOSAL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSPR_PROPOSAL" name="FK82F9A10998B52CEC">
             <reference foreign="PROPOSAL_ID" local="OWNER"/>
@@ -5004,7 +5004,7 @@
     <table name="KSPR_PROPOSAL_DOCREL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL" name="FK10D528F785351E0E">
             <reference foreign="DOCREL_ID" local="OWNER"/>
@@ -5020,7 +5020,7 @@
     <table name="KSPR_PROPOSAL_DOCREL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL_TYPE" name="FK37AC94908FD1FBE8">
             <reference foreign="ID" local="OWNER"/>
@@ -5070,7 +5070,7 @@
     <table name="KSPR_PROPOSAL_REFTYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_REFTYPE" name="FK706DC3DB32AEB21F">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -5086,7 +5086,7 @@
     <table name="KSPR_PROPOSAL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_TYPE" name="FK604A57BEB4D36BC6">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -5114,7 +5114,7 @@
     <table name="KSST_OBJECT_SUB_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="FK6822C42D41D3A583">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -5130,7 +5130,7 @@
     <table name="KSST_OBJECT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_OBJECT_TYPE" name="FK8E00FA8C9B9EC77">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -5193,7 +5193,7 @@
     <table name="KSST_REF_STMT_REL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_REF_STMT_REL" name="FKEC9530CC7D48EBD6">
             <reference foreign="ID" local="OWNER"/>
@@ -5209,7 +5209,7 @@
     <table name="KSST_REF_STMT_REL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="FK115129DB9A39A5B0">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -5264,7 +5264,7 @@
     <table name="KSST_REQ_COM_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKEBAC0F81F5BE52F7">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -5273,7 +5273,7 @@
     <table name="KSST_REQ_COM_TYPE_NL_TMPL">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="LANGUAGE" size="2" type="VARCHAR"/>
         <column name="NL_USUAGE_TYPE_KEY" size="255" type="VARCHAR"/>
         <column name="TEMPLATE" size="2000" type="VARCHAR"/>
@@ -5333,7 +5333,7 @@
     <table name="KSST_STMT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_STMT" name="FK275C9512CA2A9017">
             <reference foreign="ID" local="OWNER"/>
@@ -5359,7 +5359,7 @@
     <table name="KSST_STMT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FK96FB8155993D4171">
             <reference foreign="TYPE_KEY" local="OWNER"/>
@@ -5395,7 +5395,7 @@
     <table name="KSST_USAGE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_NL_USAGE_TYPE" name="FKC4CAC8226B3DADC5">
             <reference foreign="TYPE_KEY" local="OWNER"/>
