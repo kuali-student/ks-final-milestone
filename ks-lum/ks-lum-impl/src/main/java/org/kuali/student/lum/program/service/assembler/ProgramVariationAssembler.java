@@ -88,15 +88,15 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
     @Override
     public BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> disassemble(ProgramVariationInfo variation, NodeOperation operation) throws AssemblyException {
+    	BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo>(
+				this);
+    	
     	if (variation == null) {
 			// FIXME Unsure now if this is an exception or just return null or
 			// empty assemblyNode
 		    LOG.error("Variation to disassemble is null!");
 			throw new AssemblyException("Variation can not be null");
 		}
-
-		BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo>(
-				this);
 
 		CluInfo clu;
 		try {
@@ -130,14 +130,12 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		
 		disassembleLuCode(clu, variation);
 		
-		//TODO: add resultOptions -- copy CourseAssembler.disassembleCluResults
 		BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
 				clu.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
 		result.getChildNodes().add(resultOptions);
 		
 		clu.setExpectedFirstAtp(variation.getStartTerm());
 		clu.setLastAtp(variation.getEndTerm());
-		//TODO:set EndProgramEntryTerm to clu.setLastAdmitAtp? is this right?
 		clu.setLastAdmitAtp(variation.getEndProgramEntryTerm());
 		clu.setEffectiveDate(variation.getEffectiveDate());
 			
