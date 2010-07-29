@@ -28,7 +28,11 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBi
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -456,11 +460,11 @@ CreditCourseLearningResultsConstants
     }
     
     protected Section initSection(SectionTitle title) {
-        HorizontalSection section;
+        TableSection section;
     	if(title!=null){
-        	section = new HorizontalSection(title);
+        	section = new TableSection(title);
         }else{
-        	section = new HorizontalSection();
+        	section = new TableSection();
         }
         return section;
     }
