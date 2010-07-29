@@ -86,4 +86,10 @@ public class ProgramAssemblerConstants {
     public static final String FINANCIAL_RESOURCES_UNIT = "kuali.adminOrg.type.FinancialResourcesUnit";
     public static final String FINANCIAL_CONTROL_UNIT = "kuali.adminOrg.type.FinancialControlUnit";
     public static final String INSTITUTION = "kuali.adminOrg.type.Institution";
+    
+    // cluResult Types
+    public static final String DEGREE_RESULTS = "kuali.resultType.degree";
+    public static final String CERTIFICATE_RESULTS = "kuali.resultType.certificate";
+    public static final String ANNOTATION_RESULTS = "kuali.resultType.annotation";
+    public static final String COMPLETION_RESULTS = "kuali.resultType.completion";
 }
