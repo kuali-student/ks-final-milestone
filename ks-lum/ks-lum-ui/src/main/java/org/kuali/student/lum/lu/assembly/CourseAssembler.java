@@ -594,17 +594,17 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 //				}
 //			}
 //			courseClu.setAcademicSubjectOrgs(subjectOrgs);
-//
-//			List<String> campuses = new ArrayList<String>();
-//			if (course.getCampusLocations() != null) {
-//				for (Data.Property p : course.getCampusLocations()) {
-//					if(!"_runtimeData".equals(p.getKey())){
-//						String campus = p.getValue();
-//						campuses.add(campus);
-//					}
-//				}
-//			}
-//			courseClu.setCampusLocations(campuses);
+
+			List<String> campuses = new ArrayList<String>();
+			if (course.getCampusLocations() != null) {
+				for (Data.Property p : course.getCampusLocations()) {
+					if(!"_runtimeData".equals(p.getKey())){
+						String campus = p.getValue();
+						campuses.add(campus);
+					}
+				}
+			}
+			courseClu.setCampusLocations(campuses);
 
 			courseClu.setFeeInfo(feeAssembler.disassemble(course.getFees()));
 			addRevenueFee(courseClu, course);
