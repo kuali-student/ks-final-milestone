@@ -128,7 +128,7 @@ public class TestCourseServiceImpl {
             String orgId = retrievedCourse.getCurriculumOversightOrgs().get(0).getOrgId();
             assertTrue("orgId-28".equals(orgId) || "orgId-26".equals(orgId));
 
-            assertEquals(3, retrievedCourse.getAttributes().size());
+            assertEquals(4, retrievedCourse.getAttributes().size());
             String[] attrKeys = {"attributes-9", "attributes-10"};
             for (String key : attrKeys) {
                 String value = retrievedCourse.getAttributes().get(key);
@@ -237,7 +237,7 @@ public class TestCourseServiceImpl {
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
             assertEquals("courseTitle-18", createdCourse.getCourseTitle());
             assertEquals(2, createdCourse.getCurriculumOversightOrgs().size());
-            assertEquals(3, createdCourse.getAttributes().size());
+            assertEquals(4, createdCourse.getAttributes().size());
 
             // update some fields
             createdCourse.getCurriculumOversightOrgs().clear();
@@ -386,7 +386,7 @@ public class TestCourseServiceImpl {
         assertEquals(1, updatedCourse.getCurriculumOversightOrgs().size());
         assertEquals("testOrgId", updatedCourse.getCurriculumOversightOrgs().get(0).getOrgId());
 
-        assertEquals(4, updatedCourse.getAttributes().size());
+        assertEquals(5, updatedCourse.getAttributes().size());
         assertNotNull(updatedCourse.getAttributes().get("testKey"));
         assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
         
@@ -482,6 +482,8 @@ public class TestCourseServiceImpl {
             Map<String, String> attrMap = new HashMap<String, String>();
             attrMap.put("finalExamStatus","GRD");
             attrMap.put("altFinalExamStatusDescr", "Some123description");
+            attrMap.put("proposalTitle", "proposalTitle-1");
+            attrMap.put("proposalRationale", "proposalRationale");
             
             cInfo.setAttributes(attrMap);
 

@@ -34,6 +34,7 @@ public class CourseDataGenerator {
 	public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
 		CourseInfo testData = generateTestData(CourseInfo.class, 0, 0,null);
 		testData.getAttributes().put("proposalTitle", "proposalTitle-1");
+		testData.getAttributes().put("proposalRationale", "proposalRationale");
 		return testData;
 	}
 
