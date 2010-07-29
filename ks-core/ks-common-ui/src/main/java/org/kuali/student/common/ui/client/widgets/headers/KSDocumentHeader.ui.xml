@@ -12,8 +12,6 @@
 		.info{
 		   	overflow: auto;
 		   	text-align: right;
-		   	font-weight: bold;
-		    color: #FEAB3E;
 		}
 		
 		.container{

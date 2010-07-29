@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MenuSectionController extends LayoutController implements ContentNavLayoutController{
@@ -59,6 +60,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
 		menu.setStyleName("ks-menu-layout-menu");
 		rightPanel.setStyleName("ks-menu-layout-rightColumn");
 		collapsablePanel.setStyleName("ks-menu-layout-leftColumn");
+		layout.addStyleName("ks-menu-layout");
 		menu.setTopLevelItems(topLevelMenuItems);
 		collapsablePanel.setContent(menu);
 		layout.add(collapsablePanel);
@@ -77,8 +79,17 @@ public class MenuSectionController extends LayoutController implements ContentNa
 		header.addWidget(w);
 	}
 	
-	public void setContentWarning(String text){
-		header.setInfo(text);
+	public void setContentInfo(String info){
+		header.getInfoLabel().setHTML(info);
+		header.getInfoLabel().removeStyleName("content-warning");
+		header.getInfoLabel().addStyleName("content-info");
+	}
+	
+	public void setContentWarning(String info){
+		header.getInfoLabel().setHTML(info);
+		header.getInfoLabel().removeStyleName("content-info");
+		header.getInfoLabel().addStyleName("content-warning");
+		
 	}
 	
 	public void addCommonButton(String parentMenu, KSButton button){

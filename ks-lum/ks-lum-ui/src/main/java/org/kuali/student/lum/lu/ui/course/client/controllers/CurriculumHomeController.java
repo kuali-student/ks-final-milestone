@@ -70,9 +70,7 @@ public class CurriculumHomeController extends LayoutController{
 	
 
 	private CourseProposalController getCourseProposalController(){
-		if(courseProposalController == null){
-			courseProposalController = new CourseProposalController();
-		}
+		courseProposalController = new CourseProposalController();
 		return courseProposalController;
 	}
 	
@@ -93,9 +91,7 @@ public class CurriculumHomeController extends LayoutController{
 	}
 	
 	private LayoutController getBrowseCatalogController(){
-		if(browseCatalogController == null){
-			browseCatalogController = new CatalogBrowserController(this);
-		}
+		browseCatalogController = new CatalogBrowserController(this);
 		return browseCatalogController;
 	}
 
