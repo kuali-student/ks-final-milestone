@@ -620,6 +620,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 	public List<String> getAcademicSubjectOrgs() {
+		if (academicSubjectOrgs == null){
+			academicSubjectOrgs = new ArrayList<String>(0);
+		}
 		return academicSubjectOrgs;
 	}
 
