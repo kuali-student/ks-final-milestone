@@ -87,11 +87,11 @@ public class CreditCourseProposalRpcGwtServlet extends
     		}
     		
     		String cluId = cluProposal.getCourse().getId()==null?"":cluProposal.getCourse().getId(); 
-    		String adminOrg = cluProposal.getCourse().getDepartment()==null?"":cluProposal.getCourse().getDepartment(); 
+//    		String adminOrg = cluProposal.getCourse().getDepartment()==null?"":cluProposal.getCourse().getDepartment(); 
     		String proposalId = cluProposal.getProposal().getId()==null?"":cluProposal.getProposal().getId();
     		
     		docContent.setCluId(cluId);
-            docContent.setOrgId(adminOrg);
+//            docContent.setOrgId(adminOrg);
             docContent.setProposalId(proposalId);
             
     		JAXBContext context = JAXBContext.newInstance(docContent.getClass());

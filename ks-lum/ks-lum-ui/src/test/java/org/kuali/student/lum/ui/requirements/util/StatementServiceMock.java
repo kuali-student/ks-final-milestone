@@ -342,7 +342,6 @@ public class StatementServiceMock implements StatementService {
 		return null;
 	}
 
-	@Override
 	public StatementTreeViewInfo getStatementTreeViewForNlUsageType(String statementId, String nlUsageTypeKey, String language)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return null;
