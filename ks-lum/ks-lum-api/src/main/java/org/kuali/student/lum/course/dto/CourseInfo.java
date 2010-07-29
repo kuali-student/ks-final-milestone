@@ -37,7 +37,6 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
@@ -370,6 +369,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
 
     public List<AdminOrgInfo> getAdministeringOrgs() {
+    	if(administeringOrgs == null){
+    		administeringOrgs = new ArrayList<AdminOrgInfo>(0);
+    	}
         return administeringOrgs;
     }
     /**
