@@ -3447,6 +3447,8 @@
     <table name="KSLU_CLU_ADMIN_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
+        <column name="IS_PR" size="1" type="DECIMAL"/>
+        <column name="TYPE" size="255" type="VARCHAR"/>
     </table>
     <table name="KSLU_CLU_ADMIN_ORG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3666,6 +3668,19 @@
         </foreign-key>
         <unique name="SYS_C0040027">
             <unique-column name="CLU_ACCRED_ID"/>
+        </unique>
+    </table>
+    <table name="KSLU_CLU_JN_ADMIN_ORG">
+        <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ADMIN_ORG_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK29AD5E5A4F9D53A0">
+            <reference foreign="ID" local="ADMIN_ORG_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_CLU" name="FK29AD5E5A4AF8DD33">
+            <reference foreign="ID" local="CLU_ID"/>
+        </foreign-key>
+        <unique name="SYS_C00302995">
+            <unique-column name="ADMIN_ORG_ID"/>
         </unique>
     </table>
     <table name="KSLU_CLU_JN_ALT_ADMIN_ORG">
