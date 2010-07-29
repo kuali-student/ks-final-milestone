@@ -136,7 +136,6 @@
 			<ref bean="lu.resultColumn.luOptionalCode"/>
 			<ref bean="lu.resultColumn.luOptionalLevel"/>
 			<ref bean="lu.resultColumn.luOptionalDescr"/>
-			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
 			<ref bean="lu.resultColumn.luOptionalState"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
@@ -169,12 +168,6 @@
 	<search:resultColumn id="lu.resultColumn.luOptionalDescr-parent"  abstract="true">
 		<search:name>Description</search:name>
 		<search:desc>Lu description.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>
-	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg" parent="lu.resultColumn.luOptionalPrimaryAdminOrg-parent"/>
-	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg-parent"  abstract="true">
-		<search:name>Primary Organization</search:name>
-		<search:desc>Lu primary organization</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 	<search:resultColumn id="lu.resultColumn.luOptionalState" parent="lu.resultColumn.luOptionalState-parent"/>
@@ -597,7 +590,6 @@
 			<ref bean="lu.resultColumn.luOptionalShortName"/>
 			<ref bean="lu.resultColumn.luOptionalLongName"/>
 			<ref bean="lu.resultColumn.luOptionalCode"/>
-			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
 			<ref bean="lu.resultColumn.luOptionalType"/>
 			<ref bean="lu.resultColumn.luOptionalState"/>
         </search:resultColumns>
@@ -639,11 +631,10 @@
  -->
                     <value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
-                    cludesc.plain, primaryAdminOrg.orgId, clu.state
+                    cludesc.plain, clu.state
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
-                    LEFT JOIN clu.descr cludesc
-                    LEFT JOIN clu.primaryAdminOrg primaryAdminOrg</value>
+                    LEFT JOIN clu.descr cludesc</value>
 		        </entry>
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
