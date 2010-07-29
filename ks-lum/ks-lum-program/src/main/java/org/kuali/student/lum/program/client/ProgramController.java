@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
@@ -30,8 +31,6 @@ public class ProgramController extends MenuEditableSectionController {
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
 
     private boolean initialized = false;
-
-    private String programId = null;
 
     private final DataModel programModel = new DataModel();
 
@@ -141,7 +140,7 @@ public class ProgramController extends MenuEditableSectionController {
 //    	if (programId == null || programId.isEmpty()) {
 //    		programId = "D4EA77DD-B492-4554-B104-863E42C5F8B7";    		
 //    	}
-        programRemoteService.getData(programId, new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -159,18 +158,35 @@ public class ProgramController extends MenuEditableSectionController {
     }
 
 
+//    @Override
+//    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+//        init(new Callback<Boolean>() {
+//
+//            @Override
+//            public void exec(Boolean result) {
+//                onReadyCallback.exec(result);
+//                ProgramController.super.showDefaultView(Controller.NO_OP_CALLBACK);
+//            }
+//        });
+//    }
+
     @Override
-    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+    public void beforeShow(final Callback<Boolean> onReadyCallback){
+        initialized = false;
         init(new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
-                onReadyCallback.exec(result);
-                ProgramController.super.showDefaultView(Controller.NO_OP_CALLBACK);
+                if (result) {
+                    showDefaultView(onReadyCallback);
+                } else {
+                    onReadyCallback.exec(false);
+                }
             }
         });
     }
-
+    
+    
     private void init(final Callback<Boolean> onReadyCallback) {
         if (initialized) {
             onReadyCallback.exec(true);
@@ -222,9 +238,15 @@ public class ProgramController extends MenuEditableSectionController {
         }
         initialized = true;
     }
-
-    public void setProgramId(String programId) {
-        this.programId = programId;
-        this.programModel.setRoot(new Data());
+   
+    @Override
+    public void setViewContext(ViewContext viewContext) {
+        super.setViewContext(viewContext);
+        if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+            viewContext.setPermissionType(PermissionType.OPEN);
+        }
+        else{
+            viewContext.setPermissionType(PermissionType.INITIATE);
+        }
     }
 }

@@ -10,6 +10,7 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
+import org.kuali.student.lum.program.client.ProgramController;
 
 public class CurriculumHomeController extends LayoutController{
 	
@@ -22,6 +23,7 @@ public class CurriculumHomeController extends LayoutController{
 	private LayoutController viewCourseController;
 	private LayoutController manageCluSetsController;
 	private LayoutController browseCatalogController;
+	private LayoutController programController;
 	
 	public enum LUMViews {
 		DEFAULT,
@@ -84,7 +86,10 @@ public class CurriculumHomeController extends LayoutController{
 	}
 	
 	private LayoutController getProgramController(){
-		return null;
+		if (programController == null) {
+			programController = new ProgramController();
+		}
+		return this.programController;
 	}
 	
 	private LayoutController getCluSetsController(){

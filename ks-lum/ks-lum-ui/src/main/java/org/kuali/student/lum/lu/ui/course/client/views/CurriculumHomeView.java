@@ -83,10 +83,11 @@ public class CurriculumHomeView extends ViewComposite{
 		list.add(new Hyperlink("Start Blank Proposal", "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL"));
 		list.add(new Hyperlink("Clu Set Management", "/HOME/CURRICULUM_HOME/CLU_SETS"));
 		list.add(new Hyperlink("Course Catalog", "/HOME/CURRICULUM_HOME/COURSE_CATALOG"));
-		list.add(new Hyperlink("Program", "/HOME/CURRICULUM_HOME/PROGRAM"));
+//		list.add(new Hyperlink("Program", "/HOME/CURRICULUM_HOME/PROGRAM"));
 		list.add(categoryManagement);
 		addIfPermitted(PermissionType.SEARCH, "Courses");
         addIfPermitted(PermissionType.SEARCH, "Proposals");
+        addIfPermitted(PermissionType.SEARCH, "Majors");
         list.addStyleName("KS-CurriculumHome-LinkList");
 
 	}
@@ -107,6 +108,8 @@ public class CurriculumHomeView extends ViewComposite{
                 if(result) {
                     if (searchType.equals("Courses")) {
                         addCourseSearchWindow(); 
+                    } else if (searchType.equals("Majors")){
+                        addMajorSearchWindow();
                     } else {
                         addProposalSearchWindow();
                     }
@@ -162,6 +165,30 @@ public class CurriculumHomeView extends ViewComposite{
                 list.add(proposalSearchWindow);
             }
         });       
+    }
+    
+    private void addMajorSearchWindow(){
+        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
+            }
+            @Override
+            public void onSuccess(Metadata metadata) {
+                metadata = metadata.getProperties().get("findMajor");  
+                KSPicker searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+                searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+                    public void onValueChange(ValueChangeEvent<List<String>> event) {
+                        List<String> selection = (List<String>)event.getValue();
+                        ViewContext viewContext = new ViewContext();
+                        viewContext.setId(selection.get(0));
+                        viewContext.setIdType(IdType.OBJECT_ID);
+                        Application.navigate("/HOME/CURRICULUM_HOME/PROGRAM", viewContext);
+                    }                    
+                }); 
+                list.add(searchWindow);
+            }
+        });         
     }
 
 }
