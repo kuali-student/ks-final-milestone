@@ -26,9 +26,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -37,15 +35,17 @@ import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 /**
  * @author KS
  *
  */
 public class ProgramVariationAssembler implements BOAssembler<ProgramVariationInfo, CluInfo> {
-    final static Logger LOG = Logger.getLogger(CourseAssembler.class);
+    final static Logger LOG = Logger.getLogger(ProgramVariationAssembler.class);
 
     private LuService luService;
+    private CluAssemblerUtils cluAssemblerUtils;
 
     @Override
     public ProgramVariationInfo assemble(CluInfo clu, ProgramVariationInfo majorDiscipline, boolean shallowBuild) throws AssemblyException {
@@ -131,13 +131,14 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		disassembleLuCode(clu, variation);
 		
 		//TODO: add resultOptions -- copy CourseAssembler.disassembleCluResults
+		BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
+				clu.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+		result.getChildNodes().add(resultOptions);
 		
 		clu.setExpectedFirstAtp(variation.getStartTerm());
 		clu.setLastAtp(variation.getEndTerm());
 		//TODO:set EndProgramEntryTerm to clu.setLastAdmitAtp? is this right?
-		//clu.setEndProgramEntryTerm(variation.getEndProgramEntryTerm());
 		clu.setLastAdmitAtp(variation.getEndProgramEntryTerm());
-		clu.setLastAdmitAtp(variation.getLastAdmitTerm());
 		clu.setEffectiveDate(variation.getEffectiveDate());
 			
 		disassembleAlternateIdentifiers(clu, variation);
@@ -145,9 +146,16 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		clu.setDescr(variation.getDescr());
 		
 		//TODO: catalogDescr
-		
-		//TODO: learningObjectives -copy CourseAssembler.disassembleLos
-		
+	
+        try {
+    		List<BaseDTOAssemblyNode<?, ?>> loResults;
+    		loResults = cluAssemblerUtils.disassembleLos(clu.getId(), variation.getState(), variation.getLearningObjectives(), operation);
+            result.getChildNodes().addAll(loResults);
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling los", e);
+        }
+        
 		clu.setCampusLocations(variation.getCampusLocations());
 		
 		//TODO: programRequirements
@@ -155,7 +163,11 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		//TODO: add AdminOrg and wait for CluInfo.adminOrgs
 		disassembleAdminOrg(clu, variation);
 		
-    	return null;
+		// Add the Clu to the result
+		result.setNodeData(clu);
+		result.setOperation(operation);
+		result.setBusinessDTORef(variation);
+		return result;
     	
     }
 
@@ -280,5 +292,9 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     // Spring setter
     public void setLuService(LuService luService) {
         this.luService = luService;
+    }
+    
+    public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
+        this.cluAssemblerUtils = cluAssemblerUtils;
     }
 }
