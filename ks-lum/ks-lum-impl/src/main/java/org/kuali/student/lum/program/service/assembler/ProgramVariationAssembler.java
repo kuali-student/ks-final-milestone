@@ -16,14 +16,21 @@
 package org.kuali.student.lum.program.service.assembler;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.dto.AmountInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
@@ -80,10 +87,196 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     }
 
     @Override
-    public BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> disassemble(ProgramVariationInfo businessDTO, NodeOperation operation) throws AssemblyException {
-        return null;
+    public BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> disassemble(ProgramVariationInfo variation, NodeOperation operation) throws AssemblyException {
+    	if (variation == null) {
+			// FIXME Unsure now if this is an exception or just return null or
+			// empty assemblyNode
+		    LOG.error("Variation to disassemble is null!");
+			throw new AssemblyException("Variation can not be null");
+		}
+
+		BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo>(
+				this);
+
+		CluInfo clu;
+		try {
+			clu = (NodeOperation.UPDATE == operation) ? luService.getClu(variation.getId()) : new CluInfo();
+        } catch (Exception e) {
+			throw new AssemblyException("Error getting existing learning unit during variation update", e);
+        } 
+        
+		// Create the id if it's not there already(important for creating relations)
+		clu.setId(UUIDHelper.genStringUUID(variation.getId()));
+		if (null == variation.getId()) {
+			variation.setId(clu.getId());
+		}
+		
+		clu.setType(variation.getType());
+		clu.setState(variation.getState());
+		clu.setMetaInfo(variation.getMetaInfo());
+		clu.setAttributes(variation.getAttributes());
+		
+		AmountInfo intensity = new AmountInfo();
+		intensity.setUnitType(variation.getIntensity());
+		clu.setIntensity(intensity);
+		
+		clu.setReferenceURL(variation.getReferenceURL());
+		
+		CluIdentifierInfo identifier = new CluIdentifierInfo();
+		identifier.setCode(variation.getCode());
+		identifier.setLongName(variation.getLongTitle());
+		identifier.setShortName(variation.getShortTitle());
+		clu.setOfficialIdentifier(identifier);
+		
+		disassembleLuCode(clu, variation);
+		
+		//TODO: add resultOptions -- copy CourseAssembler.disassembleCluResults
+		
+		clu.setExpectedFirstAtp(variation.getStartTerm());
+		clu.setLastAtp(variation.getEndTerm());
+		//TODO:set EndProgramEntryTerm to clu.setLastAdmitAtp? is this right?
+		//clu.setEndProgramEntryTerm(variation.getEndProgramEntryTerm());
+		clu.setLastAdmitAtp(variation.getEndProgramEntryTerm());
+		clu.setLastAdmitAtp(variation.getLastAdmitTerm());
+		clu.setEffectiveDate(variation.getEffectiveDate());
+			
+		disassembleAlternateIdentifiers(clu, variation);
+		
+		clu.setDescr(variation.getDescr());
+		
+		//TODO: catalogDescr
+		
+		//TODO: learningObjectives -copy CourseAssembler.disassembleLos
+		
+		clu.setCampusLocations(variation.getCampusLocations());
+		
+		//TODO: programRequirements
+		
+		//TODO: add AdminOrg and wait for CluInfo.adminOrgs
+		disassembleAdminOrg(clu, variation);
+		
+    	return null;
+    	
     }
 
+    private void disassembleAdminOrg(CluInfo clu, ProgramVariationInfo variation){
+    	//TODO:wait for CluInfo.adminOrgs
+    	//there's no type in AdminOrgInfo
+    }
+ 
+    private void disassembleAlternateIdentifiers(CluInfo clu, ProgramVariationInfo variation){
+		//Add TranscriptTitle
+    	boolean alreadyHadTranscript = false;
+		for(Iterator<CluIdentifierInfo> altIdentIterator = clu.getAlternateIdentifiers().iterator();altIdentIterator.hasNext();){
+			CluIdentifierInfo altIdent = altIdentIterator.next();
+			if(ProgramAssemblerConstants.TRANSCRIPT.equals(altIdent.getType())){
+				alreadyHadTranscript = true;
+				break;
+			}
+		}
+		if(!alreadyHadTranscript){
+			CluIdentifierInfo cluIdentInfo = new CluIdentifierInfo();
+			cluIdentInfo.setShortName(variation.getTranscriptTitle());
+			cluIdentInfo.setType(ProgramAssemblerConstants.TRANSCRIPT);
+		}
+
+		//Add DiplomaTitle
+    	boolean alreadyHadDiploma = false;
+		for(Iterator<CluIdentifierInfo> altIdentIterator = clu.getAlternateIdentifiers().iterator();altIdentIterator.hasNext();){
+			CluIdentifierInfo altIdent = altIdentIterator.next();
+			if(ProgramAssemblerConstants.DIPLOMA.equals(altIdent.getType())){
+				alreadyHadDiploma = true;
+				break;
+			}
+		}
+		if(!alreadyHadDiploma){
+			CluIdentifierInfo cluIdentInfo = new CluIdentifierInfo();
+			cluIdentInfo.setShortName(variation.getDiplomaTitle());
+			cluIdentInfo.setType(ProgramAssemblerConstants.DIPLOMA);
+		}
+    }
+    private void disassembleLuCode(CluInfo clu, ProgramVariationInfo variation){
+		//add CIP_2000
+		boolean alreadyHadCIP2000 = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(ProgramAssemblerConstants.CIP_2000.equals(luCode.getType())){
+				alreadyHadCIP2000 = true;
+				break;
+			}
+		}
+		if(!alreadyHadCIP2000){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setType(ProgramAssemblerConstants.CIP_2000);
+			luCode.setValue(variation.getCipCode());
+			clu.getLuCodes().add(luCode);
+		}	
+		
+		//add CIP_2000
+		boolean alreadyHadCIP2010 = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(ProgramAssemblerConstants.CIP_2010.equals(luCode.getType())){
+				alreadyHadCIP2010 = true;
+				break;
+			}
+		}
+		if(!alreadyHadCIP2010){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setType(ProgramAssemblerConstants.CIP_2010);
+			luCode.setValue(variation.getCipCode());
+			clu.getLuCodes().add(luCode);
+		}		
+		
+		//add HEGIS
+		boolean alreadyHadHEGIS = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(ProgramAssemblerConstants.HEGIS.equals(luCode.getType())){
+				alreadyHadCIP2000 = true;
+				break;
+			}
+		}
+		if(!alreadyHadHEGIS){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setType(ProgramAssemblerConstants.HEGIS);
+			luCode.setValue(variation.getHegisCode());
+			clu.getLuCodes().add(luCode);
+		}
+		
+		//add UNIVERSITY_CLASSIFICATION
+		boolean alreadyHadUniversityClassification = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION.equals(luCode.getType())){
+				alreadyHadUniversityClassification = true;
+				break;
+			}
+		}
+		if(!alreadyHadUniversityClassification){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setType(ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION);
+			luCode.setValue(variation.getUniversityClassification());
+			clu.getLuCodes().add(luCode);
+		}				
+		
+		//add SELECTIVE_ENROLLMENT
+		boolean alreadySelectiveEnrollment = false;
+		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
+			LuCodeInfo luCode = luCodeIterator.next();
+			if(ProgramAssemblerConstants.SELECTIVE_ENROLLMENT.equals(luCode.getType())){
+				alreadySelectiveEnrollment = true;
+				break;
+			}
+		}
+		if(!alreadySelectiveEnrollment){
+			LuCodeInfo luCode = new LuCodeInfo();
+			luCode.setType(ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
+			luCode.setValue(variation.getSelectiveEnrollmentCode());
+			clu.getLuCodes().add(luCode);
+		}			
+		   	
+    }
     // Spring setter
     public void setLuService(LuService luService) {
         this.luService = luService;
