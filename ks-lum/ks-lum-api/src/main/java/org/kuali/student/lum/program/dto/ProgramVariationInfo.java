@@ -85,9 +85,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String endProgramEntryTerm;
 
     @XmlElement
-    private String lastAdmitTerm;
-
-    @XmlElement
     private Date effectiveDate;
 
     @XmlElement
@@ -108,6 +105,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     @XmlElement
     private RichTextInfo catalogDescr;
 
+    @XmlElement
+    private List<String> catalogPublicationTargets;
+    
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
@@ -271,23 +271,15 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.endTerm = endTerm;
     }
 
+    /**
+     * The last academic time period that this Variation would be available for enrollment. This may not reflect the last "real" academic time period for this Variation.   
+     */
     public String getEndProgramEntryTerm() {
         return endProgramEntryTerm;
     }
 
     public void setEndProgramEntryTerm(String endProgramEntryTerm) {
         this.endProgramEntryTerm = endProgramEntryTerm;
-    }
-
-    /**
-     * The last academic time period that this Variation would be available for enrollment. This may not reflect the last "real" academic time period for this Variation.
-     */
-    public String getLastAdmitTerm() {
-        return lastAdmitTerm;
-    }
-
-    public void setLastAdmitTerm(String lastAdmitTerm) {
-        this.lastAdmitTerm = lastAdmitTerm;
     }
 
     /**
@@ -366,7 +358,18 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     public void setCatalogDescr(RichTextInfo catalogDescr) {
         this.catalogDescr = catalogDescr;
     }
+    
+    /**
+     * List of catalog targets where program variation information will be published.   
+     */
+    public List<String> getCatalogPublicationTargets() {
+        return catalogPublicationTargets;
+    }
 
+    public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
+        this.catalogPublicationTargets = catalogPublicationTargets;
+    }
+    
     /**
      * Learning Objectives associated with this Variation.
      */
