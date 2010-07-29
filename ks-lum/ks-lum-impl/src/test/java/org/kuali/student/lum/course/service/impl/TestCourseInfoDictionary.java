@@ -118,7 +118,7 @@ public class TestCourseInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (4, validationResults.size ());
+  assertEquals (3, validationResults.size ());
 
 
   try

@@ -8,10 +8,9 @@
   <property name="name" value="org.kuali.student.lum.lu.dto.CluInfo" />
   <property name="attributes">
    <list>
-    <ref bean="cluInfo.academicSubjectOrgs" />
     <ref bean="cluInfo.accountingInfo" />
     <ref bean="cluInfo.accreditations" />
-    <ref bean="cluInfo.alternateAdminOrgs" />
+    <ref bean="cluInfo.adminOrgs" />
     <ref bean="cluInfo.alternateIdentifiers" />
     <ref bean="cluInfo.campusLocations" />
     <ref bean="cluInfo.canCreateLui" />
@@ -68,11 +67,12 @@
  </bean>
  <bean id="cluInfo.accreditations" parent="cluInfo.accreditations-parent" />
 
- <bean id="cluInfo.alternateAdminOrgs-parent" abstract="true" parent="baseComplexRepeating">
-  <property name="name" value="alternateAdminOrgs" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo" />
- </bean>
- <bean id="cluInfo.alternateAdminOrgs" parent="cluInfo.alternateAdminOrgs-parent" />
+	<bean id="cluInfo.adminOrgs-parent" abstract="true"
+		parent="baseComplexRepeating">
+		<property name="name" value="adminOrgs" />
+		<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo" />
+	</bean>
+	<bean id="cluInfo.adminOrgs" parent="cluInfo.adminOrgs-parent" />
 
  <bean id="cluInfo.alternateIdentifiers-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="alternateIdentifiers" />
@@ -736,6 +736,8 @@
    <list>
     <ref bean="adminOrgInfo.id" />
     <ref bean="adminOrgInfo.orgId" />
+    <ref bean="adminOrgInfo.type"/>
+	<ref bean="adminOrgInfo.isPrimary"/>
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -751,4 +753,17 @@
   <property name="name" value="orgId" />
  </bean>
  <bean id="adminOrgInfo.orgId" parent="adminOrgInfo.orgId-parent" />
+ 
+ 
+ <bean id="adminOrgInfo.type-parent" abstract="true" parent="baseKualiTypeRequired"/>
+
+<bean id="adminOrgInfo.type" parent="adminOrgInfo.type-parent" >
+	<property name="name" value="type"></property>
+</bean>
+	
+<bean id="adminOrgInfo.isPrimary-parent" abstract="true" parent="baseBoolean">
+	<property name="name" value="isPrimary"></property>
+</bean>
+
+<bean id="adminOrgInfo.isPrimary" parent="adminOrgInfo.isPrimary-parent" />	
 </beans>

@@ -68,7 +68,6 @@ import org.kuali.student.lum.lu.service.LuService;
 public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
-    
 	private LuService luService;
 	private FormatAssembler formatAssembler;
 	private CourseJointAssembler courseJointAssembler;
@@ -84,12 +83,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Copy all the data from the clu to the course
 		
-		List<String> academicSubjectOrgs = new ArrayList<String>();
-		for(AcademicSubjectOrgInfo orgInfo:clu.getAcademicSubjectOrgs()){
-			academicSubjectOrgs.add(orgInfo.getOrgId());
-		}
-		course.setAcademicSubjectOrgs(academicSubjectOrgs);
-		
+
 		course.setAttributes(clu.getAttributes());
 		course.setCampusLocations(clu.getCampusLocations());
 		course.setCode(clu.getOfficialIdentifier().getCode());
@@ -105,7 +99,25 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		List<CourseCrossListingInfo> crossListings = assembleCrossListings(clu.getAlternateIdentifiers()); 
 		course.setCrossListings(crossListings);
 
-		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
+//		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
+		if(course.getAdministeringOrgs()==null){
+			course.setAdministeringOrgs(new ArrayList<AdminOrgInfo>());
+		}
+		if(course.getCurriculumOversightOrgs()==null){
+			course.setCurriculumOversightOrgs(new ArrayList<AdminOrgInfo>());
+		}
+		List<AdminOrgInfo> courseAdminOrgs = new ArrayList<AdminOrgInfo>();
+		List<AdminOrgInfo> courseSubjectOrgs = new ArrayList<AdminOrgInfo>();
+		for(AdminOrgInfo adminOrg: clu.getAdminOrgs()){
+			if(adminOrg.getType().equals(CourseAssemblerConstants.ADMIN_ORG)){
+				courseAdminOrgs.add(adminOrg);
+			}
+			if(adminOrg.getType().equals(CourseAssemblerConstants.SUBJECT_ORG)){
+				courseSubjectOrgs.add(adminOrg);
+			}
+		}
+		course.setAdministeringOrgs(courseAdminOrgs);
+		course.setCurriculumOversightOrgs(courseSubjectOrgs);
 		course.setDescr(clu.getDescr());
 		course.setDuration(clu.getStdDuration());
 		course.setEffectiveDate(clu.getEffectiveDate());
@@ -296,6 +308,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		identifier.setShortName(course.getTranscriptTitle());
 		clu.setOfficialIdentifier(identifier);
 
+
+		clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
+
 		// Use the Course Variation assembler to disassemble the variations
 		List<BaseDTOAssemblyNode<?, ?>> variationResults;
         try {
@@ -320,17 +335,23 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             throw new AssemblyException("Error while disassembling CrossListings", e);
         }
 		
-		AdminOrgInfo orgInfo = (null != clu.getPrimaryAdminOrg()) ? clu.getPrimaryAdminOrg() : new AdminOrgInfo();
-		orgInfo.setOrgId(course.getDepartment());
-		clu.setPrimaryAdminOrg(orgInfo);
 
-		List<AcademicSubjectOrgInfo> subjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
-		for (String orgId : course.getAcademicSubjectOrgs()) {
-			AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
-			info.setOrgId(orgId);
-			subjectOrgs.add(info);
+
+		List<AdminOrgInfo> adminOrgInfos = new ArrayList<AdminOrgInfo>();
+		for(AdminOrgInfo org:course.getAdministeringOrgs()){
+			if(org.getType().equals(CourseAssemblerConstants.ADMIN_ORG)){
+				adminOrgInfos.add(org);
+			}
 		}
-		clu.setAcademicSubjectOrgs(subjectOrgs);
+		clu.getAdminOrgs().addAll(adminOrgInfos);
+		
+		List<AdminOrgInfo> subjectOrgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo subOrg : course.getCurriculumOversightOrgs()) {
+			if(subOrg.getType().equals(CourseAssemblerConstants.SUBJECT_ORG)){
+				subjectOrgs.add(subOrg);
+			}
+		}
+		clu.getAdminOrgs().addAll(subjectOrgs);
 
 		
 		clu.setAttributes(course.getAttributes());

@@ -66,12 +66,16 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_CODE_SPECIAL_TOPICS = "kuali.lu.code.specialTopics";
 	public static final String COURSE_CODE_PILOT_COURSE = "kuali.lu.code.pilotCourse";
 
+
+	//Constants for AdminOrg types in Course
+    public static final String ADMIN_ORG = "kuali.adminOrg.type.Administration";
+    public static final String SUBJECT_ORG = "kuali.adminOrg.type.CurriculumOversight";
+
 	public static final String COURSE_LO_RELATION_INCLUDES = "kuali.lo.relation.type.includes";
 	public static final String COURSE_LO_SEQUENCE = "sequence";
 	public static final String COURSE_LO_COURSE_SPECIFIC_RELATION = "cluLuType.default";
 	public static final String COURSE_LO_TYPE = "kuali.lo.type.singleUse";
 	public static final String COURSE_LO_REPOSITORY_KEY = "kuali.loRepository.key.singleUse";
-
 	public static final String COURSE_FINANCIALS_REVENUE_TYPE = "REVENUE";
 
 }

@@ -82,7 +82,6 @@
        class="org.kuali.student.core.dictionary.dto.FieldDefinition"
        abstract="true">
   <property name="minOccurs" value="1" />
-
  </bean>
 
  <bean id="baseIntegerRepeating" parent="baseFieldDefinitionRepeating"

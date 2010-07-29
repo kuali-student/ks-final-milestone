@@ -10,9 +10,10 @@
   <property name="name" value="org.kuali.student.lum.course.dto.CourseInfo" />
   <property name="attributes">
    <list>
-    <ref bean="courseInfo.academicSubjectOrgs" />
+   <ref bean="courseInfo.curriculumOversightOrgs" />
     <ref bean="courseInfo.campusLocations" />
     <ref bean="courseInfo.code" />
+    <ref bean="courseInfo.administeringOrgs" />
     <ref bean="courseInfo.courseNumberSuffix" />
     <ref bean="courseInfo.courseSpecificLOs" />
     <ref bean="courseInfo.courseTitle" />
@@ -60,15 +61,25 @@
  </bean>
  <bean id="org.kuali.student.lum.course.dto.CourseInfo" parent="org.kuali.student.lum.course.dto.CourseInfo-parent" />
 
- <bean id="courseInfo.academicSubjectOrgs-parent" abstract="true" parent="academicSubjectOrgInfo.orgId">
-  <property name="name" value="academicSubjectOrgs" />
-  <property name="minOccurs" value="0" />
-  <property name="maxOccurs" value="unbounded" />
-  <!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
-  <property name="customValidatorClass" value="SampCustomValidator"/>
-  <property name="serverSide" value="true"/>
- </bean>
- <bean id="courseInfo.academicSubjectOrgs" parent="courseInfo.academicSubjectOrgs-parent" />
+	<bean id="courseInfo.curriculumOversightOrgs-parent" abstract="true"
+		parent="cluInfo.adminOrgs">
+		<property name="name" value="curriculumOversightOrgs" />
+		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
+<!--		<property name="customValidatorClass" value="SampCustomValidator"/>-->
+<!--		<property name="serverSide" value="true"/>-->
+		
+	</bean>
+	<bean id="courseInfo.curriculumOversightOrgs" parent="courseInfo.curriculumOversightOrgs-parent" />
+	
+	<bean id="courseInfo.administeringOrgs-parent" abstract="true"
+		parent="cluInfo.adminOrgs">
+		<property name="name" value="administeringOrgs" />
+		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
+<!--		<property name="customValidatorClass" value="SampCustomValidator"/>-->
+<!--		<property name="serverSide" value="true"/>-->
+		
+	</bean>
+	<bean id="courseInfo.administeringOrgs" parent="courseInfo.administeringOrgs-parent" />
 
  <bean id="courseInfo.campusLocations-parent" abstract="true" parent="cluInfo.campusLocations-parent">
   <property name="name" value="campusLocations" />

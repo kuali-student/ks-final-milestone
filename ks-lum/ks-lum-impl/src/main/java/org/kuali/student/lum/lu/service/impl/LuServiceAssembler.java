@@ -209,9 +209,9 @@ public class LuServiceAssembler extends BaseAssembler {
 				"officialIdentifier", "alternateIdentifiers", "descr",
 				"participatingOrgs", "primaryInstructor", "instructors",
 				"stdDuration", "luCodes", "credit", "offeredAtpTypes", "fee",
-				"accounting", "intensity", "academicSubjectOrgs",
-				"campusLocationList", "accreditationList", "primaryAdminOrg",
-				"alternateAdminOrgs", "attributes", "metaInfo" });
+				"accounting", "intensity",
+				"campusLocationList", "accreditationList",
+				"adminOrgs", "attributes", "metaInfo" });
 		dto.setOfficialIdentifier(toCluIdentifierInfo(entity
 				.getOfficialIdentifier()));
 		dto.setAlternateIdentifiers(toCluIdentifierInfos(entity
@@ -222,9 +222,8 @@ public class LuServiceAssembler extends BaseAssembler {
 		// Alternate admin orgs
 		dto.setAccreditations(toAccreditationInfos(entity.getAccreditations()));
 
-		dto.setPrimaryAdminOrg(toAdminOrgInfo(entity.getPrimaryAdminOrg()));
-		dto.setAlternateAdminOrgs(toCluAdminOrgInfos(entity
-				.getAlternateAdminOrgs()));
+		dto.setAdminOrgs(toCluAdminOrgInfos(entity
+				.getAdminOrgs()));
 
 		dto.setPrimaryInstructor(toCluInstructorInfo(entity
 				.getPrimaryInstructor()));
@@ -248,17 +247,6 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		dto.setType(entity.getLuType().getId());
-
-		if (entity.getAcademicSubjectOrgs() != null) {
-			List<AcademicSubjectOrgInfo> academicSubjectOrgs = new ArrayList<AcademicSubjectOrgInfo>(
-					entity.getAcademicSubjectOrgs().size());
-			for (CluAcademicSubjectOrg cluOrg : entity.getAcademicSubjectOrgs()) {
-				AcademicSubjectOrgInfo sOrg = new AcademicSubjectOrgInfo();
-				sOrg.setOrgId(cluOrg.getOrgId());
-				academicSubjectOrgs.add(sOrg);
-			}
-			dto.setAcademicSubjectOrgs(academicSubjectOrgs);
-		}
 
 		if (entity.getCampusLocations() != null) {
 			List<String> campusLocations = new ArrayList<String>(entity

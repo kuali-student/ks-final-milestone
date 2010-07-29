@@ -673,8 +673,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		assertNotNull(createdClu.getId());
 
-		checkAcademicSubjectOrgsCreate(createdClu);
-
 		checkCampusLocationCreate(createdClu);
 
 		checkIntensityCreate(createdClu);
@@ -832,8 +830,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.setType("luType.shell.program");
 
 		updateAdminOrgs(createdClu);
-
-		updateAcademicSubjectOrgs(createdClu);
 
 		updateAccreditationList(createdClu);
 
@@ -1043,8 +1039,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(createdClu.getId(), updatedClu.getId());
 
 		checkAdminOrgUpdate(updatedClu);
-
-		checkAcademicSubjectOrgsUpdate(updatedClu);
 
 		checkAccreditationListUpdate(updatedClu);
 
@@ -2006,8 +2000,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		stdDuration.setAtpDurationTypeKey("EXTstdDurationId");
 		stdDuration.setTimeQuantity(new Integer(7867));
 		clu.setStdDuration(stdDuration);
-
-		createAcademicSubjectOrgs(clu);
 
 		createCampusLocationList(clu);
 
@@ -3046,8 +3038,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		clu.setType("");
 
-		createAcademicSubjectOrgs(clu);
-
 		createCampusLocationList(clu);
 
 		createIntensity(clu);
@@ -3059,56 +3049,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		return clu;
 	}
 
-	private void createAcademicSubjectOrgs(CluInfo clu) {
-		AcademicSubjectOrgInfo sOrg1 = new AcademicSubjectOrgInfo();
-		sOrg1.setOrgId("EXT_Academic_Subject_ORG_ID1");
-
-		AcademicSubjectOrgInfo sOrg2 = new AcademicSubjectOrgInfo();
-		sOrg2.setOrgId("EXT_Academic_Subject_ORG_ID2");
-
-		clu.getAcademicSubjectOrgs().add(sOrg1);
-		clu.getAcademicSubjectOrgs().add(sOrg2);
-	}
-
-	private void checkAcademicSubjectOrgsCreate(CluInfo createdClu) {
-		assertEquals("EXT_Academic_Subject_ORG_ID1", createdClu
-				.getAcademicSubjectOrgs().get(0).getOrgId());
-		assertEquals("EXT_Academic_Subject_ORG_ID2", createdClu
-				.getAcademicSubjectOrgs().get(1).getOrgId());
-	}
-
-	private void updateAcademicSubjectOrgs(CluInfo clu) {
-		clu.getAcademicSubjectOrgs().remove(1);
-
-		AcademicSubjectOrgInfo sOrg3 = new AcademicSubjectOrgInfo();
-		sOrg3.setOrgId("EXT_Academic_Subject_ORG_ID3");
-
-		AcademicSubjectOrgInfo sOrg4 = new AcademicSubjectOrgInfo();
-		sOrg4.setOrgId("EXT_Academic_Subject_ORG_ID4");
-
-		clu.getAcademicSubjectOrgs().add(sOrg3);
-		clu.getAcademicSubjectOrgs().add(sOrg4);
-	}
-
-	private void checkAcademicSubjectOrgsUpdate(CluInfo updatedClu) {
-		assertEquals(3, updatedClu.getAcademicSubjectOrgs().size());
-		assertEquals("EXT_Academic_Subject_ORG_ID1", updatedClu
-				.getAcademicSubjectOrgs().get(0).getOrgId());
-		assertEquals("EXT_Academic_Subject_ORG_ID3", updatedClu
-				.getAcademicSubjectOrgs().get(1).getOrgId());
-		assertEquals("EXT_Academic_Subject_ORG_ID4", updatedClu
-				.getAcademicSubjectOrgs().get(2).getOrgId());
-	}
-
 	private void createAdminOrgs(CluInfo clu) {
-		AdminOrgInfo primaryAdminOrg = new AdminOrgInfo();
-		primaryAdminOrg.setOrgId("PRIMARY_ADMIN_ORG_ID");
-		primaryAdminOrg.getAttributes().put("PrimaryAdminOrgAttrKey1",
+		AdminOrgInfo adminOrg = new AdminOrgInfo();
+		adminOrg.setOrgId("PRIMARY_ADMIN_ORG_ID");
+		adminOrg.getAttributes().put("PrimaryAdminOrgAttrKey1",
 				"PrimaryAdminOrgAttrValue1");
-		primaryAdminOrg.getAttributes().put("PrimaryAdminOrgAttrKey2",
+		adminOrg.getAttributes().put("PrimaryAdminOrgAttrKey2",
 				"PrimaryAdminOrgAttrValue2");
-		clu.setPrimaryAdminOrg(primaryAdminOrg);
-
+		clu.getAdminOrgs().add(adminOrg);
 		AdminOrgInfo altAdminOrg1 = new AdminOrgInfo();
 		altAdminOrg1.setOrgId("ALT_ADMIN_ORG_ID1");
 		altAdminOrg1.getAttributes().put("AltAdminOrg1AttrKey1",
@@ -3125,91 +3073,91 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		altAdminOrg2.getAttributes().put("AltAdminOrg2AttrKey2",
 				"AltAdminOrg2AttrValue2");
 
-		clu.getAlternateAdminOrgs().add(altAdminOrg1);
-		clu.getAlternateAdminOrgs().add(altAdminOrg2);
+		clu.getAdminOrgs().add(altAdminOrg1);
+		clu.getAdminOrgs().add(altAdminOrg2);
 
 	}
 
 	private void checkAdminOrgsCreate(CluInfo clu) {
-		assertEquals("PRIMARY_ADMIN_ORG_ID", clu.getPrimaryAdminOrg()
+
+		assertEquals("PRIMARY_ADMIN_ORG_ID", clu.getAdminOrgs().get(0)
 				.getOrgId());
-		assertEquals(2, clu.getPrimaryAdminOrg().getAttributes().size());
-		assertEquals("PrimaryAdminOrgAttrValue1", clu.getPrimaryAdminOrg()
+		assertEquals(2,  clu.getAdminOrgs().get(0).getAttributes().size());
+		assertEquals("PrimaryAdminOrgAttrValue1",  clu.getAdminOrgs().get(0)
 				.getAttributes().get("PrimaryAdminOrgAttrKey1"));
-		assertEquals("PrimaryAdminOrgAttrValue2", clu.getPrimaryAdminOrg()
+		assertEquals("PrimaryAdminOrgAttrValue2",  clu.getAdminOrgs().get(0)
 				.getAttributes().get("PrimaryAdminOrgAttrKey2"));
-
-		assertEquals("ALT_ADMIN_ORG_ID1", clu.getAlternateAdminOrgs().get(0)
+		
+		assertEquals("ALT_ADMIN_ORG_ID1", clu.getAdminOrgs().get(1)
 				.getOrgId());
-		assertEquals(3, clu.getAlternateAdminOrgs().get(0).getAttributes()
+		assertEquals(3, clu.getAdminOrgs().get(1).getAttributes()
 				.size());
-		assertEquals("AltAdminOrg1AttrValue1", clu.getAlternateAdminOrgs().get(
-				0).getAttributes().get("AltAdminOrg1AttrKey1"));
-		assertEquals("AltAdminOrg1AttrValue2", clu.getAlternateAdminOrgs().get(
-				0).getAttributes().get("AltAdminOrg1AttrKey2"));
-		assertEquals("AltAdminOrg1AttrValue3", clu.getAlternateAdminOrgs().get(
-				0).getAttributes().get("AltAdminOrg1AttrKey3"));
+		assertEquals("AltAdminOrg1AttrValue1", clu.getAdminOrgs().get(
+				1).getAttributes().get("AltAdminOrg1AttrKey1"));
+		assertEquals("AltAdminOrg1AttrValue2", clu.getAdminOrgs().get(
+				1).getAttributes().get("AltAdminOrg1AttrKey2"));
+		assertEquals("AltAdminOrg1AttrValue3", clu.getAdminOrgs().get(
+				1).getAttributes().get("AltAdminOrg1AttrKey3"));
 
-		assertEquals("ALT_ADMIN_ORG_ID2", clu.getAlternateAdminOrgs().get(1)
+		assertEquals("ALT_ADMIN_ORG_ID2", clu.getAdminOrgs().get(2)
 				.getOrgId());
-		assertEquals(2, clu.getAlternateAdminOrgs().get(1).getAttributes()
+		assertEquals(2, clu.getAdminOrgs().get(2).getAttributes()
 				.size());
-		assertEquals("AltAdminOrg2AttrValue1", clu.getAlternateAdminOrgs().get(
-				1).getAttributes().get("AltAdminOrg2AttrKey1"));
-		assertEquals("AltAdminOrg2AttrValue2", clu.getAlternateAdminOrgs().get(
-				1).getAttributes().get("AltAdminOrg2AttrKey2"));
+		assertEquals("AltAdminOrg2AttrValue1", clu.getAdminOrgs().get(
+				2).getAttributes().get("AltAdminOrg2AttrKey1"));
+		assertEquals("AltAdminOrg2AttrValue2", clu.getAdminOrgs().get(
+				2).getAttributes().get("AltAdminOrg2AttrKey2"));
 	}
 
 	private void updateAdminOrgs(CluInfo clu) {
-		clu.getPrimaryAdminOrg().setOrgId("UPD_PRIMARY_ADMIN_ORG_ID");
-		clu.getPrimaryAdminOrg().getAttributes().put("PrimaryAdminOrgAttrKey3",
+		clu.getAdminOrgs().get(0).setId("adminOrg121");
+		clu.getAdminOrgs().get(0).setOrgId("UPD_PRIMARY_ADMIN_ORG_ID");
+		clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey3",
 				"PrimaryAdminOrgAttrValue3");
-		clu.getPrimaryAdminOrg().getAttributes().remove(
+		clu.getAdminOrgs().get(0).getAttributes().remove(
 				"PrimaryAdminOrgAttrKey2");
-		clu.getPrimaryAdminOrg().getAttributes().put("PrimaryAdminOrgAttrKey4",
+		clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey4",
 				"PrimaryAdminOrgAttrValue4");
-
+		
 		AdminOrgInfo altAdminOrg3 = new AdminOrgInfo();
-		altAdminOrg3.setOrgId("ALT_ADMIN_ORG_ID3");
-		altAdminOrg3.getAttributes().put("AltAdminOrg3AttrKey1",
-				"AltAdminOrg3AttrValue1");
-		altAdminOrg3.getAttributes().put("AltAdminOrg3AttrKey2",
-				"AltAdminOrg3AttrValue2");
+		altAdminOrg3.setOrgId("UPD_ADMIN_ORG_ID3");
+		altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey1",
+				"UPDAdminOrg3AttrKey1");
+		altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey2",
+				"UPDAdminOrg3AttrKey1");
 
-		clu.getAlternateAdminOrgs().get(1).getAttributes().put(
-				"AltAdminOrg1AttrKey4", "AltAdminOrg1AttrKey4");
-		clu.getAlternateAdminOrgs().remove(1);
-		clu.getAlternateAdminOrgs().add(altAdminOrg3);
+		clu.getAdminOrgs().remove(1);
+		clu.getAdminOrgs().add(altAdminOrg3);
 	}
 
 	private void checkAdminOrgUpdate(CluInfo clu) {
-		assertEquals("UPD_PRIMARY_ADMIN_ORG_ID", clu.getPrimaryAdminOrg()
-				.getOrgId());
-		assertEquals(3, clu.getPrimaryAdminOrg().getAttributes().size());
-		assertEquals("PrimaryAdminOrgAttrValue4", clu.getPrimaryAdminOrg()
-				.getAttributes().get("PrimaryAdminOrgAttrKey4"));
-		assertNull(clu.getPrimaryAdminOrg().getAttributes().get(
-				"PrimaryAdminOrgAttrKey2"));
 
-		assertEquals(2, clu.getAlternateAdminOrgs().size());
-		assertEquals("ALT_ADMIN_ORG_ID1", clu.getAlternateAdminOrgs().get(0)
+		assertEquals("UPD_PRIMARY_ADMIN_ORG_ID", clu.getAdminOrgs().get(0)
 				.getOrgId());
-		assertEquals(3, clu.getAlternateAdminOrgs().get(0).getAttributes()
-				.size());
-		assertEquals("AltAdminOrg1AttrValue1", clu.getAlternateAdminOrgs().get(
-				0).getAttributes().get("AltAdminOrg1AttrKey1"));
-		assertEquals("AltAdminOrg1AttrValue2", clu.getAlternateAdminOrgs().get(
-				0).getAttributes().get("AltAdminOrg1AttrKey2"));
-		assertEquals("AltAdminOrg1AttrValue3", clu.getAlternateAdminOrgs().get(
-				0).getAttributes().get("AltAdminOrg1AttrKey3"));
-		assertEquals("ALT_ADMIN_ORG_ID3", clu.getAlternateAdminOrgs().get(1)
+		assertEquals(3, clu.getAdminOrgs().get(0).getAttributes().size());
+		assertEquals("PrimaryAdminOrgAttrValue4", clu.getAdminOrgs().get(0)
+				.getAttributes().get("PrimaryAdminOrgAttrKey4"));
+		assertNull(clu.getAdminOrgs().get(0).getAttributes().get(
+				"PrimaryAdminOrgAttrKey2"));
+		assertEquals(3, clu.getAdminOrgs().size());
+		assertEquals("UPD_PRIMARY_ADMIN_ORG_ID", clu.getAdminOrgs().get(0)
 				.getOrgId());
-		assertEquals(2, clu.getAlternateAdminOrgs().get(1).getAttributes()
+		assertEquals(3, clu.getAdminOrgs().get(0).getAttributes()
 				.size());
-		assertEquals("AltAdminOrg3AttrValue2", clu.getAlternateAdminOrgs().get(
-				1).getAttributes().get("AltAdminOrg3AttrKey2"));
-		assertEquals("AltAdminOrg3AttrValue1", clu.getAlternateAdminOrgs().get(
-				1).getAttributes().get("AltAdminOrg3AttrKey1"));
+		assertEquals("PrimaryAdminOrgAttrValue1", clu.getAdminOrgs().get(
+				0).getAttributes().get("PrimaryAdminOrgAttrKey1"));
+		assertEquals("PrimaryAdminOrgAttrValue4", clu.getAdminOrgs().get(
+				0).getAttributes().get("PrimaryAdminOrgAttrKey4"));
+		assertEquals("PrimaryAdminOrgAttrValue3", clu.getAdminOrgs().get(
+				0).getAttributes().get("PrimaryAdminOrgAttrKey3"));
+		assertEquals("ALT_ADMIN_ORG_ID2", clu.getAdminOrgs().get(1)
+				.getOrgId());
+		assertEquals(2, clu.getAdminOrgs().get(1).getAttributes()
+				.size());
+		assertEquals("AltAdminOrg2AttrValue2", clu.getAdminOrgs().get(
+				1).getAttributes().get("AltAdminOrg2AttrKey2"));
+		assertEquals("AltAdminOrg2AttrValue1", clu.getAdminOrgs().get(
+				1).getAttributes().get("AltAdminOrg2AttrKey1"));
 	}
 
 	private void createAccreditationList(CluInfo clu) throws ParseException {
