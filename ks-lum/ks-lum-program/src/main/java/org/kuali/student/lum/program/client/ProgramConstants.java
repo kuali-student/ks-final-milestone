@@ -20,7 +20,7 @@ public class ProgramConstants {
     public static final String CREDENTIAL_PROGRAM = "";
     public static final String SPECIALIZATION_REQUIRED = "specializationRequired";
     public static final String LOCATION = "campusLocations";
-    public static final String ACCREDITING_AGENCY = "accreditingAgency";
+    public static final String ACCREDITING_AGENCY = "accreditingAgencies";
     public static final String INSTITUTION = "institution";
     public static final String DESCRIPTION_FORMATTED = "descr/formatted";
     public static final String DESCRIPTION = "descr";

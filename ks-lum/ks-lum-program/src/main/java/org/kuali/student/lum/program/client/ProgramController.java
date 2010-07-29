@@ -109,7 +109,7 @@ public class ProgramController extends MenuEditableSectionController {
                 modelRequestQueue.submit(workItem);
             }
         });
-        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
+        /*super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
 
             @Override
             public void onValidateRequest(ValidateRequestEvent event) {
@@ -132,7 +132,7 @@ public class ProgramController extends MenuEditableSectionController {
                     }
                 });
             }
-        });
+        });*/
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, final Callback<Boolean> workCompleteCallback) {

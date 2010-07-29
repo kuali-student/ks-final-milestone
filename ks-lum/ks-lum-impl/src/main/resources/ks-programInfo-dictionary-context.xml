@@ -224,13 +224,11 @@
 	<bean id="majorDisciplineInfo.institution-parent" abstract="true"
 		parent="adminOrgInfo.id-parent">
 		<property name="name" value="institution" />
-		<!--<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo" />-->
 	</bean>
 	<bean id="majorDisciplineInfo.institution" parent="majorDisciplineInfo.institution-parent" />
 
 	<bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="adminOrgInfo.id-parent">
 		<property name="name" value="accreditingAgencies" />
-		<!--<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo" />-->
 	</bean>
 	<bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent" />
 	
