@@ -36,6 +36,8 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
@@ -104,10 +106,18 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<CluInstructorInfo> instructors;
 
     @XmlElement
+
+    private List<AdminOrgInfo> administeringOrgs;
+
     private RichTextInfo feeJustification;
 
+
     @XmlElement
+
+    private List<AdminOrgInfo> curriculumOversightOrgs;
+
     private List<CourseFeeInfo> fees;
+
 
     @XmlElement
     private List<CourseRevenueInfo> revenues;
@@ -358,17 +368,30 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
         this.instructors = instructors;
     }
 
+
+    public List<AdminOrgInfo> getAdministeringOrgs() {
+        return administeringOrgs;
+    }
     /**
      * Narrative description of overall course fee justification.
      */
     public RichTextInfo getFeeJustification() {
-        return feeJustification;
+       return feeJustification;
+
     }
 
+
+    public void setAdministeringOrgs(List<AdminOrgInfo> administeringOrgs) {
+        this.administeringOrgs = administeringOrgs;
+    }
     public void setFeeJustification(RichTextInfo feeJustification) {
         this.feeJustification = feeJustification;
+
     }
 
+    public List<AdminOrgInfo> getCurriculumOversightOrgs() {
+        return curriculumOversightOrgs;
+    }
     /**
      * Fees information associated with this Course.
      */
@@ -377,10 +400,16 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
             fees = new ArrayList<CourseFeeInfo>(0);
         }
         return fees;
+
     }
 
+
+    public void setCurriculumOversightOrgs(List<AdminOrgInfo> curriculumOversightOrgs) {
+        this.curriculumOversightOrgs = curriculumOversightOrgs;
+    }
     public void setFees(List<CourseFeeInfo> fees) {
         this.fees = fees;
+
     }
 
     /**
