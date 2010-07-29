@@ -88,7 +88,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         // TODO - https://test.kuali.org/confluence/display/KULSTU/majorDisciplineInfo+Structure says ....orgId
         mdInfo.setAccreditingAgencies(clu.getAccreditations());
         // TODO - wait for Neerav's check in to do orgs
-        setOrgs(mdInfo, clu.getAlternateAdminOrgs());
+        setOrgs(mdInfo, clu.getAdminOrgs());
 
         mdInfo.setId(clu.getId());
         mdInfo.setMetaInfo(clu.getMetaInfo());
