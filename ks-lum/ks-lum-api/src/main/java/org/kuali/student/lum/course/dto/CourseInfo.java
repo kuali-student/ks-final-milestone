@@ -392,7 +392,10 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     public List<AdminOrgInfo> getCurriculumOversightOrgs() {
-        return curriculumOversightOrgs;
+    	if(curriculumOversightOrgs == null){
+    		curriculumOversightOrgs = new ArrayList<AdminOrgInfo>(0);
+    	}
+    	return curriculumOversightOrgs;
     }
     /**
      * Fees information associated with this Course.
