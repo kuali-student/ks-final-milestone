@@ -448,7 +448,8 @@
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
 		<property name="luService" ref="luServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
-		<property name="loAssembler" ref="loAssembler"/>
+		<property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="loAssembler" ref="loAssembler"/>
 	</bean>
 	
 	<bean id="loAssembler" class="org.kuali.student.lum.course.service.assembler.LoAssembler">
@@ -467,6 +468,14 @@
 	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
+	
+    <bean id="cluAssemblerUtils"
+          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="loService" ref="loServiceImpl"/>
+        <property name="loAssembler" ref="loAssembler"/>
+    </bean>
+	
 	<bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
 		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>

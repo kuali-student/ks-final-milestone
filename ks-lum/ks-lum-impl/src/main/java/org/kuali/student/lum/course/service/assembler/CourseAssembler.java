@@ -58,6 +58,7 @@ import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 /**
  * Assembler for CourseInfo. Provides assemble and disassemble operation on
  * CourseInfo from/to CluInfo and other base DTOs
@@ -73,6 +74,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	private CourseJointAssembler courseJointAssembler;
 	private LoAssembler loAssembler;
 	private LearningObjectiveService loService;
+    private CluAssemblerUtils cluAssemblerUtils;
 	
 	@Override
 	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo,
@@ -242,25 +244,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 			
 			//Learning Objectives
-			try {
-				List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(clu.getId());
-				for(CluLoRelationInfo cluLoRelation:cluLoRelations){
-					String loId = cluLoRelation.getLoId();
-					LoInfo lo = loService.getLo(loId);
-					LoDisplayInfo loDisplay = loAssembler.assemble(lo, null, shallowBuild);
-					course.getCourseSpecificLOs().add(loDisplay);
-				}
-			} catch (DoesNotExistException e) {
-			} catch (Exception e) {
-				throw new AssemblyException("Error getting learning objectives", e);
-			}
+            course.getCourseSpecificLOs().addAll(cluAssemblerUtils.getLearningObjectives(course.getId(), shallowBuild));
 			
 			//Variation
 			List<CourseVariationInfo> variations = assembleVariations(clu.getAlternateIdentifiers()); 
 			course.setVariations(variations);
-			
-			
-			
 		}
 
 		return course;
@@ -1088,4 +1076,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	public void setLoService(LearningObjectiveService loService) {
 		this.loService = loService;
 	}
+
+    public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
+        this.cluAssemblerUtils = cluAssemblerUtils;
+    }
 }

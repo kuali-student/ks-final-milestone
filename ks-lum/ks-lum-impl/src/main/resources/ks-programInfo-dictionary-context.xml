@@ -220,8 +220,9 @@
     </bean>
     <bean id="majorDisciplineInfo.programRequirements" parent="majorDisciplineInfo.programRequirements-parent"/>
 
-	<bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="adminOrgInfo.id-parent">
+	<bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="baseComplexRepeating">
 		<property name="name" value="accreditingAgencies" />
+		<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo" />
 	</bean>
 	<bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent" />
 	
