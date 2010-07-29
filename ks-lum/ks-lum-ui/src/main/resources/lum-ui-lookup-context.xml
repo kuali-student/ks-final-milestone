@@ -56,12 +56,12 @@
 		</property>
 	</bean>
 
-	<bean id="course.academicSubjectOrgs" parent="department-lookup-binding-parent">
-		<property name="path" value="courseInfo.academicSubjectOrgs" />
+	<bean id="course.curriculumOversightOrgs" parent="department-lookup-binding-parent">
+		<property name="path" value="courseInfo.curriculumOversightOrgs" />
 	</bean>
 
-	<bean id="course.department" parent="department-lookup-binding-parent">
-		<property name="path" value="courseInfo.department" />
+	<bean id="course.administeringOrgs" parent="department-lookup-binding-parent">
+		<property name="path" value="courseInfo.administeringOrgs" />
 	</bean>
 
 	<bean id="department-lookup-binding-parent" parent="uilookup"
