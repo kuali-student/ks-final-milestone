@@ -140,6 +140,7 @@
 
  <bean id="courseInfo.descr-parent" abstract="true" parent="cluInfo.descr">
   <property name="name" value="descr" />
+  <property name="maxLength" value="14000"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -778,7 +779,7 @@
  </bean>
  <bean id="courseInfo.proposalRationale" parent="baseString">
   <property name="name" value="proposalRationale" />
-  <property name="minOccurs" value="0" />
+  <property name="minOccurs" value="1" />
   <property name="maxOccurs" value="1" />
   <!-- Maybe a lookup constraint to restrict the values -->
   <property name="dynamic" value="true"/>

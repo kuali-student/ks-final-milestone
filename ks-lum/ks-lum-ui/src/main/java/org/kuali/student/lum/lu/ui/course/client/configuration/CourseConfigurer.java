@@ -76,11 +76,14 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInf
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -402,10 +405,12 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected VerticalSection generateDescriptionRationaleSection() {
-        VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
+        SectionTitle title = getH1Title(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY);
+        VerticalSection description = initSection(title, !WITH_DIVIDER);
+        title.setStyleName("cluProposalTitleSection");
         //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
         //addField(description, COURSE + "/" + DESCRIPTION, null);
-        addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, null);
+        addField(description, COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY));
         addField(description, "proposalRationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
         return description;
     }
@@ -450,6 +455,27 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return section;
     }
 
+    protected VerticalSection generateLearningObjectivesNestedSection() {
+        VerticalSection los = initSection(null, NO_DIVIDER);
+         
+        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
+    	Metadata meta = modelDefinition.getMetadata(path);
+        
+        // FIXME [KSCOR-225]  where should repo key come from?
+        FieldDescriptor fd = addField(los,
+        								CreditCourseConstants.COURSE_SPECIFIC_LOS,
+        								null,
+        								new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
+        								CreditCourseProposalConstants.COURSE);
+
+        // have to do this here, because decision on binding is done in ks-core,
+        // and we obviously don't want ks-core referring to LOBuilder
+        fd.setWidgetBinding(LOBuilderBinding.INSTANCE);
+
+        los.addStyleName("KS-LUM-Section-Divider");
+        return los;
+    }
+    
     public class CourseFormatList extends UpdatableMultiplicityComposite {
         private final String parentPath;
         public CourseFormatList(String parentPath){

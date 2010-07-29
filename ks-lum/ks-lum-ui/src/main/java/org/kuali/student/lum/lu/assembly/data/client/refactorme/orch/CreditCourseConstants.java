@@ -29,6 +29,7 @@ public interface CreditCourseConstants
 	public static final String COURSE_TITLE = "courseTitle";
 	public static final String PROPOSAL_TITLE = "proposalTitle";
 	public static final String DESCRIPTION = "description";
+	public static final String PROPOSAL_DESCRIPTION = "descr";
 	public static final String DEPARTMENT = "department";
 	public static final String SUBJECT_AREA = "subjectArea";
 	public static final String COURSE_NUMBER_INSTRUCTIONS = "courseInstructions";
