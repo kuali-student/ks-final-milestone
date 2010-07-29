@@ -55,9 +55,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String programLevel;
-
-    @XmlElement
     private String intensity;
 
     @XmlElement
@@ -127,6 +124,9 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private RichTextInfo catalogDescr;
 
     @XmlElement
+    private List<String> catalogPublicationTargets;
+    
+    @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
     @XmlElement
@@ -137,9 +137,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlElement
     private List<String> programRequirements;
-
-    @XmlElement
-    private AdminOrgInfo institution;
 
     @XmlElement
     private List<AccreditationInfo> accreditingAgencies;    
@@ -189,17 +186,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlAttribute
     private String id;
-
-    /**
-     * A code that indicates whether this is Graduate, Undergraduage etc level major
-     */
-    public String getProgramLevel() {
-        return programLevel;
-    }
-
-    public void setProgramLevel(String programLevel) {
-        this.programLevel = programLevel;
-    }
 
     /**
      * Indicates if the program is full time, part time, both etc
@@ -422,6 +408,17 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     }
 
     /**
+     * List of catalog targets where major information will be published.   
+     */
+    public List<String> getCatalogPublicationTargets() {
+        return catalogPublicationTargets;
+    }
+
+    public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
+        this.catalogPublicationTargets = catalogPublicationTargets;
+    }
+
+    /**
      * Learning Objectives associated with this Major.
      */
     public List<LoDisplayInfo> getLearningObjectives() {
@@ -489,14 +486,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     public void setEndProgramEntryTerm(String endProgramEntryTerm) {
         this.endProgramEntryTerm = endProgramEntryTerm;
-    }
-
-    public AdminOrgInfo getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(AdminOrgInfo institution) {
-        this.institution = institution;
     }
 
     public List<AccreditationInfo> getAccreditingAgencies() {

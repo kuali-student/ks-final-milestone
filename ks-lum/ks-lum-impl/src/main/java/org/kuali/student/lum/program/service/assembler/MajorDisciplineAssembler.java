@@ -59,7 +59,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         MajorDisciplineInfo mdInfo = (null != majorDiscipline) ? majorDiscipline : new MajorDisciplineInfo();
 
         // Copy all the data from the clu to the majordiscipline
-        mdInfo.setProgramLevel(clu.getOfficialIdentifier().getLevel());
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setReferenceURL((null != clu.getReferenceURL()) ? clu.getReferenceURL() : null);
         mdInfo.setPublishedInstructors(clu.getInstructors());
