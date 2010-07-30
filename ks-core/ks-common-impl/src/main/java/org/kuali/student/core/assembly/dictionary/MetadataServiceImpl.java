@@ -252,8 +252,9 @@ public class MetadataServiceImpl {
         
         //Max Length
         try {
-        	constraintMetadata.setMaxLength(Integer.parseInt(fd.getMaxLength()));
-
+        	if(fd.getMaxLength()!=null){
+        		constraintMetadata.setMaxLength(Integer.parseInt(fd.getMaxLength()));
+        	}
     		//Do we need to add another constraint and label it required if minOccurs = 1
         } catch (NumberFormatException nfe) {
 			// Ignoring an unbounded length, cannot be handled in metadata structure, maybe change Metadata to string or set to -1
