@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
+    <!--
+    <bean id="courseService"
+      class="ca.ubc.student.cdm.service.course.client.CourseService" />
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+      <property name="serviceDefinition">
+        <bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+          <property name="service" ref="courseService" />
+          <property name="localServiceName" value="courseService" />
+          <property name="serviceNameSpaceURI" value="CDM" />
+        </bean>
+      </property>
+    </bean>
+	-->  
+    <bean id="orgSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:cdm-organization-search-config.xml" />
+    </bean>
+    <!-- 
+    <bean id="proposalSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:cdm-proposal-search-config.xml" />
+    </bean>
+    -->
+</beans>
+

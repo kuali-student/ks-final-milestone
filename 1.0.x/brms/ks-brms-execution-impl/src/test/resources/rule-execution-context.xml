@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <import resource="classpath:data-beans.xml" />
+    <import resource="classpath:fact-data-beans.xml" />
+    <import resource="classpath:fact-metadata-beans.xml" />
+
+    <bean id="simpleExceptionAdvisor" class="org.kuali.student.common.util.SimpleExceptionLoggingAdvice" />
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException"
+            ref="simpleExceptionAdvisor">
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.brms.*.*(..))"
+                method="afterThrowing" throwing="t" />
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="preloadBeans" 
+        class="org.kuali.student.common.util.jpa.LoadJpaBeanListener">
+        <property name="loadJpaBean">
+            <bean
+                class="org.kuali.student.common.util.jpa.LoadJpaBean" />
+        </property>
+        <property name="preloadMap">        
+            <map>           
+                <entry key="RuleManagement">
+                    <ref bean="persistList" />
+                </entry>
+                <entry key="FactFinder">
+                    <ref bean="factDataBeanList" />
+                </entry> 
+            </map> 
+        </property>
+    </bean>             
+
+    <bean id="propertyConfigurer"
+        class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:rule-execution.properties</value>
+            </list>
+        </property>
+        <property name="customConfigSystemProperty" value="ks.config.location"/>
+    </bean>
+    
+    <bean id="dataSource"
+        class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+        destroy-method="close">
+        <property name="uniqueResourceName" value="orgDataSource" />
+        <property name="xaDataSourceClassName"
+            value="${jdbc.xaDataSourceClassName}" />
+        <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+    </bean>
+
+    <!-- JPA EntityManagerFactory -->
+    <bean id="factFinderEntityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="${jpa.vendorAdapter}">
+                <property name="databasePlatform"
+                    value="${jpa.databasePlatform}" />
+                <property name="showSql" value="${jpa.showSql}" />
+                <property name="generateDdl" value="${jpa.generateDdl}" />
+            </bean>
+        </property>
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/factfinder-persistence.xml" />
+        <property name="persistenceUnitPostProcessors" ref="postProcessorList" />
+    </bean>
+
+    <bean id="ruleManagementEntityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="${jpa.vendorAdapter}">
+                <property name="databasePlatform"
+                    value="${jpa.databasePlatform}" />
+                <property name="showSql" value="${jpa.showSql}" />
+                <property name="generateDdl" value="${jpa.generateDdl}" />
+            </bean>
+        </property>
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/rulemanagement-persistence.xml" />
+        <property name="persistenceUnitPostProcessors" ref="postProcessorList" />
+    </bean>
+
+    <bean id="postProcessorList" class="java.util.ArrayList">
+        <constructor-arg index="0">
+            <list>
+                <bean id="ricePostProcessor"
+                    class="org.kuali.rice.core.jpa.spring.RicePersistenceUnitPostProcessor">
+                    <property name="jtaDataSource"
+                        ref="dataSource" />
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!--  Atomikos Configurations -->
+
+    <bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
+        init-method="init" destroy-method="shutdownForce">
+        <constructor-arg value="${propertiesPrefix.atomikos.properties}"/>
+    </bean>
+
+    <bean id="AtomikosTxMgr"
+        class="com.atomikos.icatch.jta.UserTransactionManager"
+        init-method="init" destroy-method="close" depends-on="userTransactionService">
+        <property name="forceShutdown" value="true" />
+        <property name="startupTransactionService" value="true" />
+        <property name="transactionTimeout" value="60" />
+    </bean>
+
+    <bean id="AtomikosUsrTx"
+        class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="userTransactionService"/>
+
+    <bean id="JtaTxManager"
+        class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="userTransactionService">
+        <property name="transactionManager" ref="AtomikosTxMgr" />
+        <property name="userTransaction" ref="AtomikosUsrTx" />
+        <property name="transactionSynchronizationName"
+            value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+    </bean>
+
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
+
+    <bean
+        class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+    <!--  Rule Management  -->
+
+    <bean id="ruleManagementDao"
+        class="org.kuali.student.brms.rulemanagement.dao.impl.RuleManagementDAOImpl">
+    </bean>
+
+    <bean id="ruleManagement"
+        class="org.kuali.student.brms.rulemanagement.runtime.RuleManagementImpl">
+        <property name="ruleManagementDao" ref="ruleManagementDao"/>
+        <property name="ruleRepository" ref="ruleRepository"/>
+    </bean>
+
+    <!--  Fact Finder  -->
+
+    <bean id="factFinderDao"
+        class="org.kuali.student.brms.factfinder.dao.impl.FactFinderDAOImpl">
+    </bean>
+
+    <bean id="factFinder"
+        class="org.kuali.student.brms.factfinder.runtime.FactFinderImpl">
+        <property name="factFinderDAO" ref="factFinderDao"/>
+        <property name="factDataSupport" ref="factDataSupport" />
+    </bean>
+
+    <!--  Rule Repository  -->
+
+    <bean id="ruleRepository" class="org.kuali.student.brms.repository.runtime.RuleRepositoryImpl" autowire="byType" />
+
+    <bean id="ruleEngineRepository"
+        class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+        <constructor-arg type="org.drools.repository.RulesRepository"
+            ref="rulesRepository" />
+    </bean>
+
+    <!-- 
+        Oracle network database server: 
+        init-method="clearData" is needed to clear all data before running unit tests  
+    -->
+    <bean id="defaultDroolsRepository"
+        class="org.kuali.student.brms.repository.drools.DefaultDroolsRepository"
+        init-method="clearData"
+        destroy-method="shutdownRepository">
+        <constructor-arg type="java.lang.String"
+            value="/drools-repository" />
+    </bean>
+
+    <bean id="rulesRepository"
+        factory-bean="defaultDroolsRepository"
+        factory-method="getRepository" />
+
+    <bean id="droolsTranslator"
+        class="org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl">
+        <property name="ruleSetValidator" ref="ruleSetValidator"/>
+        <property name="ruleTemplates">
+            <list>
+               <value>velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate1-Init.vm</value>
+               <value>velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate2-Rule.vm</value>
+               <value>velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate3-RuleExpiryDate.vm</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="ruleSetValidator"
+        class="org.kuali.student.brms.translators.drools.RuleSetValidatorDroolsImpl">
+    </bean>
+
+    <!--  Rule Execution  -->
+
+    <bean id="droolsRuleExecutor"
+        class="org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <!-- enableExecutionLogging=true and enableStatLogging=true -->
+        <constructor-arg index="0" type="boolean" value="true" />
+        <constructor-arg index="1" type="boolean" value="true" />
+        <property name="ruleBaseCache" ref="ruleBaseCache"/>
+    </bean>
+    <!--bean id="janinoRuleExecutor"
+        class="org.kuali.student.brms.ruleexecution.runtime.janino.RuleExecutorJaninoImpl">
+    </bean-->
+
+    <bean id="ruleBaseCache"
+        class="org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase">
+        <property name="cache" ref="cache"/>
+    </bean>
+    
+    <bean id="cache"
+        class="org.apache.commons.collections.map.LRUMap">
+        <constructor-arg type="int" value="50"/>
+    </bean>
+    
+    <bean id="reportBuilder"
+        class="org.kuali.student.brms.ruleexecution.runtime.report.ast.RuleReportBuilderImpl">
+        <constructor-arg ref="simpleExecutor" />
+    </bean>
+    
+    <bean id="simpleExecutor"
+        class="org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
+    </bean>
+    
+    <bean id="droolsRuleExecutorTest"
+        class="org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <!-- enableExecutionLogging=true and enableStatLogging=false -->
+        <constructor-arg index="0" type="boolean" value="true" />
+        <constructor-arg index="1" type="boolean" value="false" />
+        <property name="ruleBaseCache" ref="ruleBaseCacheTest"/>
+    </bean>
+
+    <bean id="ruleBaseCacheTest"
+        class="org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase">
+        <property name="cache" ref="cacheTest"/>
+    </bean>
+    
+    <bean id="cacheTest"
+        class="org.kuali.student.common.util.LRUMap">
+        <constructor-arg type="int" value="2"/>
+    </bean>
+
+    <bean id="ruleExecution" autowire="no" name="ruleExecution"
+        class="org.kuali.student.brms.ruleexecution.runtime.RuleExecutionImpl">
+        <property name="enableRuleSetCaching" value="false"/>
+        <!-- Embedded fact finder -->
+        <property name="factFinder" ref="factFinder"/>
+        <!-- Embedded rule management service -->
+        <property name="ruleManagement" ref="ruleManagement"/>
+        <!-- Embedded rule repository service -->
+        <property name="ruleRespository" ref="ruleRepository"/>
+        <property name="reportBuilder" ref="reportBuilder"/>
+        <property name="ruleSetExecutor" ref="droolsRuleExecutor"/>
+        <!--property name="ruleSetExecutor" ref="janinoRuleExecutor"/-->
+        <property name="ruleSetExecutorTest" ref="droolsRuleExecutorTest"/>
+    </bean>
+</beans>

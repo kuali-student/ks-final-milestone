@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.maven.impex</groupId>
+    <artifactId>impex-parent</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>torque-templates</artifactId>
+  <name>Kuali Version of ASF Torque Templates</name>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-templates</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-templates</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-templates</url>
+  </scm>
+</project>
