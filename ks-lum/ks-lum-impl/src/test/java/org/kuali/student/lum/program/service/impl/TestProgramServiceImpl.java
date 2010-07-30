@@ -117,6 +117,8 @@ public class TestProgramServiceImpl {
             assertNotNull(majorDisciplineInfo.getOrgCoreProgram());
             assertNotNull(majorDisciplineInfo.getStartTerm());
             assertEquals("kuali.atp.SU2009-2010S1", majorDisciplineInfo.getStartTerm());
+            assertNotNull(majorDisciplineInfo.getCredentialProgramId());
+            assertEquals("D02DBBD3-20E2-410D-AB52-1BD6D362748B", majorDisciplineInfo.getCredentialProgramId());
             /*
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);
