@@ -27,6 +27,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -170,8 +171,29 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     }
 
     private void disassembleAdminOrg(CluInfo clu, ProgramVariationInfo variation){
-    	//TODO:wait for CluInfo.adminOrgs
-    	//there's no type in AdminOrgInfo
+		List<AdminOrgInfo> codOrgs = new ArrayList<AdminOrgInfo>();
+		for(AdminOrgInfo org:variation.getDivisionsContentOwner()){
+			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)){
+				codOrgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(codOrgs);
+		
+		List<AdminOrgInfo> sodOrgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo sodOrg : variation.getDivisionsStudentOversight()) {
+			if(sodOrg.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)){
+				sodOrgs.add(sodOrg);
+			}
+		}
+		clu.getAdminOrgs().addAll(sodOrgs);
+
+		List<AdminOrgInfo> ddOrgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo ddOrg : variation.getDivisionsDeployment()) {
+			if(ddOrg.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)){
+				ddOrgs.add(ddOrg);
+			}
+		}
+		clu.getAdminOrgs().addAll(ddOrgs);
     }
  
     private void disassembleAlternateIdentifiers(CluInfo clu, ProgramVariationInfo variation){
@@ -188,6 +210,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 			CluIdentifierInfo cluIdentInfo = new CluIdentifierInfo();
 			cluIdentInfo.setShortName(variation.getTranscriptTitle());
 			cluIdentInfo.setType(ProgramAssemblerConstants.TRANSCRIPT);
+			clu.getAlternateIdentifiers().add(cluIdentInfo);
 		}
 
 		//Add DiplomaTitle
@@ -203,6 +226,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 			CluIdentifierInfo cluIdentInfo = new CluIdentifierInfo();
 			cluIdentInfo.setShortName(variation.getDiplomaTitle());
 			cluIdentInfo.setType(ProgramAssemblerConstants.DIPLOMA);
+			clu.getAlternateIdentifiers().add(cluIdentInfo);
 		}
     }
     private void disassembleLuCode(CluInfo clu, ProgramVariationInfo variation){
