@@ -26,12 +26,14 @@ public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServle
 
     @Override
     protected Object get(String id) throws Exception {
+    	//TODO Just Major Discipline for now - need to check for other types later
         return programService.getMajorDiscipline(id);
     }
 
     @Override
     protected Object save(Object dto) throws Exception {
-        return null;
+    	//TODO Just Major Discipline for now - need to check for other types later
+        return programService.createMajorDiscipline((MajorDisciplineInfo)dto);
     }
 
     @Override

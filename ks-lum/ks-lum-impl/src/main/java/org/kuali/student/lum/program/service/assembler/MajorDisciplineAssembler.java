@@ -19,12 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -219,8 +222,97 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     @Override
-    public BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> disassemble(MajorDisciplineInfo businessDTO, NodeOperation operation) throws AssemblyException {
-        return null;
+    public BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> disassemble(MajorDisciplineInfo major, NodeOperation operation) throws AssemblyException {
+		if (major == null) {
+		    LOG.error("Major for  disassemble is null!");
+			throw new AssemblyException("Major cannot be null");
+		}
+    	
+		BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>(
+				this);
+		
+		CluInfo clu;
+		try {
+			clu = (NodeOperation.UPDATE == operation) ? luService.getClu(major.getId()) : new CluInfo();
+        } catch (Exception e) {
+			throw new AssemblyException("Error getting existing learning unit during major update", e);
+        } 
+        
+		clu.setId(UUIDHelper.genStringUUID(major.getId()));
+		if (null == major.getId()) {
+			major.setId(clu.getId());
+		}
+		clu.setType(major.getType());
+		clu.setState(major.getState());
+
+//        disassembleIdentifiers(clu, major);
+//
+//		List<BaseDTOAssemblyNode<?, ?>> variationResults;
+//        try {
+//            variationResults = disassembleVariations(clu, major, operation);
+//            result.getChildNodes().addAll(variationResults);
+//        } catch (DoesNotExistException e) {
+//        } catch (Exception e) {
+//            throw new AssemblyException("Error while disassembling Variation", e);
+//        }
+
+        AmountInfo intensity = new AmountInfo();
+        intensity.setUnitType(major.getIntensity());
+		clu.setIntensity(intensity);
+
+		clu.setReferenceURL(major.getReferenceURL());
+		clu.setInstructors(major.getPublishedInstructors());
+		
+//		disassembleCodes(major, clu);
+		
+		clu.setStdDuration(major.getStdDuration());
+		
+		clu.setDescr(major.getDescr());
+		
+		clu.setAttributes(major.getAttributes());
+		clu.setCampusLocations(major.getCampusLocations());
+		
+		clu.setMetaInfo(major.getMetaInfo());
+		
+		clu.setEffectiveDate(major.getEffectiveDate());
+
+		clu.setExpectedFirstAtp(major.getStartTerm());
+		clu.setLastAtp(major.getEndTerm());
+		clu.setLastAdmitAtp(major.getEndProgramEntryTerm());
+		
+		clu.setNextReviewPeriod(major.getNextReviewPeriod());
+		
+//        try {
+//    		List<BaseDTOAssemblyNode<?, ?>> loResults;
+//    		loResults = disassembleLearningObjectives(clu.getId(), major, operation);
+//            result.getChildNodes().addAll(loResults);
+//        } catch (DoesNotExistException e) {
+//        } catch (Exception e) {
+//            throw new AssemblyException("Error while disassembling los", e);
+//        }
+
+//TODO	    private String credentialProgramId;           Is this the cluId?
+
+//        disassembleOrgs(major, clu);
+//        disassembleCluResults(major, operation, null, "resultOptions", "resultOptions");
+
+//        clu.setAccreditations(major.getAccreditingAgencies());
+
+//        disassembleCatalogDescr(major, clu);
+
+
+//	    private List<String> programRequirements;
+
+
+		
+
+		// Add the Clu to the result
+		result.setNodeData(clu);
+		result.setOperation(operation);
+		result.setBusinessDTORef(major);
+
+	    
+    	return result;
     }
 
     // Setters for Spring
