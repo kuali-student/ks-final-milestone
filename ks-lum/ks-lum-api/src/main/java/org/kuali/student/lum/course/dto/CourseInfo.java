@@ -132,9 +132,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
     private List<String> creditOptions;
-    
-    @XmlElement
-    private String department;
 
     @XmlElement
     private boolean specialTopicsCourse;
@@ -608,16 +605,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
         this.id = id;
     }
     
-    /**
-     * The primary organization (typically, an academic department) with administrative oversight over the Course.
-     */
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
 
 	public List<String> getAcademicSubjectOrgs() {
 		if (academicSubjectOrgs == null){
