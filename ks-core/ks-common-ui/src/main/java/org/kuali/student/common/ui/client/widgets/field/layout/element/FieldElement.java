@@ -187,10 +187,15 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     		//Checks for input widgets that may be incased in a more complex widget layout
     		if(fieldWidget instanceof HasInputWidget){
     			Widget input = ((HasInputWidget)fieldWidget).getInputWidget();
-    			if(input instanceof HasWatermark && watermarkText != null){
-    				((HasWatermark)input).setWatermarkText(watermarkText);
+    			if(input != null){
+	    			if(input instanceof HasWatermark && watermarkText != null){
+	    				((HasWatermark)input).setWatermarkText(watermarkText);
+	    			}
+	    			input.getElement().setAttribute("id", fieldHTMLId);
     			}
-    			input.getElement().setAttribute("id", fieldHTMLId);
+    			else{
+    				fieldWidget.getElement().setAttribute("id", fieldHTMLId);
+    			}
     		}
     		else{
         		if(fieldWidget instanceof HasWatermark && watermarkText != null){
