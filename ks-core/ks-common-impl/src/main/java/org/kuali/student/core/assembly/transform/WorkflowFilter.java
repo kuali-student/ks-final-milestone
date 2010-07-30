@@ -174,6 +174,6 @@ public abstract class WorkflowFilter extends AbstractDTOFilter {
 	 * @param data
 	 * @return the document content required by the workflow process
 	 */
-	public abstract String getDocumentContent(Object dto);
+	public abstract String getDocumentContent(Object dto) throws FilterException;
 
 }
