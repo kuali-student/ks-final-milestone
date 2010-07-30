@@ -209,6 +209,14 @@
 	<bean parent="enCourse" p:id="cluEffectiveDate" p:value="Course active on" />
 
 	<bean parent="enCourse" p:id="cluActiveDates" p:value="Active Dates" />
+	<bean parent="enCourse" p:id="cluStartTerm" p:value="Start Term" />
+	<bean parent="enCourse" p:id="cluStartTerm-help" p:value="The course will not necessarily be offered on this date, but it will be available for offer on or after this date." />
+	<bean parent="enCourse" p:id="cluStartTerm-instruct" p:value="What term will this course become active?" />
+	<bean parent="enCourse" p:id="cluEndTerm" p:value="End Term" />
+	<bean parent="enCourse" p:id="cluEndTerm-help" p:value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses." />
+	<bean parent="enCourse" p:id="cluEndTerm-instruct" p:value="What term will this course become inactive?" />
+	<bean parent="enCourse" p:id="cluPilotCourse" p:value="Pilot Course" />
+	<bean parent="enCourse" p:id="cluPilotCourse-help" p:value="If this is a pilot course, you must select an End Term." />
 	<bean parent="enCourse" p:id="cluStartDate" p:value="Start Date" />
 	<bean parent="enCourse" p:id="cluStart" p:value="Start" />
 	<bean parent="enCourse" p:id="cluEndDate" p:value="End Date" />

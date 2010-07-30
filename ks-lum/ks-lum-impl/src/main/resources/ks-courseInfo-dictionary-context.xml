@@ -725,6 +725,7 @@
   <property name="name" value="pilotCourse" />
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
+  <property name="defaultValue" value="false" />
   <property name="dynamic" value="true"/>
  </bean>
  <bean id="courseInfo.specialTopicsCourse" parent="baseBoolean">

@@ -126,6 +126,11 @@ public class LUConstants {
     public static final String ADMIN_ORG_LABEL_KEY = "cluAdminOrg";
     public static final String ALT_ADMIN_ORG_LABEL_KEY = "cluAltAdminOrg";
 
+    // Active Dates Labels
+    public static final String START_TERM_LABEL_KEY = "cluStartTerm";
+    public static final String END_TERM_LABEL_KEY = "cluEndTerm";
+    public static final String PILOT_COURSE_LABEL_KEY = "cluPilotCourse";
+    
     //Logistics labels
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
     public static final String INSTRUCTORS_LABEL_KEY = "cluInstructors";

@@ -57,6 +57,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -243,13 +244,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected SectionView generateActiveDatesSection() {
         VerticalSectionView section = initSectionView(CourseSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY);
 
-        section.addSection(generateActiveDateStartSection());
-        section.addSection(generateActiveDateEndSection());
-
-        VerticalSection firstExpectedOfferingSection = initSection(getH3Title("First Expected Offering"), NO_DIVIDER);
-        addField(firstExpectedOfferingSection, COURSE + "/" + FIRST_EXPECTED_OFFERING);
-        section.addSection(firstExpectedOfferingSection);
-
+        addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUConstants.START_TERM_LABEL_KEY));
+        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUConstants.END_TERM_LABEL_KEY));
+        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox("Yes, this is a one-time/pilot course"));
+        
         return section;
     }
 

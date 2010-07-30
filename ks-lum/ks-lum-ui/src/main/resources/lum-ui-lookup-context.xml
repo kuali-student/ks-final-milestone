@@ -26,6 +26,18 @@
 		<property name="initialLookup" ref="ks.lookup.person.suggest" />
 	</bean>
 
+	<bean id="course.startTerm" parent="uilookup">
+		<property name="path" value="courseInfo.startTerm" />
+		<property name="initialLookup"
+			ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	</bean>
+
+	<bean id="course.endTerm" parent="uilookup">
+		<property name="path" value="courseInfo.endTerm" />
+		<property name="initialLookup"
+			ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	</bean>
+
 	<bean id="courseInfo.instructors" parent="uilookup">
 		<property name="path" value="courseInfo.instructors" />
 		<property name="initialLookup" ref="ks.lookup.person.suggest" />
