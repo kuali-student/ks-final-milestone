@@ -18,31 +18,59 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.core.assembly.data.Data;
 
-public interface WorkflowRpcService {
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+@RemoteServiceRelativePath("rpcservices/WorkflowRpcService")
+public interface WorkflowRpcService extends RemoteService {
 	
 	public enum RequestType{FYI,ACKNOWLEDGE,APPROVE};
 	
-	//Workflow Operations
-	public Data getDataFromWorkflowId(String workflowId) throws OperationFailedException;
-	public String getWorkflowIdFromDataId(String dataId) throws OperationFailedException;
+
+	/**
+	 * @param dataId
+	 * @return The workflow document id associated with the object data id
+	 * @throws OperationFailedException
+	 */
+	public String getWorkflowIdFromDataId(String workflowDocType, String dataId) throws OperationFailedException;
+	
+
+	/** 
+	 * @param workflowId
+	 * @return The object data id associated with the workflow document id
+	 * @throws OperationFailedException
+	 */
+	public String getDataIdFromWorkflowId(String workflowId) throws OperationFailedException;
+	
+	/** 
+	 * @param workflowId The workflow document id
+	 * @return Returns the current document status code for the workflow document
+	 * @throws OperationFailedException
+	 */
 	public String getDocumentStatus(String workflowId) throws OperationFailedException;
+	
+	/**
+	 * @param workflowId The workflow document id
+	 * @return Returns the workflow nodes document is currently in
+	 * @throws OperationFailedException
+	 */
 	public List<String> getWorkflowNodes(String workflowId) throws OperationFailedException;
 	
-	public String getActionsRequested(String dataId) throws OperationFailedException;
+	/** 
+	 * @param workflowId The workflow document id
+	 * @return The action(s) available to the user in the current workflow node
+	 * @throws OperationFailedException
+	 */
+	public String getActionsRequested(String workflowId) throws OperationFailedException;
 	
-	//These methods should call saveData first and update the doc content with the data content
-	public DataSaveResult submitDocumentWithData(Data data) throws OperationFailedException;
-	public DataSaveResult approveDocumentWithData(Data data) throws OperationFailedException;
-
 	//These methods just call the actions
-	public Boolean submitDocumentWithId(String dataId) throws OperationFailedException;
-	public Boolean approveDocumentWithId(String dataId) throws OperationFailedException;
-	public Boolean disapproveDocumentWithId(String dataId) throws OperationFailedException;
-	public Boolean acknowledgeDocumentWithId(String dataId) throws OperationFailedException;
-	public Boolean fyiDocumentWithId(String dataId) throws OperationFailedException;
-	public Boolean withdrawDocumentWithId(String dataId) throws OperationFailedException;
+	public Boolean submitDocumentWithId(String workflowId) throws OperationFailedException;
+	public Boolean approveDocumentWithId(String workflowId) throws OperationFailedException;
+	public Boolean disapproveDocumentWithId(String workflowId) throws OperationFailedException;
+	public Boolean acknowledgeDocumentWithId(String workflowId) throws OperationFailedException;
+	public Boolean fyiDocumentWithId(String workflowId) throws OperationFailedException;
+	public Boolean withdrawDocumentWithId(String workflowId) throws OperationFailedException;
 	
 	public Boolean adhocRequest(String docId, String recipientPrincipalId, RequestType requestType, String annotation) throws OperationFailedException;
 }

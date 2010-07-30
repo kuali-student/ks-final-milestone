@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.1.0-poc-1-SNAPSHOT</version>
+    <version>1.1.0-poc-M7-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -37,7 +37,7 @@
           <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
+            <version>${oracle.ojdbc.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -52,21 +52,15 @@
   </build>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <url>http://maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
     </repository>
   </repositories>
   <dependencies>

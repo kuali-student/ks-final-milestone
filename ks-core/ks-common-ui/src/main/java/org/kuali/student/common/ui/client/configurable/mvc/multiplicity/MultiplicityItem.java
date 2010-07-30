@@ -26,6 +26,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+
+/**
+ * @deprecated
+ */
 public abstract class MultiplicityItem extends Composite{
     private Integer itemKey;      
     private Widget itemWidget;

@@ -5,26 +5,24 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.core.dictionary.poc.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.poc.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
 public class DictionaryCreator {
 
-	private static final String OBJECT_STRUCTURE_CLASS = ObjectStructureDefinition.class.getSimpleName();
+	private static final String OBJECT_STRUCTURE_CLASS = "objectStructureDefinition";
 	private static final String FIELD_DEFINITION_CLASS = FieldDefinition.class.getSimpleName();
 	
 	private static final String ATTRIBUTES = "attributes";
@@ -32,40 +30,45 @@ public class DictionaryCreator {
 	private static final String HAS_META_DATA = "hasMetaData";
 	private static final String DATA_OBJECT_STRUCTURE = "dataObjectStructure";
 	
-	private static final String BASE_REPEATING_INTEGER_FIELD = "baseRepeatingInteger";
-	private static final String BASE_REPEATING_LONG_FIELD = "baseRepeatingLong";
-	private static final String BASE_REPEATING_DOUBLE_FIELD = "baseRepeatingDouble";
-	private static final String BASE_REPEATING_FLOAT_FIELD = "baseRepeatingFloat";
-	private static final String BASE_REPEATING_BOOLEAN_FIELD = "baseRepeatingBoolean";
-	private static final String BASE_REPEATING_DATE_FIELD = "baseRepeatingDate";
-	private static final String BASE_REPEATING_STRING_FIELD = "baseRepeatingString";
-	private static final String BASE_REPEATING_COMPLEX_FIELD = "baseRepeatingComplex";
-	private static final String BASE_SINGLE_INTEGER_FIELD = "baseSingleInteger";
-	private static final String BASE_SINGLE_LONG_FIELD = "baseRepeatingLong";
-	private static final String BASE_SINGLE_DOUBLE_FIELD = "baseSingleDouble";
-	private static final String BASE_SINGLE_FLOAT_FIELD = "baseSingleFloat";
-	private static final String BASE_SINGLE_BOOLEAN_FIELD = "baseSingleBoolean";
-	private static final String BASE_SINGLE_DATE_FIELD = "baseSingleDate";
-	private static final String BASE_SINGLE_STRING_FIELD = "baseSingleString";
-	private static final String BASE_SINGLE_COMPLEX_FIELD = "baseSingleComplex";
-	private static final String BASE_ID_FIELD = "baseId";
+	private static final String BASE_REPEATING_INTEGER_FIELD = "baseIntegerRepeating";
+	private static final String BASE_REPEATING_LONG_FIELD = "baseLongRepeating";
+	private static final String BASE_REPEATING_DOUBLE_FIELD = "baseDoubleRepeating";
+	private static final String BASE_REPEATING_FLOAT_FIELD = "baseFloatRepeating";
+	private static final String BASE_REPEATING_BOOLEAN_FIELD = "baseBooleanRepeating";
+	private static final String BASE_REPEATING_DATE_FIELD = "baseDateRepeating";
+	private static final String BASE_REPEATING_STRING_FIELD = "baseStringRepeating";
+	private static final String BASE_REPEATING_COMPLEX_FIELD = "baseComplexRepeating";
+	private static final String BASE_SINGLE_INTEGER_FIELD = "baseInteger";
+	private static final String BASE_SINGLE_LONG_FIELD = "baseLongRepeating";
+	private static final String BASE_SINGLE_DOUBLE_FIELD = "baseDouble";
+	private static final String BASE_SINGLE_FLOAT_FIELD = "baseFloat";
+	private static final String BASE_SINGLE_BOOLEAN_FIELD = "baseBoolean";
+	private static final String BASE_SINGLE_DATE_FIELD = "baseDate";
+	private static final String BASE_SINGLE_STRING_FIELD = "baseString";
+	private static final String BASE_SINGLE_COMPLEX_FIELD = "baseComplex";
+	private static final String BASE_ID_FIELD = "baseKualiId";
 
-	
 
 	/**
 	 * @param args
-	 * @throws IOException
-	 * @throws IntrospectionException 
-	 * @throws NoSuchFieldException 
-	 * @throws SecurityException 
 	 */
-	public static void main(String[] args) throws IOException, IntrospectionException, SecurityException, NoSuchFieldException {
-
+	public static void main(String[] args) {
 		Class<?> clazz = CluInfo.class;
-		
+  new DictionaryCreator ().execute (clazz, "out.xml");
+ }
+
+ public void execute (Class<?> clazz, String outputFileName) {
 		// Create base dictionary object structure for DTOs that map to entities
-		File file = new File("out.xml");
-		OutputStream os = new FileOutputStream(file);
+		File file = new File(outputFileName);
+		OutputStream os;
+  try
+  {
+   os = new FileOutputStream (file);
+  }
+  catch (FileNotFoundException ex)
+  {
+   throw new IllegalArgumentException (ex);
+  }
 		StringBuffer s = new StringBuffer();
 		addSpringHeaderOpen(s);
 		
@@ -73,11 +76,17 @@ public class DictionaryCreator {
 		addObjectStructure(clazz, s, new HashSet<Class<?>>());
 		
 		addSpringHeaderClose(s);
-		
-		os.write(s.toString().getBytes());
+  try
+  {
+   os.write (s.toString ().getBytes ());
+  }
+  catch (IOException ex)
+  {
+   throw new IllegalArgumentException (ex);
+  }
 	}
 	
-	private static void addObjectStructure(Class<?> clazz, StringBuffer s, Set<Class<?>> processed) throws IntrospectionException, SecurityException, NoSuchFieldException {
+	private  void addObjectStructure(Class<?> clazz, StringBuffer s, Set<Class<?>> processed) {
 		//Don't process if processed
 		if(processed.contains(clazz)){
 			return;
@@ -90,7 +99,15 @@ public class DictionaryCreator {
 		addProperty(NAME,clazz.getName(),s);
 		s.append("\n<property name=\""+ATTRIBUTES+"\">");
 		s.append("\n<list>");
-		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+		BeanInfo beanInfo;
+  try
+  {
+   beanInfo = Introspector.getBeanInfo (clazz);
+  }
+  catch (IntrospectionException ex)
+  {
+   throw new IllegalArgumentException (ex);
+  }
 		boolean hasMetaData = false;
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
 			if(!MetaInfo.class.equals(pd.getPropertyType())&&!Class.class.equals(pd.getPropertyType())&&!ATTRIBUTES.equals(pd.getName())){
@@ -112,7 +129,7 @@ public class DictionaryCreator {
 		Set<Class<?>> dependantStructures = new HashSet<Class<?>>();
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
 			if(!MetaInfo.class.equals(pd.getPropertyType())&&!Class.class.equals(pd.getPropertyType())&&!ATTRIBUTES.equals(pd.getName())){
-				dependantStructures.addAll(addField(clazz,pd,s,processed));
+     dependantStructures.addAll (addField (clazz, pd, s, processed));
 			}
 		}
 		//Step 3, process all dependant object structures
@@ -122,8 +139,8 @@ public class DictionaryCreator {
 		
 	}
 
-	private static Set<Class<?>> addField(Class<?> clazz, PropertyDescriptor pd,
-			StringBuffer s, Set<Class<?>> processed) throws SecurityException, NoSuchFieldException {
+	private Set<Class<?>> addField(Class<?> clazz, PropertyDescriptor pd,
+			StringBuffer s, Set<Class<?>> processed) {
 		Set<Class<?>> dependantStructures = new HashSet<Class<?>>();
 		
 		//Create the abstract field
@@ -134,7 +151,19 @@ public class DictionaryCreator {
 		if(clazz.isAssignableFrom(Idable.class)&&"id".equals(pd.getName())){
 			parentField=BASE_ID_FIELD;
 		}else if(List.class.equals(pt)){
-			pt = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+   try
+   {
+    pt =
+    (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+   }
+   catch (NoSuchFieldException ex)
+   {
+     throw new IllegalArgumentException (ex);
+   }
+   catch (SecurityException ex)
+   {
+    throw new IllegalArgumentException (ex);
+   }
 			if(int.class.equals(pt) || Integer.class.equals(pt)){
 				parentField=BASE_REPEATING_INTEGER_FIELD;
 			}else if(long.class.equals(pt) || Long.class.equals(pt)){
@@ -193,18 +222,18 @@ public class DictionaryCreator {
 		return dependantStructures;
 	}
 
-	private static void addProperty(String propertyName, String propertyValue, StringBuffer s){
+	private void addProperty(String propertyName, String propertyValue, StringBuffer s){
 		s.append("\n<property name=\""+propertyName+"\" value=\""+propertyValue+"\"/>");
 	}
 	private static void addPropertyRef(String propertyName, String propertyValue, StringBuffer s){
 		s.append("\n<property name=\""+propertyName+"\" ref=\""+propertyValue+"\"/>");
 	}
 
-	private static void addSpringHeaderClose(StringBuffer s) {
+	private void addSpringHeaderClose(StringBuffer s) {
 		s.append("\n</beans>");
 	}
 
-	public static void addSpringHeaderOpen(StringBuffer s){
+	public void addSpringHeaderOpen(StringBuffer s){
 		s.append("<beans xmlns=\"http://www.springframework.org/schema/beans\""
 				+ "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
 				+ "xsi:schemaLocation=\""

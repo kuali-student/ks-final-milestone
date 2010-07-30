@@ -162,8 +162,36 @@
 	<!--                     -->	
 	<!-- CORE Service Config -->
 	<!--                     -->	
+	
+	<!-- Enumeration Service Config -->
+	<bean id="emEntityManagerFactory" parent="defaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="EnumerationManagement"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/enumeration-persistence.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+    <bean id="emEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="emEntityManagerFactory" />
+    </bean>
+
+	<bean id="emDao"
+		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+        <property name="em" ref="emEntityManager" />
+	</bean>
+	
+	<bean id="emSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:em-search-config.xml" />
+	</bean>
+
+	<bean id="emServiceImpl"
+		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+		<property name="enumDAO" ref="emDao" />
+		<property name="searchManager" ref="emSearchManager"/>
+	</bean>
+	
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
     </bean>
     
@@ -234,10 +262,10 @@
 		</property>
 	</bean>
 
-	<bean id="serviceValidator" class="org.kuali.student.common.validator.Validator">
+	<bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
 		<property name="messageService" ref="ks.messageServiceMock"/>		
 	</bean>
-	
+
 	<!-- Learning Service Config -->
 	<bean id="luEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Lu"/>
@@ -260,8 +288,8 @@
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
-	<bean id="lumDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-		<!--<constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}" />-->	
+	<bean id="lumDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />	
 	</bean>
 	
 	<bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
@@ -392,6 +420,7 @@
 				<ref bean="luServiceImpl"/>
 				<ref bean="lrcServiceImpl"/>
 				<ref bean="orgServiceImpl"/>
+				<ref bean="emServiceImpl"/>
 			</list>
 		</property>
 	</bean>
@@ -399,6 +428,151 @@
 	<!-- CourseService -->
 	<bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
 		<property name="luService" ref="luServiceImpl"/>
+		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validator" ref="businessServiceValidator"/>
+		<property name="courseAssembler" ref="courseAssembler"/>
+		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+	</bean>
+
+	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+		<property name="luService" ref="luServiceImpl"/>
+		<property name="loService" ref="loServiceImpl"/>
+		<property name="statementService" ref="statementServiceImpl"/>
+		<property name="atpService" ref="atpServiceImpl"/>
+		<property name="orgService" ref="orgServiceImpl"/>
+	</bean>
+	
+	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+		<property name="formatAssembler" ref="formatAssembler"/>
+		<property name="courseJointAssembler" ref="courseJointAssembler"/>
+		<property name="luService" ref="luServiceImpl"/>
+		<property name="loService" ref="loServiceImpl"/>
+		<property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="loAssembler" ref="loAssembler"/>
+	</bean>
+	
+	<bean id="loAssembler" class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+		<property name="loService" ref="loServiceImpl"/>
+	</bean>
+	
+	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+		<property name="activityAssembler" ref="activityAssembler"/>
+		<property name="luService" ref="luServiceImpl"/>
+	</bean>
+	
+	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
+		<property name="luService" ref="luServiceImpl"/>
+	</bean>
+
+	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
+		<property name="luService" ref="luServiceImpl"/>
+	</bean>
+	
+    <bean id="cluAssemblerUtils"
+          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="loService" ref="loServiceImpl"/>
+        <property name="loAssembler" ref="loAssembler"/>
+    </bean>
+	
+	<bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
+		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+	</bean>
+	
+	<bean id="validatorFactory"
+  		class="org.kuali.student.common.validator.ValidatorFactory">
+  	 <constructor-arg index="0">
+  	 	<list>
+  	 		<ref bean="customValidator1"/>
+  	 	</list>
+  	 </constructor-arg>
+  	 <property name="defaultValidator" ref="businessServiceValidator"/>
+  	</bean>
+  	
+  	
+  	<bean id="customValidator1"
+		class="org.kuali.student.common.validator.SampCustomValidator">	
+	</bean>
+  	
+	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />	
+	</bean>
+	
+	<!-- Other data to load -->
+	<bean class="org.kuali.student.common.test.spring.PersistObjectsListener">
+		<property name="persistObjectsBean" ref="persistObjectsBean"/>
+	</bean>
+	
+	<bean id="persistObjectsBean" class="org.kuali.student.common.test.spring.PersistObjectsBean">
+		<property name="objectMap">
+			<map>
+				<entry key-ref="emEntityManager">
+					<list>
+						<bean
+							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity">
+							<property name="id" value="33" />
+							<property name="abbrevValue" value="North" />
+							<property name="code" value="NORTH" />
+							<property name="enumerationKey" value="kuali.lu.campusLocation" />
+							<property name="sortKey" value="31" />
+							<property name="value" value="North Campus" />
+						</bean>
+						<bean
+							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity">
+							<property name="id" value="34" />
+							<property name="abbrevValue" value="South" />
+							<property name="code" value="SOUTH" />
+							<property name="enumerationKey" value="kuali.lu.campusLocation" />
+							<property name="sortKey" value="32" />
+							<property name="value" value="South Campus" />
+						</bean>
+					</list>
+				</entry>
+				<entry key-ref="luEntityManager">
+					<list>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.CreditCourse"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.CreditCourseFormatShell"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Lab"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Discussion"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Tutorial"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Lecture"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.WebLecture"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.WebDiscussion"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Directed"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="luLuRelationType.hasCourseFormat"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="kuali.lu.relation.type.co-located"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="kuali.lu.relation.type.copyOfClu"/>
+						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="luLuRelationType.contains"/>
+						<!--<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.grades"/>
+						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.credits"/>-->
+						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.gradeCourseResult"/>
+						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.creditCourseResult"/>
+						<bean class="org.kuali.student.lum.lu.entity.CluLoRelationType" p:id="cluLuType.default"/>
+					</list>
+				</entry>
+				<entry key-ref="loEntityManager">
+					<list>
+						<bean class="org.kuali.student.lum.lo.entity.LoType" p:id="kuali.lo.type.singleUse" />
+						<bean class="org.kuali.student.lum.lo.entity.LoLoRelationType" p:id="kuali.lo.relation.type.includes" />
+						<ref bean="loCategoryType.skillarea"/>
+						<ref bean="loCatRepo"/>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="loCategoryType.skillarea" class="org.kuali.student.lum.lo.entity.LoCategoryType" p:id="loCategoryType.skillarea" />
+	<bean id="loCatRepo" class="org.kuali.student.lum.lo.entity.LoRepository" p:id="kuali.loRepository.key.singleUse">
+		<property name="categories">
+			<list>
+				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-1" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
+				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-2" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
+				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-3" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
+			</list>
+		</property>
 	</bean>
 	
 </beans>

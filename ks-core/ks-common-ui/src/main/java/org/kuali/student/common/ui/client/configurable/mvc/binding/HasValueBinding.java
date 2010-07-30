@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 import java.util.Date;
 
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 
@@ -74,7 +75,11 @@ public class HasValueBinding extends ModelWidgetBindingSupport<HasValue> {
             object.setValue(value);
         } else if (object != null) {
             try {
-                object.setValue("");
+            	if (object instanceof KSCheckBox) {
+            		object.setValue(false);
+            	} else {
+            		object.setValue("");
+            	}
             } catch (RuntimeException e) {
                 GWT.log("Warning: Ignoring error attempting to setValue for " + object.getClass().getName(), e);
             }

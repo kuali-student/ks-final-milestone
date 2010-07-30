@@ -12,4 +12,10 @@
         EFF_DT="20100415100000"
         ID="99efa3c1-de2b-4fae-a20f-24f08a457292" ST="active"
         TYPE_KEY_ID="kuali.resultType.gradeCourseResult" VERSIONIND="0"/>
+
+    <KSLU_CLU_RSLT CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+        CREATEID="admin" CREATETIME="20100415100000"
+        EFF_DT="20100415100000"
+        ID="982CB0DB-E362-4E7B-A817-170D349E0FEB" ST="active"
+        TYPE_KEY_ID="kuali.resultType.certificate" VERSIONIND="0"/>
 </dataset>

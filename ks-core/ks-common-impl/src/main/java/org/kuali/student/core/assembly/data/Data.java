@@ -28,13 +28,14 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author wilj
  */
 @SuppressWarnings({"serial", "unchecked"})
 public class Data implements Serializable, Iterable<Data.Property>, HasChangeCallbacks {
-
+	@XmlType(name="lookUpDataType")
     public enum DataType {
         STRING, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, DATE, TRUNCATED_DATE, DATA, LIST
     }

@@ -28,6 +28,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author Kuali Student Team
  */
+
+/**
+ * @deprecated
+ */
 public class DisplayItem extends MultiplicityItem {
     private boolean loaded = false;
 	private KSLabel itemLabel;

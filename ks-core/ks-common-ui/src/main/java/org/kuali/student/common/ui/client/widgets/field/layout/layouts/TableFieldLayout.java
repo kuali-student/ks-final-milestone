@@ -24,7 +24,7 @@ public class TableFieldLayout extends FieldLayout{
 	public List<Widget> tableIndex = new ArrayList<Widget>();
 	
 	public TableFieldLayout(){
-		this.hasValidation = false;
+		this.hasValidation = true;
 		table.setWidth("100%");
 		table.setStyleName("ks-table-plain");
 		verticalLayout.add(table);

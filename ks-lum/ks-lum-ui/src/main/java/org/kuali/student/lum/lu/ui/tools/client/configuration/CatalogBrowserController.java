@@ -112,6 +112,7 @@ public class CatalogBrowserController extends TabbedSectionLayout
 	@Override
 	public void showDefaultView (final Callback<Boolean> onReadyCallback)
 	{
+		dataModel.setRoot(new Data ());
 		init (new Callback<Boolean> ()	{
 
 			@Override
@@ -125,6 +126,11 @@ public class CatalogBrowserController extends TabbedSectionLayout
 			}
 
 		});
+	}
+	
+	@Override
+	public void beforeShow(Callback<Boolean> onReadyCallback) {
+		showDefaultView(onReadyCallback);
 	}
 
 	private void doShowDefaultView (final Callback<Boolean> onReadyCallback) {

@@ -58,32 +58,7 @@ public class StatementTranslator {
 	 */
 	public void setLanguage(final String language) {
 		this.language = language;
-		setLanguage();
 	}
-
-	/**
-	 * Sets the translation language for the message builder and 
-	 * requirement component translator.
-	 */
-	private void setLanguage() {
-		if(this.language != null) {
-			if(this.messageBuilder != null) {
-				this.messageBuilder.setLanguage(this.language);
-			}
-			if(this.reqComponentTranslator != null) {
-				this.reqComponentTranslator.setLanguage(this.language);
-			}
-		}
-	}
-	
-    /**
-     * Sets the template context registry.
-     * 
-     * @param contextRegistry Template context registry
-     */
-//    public void setContextRegistry(final ContextRegistry<Context<StatementAnchor>> contextRegistry) {
-//    	this.contextRegistry = contextRegistry;
-//    }
 
 	/**
 	 * Sets the requirement component translator.
@@ -92,7 +67,6 @@ public class StatementTranslator {
 	 */
 	public void setReqComponentTranslator(final ReqComponentTranslator reqComponentTranslator) {
 		this.reqComponentTranslator = reqComponentTranslator;
-		setLanguage();
 	}
 
 	/**
@@ -102,28 +76,44 @@ public class StatementTranslator {
 	 */
     public void setMessageBuilder(final NaturalLanguageMessageBuilder messageBuilder) {
 		this.messageBuilder = messageBuilder;
-		setLanguage();
     }
 
 	/**
-	 * Translates a statement directly attached to a CLU (anchor) for a 
-	 * specific natural language usuage type (context) into natural language.
+	 * Translates a statement in the default language for a specific natural 
+	 * language usuage type (context) into natural language.
 	 * This method is not thread safe.
 	 * 
-	 * @param statement LU Statement
+	 * @param statement Statement
 	 * @param nlUsageTypeKey Usuage type key (context)
 	 * @return Natural language statement translation
 	 * @throws DoesNotExistException CLU or statement id does not exists
-	 * @throws OperationFailedException Translation fails
+	 * @throws OperationFailedException Translation failed
 	 */
 	public String translate(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+		return translate(statement, nlUsageTypeKey, this.language);
+	}
+	
+	/**
+	 * Translates a statement for a specific natural language usuage 
+	 * type (context) into natural language.
+	 * This method is not thread safe.
+	 * 
+	 * @param language Language translation
+	 * @param statement Statement
+	 * @param nlUsageTypeKey Usuage type key (context)
+	 * @return Natural language statement translation
+	 * @throws DoesNotExistException CLU or statement id does not exists
+	 * @throws OperationFailedException Translation failed
+	 */
+	public String translate(final Statement statement, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
 		if(statement == null) {
     		throw new DoesNotExistException("Statement cannot be null");
 		}
 
-		String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(statement);
-		List<ReqComponentReference> reqComponentList = this.statementParser.getLeafReqComponents(statement);
-		String message = buildMessage(nlUsageTypeKey, booleanExpression, reqComponentList);
+		try {
+			String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(statement);
+			List<ReqComponentReference> reqComponentList = this.statementParser.getLeafReqComponents(statement);
+			String message = buildMessage(language, nlUsageTypeKey, booleanExpression, reqComponentList);
 //		String header = "";
 //		if(cluId != null && !cluId.isEmpty()) {
 //			header = getHeader(statement, nlUsageTypeKey, cluId);
@@ -131,7 +121,14 @@ public class StatementTranslator {
 //		String header = getHeader(statement, nlUsageTypeKey);
 //		
 //		return header + message;
-		return message;
+			return message;
+		} catch (DoesNotExistException e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		} catch (OperationFailedException e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	/**
@@ -143,7 +140,7 @@ public class StatementTranslator {
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language root tree node
 	 * @throws DoesNotExistException CLU or statement does not exist
-	 * @throws OperationFailedException Translation fails
+	 * @throws OperationFailedException Translation failed
 	 */
 /*	public NLTranslationNodeInfo translateToTree(final String cluId, final CustomLuStatementInfo luStatement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
@@ -173,17 +170,17 @@ public class StatementTranslator {
 	 * @param reqComponentList Requirement component list
 	 * @return Translated message
 	 * @throws DoesNotExistException Requirement component does not exist
-	 * @throws OperationFailedException Translation fails
+	 * @throws OperationFailedException Translation failed
 	 */
-	private String buildMessage(String nlUsageTypeKey, String booleanExpression, List<ReqComponentReference> reqComponentList) throws DoesNotExistException, OperationFailedException {
+	private String buildMessage(String language, String nlUsageTypeKey, String booleanExpression, List<ReqComponentReference> reqComponentList) throws DoesNotExistException, OperationFailedException {
 		MessageContainer messageContainer = new MessageContainer();
 		for(ReqComponentReference reqComponent : reqComponentList) {
-			String translation = this.reqComponentTranslator.translate(reqComponent.getReqComponent(), nlUsageTypeKey);
+			String translation = this.reqComponentTranslator.translate(reqComponent.getReqComponent(), nlUsageTypeKey, language);
 			BooleanMessage bm = new BooleanMessageImpl(reqComponent.getBooleanId(), true, translation);
 			messageContainer.addMessage(bm);
 		}
 		
-		String message = this.messageBuilder.buildMessage(booleanExpression, messageContainer);
+		String message = this.messageBuilder.buildMessage(language, booleanExpression, messageContainer);
 		return message;
 	}
 	
@@ -254,7 +251,7 @@ public class StatementTranslator {
 	 * @param rootNode Root node to translate to
 	 * @param nlUsageTypeKey Natural language usuage type context key
 	 * @throws DoesNotExistException Requirement component does not exist
-	 * @throws OperationFailedException Translation fails
+	 * @throws OperationFailedException Translation failed
 	 */
 /*	private void createStatementTree(CustomLuStatementInfo luStatement, NLTranslationNodeInfo rootNode, String nlUsageTypeKey) 
 		throws DoesNotExistException, OperationFailedException {

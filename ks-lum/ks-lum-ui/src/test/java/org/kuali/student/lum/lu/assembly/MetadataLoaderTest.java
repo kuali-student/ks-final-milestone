@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
 
 /**
  *

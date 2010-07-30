@@ -43,7 +43,8 @@ import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementAttribute;
 import org.kuali.student.core.statement.entity.StatementRichText;
 import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;
+import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -55,11 +56,16 @@ import org.springframework.beans.BeanUtils;
 public class StatementAssembler extends BaseAssembler {
 
 	private StatementDao statementDao;
+	private NaturalLanguageTranslator naturalLanguageTranslator;
 	
 	public void setStatementDao(StatementDao dao) {
 		this.statementDao = dao;
 	}
 
+	public void setNaturalLanguageTranslator(final NaturalLanguageTranslator translator) {
+		this.naturalLanguageTranslator = translator;
+	}
+	
 	public List<RefStatementRelationInfo> toRefStatementRelationInfos(List<RefStatementRelation> entities) {
 		List<RefStatementRelationInfo> list = new ArrayList<RefStatementRelationInfo>();
 		for(RefStatementRelation entity : entities) {
@@ -169,18 +175,17 @@ public class StatementAssembler extends BaseAssembler {
         return reqComp;
     }
     
-    public List<ReqComponentInfo> toReqComponentInfos(
-            List<ReqComponent> entities) {
+    public List<ReqComponentInfo> toReqComponentInfos(List<ReqComponent> entities, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
         List<ReqComponentInfo> dtos = new ArrayList<ReqComponentInfo>(
                 entities.size());
         for (ReqComponent entity : entities) {
-            dtos.add(toReqComponentInfo(entity));
+            dtos.add(toReqComponentInfo(entity, nlUsageTypeKey, language));
         }
         return dtos;
 
     }
 
-    public ReqComponentInfo toReqComponentInfo(ReqComponent entity) {
+    public ReqComponentInfo toReqComponentInfo(ReqComponent entity, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
         ReqComponentInfo dto = new ReqComponentInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[] {
@@ -191,6 +196,10 @@ public class StatementAssembler extends BaseAssembler {
         dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setDesc(toRichTextInfo(entity.getDescr()));
+        if(nlUsageTypeKey != null && language != null) {
+	        String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey);
+	        dto.setNaturalLanguageTranslation(nl);
+        }
         return dto;
     }
     

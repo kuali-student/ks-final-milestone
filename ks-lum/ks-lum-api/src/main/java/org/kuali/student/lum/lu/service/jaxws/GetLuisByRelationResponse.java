@@ -38,6 +38,10 @@ public class GetLuisByRelationResponse {
     private java.util.List _return;
 
     public java.util.List getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList(0);
+		}
+
         return this._return;
     }
 

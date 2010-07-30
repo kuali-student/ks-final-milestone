@@ -38,6 +38,7 @@ import org.kuali.student.core.search.dto.SubSearchInfo;
 import org.kuali.student.core.search.dto.SubSearchParamMappingInfo;
 import org.kuali.student.core.search.dto.JoinComparisonInfo.ComparisonType;
 import org.kuali.student.core.search.dto.JoinCriteriaInfo.JoinType;
+import org.kuali.student.core.search.service.SearchDispatcher;
 
 /**
  * This still needs a few things

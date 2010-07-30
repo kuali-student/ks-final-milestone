@@ -21,7 +21,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -592,6 +592,19 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws OperationFailedException unable to complete request
      */
     public StatementTreeViewInfo getStatementTreeView(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    /**
+     * Retrieves a view of a statement by its identifier with its referenced statements and requirement components expanded and translated
+     * @param statementId statement identifier
+	 * @param nlUsageTypeKey Natural language usage type identifier
+	 * @param language Translation language
+     * @return view of statement information with the referenced statements and requirement components expanded
+     * @throws DoesNotExistException statement not found
+     * @throws InvalidParameterException invalid statementId
+     * @throws MissingParameterException statementId not specified
+     * @throws OperationFailedException unable to complete request
+     */
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     /**
      * Updates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else

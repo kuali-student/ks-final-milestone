@@ -40,6 +40,10 @@ public class ValidateLuiLuiRelationResponse {
     private java.util.List<ValidationResultInfo> _return;
 
     public java.util.List<ValidationResultInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<ValidationResultInfo>(0);
+		}
+
         return this._return;
     }
 

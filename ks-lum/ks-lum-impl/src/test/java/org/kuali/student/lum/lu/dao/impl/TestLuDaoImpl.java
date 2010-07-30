@@ -49,7 +49,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void testGetCluLoRelationTypeInfo() throws DoesNotExistException{
-		CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "cluLuType.default");
+        CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "cluLoType.default");
 		assertEquals("Default Clu-Lo relation type", relType.getDescr());
 	}
 

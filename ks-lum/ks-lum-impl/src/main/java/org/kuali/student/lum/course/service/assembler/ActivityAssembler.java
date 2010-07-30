@@ -16,13 +16,11 @@
 package org.kuali.student.lum.course.service.assembler;
 
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.assembly.BOAssembler;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.service.assembler.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 

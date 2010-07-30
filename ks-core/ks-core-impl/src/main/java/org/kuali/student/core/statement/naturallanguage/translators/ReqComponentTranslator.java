@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.statement.naturallanguage.translators;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -68,7 +69,8 @@ public class ReqComponentTranslator {
     }
 
     /**
-     * Translates an <code>reqComponent</code> for a specific <code>nlUsageTypeKey</code> into natural language.
+     * Translates an <code>reqComponent</code> for a specific 
+     * <code>nlUsageTypeKey</code> into natural language.
      * This method is not thread safe.
      *  
      * @param reqComponent
@@ -79,23 +81,44 @@ public class ReqComponentTranslator {
      * @throws DoesNotExistException
      *             Natural language usuage type key does not exist
      * @throws OperationFailedException
-     *             Translation fails
+     *             Translation failed
      */
     public String translate(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+    	return translate(reqComponent, nlUsageTypeKey, this.language);
+    }
+
+    /**
+     * Translates an <code>reqComponent</code> for a specific 
+     * <code>nlUsageTypeKey</code> into natural language.
+     * This method is not thread safe.
+     * 
+     * @param reqComponent
+     *            Requirement component to translate
+     * @param nlUsageTypeKey
+     *            Natural language usuage type key (context)
+     * @param language
+     *            Translation language
+     * @return
+     * @throws DoesNotExistException
+     *             Natural language usuage type key does not exist
+     * @throws OperationFailedException
+     *             Translation failed
+     */
+    public String translate(final ReqComponent reqComponent, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
     	if(reqComponent == null) {
     		throw new DoesNotExistException("ReqComponent cannot be null");
     	}
     	
     	ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
-
         Map<String, Object> contextMap = buildContextMap(reqComponent);
-
-        ReqComponentTypeNLTemplate template = getTemplate(reqComponentType, nlUsageTypeKey);
+        ReqComponentTypeNLTemplate template = getTemplate(reqComponentType, nlUsageTypeKey, language);
 
         try {
 			return this.templateTranslator.translate(contextMap, template.getTemplate());
 		} catch (OperationFailedException e) {
-			throw new OperationFailedException("Generating template for requirement component failed: "+reqComponent);
+			String msg = "Generating template for requirement component failed: "+reqComponent;
+			logger.error(msg, e);
+			throw new OperationFailedException(msg);
 		}
     }
 
@@ -103,15 +126,20 @@ public class ReqComponentTranslator {
      * Builds a requirement component type context map.
      * 
      * @param reqComponent Requirement component
-     * @throws DoesNotExistException
+     * @throws DoesNotExistException Requirement component context not found in registry
+     * @throws OperationFailedException Creating context map failed
      */
     private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException, OperationFailedException {
     	String reqComponentTypeId = reqComponent.getRequiredComponentType().getId();
-        Context<ReqComponent> context = this.contextRegistry.get(reqComponentTypeId);
-        if(context == null) {
+        List<Context<ReqComponent>> contextList = this.contextRegistry.get(reqComponentTypeId);
+        if(contextList == null || contextList.isEmpty()) {
         	throw new DoesNotExistException("Requirement component context not found in registry for requirement component type id: " + reqComponentTypeId);
         }
-    	Map<String, Object> contextMap = context.createContextMap(reqComponent);
+        Map<String, Object> contextMap = new HashMap<String, Object>();
+        for(Context<ReqComponent> context : contextList) {
+    		Map<String, Object> cm = context.createContextMap(reqComponent);
+    		contextMap.putAll(cm);
+    	}
 
         return contextMap;
     }
@@ -124,16 +152,16 @@ public class ReqComponentTranslator {
      * @param nlUsageTypeKey
      *            Natural language usuage type key (context)
      * @return Requirement component type template
-     * @throws DoesNotExistException
+     * @throws DoesNotExistException Template does not exist
      */
-    private ReqComponentTypeNLTemplate getTemplate(ReqComponentType reqComponentType, String nlUsageTypeKey) throws DoesNotExistException {
-        List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
+    private ReqComponentTypeNLTemplate getTemplate(ReqComponentType reqComponentType, String nlUsageTypeKey, String language) throws DoesNotExistException {
+    	List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
         for (ReqComponentTypeNLTemplate template : templateList) {
-            if (nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && this.language.equals(template.getLanguage())) {
+            if (nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
                 return template;
             }
         }
         throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "'" +
-        		" and language code '" + this.language + "' for requirement component type template not found");
+        		" and language code '" + language + "' for requirement component type template not found");
     }
 }

@@ -32,4 +32,10 @@
         NAME="Course" TYPE_DESC="A Shell Course" TYPE_KEY="luType.shell.course"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Program" TYPE_DESC="A Shell Program" TYPE_KEY="luType.shell.program"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Baccalaureate" TYPE_DESC="A Baccalaureate" TYPE_KEY="kuali.lu.type.credential.Baccalaureate"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Major" TYPE_DESC="A Major Discipline" TYPE_KEY="kuali.lu.type.MajorDiscipline"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Specialization" TYPE_DESC="Specialization of a Major Discipline" TYPE_KEY="kuali.lu.type.Variation"/>
 </dataset>

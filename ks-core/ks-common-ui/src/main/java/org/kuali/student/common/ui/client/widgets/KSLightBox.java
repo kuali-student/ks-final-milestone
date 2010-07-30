@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.util.Elements;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -26,7 +27,6 @@ import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Anchor;
@@ -49,8 +49,8 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 	public static final Resizer DEFAULT_RESIZER = new Resizer() {
 		private static final int maxPercentX = 80;
 		private static final int maxPercentY = 80;
-		private static final int minPixelsX = 320;
-		private static final int minPixelsY = 240;
+		private static final int minPixelsX = 600;
+		private static final int minPixelsY = 400;
 		
 		@Override
 		public void resize(ScrollPanel scroll) {
@@ -129,7 +129,8 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 		this(title, DEFAULT_RESIZER);
 	}
     public KSLightBox(String title, Resizer resizer) {
-    	this(new HTML("<h2>" + title + "</h2>"), resizer);
+    	//this(new HTML("<h2>" + title + "</h2>"), resizer);
+        this(new HTML("<h5>" + title + "</h5>"), resizer);
     }
 	public KSLightBox(Widget title) {
 		this(title, DEFAULT_RESIZER);
@@ -222,14 +223,15 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
         if(height > 600){
             height = 600;
         }
-        if(width < 200){
-            width = 200;
+        if(width < 320){
+            width = 320;
         }
-        if(height < 100){
-            height = 100;
+        if(height < 240){
+            height = 240;
         }
         scroll.setPixelSize(width, height);
     	scroll.setWidget(w);
+    	scroll.getElement().getStyle().setMargin(5, Style.Unit.PX);
     }
     public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
     	return handlers.addHandler(CloseEvent.getType(), handler);
