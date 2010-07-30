@@ -55,8 +55,11 @@ public class CourseWorkflowFilter extends WorkflowFilter{
     		String cluId = course.getId()==null? "":course.getId(); 
     		// Administering Orgs is a list in Course. But this change has not been made
     		// on the workflow side and its associated doc content. For now we are attaching the first 
-    		// element of the administering orgs to adminOrg 
-    		String adminOrg = course.getAdministeringOrgs().get(0).getOrgId()==null? "":course.getAdministeringOrgs().get(0).getOrgId(); 
+    		// element of the administering orgs to adminOrg    		
+    		String adminOrg = "";
+    		if (course.getAdministeringOrgs().size() > 1){
+    			adminOrg = course.getAdministeringOrgs().get(0).getOrgId()==null? "":course.getAdministeringOrgs().get(0).getOrgId();
+    		}
     		
     		String proposalId = course.getAttributes().get("proposalId");    		
     		proposalId = proposalId==null?"":proposalId;
