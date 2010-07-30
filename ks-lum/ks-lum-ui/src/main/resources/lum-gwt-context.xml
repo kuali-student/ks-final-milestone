@@ -303,7 +303,7 @@
 
     <!--Program Servlet Declaration-->
     <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
-        <property name="transformationManager" ref="courseTransformationManager"/>
+        <property name="transformationManager" ref="programTransformationManager"/>
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
         <property name="identityService" ref="identityServiceClient"/>
@@ -325,6 +325,17 @@
         </property>
     </bean>
 
+    <bean id="programTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="idTranslatorFilter"/>
+            </list>
+        </property>
+    </bean>
+    
     <bean id="authzFilter" class="org.kuali.student.core.assembly.transform.AuthorizationFilter">
         <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
