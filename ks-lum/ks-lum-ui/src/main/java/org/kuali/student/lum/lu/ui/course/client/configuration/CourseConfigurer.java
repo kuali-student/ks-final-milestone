@@ -416,9 +416,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public SectionView generateCourseLogisticsSection() {
         VerticalSectionView section = initSectionView(CourseSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
 
-        section.addSection(generateInstructorsSection());
-
         section.addSection(generateSchedulingSection());
+        section.addSection(generateDurationSection());
         section.addSection(generateCourseFormatsSection());
 
 
@@ -434,11 +433,18 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     protected VerticalSection generateSchedulingSection() {
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
-        GroupSection duration = new GroupSection();
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
-        scheduling.addSection(duration);
+        addField(scheduling, COURSE + "/" + TERMS_OFFERED, generateMessageInfo(LUConstants.TERMS_OFFERED_LABEL_KEY));        
         return scheduling;
+    }
+    
+    protected VerticalSection generateDurationSection() {
+	    VerticalSection duration = initSection(getH3Title(LUConstants.DURATION_LITERAL_LABEL_KEY), WITH_DIVIDER);
+	    GroupSection duration_group = new GroupSection();
+	    addField(duration_group, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
+	    addField(duration_group, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
+	    
+	    duration.addSection(duration_group);
+	    return duration;
     }
 
     protected VerticalSection generateInstructorsSection() {

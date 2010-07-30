@@ -255,6 +255,7 @@
 	<bean parent="enCourse" p:id="cluPrimaryInstructor" p:value="Primary Instructor" />
 	<bean parent="enCourse" p:id="cluDisclosurePanelHeading" p:value="Click to show/hide details" />
 	<bean parent="enCourse" p:id="cluTermsOffered" p:value="Terms Offered" />
+	<bean parent="enCourse" p:id="cluTermsOffered-instruct" p:value="Selecting a single term will restrict this course to only that term. 'Any' will allow the course to be offered in any term that matches the duration selected below." />
 	<bean parent="enCourse" p:id="cluDurationType" p:value="Duration Type" />
 	<bean parent="enCourse" p:id="cluDurationQuantity" p:value="Duration Quantity" />
 	<bean parent="enCourse" p:id="cluCurrentView" p:value="Current" />

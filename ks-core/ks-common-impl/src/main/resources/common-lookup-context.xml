@@ -202,6 +202,28 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="kuali.common.lookup.atp.seasons" parent="lookup">
+		<property name="searchTypeId" value="atp.search.atpSeasonTypes" />
+		<property name="name" value="Get ATP Seasons" />
+		<property name="desc" value="Get ATP Seasons" />
+		<property name="searchParamIdKey" value="atp.queryParam.atpSeasonType" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="atp.queryParam.atpSeasonType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Season ID" />
+					<property name="desc" value="The ID of the season for lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="atp.resultColumn.atpSeasonType" />
+		<property name="id" value="kuali.common.lookup.atp.seasons" />
+	</bean>
 
 	<bean id="kuali.common.lookup.campusLocations" parent="lookup">
 		<property name="searchTypeId" value="enumeration.management.search" />
