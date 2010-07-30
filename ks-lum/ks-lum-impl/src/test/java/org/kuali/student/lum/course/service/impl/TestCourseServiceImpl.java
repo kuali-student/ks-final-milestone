@@ -107,10 +107,10 @@ public class TestCourseServiceImpl {
             assertEquals("323", retrievedCourse.getCourseNumberSuffix());
 
             assertEquals("courseTitle-18", retrievedCourse.getCourseTitle());
-            assertEquals("transcriptTitle-59", retrievedCourse.getTranscriptTitle());
+            assertEquals("transcriptTitle-58", retrievedCourse.getTranscriptTitle());
 
-            assertEquals("plain-28", retrievedCourse.getDescr().getPlain());
-            assertEquals("formatted-27", retrievedCourse.getDescr().getFormatted());
+            assertEquals("plain-27", retrievedCourse.getDescr().getPlain());
+            assertEquals("formatted-26", retrievedCourse.getDescr().getFormatted());
 
             assertEquals(2, retrievedCourse.getFormats().size());
             FormatInfo info = retrievedCourse.getFormats().get(0);
@@ -121,7 +121,7 @@ public class TestCourseServiceImpl {
             assertEquals(2, retrievedCourse.getTermsOffered().size());
             String termOffered = retrievedCourse.getTermsOffered().get(0);
 
-            assertTrue("termsOffered-47".equals(termOffered) || "termsOffered-58".equals(termOffered));
+            assertTrue("termsOffered-47".equals(termOffered) || "termsOffered-57".equals(termOffered));
 
 
             assertEquals(2, retrievedCourse.getCurriculumOversightOrgs().size());
@@ -154,7 +154,7 @@ public class TestCourseServiceImpl {
 
             TimeAmountInfo timeInfo = retrievedCourse.getDuration();
             assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
-            assertEquals(29, timeInfo.getTimeQuantity().intValue());
+            assertEquals(28, timeInfo.getTimeQuantity().intValue());
 
             // TODO - check effective/expiration dates
 
@@ -171,10 +171,10 @@ public class TestCourseServiceImpl {
                    
 
 
-            assertTrue("termsOffered-58".equals(atpType) || "termsOffered-51".equals(atpType));
+            assertTrue("termsOffered-57".equals(atpType) || "termsOffered-51".equals(atpType));
 
-            assertEquals("orgId-52", instructor.getOrgId());
-            assertEquals("personId-53", instructor.getPersonId());
+            assertEquals("orgId-51", instructor.getOrgId());
+            assertEquals("personId-52", instructor.getPersonId());
 
             assertEquals("draft", retrievedCourse.getState());
             assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
@@ -187,8 +187,8 @@ public class TestCourseServiceImpl {
 
             assertEquals(2,retrievedCourse.getGradingOptions().size());
 
+            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-40"));
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-41"));
-            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-42"));
             
             assertTrue(createdCourse.isSpecialTopicsCourse());
             assertTrue(createdCourse.isPilotCourse());
@@ -396,7 +396,7 @@ public class TestCourseServiceImpl {
 
         assertEquals(2,updatedCourse.getGradingOptions().size());
 
-        assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-41"));
+        assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-40"));
         assertTrue(updatedCourse.getGradingOptions().contains("NewGradingOption"));
         
         assertFalse(updatedCourse.isSpecialTopicsCourse());
