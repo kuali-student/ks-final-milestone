@@ -17,13 +17,13 @@
                 <ref bean="majorDisciplineInfo.publishedInstructors"/>
                 <ref bean="majorDisciplineInfo.credentialProgramId"/>
                 <ref bean="majorDisciplineInfo.variations"/>
-                <ref bean="majorDisciplineInfo.code" />
+                <ref bean="majorDisciplineInfo.code"/>
                 <ref bean="majorDisciplineInfo.cipCode"/>
                 <ref bean="majorDisciplineInfo.hegisCode"/>
                 <ref bean="majorDisciplineInfo.universityClassification"/>
                 <ref bean="majorDisciplineInfo.selectiveEnrollmentCode"/>
-                <ref bean="majorDisciplineInfo.resultOptions" />
-                <ref bean="majorDisciplineInfo.stdDuration" />
+                <ref bean="majorDisciplineInfo.resultOptions"/>
+                <ref bean="majorDisciplineInfo.stdDuration"/>
                 <ref bean="majorDisciplineInfo.startTerm"/>
                 <ref bean="majorDisciplineInfo.endTerm"/>
                 <ref bean="majorDisciplineInfo.endProgramEntryTerm"/>
@@ -67,6 +67,7 @@
 
     <bean id="majorDisciplineInfo.intensity-parent" abstract="true" parent="baseString">
         <property name="name" value="intensity"/>
+        <property name="maxLength" value="34"/>
     </bean>
     <bean id="majorDisciplineInfo.intensity" parent="majorDisciplineInfo.intensity-parent"/>
 
@@ -99,6 +100,7 @@
 
     <bean id="majorDisciplineInfo.code-parent" abstract="true" parent="baseString">
         <property name="name" value="code"/>
+        <property name="maxLength" value="34"/>
     </bean>
     <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent"/>
 
@@ -128,12 +130,12 @@
     </bean>
     <bean id="majorDisciplineInfo.resultOptions" parent="majorDisciplineInfo.resultOptions-parent"/>
 
-	<bean id="majorDisciplineInfo.stdDuration-parent" abstract="true" parent="baseComplex">
-		<property name="name" value="stdDuration" />
-		<property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
-	</bean>
-	<bean id="majorDisciplineInfo.stdDuration" parent="majorDisciplineInfo.stdDuration-parent" />
-	
+    <bean id="majorDisciplineInfo.stdDuration-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="stdDuration"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo"/>
+    </bean>
+    <bean id="majorDisciplineInfo.stdDuration" parent="majorDisciplineInfo.stdDuration-parent"/>
+
     <bean id="majorDisciplineInfo.startTerm-parent" abstract="true" parent="baseString">
         <property name="name" value="startTerm"/>
     </bean>
@@ -162,23 +164,25 @@
 
     <bean id="majorDisciplineInfo.shortTitle-parent" abstract="true" parent="baseString">
         <property name="name" value="shortTitle"/>
-        <property name="maxLength" value="60"/>
+        <property name="maxLength" value="34"/>
     </bean>
     <bean id="majorDisciplineInfo.shortTitle" parent="majorDisciplineInfo.shortTitle-parent"/>
 
     <bean id="majorDisciplineInfo.longTitle-parent" abstract="true" parent="baseString">
         <property name="name" value="longTitle"/>
-        <property name="maxLength" value="60"/>
+        <property name="maxLength" value="34"/>
     </bean>
     <bean id="majorDisciplineInfo.longTitle" parent="majorDisciplineInfo.longTitle-parent"/>
 
     <bean id="majorDisciplineInfo.transcriptTitle-parent" abstract="true" parent="baseString">
         <property name="name" value="transcriptTitle"/>
+        <property name="maxLength" value="34"/>
     </bean>
     <bean id="majorDisciplineInfo.transcriptTitle" parent="majorDisciplineInfo.transcriptTitle-parent"/>
 
     <bean id="majorDisciplineInfo.diplomaTitle-parent" abstract="true" parent="baseString">
         <property name="name" value="diplomaTitle"/>
+        <property name="maxLength" value="34"/>
     </bean>
     <bean id="majorDisciplineInfo.diplomaTitle" parent="majorDisciplineInfo.diplomaTitle-parent"/>
 
@@ -196,10 +200,11 @@
     </bean>
     <bean id="majorDisciplineInfo.catalogDescr" parent="majorDisciplineInfo.catalogDescr-parent"/>
 
-	<bean id="majorDisciplineInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
-		<property name="name" value="catalogPublicationTargets"/>
- 	</bean>
-	<bean id="majorDisciplineInfo.catalogPublicationTargets" parent="majorDisciplineInfo.catalogPublicationTargets-parent"/>
+    <bean id="majorDisciplineInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
+        <property name="name" value="catalogPublicationTargets"/>
+    </bean>
+    <bean id="majorDisciplineInfo.catalogPublicationTargets"
+          parent="majorDisciplineInfo.catalogPublicationTargets-parent"/>
 
     <bean id="majorDisciplineInfo.learningObjectives-parent" abstract="true"
           parent="baseComplexRepeating">
@@ -220,56 +225,56 @@
     </bean>
     <bean id="majorDisciplineInfo.programRequirements" parent="majorDisciplineInfo.programRequirements-parent"/>
 
-	<bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="baseComplexRepeating">
-		<property name="name" value="accreditingAgencies" />
-		<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo" />
-	</bean>
-	<bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent" />
-	
-	<bean id="majorDisciplineInfo.repeatingAdminOrgs-parent" abstract="true" parent="baseComplexRepeating">
-		<property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="divisionsContentOwner" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="divisionsStudentOversight" />
-	</bean>
+    <bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="baseComplexRepeating">
+        <property name="name" value="accreditingAgencies"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo"/>
+    </bean>
+    <bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent"/>
 
-	<bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="divisionsDeployment" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.divisionsFinancialResources" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="divisionsFinancialResources" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.divisionsFinancialControl" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="divisionsFinancialControl" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.unitsContentOwner" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="unitsContentOwner" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.unitsStudentOversight" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="unitsStudentOversight" />
-	</bean>
+    <bean id="majorDisciplineInfo.repeatingAdminOrgs-parent" abstract="true" parent="baseComplexRepeating">
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
+    </bean>
 
-	<bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="unitsDeployment" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.unitsFinancialResources" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="unitsFinancialResources" />
-	</bean>
-	
-	<bean id="majorDisciplineInfo.unitsFinancialControl" parent="majorDisciplineInfo.repeatingAdminOrgs-parent" >
-		<property name="name" value="unitsFinancialControl" />
-	</bean>
-	
+    <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="divisionsContentOwner"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="divisionsStudentOversight"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="divisionsDeployment"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.divisionsFinancialResources" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="divisionsFinancialResources"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.divisionsFinancialControl" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="divisionsFinancialControl"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.unitsContentOwner" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="unitsContentOwner"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.unitsStudentOversight" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="unitsStudentOversight"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="unitsDeployment"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.unitsFinancialResources" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="unitsFinancialResources"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.unitsFinancialControl" parent="majorDisciplineInfo.repeatingAdminOrgs-parent">
+        <property name="name" value="unitsFinancialControl"/>
+    </bean>
+
     <bean id="majorDisciplineInfo.type-parent" abstract="true" parent="baseString">
         <property name="name" value="type"/>
     </bean>
@@ -294,7 +299,7 @@
                 <ref bean="programVariationInfo.hegisCode"/>
                 <ref bean="programVariationInfo.universityClassification"/>
                 <ref bean="programVariationInfo.selectiveEnrollmentCode"/>
-                <ref bean="programVariationInfo.resultOptions" />
+                <ref bean="programVariationInfo.resultOptions"/>
                 <ref bean="programVariationInfo.startTerm"/>
                 <ref bean="programVariationInfo.endTerm"/>
                 <ref bean="programVariationInfo.lastAdmitTerm"/>
@@ -305,7 +310,7 @@
                 <ref bean="programVariationInfo.diplomaTitle"/>
                 <ref bean="programVariationInfo.descr"/>
                 <ref bean="programVariationInfo.catalogDescr"/>
-                <ref bean="programVariationInfo.catalogPublicationTargets"/>                
+                <ref bean="programVariationInfo.catalogPublicationTargets"/>
                 <ref bean="programVariationInfo.learningObjectives"/>
                 <ref bean="programVariationInfo.campusLocations"/>
                 <ref bean="programVariationInfo.programRequirements"/>
@@ -424,10 +429,11 @@
     </bean>
     <bean id="programVariationInfo.catalogDescr" parent="programVariationInfo.catalogDescr-parent"/>
 
-	<bean id="programVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
-		<property name="name" value="catalogPublicationTargets"/>
- 	</bean>
-	<bean id="programVariationInfo.catalogPublicationTargets" parent="programVariationInfo.catalogPublicationTargets-parent"/>
+    <bean id="programVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
+        <property name="name" value="catalogPublicationTargets"/>
+    </bean>
+    <bean id="programVariationInfo.catalogPublicationTargets"
+          parent="programVariationInfo.catalogPublicationTargets-parent"/>
 
     <bean id="programVariationInfo.learningObjectives-parent" abstract="true"
           parent="baseComplexRepeating">
@@ -458,14 +464,14 @@
     <bean id="programVariationInfo.state" parent="programVariationInfo.state-parent"/>
     <!-- end ProgramVariationInfo-->
 
-	<!--  Dynamic Attributes: Major Discipline Info  -->
+    <!--  Dynamic Attributes: Major Discipline Info  -->
     <bean id="majorDisciplineInfo.lastReviewDate-parent" abstract="true"
           parent="baseDate">
         <property name="name" value="lastReviewDate"/>
         <property name="dynamic" value="true"/>
     </bean>
     <bean id="majorDisciplineInfo.lastReviewDate" parent="majorDisciplineInfo.lastReviewDate-parent"/>
-	
+
     <bean id="majorDisciplineInfo.isVariationRequired-parent" abstract="true" parent="baseString">
         <property name="name" value="isVariationRequired"/>
         <property name="dynamic" value="true"/>
@@ -479,209 +485,211 @@
     <bean id="majorDisciplineInfo.endInstAdmitTerm" parent="majorDisciplineInfo.endInstAdmitTerm-parent"/>
 
 
-<!-- LoDisplayInfo-->
- <bean id="org.kuali.student.lum.course.dto.LoDisplayInfo-parent"
-       abstract="true" parent="objectStructureDefinition">
-  <property name="name"
-            value="org.kuali.student.lum.course.dto.LoDisplayInfo" />
-  <property name="attributes">
-   <list>
-    <ref bean="loDisplayInfo.loCategoryInfoList" />
-    <ref bean="loDisplayInfo.loDisplayInfoList" />
-    <ref bean="loDisplayInfo.loInfo" />
-    <ref bean="loDisplayInfo.parentLoRelationid" />
-    <ref bean="loDisplayInfo.parentRelType" />
-   </list>
-  </property>
-  <property name="hasMetaData" value="true" />
- </bean>
- <bean id="org.kuali.student.lum.course.dto.LoDisplayInfo" parent="org.kuali.student.lum.course.dto.LoDisplayInfo-parent" />
+    <!-- LoDisplayInfo-->
+    <bean id="org.kuali.student.lum.course.dto.LoDisplayInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name"
+                  value="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="loDisplayInfo.loCategoryInfoList"/>
+                <ref bean="loDisplayInfo.loDisplayInfoList"/>
+                <ref bean="loDisplayInfo.loInfo"/>
+                <ref bean="loDisplayInfo.parentLoRelationid"/>
+                <ref bean="loDisplayInfo.parentRelType"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.course.dto.LoDisplayInfo"
+          parent="org.kuali.student.lum.course.dto.LoDisplayInfo-parent"/>
 
- <bean id="loDisplayInfo.loCategoryInfoList-parent" abstract="true" parent="baseComplexRepeating">
-  <property name="name" value="loCategoryInfoList" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoCategoryInfo" />
- </bean>
- <bean id="loDisplayInfo.loCategoryInfoList" parent="loDisplayInfo.loCategoryInfoList-parent" />
+    <bean id="loDisplayInfo.loCategoryInfoList-parent" abstract="true" parent="baseComplexRepeating">
+        <property name="name" value="loCategoryInfoList"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoCategoryInfo"/>
+    </bean>
+    <bean id="loDisplayInfo.loCategoryInfoList" parent="loDisplayInfo.loCategoryInfoList-parent"/>
 
- <bean id="loDisplayInfo.loDisplayInfoList-parent" abstract="true" parent="baseComplexRepeating">
-  <property name="name" value="loDisplayInfoList" />
-  <property name="dataObjectStructure"
-   ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
- </bean>
- <bean id="loDisplayInfo.loDisplayInfoList" parent="loDisplayInfo.loDisplayInfoList-parent" />
+    <bean id="loDisplayInfo.loDisplayInfoList-parent" abstract="true" parent="baseComplexRepeating">
+        <property name="name" value="loDisplayInfoList"/>
+        <property name="dataObjectStructure"
+                  ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+    </bean>
+    <bean id="loDisplayInfo.loDisplayInfoList" parent="loDisplayInfo.loDisplayInfoList-parent"/>
 
- <bean id="loDisplayInfo.loInfo-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="loInfo" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoInfo" />
- </bean>
- <bean id="loDisplayInfo.loInfo" parent="loDisplayInfo.loInfo-parent" />
+    <bean id="loDisplayInfo.loInfo-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="loInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoInfo"/>
+    </bean>
+    <bean id="loDisplayInfo.loInfo" parent="loDisplayInfo.loInfo-parent"/>
 
- <bean id="loDisplayInfo.parentLoRelationid-parent" abstract="true" parent="baseKualiId">
-  <property name="name" value="parentLoRelationid" />
- </bean>
- <bean id="loDisplayInfo.parentLoRelationid" parent="loDisplayInfo.parentLoRelationid-parent" />
+    <bean id="loDisplayInfo.parentLoRelationid-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="parentLoRelationid"/>
+    </bean>
+    <bean id="loDisplayInfo.parentLoRelationid" parent="loDisplayInfo.parentLoRelationid-parent"/>
 
- <bean id="loDisplayInfo.parentRelType-parent" abstract="true" parent="baseKualiType">
-  <property name="name" value="parentRelType" />
- </bean>
- <bean id="loDisplayInfo.parentRelType" parent="loDisplayInfo.parentRelType-parent" />
+    <bean id="loDisplayInfo.parentRelType-parent" abstract="true" parent="baseKualiType">
+        <property name="name" value="parentRelType"/>
+    </bean>
+    <bean id="loDisplayInfo.parentRelType" parent="loDisplayInfo.parentRelType-parent"/>
 
- <!-- LoCategoryInfo-->
- <bean id="org.kuali.student.lum.lo.dto.LoCategoryInfo-parent"
-       abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lo.dto.LoCategoryInfo" />
-  <property name="attributes">
-   <list>
-    <ref bean="loCategoryInfo.desc" />
-    <ref bean="loCategoryInfo.effectiveDate" />
-    <ref bean="loCategoryInfo.expirationDate" />
-    <ref bean="loCategoryInfo.id" />
-    <ref bean="loCategoryInfo.loRepository" />
-    <ref bean="loCategoryInfo.name" />
-    <ref bean="loCategoryInfo.state" />
-    <ref bean="loCategoryInfo.type" />
-   </list>
-  </property>
-  <property name="hasMetaData" value="true" />
- </bean>
- <bean id="org.kuali.student.lum.lo.dto.LoCategoryInfo" parent="org.kuali.student.lum.lo.dto.LoCategoryInfo-parent" />
+    <!-- LoCategoryInfo-->
+    <bean id="org.kuali.student.lum.lo.dto.LoCategoryInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.lum.lo.dto.LoCategoryInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="loCategoryInfo.desc"/>
+                <ref bean="loCategoryInfo.effectiveDate"/>
+                <ref bean="loCategoryInfo.expirationDate"/>
+                <ref bean="loCategoryInfo.id"/>
+                <ref bean="loCategoryInfo.loRepository"/>
+                <ref bean="loCategoryInfo.name"/>
+                <ref bean="loCategoryInfo.state"/>
+                <ref bean="loCategoryInfo.type"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.lo.dto.LoCategoryInfo" parent="org.kuali.student.lum.lo.dto.LoCategoryInfo-parent"/>
 
- <bean id="loCategoryInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc" />
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
- </bean>
- <bean id="loCategoryInfo.desc" parent="loCategoryInfo.desc-parent" />
+    <bean id="loCategoryInfo.desc-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="desc"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="loCategoryInfo.desc" parent="loCategoryInfo.desc-parent"/>
 
- <bean id="loCategoryInfo.effectiveDate-parent" abstract="true"
-       parent="baseKualiEffectiveDate">
-  <property name="name" value="effectiveDate" />
- </bean>
- <bean id="loCategoryInfo.effectiveDate" parent="loCategoryInfo.effectiveDate-parent" />
+    <bean id="loCategoryInfo.effectiveDate-parent" abstract="true"
+          parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="loCategoryInfo.effectiveDate" parent="loCategoryInfo.effectiveDate-parent"/>
 
- <bean id="loCategoryInfo.expirationDate-parent" abstract="true"		parent="baseKualiExpirationDate">
-  <property name="name" value="expirationDate" />
- </bean>
- <bean id="loCategoryInfo.expirationDate" parent="loCategoryInfo.expirationDate-parent" />
+    <bean id="loCategoryInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="loCategoryInfo.expirationDate" parent="loCategoryInfo.expirationDate-parent"/>
 
- <bean id="loCategoryInfo.id-parent" abstract="true" parent="baseString">
-  <property name="name" value="id" />
- </bean>
- <bean id="loCategoryInfo.id" parent="loCategoryInfo.id-parent" />
+    <bean id="loCategoryInfo.id-parent" abstract="true" parent="baseString">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="loCategoryInfo.id" parent="loCategoryInfo.id-parent"/>
 
- <bean id="loCategoryInfo.loRepository-parent" abstract="true"
-       parent="baseString">
-  <property name="name" value="loRepository" />
- </bean>
- <bean id="loCategoryInfo.loRepository" parent="loCategoryInfo.loRepository-parent" />
+    <bean id="loCategoryInfo.loRepository-parent" abstract="true"
+          parent="baseString">
+        <property name="name" value="loRepository"/>
+    </bean>
+    <bean id="loCategoryInfo.loRepository" parent="loCategoryInfo.loRepository-parent"/>
 
- <bean id="loCategoryInfo.name-parent" abstract="true" parent="baseString">
-  <property name="name" value="name" />
- </bean>
- <bean id="loCategoryInfo.name" parent="loCategoryInfo.name-parent" />
+    <bean id="loCategoryInfo.name-parent" abstract="true" parent="baseString">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="loCategoryInfo.name" parent="loCategoryInfo.name-parent"/>
 
- <bean id="loCategoryInfo.state-parent" abstract="true" parent="baseString">
-  <property name="name" value="state" />
- </bean>
- <bean id="loCategoryInfo.state" parent="loCategoryInfo.state-parent" />
+    <bean id="loCategoryInfo.state-parent" abstract="true" parent="baseString">
+        <property name="name" value="state"/>
+    </bean>
+    <bean id="loCategoryInfo.state" parent="loCategoryInfo.state-parent"/>
 
- <bean id="loCategoryInfo.type-parent" abstract="true" parent="baseString">
-  <property name="name" value="type" />
- </bean>
- <bean id="loCategoryInfo.type" parent="loCategoryInfo.type-parent" />
+    <bean id="loCategoryInfo.type-parent" abstract="true" parent="baseString">
+        <property name="name" value="type"/>
+    </bean>
+    <bean id="loCategoryInfo.type" parent="loCategoryInfo.type-parent"/>
 
-  <!-- LoInfo-->
- <bean id="org.kuali.student.lum.lo.dto.LoInfo-parent" abstract="true"
-       parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lo.dto.LoInfo" />
-  <property name="attributes">
-   <list>
-    <ref bean="loInfo.desc" />
-    <ref bean="loInfo.effectiveDate" />
-    <ref bean="loInfo.expirationDate" />
-    <ref bean="loInfo.id" />
-    <ref bean="loInfo.loRepositoryKey" />
-    <ref bean="loInfo.name" />
-    <ref bean="loInfo.state" />
-    <ref bean="loInfo.type" />
-   </list>
-  </property>
-  <property name="hasMetaData" value="true" />
- </bean>
- <bean id="org.kuali.student.lum.lo.dto.LoInfo" parent="org.kuali.student.lum.lo.dto.LoInfo-parent" />
+    <!-- LoInfo-->
+    <bean id="org.kuali.student.lum.lo.dto.LoInfo-parent" abstract="true"
+          parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.lum.lo.dto.LoInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="loInfo.desc"/>
+                <ref bean="loInfo.effectiveDate"/>
+                <ref bean="loInfo.expirationDate"/>
+                <ref bean="loInfo.id"/>
+                <ref bean="loInfo.loRepositoryKey"/>
+                <ref bean="loInfo.name"/>
+                <ref bean="loInfo.state"/>
+                <ref bean="loInfo.type"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.lo.dto.LoInfo" parent="org.kuali.student.lum.lo.dto.LoInfo-parent"/>
 
- <bean id="loInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc" />
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
- </bean>
- <bean id="loInfo.desc" parent="loInfo.desc-parent" />
+    <bean id="loInfo.desc-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="desc"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="loInfo.desc" parent="loInfo.desc-parent"/>
 
- <bean id="loInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
-  <property name="name" value="effectiveDate" />
- </bean>
- <bean id="loInfo.effectiveDate" parent="loInfo.effectiveDate-parent" />
+    <bean id="loInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="loInfo.effectiveDate" parent="loInfo.effectiveDate-parent"/>
 
- <bean id="loInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
-  <property name="name" value="expirationDate" />
- </bean>
- <bean id="loInfo.expirationDate" parent="loInfo.expirationDate-parent" />
+    <bean id="loInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="loInfo.expirationDate" parent="loInfo.expirationDate-parent"/>
 
- <bean id="loInfo.id-parent" abstract="true" parent="baseString">
-  <property name="name" value="id" />
- </bean>
- <bean id="loInfo.id" parent="loInfo.id-parent" />
+    <bean id="loInfo.id-parent" abstract="true" parent="baseString">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="loInfo.id" parent="loInfo.id-parent"/>
 
- <bean id="loInfo.loRepositoryKey-parent" abstract="true"
-       parent="baseString">
-  <property name="name" value="loRepositoryKey" />
- </bean>
- <bean id="loInfo.loRepositoryKey" parent="loInfo.loRepositoryKey-parent" />
+    <bean id="loInfo.loRepositoryKey-parent" abstract="true"
+          parent="baseString">
+        <property name="name" value="loRepositoryKey"/>
+    </bean>
+    <bean id="loInfo.loRepositoryKey" parent="loInfo.loRepositoryKey-parent"/>
 
- <bean id="loInfo.name-parent" abstract="true" parent="baseString">
-  <property name="name" value="name" />
- </bean>
- <bean id="loInfo.name" parent="loInfo.name-parent" />
+    <bean id="loInfo.name-parent" abstract="true" parent="baseString">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="loInfo.name" parent="loInfo.name-parent"/>
 
- <bean id="loInfo.state-parent" abstract="true" parent="baseString">
-  <property name="name" value="state" />
- </bean>
- <bean id="loInfo.state" parent="loInfo.state-parent" />
+    <bean id="loInfo.state-parent" abstract="true" parent="baseString">
+        <property name="name" value="state"/>
+    </bean>
+    <bean id="loInfo.state" parent="loInfo.state-parent"/>
 
- <bean id="loInfo.type-parent" abstract="true" parent="baseString">
-  <property name="name" value="type" />
- </bean>
- <bean id="loInfo.type" parent="loInfo.type-parent" />
+    <bean id="loInfo.type-parent" abstract="true" parent="baseString">
+        <property name="name" value="type"/>
+    </bean>
+    <bean id="loInfo.type" parent="loInfo.type-parent"/>
 
-<!-- CluInstructorInfo-->
- <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent"
-       abstract="true" parent="objectStructureDefinition">
-  <property name="name"
-            value="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
-  <property name="attributes">
-   <list>
-    <ref bean="cluInstructorInfo.orgId" />
-    <ref bean="cluInstructorInfo.personId" />
-    <ref bean="cluInstructorInfo.personInfoOverride"/>
-   </list>
-  </property>
-  <property name="hasMetaData" value="true" />
- </bean>
- <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo" parent="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent" />
+    <!-- CluInstructorInfo-->
+    <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name"
+                  value="org.kuali.student.lum.lu.dto.CluInstructorInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="cluInstructorInfo.orgId"/>
+                <ref bean="cluInstructorInfo.personId"/>
+                <ref bean="cluInstructorInfo.personInfoOverride"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo"
+          parent="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent"/>
 
- <bean id="cluInstructorInfo.orgId-parent" abstract="true"
-       parent="baseKualiId">
-  <property name="name" value="orgId" />
- </bean>
- <bean id="cluInstructorInfo.orgId" parent="cluInstructorInfo.orgId-parent" />
+    <bean id="cluInstructorInfo.orgId-parent" abstract="true"
+          parent="baseKualiId">
+        <property name="name" value="orgId"/>
+    </bean>
+    <bean id="cluInstructorInfo.orgId" parent="cluInstructorInfo.orgId-parent"/>
 
- <bean id="cluInstructorInfo.personId-parent" abstract="true"
-       parent="baseKualiId">
-  <property name="name" value="personId" />
- </bean>
- <bean id="cluInstructorInfo.personId" parent="cluInstructorInfo.personId-parent" />
+    <bean id="cluInstructorInfo.personId-parent" abstract="true"
+          parent="baseKualiId">
+        <property name="name" value="personId"/>
+    </bean>
+    <bean id="cluInstructorInfo.personId" parent="cluInstructorInfo.personId-parent"/>
 
- <bean id="cluInstructorInfo.personInfoOverride-parent" abstract="true" parent="baseString">
-  <property name="name" value="personInfoOverride"/>
- </bean>
- <bean id="cluInstructorInfo.personInfoOverride" parent="cluInstructorInfo.personInfoOverride-parent"/>
+    <bean id="cluInstructorInfo.personInfoOverride-parent" abstract="true" parent="baseString">
+        <property name="name" value="personInfoOverride"/>
+    </bean>
+    <bean id="cluInstructorInfo.personInfoOverride" parent="cluInstructorInfo.personInfoOverride-parent"/>
 
 </beans>
