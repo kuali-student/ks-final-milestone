@@ -26,6 +26,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBi
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.service.WorkflowRpcService;
+import org.kuali.student.common.ui.client.service.WorkflowRpcServiceAsync;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
@@ -52,10 +54,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObj
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoChildSingleUseLosConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
-import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -103,8 +102,8 @@ public class ViewCourseProposalSummaryConfigurer implements
     protected HashMap<String,String> hardCodedTranslationMap;
     protected HashMap<String,String> pathToLabelTranslationMap;
 
-    private WorkflowToolRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
-    CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
+    private WorkflowToolRpcServiceAsync workflowToolRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
+    private WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
 
     //Override paths for course and proposal so they are root
     public static final String PROPOSAL = "";
@@ -217,7 +216,7 @@ public class ViewCourseProposalSummaryConfigurer implements
 
                 //Governance
                 summaryTable.addField(LUConstants.GOVERNANCE_LABEL_KEY, 0);
-                summaryTable.addField(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, model, 1);
+                summaryTable.addField(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY, COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, model, 1);
                 summaryTable.addField(LUConstants.CAMPUS_LOCATION_LABEL_KEY, COURSE + "/" + CAMPUS_LOCATIONS, model, 1);
                 summaryTable.addField(LUConstants.ADMIN_ORG_LABEL_KEY, COURSE + "/" + DEPARTMENT, model, 1);
 
@@ -479,12 +478,12 @@ public class ViewCourseProposalSummaryConfigurer implements
     public void populatePeopleAndPermissions(DataModel model, final SummaryTable summaryTable, final int nestLevel){
         String proposalId = model.get(PROPOSAL + "/" + "id");
         if(proposalId!=null){
-            cluProposalRpcServiceAsync.getWorkflowIdFromDataId(proposalId, new AsyncCallback<String>(){
+			workflowRpcServiceAsync.getWorkflowIdFromDataId(CourseConfigurer.WORKFLOW_DOC_TYPE, proposalId, new AsyncCallback<String>(){
                 public void onFailure(Throwable caught) {
                     Window.alert("Getting Workflow Id failed");
                 }
                 public void onSuccess(String workflowId) {
-                    workflowRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
+                    workflowToolRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
                         public void onFailure(Throwable caught) {
                             Window.alert("Getting Collaborators failed");
                         }

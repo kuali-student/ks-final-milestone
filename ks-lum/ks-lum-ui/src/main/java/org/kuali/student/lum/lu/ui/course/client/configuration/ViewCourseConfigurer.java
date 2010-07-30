@@ -166,7 +166,7 @@ CreditCourseLearningResultsConstants
         addLearningObjectives(learningObjectives);
 
         Section governance = initSection(getH2Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)));
-        addField(governance, ACADEMIC_SUBJECT_ORGS, LUConstants.ACADEMIC_SUBJECT_ORGS_KEY, new TranslatedStringList(ACADEMIC_SUBJECT_ORGS));
+        addField(governance, CURRICULUM_OVERSIGHT_ORGS_, LUConstants.ACADEMIC_SUBJECT_ORGS_KEY, new TranslatedStringList(CURRICULUM_OVERSIGHT_ORGS_));
         addField(governance, CAMPUS_LOCATIONS, LUConstants.CAMPUS_LOCATION_LABEL_KEY, new TranslatedStringList(CAMPUS_LOCATIONS));
         addField(governance, DEPARTMENT, LUConstants.DEPT_LABEL_KEY, new KSLabel());
 

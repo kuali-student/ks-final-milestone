@@ -44,18 +44,7 @@ public class CreditCourseProposalRpcGwtServlet extends
 	private static final String DEFAULT_METADATA_TYPE = null;
 
 	private ModifyCreditCourseProposalManager modifyCourseManager;
-	
-	@Override
-	public DataSaveResult submitDocumentWithData(Data data) throws OperationFailedException{
-	    
-	    CreditCourseHelper course = null;
-	    CreditCourseProposalHelper helper = CreditCourseProposalHelper.wrap(data);
-        course = CreditCourseHelper.wrap(helper.getCourse().getData());               
-	    course.setState(LUConstants.LU_STATE_SUBMITTED);
-        
-	    return super.submitDocumentWithData(data);
-	}
-	
+		
 	@Override
 	public Data getNewProposalWithCopyOfClu(String dataId) throws OperationFailedException {
 		try {

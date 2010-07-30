@@ -29,6 +29,8 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
+import org.kuali.student.common.ui.client.service.WorkflowRpcService;
+import org.kuali.student.common.ui.client.service.WorkflowRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -43,8 +45,6 @@ import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
-import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService.ActionRequestType;
@@ -58,16 +58,19 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+//TODO: Refactor this to the ks-common-ui module
 public class CollaboratorTool extends Composite implements ToolView{
-    private WorkflowToolRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
-    //Move methods called from this to workflow rpc^
-    CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
+	//Is it possible to combine the following two into one workflow rpc
+	private WorkflowToolRpcServiceAsync workflowToolRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
+    private WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
+   
     private Metadata workflowAttrMeta = null;
 
     private Enum<?> viewEnum;
     private String viewName;
     private Controller controller;
     private String dataId = null;
+    private String workflowDocType = null;
     private String workflowId = null;
     private String documentStatus = null;
     
@@ -107,7 +110,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 		}
 	}
     
-    public CollaboratorTool(Enum<?> viewEnum, String viewName, SectionTitle title){
+    public CollaboratorTool(Enum<?> viewEnum, String viewName, String workflowDocType, SectionTitle title){
     	if(title != null){
     		section = new GroupSection(title);
     	}
@@ -116,6 +119,7 @@ public class CollaboratorTool extends Composite implements ToolView{
     	}
         this.viewEnum = viewEnum;
         this.viewName = viewName;
+        this.workflowDocType = workflowDocType;
     	this.initWidget(layout);
     }
 
@@ -141,7 +145,7 @@ public class CollaboratorTool extends Composite implements ToolView{
         //columns.add("Remove Person");
         table = new SimpleWidgetTable(columns);
     	
-		workflowRpcServiceAsync.getMetadata("workflow", null, new AsyncCallback<Metadata>(){
+		workflowToolRpcServiceAsync.getMetadata("workflow", null, new AsyncCallback<Metadata>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -222,7 +226,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 					
 					dataId = model.getDataId();
 					if(workflowId == null){
-						cluProposalRpcServiceAsync.getWorkflowIdFromDataId(dataId, new AsyncCallback<String>(){
+						workflowRpcServiceAsync.getWorkflowIdFromDataId(workflowDocType, dataId, new AsyncCallback<String>(){
 							@Override
 							public void onFailure(Throwable caught) {
 								//Window.alert("Getting workflowId failed");
@@ -269,7 +273,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 	}
 	
 	private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback){
-		cluProposalRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
+		workflowRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
 			@Override
 			public void onFailure(Throwable caught) {
 				documentStatus = null;
@@ -393,7 +397,7 @@ public class CollaboratorTool extends Composite implements ToolView{
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
     		//TODO put real title in
-    		workflowRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermissionCode, selectedActionRequest, participationRequired, respondBy, new AsyncCallback<Boolean>(){
+    		workflowToolRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermissionCode, selectedActionRequest, participationRequired, respondBy, new AsyncCallback<Boolean>(){
 				public void onFailure(Throwable caught) {
 					Window.alert("Could not add Collaborator");
 					GWT.log("could not add collaborator", caught);
@@ -429,7 +433,7 @@ public class CollaboratorTool extends Composite implements ToolView{
     
 	public void refreshCollaboratorData() {
 		if(workflowId!=null){
-			workflowRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
+			workflowToolRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
 				public void onFailure(Throwable caught) {
 					Window.alert("Getting Collaborators failed");
 				}
@@ -507,7 +511,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 				}
 	        });
 		}
-		workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new AsyncCallback<Boolean>(){
+		workflowToolRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new AsyncCallback<Boolean>(){
 
 			@Override
             public void onFailure(Throwable caught) {

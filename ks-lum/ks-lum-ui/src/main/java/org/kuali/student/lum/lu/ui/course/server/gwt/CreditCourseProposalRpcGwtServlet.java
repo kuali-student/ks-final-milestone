@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.service.exceptions.OperationFailedExce
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -46,11 +47,12 @@ public class CreditCourseProposalRpcGwtServlet extends
 		CourseInfo courseInfo;
 		try {
 			courseInfo = courseService.getCourse(id);
-		} catch (Exception e) {
+		} catch (DoesNotExistException dne) {
 			//This could be a proposal id
 			ProposalInfo proposalInfo = proposalService.getProposal(id);
 			String courseId = proposalInfo.getProposalReference().get(0);
 			courseInfo = courseService.getCourse(courseId);
+			LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
 		}		
 		
 		return courseInfo; 

@@ -107,6 +107,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
 
+    public static final String WORKFLOW_DOC_TYPE					= "CluCreditCourseProposal";
     public static final String PROPOSAL_ID_PATH                     = "/proposalId";
     public static final String PROPOSAL_TITLE_PATH                  = "/courseTitle";
     public static final String COURSE_TITLE_PATH                    = "/courseTitle";
@@ -164,7 +165,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             String tools = "Tools";
             layout.addMenu(tools);
             layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
-                getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+                WORKFLOW_DOC_TYPE, getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
             layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
 
             layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
@@ -266,9 +267,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected SectionView generateGovernanceSection(){
         VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
-        addField(section, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
+        addField(section, COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
         addField(section, COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY));
-        addField(section, COURSE + "/" + DEPARTMENT, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY));
+        addField(section, COURSE + "/" + ADMIN_ORGS, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY));
 
         return section;
     }
@@ -682,7 +683,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         String tools = "Tools";
         layout.addMenu(tools);
         layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
-            getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+            getWorkflowDocumentType(), getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
         layout.addMenuItem(tools, new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
         layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
 
@@ -909,9 +910,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     @Override
     public String[] getWorkflowRequiredFields() {
-        return new String[]{"department"};
+        return new String[]{"curriculumOversightOrgs"};
     }
 
+    @Override
+    public String getWorkflowDocumentType() {
+        return WORKFLOW_DOC_TYPE;
+    }
+    
     @Override
     public String getSectionTitle(DataModel model) {
 

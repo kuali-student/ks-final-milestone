@@ -294,8 +294,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         }
 
         //FIXME: [KSCOR-225] This needs to be moved to the configurer
-        workflowUtil = new WorkflowUtilities((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class), this,
-                cfg.getProposalIdPath(), createOnWorkflowSubmitSuccessHandler());
+        workflowUtil = new WorkflowUtilities(this,cfg.getWorkflowDocumentType(),cfg.getProposalIdPath(), createOnWorkflowSubmitSuccessHandler());
         workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
 
 
@@ -370,27 +369,19 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
     private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         KSBlockingProgressIndicator.addTask(loadDataTask);
-        cluProposalRpcServiceAsync.getDataFromWorkflowId(getViewContext().getId(), new AsyncCallback<Data>(){
-
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Error loading Proposal from docId: "+getViewContext().getId()+". "+caught.getMessage());
+        workflowUtil.getDataIdFromWorkflowId(getViewContext().getId(), new AsyncCallback<String>(){
+			@Override
+			public void onFailure(Throwable caught) {
+                Window.alert("Error loading Proposal from Workflow Document: "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);				
+			}
 
-            }
-
-            @Override
-            public void onSuccess(Data result) {
-                cluProposalModel.setRoot(result);
-                setProposalHeaderTitle();
-                callback.onModelReady(cluProposalModel);
-                workCompleteCallback.exec(true);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
-            }
-
+			@Override
+			public void onSuccess(String proposalId) {
+				getCluProposalFromProposalId(proposalId, callback, workCompleteCallback);
+			}        	
         });
-
     }
 
     @SuppressWarnings("unchecked")
@@ -539,7 +530,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
             public void exec(Throwable caught) {
                  GWT.log("Save Failed.", caught);
                  saveWindow.setWidget(buttonGroup);
-                 saveMessage.setText("Save Failed!  Please Try Again.");
+               	 saveMessage.setText("Save Failed!  Please try again. ");
                  buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
             }
 

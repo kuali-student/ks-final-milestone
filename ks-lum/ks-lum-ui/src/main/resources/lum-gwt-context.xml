@@ -124,6 +124,10 @@
                     <ref bean="WorkflowToolRpcGwtServletController"/>
                 </entry>
                 <entry
+                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowRpcService">
+                    <ref bean="WorkflowRpcGwtServletController"/>
+                </entry>
+                <entry
                         key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluSetManagementRpcService">
                     <ref bean="CluSetManagementRpcGwtServletController"/>
                 </entry>
@@ -251,6 +255,12 @@
         <property name="servletInstance" ref="WorkflowToolRpcGwtServlet"/>
     </bean>
 
+    <bean id="WorkflowRpcGwtServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="WorkflowRpcGwtServlet"/>
+        <property name="servletInstance" ref="WorkflowRpcGwtServlet"/>
+    </bean>
+
     <bean id="CluSetManagementRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="CluSetManagementRpcGwtServlet"/>
         <property name="servletInstance" ref="CluSetManagementRpcGwtServlet"/>
@@ -289,12 +299,17 @@
         <property name="roleUpdateService" ref="roleUpdateServiceClient"/>
     </bean>
 
-    <bean id="CluProposalRpcGwtServlet"
-          class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
+    <bean id="WorkflowRpcGwtServlet"
+          class="org.kuali.student.common.ui.server.gwt.WorkflowRpcGwtServlet">
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+    </bean>
+
+    <bean id="CluProposalRpcGwtServlet"
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
+        <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
         <property name="proposalService" ref="proposalClient"/>
         <property name="transformationManager" ref="courseTransformationManager"/>
@@ -304,9 +319,6 @@
     <!--Program Servlet Declaration-->
     <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
         <property name="transformationManager" ref="programTransformationManager"/>
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
-        <property name="identityService" ref="identityServiceClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
     </bean>
