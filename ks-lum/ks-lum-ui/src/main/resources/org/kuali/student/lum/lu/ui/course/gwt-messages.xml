@@ -97,13 +97,17 @@
 	<bean parent="enCourse" p:id="cluLearningResults" p:value="Learning Results" />
 	<bean parent="enCourse" p:id="cluScheduling" p:value="Scheduling" />
 	<bean parent="enCourse" p:id="cluFormat" p:value="Course Format" />
-	<bean parent="enCourse" p:id="cluFormats" p:value="Course Formats" />
+	<bean parent="enCourse" p:id="cluFormats" p:value="Course Format" />
+	<bean parent="enCourse" p:id="cluFormats-instruct" p:value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
+	<bean parent="enCourse" p:id="cluFormats-help" p:value="Is your course taught differently in the school year than it is in the summer? For example, online in the summer, lecture/lab in the fall. If so, you will need two course formats." />
 	<bean parent="enCourse" p:id="cluAddFormat" p:value="Add Additional Format" />
 	<bean parent="enCourse" p:id="cluAddActivity" p:value="Add Activity" />
 	<bean parent="enCourse" p:id="cluActivityLiteral" p:value="Activity" />
 	<bean parent="enCourse" p:id="cluActivityType" p:value="Activity Type" />
 	<bean parent="enCourse" p:id="cluContactHours" p:value="Contact Hours" />
-	<bean parent="enCourse" p:id="cluClassSize" p:value="Class Size" />
+	<bean parent="enCourse" p:id="cluContactHours-instruct" p:value="Sum of contact hours will validate with credits (from learning reaults)" />
+	<bean parent="enCourse" p:id="cluClassSize" p:value="Anticipated Class Size" />
+	<bean parent="enCourse" p:id="cluClassSize-help" p:value="This does not have to be exact - it will be used as an estimate for evaluation purposes only." />
 
 	<bean parent="enCourse" p:id="cluAcademicContent" p:value="Course Content" />
 	<bean parent="enCourse" p:id="cluInformation" p:value="Course Information" />
@@ -257,7 +261,7 @@
 	<bean parent="enCourse" p:id="cluTermsOffered" p:value="Terms Offered" />
 	<bean parent="enCourse" p:id="cluTermsOffered-instruct" p:value="Selecting a single term will restrict this course to only that term. 'Any' will allow the course to be offered in any term that matches the duration selected below." />
 	<bean parent="enCourse" p:id="cluDurationType" p:value="Duration Type" />
-	<bean parent="enCourse" p:id="cluDurationQuantity" p:value="Duration Quantity" />
+	<bean parent="enCourse" p:id="cluDurationQuantity" p:value="Duration Count" />
 	<bean parent="enCourse" p:id="cluCurrentView" p:value="Current" />
 	<bean parent="enCourse" p:id="cluCourseDetails" p:value="Course Details" />
 	<bean parent="enCourse" p:id="cluFirstOffering" p:value="Expected First Offering" />

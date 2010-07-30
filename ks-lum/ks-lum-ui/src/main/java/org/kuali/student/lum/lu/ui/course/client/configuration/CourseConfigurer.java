@@ -513,13 +513,17 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             GroupSection activity = new GroupSection();
             addField(activity, ACTIVITY_TYPE, generateMessageInfo(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
             activity.nextLine();
-
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
-
-            activity.nextLine();
+            
             addField(activity, CONTACT_HOURS + "/" + "unitQuantity", generateMessageInfo(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
             addField(activity, CONTACT_HOURS + "/" + "unitType", null,  null, path);
+
+            activity.nextLine();
+            
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
+
+            activity.nextLine();
+            
             addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, generateMessageInfo(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
             return activity;

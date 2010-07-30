@@ -470,6 +470,8 @@
 
  <bean id="amountInfo.unitQuantity-parent" abstract="true" parent="baseString">
   <property name="name" value="unitQuantity" />
+  <property name="validChars" ref="numeric"/>
+  <property name="maxLength" value="32"/>
   <property name="requireConstraint">
    <bean parent="requiresConstraint">
     <property name="fieldPath" value="unitType"/>
