@@ -23,7 +23,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
@@ -35,9 +34,6 @@ public class CreditCourseProposalRpcGwtServlet extends
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
 
-	public static final String COURSE_TYPE = "kuali.lu.type.CreditCourse";
-	public static final String COURSE_FORMAT_TYPE = "kuali.lu.type.CreditCourseFormatShell";
-	
 	private static final String DEFAULT_METADATA_STATE = "draft";
 
 	private ModifyCreditCourseProposalManager modifyCourseManager;	
@@ -63,15 +59,6 @@ public class CreditCourseProposalRpcGwtServlet extends
 	@Override
 	protected Object save(Object dto) throws Exception {
 		CourseInfo courseInfo = (CourseInfo)dto;
-	
-		courseInfo.setType(COURSE_TYPE);
-		courseInfo.setState(DEFAULT_METADATA_STATE);
-		
-		//Set types (should this happen here)
-        courseInfo.setType(COURSE_TYPE);
-        for (FormatInfo format:courseInfo.getFormats()){
-        	format.setType(COURSE_FORMAT_TYPE);
-        }            
 		
 		if (courseInfo.getId() == null){
 			courseInfo = courseService.createCourse(courseInfo);

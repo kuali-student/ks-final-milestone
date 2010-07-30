@@ -305,32 +305,32 @@ public class MetadataServiceImpl {
             String s = (String)value;
             switch (dataType){
                 case STRING:
-                    value = new Data.StringValue(s);
+                    v = new Data.StringValue(s);
                     break; 
                 case BOOLEAN:
-                    value = new Data.BooleanValue(Boolean.valueOf(s));
+                    v = new Data.BooleanValue(Boolean.valueOf(s));
                     break;
                 case FLOAT:
-                    value = new Data.FloatValue(Float.valueOf(s));
+                    v = new Data.FloatValue(Float.valueOf(s));
                     break;
                 case DATE:
                     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");                    
                     try {
-                        value = new Data.DateValue(format.parse(s));
+                        v = new Data.DateValue(format.parse(s));
                     } catch (ParseException e) {
                         LOG.error("Unable to get default date value from metadata definition");
                     }
                     break;
                 case LONG:
                 	if (!s.isEmpty()){
-                		value = new Data.LongValue(Long.valueOf(s));
+                		v = new Data.LongValue(Long.valueOf(s));
                 	}
                     break;
                 case DOUBLE:
-                    value = new Data.DoubleValue(Double.valueOf(s));
+                    v = new Data.DoubleValue(Double.valueOf(s));
                     break;
                 case INTEGER:
-                    value = new Data.IntegerValue(Integer.valueOf(s));
+                    v = new Data.IntegerValue(Integer.valueOf(s));
                     break;                    
             }
         } else {

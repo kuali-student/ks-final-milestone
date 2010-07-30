@@ -238,6 +238,7 @@
 
  <bean id="courseInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
   <property name="name" value="state" />
+  <property name="defaultValue" value="draft"/>
  </bean>
  <bean id="courseInfo.state" parent="courseInfo.state-parent" />
 
@@ -263,6 +264,7 @@
 
  <bean id="courseInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
   <property name="name" value="type" />
+  <property name="defaultValue" value="kuali.lu.type.CreditCourse"/>
  </bean>
  <bean id="courseInfo.type" parent="courseInfo.type-parent" />
 
@@ -631,11 +633,13 @@
 
  <bean id="formatInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
   <property name="name" value="state" />
+  <property name="defaultValue" value="draft"/>
  </bean>
  <bean id="formatInfo.state" parent="formatInfo.state-parent" />
 
  <bean id="formatInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
   <property name="name" value="type" />
+  <property name="defaultValue" value="kuali.lu.type.CreditCourseFormatShell"/>
  </bean>
  <bean id="formatInfo.type" parent="formatInfo.type-parent" />
 
@@ -700,6 +704,7 @@
 
  <bean id="activityInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
   <property name="name" value="state" />
+  <property name="defaultValue" value="draft"/>
  </bean>
  <bean id="activityInfo.state" parent="activityInfo.state-parent" />
  <bean id="activityInfo.dynamic" parent="baseString">

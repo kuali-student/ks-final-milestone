@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
@@ -78,10 +79,19 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	            if (propValue instanceof Data){
 	            	clazz.getFields();
 	            	if(metadata!=null){
-	            		propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get(propKey.toString()));
+	            		if(DataType.LIST.equals(metadata.getDataType())){
+	            			propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get("*"));
+	            		}else{
+	            			propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get(propKey.toString()));
+	            		}
 	            	}
 	            	else{
 	            		propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),null);
+	            	}
+	            }else if(metadata!=null&&propValue==null){
+	            	Metadata fieldMetadata = metadata.getProperties().get(propKey.toString());
+	            	if(fieldMetadata != null && fieldMetadata.getDefaultValue() != null){
+	            		propValue = fieldMetadata.getDefaultValue().get();	
 	            	}
 	            }
 	            
@@ -149,7 +159,11 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 					Data listItemData = (Data)listItemValue;
 					Boolean isDeleted = listItemData.query("_runtimeData/deleted");
 					if (isDeleted == null || !isDeleted){
-						listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType, metadata);
+						if(metadata!=null){
+							listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType, metadata.getProperties().get("*"));
+						}else{
+							listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType, null);
+						}
 						resultList.add(listItemValue);
 					}
 				} else {
