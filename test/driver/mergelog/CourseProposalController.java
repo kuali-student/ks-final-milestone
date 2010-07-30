@@ -15,6 +15,8 @@
 
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +53,6 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
-import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
@@ -102,23 +103,16 @@ public class CourseProposalController extends MenuEditableSectionController
 	private WorkflowUtilities workflowUtil;
 
 	private boolean initialized = false;
-	private boolean configured = false;
+
+	private static final String UPDATED_KEY = "proposal/metaInfo/updateTime";
+
+	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+			DateFormat.LONG);
 
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 
 	public CourseProposalController() {
-		super(CourseProposalController.class.getName());
-		initialize();
-	}
-
-	public CourseProposalController(ViewContext viewContext) {
-		super(CourseProposalController.class.getName());
-		initialize();
-	}
-
-	public CourseProposalController(ViewContext viewContext,
-			KSTitleContainerImpl layoutTitle) {
 		super(CourseProposalController.class.getName());
 		initialize();
 	}
@@ -170,6 +164,9 @@ public class CourseProposalController extends MenuEditableSectionController
 
 					@Override
 					public void onValidateRequest(ValidateRequestEvent event) {
+						if (event.getFieldDescriptor().isDirty()) {
+							setContentWarning("You have unsaved changes");
+						}
 						requestModel(new ModelRequestCallback<DataModel>() {
 							@Override
 							public void onModelReady(DataModel model) {
@@ -256,9 +253,11 @@ public class CourseProposalController extends MenuEditableSectionController
 		if (initialized) {
 			onReadyCallback.exec(true);
 		} else {
+			initialized = true;
 			KSBlockingProgressIndicator.addTask(initializingTask);
 			this.setContentTitle("New Course (Proposal)");
 			this.setName("New Course (Proposal)");
+			setContentWarning("");
 			String idType = null;
 			String viewContextId = null;
 			// The switch was added due to the way permissions currently work.
@@ -271,27 +270,18 @@ public class CourseProposalController extends MenuEditableSectionController
 					viewContextId = null;
 				}
 
-				// switch (getViewContext().getIdType()) {
-				// case KS_KEW_OBJECT_ID :
-				// idType = getViewContext().getIdType().toString();
-				// viewContextId = getViewContext().getId();
-				// break;
-				// case DOCUMENT_ID :
-				// idType = getViewContext().getIdType().toString();
-				// viewContextId = getViewContext().getId();
-				// break;
-				// }
 			}
-
 			cluProposalRpcServiceAsync.getMetadata(idType, viewContextId,
 					new AsyncCallback<Metadata>() {
 
 						public void onFailure(Throwable caught) {
+							initialized = false;
 							onReadyCallback.exec(false);
 							KSBlockingProgressIndicator
 									.removeTask(initializingTask);
 							throw new RuntimeException(
 									"Failed to get model definition.", caught);
+
 						}
 
 						public void onSuccess(Metadata result) {
@@ -299,39 +289,29 @@ public class CourseProposalController extends MenuEditableSectionController
 									result);
 							cluProposalModel.setDefinition(def);
 							init(def);
-							initialized = true;
 							onReadyCallback.exec(true);
 							KSBlockingProgressIndicator
 									.removeTask(initializingTask);
 						}
 					});
+
 		}
 	}
 
 	private void init(DataModelDefinition modelDefinition) {
-		CourseConfigurer cfg = null;
-		if (!configured) {
-			cfg = GWT.create(CourseConfigurer.class);
-		}
+		CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
 
-		// FIXME: [KSCOR-225] This needs to be moved to the configurer
 		workflowUtil = new WorkflowUtilities(
 				(WorkflowRpcServiceAsync) GWT
 						.create(CreditCourseProposalRpcService.class),
-				this, cfg.getProposalIdPath(),
-				createOnWorkflowSubmitSuccessHandler());
-		workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
+				this, "proposal/id", createOnWorkflowSubmitSuccessHandler());
+		workflowUtil
+				.setRequiredFieldPaths(new String[] { "course/department" });
 
-		if (!configured) {
-			cfg.setModelDefinition(modelDefinition);
-			cfg.configure(this);
+		cfg.setModelDefinition(modelDefinition);
+		cfg.configure(this);
 
-			addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
-
-			configured = true;
-		}
-
-		initialized = true;
+		addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
 	}
 
 	private CloseHandler<KSLightBox> createOnWorkflowSubmitSuccessHandler() {
@@ -414,6 +394,7 @@ public class CourseProposalController extends MenuEditableSectionController
 			public void onSuccess(Data result) {
 				cluProposalModel.setRoot(result);
 				setProposalHeaderTitle();
+				setLastUpdated();
 				callback.onModelReady(cluProposalModel);
 				workCompleteCallback.exec(true);
 				KSBlockingProgressIndicator.removeTask(loadDataTask);
@@ -441,6 +422,7 @@ public class CourseProposalController extends MenuEditableSectionController
 			public void onSuccess(Data result) {
 				cluProposalModel.setRoot(result);
 				setProposalHeaderTitle();
+				setLastUpdated();
 				callback.onModelReady(cluProposalModel);
 				workCompleteCallback.exec(true);
 				KSBlockingProgressIndicator.removeTask(loadDataTask);
@@ -468,6 +450,7 @@ public class CourseProposalController extends MenuEditableSectionController
 			public void onSuccess(Data result) {
 				cluProposalModel.setRoot(result);
 				setProposalHeaderTitle();
+				setLastUpdated();
 				callback.onModelReady(cluProposalModel);
 				workCompleteCallback.exec(true);
 				KSBlockingProgressIndicator.removeTask(loadDataTask);
@@ -480,6 +463,8 @@ public class CourseProposalController extends MenuEditableSectionController
 	private void createNewCluProposalModel(final ModelRequestCallback callback,
 			final Callback<Boolean> workCompleteCallback) {
 		cluProposalModel.setRoot(new LuData());
+		setProposalHeaderTitle();
+		setLastUpdated();
 		callback.onModelReady(cluProposalModel);
 		workCompleteCallback.exec(true);
 	}
@@ -619,6 +604,7 @@ public class CourseProposalController extends MenuEditableSectionController
 							context.setIdType(IdType.KS_KEW_OBJECT_ID);
 							workflowUtil.refresh();
 							setProposalHeaderTitle();
+							setLastUpdated();
 							HistoryManager.logHistoryChange();
 							CourseProposalController.this.showNextViewOnMenu();
 						}
@@ -629,9 +615,17 @@ public class CourseProposalController extends MenuEditableSectionController
 
 	}
 
+	public void setLastUpdated() {
+		Date lastUpdated = (Date) cluProposalModel.get(UPDATED_KEY);
+		if (lastUpdated != null) {
+			setContentInfo("Last Updated: " + df.format(lastUpdated));
+		} else {
+			setContentInfo("");
+		}
+	}
+
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
-		initialized = false;
 		init(new Callback<Boolean>() {
 
 			@Override
@@ -711,10 +705,12 @@ public class CourseProposalController extends MenuEditableSectionController
 			sb.append(" - ");
 			sb.append(cluProposalModel.get("course/transcriptTitle"));
 			sb.append(" (Proposed Modification)");
-		} else {
+		} else if (cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH) != null) {
 			sb.append(cluProposalModel
 					.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
 			sb.append(" (Proposal)");
+		} else {
+			sb.append("New Course (Proposal)");
 		}
 
 		this.setContentTitle(sb.toString());
@@ -767,7 +763,7 @@ public class CourseProposalController extends MenuEditableSectionController
 																DataModel model) {
 															if (getCurrentView() instanceof SectionView) {
 																((SectionView) getCurrentView())
-																		.resetDirtyFlags();
+																		.resetFieldInteractionFlags();
 															}
 															okToChange
 																	.exec(true);
