@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100415100000"
+        ID="99080d6d-59ad-4159-95ee-35b39fb160d4"
+        RES_COMP_ID="kuali.resultComponent.grade.passFail" ST="active" VERSIONIND="0"/>
+    <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100415100000"
+        ID="99238bf0-6ea4-4447-95cd-fd2010bd5b0d"
+        RES_COMP_ID="kuali.creditType.credit.degree.10" ST="active" VERSIONIND="0"/>
+</dataset>

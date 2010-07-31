@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
+
+  	<inherits name="org.kuali.student.lum.lu.ui.main.LumUI"/>
+  	  	
+  	<stylesheet src="LumMain.css"/>
+  	  	
+	<entry-point class="org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint"/>
+</module>

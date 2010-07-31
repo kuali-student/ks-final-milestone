@@ -1,0 +1,21 @@
+<module>
+  <!-- Inherit the core Web Toolkit stuff.                  -->
+  <inherits name="com.google.gwt.user.User"/>
+  <inherits name="com.google.gwt.i18n.I18N"/>
+
+  <!-- Inherit the core Kuali Student UI library, which contains the MVC framework, etc -->
+  <inherits name="org.kuali.student.commons.ui.UICommons"/>
+  <inherits name="org.kuali.student.rules.InternalCommon"/>
+
+  <inherits name='org.kuali.student.rules.FactFinder'/>
+  <inherits name='org.kuali.student.rules.RuleManagement'/>
+  <inherits name='org.kuali.student.rules.RuleExecution'/>
+
+  <!-- disable warnings -->
+  <set-property name="gwt.suppressNonStaticFinalFieldWarnings" value="true" /> 
+
+  <!-- Specify the app entry point class.                   -->
+  <entry-point class="org.kuali.student.rules.devgui.client.DevelopersGuiEntryPoint"/>
+  
+  <servlet class="org.kuali.student.rules.devgui.server.gwt.DevelopersGuiServiceImplGWT" path="/DevelopersGuiService"/>  
+</module>

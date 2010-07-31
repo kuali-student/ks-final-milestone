@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DictionaryService" targetNamespace="http://student.kuali.org/wsdl/dictionary" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/dictionary" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+    <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
+    <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
+    <xs:complexType name="getObjectTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getObjectTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectStructure">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="objectTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectStructureResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:objectStructure"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="objectStructure">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" name="type" type="tns:type"/>
+            <xs:element form="qualified" minOccurs="0" name="name" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="desc" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="type">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" name="state" type="tns:state"/>
+            <xs:element form="qualified" minOccurs="0" name="name" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element form="qualified" minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element form="qualified" name="modifiable" type="xs:boolean"/>
+            <xs:element form="qualified" minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" name="field" type="tns:field"/>
+            <xs:element form="qualified" minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="field">
+        <xs:sequence>
+            <xs:element form="qualified" minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
+            <xs:element form="qualified" minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+            <xs:element form="qualified" name="selector" type="xs:boolean"/>
+            <xs:element form="qualified" name="dynamic" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="fieldDescriptor">
+        <xs:sequence>
+            <xs:element form="qualified" name="name" type="xs:string"/>
+            <xs:element form="qualified" name="desc" type="xs:string"/>
+            <xs:element form="qualified" name="readOnly" type="xs:boolean"/>
+            <xs:element form="qualified" name="dataType" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="search" type="tns:searchSelector"/>
+            <xs:element form="qualified" minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
+            <xs:element form="qualified" minOccurs="0" name="objectStructureRef" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchSelector">
+        <xs:sequence/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="constraintDescriptor">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="constraintSelector">
+        <xs:sequence>
+            <xs:element form="qualified" minOccurs="0" name="minValue" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="maxValue" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element form="qualified" minOccurs="0" name="maxLength" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+            <xs:element form="qualified" minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element form="qualified" minOccurs="0" name="maxOccurs" type="xs:string"/>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
+            <xs:element form="qualified" minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="className" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
+        <xs:attribute name="locale" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="validCharsConstraint">
+        <xs:sequence>
+            <xs:element form="qualified" minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="fields" type="xs:string"/>
+        <xs:attribute name="separator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="requireConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="caseConstraint">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="whenConstraint">
+        <xs:sequence>
+            <xs:element form="qualified" minOccurs="0" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="typeStateCaseConstraint">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeStateWhenConstraint">
+        <xs:sequence>
+            <xs:element form="qualified" minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element form="qualified" minOccurs="0" name="maxOccurs" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupConstraint">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="search" type="xs:string"/>
+        <xs:attribute name="searchField" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupKeyConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="mapsTo" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="occursConstraint">
+        <xs:sequence>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="min" type="xs:int"/>
+        <xs:attribute name="max" type="xs:int"/>
+    </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getObjectStructureResponse">
+    <wsdl:part name="parameters" element="tns:getObjectStructureResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypesResponse">
+    <wsdl:part name="parameters" element="tns:getObjectTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectStructure">
+    <wsdl:part name="parameters" element="tns:getObjectStructure">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypes">
+    <wsdl:part name="parameters" element="tns:getObjectTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="DictionaryService">
+    <wsdl:operation name="getObjectTypes">
+      <wsdl:input name="getObjectTypes" message="tns:getObjectTypes">
+    </wsdl:input>
+      <wsdl:output name="getObjectTypesResponse" message="tns:getObjectTypesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectStructure">
+      <wsdl:input name="getObjectStructure" message="tns:getObjectStructure">
+    </wsdl:input>
+      <wsdl:output name="getObjectStructureResponse" message="tns:getObjectStructureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DictionaryServiceServiceSoapBinding" type="tns:DictionaryService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getObjectTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectStructure">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectStructure">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectStructureResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DictionaryService">
+    <wsdl:port name="DictionaryServicePort" binding="tns:DictionaryServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/DictionaryServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

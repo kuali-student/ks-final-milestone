@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="enCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="common" />
+	</bean>
+
+   	<bean parent="enCommon" p:id="confirm"		p:value="Confirm"/>
+   	<bean parent="enCommon" p:id="cancel"		p:value="Cancel"/>
+   	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
+   	<bean parent="enCommon" p:id="yes"			p:value="Yes"/>
+  	<bean parent="enCommon" p:id="no"			p:value="No"/>
+  	<bean parent="enCommon" p:id="add"			p:value="Add"/>
+  	<bean parent="enCommon" p:id="remove"		p:value="Remove"/>
+  	<bean parent="enCommon" p:id="modify"		p:value="Modify"/>
+  	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
+   	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
+   	<bean parent="enCommon" p:id="send"     	p:value="Send"/>
+   	<bean parent="enCommon" p:id="go"		p:value="Go"/>
+   	<bean parent="enCommon" p:id="create"		p:value="Create"/>
+   	<bean parent="enCommon" p:id="search"		p:value="Search"/>
+   	<bean parent="enCommon" p:id="fieldDeletionTitle"		p:value="Remove Fields"/>
+   	<bean parent="enCommon" p:id="fieldDeletionConfirmMessage"		p:value="Changing your selection may remove associated fields, are you sure?"/>
+
+   	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
+   	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
+   	<bean parent="enCommon" p:id="describeAction"     	p:value="Enter a brief description of what you were doing at the time of the error."/>
+
+    <bean parent="enCommon" p:id="invalidLookupConfig"         p:value="Invalid lookup configuration: missing initial lookup metadata."/>
+
+   	 <!--  CommentPanel Messages -->
+   	<bean parent="enCommon" p:id="allComments"     	p:value="All"/>
+
+    <!-- WrapperPanel Messages -->
+    <bean parent="enCommon" p:id="wrapperPanelHelp"      p:value="Help"/>
+    <bean parent="enCommon" p:id="wrapperPanelSettings"     p:value="Settings" />
+    <bean parent="enCommon" p:id="wrapperPanelLogout"     p:value="Logout" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleHome"     p:value="Home" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleCurriculumManagement"      p:value="Curriculum Management" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleMyActionList"      p:value="My Action List" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleWorkflowDocSearch"      p:value="Workflow Doc Search" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleRice"     p:value="Rice" />
+    <bean parent="enCommon" p:id="wrapperPanelClose"     p:value="Close" />
+    <bean parent="enCommon" p:id="wrapperPanelTitleOrg"      p:value="Organization Management" />
+
+   	<!-- CreditCourse readable states -->
+   	<bean parent="enCommon" p:id="kuali.lu.type.CreditCourse.draft"     	p:value="Proposal"/>
+   	<bean parent="enCommon" p:id="kuali.lu.type.CreditCourse.submitted"     	p:value="Submitted"/>
+
+   	<!-- RequiredEnum Messages -->
+   	<bean parent="enCommon" p:id="required"     	p:value="Required"/>
+   	<bean parent="enCommon" p:id="optional"     	p:value="(optional)"/>
+
+   	<!-- Search Panel Messages -->
+  	<bean parent="enCommon" p:id="searchPanelAddCriteria"         p:value="+ Add Criteria"/>
+    <bean parent="enCommon" p:id="searchPanelCriteria"         p:value="Search Criteria:"/>
+    <bean parent="enCommon" p:id="searchPanelEnterFields"         p:value="Enter one or more fields"/>
+    <bean parent="enCommon" p:id="searchPanelModifySearch"         p:value="Modify Search"/>
+    <bean parent="enCommon" p:id="searchPanelCustomizeSearch"         p:value="Customize This Search"/>
+    <bean parent="enCommon" p:id="searchPanelModifySearch"         p:value="Modify Search"/>
+    <bean parent="enCommon" p:id="searchPanelReturnToAdvancedSearch"         p:value="Return to Advanced Search"/>
+
+    <!-- Swappable Panel messages  -->
+    <bean parent="enCommon" p:id="swappablePanelSearchBy"         p:value="Search By"/>
+    
+        <!-- Workflow -->
+    <bean parent="enCommon" p:id="wfSaved"      p:value="Saved" />
+    <bean parent="enCommon" p:id="wfInitiated"      p:value="Initiated" />
+    <bean parent="enCommon" p:id="wfEnroute"      p:value="Enroute" />
+    <bean parent="enCommon" p:id="wfApproved"      p:value="Approved" />
+    <bean parent="enCommon" p:id="wfCancelled"      p:value="Cancelled" />
+    <bean parent="enCommon" p:id="wfException"      p:value="Exception" />
+    <bean parent="enCommon" p:id="wfDisapproved"      p:value="Disapproved" />
+    <bean parent="enCommon" p:id="wfDisapprovedCancel"      p:value="Disapproved-Cancel" />
+    <bean parent="enCommon" p:id="wfProcessed"      p:value="Processed" />
+
+	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="es" />
+        <property name="groupName"      value="common" />
+	</bean>
+
+   	<bean parent="esCommon" p:id="confirm"		p:value="Confirmar"/>
+   	<bean parent="esCommon" p:id="cancel"		p:value="Cancelar"/>
+   	<bean parent="esCommon" p:id="wait"			p:value="Espere por favor..."/>
+   	<bean parent="esCommon" p:id="yes"			p:value="S�"/>
+  	<bean parent="esCommon" p:id="no"			p:value="No"/>
+  	<bean parent="esCommon" p:id="add"			p:value="Agregue"/>
+  	<bean parent="esCommon" p:id="remove"		p:value="Quite"/>
+  	<bean parent="esCommon" p:id="modify"		p:value="Modifiq�ese"/>
+  	<bean parent="esCommon" p:id="processing"	p:value="Proceso..."/>
+   	<bean parent="esCommon" p:id="advSearch"	p:value="B�squeda avanzada"/>
+   	<bean parent="esCommon" p:id="send"     	p:value="Envie"/>
+   	<bean parent="esCommon" p:id="go"		p:value="Vaya"/>
+
+   	<bean parent="esCommon" p:id="errorDialogTitle"     	p:value="Env�enos un informe del error"/>
+   	<bean parent="esCommon" p:id="errorDescription"     	p:value="Aqu� est� la informaci�n incluida en este informe."/>
+   	<bean parent="esCommon" p:id="describeAction"     	p:value="Incorpore una breve descripci�n de lo que usted hac�a."/>
+
+	<!--  Default Validation Messages -->
+	<bean id="enValidation" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="validation" />
+	</bean>
+
+    <!-- need better messages than these -->
+   	<bean parent="enValidation" p:id="validation.required"		p:value="Required"/>
+   	<bean parent="enValidation" p:id="validation.requiresField"		p:value="${field1} requires ${field2}"/>
+   	<bean parent="enValidation" p:id="validation.validCharsFailed"		p:value="Invalid Characters"/>
+   	<bean parent="enValidation" p:id="validation.lengthOutOfRange"		p:value="Length out of range. Minimum Characters: ${minValue} Maximum Characters: ${maxValue} "/>
+   	<bean parent="enValidation" p:id="validation.maxLengthFailed"		p:value="Maximum Characters ${maxLength} allowed"/>
+   	<bean parent="enValidation" p:id="validation.minLengthFailed"		p:value="Minimum Characters ${minLength} required"/>
+   	<bean parent="enValidation" p:id="validation.outOfRange"		p:value="Value out of range. Minimum: ${minValue} Maximum ${maxValue}"/>
+   	<bean parent="enValidation" p:id="validation.maxValueFailed"		p:value="Value cannot be more than ${maxValue}"/>
+   	<bean parent="enValidation" p:id="validation.minValueFailed"		p:value="Value cannot be less than ${minValue}"/>
+    <bean parent="enValidation" p:id="validation.maxOccurs"		p:value="May only occur ${maxOccurs} or fewer times"/>
+    <bean parent="enValidation" p:id="validation.minOccurs"		p:value="Must occur at least ${minOccurs} times"/>
+    <bean parent="enValidation" p:id="validation.mustBeBoolean"		p:value="Must be a boolean value"/>
+    <bean parent="enValidation" p:id="validation.mustBeDate"		p:value="Must be a date"/>
+    <bean parent="enValidation" p:id="validation.mustBeDouble"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.mustBeFloat"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.mustBeInteger"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.mustBeLong"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.occurs"		p:value="Invalid number of occurrences."/>
+
+
+
+
+
+</beans>

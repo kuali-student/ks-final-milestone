@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LRC_CREDIT_ATTR ATTR_NAME="Credit Attr 1"
+        ATTR_VALUE="Credit Attr Value 1" ID="LRC-CREDIT-ATTR-1" OWNER="LRC-RESULT_VALUE-CREDIT-1"/>
+    <KSLU_LRC_CREDIT_ATTR ATTR_NAME="Credit Attr 2"
+        ATTR_VALUE="Credit Attr Value 2" ID="LRC-CREDIT-ATTR-2" OWNER="LRC-RESULT_VALUE-CREDIT-1"/>
+</dataset>

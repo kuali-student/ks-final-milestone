@@ -1,0 +1,96 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd ">
+
+    <import resource="classpath:META-INF/default-dao-context-test.xml" />
+
+    <bean id="loadDataBean"
+        class="org.kuali.student.poc.common.test.spring.LoadDataBean">
+        <property name="daoAnnotations"
+            value="${ks.test.daoImplClasses}" />
+    </bean>
+
+    <bean id="loadBeanListener"
+        class="org.kuali.student.poc.common.test.spring.LoadBeanListener">
+        <property name="ldb" ref="loadDataBean" />
+    </bean>
+
+    <bean id="daoPostProcessor"
+        class="org.kuali.student.poc.common.test.spring.DaoPostProcessor">
+        <property name="daoImplClasses"
+            value="${ks.test.daoImplClasses}" />
+    </bean>
+
+
+    <bean id="ruleManagement" autowire="byType"
+        class="org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl">
+        <!--property name="repository" ref="repository" />
+        <property name="ruleManagementDao" ref="ruleManagementDao" /-->
+    </bean>
+
+    <!--bean id="ruleManagementDao"
+        class="org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl">
+        <property name="entityManager" ref="entityManagerFactory" />
+    </bean-->
+
+    <bean id="ruleExecution"
+        class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
+        <property name="ruleSetExecutor"
+            ref="ruleSetExecutor" />
+        <property name="ruleRespositoryService"
+            ref="repository" />
+        <property name="ruleManagementService"
+            ref="ruleManagement" />
+    </bean>
+
+    <bean id="ruleSetExecutor"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <property name="enableExecutionLogging" value="true"/>
+        <property name="enableStatLogging" value="true"/>
+        <property name="ruleBaseCache" ref="ruleBaseCache"/>
+    </bean>
+
+    <bean id="ruleBaseCache"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+    </bean>
+    
+
+	<bean id="repository"
+		class="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl">
+		<property name="ruleEngineRepository"
+			ref="ruleEngineRepository" />
+		<property name="ruleSetTranslator"
+			ref="droolsTranslator"/>
+	</bean>
+
+    <bean id="ruleEngineRepository"
+        class="org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl">
+        <constructor-arg type="org.drools.repository.RulesRepository"
+            ref="rulesRepository" />
+    </bean>
+
+    <bean id="defaultDroolsRepository"
+        class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
+        destroy-method="shutdownRepository">
+        <constructor-arg type="java.lang.String"
+            value="/drools-repository" />
+    </bean>
+
+    <bean id="rulesRepository"
+        factory-bean="defaultDroolsRepository"
+        factory-method="getRepository" />
+
+    <bean id="droolsTranslator"
+        class="org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl">
+        <property name="ruleSetValidator" ref="ruleSetValidator" />
+    </bean>
+
+    <bean id="ruleSetValidator"
+        class="org.kuali.student.rules.translators.drools.RuleSetValidatorDroolsImpl">
+    </bean>
+
+</beans>

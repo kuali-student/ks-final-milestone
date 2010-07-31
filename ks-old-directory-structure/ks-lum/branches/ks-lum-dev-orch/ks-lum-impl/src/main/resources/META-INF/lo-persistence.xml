@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="Lo" transaction-type="JTA">
+		<class>org.kuali.student.core.entity.Meta</class>
+		<class>org.kuali.student.core.entity.MetaEntity</class>
+		<class>org.kuali.student.lum.lo.entity.LoRichText</class>
+
+		<class>org.kuali.student.lum.lo.entity.Lo</class>
+		<class>org.kuali.student.lum.lo.entity.LoAttribute</class>
+		<class>org.kuali.student.lum.lo.entity.LoCategory</class>
+		<class>org.kuali.student.lum.lo.entity.LoCategoryAttribute</class>
+		<class>org.kuali.student.lum.lo.entity.LoRepository</class>
+		<class>org.kuali.student.lum.lo.entity.LoRepositoryAttribute</class>
+		<class>org.kuali.student.lum.lo.entity.LoType</class>
+		<class>org.kuali.student.lum.lo.entity.LoTypeAttribute</class>
+		<class>org.kuali.student.lum.lo.entity.LoLoRelation</class>
+		<class>org.kuali.student.lum.lo.entity.LoLoRelationAttribute</class>
+		<class>org.kuali.student.lum.lo.entity.LoLoRelationType</class>
+		<class>org.kuali.student.lum.lo.entity.LoLoRelationTypeAttribute</class>
+		<class>org.kuali.student.lum.lo.entity.AllowedLoLoRelationType</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+	</persistence-unit>
+</persistence>

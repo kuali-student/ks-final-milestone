@@ -1,0 +1,61 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+   .outer{
+          border: 1px solid #D6D6D6;
+   }
+   .divider{
+    background: #686868;
+    height: 4px;
+   }
+   .level1{
+   	height: 32px;
+    background: #D4D0C8;
+   }
+   .level2{
+   	height: 32px;
+   }
+   .search{
+    float: right;
+   }
+   .searchBox{
+   	 height: 20px;
+   }
+   .kru{
+     font-weight: bold;  
+     font-size: 30px;
+   }
+	</ui:style>
+	<g:HTMLPanel styleName='{style.outer}'>
+		<div class='{style.level1}'>
+		   <span class='{style.kru}'>KRU</span> 
+		   <span>Kuali Reference University</span> 
+		   <span>KRL Portal</span> 
+		   <span>Directories</span> 
+		   <span>Search KRU</span>
+		</div>
+		<div class='{style.level2}'><span>Kuali Student</span> 
+		     <span class='{style.search}'>
+			     <span>Course</span>
+			     <span><input class='{style.searchBox}' type='text'></input>
+			           <input class='{style.searchBox}' type='button'></input>
+			     </span>
+		     </span>
+		</div>
+		<div class='{style.level2}'>
+		     <span><SELECT NAME=""><option>Navigate to...</option></SELECT></span> 
+		     <span class='{style.search}'>
+			     <span>Hi,</span>
+			     <span>John Hayes</span>   
+			     <span>Logout</span>
+		     </span>
+		</div>
+		<div class='{style.divider}'></div>
+		<div><a href=''>Home</a>&gt;
+		     <a href=''>Curriculum Management</a>&gt;
+		     <a href=''>Gastric Astronomy(Proposal)</a>&gt;
+		     <a href=''>Proposal Summary</a>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 

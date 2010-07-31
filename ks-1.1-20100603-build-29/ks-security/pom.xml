@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.student</groupId>
+    <artifactId>ks</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>org.kuali.student.security</groupId>
+  <artifactId>ks-security</artifactId>
+  <packaging>pom</packaging>
+  <name>KS Security</name>
+  <description>KS Security Parent POM</description>
+  <url>http://student.kuali.org/site/security/${project.version}</url>
+  <modules>
+    <module>ks-standard-sec</module>
+  </modules>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security</developerConnection>
+  </scm>
+  <repositories>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>http://maven.kuali.org/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  <distributionManagement>
+    <site>
+      <id>ks.site</id>
+      <url>scp://student.kuali.org:/opt/www/student/site/security/${project.version}</url>
+    </site>
+  </distributionManagement>
+</project>
