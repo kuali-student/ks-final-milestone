@@ -15,6 +15,8 @@
 
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +53,6 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
-import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
@@ -89,50 +90,43 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class CourseProposalController extends MenuEditableSectionController implements RequiresAuthorization, WorkflowEnhancedController{
 
-    //RPC Services
-    CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
+	//RPC Services
+	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 
-    //Models
-    private DataModel cluProposalModel = new DataModel();
+	//Models
+	private DataModel cluProposalModel = new DataModel();
 
     private WorkQueue modelRequestQueue;
 
     private WorkflowUtilities workflowUtil;
 
-    private boolean initialized = false;
-    private boolean configured = false;
+	private boolean initialized = false;
 
-    private BlockingTask initializingTask = new BlockingTask("Loading");
-    private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	private static final String UPDATED_KEY = "proposal/metaInfo/updateTime";
+
+	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+
+	private BlockingTask initializingTask = new BlockingTask("Loading");
+	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
         initialize();
     }
 
-    public CourseProposalController(ViewContext viewContext){
-        super(CourseProposalController.class.getName());
-        initialize();
-    }
-
-    public CourseProposalController(ViewContext viewContext, KSTitleContainerImpl layoutTitle){
-        super(CourseProposalController.class.getName());
-        initialize();
-    }
-
     @Override
     public void setViewContext(ViewContext viewContext) {
-        super.setViewContext(viewContext);
-        if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
-            viewContext.setPermissionType(PermissionType.OPEN);
-        }
-        else{
-            viewContext.setPermissionType(PermissionType.INITIATE);
-        }
+    	super.setViewContext(viewContext);
+    	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+    		viewContext.setPermissionType(PermissionType.OPEN);
+    	}
+    	else{
+    		viewContext.setPermissionType(PermissionType.INITIATE);
+    	}
     }
 
     private void initialize() {
-        //TODO get from messages
+    	//TODO get from messages
 
         super.setDefaultModelId(CourseConfigurer.CLU_PROPOSAL_MODEL);
         super.registerModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
@@ -163,6 +157,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
             @Override
             public void onValidateRequest(ValidateRequestEvent event) {
+            	if(event.getFieldDescriptor().isDirty()){
+            		setContentWarning("You have unsaved changes");
+            	}
                 requestModel(new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel model) {
@@ -202,7 +199,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
-        if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
+    	if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
             getCluProposalFromWorkflowId(callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
@@ -214,18 +211,18 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     private void getCurrentModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
-        if (cluProposalModel.getRoot() != null && cluProposalModel.getRoot().size() > 0){
-            String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
-            if(id != null){
-                getCluProposalFromProposalId(id, callback, workCompleteCallback);
-            }
-            else{
-                initModel(callback, workCompleteCallback);
-            }
-        }
-        else{
-            initModel(callback, workCompleteCallback);
-        }
+    	if (cluProposalModel.getRoot() != null && cluProposalModel.getRoot().size() > 0){
+        	String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        	if(id != null){
+        		getCluProposalFromProposalId(id, callback, workCompleteCallback);
+        	}
+        	else{
+        		initModel(callback, workCompleteCallback);
+        	}
+    	}
+    	else{
+    		initModel(callback, workCompleteCallback);
+    	}
     }
 
     private KSButton getSaveButton(){
@@ -237,92 +234,73 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     private void init(final Callback<Boolean> onReadyCallback) {
-        if (initialized) {
-            onReadyCallback.exec(true);
-        } else {
-            KSBlockingProgressIndicator.addTask(initializingTask);
-            this.setContentTitle("New Course (Proposal)");
-            this.setName("New Course (Proposal)");
-            String idType = null;
-            String viewContextId = null;
-            // The switch was added due to the way permissions currently work.
-            // For a new Create Course Proposal or Modify Course we send nulls so that permissions are not checked.
-            if(getViewContext().getIdType() != null){
+    	if (initialized) {
+    		onReadyCallback.exec(true);
+    	} else {
+    		initialized = true;
+    		KSBlockingProgressIndicator.addTask(initializingTask);
+    		this.setContentTitle("New Course (Proposal)");
+    		this.setName("New Course (Proposal)");
+    		setContentWarning("");
+    		String idType = null;
+    		String viewContextId = null;
+    		// The switch was added due to the way permissions currently work.
+    		// For a new Create Course Proposal or Modify Course we send nulls so that permissions are not checked.
+    		if(getViewContext().getIdType() != null){
                 idType = getViewContext().getIdType().toString();
                 viewContextId = getViewContext().getId();
                 if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
-                    viewContextId = null;
+                	viewContextId = null;
                 }
 
-//              switch (getViewContext().getIdType()) {
-//                    case KS_KEW_OBJECT_ID :
-//                        idType = getViewContext().getIdType().toString();
-//                        viewContextId = getViewContext().getId();
-//                        break;
-//                    case DOCUMENT_ID :
-//                        idType = getViewContext().getIdType().toString();
-//                        viewContextId = getViewContext().getId();
-//                        break;
-//                }
-            }
+    		}
+	        cluProposalRpcServiceAsync.getMetadata(idType, viewContextId,
+	                new AsyncCallback<Metadata>(){
 
-            cluProposalRpcServiceAsync.getMetadata(idType, viewContextId,
-                    new AsyncCallback<Metadata>(){
+	        	public void onFailure(Throwable caught) {
+	        				initialized = false;
+	                    	onReadyCallback.exec(false);
+	                    	KSBlockingProgressIndicator.removeTask(initializingTask);
+	                        throw new RuntimeException("Failed to get model definition.", caught);
 
-                public void onFailure(Throwable caught) {
-                            onReadyCallback.exec(false);
-                            KSBlockingProgressIndicator.removeTask(initializingTask);
-                            throw new RuntimeException("Failed to get model definition.", caught);
-                        }
+	                    }
 
-                        public void onSuccess(Metadata result) {
-                            DataModelDefinition def = new DataModelDefinition(result);
-                            cluProposalModel.setDefinition(def);
-                            init(def);
-                            initialized = true;
-                            onReadyCallback.exec(true);
-                            KSBlockingProgressIndicator.removeTask(initializingTask);
-                        }
-                });
-        }
+	                    public void onSuccess(Metadata result) {
+	                    	DataModelDefinition def = new DataModelDefinition(result);
+	                        cluProposalModel.setDefinition(def);
+	                        init(def);
+	                        onReadyCallback.exec(true);
+	                        KSBlockingProgressIndicator.removeTask(initializingTask);
+	                    }
+	          });
+
+    	}
     }
 
     private void init(DataModelDefinition modelDefinition){
-        CourseConfigurer cfg = null;
-        if(!configured){
-           cfg = GWT.create(CourseConfigurer.class);
-        }
+    	CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
 
-        //FIXME: [KSCOR-225] This needs to be moved to the configurer
         workflowUtil = new WorkflowUtilities(this,cfg.getWorkflowDocumentType(),cfg.getProposalIdPath(), createOnWorkflowSubmitSuccessHandler());
         workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
 
+    	cfg.setModelDefinition(modelDefinition);
+    	cfg.configure(this);
 
-        if(!configured){
-            cfg.setModelDefinition(modelDefinition);
-            cfg.configure(this);
-
-
-            addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
-
-            configured = true;
-        }
-
-        initialized = true;
+        addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
     }
 
     private CloseHandler<KSLightBox> createOnWorkflowSubmitSuccessHandler() {
-        CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
-            @Override
-            public void onClose(CloseEvent<KSLightBox> event) {
-                //Reload the lum main entrypoint
-                Window.Location.reload();
-            }
-        };
-        return handler;
-    }
+    	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
+			@Override
+			public void onClose(CloseEvent<KSLightBox> event) {
+				//Reload the lum main entrypoint
+				Window.Location.reload();
+			}
+    	};
+		return handler;
+	}
 
-    /**
+	/**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
      */
     @Override
@@ -334,32 +312,32 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
         if(modelType == ReferenceModel.class){
-            if (cluProposalModel != null){
-                ReferenceModel ref = new ReferenceModel();
+        	if (cluProposalModel != null){
+        		ReferenceModel ref = new ReferenceModel();
 
-                if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
-                    ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
-                } else {
-                    ref.setReferenceId(null);
-                }
+        		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
+            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
+        		} else {
+        			ref.setReferenceId(null);
+        		}
 
-                ref.setReferenceTypeKey(CourseConfigurer.PROPOSAL_REFERENCE_TYPE_KEY);
-                ref.setReferenceType(CourseConfigurer.PROPOSAL_REFERENCE_OBJECT_TYPE);
-                ref.setReferenceState(getViewContext().getState());
+        		ref.setReferenceTypeKey(CourseConfigurer.PROPOSAL_REFERENCE_TYPE_KEY);
+        		ref.setReferenceType(CourseConfigurer.PROPOSAL_REFERENCE_OBJECT_TYPE);
+        		ref.setReferenceState(getViewContext().getState());
 
-                callback.onModelReady(ref);
-            }
+        		callback.onModelReady(ref);
+        	}
         } else if(modelType == CollaboratorTool.CollaboratorModel.class){
-            CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
-            String proposalId=null;
-            if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
-                proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
-            }
-            collaboratorModel.setDataId(proposalId);
-            callback.onModelReady(collaboratorModel);
+        	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
+        	String proposalId=null;
+        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
+        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        	}
+        	collaboratorModel.setDataId(proposalId);
+        	callback.onModelReady(collaboratorModel);
 
         }else if (modelType == LuData.class){
-            requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
+        	requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
         } else {
             super.requestModel(modelType, callback);
         }
@@ -374,43 +352,44 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			public void onFailure(Throwable caught) {
                 Window.alert("Error loading Proposal from Workflow Document: "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);				
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
 			}
 
 			@Override
 			public void onSuccess(String proposalId) {
 				getCluProposalFromProposalId(proposalId, callback, workCompleteCallback);
-			}        	
+			}
         });
     }
 
     @SuppressWarnings("unchecked")
     private void getCluProposalFromProposalId(String id, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        KSBlockingProgressIndicator.addTask(loadDataTask);
-        cluProposalRpcServiceAsync.getData(id, new AsyncCallback<Data>(){
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
+    	cluProposalRpcServiceAsync.getData(id, new AsyncCallback<Data>(){
 
-            @Override
-            public void onFailure(Throwable caught) {
+			@Override
+			public void onFailure(Throwable caught) {
                 Window.alert("Error loading Proposal: "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);
-            }
+			}
 
-            @Override
-            public void onSuccess(Data result) {
-                cluProposalModel.setRoot(result);
-                setProposalHeaderTitle();
-                callback.onModelReady(cluProposalModel);
-                workCompleteCallback.exec(true);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
-            }
+			@Override
+			public void onSuccess(Data result) {
+				cluProposalModel.setRoot(result);
+		        setProposalHeaderTitle();
+		        setLastUpdated();
+				callback.onModelReady(cluProposalModel);
+		        workCompleteCallback.exec(true);
+		        KSBlockingProgressIndicator.removeTask(loadDataTask);
+			}
 
-        });
+    	});
     }
 
     @SuppressWarnings("unchecked")
     private void getNewProposalWithCopyOfClu(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        KSBlockingProgressIndicator.addTask(loadDataTask);
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
         cluProposalRpcServiceAsync.getNewProposalWithCopyOfClu(getViewContext().getId(), new AsyncCallback<Data>(){
 
             @Override
@@ -423,7 +402,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
             @Override
             public void onSuccess(Data result) {
                 cluProposalModel.setRoot(result);
-                setProposalHeaderTitle();
+		        setProposalHeaderTitle();
+		        setLastUpdated();
                 callback.onModelReady(cluProposalModel);
                 workCompleteCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);
@@ -435,6 +415,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         cluProposalModel.setRoot(new LuData());
+        setProposalHeaderTitle();
+        setLastUpdated();
         callback.onModelReady(cluProposalModel);
         workCompleteCallback.exec(true);
     }
@@ -444,33 +426,33 @@ public class CourseProposalController extends MenuEditableSectionController impl
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-                /* This is to update model with data from current section only */
+        		/* This is to update model with data from current section only */
                 //getCurrentView().updateModel();
                 CourseProposalController.this.updateModel();
 
                 if (isStartViewShowing()){
-                    //This call required so fields in start section, which also appear in
-                    //other sections don't get overridden from updateModel call above.
-                    getStartPopupView().updateModel();
+                	//This call required so fields in start section, which also appear in
+                	//other sections don't get overridden from updateModel call above.
+                	getStartPopupView().updateModel();
                 }
 
-                model.validate(new Callback<List<ValidationResultInfo>>() {
+            	model.validate(new Callback<List<ValidationResultInfo>>() {
                     @Override
                     public void exec(List<ValidationResultInfo> result) {
 
-                        boolean isSectionValid = isValid(result, true);
+                    	boolean isSectionValid = isValid(result, true);
 
-                        if(isSectionValid){
+                    	if(isSectionValid){
                             if (startSectionRequired()){
                                 showStartPopup(NO_OP_CALLBACK);
                             }
                             else{
-                                saveProposalClu(saveActionEvent);
+	                            saveProposalClu(saveActionEvent);
                             }
-                        }
-                        else{
-                            Window.alert("Save failed.  Please check fields for errors.");
-                        }
+                    	}
+                    	else{
+                    		Window.alert("Save failed.  Please check fields for errors.");
+                    	}
 
                     }
                 });
@@ -493,10 +475,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
         String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
         if (courseTitle == null){
             String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
-            cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
+        	cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
         }
 
-        return proposalId==null && !CourseProposalController.this.isStartViewShowing();
+    	return proposalId==null && !CourseProposalController.this.isStartViewShowing();
     }
 
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
@@ -526,13 +508,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
 
-            @Override
-            public void exec(Throwable caught) {
-                 GWT.log("Save Failed.", caught);
+			@Override
+			public void exec(Throwable caught) {
+				 GWT.log("Save Failed.", caught);
                  saveWindow.setWidget(buttonGroup);
                	 saveMessage.setText("Save Failed!  Please try again. ");
                  buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-            }
+			}
 
         };
         try {
@@ -542,52 +524,62 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 }
 
                 public void onSuccess(DataSaveResult result) {
-                    // FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
-                    cluProposalModel.setRoot(result.getValue());
-                    View currentView = getCurrentView();
-                    if (currentView instanceof SectionView){
-                        ((SectionView)currentView).updateView(cluProposalModel);
-                        ((SectionView) currentView).resetDirtyFlags();
-                    }
-                    if (saveActionEvent.isAcknowledgeRequired()){
+                	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
+    				cluProposalModel.setRoot(result.getValue());
+    	            View currentView = getCurrentView();
+    				if (currentView instanceof SectionView){
+    					((SectionView)currentView).updateView(cluProposalModel);
+    					((SectionView) currentView).resetDirtyFlags();
+    	            }
+    				if (saveActionEvent.isAcknowledgeRequired()){
                         saveMessage.setText("Save Successful");
                         buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
                     } else {
                         saveWindow.hide();
                         saveActionEvent.doActionComplete();
                     }
-                    ViewContext context = CourseProposalController.this.getViewContext();
-                    context.setId((String)cluProposalModel.get("proposal/id"));
-                    context.setIdType(IdType.KS_KEW_OBJECT_ID);
-                    workflowUtil.refresh();
-                    setProposalHeaderTitle();
-                    HistoryManager.logHistoryChange();
-                    CourseProposalController.this.showNextViewOnMenu();
+    				ViewContext context = CourseProposalController.this.getViewContext();
+    				context.setId((String)cluProposalModel.get("proposal/id"));
+    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
+    				workflowUtil.refresh();
+    				setProposalHeaderTitle();
+    				setLastUpdated();
+    				HistoryManager.logHistoryChange();
+    				CourseProposalController.this.showNextViewOnMenu();
                 }
             });
         } catch (Exception e) {
-            saveFailedCallback.exec(e);
+        	saveFailedCallback.exec(e);
         }
 
     }
 
-    @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback){
-        initialized = false;
-        init(new Callback<Boolean>() {
-
-            @Override
-            public void exec(Boolean result) {
-                if (result) {
-                    showDefaultView(onReadyCallback);
-                } else {
-                    onReadyCallback.exec(false);
-                }
-            }
-        });
+    public void setLastUpdated(){
+    	Date lastUpdated = (Date)cluProposalModel.get(UPDATED_KEY);
+    	if(lastUpdated != null){
+    		setContentInfo("Last Updated: " + df.format(lastUpdated));
+    	}
+    	else{
+    		setContentInfo("");
+    	}
     }
 
     @Override
+	public void beforeShow(final Callback<Boolean> onReadyCallback){
+		init(new Callback<Boolean>() {
+
+			@Override
+			public void exec(Boolean result) {
+				if (result) {
+					showDefaultView(onReadyCallback);
+				} else {
+					onReadyCallback.exec(false);
+				}
+			}
+		});
+	}
+
+	@Override
     public void setParentController(Controller controller) {
         super.setParentController(controller);
         if (CourseReqSummaryHolder.getView() != null) {
@@ -596,132 +588,135 @@ public class CourseProposalController extends MenuEditableSectionController impl
         }
     }
 
-    @Override
-    public void checkAuthorization(final PermissionType permissionType, final AuthorizationCallback authCallback) {
-        Map<String,String> attributes = new HashMap<String,String>();
-//      if (StringUtils.isNotBlank(getViewContext().getId())) {
-        GWT.log("Attempting Auth Check.", null);
-        if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
-            attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
-        }
-        cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new AsyncCallback<Boolean>(){
+	@Override
+	public void checkAuthorization(final PermissionType permissionType, final AuthorizationCallback authCallback) {
+		Map<String,String> attributes = new HashMap<String,String>();
+//		if (StringUtils.isNotBlank(getViewContext().getId())) {
+		GWT.log("Attempting Auth Check.", null);
+		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
+			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
+		}
+    	cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new AsyncCallback<Boolean>(){
 
-            @Override
-            public void onFailure(Throwable caught) {
-                authCallback.isNotAuthorized("Error checking authorization.");
-                GWT.log("Error checking proposal authorization.", caught);
+			@Override
+			public void onFailure(Throwable caught) {
+				authCallback.isNotAuthorized("Error checking authorization.");
+				GWT.log("Error checking proposal authorization.", caught);
                 Window.alert("Error Checking Proposal Authorization: "+caught.getMessage());
-            }
+			}
 
-            @Override
-            public void onSuccess(Boolean result) {
-                GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
-                if (Boolean.TRUE.equals(result)) {
-                    authCallback.isAuthorized();
-                }
-                else {
-                    authCallback.isNotAuthorized("User is not authorized: " + permissionType);
-                }
-            }
-        });
-    }
+			@Override
+			public void onSuccess(Boolean result) {
+				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+				if (Boolean.TRUE.equals(result)) {
+					authCallback.isAuthorized();
+				}
+				else {
+					authCallback.isNotAuthorized("User is not authorized: " + permissionType);
+				}
+			}
+    	});
+	}
 
-    @Override
-    public boolean isAuthorizationRequired() {
-        return true;
-    }
+	@Override
+	public boolean isAuthorizationRequired() {
+		return true;
+	}
 
-    @Override
-    public void setAuthorizationRequired(boolean required) {
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		throw new UnsupportedOperationException();
+	}
 
     protected void setProposalHeaderTitle(){
-        StringBuffer sb = new StringBuffer();
-        if (cluProposalModel.get("course/copyOfCourseId") != null){
-            sb.append(cluProposalModel.get("course/courseCode"));
-            sb.append(" - ");
-            sb.append(cluProposalModel.get("course/transcriptTitle"));
-            sb.append(" (Proposed Modification)");
-        } else {
-            sb.append(cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
-            sb.append(" (Proposal)");
-        }
+    	StringBuffer sb = new StringBuffer();
+    	if (cluProposalModel.get("course/copyOfCourseId") != null){
+    		sb.append(cluProposalModel.get("course/courseCode"));
+    		sb.append(" - ");
+    		sb.append(cluProposalModel.get("course/transcriptTitle"));
+    		sb.append(" (Proposed Modification)");
+    	} else if (cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH) != null){
+    		sb.append(cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
+    		sb.append(" (Proposal)");
+    	}
+    	else{
+    		sb.append("New Course (Proposal)");
+    	}
 
-        this.setContentTitle(sb.toString());
-        this.setName(sb.toString());
+    	this.setContentTitle(sb.toString());
+    	this.setName(sb.toString());
     }
 
-    @Override
-    public WorkflowUtilities getWfUtilities() {
-        return workflowUtil;
-    }
+	@Override
+	public WorkflowUtilities getWfUtilities() {
+		return workflowUtil;
+	}
 
-    @Override
-    public void beforeViewChange(final Callback<Boolean> okToChange) {
-        //We do this check here because theoretically the subcontroller views
-        //will display their own messages to the user to give them a reason why the view
-        //change has been cancelled, otherwise continue to check for reasons not to change
-        //with this controller
-        super.beforeViewChange(new Callback<Boolean>(){
+	@Override
+	public void beforeViewChange(final Callback<Boolean> okToChange) {
+		//We do this check here because theoretically the subcontroller views
+		//will display their own messages to the user to give them a reason why the view
+		//change has been cancelled, otherwise continue to check for reasons not to change
+		//with this controller
+		super.beforeViewChange(new Callback<Boolean>(){
 
-            @Override
-            public void exec(Boolean result) {
-                if(result){
-                    if(getCurrentView() instanceof SectionView && ((SectionView)getCurrentView()).isDirty()){
-                        ButtonGroup<YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
-                        final ButtonMessageDialog<YesNoCancelEnum> dialog = new ButtonMessageDialog<YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
-                        buttonGroup.addCallback(new Callback<YesNoCancelEnum>(){
+			@Override
+			public void exec(Boolean result) {
+				if(result){
+					if(getCurrentView() instanceof SectionView && ((SectionView)getCurrentView()).isDirty()){
+						ButtonGroup<YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+						final ButtonMessageDialog<YesNoCancelEnum> dialog = new ButtonMessageDialog<YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+						buttonGroup.addCallback(new Callback<YesNoCancelEnum>(){
 
-                            @Override
-                            public void exec(YesNoCancelEnum result) {
-                                switch(result){
-                                    case YES:
-                                        okToChange.exec(false);
-                                        fireApplicationEvent(new SaveActionEvent());
-                                        dialog.hide();
-                                        break;
-                                    case NO:
-                                        //Force a model request from server
-                                        getCurrentModel(new ModelRequestCallback<DataModel>(){
+							@Override
+							public void exec(YesNoCancelEnum result) {
+								switch(result){
+									case YES:
+										okToChange.exec(false);
+										fireApplicationEvent(new SaveActionEvent());
+										dialog.hide();
+										break;
+									case NO:
+										//Force a model request from server
+										getCurrentModel(new ModelRequestCallback<DataModel>(){
 
-                                            @Override
-                                            public void onModelReady(DataModel model) {
-                                                if (getCurrentView()instanceof SectionView){
-                                                    ((SectionView) getCurrentView()).resetDirtyFlags();
-                                                }
-                                                okToChange.exec(true);
-                                                dialog.hide();
-                                            }
+											@Override
+											public void onModelReady(DataModel model) {
+												if (getCurrentView()instanceof SectionView){
+							    					((SectionView) getCurrentView()).resetFieldInteractionFlags();
+												}
+												okToChange.exec(true);
+												dialog.hide();
+											}
 
-                                            @Override
-                                            public void onRequestFail(Throwable cause) {
-                                                //TODO Is this correct... do we want to stop view change if we can't restore the data?  Possibly traps the user
-                                                //if we don't it messes up saves, possibly warn the user that it failed and continue?
-                                                okToChange.exec(false);
-                                                dialog.hide();
-                                                GWT.log("Unable to retrieve model for data restore on view change with no save", cause);
-                                            }},
-                                            NO_OP_CALLBACK);
+											@Override
+											public void onRequestFail(Throwable cause) {
+												//TODO Is this correct... do we want to stop view change if we can't restore the data?  Possibly traps the user
+												//if we don't it messes up saves, possibly warn the user that it failed and continue?
+												okToChange.exec(false);
+												dialog.hide();
+												GWT.log("Unable to retrieve model for data restore on view change with no save", cause);
+											}},
+											NO_OP_CALLBACK);
 
-                                        break;
-                                    case CANCEL:
-                                        okToChange.exec(false);
-                                        dialog.hide();
-                                        break;
-                                }
-                            }
-                        });
-                        dialog.show();
-                    }
-                    else{
-                        okToChange.exec(true);
-                    }
-                }
-                else{
-                    okToChange.exec(false);
-                }
-            }
-        });
-    }
+										break;
+									case CANCEL:
+										okToChange.exec(false);
+										dialog.hide();
+										break;
+								}
+							}
+						});
+						dialog.show();
+					}
+					else{
+						okToChange.exec(true);
+					}
+				}
+				else{
+					okToChange.exec(false);
+				}
+			}
+		});
+	}
 }

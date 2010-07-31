@@ -78,6 +78,8 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     	this.showView(viewType, NO_OP_CALLBACK);
     }
     
+
+    
     /**
      * Directs the controller to display the specified view. The parameter must be an enum value, based on an enum defined in
      * the controller implementation. For example, a "Search" controller might have an enumeration of: <code>
@@ -103,8 +105,11 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         	onReadyCallback.exec(false);
             throw new ControllerException("View not registered: " + viewType.toString());
         }
-        
-        beforeViewChange(new Callback<Boolean>(){
+        beginShowView(view, viewType, onReadyCallback);
+    }
+    
+    private <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
+    	beforeViewChange(new Callback<Boolean>(){
 
 			@Override
 			public void exec(Boolean result) {
@@ -130,7 +135,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 				            	//A callback is required if async rpc call is required for authz check
 					        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
 									public void isAuthorized() {
-										showView(view, viewType, onReadyCallback);
+										finalizeShowView(view, viewType, onReadyCallback);
 									}
 				
 									public void isNotAuthorized(String msg) {
@@ -141,11 +146,11 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 				        	}
 				        	else {
 				        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
-				            	showView(view, viewType, onReadyCallback);
+				            	finalizeShowView(view, viewType, onReadyCallback);
 				        	}
 				        } else {
 				    		GWT.log("Not Requiring Auth.", null);
-				        	showView(view, viewType, onReadyCallback);
+				        	finalizeShowView(view, viewType, onReadyCallback);
 				        }
 				}
 				else{
@@ -156,7 +161,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		});
     }
     
-    private <V extends Enum<?>> void showView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
+    private <V extends Enum<?>> void finalizeShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
         if ((currentView == null) || currentView.beforeHide()) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override
@@ -448,7 +453,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                 	}
                     if (currentViewEnum == null || !viewEnum.equals(currentViewEnum) 
                     		|| !sameContext) {
-                        showView(viewEnum, new Callback<Boolean>() {
+                        beginShowView(theView, viewEnum, new Callback<Boolean>() {
                             @Override
                             public void exec(Boolean result) {
                                 if (result) {

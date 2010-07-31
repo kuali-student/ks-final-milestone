@@ -455,4 +455,22 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		}
 		return isDirty;
 	}
+	
+	/**
+	 * Do not use this method for adding sections, fields, or widgets to sections
+	 */
+	@Override
+	public void add(Widget w) {
+		super.add(w);
+	}
+	
+	@Override
+	public void addStyleName(String style) {
+		layout.addStyleName(style);
+	}
+	
+	@Override
+	public void setStyleName(String style) {
+		layout.setStyleName(style);
+	}
 }
