@@ -46,7 +46,6 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.service.WorkflowRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -104,7 +103,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	private static final String UPDATED_KEY = "proposal/metaInfo/updateTime";
 
-	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+	private DateFormat df = DateFormat.getInstance();
 
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
