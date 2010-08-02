@@ -534,6 +534,10 @@
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
+ 	<bean id="credentialProgramAssembler"
+          class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
+    </bean>
+    
     <bean id="coreProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CoreProgramAssembler">
         <property name="programService" ref="programServiceImpl"/>
@@ -559,6 +563,7 @@
         <property name="validator" ref="pocServiceValidator"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker"/>
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
+        <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
