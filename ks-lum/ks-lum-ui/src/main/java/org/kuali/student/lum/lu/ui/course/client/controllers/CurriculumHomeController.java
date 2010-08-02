@@ -84,9 +84,7 @@ public class CurriculumHomeController extends LayoutController{
 	}
 	
 	private LayoutController getProgramController(){
-		if (programController == null) {
-			programController = new ProgramController();
-		}
+		programController = new ProgramController();
 		return this.programController;
 	}
 	

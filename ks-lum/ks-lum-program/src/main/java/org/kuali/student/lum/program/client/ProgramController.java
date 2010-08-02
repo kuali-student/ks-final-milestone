@@ -172,7 +172,6 @@ public class ProgramController extends MenuEditableSectionController {
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback){
-        initialized = false;
         init(new Callback<Boolean>() {
 
             @Override
