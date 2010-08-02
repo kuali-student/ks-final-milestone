@@ -106,11 +106,11 @@ public class TestCourseServiceImpl {
             assertEquals("323", retrievedCourse.getCode().substring(4));
             assertEquals("323", retrievedCourse.getCourseNumberSuffix());
 
-            assertEquals("courseTitle-18", retrievedCourse.getCourseTitle());
-            assertEquals("transcriptTitle-58", retrievedCourse.getTranscriptTitle());
+            assertEquals("courseTitle-15", retrievedCourse.getCourseTitle());
+            assertEquals("transcriptTitle-55", retrievedCourse.getTranscriptTitle());
 
-            assertEquals("plain-27", retrievedCourse.getDescr().getPlain());
-            assertEquals("formatted-26", retrievedCourse.getDescr().getFormatted());
+            assertEquals("plain-24", retrievedCourse.getDescr().getPlain());
+            assertEquals("formatted-23", retrievedCourse.getDescr().getFormatted());
 
             assertEquals(2, retrievedCourse.getFormats().size());
             FormatInfo info = retrievedCourse.getFormats().get(0);
@@ -121,15 +121,15 @@ public class TestCourseServiceImpl {
             assertEquals(2, retrievedCourse.getTermsOffered().size());
             String termOffered = retrievedCourse.getTermsOffered().get(0);
 
-            assertTrue("termsOffered-47".equals(termOffered) || "termsOffered-57".equals(termOffered));
+            assertTrue("termsOffered-47".equals(termOffered) || "termsOffered-54".equals(termOffered));
 
 
             assertEquals(2, retrievedCourse.getCurriculumOversightOrgs().size());
-            String orgId = retrievedCourse.getCurriculumOversightOrgs().get(0).getOrgId();
-            assertTrue("orgId-28".equals(orgId) || "orgId-26".equals(orgId));
+            String orgId = retrievedCourse.getCurriculumOversightOrgs().get(0);
+            assertTrue("curriculumOversightOrgs-21".equals(orgId) || "curriculumOversightOrgs-25".equals(orgId));
 
             assertEquals(4, retrievedCourse.getAttributes().size());
-            String[] attrKeys = {"attributes-9", "attributes-10"};
+            String[] attrKeys = {"attributes-6", "attributes-7"};
             for (String key : attrKeys) {
                 String value = retrievedCourse.getAttributes().get(key);
                 assertNotNull(value);
@@ -150,11 +150,11 @@ public class TestCourseServiceImpl {
              * retrievedCourse.getCrossListings().get(0); // TODO - check its contents
              */
 
-            assertEquals("orgId-10", retrievedCourse.getAdministeringOrgs().get(0).getOrgId());
+            assertEquals("administeringOrgs-3", retrievedCourse.getAdministeringOrgs().get(0));
 
             TimeAmountInfo timeInfo = retrievedCourse.getDuration();
             assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
-            assertEquals(28, timeInfo.getTimeQuantity().intValue());
+            assertEquals(25, timeInfo.getTimeQuantity().intValue());
 
             // TODO - check effective/expiration dates
 
@@ -171,10 +171,10 @@ public class TestCourseServiceImpl {
                    
 
 
-            assertTrue("termsOffered-57".equals(atpType) || "termsOffered-51".equals(atpType));
+            assertTrue("termsOffered-54".equals(atpType) || "termsOffered-51".equals(atpType));
 
-            assertEquals("orgId-51", instructor.getOrgId());
-            assertEquals("personId-52", instructor.getPersonId());
+            assertEquals("orgId-48", instructor.getOrgId());
+            assertEquals("personId-49", instructor.getPersonId());
 
             assertEquals("draft", retrievedCourse.getState());
             assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
@@ -182,13 +182,13 @@ public class TestCourseServiceImpl {
             assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getType());
 
             assertEquals(2,retrievedCourse.getCreditOptions().size());
-            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-21"));
-            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-22"));
+            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-18"));
+            assertTrue(retrievedCourse.getCreditOptions().contains("creditOptions-19"));
 
             assertEquals(2,retrievedCourse.getGradingOptions().size());
 
-            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-40"));
-            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-41"));
+            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-37"));
+            assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-38"));
             
             assertTrue(createdCourse.isSpecialTopicsCourse());
             assertTrue(createdCourse.isPilotCourse());
@@ -235,7 +235,7 @@ public class TestCourseServiceImpl {
             // minimal sanity check
             assertNotNull(createdCourse);
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
-            assertEquals("courseTitle-18", createdCourse.getCourseTitle());
+            assertEquals("courseTitle-15", createdCourse.getCourseTitle());
             assertEquals(2, createdCourse.getCurriculumOversightOrgs().size());
             assertEquals(4, createdCourse.getAttributes().size());
 
@@ -244,7 +244,7 @@ public class TestCourseServiceImpl {
             AdminOrgInfo testCurrOrg = new AdminOrgInfo();
             testCurrOrg.setOrgId("testOrgId");
             testCurrOrg.setType(CourseAssemblerConstants.SUBJECT_ORG);
-            createdCourse.getCurriculumOversightOrgs().add(testCurrOrg);
+            createdCourse.getCurriculumOversightOrgs().add("testOrgId");
 
             // Delete One Format
             createdCourse.getFormats().remove(0);
@@ -384,19 +384,19 @@ public class TestCourseServiceImpl {
         assertNotNull(updatedCourse);
 
         assertEquals(1, updatedCourse.getCurriculumOversightOrgs().size());
-        assertEquals("testOrgId", updatedCourse.getCurriculumOversightOrgs().get(0).getOrgId());
+        assertEquals("testOrgId", updatedCourse.getCurriculumOversightOrgs().get(0));
 
         assertEquals(5, updatedCourse.getAttributes().size());
         assertNotNull(updatedCourse.getAttributes().get("testKey"));
         assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
         
         assertEquals(2,updatedCourse.getCreditOptions().size());
-        assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-21"));
+        assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-18"));
         assertTrue(updatedCourse.getCreditOptions().contains("NewCreditOption"));
 
         assertEquals(2,updatedCourse.getGradingOptions().size());
 
-        assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-40"));
+        assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-37"));
         assertTrue(updatedCourse.getGradingOptions().contains("NewGradingOption"));
         
         assertFalse(updatedCourse.isSpecialTopicsCourse());

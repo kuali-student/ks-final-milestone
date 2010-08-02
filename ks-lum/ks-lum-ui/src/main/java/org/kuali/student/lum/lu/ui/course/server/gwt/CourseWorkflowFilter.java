@@ -58,7 +58,7 @@ public class CourseWorkflowFilter extends WorkflowFilter{
     		// element of the administering orgs to adminOrg    		
     		String adminOrg = "";
     		if (course.getAdministeringOrgs().size() > 1){
-    			adminOrg = course.getAdministeringOrgs().get(0).getOrgId()==null? "":course.getAdministeringOrgs().get(0).getOrgId();
+    			adminOrg = course.getAdministeringOrgs().get(0)==null? "":course.getAdministeringOrgs().get(0);
     		}
     		
     		String proposalId = course.getAttributes().get("proposalId");    		

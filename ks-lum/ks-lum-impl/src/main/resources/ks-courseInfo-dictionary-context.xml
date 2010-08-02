@@ -62,7 +62,7 @@
  <bean id="org.kuali.student.lum.course.dto.CourseInfo" parent="org.kuali.student.lum.course.dto.CourseInfo-parent" />
 
 	<bean id="courseInfo.curriculumOversightOrgs-parent" abstract="true"
-		parent="cluInfo.adminOrgs">
+		parent="baseStringRepeating">
 		<property name="name" value="curriculumOversightOrgs" />
 		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
 <!--		<property name="customValidatorClass" value="SampCustomValidator"/>-->
@@ -72,7 +72,7 @@
 	<bean id="courseInfo.curriculumOversightOrgs" parent="courseInfo.curriculumOversightOrgs-parent" />
 	
 	<bean id="courseInfo.administeringOrgs-parent" abstract="true"
-		parent="cluInfo.adminOrgs">
+		parent="baseStringRepeating">
 		<property name="name" value="administeringOrgs" />
 		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
 <!--		<property name="customValidatorClass" value="SampCustomValidator"/>-->

@@ -3110,7 +3110,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 
 	private void updateAdminOrgs(CluInfo clu) {
-		clu.getAdminOrgs().get(0).setId("adminOrg121");
+//		clu.getAdminOrgs().get(0).setId("adminOrg121");
 		clu.getAdminOrgs().get(0).setOrgId("UPD_PRIMARY_ADMIN_ORG_ID");
 		clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey3",
 				"PrimaryAdminOrgAttrValue3");

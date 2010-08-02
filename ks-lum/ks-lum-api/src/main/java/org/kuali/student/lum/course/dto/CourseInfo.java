@@ -95,9 +95,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     @XmlElement
     private AmountInfo outOfClassHours;
 
-	@XmlElement
-	private List<String> academicSubjectOrgs;
-
     @XmlElement
     private CluInstructorInfo primaryInstructor;
 
@@ -106,14 +103,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
 
-    private List<AdminOrgInfo> administeringOrgs;
+    private List<String> administeringOrgs;  // this is a temp fix. Change it back to list of AdminOrgInfo
 
     private RichTextInfo feeJustification;
 
 
     @XmlElement
-
-    private List<AdminOrgInfo> curriculumOversightOrgs;
+    private List<String> curriculumOversightOrgs; // this is a temp fix. Change it back to list of AdminOrgInfo
 
     private List<CourseFeeInfo> fees;
 
@@ -365,9 +361,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public List<AdminOrgInfo> getAdministeringOrgs() {
+    public List<String> getAdministeringOrgs() {
     	if(administeringOrgs == null){
-    		administeringOrgs = new ArrayList<AdminOrgInfo>(0);
+    		administeringOrgs = new ArrayList<String>(0);
     	}
         return administeringOrgs;
     }
@@ -380,7 +376,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public void setAdministeringOrgs(List<AdminOrgInfo> administeringOrgs) {
+    public void setAdministeringOrgs(List<String> administeringOrgs) {
         this.administeringOrgs = administeringOrgs;
     }
     public void setFeeJustification(RichTextInfo feeJustification) {
@@ -388,9 +384,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     }
 
-    public List<AdminOrgInfo> getCurriculumOversightOrgs() {
+    public List<String> getCurriculumOversightOrgs() {
     	if(curriculumOversightOrgs == null){
-    		curriculumOversightOrgs = new ArrayList<AdminOrgInfo>(0);
+    		curriculumOversightOrgs = new ArrayList<String>(0);
     	}
     	return curriculumOversightOrgs;
     }
@@ -406,7 +402,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public void setCurriculumOversightOrgs(List<AdminOrgInfo> curriculumOversightOrgs) {
+    public void setCurriculumOversightOrgs(List<String> curriculumOversightOrgs) {
         this.curriculumOversightOrgs = curriculumOversightOrgs;
     }
     public void setFees(List<CourseFeeInfo> fees) {
@@ -605,15 +601,4 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
         this.id = id;
     }
     
-
-	public List<String> getAcademicSubjectOrgs() {
-		if (academicSubjectOrgs == null){
-			academicSubjectOrgs = new ArrayList<String>(0);
-		}
-		return academicSubjectOrgs;
-	}
-
-	public void setAcademicSubjectOrgs(List<String> academicSubjectOrgs) {
-		this.academicSubjectOrgs = academicSubjectOrgs;
-	}
 }
