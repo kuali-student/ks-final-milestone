@@ -1430,19 +1430,23 @@ public class LuServiceImpl implements LuService {
 		for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
 			oldAdminOrgsMap.put(cluOrg.getOrgId(), cluOrg);
 		}
+		
+		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
+			luDao.delete(entry.getValue());
+		}
 		clu.setAdminOrgs(new ArrayList<CluAdminOrg>());
 
 		// Loop through the new list, if the item exists already update and
 		// remove from the list
 		// otherwise create a new entry
 		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
-			CluAdminOrg cluOrg = oldAdminOrgsMap.remove(orgInfo.getOrgId());
+			CluAdminOrg cluOrg = new CluAdminOrg();
 			if (cluOrg == null) {
 				cluOrg = new CluAdminOrg();
 			}
 			// Do Copy
 			BeanUtils.copyProperties(orgInfo, cluOrg,
-					new String[] { "attributes" });
+					new String[] { "attributes","id" });
 			cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
 					cluOrg, luDao));
@@ -1450,9 +1454,9 @@ public class LuServiceImpl implements LuService {
 		}
 
 		// Now delete anything left over
-		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
-			luDao.delete(entry.getValue());
-		}
+//		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
+//			luDao.delete(entry.getValue());
+//		}
 
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
