@@ -35,35 +35,36 @@ public class VerticalFieldLayout extends FieldLayout{
 	
 	public VerticalFieldLayout(){
 		super();
-		this.add(verticalLayout);
-		this.add(buttonArea);
 		hasValidation = true;
-		verticalLayout.setStyleName("ks-form-module");
+		init();
 	}
 	
 	public VerticalFieldLayout(boolean hasValidation){
 		super();
 		this.hasValidation = hasValidation;
-		this.add(verticalLayout);
-		this.add(buttonArea);
-		verticalLayout.setStyleName("ks-form-module");
+		init();
 	}
 	
 	public VerticalFieldLayout(SectionTitle title){
 		super();
 		this.setLayoutTitle(title);
-		this.add(verticalLayout);
-		this.add(buttonArea);
-		hasValidation = true;
-		verticalLayout.setStyleName("ks-form-module");
+		this.hasValidation = true;
+		init();
 	}
 	
 	public VerticalFieldLayout(SectionTitle title, boolean hasValidation){
 		super();
 		this.setLayoutTitle(title);
-		this.add(verticalLayout);
-		this.add(buttonArea);
 		this.hasValidation = hasValidation;
+		init();
+	}
+	
+	private void init(){
+		instructions.setVisible(false);
+		this.add(verticalLayout);
+		verticalLayout.add(instructions);
+		verticalLayout.add(message);
+		this.add(buttonArea);
 		verticalLayout.setStyleName("ks-form-module");
 	}
 	

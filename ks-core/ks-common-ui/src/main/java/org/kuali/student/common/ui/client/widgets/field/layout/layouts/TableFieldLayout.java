@@ -25,25 +25,26 @@ public class TableFieldLayout extends FieldLayout{
 	
 	public TableFieldLayout(){
 		this.hasValidation = true;
-		table.setWidth("100%");
-		table.setStyleName("ks-table-plain");
-		verticalLayout.add(table);
-		this.add(verticalLayout);
+		init();
 	}
 	
 	public TableFieldLayout(boolean hasValidation){
 		this.hasValidation = hasValidation;
-		table.setWidth("100%");
-		table.setStyleName("ks-table-plain");
-		verticalLayout.add(table);
-		this.add(verticalLayout);
+		init();
 	}
 	
 	public TableFieldLayout(SectionTitle title, boolean hasValidation){
 		this.hasValidation = hasValidation;
+		this.setLayoutTitle(title);
+		init();
+	}
+	
+	private void init(){
+		instructions.setVisible(false);
+		verticalLayout.add(instructions);
+		verticalLayout.add(message);
 		table.setWidth("100%");
 		table.setStyleName("ks-table-plain");
-		this.setLayoutTitle(title);
 		verticalLayout.add(table);
 		this.add(verticalLayout);
 	}

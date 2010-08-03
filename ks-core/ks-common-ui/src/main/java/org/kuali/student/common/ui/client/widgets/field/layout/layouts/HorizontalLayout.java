@@ -46,6 +46,9 @@ public class HorizontalLayout extends FieldLayout{
 	}
 	
 	private void init(){
+		instructions.setVisible(false);
+		this.add(instructions);
+		this.add(message);
 		if(hasValidation){
 			this.add(validationPanel);
 		}
