@@ -171,29 +171,86 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     }
 
     private void disassembleAdminOrg(CluInfo clu, ProgramVariationInfo variation){
-		List<AdminOrgInfo> codOrgs = new ArrayList<AdminOrgInfo>();
+		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
 		for(AdminOrgInfo org:variation.getDivisionsContentOwner()){
 			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)){
-				codOrgs.add(org);
+				orgs.add(org);
 			}
 		}
-		clu.getAdminOrgs().addAll(codOrgs);
+		clu.getAdminOrgs().addAll(orgs);
 		
-		List<AdminOrgInfo> sodOrgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo sodOrg : variation.getDivisionsStudentOversight()) {
-			if(sodOrg.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)){
-				sodOrgs.add(sodOrg);
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getDivisionsStudentOversight()) {
+			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)){
+				orgs.add(org);
 			}
 		}
-		clu.getAdminOrgs().addAll(sodOrgs);
+		clu.getAdminOrgs().addAll(orgs);
 
-		List<AdminOrgInfo> ddOrgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo ddOrg : variation.getDivisionsDeployment()) {
-			if(ddOrg.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)){
-				ddOrgs.add(ddOrg);
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getDivisionsDeployment()) {
+			if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)){
+				orgs.add(org);
 			}
 		}
-		clu.getAdminOrgs().addAll(ddOrgs);
+		clu.getAdminOrgs().addAll(orgs);
+		
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getDivisionsFinancialResources()) {
+			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION)){
+				orgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(orgs);
+		
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getDivisionsFinancialControl()) {
+			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)){
+				orgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(orgs);
+		
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getUnitsContentOwner()) {
+			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_UNIT)){
+				orgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(orgs);
+		///
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getUnitsStudentOversight()) {
+			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)){
+				orgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(orgs);
+		
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getUnitsDeployment()) {
+			if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_UNIT)){
+				orgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(orgs);
+		
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getUnitsFinancialResources()) {
+			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT)){
+				orgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(orgs);
+		
+		orgs = new ArrayList<AdminOrgInfo>();
+		for (AdminOrgInfo org : variation.getUnitsFinancialControl()) {
+			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT)){
+				orgs.add(org);
+			}
+		}
+		clu.getAdminOrgs().addAll(orgs);
+		
     }
  
     private void disassembleAlternateIdentifiers(CluInfo clu, ProgramVariationInfo variation){
