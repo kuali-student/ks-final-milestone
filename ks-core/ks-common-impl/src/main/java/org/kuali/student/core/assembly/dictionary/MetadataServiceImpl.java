@@ -175,7 +175,7 @@ public class MetadataServiceImpl {
 	            metadata.setCanUnmask(!fd.isMask());
 	            metadata.setCanView(!fd.isHide());
 	            metadata.setDynamic(fd.isDynamic());
-	            
+	            metadata.setLabelKey(fd.getLabelKey());
 	           	metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));            	
 	            
 	            //TODO: Need for a way to obtain full lookup info from a UI lookup config
