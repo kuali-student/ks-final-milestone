@@ -63,9 +63,6 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     private String code;
     
     @XmlElement
-    private String cipCode;
-
-    @XmlElement
     private String universityClassification;
 
     @XmlElement
@@ -237,17 +234,6 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    /**
-     * CIP Code for the Program 
-     */
-    public String getCipCode() {
-        return cipCode;
-    }
-
-    public void setCipCode(String cipCode) {
-        this.cipCode = cipCode;
     }
 
     /**

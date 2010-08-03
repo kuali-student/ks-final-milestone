@@ -140,7 +140,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         List<LuCodeInfo> luCodes = clu.getLuCodes();
         for (LuCodeInfo codeInfo : luCodes) {
             if (ProgramAssemblerConstants.CIP_2000.equals(codeInfo.getId())) {
-                majorDiscipline.setCipCode(codeInfo.getValue());
+                majorDiscipline.setCip2000Code(codeInfo.getValue());
+            } else if (ProgramAssemblerConstants.CIP_2010.equals(codeInfo.getId())) {
+                majorDiscipline.setCip2010Code(codeInfo.getValue());
             } else if (ProgramAssemblerConstants.HEGIS.equals(codeInfo.getId())) {
                 majorDiscipline.setHegisCode(codeInfo.getValue());
             } else if (ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION.equals(codeInfo.getId())) {

@@ -18,7 +18,8 @@
                 <ref bean="majorDisciplineInfo.credentialProgramId"/>
                 <ref bean="majorDisciplineInfo.variations"/>
                 <ref bean="majorDisciplineInfo.code"/>
-                <ref bean="majorDisciplineInfo.cipCode"/>
+                <ref bean="majorDisciplineInfo.cip2000Code"/>
+                <ref bean="majorDisciplineInfo.cip2010Code"/>
                 <ref bean="majorDisciplineInfo.hegisCode"/>
                 <ref bean="majorDisciplineInfo.universityClassification"/>
                 <ref bean="majorDisciplineInfo.selectiveEnrollmentCode"/>
@@ -48,7 +49,7 @@
                 <ref bean="majorDisciplineInfo.divisionsFinancialResources"/>
                 <ref bean="majorDisciplineInfo.divisionsFinancialControl"/>
                 <ref bean="majorDisciplineInfo.unitsContentOwner"/>
-                <ref bean="majorDisciplineInfo.unitsStudentOversight"/>
+                 <ref bean="majorDisciplineInfo.unitsStudentOversight"/>
                 <ref bean="majorDisciplineInfo.unitsDeployment"/>
                 <ref bean="majorDisciplineInfo.unitsFinancialResources"/>
                 <ref bean="majorDisciplineInfo.unitsFinancialControl"/>
@@ -104,10 +105,15 @@
     </bean>
     <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent"/>
 
-    <bean id="majorDisciplineInfo.cipCode-parent" abstract="true" parent="baseString">
-        <property name="name" value="cipCode"/>
+    <bean id="majorDisciplineInfo.cip2000Code-parent" abstract="true" parent="baseString">
+        <property name="name" value="cip2000Code"/>
     </bean>
-    <bean id="majorDisciplineInfo.cipCode" parent="majorDisciplineInfo.cipCode-parent"/>
+    <bean id="majorDisciplineInfo.cip2000Code" parent="majorDisciplineInfo.cip2000Code-parent"/>
+
+    <bean id="majorDisciplineInfo.cip2010Code-parent" abstract="true" parent="baseString">
+        <property name="name" value="cip2010Code"/>
+    </bean>
+    <bean id="majorDisciplineInfo.cip2010Code" parent="majorDisciplineInfo.cip2010Code-parent"/>
 
     <bean id="majorDisciplineInfo.hegisCode-parent" abstract="true" parent="baseString">
         <property name="name" value="hegisCode"/>
@@ -295,7 +301,8 @@
                 <ref bean="programVariationInfo.intensity"/>
                 <ref bean="programVariationInfo.referenceURL"/>
                 <ref bean="programVariationInfo.code"/>
-                <ref bean="programVariationInfo.cipCode"/>
+                <ref bean="programVariationInfo.cip2000Code"/>
+                <ref bean="programVariationInfo.cip2010Code"/>
                 <ref bean="programVariationInfo.hegisCode"/>
                 <ref bean="programVariationInfo.universityClassification"/>
                 <ref bean="programVariationInfo.selectiveEnrollmentCode"/>
@@ -347,10 +354,16 @@
     </bean>
     <bean id="programVariationInfo.code" parent="programVariationInfo.code-parent"/>
 
-    <bean id="programVariationInfo.cipCode-parent" abstract="true" parent="baseString">
-        <property name="name" value="cipCode"/>
+    <bean id="programVariationInfo.cip2000Code-parent" abstract="true" parent="baseString">
+        <property name="name" value="cip2000Code"/>
     </bean>
-    <bean id="programVariationInfo.cipCode" parent="programVariationInfo.cipCode-parent"/>
+    <bean id="programVariationInfo.cip2000Code" parent="programVariationInfo.cip2000Code-parent"/>
+
+    <bean id="programVariationInfo.cip2010Code-parent" abstract="true" parent="baseString">
+        <property name="name" value="cip2010Code"/>
+    </bean>
+    <bean id="programVariationInfo.cip2010Code" parent="programVariationInfo.cip2010Code-parent"/>
+
 
     <bean id="programVariationInfo.hegisCode-parent" abstract="true" parent="baseString">
         <property name="name" value="hegisCode"/>

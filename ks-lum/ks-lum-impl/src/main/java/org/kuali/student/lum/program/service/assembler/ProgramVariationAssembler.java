@@ -61,7 +61,9 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         List<LuCodeInfo> luCodes = clu.getLuCodes();
         for (LuCodeInfo codeInfo : luCodes) {
             if (ProgramAssemblerConstants.CIP_2000.equals(codeInfo.getId())) {
-                pvInfo.setCipCode(codeInfo.getValue());
+                pvInfo.setCip2000Code(codeInfo.getValue());
+            } else if (ProgramAssemblerConstants.CIP_2010.equals(codeInfo.getId())) {
+                pvInfo.setCip2010Code(codeInfo.getValue());
             } else if (ProgramAssemblerConstants.HEGIS.equals(codeInfo.getId())) {
                 pvInfo.setHegisCode(codeInfo.getValue());
             } else if (ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION.equals(codeInfo.getId())) {
@@ -299,11 +301,11 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		if(!alreadyHadCIP2000){
 			LuCodeInfo luCode = new LuCodeInfo();
 			luCode.setType(ProgramAssemblerConstants.CIP_2000);
-			luCode.setValue(variation.getCipCode());
+			luCode.setValue(variation.getCip2000Code());
 			clu.getLuCodes().add(luCode);
 		}	
 		
-		//add CIP_2000
+		//add CIP_2010
 		boolean alreadyHadCIP2010 = false;
 		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
 			LuCodeInfo luCode = luCodeIterator.next();
@@ -315,7 +317,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		if(!alreadyHadCIP2010){
 			LuCodeInfo luCode = new LuCodeInfo();
 			luCode.setType(ProgramAssemblerConstants.CIP_2010);
-			luCode.setValue(variation.getCipCode());
+			luCode.setValue(variation.getCip2010Code());
 			clu.getLuCodes().add(luCode);
 		}		
 		

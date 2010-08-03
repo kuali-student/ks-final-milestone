@@ -61,8 +61,11 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String code;
 
     @XmlElement
-    private String cipCode;
+    private String cip2000Code;
 
+    @XmlElement
+    private String cip2010Code;
+        
     @XmlElement
     private String hegisCode;
 
@@ -197,14 +200,25 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * CIP Code for the Program
+     * CIP 2000 Code for the Program
      */
-    public String getCipCode() {
-        return cipCode;
+    public String getCip2000Code() {
+        return cip2000Code;
     }
 
-    public void setCipCode(String cipCode) {
-        this.cipCode = cipCode;
+    public void setCip2000Code(String cip2000Code) {
+        this.cip2000Code = cip2000Code;
+    }
+
+    /**
+     * CIP 2010 Code for the Program
+     */
+    public String getCip2010Code() {
+        return cip2010Code;
+    }
+
+    public void setCip2010Code(String cip2010Code) {
+        this.cip2010Code = cip2010Code;
     }
 
     /**
