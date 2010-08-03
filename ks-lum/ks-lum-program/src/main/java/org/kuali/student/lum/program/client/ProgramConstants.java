@@ -12,7 +12,7 @@ public class ProgramConstants {
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
     public static final String DEGREE_TYPE = "";
     public static final String FULL_PART_TIME = "intensity";
-    public static final String DURATION = "";
+    public static final String DURATION = "stdDuration";
     public static final String TRANSCRIPT = "transcriptTitle";
     public static final String DIPLOMA = "diplomaTitle";
     public static final String CIP_CODE = "cipCode";
@@ -29,4 +29,10 @@ public class ProgramConstants {
     //Managing Bodies
     public static final String STUDENT_OVERSIGHT_DIVISION = "divisionsStudentOversight";
     public static final String STUDENT_OVERSIGHT_UNIT = "unitsStudentOversight";
+    
+    //Program Description and Catalog Details
+    public static final String CATALOG_DESCRIPTION = "catalogDescr";
+    public static final String CORE_FACULTY_MEMBERS = "publishedInstructors";
+    public static final String PUBLICATION_TARGETS = "catalogPublicationTargets";
+
 }
