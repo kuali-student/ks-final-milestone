@@ -110,7 +110,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             if(docDetail==null){
             	throw new OperationFailedException("Error found getting document. " );
             }
-            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(docDetail.getAppDocId()));
+            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(workflowId));
 
 	        String approveComment = "Approved";
 
@@ -342,7 +342,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             if(docDetail==null){
             	throw new OperationFailedException("Error found getting document. " );
             }
-            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(docDetail.getAppDocId()));
+            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(workflowId));
 
             String routeComment = "Routed";
 

@@ -54,7 +54,10 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataValue;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -160,13 +163,16 @@ public class WorkflowUtilities{
 						Window.alert("Error starting Proposal workflow");
 						dialog.getConfirmButton().setEnabled(true);
 					}
-					public void onSuccess(
-							Boolean result) {
-						updateWorkflow(dataModel);						
-						dialog.hide();
-						dialog.getConfirmButton().setEnabled(true);
-						//Notify the user that the document was submitted
-						showSuccessDialog("Proposal has been routed to workflow");
+					public void onSuccess(Boolean result) {
+						if (result){
+							updateWorkflow(dataModel);						
+							dialog.hide();
+							dialog.getConfirmButton().setEnabled(true);
+							//Notify the user that the document was submitted
+							showSuccessDialog("Proposal has been routed to workflow");
+						} else {
+							Window.alert("Error starting Proposal workflow");
+						}
 					}
 				});
 				
@@ -400,8 +406,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfStartWorkflowItem;
     	wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
     		public void onClick(ClickEvent event) {
-    			if(dataModel==null || (requiredFieldPaths != null && dataModel.get(QueryPath.parse(requiredFieldPaths[0])) == null)){
-    				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
+    			if(isMissingRequiredFields()){
+    				Window.alert("Fileds required for workflow must be filled before submitting.");
     			}else{
                     //Make sure the entire data model is valid before submit
     				dataModel.validate(new Callback<List<ValidationResultInfo>>() {
@@ -419,11 +425,31 @@ public class WorkflowUtilities{
                     });
     			}
     		}
+
     	});
 		return wfStartWorkflowItem;
 	}
 	
+	private boolean isMissingRequiredFields() {
+		if (requiredFieldPaths != null){
+			 if (dataModel == null){
+				 return true;
+			 } else {
+				 for (int i=0;i<requiredFieldPaths.length;i++){
+					 Object value = dataModel.get(QueryPath.parse(requiredFieldPaths[i]));
+					 if (value == null){
+						 return true;
+					 } else if (value instanceof Data && ((Data)value).size() <= 0){
+						 return true;
+					 }
+				 }
+			 }
+		}
+		
+		return false;
+	}
 
+	
 	private void setWorkflowStatus(String statusCd){
 		String statusTranslation = "";
 		if (ROUTE_HEADER_SAVED_CD.equals(statusCd)){

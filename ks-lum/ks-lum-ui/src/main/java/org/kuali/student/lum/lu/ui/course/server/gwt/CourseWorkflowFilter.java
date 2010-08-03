@@ -57,8 +57,8 @@ public class CourseWorkflowFilter extends WorkflowFilter{
     		// on the workflow side and its associated doc content. For now we are attaching the first 
     		// element of the administering orgs to adminOrg    		
     		String adminOrg = "";
-    		if (course.getAdministeringOrgs().size() > 1){
-    			adminOrg = course.getAdministeringOrgs().get(0)==null? "":course.getAdministeringOrgs().get(0);
+    		if (course.getCurriculumOversightOrgs() != null && !course.getCurriculumOversightOrgs().isEmpty()){
+    			adminOrg = course.getCurriculumOversightOrgs().get(0)==null? "":course.getCurriculumOversightOrgs().get(0);
     		}
     		
     		String proposalId = course.getAttributes().get("proposalId");    		
