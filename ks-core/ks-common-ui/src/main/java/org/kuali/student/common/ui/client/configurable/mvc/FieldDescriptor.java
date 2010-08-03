@@ -49,6 +49,7 @@ public class FieldDescriptor {
     private boolean hasHadFocus = false;
     private FieldElement fieldElement;
     private String modelId;
+    private boolean showLabelInfo = false;
 
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Metadata metadata) {
     	this.fieldKey = fieldKey;
@@ -83,6 +84,10 @@ public class FieldDescriptor {
 	    	fieldElement.setRequired(MetadataInterrogator.isRequired(metadata));
 	    	//TODO setup the constraint text here
     	}
+    }
+    
+    public void showLabel(boolean show){
+    	fieldElement.showLabel(show);
     }
 
     public FieldElement getFieldElement(){

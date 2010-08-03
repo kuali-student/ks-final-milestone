@@ -107,6 +107,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	private boolean goNextViewAfterSave = false;
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
@@ -227,7 +228,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     private KSButton getSaveButton(){
         return new KSButton("Save & Continue", new ClickHandler(){
                     public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new SaveActionEvent());
+                        fireApplicationEvent(new SaveActionEvent(true));
                     }
                 });
     }
@@ -544,7 +545,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
     				setProposalHeaderTitle();
     				setLastUpdated();
     				HistoryManager.logHistoryChange();
-    				CourseProposalController.this.showNextViewOnMenu();
+    				if(saveActionEvent.gotoNextView()){
+    					CourseProposalController.this.showNextViewOnMenu();
+    				}
                 }
             });
         } catch (Exception e) {

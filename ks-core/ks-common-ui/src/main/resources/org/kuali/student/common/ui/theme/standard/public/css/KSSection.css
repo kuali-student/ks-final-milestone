@@ -880,3 +880,12 @@ a.ks-button-secondary-small:hover {
 	width: 50%;
 	float: left;
 }
+
+.accessibility-hidden{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
