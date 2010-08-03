@@ -26,9 +26,17 @@ public class SummaryTable  extends FlexTable{
         doLayout();
     }
     private void doLayout(){
+        super.setText(rowIndex, 1, model.getContentColumnHeader1());
+        super.setText(rowIndex, 2, model.getContentColumnHeader2());
+        getFlexCellFormatter().setStyleName(rowIndex,1, "columnTitle");
+        getFlexCellFormatter().setStyleName(rowIndex,2, "columnTitle");
+        
+        
+        rowIndex++;
         for(SummaryTableSection section: model.getSectionList()){
            addSection(section);
         }
+        
     }
     public void highLightRow(String rowKey){
         this.getRowFormatter().setStyleName(rowMap.get(rowKey).intValue(),"rowHighlight");

@@ -25,7 +25,11 @@ import com.google.gwt.resources.client.ImageResource;
 public interface KSClientBundle extends ClientBundleWithLookup{
 	public static final KSClientBundle INSTANCE =  GWT.create(KSClientBundle.class);
 
-    @Source("org/kuali/student/common/ui/theme/standard/public/css/KSGeneral.css")
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/KSSummaryTable.css")
+    @CssResource.NotStrict
+    public CssResource summaryTableCss();
+
+	@Source("org/kuali/student/common/ui/theme/standard/public/css/KSGeneral.css")
 	@CssResource.NotStrict
 	public CssResource generalCss();
     @Source("org/kuali/student/common/ui/theme/standard/public/css/KSBlockingProgressIndicator.css")
