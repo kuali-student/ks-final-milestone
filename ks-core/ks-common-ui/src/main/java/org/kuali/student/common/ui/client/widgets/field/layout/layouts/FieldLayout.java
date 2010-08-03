@@ -37,7 +37,7 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 	protected Map<String, FieldElement> fieldMap = new HashMap<String, FieldElement>();
 	protected Map<String, FieldLayout> layoutMap = new HashMap<String, FieldLayout>();
 	protected LinkedHashMap<String, Widget> drawOrder = new LinkedHashMap<String, Widget>();
-	protected KSLabel instructions = new KSLabel();
+	protected SpanPanel instructions = new SpanPanel();
 	protected InfoMessage message = new InfoMessage();
 	protected FieldLayout parentLayout;
 	protected boolean hasValidation = false;
@@ -174,7 +174,7 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 	public void setInstructions(String instructions) {
 		if(instructions != null && !instructions.equals("")){
 			this.instructions.addStyleName("ks-section-instuctions");
-			this.instructions.setText(instructions);
+			this.instructions.setHTML(instructions);
 			this.instructions.setVisible(true);
 		}
 		else{

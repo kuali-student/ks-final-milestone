@@ -474,8 +474,8 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		layout.setStyleName(style);
 	}
 	
-	public void setInstructions(String instructions){
-		layout.setInstructions(instructions);
+	public void setInstructions(String html){
+		layout.setInstructions(html);
 	}
 	
 	public void setHelp(String html){
