@@ -9,7 +9,7 @@
   <artifactId>ks-lum</artifactId>
   <packaging>pom</packaging>
   <name>KS LUM</name>
-  <description>KS Learning Unit Management POM</description>
+  <description>KS Learning Unit Management</description>
   <profiles>
     <profile>
       <id>default</id>
