@@ -79,7 +79,7 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     }
     
     public boolean gotoNextView(){
-    	return gotoNextView();
+    	return gotoNextView;
     }
     
 }
