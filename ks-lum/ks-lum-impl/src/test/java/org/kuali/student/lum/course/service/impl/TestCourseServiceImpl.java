@@ -51,7 +51,7 @@ public class TestCourseServiceImpl {
     Set<String> subjectAreaSet = new TreeSet<String>(Arrays.asList(CourseDataGenerator.subjectAreas));
     
     @Test
-    public void testCreateCourse() {
+    public void testCreateCourse() throws Exception {
      System.out.println ("testCreateCourse");
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = null;
@@ -71,16 +71,8 @@ public class TestCourseServiceImpl {
         }
     }
 
-    private void dumpValidationErrors (CourseInfo cInfo) {
-      List<ValidationResultInfo> validationResults = null;
-      try
-      {
-       validationResults = courseService.validateCourse ("SYSTEM", cInfo);
-       }
-      catch (Exception ex)
-      {
-       System.out.println ("Could not get validation results because: " + ex.getMessage ());
-      }
+    private void dumpValidationErrors (CourseInfo cInfo) throws Exception {
+      List<ValidationResultInfo> validationResults = courseService.validateCourse ("SYSTEM", cInfo);
       for (ValidationResultInfo vr : validationResults) {
        System.out.println (vr.getElement () + " " + vr.getMessage ());
       }
@@ -201,7 +193,7 @@ public class TestCourseServiceImpl {
     }
 
     @Test
-    public void testUpdateCourse() {
+    public void testUpdateCourse() throws Exception {
        System.out.println ("testUpdateCourse");
 
        CourseDataGenerator generator = new CourseDataGenerator();
@@ -513,6 +505,9 @@ public class TestCourseServiceImpl {
              System.out.println ("threw data validaiton exception as expected");
             }
         } catch (Exception e) {
+            System.out.println ("caught exception: " + e.getClass ().getName ());
+            System.out.println ("message: " + e.getMessage ());
+            e.printStackTrace (System.out);
             e.printStackTrace();
             fail (e.getMessage ());
         } 

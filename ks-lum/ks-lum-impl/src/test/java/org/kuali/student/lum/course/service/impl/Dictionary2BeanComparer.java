@@ -42,7 +42,7 @@ public class Dictionary2BeanComparer
    {
     if ( ! fdDict.isDynamic ())
     {
-     discrepancies.add ("Field " + fdDict.getName () + " missing from bean");
+     discrepancies.add ("Field " + fdDict.getName () + " does not exist in the bean");
     }
     continue;
    }
