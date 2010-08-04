@@ -356,6 +356,9 @@
 		<property name="desc" value="Returns the list of all ATP Duration Types" />
 		<property name="resultReturnKey" value="atp.resultColumn.atpDurType" />
 		<property name="searchParamIdKey" value="atp.queryParam.atpDurationType" />
+  <property name="params">
+			<list/>
+  </property>
 	</bean>
 
 	<bean id="kuali.common.lookup.findCourse.suggest" parent="lookup">
@@ -386,7 +389,7 @@
 		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	</bean>
 
-	<bean id="kuali.common.lookup.firstexpectedoffering.suggest"
+<bean id="kuali.common.lookup.firstexpectedoffering.suggest"
 		parent="lookup">
 		<property name="id"	value="kuali.common.lookup.firstexpectedoffering.suggest" />
 		<property name="searchTypeId" value="atp.search.advancedAtpSearch" />
@@ -409,12 +412,32 @@
 							<value>kuali.atp.type.Fall</value>
 							<value>kuali.atp.type.Session1</value>
 							<value>kuali.atp.type.Session2</value>
-							<value>kuali.atp.type.Mini-mester1A
-							</value>
-							<value>kuali.atp.type.Mini-mester1B
-							</value>
+							<value>kuali.atp.type.Mini-mester1A</value>
+							<value>kuali.atp.type.Mini-mester1B</value>
 						</list>
 					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="atp.resultColumn.atpId" />
+	</bean>
+
+	<bean id="kuali.common.lookup.atp"	parent="lookup">
+		<property name="id"	value="kuali.common.lookup.atp" />
+		<property name="searchTypeId" value="atp.search.advancedAtpSearch" />
+		<property name="name" value="ATP Search" />
+		<property name="desc" value="Search atp type described by session, duration and year" />
+		<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpId" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="atp.advancedAtpSearchParam.atpType" />
+					<property name="name" value="Atp types" />
+					<property name="desc" value="Atp types for courses" />
+					<property name="caseSensitive" value="false" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
 				</bean>
 			</list>
 		</property>
