@@ -478,9 +478,10 @@
 	
 	<bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
 		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
-		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+		<property name="searchDispatcher" ref="mockSearchDispatcher"/>
 	</bean>
-	
+ <bean id="mockSearchDispatcher" class="org.kuali.student.lum.course.service.impl.MockSearchDispatcher" >
+ </bean>
 	<bean id="validatorFactory"
   		class="org.kuali.student.common.validator.ValidatorFactory">
   	 <constructor-arg index="0">
