@@ -3,9 +3,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
  <import resource="classpath:common-lookup-context.xml"/>
- <bean id="constraint.lookup.campusLocations"
-       class="org.kuali.student.core.dictionary.dto.LookupConstraint"
-       parent="kuali.common.lookup.campusLocations"/>
  <bean id="objectStructureDefinition"
        class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition"
        abstract="true" />

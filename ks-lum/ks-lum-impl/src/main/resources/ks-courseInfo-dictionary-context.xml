@@ -128,7 +128,7 @@
  </bean>
  <bean id="courseInfo.gradingOptions" parent="courseInfo.gradingOptions-parent"/>
 
- <bean id="courseInfo.audit-parent" abstract="true" parent="baseBoolean">
+<bean id="courseInfo.audit-parent" abstract="true" parent="baseBoolean">
   <property name="name" value="audit" />
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
@@ -147,13 +147,13 @@
  <bean id="courseInfo.passFail" parent="courseInfo.passFail-parent"/>
 
 
- <bean id="courseInfo.crossListings-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
+<bean id="courseInfo.crossListings-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
   <property name="name" value="crossListings" />
   <property name="dataObjectStructure"
             ref="org.kuali.student.lum.course.dto.CourseCrossListingInfo" />
  </bean>
  <bean id="courseInfo.crossListings" parent="courseInfo.crossListings-parent" />
-
+ 
  <bean id="courseInfo.department-parent" abstract="true" parent="adminOrgInfo.id-parent">
   <property name="name" value="department" />
  </bean>
@@ -161,7 +161,6 @@
 
  <bean id="courseInfo.descr-parent" abstract="true" parent="cluInfo.descr">
   <property name="name" value="descr" />
-  <property name="maxLength" value="14000"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>

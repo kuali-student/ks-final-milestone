@@ -33,7 +33,6 @@
     <ref bean="cluInfo.nextReviewPeriod" />
     <ref bean="cluInfo.offeredAtpTypes" />
     <ref bean="cluInfo.officialIdentifier" />
-    <ref bean="cluInfo.primaryAdminOrg" />
     <ref bean="cluInfo.primaryInstructor" />
     <ref bean="cluInfo.referenceURL" />
     <ref bean="cluInfo.state" />
@@ -81,12 +80,17 @@
  </bean>
  <bean id="cluInfo.alternateIdentifiers" parent="cluInfo.alternateIdentifiers-parent" />
 
- <!--This is an example of adding a lookup constraint in addition to base constraint
+ <!--
+ This is an example of adding a lookup constraint in addition to base constraint
 -->
+ <bean id="constraint.lookup.campusLocations"
+       class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+       parent="kuali.common.lookup.campusLocations" >
+  <property name="id" value="all.campusLocations" />
+ </bean>
  <bean id="cluInfo.campusLocations-parent" abstract="true" parent="baseKualiCodeRepeating">
   <property name="name" value="campusLocations" />
-  <!--TODO: uncomment out and figure out why it fails with constants from CourseAssemblerConstants-->
-  <!--<property name="lookupDefinition" ref="constraint.lookup.campusLocations" />-->
+  <property name="lookupDefinition" ref="constraint.lookup.campusLocations" />
  </bean>
  <bean id="cluInfo.campusLocations" parent="cluInfo.campusLocations-parent" />
 
@@ -96,14 +100,12 @@
  </bean>
  <bean id="cluInfo.canCreateLui" parent="cluInfo.canCreateLui-parent" />
 
- <bean id="cluInfo.defaultEnrollmentEstimate-parent" abstract="true"
-       parent="baseInteger">
+ <bean id="cluInfo.defaultEnrollmentEstimate-parent" abstract="true" parent="baseInteger">
   <property name="name" value="defaultEnrollmentEstimate" />
  </bean>
  <bean id="cluInfo.defaultEnrollmentEstimate" parent="cluInfo.defaultEnrollmentEstimate-parent" />
 
- <bean id="cluInfo.defaultMaximumEnrollment-parent" abstract="true"
-       parent="baseInteger">
+ <bean id="cluInfo.defaultMaximumEnrollment-parent" abstract="true" parent="baseInteger">
   <property name="name" value="defaultMaximumEnrollment" />
  </bean>
  <bean id="cluInfo.defaultMaximumEnrollment" parent="cluInfo.defaultMaximumEnrollment-parent" />
@@ -124,8 +126,15 @@
  </bean>
  <bean id="cluInfo.enrollable" parent="cluInfo.enrollable-parent" />
 
+ <bean id="constraint.lookup.atp"
+       class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+       parent="kuali.common.lookup.atp" >
+  <property name="id" value="all atps" />
+ </bean>
+ 
  <bean id="cluInfo.expectedFirstAtp-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="expectedFirstAtp" />
+  <property name="lookupDefinition" ref="constraint.lookup.atp" />
  </bean>
  <bean id="cluInfo.expectedFirstAtp" parent="cluInfo.expectedFirstAtp-parent" />
 
@@ -173,11 +182,13 @@
 
  <bean id="cluInfo.lastAdmitAtp-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="lastAdmitAtp" />
+  <property name="lookupDefinition" ref="constraint.lookup.atp" />
  </bean>
  <bean id="cluInfo.lastAdmitAtp" parent="cluInfo.lastAdmitAtp-parent"/>
 
  <bean id="cluInfo.lastAtp-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="lastAtp"/>
+  <property name="lookupDefinition" ref="constraint.lookup.atp" />
  </bean>
  <bean id="cluInfo.lastAtp" parent="cluInfo.lastAtp-parent"/>
 
@@ -187,15 +198,20 @@
  </bean>
  <bean id="cluInfo.luCodes" parent="cluInfo.luCodes-parent" />
 
- <bean id="cluInfo.nextReviewPeriod-parent" abstract="true"
-       parent="baseString">
+ <bean id="cluInfo.nextReviewPeriod-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="nextReviewPeriod" />
  </bean>
  <bean id="cluInfo.nextReviewPeriod" parent="cluInfo.nextReviewPeriod-parent" />
 
- <bean id="cluInfo.offeredAtpTypes-parent" abstract="true"
-       parent="baseStringRepeating">
+ <bean id="constraint.lookup.offeredAtpTypes"
+       class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+       parent="kuali.common.lookup.atp.seasons" >
+  <property name="id" value="all.seasons.offered" />
+ </bean>
+
+ <bean id="cluInfo.offeredAtpTypes-parent" abstract="true" parent="baseKualiTypeRepeating">
   <property name="name" value="offeredAtpTypes" />
+  <property name="lookupDefinition" ref="constraint.lookup.offeredAtpTypes" />
  </bean>
  <bean id="cluInfo.offeredAtpTypes" parent="cluInfo.offeredAtpTypes-parent" />
 
@@ -205,12 +221,6 @@
             ref="org.kuali.student.lum.lu.dto.CluIdentifierInfo" />
  </bean>
  <bean id="cluInfo.officialIdentifier" parent="cluInfo.officialIdentifier-parent" />
-
- <bean id="cluInfo.primaryAdminOrg-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="primaryAdminOrg" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo" />
- </bean>
- <bean id="cluInfo.primaryAdminOrg" parent="cluInfo.primaryAdminOrg-parent" />
 
  <bean id="cluInfo.primaryInstructor-parent" abstract="true" parent="baseComplex">
   <property name="name" value="primaryInstructor" />
@@ -388,6 +398,7 @@
    <list>
     <ref bean="currencyAmountInfo.currencyQuantity" />
     <ref bean="currencyAmountInfo.currencyTypeKey" />
+    <ref bean="currencyAmountInfo.id" />
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -408,6 +419,12 @@
   <property name="name" value="currencyTypeKey" />
  </bean>
  <bean id="currencyAmountInfo.currencyTypeKey" parent="currencyAmountInfo.currencyTypeKey-parent" />
+
+<bean id="currencyAmountInfo.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id" />
+ </bean>
+ <bean id="currencyAmountInfo.id" parent="currencyAmountInfo.id-parent" />
+
 
  <!-- AffiliatedOrgInfo-->
  <bean id="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo-parent"
@@ -480,8 +497,15 @@
  </bean>
  <bean id="amountInfo.unitQuantity" parent="amountInfo.unitQuantity-parent" />
 
+ <bean id="constraint.lookup.unitTypes"
+       class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+       parent="kuali.common.lookup.amountInfo.unitType" >
+  <property name="id" value="all.unitTypes" />
+ </bean>
+
  <bean id="amountInfo.unitType-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="unitType" />
+  <property name="lookupDefinition" ref="constraint.lookup.unitTypes" />
  </bean>
  <bean id="amountInfo.unitType" parent="amountInfo.unitType-parent" />
 
@@ -682,8 +706,15 @@
  </bean>
  <bean id="org.kuali.student.core.dto.TimeAmountInfo" parent="org.kuali.student.core.dto.TimeAmountInfo-parent" />
 
+ <bean id="constraint.lookup.durations"
+       class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+       parent="kuali.common.lookup.durations" >
+  <property name="id" value="all.durations" />
+ </bean>
+
  <bean id="timeAmountInfo.atpDurationTypeKey-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="atpDurationTypeKey" />
+  <property name="lookupDefinition" ref="constraint.lookup.durations" />
  </bean>
  <bean id="timeAmountInfo.atpDurationTypeKey" parent="timeAmountInfo.atpDurationTypeKey-parent" />
 
@@ -739,7 +770,7 @@
     <ref bean="adminOrgInfo.id" />
     <ref bean="adminOrgInfo.orgId" />
     <ref bean="adminOrgInfo.type"/>
-	<ref bean="adminOrgInfo.isPrimary"/>
+	   <ref bean="adminOrgInfo.primary"/>
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -763,9 +794,9 @@
 	<property name="name" value="type"></property>
 </bean>
 	
-<bean id="adminOrgInfo.isPrimary-parent" abstract="true" parent="baseBoolean">
-	<property name="name" value="isPrimary"></property>
+<bean id="adminOrgInfo.primary-parent" abstract="true" parent="baseBoolean">
+	<property name="name" value="primary"></property>
 </bean>
 
-<bean id="adminOrgInfo.isPrimary" parent="adminOrgInfo.isPrimary-parent" />	
+<bean id="adminOrgInfo.primary" parent="adminOrgInfo.primary-parent" />
 </beans>
