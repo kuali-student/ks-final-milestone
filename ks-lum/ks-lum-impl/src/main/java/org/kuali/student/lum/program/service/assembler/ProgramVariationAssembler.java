@@ -161,7 +161,6 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		
 		//TODO: programRequirements
 		
-		//TODO: add AdminOrg and wait for CluInfo.adminOrgs
 		disassembleAdminOrg(clu, variation);
 		
 		// Add the Clu to the result

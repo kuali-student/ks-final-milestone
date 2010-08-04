@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.service.assembler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,10 +36,14 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.LoAssembler;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 
 /**
  * This is a description of what this class does - jimt don't forget to fill this in. 
@@ -66,6 +72,43 @@ public class CluAssemblerUtils {
         return loInfos;
     }
 
+    //TODO: after testing, I will add other orgs.
+    public void disassembleAdminOrg(CluInfo clu, Class<?> clazz){
+    	List<AdminOrgInfo> dcos = getAdminOrgs("getDivisionsContentOwner", clazz);
+    	if(dcos != null && dcos.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:dcos){
+    			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
+    }
+    
+    @SuppressWarnings("unchecked")
+	private List<AdminOrgInfo> getAdminOrgs(String prop, Class<?> clazz){
+		try
+		{
+			 Method method = clazz.getMethod(prop, null);
+			 Object t = clazz.newInstance();
+			 List<AdminOrgInfo> output = (List<AdminOrgInfo>)method.invoke(t, null);
+			 return output;
+		}
+		catch (InstantiationException ex){
+			return null;
+		}
+		catch (IllegalAccessException   ex){
+			return null;
+		}
+		catch (InvocationTargetException  ex){
+			return null;
+		}
+		catch (NoSuchMethodException ex)
+		{
+			 return null;
+		}
+    }
     public BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
 			String cluState, List<String> options, NodeOperation operation, String resultType, 
 			String resultsDescription, String resultDescription) throws AssemblyException {

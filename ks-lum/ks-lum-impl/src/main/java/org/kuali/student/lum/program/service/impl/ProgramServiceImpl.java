@@ -237,7 +237,7 @@ public class ProgramServiceImpl implements ProgramService {
 		// comment out the above, and uncomment below to get auto-generated data
         // (and vice-versa)
 //		try {
-//			return new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
+//			return new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM).getCPTestData();
 //		} catch (Exception e) {
 //			return null;
 //		}
