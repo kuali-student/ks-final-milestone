@@ -83,6 +83,106 @@ public class CluAssemblerUtils {
     		}
     		clu.getAdminOrgs().addAll(orgs);
     	}
+
+    	List<AdminOrgInfo> dsos = getAdminOrgs("getDivisionsStudentOversight", t);
+    	if(dsos != null && dsos.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:dsos){
+    			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
+    	
+    	List<AdminOrgInfo> dds = getAdminOrgs("getDivisionsDeployment", t);
+		if(dds != null && dds.size() > 0){
+			List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+			for (AdminOrgInfo org : dds) {
+				if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)){
+					orgs.add(org);
+				}
+			}
+			clu.getAdminOrgs().addAll(orgs);
+		}
+
+    	List<AdminOrgInfo> dfrs = getAdminOrgs("getDivisionsFinancialResources", t);
+    	if(dfrs != null && dfrs.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:dfrs){
+    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
+    	
+
+    	List<AdminOrgInfo> dfcs = getAdminOrgs("getDivisionsFinancialControl", t);
+    	if(dfcs != null && dfcs.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:dfcs){
+    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}		
+
+    	List<AdminOrgInfo> ucos = getAdminOrgs("getUnitsContentOwner", t);
+    	if(ucos != null && ucos.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:ucos){
+    			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_UNIT)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
+
+    	List<AdminOrgInfo> usos = getAdminOrgs("getUnitsStudentOversight", t);
+    	if(usos != null && usos.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:usos){
+    			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
+		
+    	List<AdminOrgInfo> uds = getAdminOrgs("getUnitsDeployment", t);
+    	if(uds != null && uds.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:uds){
+    			if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_UNIT)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
+
+    	List<AdminOrgInfo> ufrs = getAdminOrgs("getUnitsFinancialResources", t);
+    	if(ufrs != null && ufrs.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:ufrs){
+    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
+
+    	List<AdminOrgInfo> ufcs = getAdminOrgs("getUnitsFinancialControl", t);
+    	if(ufcs != null && ufcs.size() > 0){
+    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
+    		for(AdminOrgInfo org:ufcs){
+    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT)){
+    				orgs.add(org);
+    			}
+    		}
+    		clu.getAdminOrgs().addAll(orgs);
+    	}
     }
     
     @SuppressWarnings("unchecked")
