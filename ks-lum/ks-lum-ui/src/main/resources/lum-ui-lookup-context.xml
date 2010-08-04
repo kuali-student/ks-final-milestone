@@ -410,6 +410,7 @@
 		<property name="desc"
 			value="Search for administrative department organization" />
 		<property name="widget" value="SUGGEST_BOX" />
+		<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
 		<property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
 		<property name="resultSortKey" value="" />
 		<property name="results">
