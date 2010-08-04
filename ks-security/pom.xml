@@ -9,7 +9,7 @@
   <artifactId>ks-security</artifactId>
   <packaging>pom</packaging>
   <name>KS Security</name>
-  <description>KS Security Parent POM</description>
+  <description>KS Security</description>
   <modules>
     <module>ks-standard-sec</module>
     <module>ks-sts</module>
