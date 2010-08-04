@@ -454,9 +454,14 @@
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
+ 	<bean id="credentialProgramAssembler"
+          class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
+    </bean>
+    
     <bean id="programVariationAssembler"
           class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
         <property name="luService" ref="luServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
     <bean id="coreProgramAssembler"
@@ -487,6 +492,7 @@
         <property name="validator" ref="businessServiceValidator"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker" />
-        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
+        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler" />
+        <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
     </bean>
 </beans>
