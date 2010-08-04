@@ -161,7 +161,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		
 		//TODO: programRequirements
 		
-		disassembleAdminOrg(clu, variation);
+		cluAssemblerUtils.disassembleAdminOrg(clu, variation);
 		
 		// Add the Clu to the result
 		result.setNodeData(clu);
@@ -171,89 +171,6 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     	
     }
 
-    private void disassembleAdminOrg(CluInfo clu, ProgramVariationInfo variation){
-		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-		for(AdminOrgInfo org:variation.getDivisionsContentOwner()){
-			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getDivisionsStudentOversight()) {
-			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getDivisionsDeployment()) {
-			if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getDivisionsFinancialResources()) {
-			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getDivisionsFinancialControl()) {
-			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getUnitsContentOwner()) {
-			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_UNIT)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		///
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getUnitsStudentOversight()) {
-			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getUnitsDeployment()) {
-			if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_UNIT)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getUnitsFinancialResources()) {
-			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-		orgs = new ArrayList<AdminOrgInfo>();
-		for (AdminOrgInfo org : variation.getUnitsFinancialControl()) {
-			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT)){
-				orgs.add(org);
-			}
-		}
-		clu.getAdminOrgs().addAll(orgs);
-		
-    }
- 
     private void disassembleAlternateIdentifiers(CluInfo clu, ProgramVariationInfo variation){
 		//Add TranscriptTitle
     	boolean alreadyHadTranscript = false;
