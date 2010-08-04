@@ -56,7 +56,7 @@ public class CluAssemblerUtils {
     private LearningObjectiveService loService;
     private LoAssembler loAssembler;
 
-    public List<LoDisplayInfo> getLearningObjectives(String cluId, boolean shallowBuild) throws AssemblyException {
+    public List<LoDisplayInfo> assembleLearningObjectives(String cluId, boolean shallowBuild) throws AssemblyException {
         List<LoDisplayInfo> loInfos = new ArrayList<LoDisplayInfo>();
         try {
             List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
@@ -94,7 +94,7 @@ public class CluAssemblerUtils {
     		}
     		clu.getAdminOrgs().addAll(orgs);
     	}
-    	
+
     	List<AdminOrgInfo> dds = getAdminOrgs("getDivisionsDeployment", t);
 		if(dds != null && dds.size() > 0){
 			List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
@@ -116,7 +116,7 @@ public class CluAssemblerUtils {
     		}
     		clu.getAdminOrgs().addAll(orgs);
     	}
-    	
+
 
     	List<AdminOrgInfo> dfcs = getAdminOrgs("getDivisionsFinancialControl", t);
     	if(dfcs != null && dfcs.size() > 0){
@@ -127,7 +127,7 @@ public class CluAssemblerUtils {
     			}
     		}
     		clu.getAdminOrgs().addAll(orgs);
-    	}		
+    	}
 
     	List<AdminOrgInfo> ucos = getAdminOrgs("getUnitsContentOwner", t);
     	if(ucos != null && ucos.size() > 0){
@@ -150,7 +150,7 @@ public class CluAssemblerUtils {
     		}
     		clu.getAdminOrgs().addAll(orgs);
     	}
-		
+
     	List<AdminOrgInfo> uds = getAdminOrgs("getUnitsDeployment", t);
     	if(uds != null && uds.size() > 0){
     		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
@@ -184,7 +184,7 @@ public class CluAssemblerUtils {
     		clu.getAdminOrgs().addAll(orgs);
     	}
     }
-    
+
     @SuppressWarnings("unchecked")
 	private List<AdminOrgInfo> getAdminOrgs(String prop, Object t){
 		try
@@ -205,6 +205,25 @@ public class CluAssemblerUtils {
 			 return null;
 		}
     }
+
+    public List<String> assembleCluResults(String courseResultType, List<CluResultInfo> cluResults) throws AssemblyException{
+		if(courseResultType==null){
+			throw new AssemblyException("courseResultType can not be null");
+		}
+		List<String> results = new ArrayList<String>();
+		//Loop through all the CluResults to find the one with the matching type
+		for(CluResultInfo cluResult:cluResults){
+			if(courseResultType.equals(cluResult.getType())){
+				//Loop through all options and add to the list of Strings
+				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
+					results.add(resultOption.getResultComponentId());
+				}
+				break;
+			}
+		}
+		return results;
+	}
+
     public BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
 			String cluState, List<String> options, NodeOperation operation, String resultType, 
 			String resultsDescription, String resultDescription) throws AssemblyException {
