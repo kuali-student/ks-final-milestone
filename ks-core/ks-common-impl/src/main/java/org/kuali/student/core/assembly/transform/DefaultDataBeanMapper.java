@@ -44,7 +44,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
                     Object propValue = pd.getReadMethod().invoke(value, (Object[]) null);
                     
                     if ("attributes".equals(propKey)){
-       					setDataAttributes(result, propValue);
+                    	setDataAttributes(result, propValue);
                     } else {
 	                    setDataValue(result, propKey, propValue);
                     }
@@ -115,12 +115,11 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 				//Obtain the dynamic flag from the dictionary
 				if(metadata==null){
 					if (!staticProperties.contains(k) && !keyString.startsWith("_run")){
-						attributes.put((String)k.get(),(String)data.get(k));
+						attributes.put((String)k.get(),data.get(k).toString());
 					}
 				}
 				else if (!staticProperties.contains(k) && !keyString.startsWith("_run")&& metadata.getProperties().get(keyString).isDynamic()){
-					attributes.put((String)k.get(),(String)data.get(k));
-					
+					attributes.put((String)k.get(), data.get(k).toString());
 				}
 			}
     		if(attrProperty.getWriteMethod() != null){    
@@ -229,7 +228,11 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 		Map<String, String> attributes = (Map<String, String>)value;
 		
 		for (Entry<String, String> entry:attributes.entrySet()){
-			data.set(entry.getKey(), entry.getValue());
+			if("false".equals(entry.getValue())||"true".equals(entry.getValue())){
+				data.set(entry.getKey(), Boolean.valueOf(entry.getValue()));
+			}else{
+				data.set(entry.getKey(), entry.getValue());
+			}
 		}
 	}
 

@@ -247,7 +247,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUConstants.START_TERM_LABEL_KEY));
         addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUConstants.END_TERM_LABEL_KEY));
-        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox("Yes, this is a one-time/pilot course"));
+        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
         
         return section;
     }
@@ -419,13 +419,21 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         section.addSection(generateSchedulingSection());
         section.addSection(generateDurationSection());
+        section.addSection(generateLearningResultsSection());
         section.addSection(generateCourseFormatsSection());
-
 
         return section;
     }
 
-    protected VerticalSection generateCourseFormatsSection() {
+    private Section generateLearningResultsSection() {
+        VerticalSection learningResults = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
+        addField(learningResults, COURSE + "/" + GRADING_OPTIONS, generateMessageInfo(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY));
+        addField(learningResults, COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY)));
+        addField(learningResults, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
+        return learningResults;
+	}
+
+	protected VerticalSection generateCourseFormatsSection() {
         //COURSE FORMATS
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
         addField(courseFormats, COURSE + "/" + FORMATS, null, new CourseFormatList(COURSE + "/" + FORMATS));

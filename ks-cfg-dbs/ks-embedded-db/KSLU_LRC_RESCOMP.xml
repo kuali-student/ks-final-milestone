@@ -142,11 +142,36 @@
         RT_DESCR_ID="RICHTEXT-LRC-RC-12"
         TYPE="kuali.resultComponentType.credit.degree.fixed" VERSIONIND="1"/>
     <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.grade.audit" NAME="Audit"
+        RT_DESCR_ID="RICHTEXT-LRC-RC-106"
+        TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.grade.completedNotation"
+        NAME="Completed notation" RT_DESCR_ID="RICHTEXT-LRC-RC-105"
+        TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.grade.designReview"
+        NAME="Design review" RT_DESCR_ID="RICHTEXT-LRC-RC-104"
+        TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
         ID="kuali.resultComponent.grade.letter" NAME="Letter"
-        RT_DESCR_ID="RICHTEXT-LRC-RC-2"
+        RT_DESCR_ID="RICHTEXT-LRC-RC-100"
         TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
     <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
         ID="kuali.resultComponent.grade.passFail" NAME="Pass-Fail"
-        RT_DESCR_ID="RICHTEXT-LRC-RC-1"
+        RT_DESCR_ID="RICHTEXT-LRC-RC-101"
+        TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.grade.percentage" NAME="Percentage"
+        RT_DESCR_ID="RICHTEXT-LRC-RC-102"
+        TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.grade.recitalReview"
+        NAME="Recital review" RT_DESCR_ID="RICHTEXT-LRC-RC-103"
+        TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
+    <KSLU_LRC_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.grade.satisfactory"
+        NAME="Satisfactory/unsatisfactory"
+        RT_DESCR_ID="RICHTEXT-LRC-RC-107"
         TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
 </dataset>

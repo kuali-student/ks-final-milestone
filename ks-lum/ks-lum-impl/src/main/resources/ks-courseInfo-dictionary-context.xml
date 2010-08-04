@@ -29,6 +29,8 @@
     <ref bean="courseInfo.endTerm" />
     <ref bean="courseInfo.formats" />
     <ref bean="courseInfo.gradingOptions"/>
+    <ref bean="courseInfo.audit"/>
+    <ref bean="courseInfo.passFail"/>
     <ref bean="courseInfo.id" />
     <ref bean="courseInfo.joints" />
     <ref bean="courseInfo.primaryInstructor" />
@@ -125,6 +127,25 @@
  <property name="name" value="gradingOptions"/>
  </bean>
  <bean id="courseInfo.gradingOptions" parent="courseInfo.gradingOptions-parent"/>
+
+ <bean id="courseInfo.audit-parent" abstract="true" parent="baseBoolean">
+  <property name="name" value="audit" />
+  <property name="minOccurs" value="0" />
+  <property name="maxOccurs" value="1" />
+  <property name="defaultValue" value="false" />
+  <property name="dynamic" value="true"/>
+ </bean>
+ <bean id="courseInfo.audit" parent="courseInfo.audit-parent"/>
+
+ <bean id="courseInfo.passFail-parent" abstract="true" parent="baseBoolean">
+  <property name="name" value="passFail" />
+  <property name="minOccurs" value="0" />
+  <property name="maxOccurs" value="1" />
+  <property name="defaultValue" value="false" />
+  <property name="dynamic" value="true"/>
+ </bean>
+ <bean id="courseInfo.passFail" parent="courseInfo.passFail-parent"/>
+
 
  <bean id="courseInfo.crossListings-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
   <property name="name" value="crossListings" />

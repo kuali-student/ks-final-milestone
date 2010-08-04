@@ -237,6 +237,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				course.setCreditOptions(creditOptions);
 				
 				List<String> gradingOptions = assembleCluResults(CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE, cluResults);
+				
+				//Remove special case for grading options
+				gradingOptions.remove("kuali.resultComponent.grade.passFail");
+				gradingOptions.remove("kuali.resultComponent.grade.audit");
+				
 				course.setGradingOptions(gradingOptions);
 			} catch (DoesNotExistException e){
 			} catch (Exception e) {
@@ -393,6 +398,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		result.getChildNodes().addAll(courseJointResults);
 
 		//Disassemble the CluResults (grading and credit options)
+		//Special code to take audit/passfail from attributes and put into options
+		if(course.getAttributes().containsKey("passFail")&&"true".equals(course.getAttributes().get("passFail"))){
+			if(!course.getGradingOptions().contains("kuali.resultComponent.grade.passFail")){
+				course.getGradingOptions().add("kuali.resultComponent.grade.passFail");
+			}
+		}
+		if(course.getAttributes().containsKey("audit")&&"true".equals(course.getAttributes().get("audit"))){
+			if(!course.getGradingOptions().contains("kuali.resultComponent.grade.audit")){
+				course.getGradingOptions().add("kuali.resultComponent.grade.audit");
+			}
+		}
+		
 		BaseDTOAssemblyNode<?, ?> creditOptions = disassembleCluResults(
 				clu.getId(), course.getState(), course.getCreditOptions(), operation, CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS, "Credit outcome options", "Credit outcome option");
 		result.getChildNodes().add(creditOptions);

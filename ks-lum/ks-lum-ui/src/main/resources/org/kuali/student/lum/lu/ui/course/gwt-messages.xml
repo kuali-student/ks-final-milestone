@@ -220,6 +220,7 @@
 	<bean parent="enCourse" p:id="cluEndTerm-help" p:value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses." />
 	<bean parent="enCourse" p:id="cluEndTerm-instruct" p:value="What term will this course become inactive?" />
 	<bean parent="enCourse" p:id="cluPilotCourse" p:value="Pilot Course" />
+	<bean parent="enCourse" p:id="cluPilotCourseText" p:value="Yes, this is a one-time/pilot course" />
 	<bean parent="enCourse" p:id="cluPilotCourse-help" p:value="If this is a pilot course, you must select an End Term." />
 	<bean parent="enCourse" p:id="cluStartDate" p:value="Start Date" />
 	<bean parent="enCourse" p:id="cluStart" p:value="Start" />
@@ -330,6 +331,10 @@
     
 	<bean parent="enCourse" p:id="cluLearningResults"                   p:value="Learning Results"/>
 	<bean parent="enCourse" p:id="cluAddLearningResultAssessmentScale"  p:value="Add Grading Scale Option"/>
+	<bean parent="enCourse" p:id="cluLearningResultAudit"    			p:value="Audit"/>
+	<bean parent="enCourse" p:id="cluLearningResultAuditText"    		p:value="This course can be audidted"/>
+	<bean parent="enCourse" p:id="cluLearningResultPassFail"   			p:value="Pass Fail"/>
+	<bean parent="enCourse" p:id="cluLearningResultPassFailText"		p:value="This course will have a student selectable pass/fail optionPass Fail"/>
 	<bean parent="enCourse" p:id="cluLearningResultAssessmentScale"     p:value="Assessment Scale"/>
 	<bean parent="enCourse" p:id="cluLearningResultsStudentRegiOptions" p:value="Student Registration Options"/>
 	<bean parent="enCourse" p:id="cluAddLearningResultOutcome"          p:value="Add Outcome"/>

@@ -130,6 +130,7 @@ public class LUConstants {
     public static final String START_TERM_LABEL_KEY = "cluStartTerm";
     public static final String END_TERM_LABEL_KEY = "cluEndTerm";
     public static final String PILOT_COURSE_LABEL_KEY = "cluPilotCourse";
+    public static final String PILOT_COURSE_TEXT_LABEL_KEY = "cluPilotCourseText";
     
     //Logistics labels
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
@@ -145,6 +146,10 @@ public class LUConstants {
     public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
     public static final String LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluLearningResultAssessmentScale";
     public static final String ADD_LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluAddLearningResultAssessmentScale";
+	public static final String LEARNING_RESULT_AUDIT_LABEL_KEY = "cluLearningResultAudit";
+	public static final String LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY = "cluLearningResultAuditText";
+	public static final String LEARNING_RESULT_PASS_FAIL_LABEL_KEY = "cluLearningResultPassFail";
+	public static final String LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY = "cluLearningResultPassFailText";
     public static final String ADD_LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluAddLearningResultOutcome";
     public static final String LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluLearningResultOutcome";
     public static final String LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY = "cluLearningResultOutcomeType";
@@ -290,6 +295,8 @@ public class LUConstants {
     public static final String ORGANIZATION = "cluOrganization";
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
     public static final String PERCENTAGE = "cluPercentage";
+
+
 
 }
 

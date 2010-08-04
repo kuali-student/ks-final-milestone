@@ -98,6 +98,11 @@
 		<property name="initialLookup" ref="kuali.lu.lookup.campusLocations" />
 	</bean>
 
+	<bean id="courseInfo.gradingOptions" parent="uilookup">
+		<property name="path" value="courseInfo.gradingOptions" />
+		<property name="initialLookup" ref="kuali.lu.lookup.assessmentScale" />
+	</bean>
+	
 	<bean id="activities.activityType" parent="uilookup">
 		<property name="path" value="course.formats.activities.activityType" />
 		<property name="initialLookup" ref="kuali.lookup.lutypes.activity" />
@@ -595,6 +600,41 @@
 		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
 		<property name="usage" value="DEFAULT" />
 		<property name="id" value="kuali.lu.lookup.campusLocations" />
+	</bean>
+	<bean id="kuali.lu.lookup.assessmentScale" parent="kuali.common.lookup.assessmentScale" class="org.kuali.student.core.assembly.data.UILookupData">
+		<property name="name" value="Assessment Scale" />
+		<property name="desc" value="Grading options" />
+		<property name="widget" value="CHECKBOX_LIST" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The id of the result component" />
+					<property name="hidden" value="false" />
+					<property name="key" value="lrc.resultColumn.resultComponent.id" />
+					<property name="name" value="Result Component Id" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The name of the result component" />
+					<property name="hidden" value="false" />
+					<property name="key" value="lrc.resultColumn.resultComponent.name" />
+					<property name="name" value="Result Component Name" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The result component type" />
+					<property name="hidden" value="true" />
+					<property name="key" value="lrc.resultColumn.resultComponent.type" />
+					<property name="name" value="Result Component Type" />
+				</bean>
+				
+			</list> 
+		</property>
+		<property name="resultDisplayKey" value="lrc.resultColumn.resultComponent.name" />
+		<property name="resultSortKey" value="lrc.resultColumn.resultComponent.id" />
+		<property name="usage" value="DEFAULT" />
+		<property name="id" value="kuali.lu.lookup.assessmentScale" />
 	</bean>
 
 	<bean id="kuali.lu.lookup.termsOffered" class="org.kuali.student.core.assembly.data.UILookupData"
