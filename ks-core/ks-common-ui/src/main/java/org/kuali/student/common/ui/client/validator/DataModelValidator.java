@@ -49,13 +49,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.common.validator.DateParser;
+import org.kuali.student.common.validator.old.DateParser;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -69,6 +69,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 public class DataModelValidator {
 	
 	private static final String RUNTIME_DELETED_KEY = "_runtimeData/deleted";
+	
 	private DateParser dateParser = null;
 
 
@@ -88,87 +89,108 @@ public class DataModelValidator {
 	}
 
 	
-
+	/**
+	 * Use to validate the entire DataModel structure against constraints defined in the metadata. 
+	 * @param model
+	 * @return
+	 */
 	public List<ValidationResultInfo> validate(final DataModel model) {
 		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
-		
 		DataModelDefinition def = (DataModelDefinition) model.getDefinition();
 		doValidate(model, def.getMetadata(), new QueryPath(), results);
+		return results;
+	}
+	
+	/**
+	 * Use to validated a single field within the data model against constraints defined in the metadata
+	 * @param fd
+	 * @param model
+	 * @return
+	 */
+	public List<ValidationResultInfo> validate(FieldDescriptor fd,
+			DataModel model) {
+		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+		if(fd != null && fd.getMetadata() != null && fd.getFieldKey() != null){
+			doValidate(model, fd.getMetadata(), QueryPath.parse(fd.getFieldKey()), results);	
+		}else{
+			return validate(model);
+		}
 				
 		return results;
 	}
 	
-	
-	
-
     private void doValidate(final DataModel model, final Metadata meta, final QueryPath path, List<ValidationResultInfo> results) {
-		switch (meta.getDataType()) {
+    	switch (meta.getDataType()) {
 		case DATA:
 			// intentional fallthrough case
 		case LIST:
 			doValidateComplex(model, meta, path, results);
 			break;
-
-		case BOOLEAN:
-			doValidateBoolean(model, meta, path, results);
-			break;
-		
-		case DATE:
-			// intentional fallthrough case
-		case TRUNCATED_DATE:
-			doValidateDate(model, meta, path, results);
-			break;
-		
-		case DOUBLE:
-			doValidateDouble(model, meta, path, results);
-			break;
-		
-		case FLOAT:
-			doValidateFloat(model, meta, path, results);
-			break;
-
-		case INTEGER:
-			doValidateInteger(model, meta, path, results);
-			break;
-		
-		case LONG:
-			doValidateLong(model, meta, path, results);
-			break;
-		
-		case STRING:
-			doValidateString(model, meta, path, results);
-			break;
-		
-		default:
-			// do nothing
-		}
-		
+    	}
+    	
+    	if (meta.getConstraints() != null){
+	    	switch (meta.getDataType()){
+	    	
+			case BOOLEAN:
+				doValidateBoolean(model, meta, path, results);
+				break;
+			
+			case DATE:
+				// intentional fallthrough case
+			case TRUNCATED_DATE:
+				doValidateDate(model, meta, path, results);
+				break;
+			
+			case DOUBLE:
+				doValidateDouble(model, meta, path, results);
+				break;
+			
+			case FLOAT:
+				doValidateFloat(model, meta, path, results);
+				break;
+	
+			case INTEGER:
+				doValidateInteger(model, meta, path, results);
+				break;
+			
+			case LONG:
+				doValidateLong(model, meta, path, results);
+				break;
+			
+			case STRING:
+				doValidateString(model, meta, path, results);
+				break;
+			
+			default:
+				// do nothing
+			}
+    	}
 	}
 	
-    private void addError(List<ValidationResultInfo> list, String element, ValidationMessageKeys msgKey, Map<String, Object> constraintInfo) {
+    private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey, Map<String, Object> constraintInfo) {
         ValidationResultInfo v = new ValidationResultInfo();    	
         String rawMsg = Application.getApplicationContext().getMessage(msgKey.getKey());
-        v.setElement(element);
+        v.setElement(element.toString());
         v.setError(MessageUtils.interpolate(rawMsg, constraintInfo));       
         list.add(v);
     }
     
-    private void addError(List<ValidationResultInfo> list, String element, ValidationMessageKeys msgKey, Object value ){
+    private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey, Object value ){
         ValidationResultInfo v = new ValidationResultInfo();
         String rawMsg = Application.getApplicationContext().getMessage(msgKey.getKey());
-        v.setElement(element);
+        v.setElement(element.toString());
         v.setError(MessageUtils.interpolate(rawMsg, msgKey.getProperty(), value));       
         list.add(v);
     }
     
-    private void addError(List<ValidationResultInfo> list, String element, ValidationMessageKeys msgKey){
+    private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey){
         ValidationResultInfo v = new ValidationResultInfo();
-        v.setElement(element);
+        v.setElement(element.toString());
         v.setError(Application.getApplicationContext().getMessage(msgKey.getKey()));       
         list.add(v);
     }
     
-    private void addRangeError(List<ValidationResultInfo> list, String element, ValidationMessageKeys msgKey, Object minValue, Object maxValue){
+    private void addRangeError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey, Object minValue, Object maxValue){
     	Map<String, Object> constraintInfo = new HashMap<String, Object>();
     	
     	put(constraintInfo, MIN_VALUE.getProperty(), minValue);
@@ -184,14 +206,15 @@ public class DataModelValidator {
 		
 		validateOccurs(path, values, meta, results);
 		
-		for (Entry<QueryPath, Object> e : values.entrySet()) {
-			String element = e.getKey().toString();
+		Object[] keys = values.keySet().toArray();
+		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			QueryPath element = (QueryPath)keys[keyIndex];
 
-			String s = (e.getValue() == null) ? "" : e.getValue().toString();
+			String s = (values.get(element) == null) ? "" : values.get(element).toString();
 			
 			if (s.isEmpty() && isRequired(meta)) {
 				addError(results, element, REQUIRED);
-			} else {
+			} else if(!s.isEmpty()) {
 				int len = s.length();
 				Integer minLength = getLargestMinLength(meta);
 				Integer maxLength = getSmallestMaxLength(meta);
@@ -209,7 +232,10 @@ public class DataModelValidator {
 				// process valid chars constraint
 				if (meta.getConstraints() != null) {
 					boolean failed = false;
-					for (ConstraintMetadata cons : meta.getConstraints()) {
+					List<ConstraintMetadata> constraints = meta.getConstraints();
+					
+					for (int consIdx=0; consIdx <constraints.size(); consIdx++) {
+						ConstraintMetadata cons = constraints.get(consIdx);
 						if (failed) {
 							break;
 						}
@@ -247,9 +273,11 @@ public class DataModelValidator {
 	    
 	    validateOccurs(path, values, meta, results);
         
-	    for (Entry<QueryPath, Object> e : values.entrySet()) {
-			String element = e.getKey().toString();
-			Object o = e.getValue();
+		Object[] keys = values.keySet().toArray();
+		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			QueryPath element = (QueryPath)keys[keyIndex];
+
+			Object o = values.get(element);
 			
 			if (o == null) {
 				if (isRequired(meta)) {
@@ -288,9 +316,11 @@ public class DataModelValidator {
 
         validateOccurs(path, values, meta, results);
         
-	    for (Entry<QueryPath, Object> e : values.entrySet()) {
-			String element = e.getKey().toString();
-			Object o = e.getValue();
+		Object[] keys = values.keySet().toArray();
+		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			QueryPath element = (QueryPath)keys[keyIndex];
+
+			Object o = values.get(element);
 			
 			if (o == null) {
 				if (isRequired(meta)) {
@@ -330,9 +360,11 @@ public class DataModelValidator {
 		
         validateOccurs(path, values, meta, results);
         
-        for (Entry<QueryPath, Object> e : values.entrySet()) {
-			String element = e.getKey().toString();
-			Object o = e.getValue();
+		Object[] keys = values.keySet().toArray();
+		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			QueryPath element = (QueryPath)keys[keyIndex];
+
+			Object o = values.get(element);
 			
 			if (o == null) {
 				if (isRequired(meta)) {
@@ -372,9 +404,11 @@ public class DataModelValidator {
 
         validateOccurs(path, values, meta, results);
         
-        for (Entry<QueryPath, Object> e : values.entrySet()) {
-			String element = e.getKey().toString();
-			Object o = e.getValue();
+		Object[] keys = values.keySet().toArray();		
+		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			QueryPath element = (QueryPath)keys[keyIndex];
+
+			Object o = values.get(element);
 			
 			if (o == null) {
 				if (isRequired(meta)) {
@@ -414,10 +448,11 @@ public class DataModelValidator {
 
         validateOccurs(path, values, meta, results);
         
-        for (Entry<QueryPath, Object> e : values.entrySet()) {
-			String element = e.getKey().toString();
-			Object o = e.getValue();
-			path = QueryPath.parse(element);
+		Object[] keys = values.keySet().toArray();
+		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			QueryPath element = (QueryPath)keys[keyIndex];
+			Object o = values.get(element);
+			
 			if (o == null) {
 				if (isRequired(meta)) {
 					addError(results, element, REQUIRED);
@@ -433,8 +468,8 @@ public class DataModelValidator {
 				
 				if (d != null) {
 					//Get defined min/max value constraint
-    				Date min = getLargestMinValueDate(meta, dateParser, getCrossFieldMinValue(model, path, meta));
-    				Date max = getSmallestMaxValueDate(meta, dateParser, getCrossFieldMaxValue(model, path, meta));
+    				Date min = getLargestMinValueDate(meta, dateParser, getCrossFieldMinValue(model, element, meta));
+    				Date max = getSmallestMaxValueDate(meta, dateParser, getCrossFieldMaxValue(model, element, meta));
     				    				
     				if (min != null && max != null) {
     					if (d.getTime() < min.getTime() || d.getTime() > max.getTime()) {
@@ -458,9 +493,11 @@ public class DataModelValidator {
 
 	    validateOccurs(path, values, meta, results);
         
-        for (Entry<QueryPath, Object> e : values.entrySet()) {
-			String element = e.getKey().toString();
-			Object o = e.getValue();
+		Object[] keys = values.keySet().toArray();
+		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			QueryPath element = (QueryPath)keys[keyIndex];
+
+			Object o = values.get(element);
 			
 			if (o == null) {
 				if (isRequired(meta)) {
@@ -477,7 +514,7 @@ public class DataModelValidator {
 	private void doValidateComplex(final DataModel model, final Metadata meta, final QueryPath path, List<ValidationResultInfo> results) {
 		Map<QueryPath, Object> values = model.query(path);
 		if (values.isEmpty() && isRequired(meta)) {
-			addError(results, path.toString(), REQUIRED);
+			addError(results, path, REQUIRED);
 		} else if (meta.getDataType().equals(DataType.LIST)){
 			for (Map.Entry<QueryPath, Object> e:values.entrySet()){
 				QueryPath listPath = QueryPath.parse(e.getKey().toString());
@@ -492,11 +529,14 @@ public class DataModelValidator {
 		// validate children
 		String basePath = path.toString();
 		if (meta.getProperties() != null) {
-			for (Map.Entry<String, Metadata> e : meta.getProperties().entrySet()) {
-				
-				QueryPath childPath = QueryPath.concat(basePath, e.getKey());
-				//System.out.println(childPath.toString());
-				doValidate(model, e.getValue(), childPath, results);
+			Object[] keys = meta.getProperties().keySet().toArray();
+			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+				String element = (String)keys[keyIndex];
+				if (!element.contains("runtimeData")){
+					QueryPath childPath = QueryPath.concat(basePath, element);
+					//System.out.println(childPath.toString());
+					doValidate(model, meta.getProperties().get(element), childPath, results);
+				}
 			}
 		}
 	
@@ -510,23 +550,23 @@ public class DataModelValidator {
 	    boolean minValid = min == null || min <= size;
 	 
 	    Integer max = getSmallestMaxOccurs(meta);
-        boolean maxValid = max == null || max >= size;
+        boolean maxValid = (max == null || max == -1 || max >= size);
 	    
         
 		if (!minValid || !maxValid) {
             if (!minValid && !maxValid) {
-            	addRangeError(results, path.toString(), OCCURS, min, max);
+            	addRangeError(results, path, OCCURS, min, max);
             } else if (!minValid) {
-                addError(results, path.toString(), MIN_OCCURS, min);
+                addError(results, path, MIN_OCCURS, min);
             } else {
-            	addError(results, path.toString(), MAX_OCCURS, max);
+            	addError(results, path, MAX_OCCURS, max);
             }
         }
         
 	    return minValid && maxValid;
 	}
 	
-	private static int getListSize(Map<QueryPath, Object> values, Metadata meta){
+	private int getListSize(Map<QueryPath, Object> values, Metadata meta){
 	    int size = 0;
 
 	    //Check to see if a complex data element in list has been deleted
@@ -534,7 +574,9 @@ public class DataModelValidator {
 		if (properties.containsKey(Data.WILDCARD_KEY.toString())){
 			Metadata listMeta = properties.get(Data.WILDCARD_KEY.toString());
 			if (listMeta != null && listMeta.getDataType().equals(DataType.DATA)){
-				for (Object value:values.values()){
+				Object[] valueList = values.values().toArray();
+				for (int i=0; i < valueList.length; i++){
+					Object value = valueList[i];
 					Data d = (Data)value;
 					Boolean deleted = d.query(RUNTIME_DELETED_KEY);
 					if (deleted == null || !deleted){
@@ -554,7 +596,9 @@ public class DataModelValidator {
 	//FIXME: This is a temp solution for getting cross field min value
     private Object getCrossFieldMinValue(DataModel model, QueryPath path, Metadata meta){
     	Object v = null;
-    	for (ConstraintMetadata cons : meta.getConstraints()) {
+    	List<ConstraintMetadata> constraints = meta.getConstraints();
+    	for (int i=0; i < constraints.size(); i++) {
+    		ConstraintMetadata cons = constraints.get(i);
 			if (cons.getMinValue() != null && cons.getMinValue().contains("../")){
 				QueryPath crossFieldPath = QueryPath.parse(path.toString());
 				String crossFieldKey = cons.getMinValue().substring(3);
@@ -570,7 +614,9 @@ public class DataModelValidator {
 	//FIXME: This is a temp solution for getting cross field max value
     private Object getCrossFieldMaxValue(DataModel model, QueryPath path, Metadata meta){
     	Object v = null;
-    	for (ConstraintMetadata cons : meta.getConstraints()) {
+    	List<ConstraintMetadata> constraints = meta.getConstraints();
+    	for (int i=0; i < constraints.size(); i++) {
+    		ConstraintMetadata cons = constraints.get(i);
 			if (cons.getMaxValue() != null && cons.getMaxValue().contains("../")){
 				QueryPath crossFieldPath = QueryPath.parse(path.toString());
 				String crossFieldKey = cons.getMinValue().substring(3);
@@ -593,5 +639,7 @@ public class DataModelValidator {
     	DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("MM/dd/yyyy");
     	return dateTimeFormat.format(date);
     }
+
+
 	
 }

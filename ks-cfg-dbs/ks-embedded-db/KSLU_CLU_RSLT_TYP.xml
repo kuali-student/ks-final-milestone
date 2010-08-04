@@ -7,4 +7,7 @@
     <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" EXPIR_DT="20201231000000"
         NAME="Final Grade"
         TYPE_DESC="Final learning result for an LU. A stereotypical usage is the final grade in a course." TYPE_KEY="kuali.resultType.gradeCourseResult"/>
+    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" EXPIR_DT="20201231000000"
+        NAME="Certificate"
+        TYPE_DESC="Final learning result for a Major." TYPE_KEY="kuali.resultType.certificate"/>
 </dataset>

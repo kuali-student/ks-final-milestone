@@ -30,7 +30,7 @@ public abstract class Type<T extends Attribute<?>> implements AttributeOwner<T> 
 	private String id;
 
 	private String name;
-	@Column(name = "TYPE_DESC",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "TYPE_DESC",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String descr;
 
 	@Temporal(TemporalType.TIMESTAMP)

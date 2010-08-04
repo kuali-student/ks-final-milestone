@@ -15,9 +15,13 @@
 
 package org.kuali.student.core.web;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -26,9 +30,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-
-import org.junit.Test;
-import static org.junit.Assert.assertNotNull;
 
 /*NOTES TO SELF
  * !moved htmlunit dependency from test pom to web pom

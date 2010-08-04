@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 

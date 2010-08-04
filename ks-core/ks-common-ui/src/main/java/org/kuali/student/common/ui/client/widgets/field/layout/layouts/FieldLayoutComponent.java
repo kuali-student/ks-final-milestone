@@ -16,6 +16,11 @@
 package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 
 public interface FieldLayoutComponent {
+	
+    public static final String HELP_MESSAGE_KEY = "-help";
+    public static final String INSTRUCT_MESSAGE_KEY = "-instruct";
+    public static final String CONSTRAINT_MESSAGE_KEY = "-constraints";
+    public static final String WATERMARK_MESSAGE_KEY = "-watermark";
 	public String getKey();
 	public void setKey(String key);
 }

@@ -15,6 +15,10 @@
 	<classpathentry kind="src" output="ks-lum-rice/target/classes" path="ks-lum-rice/src/main/resources"/>
 	<classpathentry kind="src" output="ks-lum-rice/target/test-classes" path="ks-lum-rice/src/test/java"/>
 	<classpathentry kind="src" output="ks-lum-rice/target/test-classes" path="ks-lum-rice/src/test/resources"/>
+    <classpathentry kind="src" output="ks-lum-program/target/classes" path="ks-lum-program/src/main/java"/>
+    <classpathentry kind="src" output="ks-lum-program/target/classes" path="ks-lum-program/src/main/resources"/>
+    <classpathentry kind="src" output="ks-lum-program/target/test-classes" path="ks-lum-program/src/test/java"/>
+    <classpathentry kind="src" output="ks-lum-program/target/test-classes" path="ks-lum-program/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>

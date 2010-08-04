@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import java.util.Date;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -205,7 +204,7 @@ public class CreditCourseMetadata
 		
 		// metadata for Department
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.ADMIN_ORGS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		LookupMetadataBank.setLookups (childMeta, "kuali.lu.lookup.admin.departments");
@@ -406,7 +405,7 @@ public class CreditCourseMetadata
 		
 		// metadata for AcademicSubjectOrgs
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.ACADEMIC_SUBJECT_ORGS.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.CURR_SUBJ_ORGS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		LookupMetadataBank.setLookups (childMeta, "kuali.lu.lookup.oversight.orgs");

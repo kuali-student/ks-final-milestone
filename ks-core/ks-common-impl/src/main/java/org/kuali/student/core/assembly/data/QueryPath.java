@@ -21,7 +21,6 @@ package org.kuali.student.core.assembly.data;
 import java.util.ArrayList;
 import java.util.Collection;
 
-//import com.google.gwt.core.client.GWT;
 import org.kuali.student.core.assembly.data.Data.Key;
 /**
  * @author wilj

@@ -43,15 +43,16 @@ public class LUConstants {
     public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
 
     // Valid states for Credit Course
-    public final static String LU_STATE_PROPOSED = "Proposed"; // FIXME: Should this be Draft
+    public final static String LU_STATE_PROPOSED = "Proposed"; 
     public final static String LU_STATE_SUBMITTED = "Submitted";
     public final static String LU_STATE_WITHDRAWN = "Withdrawn";
     public final static String LU_STATE_APPROVED = "Approved";
-    public final static String LU_STATE_NOT_APPROVED = "Not Approved";// FIXME: Maybe Rejected would be a better value?
+    public final static String LU_STATE_NOT_APPROVED = "Not Approved";
     public final static String LU_STATE_ACTIVATED = "Activated";
     public final static String LU_STATE_RETIRED = "Retired";
 
     //Section names
+    public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
     public static final String SECTION_AUTHORS_AND_COLLABORATORS = "People & Permissions";
     public static final String SECTION_GOVERNANCE = "Governance";
@@ -92,7 +93,6 @@ public class LUConstants {
     public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
 
     // Message keys for top-level section label lookup
-    public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
     public static final String COURSE_INFORMATION_LABEL_KEY = "cluCourseInformation";
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
     public static final String STUDENT_ELIGIBILITY_LABEL_KEY = "cluStudentEligibility";
@@ -126,6 +126,11 @@ public class LUConstants {
     public static final String ADMIN_ORG_LABEL_KEY = "cluAdminOrg";
     public static final String ALT_ADMIN_ORG_LABEL_KEY = "cluAltAdminOrg";
 
+    // Active Dates Labels
+    public static final String START_TERM_LABEL_KEY = "cluStartTerm";
+    public static final String END_TERM_LABEL_KEY = "cluEndTerm";
+    public static final String PILOT_COURSE_LABEL_KEY = "cluPilotCourse";
+    
     //Logistics labels
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
     public static final String INSTRUCTORS_LABEL_KEY = "cluInstructors";
@@ -168,6 +173,7 @@ public class LUConstants {
     public static final String CODE_LABEL_KEY = "cluCode";
     public static final String TITLE_LITERAL_LABEL_KEY = "cluTitleLiteral";
     public static final String TITLE_LABEL_KEY = "cluTitle";
+    public static final String COURSE_TITLE_LABEL_KEY = "courseTitle";
     public static final String SUBJECT_CODE_LABEL_KEY = "cluSubjectCode";
     public static final String LEVEL_LABEL_KEY = "cluLevel";
     
@@ -181,8 +187,10 @@ public class LUConstants {
     public static final String CROSS_LISTED_ALT_LABEL_KEY = "cluCrosslistedAlt";
     public static final String ADD_CROSS_LISTED_LABEL_KEY = "cluAddCrosslisted";
 
+    public static final String CL_V_J_LABEL_KEY = "cluCrossListedVersionJoin";
     public static final String JOINT_OFFER_ITEM_LABEL_KEY = "cluJointOfferItem";
     public static final String JOINT_OFFERINGS_LABEL_KEY = "cluJointOfferings";
+    public static final String JOINT_OFFERINGS_SECTION_TITLE_LABEL_KEY = "cluJointOfferingsSectionTitle";
     public static final String JOINT_OFFERINGS_ALT_LABEL_KEY = "cluJointOfferingsAlt";
     public static final String EVALUATION_TYPE_LABEL_KEY = "cluEvaluationType";
     public static final String TERM_LITERAL_LABEL_KEY = "cluTermLiteral";

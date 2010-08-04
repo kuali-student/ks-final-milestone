@@ -17,21 +17,22 @@ package org.kuali.student.lum.lu.ui.main.client;
 
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.messages.dto.MessageList;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
+import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
+import org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
@@ -39,10 +40,8 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 
 public class LUMMainEntryPoint implements EntryPoint{
 
-    ApplicationComposite app;
-    private LUMApplicationManager manager = null;
-
-
+    private ApplicationController manager = null;
+    
     @Override
     public void onModuleLoad() {
         final ApplicationContext context = Application.getApplicationContext();
@@ -51,20 +50,19 @@ public class LUMMainEntryPoint implements EntryPoint{
         StyleInjector.injectStylesheet(injectString);   
 
         try {
-            loadMessages(context);            
-                                 
+            loadMessages(context);                    
             loadApp(context);
         } catch (Exception e) {
-            e.printStackTrace();
+            GWT.log("Error loading entrypoint", e);
         } 
     }
 
     private void initScreen(){
-        app = new ApplicationComposite();
-        manager = new LUMApplicationManager();
-        app.setContent(manager);
-        ApplicationPanel.get().add(app);
+        manager = new ApplicationController("KualiStudent", new ApplicationHeader());
+        ApplicationPanel.get().add(manager);
         HistoryManager.bind(manager);
+        BreadcrumbManager.bind(manager);
+        HistoryManager.processWindowLocation();
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);
     }
@@ -106,19 +104,5 @@ public class LUMMainEntryPoint implements EntryPoint{
             }            
         });
     }
-
-/*    public String getCssString(){
-        String injectString = "";
-         for(ResourcePrototype r: LumResources.INSTANCE.getResources()){
-             if(r instanceof CssResource){
-                 if(((CssResource)r).getText() != null){
-                     injectString = injectString + "\n" + (((CssResource)r).getText());
-                 }
-             }
-         }
-         return injectString;
-    }*/
-    
-    
 
 }

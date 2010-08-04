@@ -19,8 +19,6 @@ package org.kuali.student.core.organization.assembly.data.client;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.organization.assembly.data.client.ConstraintMetadataBank;
-import org.kuali.student.core.organization.assembly.data.client.RecursionCounter;
 import org.kuali.student.core.organization.assembly.data.client.RuntimeDataHelper.Properties;
 
 

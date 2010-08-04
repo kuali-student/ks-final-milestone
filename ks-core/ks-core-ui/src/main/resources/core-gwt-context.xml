@@ -63,7 +63,7 @@
     </bean>
 
 	<!--<bean id="coreDictionaryServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.dictionary.service.DictionaryService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.dictionary.service.old.DictionaryService" />
         <property name="serviceQName" value="coreDictionaryServiceDelegate" />
     </bean>-->
 
@@ -82,9 +82,6 @@
 			<map>
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
-				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/PersonRpcService">
-					<ref bean="personRpcGwtServletController"/>
 				</entry>
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/AuthorizationRpcService">
 					<ref bean="authorizationRpcGwtServletController"/>
@@ -121,11 +118,6 @@
 	<bean id="orgRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="orgRpcGwtServlet"/>
 		<property name="servletInstance" ref="orgRpcGwtServlet"/>
-	</bean>
-
-	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="personRpcGwtServlet"/>
-		<property name="servletInstance" ref="personRpcGwtServlet"/>
 	</bean>
 
 	<bean id="authorizationRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -171,9 +163,6 @@
 		<property name="service" ref="orgClient"/>
 		<property name="identityService" ref="identityServiceClient"/>
 		<property name="assembler" ref="orgAssemblerFilterManager"/>
-	</bean>
-
-	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
 	</bean>
 
 	<bean id="authorizationRpcGwtServlet"
@@ -228,7 +217,7 @@
 	</bean>
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg index="0" value="${ks.core.orchestration.dictionaryContextLocations}"/>
         <!--<constructor-arg index="1" ref="coreDictionaryServiceClient"/>-->
 	</bean>

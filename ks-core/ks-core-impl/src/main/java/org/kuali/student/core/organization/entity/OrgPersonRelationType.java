@@ -37,27 +37,6 @@ import org.kuali.student.core.entity.Type;
 				                                                                            "(opr.expirationDate IS NULL OR opr.expirationDate>=CURRENT_TIMESTAMP)"),
 		@NamedQuery(name = "OrgPersonRelationType.hasOrgPersonRelation", query = "SELECT COUNT(oprt) FROM OrgPersonRelationType oprt JOIN oprt.orgPersonRelations relations JOIN oprt.organizations orgs WHERE relations.personId = :personId AND orgs.id = :orgId AND oprt.id = :orgPersonRelationTypeKey") })
 public class OrgPersonRelationType extends Type<OrgPersonRelationTypeAttribute> {
-    //implements AttributeOwner<OrgPersonRelationTypeAttribute> {
-	/*
-	 * Assuming that that we don't need Attributes on this type
-	 */
-	/*@Id
-	@Column(name = "ID")
-	private String id;
-
-	@Column(name = "NAME")
-	private String name;
-
-	@Column(name = "DESCR", length = 2000)
-	private String desc;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFF_DT")
-	private Date effectiveDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIR_DT")
-	private Date expirationDate;*/
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgPersonRelationTypeAttribute> attributes;

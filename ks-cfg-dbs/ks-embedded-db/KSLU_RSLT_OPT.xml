@@ -7,4 +7,7 @@
     <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100415100000"
         ID="99238bf0-6ea4-4447-95cd-fd2010bd5b0d"
         RES_COMP_ID="kuali.creditType.credit.degree.10" ST="active" VERSIONIND="0"/>
+    <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100415100000"
+        ID="7CB0F936-3EF3-4029-8980-5A628DAEEB61" RT_DESCR_ID="9623c41c-ae72-473a-a1ac-6874c433967d"
+        RES_COMP_ID="kuali.certificateType.degree" ST="active" VERSIONIND="0"/>
 </dataset>

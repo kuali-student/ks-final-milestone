@@ -27,7 +27,8 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 public class IdToObjectEhcacheAdvice implements Advice {
-    
+	final Logger LOG = Logger.getLogger(IdToObjectEhcacheAdvice.class);
+	
 	private CacheManager cacheManager;
 	private String cacheName;
 
@@ -55,7 +56,7 @@ public class IdToObjectEhcacheAdvice implements Advice {
 
 			}
 		}
-		System.out.println("Invalidating Cache");
+		LOG.info("Invalidating Cache");
 		cacheManager.getCache(cacheName).remove(pjp.getArgs()[0]);
 		return pjp.proceed();
 	}
@@ -77,7 +78,7 @@ public class IdToObjectEhcacheAdvice implements Advice {
 			List<String> uncachedIdList = new ArrayList<String>();
 			for (String id : (List<String>) pjp.getArgs()[0]) {
 				// Look in the cache
-				System.out.println("Looking in Cache");
+				LOG.info("Looking in Cache");
 				Element cachedResult = cacheManager.getCache(cacheName).get(id);
 				if (cachedResult == null) {
 					uncachedIdList.add(id);
@@ -90,7 +91,7 @@ public class IdToObjectEhcacheAdvice implements Advice {
 				if (uncachedResults != null) {
 					for (Idable uncachedResult : uncachedResults) {
 						// Add to the cache and add to results
-						System.out.println("Storing to Cache");
+						LOG.info("Storing to Cache");
 						results.add(uncachedResult);
 						cacheManager.getCache(cacheName).put(
 								new Element(uncachedResult.getId(),
@@ -102,12 +103,12 @@ public class IdToObjectEhcacheAdvice implements Advice {
 		}
 		if (pjp.getArgs().length == 1 && pjp.getArgs()[0] instanceof String) {
 			String id = (String) pjp.getArgs()[0];
-			System.out.println("Looking in Cache");
+			LOG.info("Looking in Cache");
 			Element resultElement = cacheManager.getCache(cacheName).get(id);
 			Object result;
 			if (resultElement == null) {
 				result = pjp.proceed();
-				System.out.println("Storing to Cache");
+				LOG.info("Storing to Cache");
 				cacheManager.getCache(cacheName).put(new Element(id, result));
 			} else {
 				result = resultElement.getValue();

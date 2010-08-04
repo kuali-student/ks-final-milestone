@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
@@ -34,10 +33,10 @@ import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
@@ -69,8 +68,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	private String referenceType;
 	private String referenceState;
 
-	private final int POLL_INTERVAL = 2000;
-	
+	private static final int POLL_INTERVAL = 2000;
+
 	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
     private VerticalFlowPanel documentList = new VerticalFlowPanel();
@@ -78,14 +77,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private KSButton addMore = new KSButton("Add Another");
     private KSLabel loadingDocuments = new KSLabel("Loading Documents...");
     private FormPanel form = new FormPanel();
-    
+
     private KSLightBox progressWindow = new KSLightBox();
     private VerticalFlowPanel progressPanel = new VerticalFlowPanel();
     private KSLabel progressLabel = new KSLabel();
     private ProgressBar progressBar = new ProgressBar();
     private FlexTable fileProgressTable = new FlexTable();
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Document files can be uploaded.", true);
-    
+
     private OkGroup progressButtons = new OkGroup(new Callback<OkEnum>(){
 		@Override
 		public void exec(OkEnum result) {
@@ -93,10 +92,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 				  progressWindow.hide();
 			  }
 		}
-    });  
+    });
     private UploadStatusRpcServiceAsync uploadStatusRpc = GWT.create(UploadStatusRpcService.class);
     private DocumentRelationMockRpcServiceAsync documentRelationRpc = GWT.create(DocumentRelationMockRpcService.class);
-	
+
 	private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
 		@Override
@@ -121,7 +120,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 					public void onSuccess(final String result) {
 						form.setAction(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?uploadId=" + result + "&referenceId=" + referenceId);
 						form.submit();
-						
+
 						progressLabel.setText("Uploading...");
 						Timer progressTimer = new Timer(){
 							private boolean maxSet = false;
@@ -136,16 +135,16 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 										refreshDocuments();
 										cancel();
 									}
-									
+
 									private int currentFile = 0;
-									
+
 									@Override
 									public void onSuccess(UploadStatus result) {
 										if(!maxSet && result.getTotalSize() != null && result.getTotalSize() != 0){
 											progressBar.setMaxProgress(((double)result.getTotalSize())/1024);
 											maxSet = true;
 										}
-										
+
 										//Individual file status
 										fileProgressTable.clear();
 										currentFile = 0;
@@ -153,11 +152,11 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 											addFileProgress(fs);
 											currentFile++;
 										}
-										
+
 										if(result.getProgress() != null){
 											progressBar.setProgress(((double)result.getProgress())/1024);
 										}
-										
+
 										if(result.getStatus() == UploadTransferStatus.UPLOAD_FINISHED){
 											progressLabel.setText("Processing...");
 											progressBar.setProgress(progressBar.getMaxProgress());
@@ -167,10 +166,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 											progressBar.setProgress(progressBar.getMaxProgress());
 											progressButtons.getButton(OkEnum.Ok).setEnabled(true);
 											resetUploadFormPanel();
-											
+
 											cancel();
 											refreshDocuments();
-											
+
 										}
 										else if(result.getStatus() == UploadTransferStatus.ERROR){
 											progressLabel.setText("Error uploading!");
@@ -178,13 +177,13 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 											refreshDocuments();
 											cancel();
 										}
-										
+
 									}
-									
+
 									NumberFormat nf = NumberFormat.getFormat("#.##");
-									
+
 									private void addFileProgress(FileStatus fs) {
-										
+
 										HTML fileNameLabel;
 										//Name
 										if(fs.getStatus() == FileTransferStatus.COMMIT_FINISHED){
@@ -193,9 +192,9 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 										else{
 											fileNameLabel = new HTML("<b>" + fs.getFileName() + "</b>");
 										}
-										
+
 										fileProgressTable.setWidget(currentFile, 0, fileNameLabel);
-										
+
 										//Progress
 										Long curProgress = (fs.getProgress())/1024;
 										String curProgressString = "";
@@ -206,7 +205,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 											curProgressString = nf.format(curProgress/1024) + "mb";
 										}
 										fileProgressTable.setWidget(currentFile, 1,  new KSLabel(curProgressString));
-										
+
 										//Status
 										String statusString = "";
 										switch(fs.getStatus()){
@@ -227,7 +226,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 												break;
 										}
 										fileProgressTable.setWidget(currentFile, 2, new KSLabel(statusString));
-										
+
 									}
 
 
@@ -240,7 +239,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 			  }
 		}
 	});
-	
+
 	public DocumentTool(Enum<?> viewEnum, String viewName) {
 		super(viewEnum, viewName);
 	}
@@ -250,7 +249,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 			@Override
             public void onFailure(Throwable caught) {
-				caught.printStackTrace();
 				GWT.log("Error checking permission for adding comments: ", caught);
 				throw new RuntimeException("Error checking Permissions: ", caught);
             }
@@ -272,37 +270,37 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 					//buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
 				}
             }
-        	
+
 		});
 	}
-	
+
 	@Override
 	protected Widget createWidget() {
 		layout.add(saveWarning);
 		saveWarning.setVisible(false);
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
-		
-		uploadList.add(new DocumentForm());		
+
+		uploadList.add(new DocumentForm());
 		uploadList.add(addMore);
 		addMore.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
 				uploadList.insert(new DocumentForm(), uploadList.getWidgetIndex(addMore));
-				
+
 			}
 		});
-		form.setWidget(uploadList);		
+		form.setWidget(uploadList);
 		form.setMethod(FormPanel.METHOD_POST);
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
-		
+
 		buttonPanel.setContent(form);
 		layout.add(documentList);
 		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
 		documentList.setVisible(false);
 		buttonPanel.setVisible(false);
-		
+
 		progressPanel.add(progressLabel);
 		progressPanel.add(progressBar);
 		progressPanel.add(fileProgressTable);
@@ -322,14 +320,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 				else{
 					String curProgressString;
 					String maxProgressString;
-					
+
 					if(curProgress < 1024){
 						curProgressString = nf.format(curProgress) + "kb";
 					}
 					else{
 						curProgressString = nf.format(curProgress/1024) + "mb";
 					}
-					
+
 					if(bar.getMaxProgress() < 1024){
 						maxProgressString = nf.format(bar.getMaxProgress()) + "kb";
 					}
@@ -346,24 +344,24 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		progressPanel.setWidth("500px");
 		progressWindow.setWidget(progressPanel);
 
-		
+
 		return layout;
 	}
-	
+
 	private void resetUploadFormPanel() {
 		uploadList.clear();
 		uploadList.add(new DocumentForm());
 		uploadList.add(addMore);
 	}
-	
-	private class DocumentForm extends Composite{
+
+	private static class DocumentForm extends Composite{
 		private KSLabel file = new KSLabel("File");
 		private KSLabel type = new KSLabel("Type");
 		private KSLabel description = new KSLabel("Description");
 		private FileUpload upload = new FileUpload();
 		private KSTextArea documentDescription = new KSTextArea();
 		private FlexTable tableLayout = new FlexTable();
-		
+
 		public DocumentForm(){
 			tableLayout.setWidget(0, 0, file);
 			tableLayout.setWidget(0, 1, upload);
@@ -408,33 +406,32 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	public void setReferenceState(String referenceState) {
 		this.referenceState = referenceState;
 	}
-	
+
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
 		isAuthorizedUploadDocuments();
-        
+
     }
-	
+
 	private void refreshDocuments(){
 		documentList.clear();
         if(referenceId != null && !(referenceId.isEmpty())){
-        	documentList.add(loadingDocuments); 
+        	documentList.add(loadingDocuments);
 	        try {
-	        	//FIXME: change to real doc relation stuff later
 	        	documentRelationRpc.getRefDocIdsForRef(referenceId, new AsyncCallback<List<RefDocRelationInfoMock>>(){
-	
+
 					@Override
 					public void onFailure(Throwable caught) {
-						caught.printStackTrace();
+						GWT.log("getRefDocIdsForRef failed", caught);
 						documentList.remove(loadingDocuments);
-						
+
 					}
-	
+
 					@Override
 					public void onSuccess(List<RefDocRelationInfoMock> result) {
 						documentList.clear();
-						if(result != null && !(result.isEmpty())){	
+						if(result != null && !(result.isEmpty())){
 							for(RefDocRelationInfoMock info: result){
 								documentList.add(new Document(info));
 							}
@@ -443,44 +440,43 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 					}
 				});
 			} catch (Exception e) {
-				e.printStackTrace();
+				GWT.log("getRefDocIdsForRef failed", e);
 			}
         }
 	}
-	
+
 	private class Document extends Composite{
-        
+
         private SimplePanel content = new SimplePanel();
         private VerticalFlowPanel viewLayout = new VerticalFlowPanel();
         private HorizontalBlockFlowPanel header = new HorizontalBlockFlowPanel();
         private VerticalFlowPanel headerTextContainer = new VerticalFlowPanel();
         private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
-        
+
         KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
-        
+
         private HTML name = new HTML("No file exists");
         private HTML documentText = new HTML();
         private KSLabel fileType = new KSLabel();
-        
+
         private RefDocRelationInfoMock info;
-        
+
         public Document(RefDocRelationInfoMock info){
             this.info = info;
 
-            
+
             delete.addClickHandler(new ClickHandler(){
                 @Override
                 public void onClick(ClickEvent event) {
                 	 try {
-                		 //TODO this will fail if the document does not exist BUT the relation does, needs a check for existance
+                		 //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
                 		 //before delete
              			documentRelationRpc.deleteRefDocRelation(Document.this.info.getId(), new AsyncCallback<StatusInfo>(){
 
 							@Override
 							public void onFailure(Throwable caught) {
-								//FIXME dont know what to do here
-								refreshDocuments();
-							}
+                              KSErrorDialog.show(caught);
+                            }
 
 							@Override
 							public void onSuccess(StatusInfo result) {
@@ -489,8 +485,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 										@Override
 										public void onFailure(Throwable caught) {
-											//FIXME dont know what to do here
-											refreshDocuments();
+                                            KSErrorDialog.show(caught);
 										}
 
 										@Override
@@ -500,20 +495,19 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 									});
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
+									GWT.log("deleteDocument failed", e);
 								}
-								
+
 							}
 						});
              		} catch (Exception e) {
-             			e.printStackTrace();
+             			GWT.log("deleteRefDocRelation failed", e);
              		}
-                	
-                	
+
+
                 }
             });
-            
+
             setupDefaultStyles();
             headerTextContainer.add(name);
             headerTextContainer.add(fileType);
@@ -524,62 +518,39 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
             this.initWidget(content);
         }
-        
+
         private void setupDefaultStyles(){
-        	content.addStyleName(KSStyles.KS_COMMENT_CONTAINER);
-        	header.addStyleName(KSStyles.KS_COMMENT_HEADER);
-        	headerTextContainer.addStyleName(KSStyles.KS_COMMENT_HEADER_LEFT);
-        	delete.addStyleName(KSStyles.KS_COMMENT_IMAGE_BUTTON);
-        	editActions.addStyleName(KSStyles.KS_COMMENT_IMAGE_BUTTON_PANEL);
-        	documentText.addStyleName(KSStyles.KS_COMMENT_TEXT);
-        	fileType.addStyleName(KSStyles.KS_COMMENT_DATE_CREATED);
+        	content.addStyleName("KS-Comment-Container");
+        	header.addStyleName("KS-Comment-Header");
+        	headerTextContainer.addStyleName("KS-Comment-Header-Left");
+        	delete.addStyleName("KS-Comment-Image-Button");
+        	editActions.addStyleName("KS-Comment-Image-Button-Panel");
+        	documentText.addStyleName("KS-Comment-Text");
+        	fileType.addStyleName("KS-Comment-Date-Created");
         }
-        
+
         private void setupViewLayout(){
-            
+
             viewLayout.clear();
             viewLayout.add(header);
-            viewLayout.add(documentText); 
-            
-            if(info.getTitle() != null){
-            	//name.setText(info.getTitle());
-            	//TODO maybe not open up a new window for certain file types not expected to be viewed in browser
-            	name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + info.getDocumentId() + "\" target=\"_blank\"><b>" + info.getTitle() + "</b></a>");
-/*            	name.addClickHandler(new ClickHandler(){
+            viewLayout.add(documentText);
 
-					@Override
-					public void onClick(ClickEvent event) {
-						
-						
-						Window.open(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + info.getDocumentId(), info.getTitle(), "resizable=yes,scrollbars=yes,menubar=no,location=yes,status=yes");
-						
-					}
-				});*/
+            if(info.getTitle() != null){
+            	name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + info.getDocumentId() + "\" target=\"_blank\"><b>" + info.getTitle() + "</b></a>");
             }
-            
+
             if(info.getDesc() != null){
             	documentText.setHTML("<b>" + "Description: " + "</b>" + info.getDesc().getPlain());
             }
-            
+
             content.setWidget(viewLayout);
-            
+
         }
-        
+
         public void showEditActions(boolean show){
         	editActions.setVisible(show);
         }
-        
-    }
-	
-	
-    @Override
-    public void collectHistory(HistoryStackFrame frame) {
-        // do nothing
-    }
 
-    @Override
-    public void onHistoryEvent(HistoryStackFrame frame) {
-        // do nothing
     }
 
 	@Override

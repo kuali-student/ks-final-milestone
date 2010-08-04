@@ -20,10 +20,13 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * This is a read only version of MultiplicityComposite for use in read only screens.
  * 
- * FIXME: Initial checkin - still needs fleshing out and more testing!
  * 
  * @author Kuali Student Team
  *
+ */
+
+/**
+ * @deprecated
  */
 public abstract class DisplayMultiplicityComposite extends MultiplicityComposite {
    

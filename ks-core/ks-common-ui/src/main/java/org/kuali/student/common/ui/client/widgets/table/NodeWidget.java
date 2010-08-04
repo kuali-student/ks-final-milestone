@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.table;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -102,7 +103,7 @@ public class NodeWidget extends SimplePanel implements NativePreviewHandler {
             return;
         }else if(this.getElement().is(Element.as(target)) && 
                 Event.as(event).getTypeInt() == Event.ONMOUSEDOWN ){
-                    System.out.println("doing");
+                    GWT.log("doing", null);
                   boolean before = checkBox.getValue();
                                   checkBox.setValue(!before);
                                   ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());

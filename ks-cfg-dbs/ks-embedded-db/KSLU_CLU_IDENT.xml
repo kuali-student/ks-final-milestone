@@ -424,4 +424,12 @@
         ID="ffd217e3-8a6b-40fc-b3c4-af82493c6baa"
         LNG_NAME="Research Interactions in Applied Mathematics and Scientific Computation; Fast Multipole Methods: Fundamentals and Applic"
         LVL="600" SHRT_NAME="FAST MULTIPOLE METH: F&amp;A" SUFX_CD="689"/>
+    <KSLU_CLU_IDENT CD="" DIV=""
+        ID="4ab05feb-b550-4db6-9f65-97a74372a137"
+        LNG_NAME="Bachelor of Science" LVL=""
+        SHRT_NAME="B.A." SUFX_CD=""/>
+    <KSLU_CLU_IDENT CD="ANTH" DIV=""
+        ID="918040df-964b-46f0-aef9-f8db92b07a41"
+        LNG_NAME="Anthropology" LVL=""
+        SHRT_NAME="Anthropology" SUFX_CD=""/>
 </dataset>
