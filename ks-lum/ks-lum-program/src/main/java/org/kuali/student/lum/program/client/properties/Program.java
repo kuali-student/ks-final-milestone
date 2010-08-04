@@ -338,4 +338,31 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Specialization Required")
   @Key("programInformation.specializationRequired")
   String programInformation_specializationRequired();
+  
+  /**
+   * Translated "Catalog Description".
+   * 
+   * @return translated "Catalog Description"
+   */
+  @DefaultMessage("Catalog Description")
+  @Key("catalogInformation.catalogDescr")
+  String catalogInformation_catalogDescr();
+  
+  /**
+   * Translated "Core Faculty Members".
+   * 
+   * @return translated "Core Faculty Members"
+   */
+  @DefaultMessage("Core Faculty Members")
+  @Key("catalogInformation.publishedInstructors")
+  String catalogInformation_publishedInstructors();
+  
+  /**
+   * Translated "Publication Targets".
+   * 
+   * @return translated "Publication Targets"
+   */
+  @DefaultMessage("Publication Targets")
+  @Key("catalogInformation.catalogPublicationTargets")
+  String catalogInformation_catalogPublicationTargets();
 }
