@@ -139,6 +139,30 @@ public class MajorDisciplineDataGenerator {
 			if("variations".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.PROGRAM_VARIATION;
 			}
+
+			if("divisionsContentOwner".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
+			}
+			
+			if("divisionsStudentOversight".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION;
+			}
+
+			if("divisionsContentOwner".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
+			}
+			
+			if("divisionsStudentOversight".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION;
+			}
+
+			if("unitsContentOwner".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.CONTENT_OWNER_UNIT;
+			}
+			
+			if("unitsStudentOversight".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT;
+			}
 			
 			//Temporary change added because of addition of type field to AdminOrgInfo.
 			// Please add the type values for MajorDisciplineInfo admin orgs
