@@ -14,27 +14,6 @@
  */
 package org.kuali.student.core.workflow.ui.client.widgets;
 
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_APPROVED_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_CANCEL_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_CANCEL_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_DISAPPROVED_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_DISAPPROVED_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_ENROUTE_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_ENROUTE_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_EXCEPTION_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_EXCEPTION_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_FINAL_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_FINAL_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_INITIATED_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_INITIATED_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_PROCESSED_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_PROCESSED_LABEL_KEY;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_SAVED_CD;
-import static org.kuali.student.core.workflow.ui.client.WorkflowConstants.ROUTE_HEADER_SAVED_LABEL_KEY;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +33,8 @@ import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync;
 
@@ -452,26 +430,26 @@ public class WorkflowUtilities{
 	
 	private void setWorkflowStatus(String statusCd){
 		String statusTranslation = "";
-		if (ROUTE_HEADER_SAVED_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_SAVED_LABEL_KEY);
-		} else  if (ROUTE_HEADER_INITIATED_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_INITIATED_LABEL_KEY);
-		} else if (ROUTE_HEADER_ENROUTE_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_ENROUTE_LABEL_KEY);
-		} else if (ROUTE_HEADER_APPROVED_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_APPROVED_LABEL_KEY);
-		} else if (ROUTE_HEADER_CANCEL_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_CANCEL_LABEL_KEY);
-		} else if (ROUTE_HEADER_EXCEPTION_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_EXCEPTION_LABEL_KEY);
-		} else if (ROUTE_HEADER_DISAPPROVED_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_DISAPPROVED_LABEL_KEY);
-		} else if (ROUTE_HEADER_FINAL_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_FINAL_LABEL_KEY);
-		} else if (ROUTE_HEADER_DISAPPROVE_CANCEL_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_DISAPPROVE_CANCEL_LABEL_KEY);
-		} else if (ROUTE_HEADER_PROCESSED_CD.equals(statusCd)){
-			statusTranslation = getLabel(ROUTE_HEADER_PROCESSED_LABEL_KEY);
+		if (WorkflowConstants.ROUTE_HEADER_SAVED_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_SAVED_LABEL_KEY);
+		} else  if (WorkflowConstants.ROUTE_HEADER_INITIATED_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_INITIATED_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_ENROUTE_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_APPROVED_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_CANCEL_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_CANCEL_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_EXCEPTION_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_EXCEPTION_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVED_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_FINAL_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_FINAL_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_LABEL_KEY);
+		} else if (WorkflowConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusCd)){
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_PROCESSED_LABEL_KEY);
 		} else {
 			statusTranslation = statusCd;
 		}

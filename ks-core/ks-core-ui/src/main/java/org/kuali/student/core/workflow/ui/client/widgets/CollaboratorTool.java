@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.client.widgets;
+package org.kuali.student.core.workflow.ui.client.widgets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-//TODO: Refactor this to the ks-common-ui module
 public class CollaboratorTool extends Composite implements ToolView{
 	//Is it possible to combine the following two into one workflow rpc
 	private WorkflowToolRpcServiceAsync workflowToolRpcServiceAsync = GWT.create(WorkflowToolRpcService.class);
