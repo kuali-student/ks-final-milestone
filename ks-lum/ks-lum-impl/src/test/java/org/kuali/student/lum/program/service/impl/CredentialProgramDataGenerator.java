@@ -149,8 +149,26 @@ public class CredentialProgramDataGenerator {
 			if("variations".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.PROGRAM_VARIATION;
 			}
+
+			if("divisionsContentOwner".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
+			}
 			
-			throw new RuntimeException("Code what to do with this type");
+			if("divisionsStudentOversight".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION;
+			}
+			
+			if("unitsContentOwner".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.CONTENT_OWNER_UNIT;
+			}
+			
+			if("unitsStudentOversight".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT;
+			}
+			
+			else{
+				return "default.temp.type";
+			}
 		}
 
 		if("state".equals(name)){
