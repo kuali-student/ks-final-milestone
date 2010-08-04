@@ -72,9 +72,8 @@ public class CluAssemblerUtils {
         return loInfos;
     }
 
-    //TODO: after testing, I will add other orgs.
-    public void disassembleAdminOrg(CluInfo clu, Class<?> clazz){
-    	List<AdminOrgInfo> dcos = getAdminOrgs("getDivisionsContentOwner", clazz);
+    public void disassembleAdminOrg(CluInfo clu, Object t){
+    	List<AdminOrgInfo> dcos = getAdminOrgs("getDivisionsContentOwner", t);
     	if(dcos != null && dcos.size() > 0){
     		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
     		for(AdminOrgInfo org:dcos){
@@ -87,16 +86,13 @@ public class CluAssemblerUtils {
     }
     
     @SuppressWarnings("unchecked")
-	private List<AdminOrgInfo> getAdminOrgs(String prop, Class<?> clazz){
+	private List<AdminOrgInfo> getAdminOrgs(String prop, Object t){
 		try
 		{
+			 Class<?> clazz = t.getClass();
 			 Method method = clazz.getMethod(prop, null);
-			 Object t = clazz.newInstance();
 			 List<AdminOrgInfo> output = (List<AdminOrgInfo>)method.invoke(t, null);
 			 return output;
-		}
-		catch (InstantiationException ex){
-			return null;
 		}
 		catch (IllegalAccessException   ex){
 			return null;
