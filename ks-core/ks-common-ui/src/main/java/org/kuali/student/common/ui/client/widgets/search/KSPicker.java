@@ -228,13 +228,10 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             
             //for multiple searches, show a drop down for user to select from
             if (advancedLightboxLookupdata.size() == 1) {
-                String actionLabel = advancedLightboxLookupdata.get(0)
-                        .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+                String actionLabel = advancedLightboxLookupdata.get(0).getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
                 searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
+                searchPanel.setActionLabel(actionLabel);
                 advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
-                if (actionLabel != null && actionLabel.trim().length() > 0) {
-                    advSearchWindow.setActionButtonLabel(actionLabel);
-                }
             } else {
                 searchPanel = new SearchPanel(advancedLightboxLookupdata);
                 advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
@@ -243,21 +240,13 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                     public void exec(LookupMetadata selectedLookup) {
                         String actionLabel = (selectedLookup == null)? null : selectedLookup
                                 .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
-                        if (actionLabel != null && actionLabel.trim().length() > 0) {
-                            advSearchWindow.setActionButtonLabel(actionLabel);
-                        } else {
-                            advSearchWindow.setActionButtonLabel(null);
-                        }
+                        searchPanel.setActionLabel(actionLabel);
                     }
                 });
                 LookupMetadata initialLookupMetaData = advancedLightboxLookupdata.get(0);
-                String initialActionLabel = (initialLookupMetaData == null)? null : initialLookupMetaData
+                String actionLabel = (initialLookupMetaData == null)? null : initialLookupMetaData
                         .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
-                if (initialActionLabel != null && initialActionLabel.trim().length() > 0) {
-                    advSearchWindow.setActionButtonLabel(initialActionLabel);
-                } else {
-                    advSearchWindow.setActionButtonLabel(null);
-                }
+                searchPanel.setActionLabel(actionLabel);
             }
             searchPanel.setMultiSelect(true);
             
@@ -271,7 +260,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
             String previewMode = additionalLookupMetadata.get(0).getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_PREVIEW_MODE);
             if (previewMode != null && previewMode.equals("true")) {
-                advSearchWindow.setActionButtonLabel("Preview");
+                searchPanel.setActionLabel("Preview");
             }
             
             searchPanel.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
