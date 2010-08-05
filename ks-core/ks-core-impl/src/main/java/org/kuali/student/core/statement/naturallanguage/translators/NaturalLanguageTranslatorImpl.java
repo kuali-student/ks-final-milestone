@@ -15,6 +15,8 @@
 
 package org.kuali.student.core.statement.naturallanguage.translators;
 
+import java.util.Locale;
+
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
@@ -27,6 +29,7 @@ import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslato
  * statement/requirement component tree.
  */
 public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator {
+	private String language;
 	private ReqComponentTranslator reqComponentTranslator;
 	private StatementTranslator statementTranslator;
 	
@@ -35,6 +38,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * default language locale.
 	 */
 	public NaturalLanguageTranslatorImpl() {
+		this.language = Locale.getDefault().getLanguage();
 	}
 
 	/**
@@ -44,6 +48,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 */
 	public void setReqComponentTranslator(final ReqComponentTranslator reqComponentTranslator) {
 		this.reqComponentTranslator = reqComponentTranslator;
+		setLanguage();
 	}
 
 	/**
@@ -53,11 +58,45 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 */
 	public void setStatementTranslator(final StatementTranslator statementTranslator) {
 		this.statementTranslator = statementTranslator;
+		setLanguage();
 	}
 	
 	/**
-	 * Translates a requirement component in the default language locale for a 
-	 * specific natural language usuage type (context) into natural language.
+	 * Gets the translation language.
+	 * 
+	 * @return Language translation
+	 */
+	public String getLanguage() {
+		return language;
+	}
+
+	/**
+	 * Sets the language to translate to.
+	 * 
+	 * @param language Language translation
+	 */
+	public void setLanguage(final String language) {
+		this.language = language;
+		setLanguage();
+	}
+
+	/**
+	 * Sets the language for the translators.
+	 */
+	private void setLanguage() {
+		if(this.language != null) {
+			if(this.reqComponentTranslator != null) {
+				this.reqComponentTranslator.setLanguage(this.language);
+			}
+			if(this.statementTranslator != null) {
+				this.statementTranslator.setLanguage(this.language);
+			}
+		}
+	}
+
+	/**
+	 * Translates a requirement component for a specific natural language 
+	 * usuage type (context) into natural language.
 	 * 
 	 * @param reqComponent Requirement component to be translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
@@ -67,25 +106,6 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 */
 	public synchronized String translateReqComponent(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		return this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey);
-	}
-
-	/**
-	 * Translates a requirement component for a specific natural language 
-	 * usuage type (context) and language locale (e.g. 'en' for English, 
-	 * 'de' for German) into natural language.
-	 * 
-	 * @param reqComponent Requirement component to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @param language Translation language
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws OperationFailedException
-	 */
-	public synchronized String translateReqComponent(final ReqComponent reqComponent, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
-		if(language == null) {
-			return this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey);
-		}
-		return this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey, language);
 	}
 	
 	/**
@@ -100,23 +120,5 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 */
 	public synchronized String translateStatement(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		return this.statementTranslator.translate(statement, nlUsageTypeKey);
-	}
-
-	/**
-	 * Translates a statement for a specific natural language 
-	 * usuage type (context) and language locale into natural language.
-	 * 
-	 * @param statement Statement to be translated 
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @param language Translation language
-	 * @return Natural language statement translation
-	 * @throws DoesNotExistException CLU id does not exists
-	 * @throws OperationFailedException Translation fails
-	 */
-	public synchronized String translateStatement(Statement statement, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
-		if(language == null) {
-			return this.statementTranslator.translate(statement, nlUsageTypeKey);
-		}
-		return this.statementTranslator.translate(statement, nlUsageTypeKey, language);
 	}
 }

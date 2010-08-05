@@ -1,13 +1,17 @@
 package org.kuali.student.common.ui.client.widgets.headers;
 
-import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import java.util.List;
+
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,49 +24,42 @@ public class KSHeader extends Composite {
 	}
 
 	@UiField
-	FlowPanel hiPanel;
+    Label hiLabel;
 
     @UiField
-    FlowPanel userNamePanel;
+    Label userNameLabel;
     
     @UiField
-    FlowPanel logoutPanel;
+    Label searchLabel;
     
-    @UiField
-    FlowPanel leftPartPanel;
-
-    @UiField
-    Label applicationTitleLabel;
-    
-    @UiField
-    FlowPanel bottomContainer;
-
-    
-    Label userNameLabel =  new Label("");
-    Label hiLabel = new Label("Hi,");
 	public KSHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
-		hiPanel.add(hiLabel);
-		userNamePanel.add(userNameLabel);
-		applicationTitleLabel.setText("Kuali Student");
-		//logoutPanel.add(new Anchor("LL"));
-		//leftPartPanel.add(new StylishDropDown("Navigation"));
+		hiLabel.setText("Hi,");
+     //   searchButton.setText("Search");
+       // logoutButton.setText("Logout");
 	}
-	public void addLogout(Widget w){
-	    logoutPanel.add(w);
+    
+    //TODO University widget
+	public void setUniversityWidget(Widget w){
+	    
 	}
-	public void addNavigation(StylishDropDown dropDown){
-	    leftPartPanel.add(dropDown);
+	public void setApplicationTitle(String title){
+	  // applicationTitle.setText(title);
 	}
-	
-	public void setHiLabelText(String hi){
-	    hiLabel.setText(hi);
+	public void setNavigationData(List<KSMenuItemData> naviData){
+	    
 	}
-    public void setUserName(String name){
-        userNameLabel.setText(name);
-    }
-
-    public void addBottomContainerWidget(Widget w){
-    	bottomContainer.add(w);
-    }
+	public void setSearchTitle(String s){
+	   searchLabel.setText(s);
+	}
+	public void setUserName(String u){
+	    userNameLabel.setText(u);
+	}
+	public void addButton(KSButton ksButton){
+	  //ksButtonPanel.add(ksButton);
+	}
+	public void setBreadcrum(List<String> items){
+	    //naviPanel.add();
+	}
+	//TODO Breadcrum
 }

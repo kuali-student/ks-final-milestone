@@ -137,6 +137,7 @@ public class SearchResultsTable extends Composite{
             @Override
             public void onSuccess(SearchResult results) {
 
+                tableModel.clearRows();
                 if(results != null){
                     for (SearchResultRow r: results.getRows()){
                         ResultRow theRow = new ResultRow();

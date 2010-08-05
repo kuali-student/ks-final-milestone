@@ -175,7 +175,7 @@ public class MetadataServiceImpl {
 	            metadata.setCanUnmask(!fd.isMask());
 	            metadata.setCanView(!fd.isHide());
 	            metadata.setDynamic(fd.isDynamic());
-	            metadata.setLabelKey(fd.getLabelKey());
+	            
 	           	metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));            	
 	            
 	            //TODO: Need for a way to obtain full lookup info from a UI lookup config
@@ -252,9 +252,8 @@ public class MetadataServiceImpl {
         
         //Max Length
         try {
-        	if(fd.getMaxLength()!=null){
-        		constraintMetadata.setMaxLength(Integer.parseInt(fd.getMaxLength()));
-        	}
+        	constraintMetadata.setMaxLength(Integer.parseInt(fd.getMaxLength()));
+
     		//Do we need to add another constraint and label it required if minOccurs = 1
         } catch (NumberFormatException nfe) {
 			// Ignoring an unbounded length, cannot be handled in metadata structure, maybe change Metadata to string or set to -1
@@ -306,32 +305,32 @@ public class MetadataServiceImpl {
             String s = (String)value;
             switch (dataType){
                 case STRING:
-                    v = new Data.StringValue(s);
+                    value = new Data.StringValue(s);
                     break; 
                 case BOOLEAN:
-                    v = new Data.BooleanValue(Boolean.valueOf(s));
+                    value = new Data.BooleanValue(Boolean.valueOf(s));
                     break;
                 case FLOAT:
-                    v = new Data.FloatValue(Float.valueOf(s));
+                    value = new Data.FloatValue(Float.valueOf(s));
                     break;
                 case DATE:
                     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");                    
                     try {
-                        v = new Data.DateValue(format.parse(s));
+                        value = new Data.DateValue(format.parse(s));
                     } catch (ParseException e) {
                         LOG.error("Unable to get default date value from metadata definition");
                     }
                     break;
                 case LONG:
                 	if (!s.isEmpty()){
-                		v = new Data.LongValue(Long.valueOf(s));
+                		value = new Data.LongValue(Long.valueOf(s));
                 	}
                     break;
                 case DOUBLE:
-                    v = new Data.DoubleValue(Double.valueOf(s));
+                    value = new Data.DoubleValue(Double.valueOf(s));
                     break;
                 case INTEGER:
-                    v = new Data.IntegerValue(Integer.valueOf(s));
+                    value = new Data.IntegerValue(Integer.valueOf(s));
                     break;                    
             }
         } else {
@@ -429,8 +428,8 @@ public class MetadataServiceImpl {
             	}
             	List<LookupMetadata> additionalLookupMetadata = null;
             	if (lookup.getAdditionalLookups() != null) {
-					additionalLookupMetadata = new ArrayList<LookupMetadata>();
 					for (UILookupData additionallookup : lookup.getAdditionalLookups()) {
+						additionalLookupMetadata = new ArrayList<LookupMetadata>();
 						additionalLookupMetadata
 								.add(mapLookupDatatoMeta(additionallookup));
 					}

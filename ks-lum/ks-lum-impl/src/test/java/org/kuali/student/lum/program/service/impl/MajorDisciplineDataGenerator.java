@@ -138,14 +138,6 @@ public class MajorDisciplineDataGenerator {
 			if("variations".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.PROGRAM_VARIATION;
 			}
-
-			if("divisionsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
-			}
-			
-			if("divisionsStudentOversight".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION;
-			}
 			
 			throw new RuntimeException("Code what to do with this type");
 		}

@@ -34,42 +34,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_save();
 
   /**
-   * Translated "Saving Data...".
-   * 
-   * @return translated "Saving Data..."
-   */
-  @DefaultMessage("Saving Data...")
-  @Key("common.savingData")
-  String common_savingData();
-
-  /**
-   * Translated "Curriculum Oversight Division".
-   * 
-   * @return translated "Curriculum Oversight Division"
-   */
-  @DefaultMessage("Curriculum Oversight Division")
-  @Key("managingBodies.curriculumOversightDivision")
-  String managingBodies_curriculumOversightDivision();
-
-  /**
-   * Translated "Curriculum Oversight Unit".
-   * 
-   * @return translated "Curriculum Oversight Unit"
-   */
-  @DefaultMessage("Curriculum Oversight Unit")
-  @Key("managingBodies.curriculumOversightUnit")
-  String managingBodies_curriculumOversightUnit();
-
-  /**
-   * Translated "See All Managing Bodies".
-   * 
-   * @return translated "See All Managing Bodies"
-   */
-  @DefaultMessage("See All Managing Bodies")
-  @Key("managingBodies.seeAll")
-  String managingBodies_seeAll();
-
-  /**
    * Translated "Actions".
    * 
    * @return translated "Actions"
@@ -338,31 +302,4 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Specialization Required")
   @Key("programInformation.specializationRequired")
   String programInformation_specializationRequired();
-  
-  /**
-   * Translated "Catalog Description".
-   * 
-   * @return translated "Catalog Description"
-   */
-  @DefaultMessage("Catalog Description")
-  @Key("catalogInformation.catalogDescr")
-  String catalogInformation_catalogDescr();
-  
-  /**
-   * Translated "Core Faculty Members".
-   * 
-   * @return translated "Core Faculty Members"
-   */
-  @DefaultMessage("Core Faculty Members")
-  @Key("catalogInformation.publishedInstructors")
-  String catalogInformation_publishedInstructors();
-  
-  /**
-   * Translated "Publication Targets".
-   * 
-   * @return translated "Publication Targets"
-   */
-  @DefaultMessage("Publication Targets")
-  @Key("catalogInformation.catalogPublicationTargets")
-  String catalogInformation_catalogPublicationTargets();
 }
