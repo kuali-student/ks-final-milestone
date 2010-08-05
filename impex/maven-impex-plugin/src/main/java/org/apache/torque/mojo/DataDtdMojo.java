@@ -2,7 +2,6 @@ package org.apache.torque.mojo;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
 import org.apache.torque.task.TorqueDataModelTask;
 import org.kuali.core.db.torque.Utils;
 
@@ -48,15 +47,6 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * @parameter expression="${projectName}" default-value="impex"
 	 */
 	private String projectName;
-
-	/**
-	 * The Maven Project Object
-	 * 
-	 * @parameter default-value="${project}"
-	 * @required
-	 * @readonly
-	 */
-	protected MavenProject project;
 
 	/**
 	 * The name of the schema.xml file to process
@@ -145,13 +135,5 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 */
 	public void setSchemaXMLFile(String xmlFile) {
 		this.schemaXMLFile = xmlFile;
-	}
-
-	public MavenProject getProject() {
-		return project;
-	}
-
-	public void setProject(MavenProject project) {
-		this.project = project;
 	}
 }

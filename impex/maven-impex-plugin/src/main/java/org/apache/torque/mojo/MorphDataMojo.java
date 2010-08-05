@@ -1,6 +1,7 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,24 +21,21 @@ public class MorphDataMojo extends MorpherMojo {
 	/**
 	 * The directory in which the morphed XML will be generated.
 	 * 
-	 * @parameter expression="${outputDir}"
-	 *            default-value="${project.build.directory}/generated-impex/data"
+	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/generated-impex/data"
 	 * @required
 	 */
-	private String outputDir;
+	private File outputDir;
 
 	/**
 	 * The directory containing the source (non-morphed) data XML files
 	 * 
-	 * @parameter expression="${dataXMLDir}"
-	 *            default-value="${basedir}/src/main/impex/data"
+	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/impex/data"
 	 * @required
 	 */
 	private File dataXMLDir;
 
 	/**
-	 * The default set of files in that directory to include (ant style
-	 * notation)
+	 * The default set of files in that directory to include (ant style notation)
 	 * 
 	 * @parameter expression="${dataXMLIncludes}" default-value="*.xml"
 	 * @required
@@ -45,8 +43,7 @@ public class MorphDataMojo extends MorpherMojo {
 	private String dataXMLIncludes;
 
 	/**
-	 * The default set of files in that directory to exclude (ant style
-	 * notation)
+	 * The default set of files in that directory to exclude (ant style notation)
 	 * 
 	 * @parameter expression="${dataXMLExcludes}"
 	 */
@@ -54,36 +51,45 @@ public class MorphDataMojo extends MorpherMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException {
+		if (skipMojo()) {
+			return;
+		}
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Converting data XML files");
 		getLog().info("------------------------------------------------------------------------");
+		doIO();
+	}
+
+	protected String[] getFiles() throws IOException {
+		DirectoryScanner ds = new DirectoryScanner();
+		ds.setIncludes(new String[] { getDataXMLIncludes() });
+		if (getDataXMLExcludes() != null) {
+			ds.setExcludes(new String[] { getDataXMLExcludes() });
+		}
+		ds.setBasedir(getDataXMLDir());
+		ds.scan();
+		return ds.getIncludedFiles();
+	}
+
+	protected void doIO() throws MojoExecutionException {
 		try {
-			DirectoryScanner ds = new DirectoryScanner();
-			ds.setIncludes(new String[] { getDataXMLIncludes() });
-			if (getDataXMLExcludes() != null) {
-				ds.setExcludes(new String[] { getDataXMLExcludes() });
-			}
-			ds.setBasedir(getDataXMLDir());
-			ds.scan();
-			String[] files = ds.getIncludedFiles();
-			getLog().info("Located " + files.length + " XML files to convert");
+			String[] files = getFiles();
+			getLog().info("Located " + files.length + " data XML files to morph");
 			String inputPath = getDataXMLDir().getAbsolutePath();
-			String outputPath = getProject().getBuild().getDirectory() + FS + "generated-impex" + FS + "data";
-			File newDir = new File(outputPath);
-			FileUtils.forceMkdir(newDir);
+			FileUtils.forceMkdir(getOutputDir());
 			List<String> input = new ArrayList<String>();
 			List<String> output = new ArrayList<String>();
 			for (String file : files) {
 				input.add(inputPath + FS + file);
-				output.add(outputPath + FS + file);
+				output.add(getOutputDir() + FS + file);
 			}
 			for (int i = 0; i < input.size(); i++) {
 				String filename = input.get(i);
-				String contents = getContents(filename);
+				String contents = FileUtils.readFileToString(new File(filename), getEncoding());
 				contents = getMorphedContents(contents);
-				writeContents(output.get(i), contents);
+				FileUtils.writeStringToFile(new File(output.get(i)), contents, getEncoding());
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new MojoExecutionException("Unexpected error", e);
 		}
 	}
@@ -116,11 +122,11 @@ public class MorphDataMojo extends MorpherMojo {
 		this.dataXMLDir = dataXMLDir;
 	}
 
-	public String getOutputDir() {
+	public File getOutputDir() {
 		return outputDir;
 	}
 
-	public void setOutputDir(String outputDir) {
+	public void setOutputDir(File outputDir) {
 		this.outputDir = outputDir;
 	}
 }

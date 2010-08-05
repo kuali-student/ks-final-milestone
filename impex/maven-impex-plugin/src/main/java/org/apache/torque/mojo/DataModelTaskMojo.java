@@ -30,7 +30,7 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	/**
 	 * The schema files from that directory which should be included (ant-style notation).
 	 * 
-	 * @parameter expression="${schemaDir}" default-value="*schema.xml"
+	 * @parameter expression="${schemaIncludes}" default-value="*schema.xml"
 	 * @required
 	 */
 	private String schemaIncludes;

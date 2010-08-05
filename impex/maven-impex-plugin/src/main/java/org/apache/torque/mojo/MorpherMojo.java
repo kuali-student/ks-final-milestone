@@ -1,12 +1,5 @@
 package org.apache.torque.mojo;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
 
@@ -17,6 +10,28 @@ public abstract class MorpherMojo extends AbstractMojo {
 	protected static final String FS = System.getProperty("file.separator");
 
 	/**
+	 * When <code>true</code>, skip the execution.
+	 * 
+	 * @since 1.0
+	 * @parameter default-value="false"
+	 */
+	private boolean skip;
+
+	/**
+	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
+	 * usually.
+	 * 
+	 * @parameter expression="${forceMorpherExecution}" default-value=false
+	 * @required
+	 */
+	private boolean forceMojoExecution;
+
+	/**
+	 * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
+	 */
+	private String encoding;
+
+	/**
 	 * The Maven project this plugin runs in.
 	 * 
 	 * @parameter expression="${project}"
@@ -25,38 +40,31 @@ public abstract class MorpherMojo extends AbstractMojo {
 	 */
 	private MavenProject project;
 
-	protected void writeContents(String filename, String contents) throws IOException {
-		OutputStream out = null;
-		try {
-			out = new FileOutputStream(filename);
-			IOUtils.write(contents, out, "UTF-8");
-		} catch (IOException e) {
-			throw e;
-		} finally {
-			IOUtils.closeQuietly(out);
-		}
-	}
-
-	protected String getContents(String filename) throws IOException {
-		InputStream in = null;
-		try {
-			in = new FileInputStream(filename);
-			return IOUtils.toString(in, "UTF-8");
-		} catch (IOException e) {
-			throw e;
-		} finally {
-			IOUtils.closeQuietly(in);
-		}
-	}
-
 	/**
-	 * Sets the maven project.
+	 * <p>
+	 * Determine if the mojo execution should get skipped.
+	 * </p>
+	 * This is the case if:
+	 * <ul>
+	 * <li>{@link #skip} is <code>true</code></li>
+	 * <li>if the mojo gets executed on a project with packaging type 'pom' and {@link #forceMojoExecution} is
+	 * <code>false</code></li>
+	 * </ul>
 	 * 
-	 * @param project
-	 *            the maven project where this plugin runs in.
+	 * @return <code>true</code> if the mojo execution should be skipped.
 	 */
-	public void setProject(MavenProject project) {
-		this.project = project;
+	protected boolean skipMojo() {
+		if (skip) {
+			getLog().info("Skip morpher execution");
+			return true;
+		}
+
+		if (!forceMojoExecution && project != null && "pom".equals(project.getPackaging())) {
+			getLog().info("Skipping execution for project with packaging type 'pom'");
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -66,6 +74,14 @@ public abstract class MorpherMojo extends AbstractMojo {
 	 */
 	public MavenProject getProject() {
 		return project;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 }

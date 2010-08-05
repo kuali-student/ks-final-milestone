@@ -52,7 +52,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	private boolean runOnlyOnChange;
 
 	/**
-	 * The schema.xml file describing the database
+	 * The XML file describing the database schema
 	 * 
 	 * @parameter expression="${schemaXMLFile}"
 	 *            default-value="${basedir}/src/main/impex/${project.artifactId}-schema.xml"
@@ -100,6 +100,9 @@ public class DataSqlMojo extends DataModelTaskMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException {
+		if (skipMojo()) {
+			return;
+		}
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
 		if (!isChanged() && isRunOnlyOnChange()) {

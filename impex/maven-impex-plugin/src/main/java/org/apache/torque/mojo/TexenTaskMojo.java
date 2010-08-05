@@ -52,15 +52,6 @@ public abstract class TexenTaskMojo extends AntTaskMojo {
 	private String contextPropertiesPath;
 
 	/**
-	 * The Maven project this plugin runs in.
-	 * 
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	private MavenProject project;
-
-	/**
 	 * Creates a new instance of AbstractTorqueMojo.
 	 * 
 	 * @throws IllegalArgumentException
@@ -68,25 +59,6 @@ public abstract class TexenTaskMojo extends AntTaskMojo {
 	 */
 	public TexenTaskMojo(TexenTask generatorTask) {
 		super(generatorTask);
-	}
-
-	/**
-	 * Sets the maven project.
-	 * 
-	 * @param project
-	 *            the maven project where this plugin runs in.
-	 */
-	public void setProject(MavenProject project) {
-		this.project = project;
-	}
-
-	/**
-	 * Returns the maven project.
-	 * 
-	 * @return The maven project where this plugin runs in.
-	 */
-	public MavenProject getProject() {
-		return project;
 	}
 
 	/**
@@ -232,7 +204,7 @@ public abstract class TexenTaskMojo extends AntTaskMojo {
 				throw new MojoExecutionException(e.getMessage());
 			}
 		}
-		
+
 		File outputDirectory = new File(outputDir);
 		getLog().debug("generating torque java sources into: " + outputDirectory.getAbsolutePath());
 		outputDirectory.mkdirs();
@@ -249,6 +221,9 @@ public abstract class TexenTaskMojo extends AntTaskMojo {
 	 * @see org.apache.maven.plugin.Mojo#execute()
 	 */
 	public void execute() throws MojoExecutionException {
+		if (skipMojo()) {
+			return;
+		}
 		generateContextProperties();
 		super.execute();
 	}
