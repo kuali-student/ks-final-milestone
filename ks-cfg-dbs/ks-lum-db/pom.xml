@@ -8,14 +8,4 @@
   <artifactId>ks-lum-db</artifactId>
   <name>KS LUM DB</name>
   <description>Kuali Student Learning Unit Management Database</description>
-  <build>
-    <resources>
-      <resource>
-        <directory>${project.build.directory}/generated-impex</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
-      </resource>
-    </resources>
-  </build>
 </project>

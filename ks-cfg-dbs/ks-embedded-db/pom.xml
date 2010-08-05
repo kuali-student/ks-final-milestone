@@ -8,14 +8,4 @@
   <artifactId>ks-embedded-db</artifactId>
   <name>KS Embedded DB</name>
   <description>Kuali Student Embedded Database</description>
-  <build>
-    <resources>
-      <resource>
-        <directory>${project.build.directory}/generated-impex</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
-      </resource>
-    </resources>
-  </build>
 </project>

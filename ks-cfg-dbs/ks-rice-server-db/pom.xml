@@ -8,14 +8,4 @@
   <artifactId>ks-rice-server-db</artifactId>
   <name>KS Rice Server DB</name>
   <description>Kuali Student Rice Server Database</description>
-  <build>
-    <resources>
-      <resource>
-        <directory>${project.build.directory}/generated-impex</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
-      </resource>
-    </resources>
-  </build>
 </project>

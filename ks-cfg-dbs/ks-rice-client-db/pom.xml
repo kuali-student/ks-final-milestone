@@ -8,14 +8,4 @@
   <artifactId>ks-rice-client-db</artifactId>
   <name>KS Rice Client DB</name>
   <description>Kuali Student Rice Client Database</description>
-  <build>
-    <resources>
-      <resource>
-        <directory>${project.build.directory}/generated-impex</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
-      </resource>
-    </resources>
-  </build>
 </project>

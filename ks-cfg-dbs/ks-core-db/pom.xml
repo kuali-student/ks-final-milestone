@@ -8,14 +8,4 @@
   <artifactId>ks-core-db</artifactId>
   <name>KS Core DB</name>
   <description>Kuali Student Core Database</description>
-  <build>
-    <resources>
-      <resource>
-        <directory>${project.build.directory}/generated-impex</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
-      </resource>
-    </resources>
-  </build>
 </project>

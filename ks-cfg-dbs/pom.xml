@@ -32,11 +32,18 @@
     <module>ks-rice-server-db</module>
   </modules>
   <build>
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/generated-impex</directory>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/generated-sql</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -51,6 +58,7 @@
         <configuration>
           <dataXMLDir>${project.build.directory}/generated-impex/data</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
+          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
         </configuration>
         <executions>
           <execution>
