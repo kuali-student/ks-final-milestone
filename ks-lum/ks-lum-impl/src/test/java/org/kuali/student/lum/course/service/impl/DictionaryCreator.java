@@ -48,9 +48,9 @@ public class DictionaryCreator
  private static final String BASE_STRING = "baseString";
  private static final String BASE_COMPLEX = "baseComplex";
  private static final String BASE_KUALI_ID = "baseKualiId";
- private static final String BASE_KUALI_RELATED_ORG_ID = "baseKualiRelatedOrgId";
- private static final String BASE_KUALI_RELATED_CLU_ID = "baseKualiRelatedCluId";
- private static final String BASE_KUALI_RELATED__PERSON_ID = "baseKualiRelatedPersonId";
+ private static final String BASE_KUALI_ORG_ID = "baseKualiOrgId";
+ private static final String BASE_KUALI_CLU_ID = "baseKualiCluId";
+ private static final String BASE_KUALI_PERSON_ID = "baseKualiPersonId";
  private static final String BASE_KUALI_TYPE = "baseKualiType";
  private static final String BASE_KUALI_STATE = "baseKualiState";
  private static final String BASE_KUALI_EFFECTIVE_DATE =
@@ -181,9 +181,17 @@ public class DictionaryCreator
   {
    parentField = BASE_KUALI_ID;
   }
-  if ("orgId".equals (pd.getName ()))
+  else if (pd.getName ().endsWith ("orgId"))
   {
-   parentField = BASE_KUALI_RELATED_ORG_ID;
+   parentField = BASE_KUALI_ORG_ID;
+  }
+  else if (pd.getName ().endsWith ("personId"))
+  {
+   parentField = BASE_KUALI_PERSON_ID;
+  }
+  else if (pd.getName ().endsWith ("cluId"))
+  {
+   parentField = BASE_KUALI_CLU_ID;
   }
   else if (List.class.equals (pt))
   {

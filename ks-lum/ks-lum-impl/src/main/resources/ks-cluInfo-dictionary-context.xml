@@ -295,7 +295,7 @@
  <bean id="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo"
        parent="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo-parent" />
 
- <bean id="academicSubjectOrgInfo.orgId-parent" abstract="true" parent="baseKualiIdRequired">
+ <bean id="academicSubjectOrgInfo.orgId-parent" abstract="true" parent="baseKualiOrgIdRequired">
   <property name="name" value="orgId" />
  </bean>
  <bean id="academicSubjectOrgInfo.orgId" parent="academicSubjectOrgInfo.orgId-parent" />
@@ -460,7 +460,7 @@
  </bean>
  <bean id="affiliatedOrgInfo.id" parent="affiliatedOrgInfo.id-parent" />
 
- <bean id="affiliatedOrgInfo.orgId-parent" abstract="true" parent="baseKualiIdRequired">
+ <bean id="affiliatedOrgInfo.orgId-parent" abstract="true" parent="baseKualiOrgIdRequired">
   <property name="name" value="orgId" />
  </bean>
  <bean id="affiliatedOrgInfo.orgId" parent="affiliatedOrgInfo.orgId-parent" />
@@ -542,7 +542,7 @@
  </bean>
  <bean id="accreditationInfo.id" parent="accreditationInfo.id-parent" />
 
- <bean id="accreditationInfo.orgId-parent" abstract="true" parent="baseKualiIdRequired">
+ <bean id="accreditationInfo.orgId-parent" abstract="true" parent="baseKualiOrgIdRequired">
   <property name="name" value="orgId" />
  </bean>
  <bean id="accreditationInfo.orgId" parent="accreditationInfo.orgId-parent" />
@@ -596,8 +596,7 @@
  </bean>
  <bean id="cluIdentifierInfo.longName" parent="cluIdentifierInfo.longName-parent" />
 
- <bean id="cluIdentifierInfo.orgId-parent" abstract="true"
-       parent="baseKualiId">
+ <bean id="cluIdentifierInfo.orgId-parent" abstract="true" parent="baseKualiOrgId">
   <property name="name" value="orgId" />
  </bean>
  <bean id="cluIdentifierInfo.orgId" parent="cluIdentifierInfo.orgId-parent" />
@@ -744,14 +743,12 @@
  </bean>
  <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo" parent="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent" />
 
- <bean id="cluInstructorInfo.orgId-parent" abstract="true"
-       parent="baseKualiId">
+ <bean id="cluInstructorInfo.orgId-parent" abstract="true"  parent="baseKualiOrgId">
   <property name="name" value="orgId" />
  </bean>
  <bean id="cluInstructorInfo.orgId" parent="cluInstructorInfo.orgId-parent" />
 
- <bean id="cluInstructorInfo.personId-parent" abstract="true"
-       parent="baseKualiId">
+ <bean id="cluInstructorInfo.personId-parent" abstract="true" parent="baseKualiPersonId">
   <property name="name" value="personId" />
  </bean>
  <bean id="cluInstructorInfo.personId" parent="cluInstructorInfo.personId-parent" />
@@ -782,7 +779,7 @@
  </bean>
  <bean id="adminOrgInfo.id" parent="adminOrgInfo.id-parent" />
 
- <bean id="adminOrgInfo.orgId-parent" abstract="true" parent="baseKualiId">
+ <bean id="adminOrgInfo.orgId-parent" abstract="true" parent="baseKualiOrgId">
   <property name="name" value="orgId" />
  </bean>
  <bean id="adminOrgInfo.orgId" parent="adminOrgInfo.orgId-parent" />
