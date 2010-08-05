@@ -26,8 +26,9 @@ public class TestCluInfoDictionary
   List<Class<?>> startingClasses = new ArrayList ();
   startingClasses.add (CluInfo.class);
   startingClasses.add (CluCluRelationInfo.class);
-  new DictionaryTesterHelper ().doTest ("ks-cluInfo-dictionary-context.xml",
-                                        startingClasses);
+  String contextFile = "ks-cluInfo-dictionary-context";
+  String outFile = "target/" + contextFile + ".txt";
+  new DictionaryTesterHelper (outFile, startingClasses, contextFile + ".xml").doTest ();
  }
 
  @Test

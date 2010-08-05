@@ -28,15 +28,16 @@ public class TestProgramInfoDictionary
   List<Class<?>> startingClasses = new ArrayList ();
   startingClasses.add (MajorDisciplineInfo.class);
   startingClasses.add (MinorDisciplineInfo.class);
-  new DictionaryTesterHelper ().doTest ("ks-programInfo-dictionary-context.xml",
-                                        startingClasses);
+  String contextFile = "ks-programInfo-dictionary-context";
+  String outFile = "target/" + contextFile + ".txt";
+  new DictionaryTesterHelper (outFile, startingClasses, contextFile + ".xml").doTest ();
  }
 
-
  @Test
- public void testMajorDisciplineInfoValidation () throws OperationFailedException
+ public void testMajorDisciplineInfoValidation () throws
+   OperationFailedException
  {
-    System.out.println ("h1. Validation results");
+  System.out.println ("h1. Validation results");
   ApplicationContext ac = new ClassPathXmlApplicationContext (
     "classpath:ks-programInfo-dictionary-context.xml");
   DefaultValidatorImpl val = new DefaultValidatorImpl ();

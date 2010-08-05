@@ -27,8 +27,9 @@ public class TestCourseInfoDictionary
   List<Class<?>> startingClasses = new ArrayList ();
   startingClasses.add (CourseInfo.class);
   startingClasses.add (StatementTreeViewInfo.class);
-  new DictionaryTesterHelper ().doTest ("ks-courseInfo-dictionary-context.xml",
-                                        startingClasses);
+  String contextFile = "ks-courseInfo-dictionary-context";
+  String outFile = "target/" + contextFile + ".txt";
+  new DictionaryTesterHelper (outFile, startingClasses, contextFile + ".xml").doTest ();
  }
 
  @Test
