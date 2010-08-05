@@ -400,7 +400,7 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ProgramRequirementInfo createCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CoreProgramInfo createCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a Core Program
@@ -414,7 +414,7 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ProgramRequirementInfo updateCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
+    public CoreProgramInfo updateCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Deletes a Core Program
