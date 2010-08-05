@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student.security</groupId>
     <artifactId>ks-security</artifactId>
-    <version>1.1.0-M7-SNAPSHOT</version>
+    <version>1.1.0-poc-M7-SNAPSHOT</version>
   </parent>
   <artifactId>ks-sts</artifactId>
   <name>KS Security Token Service</name>

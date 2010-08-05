@@ -5736,7 +5736,6 @@
 				<ref bean="search.findCluSet" />
 				<ref bean="search.findCourseTmp" />
 				<ref bean="search.findProgram" />
-				<ref bean="search.findMajor" />
 			</list>
 		</property>
 	</bean>	
@@ -7801,124 +7800,6 @@
 	</bean>	
 	<bean id="search" parent="serach-parent" />
 
-
-	<bean id="search.findMajor" parent="dataFieldDescriptor">  <!-- what the bean id should be so it loads for CourseConfigurer? -->
-		<property name="name" value="findMajor" />
-		<property name="writeAccess" value="ALWAYS" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.required" />
-				<ref bean="constraint.single" />
-				<ref bean="constraint.related.cluId" />
-			</list>
-		</property>
-		<property name="initialLookup">
-			<!--  define configuration for a suggest box -->
-			<bean parent="lookup">
-				<property name="name" value="Find an existing Major Discipline" />
-				<property name="desc" value="Search for Major Disciplines" />
-				<property name="widget" value="NO_WIDGET"/>
-			</bean>
-		</property>
-		<property name="additionalLookups">
-			<list>
-				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-					<property name="id" value="kuali.lu.lookup.findMajor.advanced"/>
-					<property name="searchTypeId" value="lu.search.generic"/>
-					<property name="name" value="Majors"/>
-					<property name="desc" value="Search for Major Disciplines"/>
-					<property name="title" value="Find Major"/>
-					<property name="widget" value="ADVANCED_LIGHTBOX"/>
-					<property name="params">
-						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.queryParam.luOptionalCode"/>
-								<property name="name" value="Code"/>
-								<property name="desc" value="Major Code."/>
-								<property name="dataType" value="STRING"/>
-								<property name="writeAccess" value="ALWAYS"/>
-								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED_CUSTOM"/>
-								<property name="widget" value="SUGGEST_BOX"/>
-							</bean>	
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.queryParam.luOptionalShortName" />
-								<property name="name" value="Title" />
-								<property name="desc" value="Short title" />
-								<property name="writeAccess" value="ALWAYS" />
-								<property name="dataType" value="STRING"/>
-								<property name="caseSensitive" value="true"/>
-								<property name="usage" value="ADVANCED_CUSTOM"/>
-								<property name="widget" value="SUGGEST_BOX"/>
-							</bean>				
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.queryParam.luOptionalType" />
-								<property name="name" value="Lu Type" />
-								<property name="desc" value="Type of a learning unit" />
-								<property name="dataType" value="STRING"/>
-								<property name="writeAccess" value="NEVER" />
-								<property name="defaultValueString" value="kuali.lu.type.MajorDiscipline" />
-								<property name="optional" value="true"/>
-								<property name="caseSensitive" value="true" />
-							</bean>						
-							<bean parent="param"><!-- limit search to only return approved clus -->
-								<property name="key" value="lu.queryParam.luOptionalState" />
-								<property name="name" value="State" />
-								<property name="desc" value="CLU State" />
-								<property name="writeAccess" value="NEVER" />
-								<property name="defaultValueList">
-									<list>
-									<!-- 
-										<value>draft</value>
-										<value>submitted</value>
-										<value>withdrawn</value>
-										<value>approved</value>
-									-->
-										<value>active</value>
-										<value>activated</value>
-									</list>
-								</property>	
-								<property name="caseSensitive" value="true" />
-							</bean>
-						</list>
-					</property>
-					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
-					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalShortName"/>
-					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
-					<property name="results">
-						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.cluId"/>
-								<property name="name" value="Identifier"/>
-								<property name="desc" value="Identifier for the course."/>
-								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="true"/>
-							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalCode"/>
-								<property name="name" value="Code"/>
-								<property name="desc" value="Course code."/>
-								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
-							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-								<property name="key" value="lu.resultColumn.luOptionalShortName"/>
-								<property name="name" value="Title"/>
-								<property name="desc" value="Short title for the Major Discipline"/>
-								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>	
-	
 	<!--  common lookups -->
 	<bean id="kuali.lookup.durations" parent="lookup">
 		<property name="id" value="kuali.lookup.durations" />

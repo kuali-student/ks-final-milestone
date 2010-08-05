@@ -17,6 +17,7 @@ package org.kuali.student.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +28,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.MetaInfo;
 
 /**
  * Detailed information about a core program requirements associated with Credential Programs
@@ -51,59 +49,8 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String shortTitle;
-
-    @XmlElement
-    private String longTitle;
-    
-    @XmlElement
-    private String transcriptTitle;
-
-    @XmlElement
-    private String code;
-    
-    @XmlElement
-    private String universityClassification;
-
-    @XmlElement
-    private String startTerm;
-
-    @XmlElement
-    private String endTerm;
-
-    @XmlElement
-    private String endProgramEntryTerm;
-
-    @XmlElement
     private List<String> programRequirements;
 
-    @XmlElement
-    private List<AdminOrgInfo> divisionsContentOwner;    
-    
-    @XmlElement
-    private List<AdminOrgInfo> divisionsStudentOversight;    
-
-    @XmlElement
-    private List<AdminOrgInfo> unitsContentOwner;    
-    
-    @XmlElement
-    private List<AdminOrgInfo> unitsStudentOversight;    
-
-    @XmlElement
-    private RichTextInfo descr;
-    
-    @XmlElement
-    private String referenceURL;
-    
-    @XmlElement
-    private RichTextInfo catalogDescr;
-
-    @XmlElement
-    private List<String> catalogPublicationTargets;
-    
-    @XmlElement
-    private List<LoDisplayInfo> learningObjectives;
-    
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
@@ -190,192 +137,5 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
 
     public void setId(String id) {
         this.id = id;
-    }
-    
-    /**
-     * Abbreviated name of the Core requirement 
-     */
-    public String getShortTitle() {
-        return shortTitle;
-    }
-
-    public void setShortTitle(String shortTitle) {
-        this.shortTitle = shortTitle;
-    }
-
-    /**
-     * Full name of the Core Requirement    
-     */
-    public String getLongTitle() {
-        return longTitle;
-    }
-
-    public void setLongTitle(String longTitle) {
-        this.longTitle = longTitle;
-    }
-
-    /**
-     * Information related to the official identification of the Core requirement, typically in human readable form. Used to officially reference or publish.
-     */
-    public String getTranscriptTitle() {
-        return transcriptTitle;
-    }
-    
-    public void setTranscriptTitle(String transcriptTitle) {
-        this.transcriptTitle = transcriptTitle;
-    }
-
-    /**
-     * The composite string that is used to officially reference or publish the Core Program.   
-     */
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    /**
-     * University specific classification e.g General Education Program 
-     */
-    public String getUniversityClassification() {
-        return universityClassification;
-    }
-
-    public void setUniversityClassification(String universityClassification) {
-        this.universityClassification = universityClassification;
-    }
-
-    /**
-     * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Core.   
-     */
-    public String getStartTerm() {
-        return startTerm;
-    }
-
-    public void setStartTerm(String startTerm) {
-        this.startTerm = startTerm;
-    }
-
-    /**
-     * The last academic time period that this Core would be effective. 
-     */
-    public String getEndTerm() {
-        return endTerm;
-    }
-
-    public void setEndTerm(String endTerm) {
-        this.endTerm = endTerm;
-    }
-
-    /**
-     * The last academic time period that this Core would be available for enrollment. This may not reflect the last "real" academic time period for this requirement.  
-     */
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
-    }
-
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
-    }
-
-    /**
-     * Divisions responsible to make changes to the CORE requirements   
-     */
-    public List<AdminOrgInfo> getDivisionsContentOwner() {
-        return divisionsContentOwner;
-    }
-
-    public void setDivisionsContentOwner(List<AdminOrgInfo> divisionsContentOwner) {
-        this.divisionsContentOwner = divisionsContentOwner;
-    }
-
-    /**
-     * Divisions responsible for student exceptions to the requirements.    
-     */
-    public List<AdminOrgInfo> getDivisionsStudentOversight() {
-        return divisionsStudentOversight;
-    }
-
-    public void setDivisionsStudentOversight(List<AdminOrgInfo> divisionsStudentOversight) {
-        this.divisionsStudentOversight = divisionsStudentOversight;
-    }
-    
-    /**
-     * Unit responsible to make changes to the CORE requirements    
-     */
-    public List<AdminOrgInfo> getUnitsContentOwner() {
-        return unitsContentOwner;
-    }
-
-    public void setUnitsContentOwner(List<AdminOrgInfo> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
-
-    /**
-     * Unit responsible for student exceptions to the requirements. 
-     */
-    public List<AdminOrgInfo> getUnitsStudentOversight() {
-        return unitsStudentOversight;
-    }
-
-    public void setUnitsStudentOversight(List<AdminOrgInfo> unitsStudentOversight) {
-        this.unitsStudentOversight = unitsStudentOversight;
-    }
-
-    /**
-     * Narrative description of the Core requirement.   
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-    
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-
-    /**
-     * Narrative description of the Core that will show up in Catalog
-     */
-    public RichTextInfo getCatalogDescr() {
-        return catalogDescr;
-    }
-
-    public void setCatalogDescr(RichTextInfo catalogDescr) {
-        this.catalogDescr = catalogDescr;
-    }
-
-    /**
-     * List of catalog targets where information will be published.   
-     */
-    public List<String> getCatalogPublicationTargets() {
-        return catalogPublicationTargets;
-    }
-
-    public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
-        this.catalogPublicationTargets = catalogPublicationTargets;
-    }
-
-    /**
-     * An URL for additional information about the Core Requirement.    
-     */
-    public String getReferenceURL() {
-        return referenceURL;
-    }
-
-    public void setReferenceURL(String referenceURL) {
-        this.referenceURL = referenceURL;
-    }
-
-    /**
-     * Learning Objectives associated with this Core requirement.   
-     */
-    public List<LoDisplayInfo> getLearningObjectives() {
-        return learningObjectives;
-    }
-
-    public void setLearningObjectives(List<LoDisplayInfo> learningObjectives) {
-        this.learningObjectives = learningObjectives;
     }
 }

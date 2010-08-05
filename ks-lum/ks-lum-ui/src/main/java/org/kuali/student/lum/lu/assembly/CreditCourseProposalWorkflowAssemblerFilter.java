@@ -122,10 +122,7 @@ public class CreditCourseProposalWorkflowAssemblerFilter extends PassThroughAsse
     		}
     		
     		String cluId = creditCourseProposal.getCourse().getId()==null?"":creditCourseProposal.getCourse().getId(); 
-    		// Administering Orgs is a list in Course. But this change has not been made
-    		// on the workflow side and its associated doc content. For now we are attaching the first 
-    		// element of the administering orgs to adminOrg 
-    		String adminOrg = creditCourseProposal.getCourse().getAdministeringOrgs().get(0)==null?"":(String)creditCourseProposal.getCourse().getAdministeringOrgs().get(0); 
+    		String adminOrg = creditCourseProposal.getCourse().getDepartment()==null?"":creditCourseProposal.getCourse().getDepartment(); 
     		String proposalId = creditCourseProposal.getProposal().getId()==null?"":creditCourseProposal.getProposal().getId();
     		
     		docContent.setCluId(cluId);
