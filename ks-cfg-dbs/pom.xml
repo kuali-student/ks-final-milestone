@@ -3,20 +3,33 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.10-db-M8-SNAPSHOT</version>
+    <version>1.1.0-M7-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.dbs</groupId>
   <artifactId>ks-dbs</artifactId>
   <packaging>pom</packaging>
   <name>KS Databases</name>
   <description>Kuali Student Databases</description>
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <modules>
     <module>ks-core-db</module>
-    <!-- 
-    <module>ks-embedded-db</module>
-    <module>ks-rice-client-db</module>
-    <module>ks-rice-server-db</module>
-     -->
+	<!-- 
+    <module>ks-embedded-db</module> 
+    <module>ks-rice-client-db</module> 
+	<module>ks-rice-server-db</module> 
+    -->
     <module>ks-lum-db</module>
     <module>ks-rice-db</module>
   </modules>
