@@ -128,6 +128,8 @@
     <ref bean="loInfo.name" />
     <ref bean="loInfo.state" />
     <ref bean="loInfo.type" />
+     <!-- dynamic attributes -->
+    <ref bean="loInfo.sequence" />
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -175,4 +177,9 @@
   <property name="name" value="type" />
  </bean>
  <bean id="loInfo.type" parent="loInfo.type-parent" />
+
+ <bean id="loInfo.sequence" parent="baseIntegerRequired">
+  <property name="name" value="sequence" />
+  <property name="dynamic" value="true"/>
+ </bean>
 </beans>
