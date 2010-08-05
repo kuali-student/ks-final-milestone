@@ -178,8 +178,9 @@
  </bean>
  <bean id="loInfo.type" parent="loInfo.type-parent" />
 
- <bean id="loInfo.sequence" parent="baseIntegerRequired">
+ <bean id="loInfo.sequence" parent="baseInteger">
   <property name="name" value="sequence" />
+  <!--<property name="minOccurs" value="1" />-->
   <property name="dynamic" value="true"/>
  </bean>
 </beans>
