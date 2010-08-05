@@ -299,6 +299,7 @@
                 <ref bean="lrcClient"/>
                 <ref bean="orgClient"/>
                 <ref bean="enumServiceClient"/>
+                <ref bean="atpClient"/>
             </list>
         </property>
     </bean>
