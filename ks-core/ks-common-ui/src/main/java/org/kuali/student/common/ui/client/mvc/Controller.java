@@ -54,7 +54,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 	};
 	
 	private final String controllerId;
-    private Controller parentController = null;
+    protected Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
     private String defaultModelId = null;

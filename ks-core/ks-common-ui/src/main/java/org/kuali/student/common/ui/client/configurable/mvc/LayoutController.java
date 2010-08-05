@@ -57,8 +57,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	
 	protected String name;
 	protected Enum<?> viewType;
-	protected Controller parentController;
-	
+
     protected View startPopupView;
     protected KSLightBox startViewWindow;
 	
