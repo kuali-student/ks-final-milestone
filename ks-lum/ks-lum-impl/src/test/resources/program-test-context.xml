@@ -138,6 +138,12 @@
                 <entry key="Lu">
                     <value>classpath:ks-lu.sql</value>
                 </entry>
+                <entry key="Lo">
+                    <value>classpath:ks-lo.sql</value>
+                </entry>
+                <entry key="Lrc">
+                    <value>classpath:ks-lrc.sql</value>
+                </entry>
             </map>
         </property>
     </bean>

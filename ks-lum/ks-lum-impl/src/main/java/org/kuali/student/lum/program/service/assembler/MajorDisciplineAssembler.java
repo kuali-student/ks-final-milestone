@@ -34,6 +34,7 @@ import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluPublicationInfo;
+import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.FieldInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -72,7 +73,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
         mdInfo.setCode(clu.getOfficialIdentifier().getCode());
         assembleCodes(mdInfo, clu);
-//TODO        mdInfo.setResultOptions(cluAssemblerUtils.assembleCluResults(ProgramAssemblerConstants.DEGREE_RESULTS, clu.get));
+
+        mdInfo.setResultOptions(assembleResultOptions(clu.getId()));
 
         mdInfo.setStartTerm(clu.getExpectedFirstAtp());
         mdInfo.setEndTerm(clu.getLastAtp());
@@ -100,6 +102,21 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setState(clu.getState());
         mdInfo.setId(clu.getId());
         return mdInfo;
+    }
+
+    private List<String> assembleResultOptions(String cluId) throws AssemblyException {
+        List<String> resultOptions = null;
+        try{
+            List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId);
+
+            //TODO Just one result type here?
+            resultOptions = cluAssemblerUtils.assembleCluResults(ProgramAssemblerConstants.CERTIFICATE_RESULTS, cluResults);
+
+        } catch (DoesNotExistException e){
+        } catch (Exception e) {
+            throw new AssemblyException("Error getting major results", e);
+        }
+        return resultOptions;
     }
 
     private List<ProgramVariationInfo> assembleVariations(String cluId, boolean shallowBuild) throws AssemblyException {
