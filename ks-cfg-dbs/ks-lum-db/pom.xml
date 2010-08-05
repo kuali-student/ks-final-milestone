@@ -17,4 +17,5 @@
         <directory>${project.build.directory}/generated-sql</directory>
       </resource>
     </resources>
+  </build>
 </project>
