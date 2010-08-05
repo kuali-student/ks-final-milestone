@@ -12,6 +12,10 @@ import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserCont
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
 import org.kuali.student.lum.program.client.ProgramController;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.user.client.Window;
+
 public class CurriculumHomeController extends LayoutController{
 	
 	private boolean loaded = false;
@@ -72,29 +76,70 @@ public class CurriculumHomeController extends LayoutController{
 	
 
 	private CourseProposalController getCourseProposalController(){
-		courseProposalController = new CourseProposalController();
+		 GWT.runAsync(new RunAsyncCallback() {
+	          public void onFailure(Throwable caught) {
+	        	  Window.alert("Code download failed");
+	          }
+
+	          public void onSuccess() {
+	        	  courseProposalController = new CourseProposalController();
+	          }
+	    });
+		
 		return courseProposalController;
 	}
 	
 	private LayoutController getViewCourseController(){
 		if (viewCourseController == null) {
-			viewCourseController = new ViewCourseController();
+			GWT.runAsync(new RunAsyncCallback() {
+		          public void onFailure(Throwable caught) {
+		        	  Window.alert("Code download failed");
+		          }
+
+		          public void onSuccess() {
+		        	  viewCourseController = new ViewCourseController();
+		          }
+		    });
 		}
 		return this.viewCourseController;
 	}
 	
 	private LayoutController getProgramController(){
-		programController = new ProgramController();
+		GWT.runAsync(new RunAsyncCallback() {
+	          public void onFailure(Throwable caught) {
+	        	  Window.alert("Code download failed");
+	          }
+
+	          public void onSuccess() {
+	        	  programController = new ProgramController();
+	          }
+	    });
 		return this.programController;
 	}
 	
 	private LayoutController getCluSetsController(){
-		manageCluSetsController = new CluSetsManagementController();
+		GWT.runAsync(new RunAsyncCallback() {
+	          public void onFailure(Throwable caught) {
+	        	  Window.alert("Code download failed");
+	          }
+
+	          public void onSuccess() {
+	        	  manageCluSetsController = new CluSetsManagementController();
+	          }
+	    });
 		return manageCluSetsController;
 	}
 	
 	private LayoutController getBrowseCatalogController(){
-		browseCatalogController = new CatalogBrowserController(this);
+		GWT.runAsync(new RunAsyncCallback() {
+	          public void onFailure(Throwable caught) {
+	        	  Window.alert("Code download failed");
+	          }
+
+	          public void onSuccess() {
+	        	  browseCatalogController = new CatalogBrowserController(CurriculumHomeController.this);
+	          }
+	    });
 		return browseCatalogController;
 	}
 
