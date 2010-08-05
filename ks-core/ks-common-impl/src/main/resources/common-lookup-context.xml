@@ -1244,4 +1244,36 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="kuali.common.lookup.outcomes" parent="lookup">
+		<property name="id" value="kuali.common.lookup.outcomes"/>
+		<property name="searchTypeId" value="lrc.search.resultComponent"/>
+		<property name="name" value="Outcome"/>
+		<property name="desc" value="Search for degree credit outcome"/>
+		<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="lrc.queryParam.resultComponent.id"/>
+					<property name="name" value="Result Component"/>
+					<property name="desc" value="Result Component Id"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+				</bean>
+				<bean parent="param">
+					<property name="key" value="lrc.queryParam.resultComponent.type"/>
+					<property name="name" value="Result Component Type"/>
+					<property name="desc" value="Result Component Type"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="NEVER"/>
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.resultComponentType.credit.degree.fixed</value>
+							<value>kuali.resultComponentType.credit.degree.range</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 </beans>

@@ -144,7 +144,11 @@ public class LUConstants {
     
     // Learning Results Labels
     public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
+    public static final String LEARNING_RESULTS_GRADES_ASSESSMENTS_LABEL_KEY = "cluLearningResultGradesAssessments";
+    public static final String LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY = "cluLearningResultStudentRegistration";
     public static final String LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluLearningResultAssessmentScale";
+    public static final String LEARNING_RESULT_OUTCOMES_LABEL_KEY = "cluLearningResultOutcomes";
+    public static final String LEARNING_RESULT_FINAL_EXAM_LABEL_KEY = "cluLearningResultFinalExam";
     public static final String ADD_LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluAddLearningResultAssessmentScale";
 	public static final String LEARNING_RESULT_AUDIT_LABEL_KEY = "cluLearningResultAudit";
 	public static final String LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY = "cluLearningResultAuditText";

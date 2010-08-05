@@ -49,6 +49,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -66,8 +67,10 @@ import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -427,16 +430,54 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     private Section generateLearningResultsSection() {
         VerticalSection learningResults = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
-        addField(learningResults, COURSE + "/" + GRADING_OPTIONS, generateMessageInfo(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY));
-        addField(learningResults, COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY)));
-        addField(learningResults, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
+
+        learningResults.addSection(generateGradesAssessmentsSection());
+        learningResults.addSection(generateStudentRegistrationOptionsSection());
+        learningResults.addSection(generateFinalExamSection());
+        learningResults.addSection(generateOutcomesSection());
+        
         return learningResults;
+	}
+
+	private Section generateOutcomesSection() {
+		VerticalSection outcomesSection = initSection(getH3Title(LUConstants.LEARNING_RESULT_OUTCOMES_LABEL_KEY), WITH_DIVIDER);
+        
+		addField(outcomesSection, COURSE + "/" + CREDIT_OPTIONS, generateMessageInfo(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY));
+		
+		return outcomesSection;
+	}
+
+	private Section generateFinalExamSection() {
+		VerticalSection finalExamSection = initSection(getH3Title(LUConstants.LEARNING_RESULT_FINAL_EXAM_LABEL_KEY), WITH_DIVIDER);
+		// TODO Auto-generated method stub
+		return finalExamSection;
+	}
+
+	private Section generateStudentRegistrationOptionsSection() {
+		VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);
+
+		addField(studentRegistrationOptionsSection, COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY)));
+        addField(studentRegistrationOptionsSection, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
+		
+        return studentRegistrationOptionsSection;
+	}
+
+	private Section generateGradesAssessmentsSection() {
+		VerticalSection gradesAssessments = initSection(getH3Title(LUConstants.LEARNING_RESULTS_GRADES_ASSESSMENTS_LABEL_KEY), WITH_DIVIDER);
+
+		addField(gradesAssessments, COURSE + "/" + GRADING_OPTIONS, generateMessageInfo(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY));
+		
+		return gradesAssessments;
 	}
 
 	protected VerticalSection generateCourseFormatsSection() {
         //COURSE FORMATS
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
+        courseFormats.setHelp(getLabel(LUConstants.FORMATS_LABEL_KEY+"-help"));
+        courseFormats.setInstructions(getLabel(LUConstants.FORMATS_LABEL_KEY+"-instruct"));
+        
         addField(courseFormats, COURSE + "/" + FORMATS, null, new CourseFormatList(COURSE + "/" + FORMATS));
+
         return courseFormats;
     }
 
