@@ -296,10 +296,10 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     @Source("org/kuali/student/common/ui/theme/standard/public/images/common/users.png")
     public ImageResource peopleIcon();
 
-    @Source("org/kuali/student/common/ui/theme/standard/public/images/common/disclosure_opened.png")
+    @Source("org/kuali/student/common/ui/theme/standard/public/images/common/users.png")
     public ImageResource disclosureOpenedIcon();
 
-    @Source("org/kuali/student/common/ui/theme/standard/public/images/common/disclosure_closed.png")
+    @Source("org/kuali/student/common/ui/theme/standard/public/images/common/users.png")
     public ImageResource disclosureClosedIcon();
 
 }

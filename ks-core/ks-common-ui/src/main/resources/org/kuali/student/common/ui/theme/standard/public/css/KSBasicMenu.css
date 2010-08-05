@@ -109,7 +109,7 @@
 
 .KS-Navigation-DropDown .KS-CustomDropDown-TitlePanel{
 	cursor: pointer;
-	background-color: gray;
+	background-color: #8D0000;
 	border: 1px solid #850000;
 	padding: 4px;
 }
@@ -162,7 +162,7 @@
 }
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Hover{
-	background-color: gray;
+	background-color: #AC0000;
 }
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Selected a:hover{

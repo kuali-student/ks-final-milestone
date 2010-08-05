@@ -360,14 +360,12 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 		color: #444;
 		height: 1%;
 		margin-bottom: 1em;
-		clear: both;
 	}
 }
 
 .ks-form-module {
 		color: #444;
 		margin-bottom: 1em;
-		clear: both;
 }
 
 @if user.agent ie6 ie7 ie8 ie{  
@@ -873,9 +871,4 @@ a.ks-button-secondary-small:hover {
 
 .ks-header-edit-link{
 	font-size: .6em; padding-left: 1em;
-}
-
-.horizontal-component{
-	width: 50%;
-	float: left;
 }

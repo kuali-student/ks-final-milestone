@@ -16,43 +16,26 @@
 package org.kuali.student.lum.statement.config.context.lu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
-    private LuService luService;
+    /**
+     * Learning unit service.
+     */
+	private LuService luService;
 
 	/**
-	 * <code>clu</code> token (key) references a Clu object used in templates.
-	 * e.g. 'Course: $clu.getOfficialIdentifier().getLongName()'
-	 */
-	protected final static String CLU_TOKEN = "clu";
-	/**
-	 * <code>cluSet</code> token (key) references a Clu set object
-	 * used in templates.
-	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()'
-	 */
-	protected final static String CLU_SET_TOKEN = "cluSet";
-	/**
-	 * <code>NLHelper</code> token (key) references a static natural language
-	 * helper class used in templates.
-	 * e.g. '$NLHelper.getProperGrammer($expectedValue, "course", "courses")'
-	 */
-	protected final static String NL_HELPER_TOKEN = "NLHelper";
-
-	/*
 	 * Constructor.
 	 */
 	public AbstractLuContext() {
@@ -169,11 +152,11 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public NLCluSet getCluSet(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	NLCluSet cluSet = null;
-    	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getKey())) {
-        	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getKey());
+    	if(map.containsKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+        	String cluIds = map.get(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
         	cluSet = getClusAsCluSet(cluIds);
-        } else if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
-        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+        } else if(map.containsKey(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
+        	String cluSetId = map.get(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
             cluSet = getCluSet(cluSetId);
         }
     	return cluSet;
@@ -187,9 +170,10 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
-        contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
+        Map<String, Object> contextMap = super.createContextMap(reqComponent);
+        contextMap.put(CommonTemplateTokens.NL_HELPER_TOKEN, NLHelper.class);
+        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(CommonTemplateTokens.OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
         return contextMap;
     }
 }

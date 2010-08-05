@@ -3,6 +3,7 @@ package org.kuali.student.common.messagebuilder.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanNode;
 import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderException;
 
@@ -10,11 +11,23 @@ import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderExc
  * This class builds the success and failure messages for 
  * boolean binary tree nodes.
  */
-public class SuccessFailureMessageBuilder {
+public class SuccessFailureMessageBuilder implements MessageTreeBuilder {
 	/** Boolean operators to use in creating the success and failure messages */
 	private BooleanOperators booleanOperators;
 	private SuccessMessageBuilder successMessageBuilder;
 	private FailureMessageBuilder failureMessageBuilder;
+
+	/**
+	 * Creates a success and failure message builders.
+	 * 
+	 * @param andOperator AND logical operator
+	 * @param orOperator OR logical operator
+	 */
+	public SuccessFailureMessageBuilder(String andOperator, String orOperator) {
+		this.booleanOperators = new BooleanOperators(andOperator, orOperator);
+		this.successMessageBuilder = new SuccessMessageBuilder(this.booleanOperators);
+		this.failureMessageBuilder = new FailureMessageBuilder(this.booleanOperators);
+	}
 
 	/**
 	 * Creates a success and failure message builders.

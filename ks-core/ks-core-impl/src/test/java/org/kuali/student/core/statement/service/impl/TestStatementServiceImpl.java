@@ -37,7 +37,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -66,7 +66,7 @@ import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
@@ -151,32 +151,32 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
 	// FIXME - Investigate why adding clu1, clu3, clu2 works but adding clu1, clu2, clu3 doesn't work
 	public void testGetNaturalLanguageForStatement() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.RULEEDIT", "en");
 //		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		String nl = statementService.getNaturalLanguageForRefStatementRelation("ref-stmt-rel-5", "KUALI.CATALOG", "en");
+		String nl = statementService.getNaturalLanguageForRefStatementRelation("ref-stmt-rel-5", "KUALI.RULEEDIT", "en");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_1ofN() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "en");
     	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
     }
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.RULEEDIT", "en");
     	assertEquals("Student must have completed MATH 180", nl);
     }
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_GradeCheck() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.CATALOG", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.RULEEDIT", "en");
     	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", nl);
     }
 
@@ -191,19 +191,19 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", null);
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", null);
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 
-        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "de");
+        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "de");
         assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", naturalLanguage);
 
-		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
+		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "en");
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
@@ -221,17 +221,17 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setId(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
 		field1.setValue("1");
 		fieldList.add(field1);
 
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setId(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
 		field2.setValue("greater_than_or_equal_to");
 		fieldList.add(field2);
 
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-		field3.setId(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+		field3.setId(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
 		field3.setValue("CLUSET-NL-1");
 		fieldList.add(field3);
 
@@ -242,19 +242,19 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testTranslateReqComponentToNL() throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		ReqComponentInfo reqCompInfo = createReqComponent1();
-		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.CATALOG", "en");
+		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.RULEEDIT", "en");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
     private List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setId(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setId(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
 		field2.setValue(operator);
 		fieldList.add(field2);
 
@@ -284,16 +284,16 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		statementInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 
-		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", ReqComponentFieldTypes.CLU_KEY.getKey(), "CLU-NL-1,CLU-NL-3");
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", ReqComponentFieldTypeKeys.CLU_KEY.getKey(), "CLU-NL-1,CLU-NL-3");
 		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList1);
 		reqComp1.setId("req-1");
-		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", ReqComponentFieldTypes.CLUSET_KEY.getKey(), "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", ReqComponentFieldTypeKeys.CLUSET_KEY.getKey(), "CLUSET-NL-2");
 		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
 		reqComp2.setId("req-2");
 
 		statementInfo.setReqComponents(Arrays.asList(reqComp1, reqComp2));
 
-		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementInfo, "KUALI.CATALOG", "en");
+		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementInfo, "KUALI.RULEEDIT", "en");
 
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
@@ -326,7 +326,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
     public void testGetNlUsageTypes() throws OperationFailedException {
 		List<NlUsageTypeInfo> infoList = statementService.getNlUsageTypes();
-		assertEquals(4, infoList.size());
+		assertTrue(infoList.size() > 0);
 	}
 
 	private boolean containsTypeId(List<? extends TypeInfo> types, String id) {
@@ -340,20 +340,20 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	public void testGetStatementTypes() throws OperationFailedException {
     	List<StatementTypeInfo> types = statementService.getStatementTypes();
 		assertEquals(3, types.size());
-		assertTrue(containsTypeId(types, "kuali.luStatementType.createCourseAcademicReadiness"));
+		assertTrue(containsTypeId(types, "kuali.luStatementType.course"));
 		assertTrue(containsTypeId(types, "kuali.luStatementType.prereqAcademicReadiness"));
 		assertTrue(containsTypeId(types, "kuali.luStatementType.coreqAcademicReadiness"));
 	}
 
     @Test
 	public void testGetStatementType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-    	StatementTypeInfo type = statementService.getStatementType("kuali.luStatementType.createCourseAcademicReadiness");
+    	StatementTypeInfo type = statementService.getStatementType("kuali.luStatementType.course");
 
         GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
 
     	assertNotNull(type);
-		assertEquals("kuali.luStatementType.createCourseAcademicReadiness", type.getId());
+		assertEquals("kuali.luStatementType.course", type.getId());
 		assertNotNull(type.getAllowedStatementTypes());
 		assertEquals(2, type.getAllowedStatementTypes().size());
 		assertEquals(0, type.getAllowedReqComponentTypes().size());
@@ -366,7 +366,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetStatementTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.luStatementType.createCourseAcademicReadiness");
+    	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.luStatementType.course");
 
 		assertEquals(2, allowedTypes.size());
 		assertTrue(allowedTypes.contains("kuali.luStatementType.prereqAcademicReadiness"));
@@ -595,7 +595,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         ReqCompFieldTypeInfo ftInfo = reqftList.get(0);
 
-        assertEquals(ftInfo.getId(), ReqComponentFieldTypes.CLUSET_KEY.getKey());
+        assertEquals(ftInfo.getId(), ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
 
         FieldDescriptor fd = ftInfo.getFieldDescriptor();
 
@@ -800,7 +800,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         }
 
         assertNotNull(updSmt.getId());
-        assertEquals(updSmt.getType(), "kuali.luStatementType.createCourseAcademicReadiness");
+        assertEquals(updSmt.getType(), "kuali.luStatementType.course");
         assertEquals(updSmt.getOperator(), StatementOperatorTypeKey.OR);
         assertEquals(updSmt.getState(), "ACTIVE");
         assertEquals(updSmt.getName(), "STMT 3");
@@ -896,7 +896,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(req.getReqCompFields().size(), 0);
 
         ReqCompFieldInfo rcfInfo = new ReqCompFieldInfo();
-        rcfInfo.setId(ReqComponentFieldTypes.CLU_KEY.getKey());
+        rcfInfo.setId(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
         rcfInfo.setValue("MATH 101");
 
         List<ReqCompFieldInfo> reqCompField = new ArrayList<ReqCompFieldInfo>();
@@ -922,7 +922,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertNotNull(updReq.getId());
         assertNotNull(newrcfInfo);
         assertEquals("MATH 101", newrcfInfo.getValue());
-        assertEquals(ReqComponentFieldTypes.CLU_KEY.getKey(), newrcfInfo.getId());
+        assertEquals(ReqComponentFieldTypeKeys.CLU_KEY.getKey(), newrcfInfo.getId());
     }
 
     @Test
@@ -1383,17 +1383,17 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setId(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
 		field1.setValue("-1");
 		fieldList.add(field1);
 
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setId(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
 		field2.setValue("greater_than_or_equal_to42");
 		fieldList.add(field2);
 
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-		field3.setId(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+		field3.setId(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
 		field3.setValue("CLUSET-NL-Y");
 		fieldList.add(field3);
 

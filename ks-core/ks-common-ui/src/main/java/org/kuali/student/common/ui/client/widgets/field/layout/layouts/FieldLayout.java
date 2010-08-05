@@ -28,10 +28,9 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElem
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class FieldLayout extends FlowPanel implements FieldLayoutComponent{
+public abstract class FieldLayout extends SpanPanel implements FieldLayoutComponent{
 	protected Map<String, FieldElement> fieldMap = new HashMap<String, FieldElement>();
 	protected Map<String, FieldLayout> layoutMap = new HashMap<String, FieldLayout>();
 	protected LinkedHashMap<String, Widget> drawOrder = new LinkedHashMap<String, Widget>();

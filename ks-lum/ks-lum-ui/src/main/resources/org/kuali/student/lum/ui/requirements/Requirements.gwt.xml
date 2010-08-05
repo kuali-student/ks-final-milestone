@@ -33,6 +33,7 @@
 	<inherits name='org.kuali.student.core.search.Search'/>  
 	<inherits name='org.kuali.student.core.atp.Atp'/>
 	<inherits name='org.kuali.student.lum.lu.ui.course.Course'/>
+    <inherits name='org.kuali.student.lum.statement.typekey.Typekey'/>
 	
 	<entry-point class="org.kuali.student.lum.ui.requirements.client.RequirementsEntryPoint"/>
 	

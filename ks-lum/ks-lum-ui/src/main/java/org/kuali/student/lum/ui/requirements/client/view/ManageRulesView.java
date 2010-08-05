@@ -34,8 +34,8 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
@@ -433,7 +433,7 @@ public class ManageRulesView extends ViewComposite {
                     	if (managedRule.getStatementVO() == null) {
                     	    ((CourseReqManager)getController()).removeRule(managedRule); 
                     	} else {
-                            managedRule.setNaturalLanguage(naturalLanguage);                     	    
+                            managedRule.setNaturalLanguageForRuleEdit(naturalLanguage);                     	    
                     	}
                     	
                         //switch to first page
@@ -644,7 +644,7 @@ public class ManageRulesView extends ViewComposite {
     private void updateNaturalLanguage() {                 
         
         requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(model.getValue().getCluId(),
-        									model.getValue().getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+        									model.getValue().getStatementVO(), "KUALI.RULEEDIT", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 GWT.log("NL failed", caught);

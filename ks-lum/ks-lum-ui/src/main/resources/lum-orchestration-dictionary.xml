@@ -26,9 +26,9 @@
 	<bean id="lookup" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataObjectStructure" />
+		class="org.kuali.student.core.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataFieldDescriptor">
+		class="org.kuali.student.core.assembly.dictionary.old.DataFieldDescriptor">
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="canUnmask" value="false" />
 		<property name="canEdit" value="true" />
@@ -6077,13 +6077,16 @@
 							<property name="caseSensitive" value="true" />
 						</bean>
 						<bean parent="param"><!-- limit search to only return activated clus -->
-							<property name="key"
-								value="lu.queryParam.luOptionalFreeFormState" />
+							<property name="key" value="lu.queryParam.luOptionalState" />
 							<property name="name" value="State" />
-							<property name="desc" value="State" />
+							<property name="desc" value="CLU State" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString"
-								value="clu.state = 'activated'" />
+							<property name="defaultValueList">
+								<list>
+									<value>approved</value>
+									<value>active</value>
+								</list>
+							</property>
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -6119,7 +6122,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -6172,13 +6175,16 @@
 								<property name="caseSensitive" value="true"/>
 							</bean>
 							<bean parent="param"><!-- limit search to only return activated clus -->
-								<property name="key"
-									value="lu.queryParam.luOptionalFreeFormState" />
+								<property name="key" value="lu.queryParam.luOptionalState" />
 								<property name="name" value="State" />
-								<property name="desc" value="State" />
-								<property name="writeAccess"
-									value="NEVER" />
-								<property name="defaultValueString" value="clu.state = 'activated'" />
+								<property name="desc" value="CLU State" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueList">
+									<list>
+										<value>approved</value>
+										<value>active</value>
+									</list>
+								</property>
 								<property name="caseSensitive"
 									value="true" />
 							</bean>
@@ -6261,13 +6267,15 @@
 							<property name="caseSensitive" value="true" />
 						</bean>
 						<bean parent="param"><!-- limit search to only return activated clus -->
-							<property name="key"
-								value="lu.queryParam.luOptionalFreeFormState" />
+							<property name="key" value="lu.queryParam.luOptionalState" />
 							<property name="name" value="State" />
 							<property name="desc" value="State" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString"
-								value="clu.state NOT IN ('activated')" />
+							<property name="defaultValueList">
+								<list>
+									<value>draft</value>
+								</list>
+							</property>
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -6303,7 +6311,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -6356,16 +6364,16 @@
 								<property name="caseSensitive" value="true"/>
 							</bean>
 							<bean parent="param"><!-- limit search to only return activated clus -->
-								<property name="key"
-									value="lu.queryParam.luOptionalFreeFormState" />
+								<property name="key" value="lu.queryParam.luOptionalState" />
 								<property name="name" value="State" />
 								<property name="desc" value="State" />
-								<property name="writeAccess"
-									value="NEVER" />
-								<property name="defaultValueString"
-									value="clu.state NOT IN ('activated')" />
-								<property name="caseSensitive"
-									value="true" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueList">
+									<list>
+										<value>draft</value>
+									</list>
+								</property>
+								<property name="caseSensitive" value="true" />
 							</bean>
 						</list>
 					</property>
@@ -6501,12 +6509,11 @@
 							<property name="usage" value="DEFAULT" />
 						</bean>
 						<bean parent="param"><!-- limit search to only return reusable clusets -->
-							<property name="key"
-								value="cluset.queryParam.optionalReusable" />
+							<property name="key" value="cluset.queryParam.optionalReusable" />
 							<property name="name" value="Reusable" />
 							<property name="desc" value="Reusable" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="cluset.isReusable = true" />
+							<property name="defaultValueString" value="true" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -6601,13 +6608,11 @@
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param"><!-- limit search to only return reusable clusets -->
-								<property name="key"
-									value="cluset.queryParam.optionalReusable" />
+								<property name="key" value="cluset.queryParam.optionalReusable" />
 								<property name="name" value="Reusable" />
 								<property name="desc" value="Reusable" />
-								<property name="writeAccess"
-									value="NEVER" />
-								<property name="defaultValueString" value="cluset.isReusable = true" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueString" value="true" />
 								<property name="caseSensitive"
 									value="true" />
 							</bean>
@@ -7116,7 +7121,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -7288,7 +7293,7 @@
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
-					<property name="title" value="Find Course"/>
+					<property name="title" value="Course"/>
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
@@ -7495,12 +7500,11 @@
 							<property name="usage" value="DEFAULT" />
 						</bean>
 						<bean parent="param"><!-- limit search to only return reusable clusets -->
-							<property name="key"
-								value="cluset.queryParam.optionalReusable" />
+							<property name="key" value="cluset.queryParam.optionalReusable" />
 							<property name="name" value="Reusable" />
 							<property name="desc" value="Reusable" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="cluset.isReusable = true" />
+							<property name="defaultValueString" value="true" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -7595,15 +7599,12 @@
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param"><!-- limit search to only return reusable clusets -->
-								<property name="key"
-									value="cluset.queryParam.optionalReusable" />
+								<property name="key" value="cluset.queryParam.optionalReusable" />
 								<property name="name" value="Reusable" />
 								<property name="desc" value="Reusable" />
-								<property name="writeAccess"
-									value="NEVER" />
-							<property name="defaultValueString" value="cluset.isReusable = true" />
-								<property name="caseSensitive"
-									value="true" />
+								<property name="writeAccess" value="NEVER" />
+								<property name="defaultValueString" value="true" />
+								<property name="caseSensitive" value="true" />
 							</bean>
 						</list>
 					</property>

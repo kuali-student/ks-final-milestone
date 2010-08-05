@@ -25,7 +25,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
  * to pass along that information from a different controller or view.
  *
  */
-public class ViewContext implements Comparable<ViewContext>{
+public class ViewContext {
 	public enum IdType {
 		// FIXME: remove hard coded strings below for KIM constants
 		//	TODO: OBJECT_ID has no references
@@ -40,20 +40,7 @@ public class ViewContext implements Comparable<ViewContext>{
         public String toString() {
             return stringValue;
         }
-        
-        static IdType fromString(String name) {
-            for (IdType idTypeEnum : values()) {
-                if (name.equals(idTypeEnum.toString())) {
-                    return idTypeEnum;
-                }
-            }
-            return null;   
-        }
-
 	}
-	
-	public static final String ID_ATR = "id";
-	public static final String ID_TYPE_ATR = "idType";
 	
 	private String id = "";
 	private IdType idType = null;
@@ -77,10 +64,6 @@ public class ViewContext implements Comparable<ViewContext>{
 	public void setIdType(IdType idType) {
 		this.idType = idType;
 	}
-	
-	public void setIdType(String idTypeString){
-		this.idType = IdType.fromString(idTypeString);
-	}
 
 	public String getState() {
 		return state;
@@ -97,15 +80,5 @@ public class ViewContext implements Comparable<ViewContext>{
 	public void setPermissionType(PermissionType permissionType) {
     	this.permissionType = permissionType;
     }
-
-	@Override
-	public int compareTo(ViewContext o) {
-		if(o.getId().equals(id) && o.getIdType() == idType ){
-			return 0;
-		}
-		else{
-			return -1;
-		}
-	}
 
 }

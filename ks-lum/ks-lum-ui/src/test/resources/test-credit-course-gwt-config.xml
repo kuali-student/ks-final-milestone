@@ -41,7 +41,7 @@
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CreditCourseProposalRpcGwtServlet">
 		<property name="assembler" ref="creditCourseProposalAssemblerFilterManager"/>
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
@@ -74,7 +74,7 @@
 
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg value="classpath:lum-orchestration-dictionary.xml" />
         <constructor-arg>
         	<list>
@@ -113,7 +113,7 @@
 	</bean>
 
 	<bean id="CourseRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CourseRpcGwtServlet">
 		<property name="assembler" ref="courseAssemblerFilterManager"/>
 	</bean>
 

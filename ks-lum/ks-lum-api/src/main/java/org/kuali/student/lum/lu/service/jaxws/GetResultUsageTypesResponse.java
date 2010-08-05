@@ -40,6 +40,10 @@ public class GetResultUsageTypesResponse {
     private java.util.List<ResultUsageTypeInfo> _return;
 
     public java.util.List<ResultUsageTypeInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<ResultUsageTypeInfo>(0);
+		}
+
         return this._return;
     }
 

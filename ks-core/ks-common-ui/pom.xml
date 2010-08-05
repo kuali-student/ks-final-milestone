@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-M7-SNAPSHOT</version>
+    <version>1.1.0-poc-M7-SNAPSHOT</version>
   </parent>
   <dependencies>
     <!--
@@ -131,11 +131,11 @@
   <profiles>
     <profile>
       <!--
-				mvn -P build-codehaus-gwt org.codehaus.mojo:gwt-maven-plugin:1.1:generateAsync 
+				mvn -P build-codehaus-gwt org.codehaus.mojo:gwt-maven-plugin:1.1:generateAsync
 				Run above command to processe java files that match service pattern and write GWT *ServuceAsync.java
-				files to the default generateDirectory: target/generate-sources/gwt. Generated Async.java files have 
+				files to the default generateDirectory: target/generate-sources/gwt. Generated Async.java files have
 				the same package as the Service.java it's derived from You can copy the generated file to the same
-				directory as the Service file. Important Note: this only generates files when the Service extends RemoteService. 
+				directory as the Service file. Important Note: this only generates files when the Service extends RemoteService.
 				It ignores Services that extend BaseRpcService
 			-->
       <id>build-codehaus-gwt</id>

@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl;
+import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
+import org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl;
 
 /**
  * Tests for MetadataServiceImpl 

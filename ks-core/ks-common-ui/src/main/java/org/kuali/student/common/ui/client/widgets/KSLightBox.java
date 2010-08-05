@@ -49,8 +49,8 @@ public class KSLightBox implements HasCloseHandlers<KSLightBox> {
 	public static final Resizer DEFAULT_RESIZER = new Resizer() {
 		private static final int maxPercentX = 80;
 		private static final int maxPercentY = 80;
-		private static final int minPixelsX = 320;
-		private static final int minPixelsY = 240;
+		private static final int minPixelsX = 600;
+		private static final int minPixelsY = 400;
 		
 		@Override
 		public void resize(ScrollPanel scroll) {
