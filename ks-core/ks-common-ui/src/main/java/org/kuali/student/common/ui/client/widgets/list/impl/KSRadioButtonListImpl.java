@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -33,10 +33,15 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasFocusHandlers;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
 
 /**
@@ -51,16 +56,20 @@ import com.google.gwt.user.client.ui.FlexTable;
  * @author Kuali Student Team 
  *
  */
-public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements ValueChangeHandler<Boolean>, HasBlurHandlers, HasFocusHandlers {
+public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements KeyUpHandler, ValueChangeHandler<Boolean>, HasBlurHandlers, HasFocusHandlers {
     private final FocusGroup focus = new FocusGroup(this);
     private FlexTable layout = new FlexTable();
     private List<String> selectedItems = new ArrayList<String>();
+    private static int groupNumber = 0;
+    private String groupName;
 
     private int maxCols = 1; //default max columns
     private boolean enabled = true;
     private boolean ignoreMultipleAttributes = false;
 
-    public KSCheckBoxListImpl() {
+    public KSRadioButtonListImpl() {
+    	groupName = "radio" + groupNumber;
+    	groupNumber++;
         initWidget(layout);
     }
 
@@ -70,10 +79,10 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
     public void deSelectItem(String id) {
         for (int i=0; i < layout.getRowCount(); i++){
             for (int j=0; j < layout.getCellCount(i); j++){
-                KSCheckBox checkbox = (KSCheckBox)layout.getWidget(i, j);
-                if (checkbox.getFormValue().equals(id)){
+                KSRadioButton radiobutton = (KSRadioButton)layout.getWidget(i, j);
+                if (radiobutton.getFormValue().equals(id)){
                     this.selectedItems.remove(id);
-                    checkbox.setValue(false);
+                    radiobutton.setValue(false);
                     fireChangeEvent(false);
                     break;
                 }
@@ -97,10 +106,11 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
         if (!selectedItems.contains(id)){
             for (int i=0; i < layout.getRowCount(); i++){
                 for (int j=0; j < layout.getCellCount(i); j++){
-                    KSCheckBox checkbox = (KSCheckBox)layout.getWidget(i, j);
-                    if (checkbox.getFormValue().equals(id)){
+                    KSRadioButton radiobutton = (KSRadioButton)layout.getWidget(i, j);
+                    if (radiobutton.getFormValue().equals(id)){
+                    	selectedItems.clear();
                         this.selectedItems.add(id);
-                        checkbox.setValue(true);
+                        radiobutton.setValue(true);
                         fireChangeEvent(false);
                         break;
                     }
@@ -175,7 +185,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
 
                 @Override 
                 public void exec(T result){
-                    KSCheckBoxListImpl.this.redraw();
+                    KSRadioButtonListImpl.this.redraw();
                 }
             };
             ((ModelListItems<T>)listItems).addOnAddCallback(redrawCallback);
@@ -189,20 +199,22 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
         redraw();
     }
 
-    private KSCheckBox createCheckbox(String id){
-        KSCheckBox checkbox = new KSCheckBox();
-        checkbox.setFormValue(id);
-        checkbox.addValueChangeHandler(this);
-        focus.addWidget(checkbox);
-        return checkbox;
+    private KSRadioButton createCheckbox(String id){
+        KSRadioButton radiobutton = new KSRadioButton(groupName);
+        radiobutton.setFormValue(id);
+        radiobutton.addValueChangeHandler(this);
+        radiobutton.addKeyUpHandler(this);
+        focus.addWidget(radiobutton);
+        return radiobutton;
     }
 
-    private KSCheckBox createCheckboxWithLabel(String id){
-        KSCheckBox checkbox = new KSCheckBox(getListItems().getItemText(id));
-        checkbox.setFormValue(id);
-        checkbox.addValueChangeHandler(this);
-        focus.addWidget(checkbox);
-        return checkbox;
+    private KSRadioButton createCheckboxWithLabel(String id){
+        KSRadioButton radiobutton = new KSRadioButton(groupName, getListItems().getItemText(id));
+        radiobutton.setFormValue(id);
+        radiobutton.addValueChangeHandler(this);
+        radiobutton.addKeyUpHandler(this);
+        focus.addWidget(radiobutton);
+        return radiobutton;
     }
 
     public void onLoad() {}
@@ -220,7 +232,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
         enabled = b;
         for (int i=0; i < layout.getRowCount(); i++){
             for (int j=0; j < layout.getCellCount(i); j++){
-                ((KSCheckBox)layout.getWidget(i, j)).setEnabled(b);
+                ((KSRadioButton)layout.getWidget(i, j)).setEnabled(b);
             }
         }
     }
@@ -232,7 +244,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
 
     @Override
     public boolean isMultipleSelect(){
-        return true;
+        return false;
     }
     
     public void setIgnoreMultipleAttributes(boolean ignoreMultiple){
@@ -259,16 +271,33 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-        KSCheckBox checkbox = (KSCheckBox)(event.getSource());   
-        String value = checkbox.getFormValue();
+        KSRadioButton radiobutton = (KSRadioButton)(event.getSource());   
+        String value = radiobutton.getFormValue();
         if (event.getValue()){
             if (!selectedItems.contains(value)){
+            	selectedItems.clear();
                 selectedItems.add(value);
+                fireChangeEvent(true);
             }
-        } else {
-            selectedItems.remove(value);
         }
-        fireChangeEvent(true);
-		
+	}
+	
+	@Override
+	public void setName(String name) {
+		super.setName(name);
+		groupName = name;
+	}
+
+	@Override
+	public void onKeyUp(KeyUpEvent event) {
+		KSRadioButton radiobutton = (KSRadioButton)(event.getSource());   
+        String value = radiobutton.getFormValue();
+        if (radiobutton.getValue()){
+            if (!selectedItems.contains(value)){
+            	selectedItems.clear();
+                selectedItems.add(value);
+                fireChangeEvent(true);
+            }
+        }
 	}
 }
