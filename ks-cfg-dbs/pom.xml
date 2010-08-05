@@ -25,12 +25,68 @@
   </repositories>
   <modules>
     <module>ks-core-db</module>
-	<!-- 
-    <module>ks-embedded-db</module> 
-    <module>ks-rice-client-db</module> 
-	<module>ks-rice-server-db</module> 
-    -->
     <module>ks-lum-db</module>
     <module>ks-rice-db</module>
+    <module>ks-embedded-db</module>
+    <module>ks-rice-client-db</module>
+    <module>ks-rice-server-db</module>
   </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.kuali.maven.impex</groupId>
+        <artifactId>maven-impex-plugin</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+        <configuration>
+          <dataXMLDir>${project.build.directory}/generated-impex/data</dataXMLDir>
+          <schemaDir>${project.build.directory}/generated-impex</schemaDir>
+        </configuration>
+        <executions>
+          <execution>
+            <id>morph-xml</id>
+            <goals>
+              <goal>morphschema</goal>
+              <goal>morphdata</goal>
+            </goals>
+            <configuration>
+              <dataXMLDir>${basedir}/src/main/impex/data</dataXMLDir>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-oracle-sql</id>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datadtd</goal>
+              <goal>datasql</goal>
+            </goals>
+            <configuration>
+              <targetDatabase>oracle</targetDatabase>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-mysql-sql</id>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datadtd</goal>
+              <goal>datasql</goal>
+            </goals>
+            <configuration>
+              <targetDatabase>mysql</targetDatabase>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
