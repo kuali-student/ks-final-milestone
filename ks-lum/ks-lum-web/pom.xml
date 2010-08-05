@@ -15,7 +15,6 @@
     </properties>
     <build>
         <plugins>
-            <!--  Use KS version of codehaus gwt plugin, until compilation required patch accepted -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
