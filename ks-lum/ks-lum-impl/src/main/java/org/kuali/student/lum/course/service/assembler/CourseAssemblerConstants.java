@@ -49,12 +49,6 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_CAMPUS_LOCATION_CD_NORTH = "NORTH";
 	public static final String COURSE_CAMPUS_LOCATION_CD_SOUTH = "SOUTH";
 	
-	// Course Variation Identifier
-	public static final String COURSE_VARIATION_IDENT_TYPE  = "kuali.lu.type.CreditCourse.identifier.variation";
-
-	// Course CrossListing Identifier
-	public static final String COURSE_CROSSLISTING_IDENT_TYPE = "kuali.lu.type.CreditCourse.identifier.crosslisting";
-	
 	//Learning result Constants
 	//FIXME follow Norm's Type Keys (this requires impex changes)
 //	public final static String COURSE_RESULT_TYPE_GRADE   = "kuali.resultType.grades";
@@ -65,17 +59,5 @@ public class CourseAssemblerConstants {
 	//FIXME ask norm for these values
 	public static final String COURSE_CODE_SPECIAL_TOPICS = "kuali.lu.code.specialTopics";
 	public static final String COURSE_CODE_PILOT_COURSE = "kuali.lu.code.pilotCourse";
-
-
-	//Constants for AdminOrg types in Course
-    public static final String ADMIN_ORG = "kuali.adminOrg.type.Administration";
-    public static final String SUBJECT_ORG = "kuali.adminOrg.type.CurriculumOversight";
-
-	public static final String COURSE_LO_RELATION_INCLUDES = "kuali.lo.relation.type.includes";
-	public static final String COURSE_LO_SEQUENCE = "sequence";
-	public static final String COURSE_LO_COURSE_SPECIFIC_RELATION = "cluLuType.default";
-	public static final String COURSE_LO_TYPE = "kuali.lo.type.singleUse";
-	public static final String COURSE_LO_REPOSITORY_KEY = "kuali.loRepository.key.singleUse";
-	public static final String COURSE_FINANCIALS_REVENUE_TYPE = "REVENUE";
 
 }

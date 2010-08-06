@@ -28,17 +28,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
  * Detailed information about a single major discipline program
@@ -53,6 +49,9 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String programLevel;
 
     @XmlElement
     private String intensity;
@@ -73,10 +72,7 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private String code;
 
     @XmlElement
-    private String cip2000Code;
-
-    @XmlElement
-    private String cip2010Code;
+    private String cipCode;
 
     @XmlElement
     private String hegisCode;
@@ -86,12 +82,9 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlElement
     private String selectiveEnrollmentCode;
-        
-    @XmlElement
-    private List<String> resultOptions;
 
     @XmlElement
-    private TimeAmountInfo stdDuration;
+    private List<ResultOptionInfo> resultOptions;
 
     @XmlElement
     private String startTerm;
@@ -100,11 +93,8 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private String endTerm;
 
     @XmlElement
-    private String endProgramEntryTerm;
+    private String lastAdmitTerm;
 
-    @XmlElement
-    private String nextReviewPeriod;
-    
     @XmlElement
     private Date effectiveDate;
 
@@ -127,22 +117,13 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private RichTextInfo catalogDescr;
 
     @XmlElement
-    private List<String> catalogPublicationTargets;
-    
-    @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
     @XmlElement
     private List<String> campusLocations;
 
     @XmlElement
-    private CoreProgramInfo orgCoreProgram;
-
-    @XmlElement
     private List<String> programRequirements;
-
-    @XmlElement
-    private List<AccreditationInfo> accreditingAgencies;    
 
     @XmlElement
     private List<AdminOrgInfo> divisionsContentOwner;    
@@ -189,6 +170,17 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
 
     @XmlAttribute
     private String id;
+
+    /**
+     * A code that indicates whether this is Graduate, Undergraduage etc level major
+     */
+    public String getProgramLevel() {
+        return programLevel;
+    }
+
+    public void setProgramLevel(String programLevel) {
+        this.programLevel = programLevel;
+    }
 
     /**
      * Indicates if the program is full time, part time, both etc
@@ -263,25 +255,14 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     }
 
     /**
-     * CIP 2000 Code for the Program
+     * CIP Code for the Program
      */
-    public String getCip2000Code() {
-        return cip2000Code;
+    public String getCipCode() {
+        return cipCode;
     }
 
-    public void setCip2000Code(String cip2000Code) {
-        this.cip2000Code = cip2000Code;
-    }
-
-    /**
-     * CIP 2010 Code for the Program
-     */
-    public String getCip2010Code() {
-        return cip2010Code;
-    }
-
-    public void setCip2010Code(String cip2010Code) {
-        this.cip2010Code = cip2010Code;
+    public void setCipCode(String cipCode) {
+        this.cipCode = cipCode;
     }
 
     /**
@@ -316,7 +297,21 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
         this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
-    
+
+    /**
+     * Result outcomes from taking the Major. This list is a subset of the outcomes in the associated credential program e.g B.A, B.S
+     */
+    public List<ResultOptionInfo> getResultOptions() {
+        if (resultOptions == null) {
+            resultOptions = new ArrayList<ResultOptionInfo>(0);
+        }
+        return resultOptions;
+    }
+
+    public void setResultOptions(List<ResultOptionInfo> resultOptions) {
+        this.resultOptions = resultOptions;
+    }
+
     /**
      * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Major.
      */
@@ -338,13 +333,16 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     public void setEndTerm(String endTerm) {
         this.endTerm = endTerm;
     }
-    
-    public String getNextReviewPeriod() {
-        return nextReviewPeriod;
+
+    /**
+     * The last academic time period that this Major would be available for enrollment. This may not reflect the last "real" academic time period for this Major.
+     */
+    public String getLastAdmitTerm() {
+        return lastAdmitTerm;
     }
 
-    public void setNextReviewPeriod(String nextReviewPeriod) {
-        this.nextReviewPeriod = nextReviewPeriod;
+    public void setLastAdmitTerm(String lastAdmitTerm) {
+        this.lastAdmitTerm = lastAdmitTerm;
     }
 
     /**
@@ -391,6 +389,9 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
         this.transcriptTitle = transcriptTitle;
     }
 
+    /**
+     * 
+     */
     public String getDiplomaTitle() {
         return diplomaTitle;
     }
@@ -422,17 +423,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     }
 
     /**
-     * List of catalog targets where major information will be published.   
-     */
-    public List<String> getCatalogPublicationTargets() {
-        return catalogPublicationTargets;
-    }
-
-    public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
-        this.catalogPublicationTargets = catalogPublicationTargets;
-    }
-
-    /**
      * Learning Objectives associated with this Major.
      */
     public List<LoDisplayInfo> getLearningObjectives() {
@@ -460,14 +450,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
         this.campusLocations = campusLocations;
     }
 
-    public CoreProgramInfo getOrgCoreProgram() {
-        return orgCoreProgram;
-    }
-
-    public void setOrgCoreProgram(CoreProgramInfo orgCoreProgram) {
-        this.orgCoreProgram = orgCoreProgram;
-    }
-
     /**
      * Major Discipline Program Requirements.
      */
@@ -476,38 +458,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
             programRequirements = new ArrayList<String>(0);
         }
         return programRequirements;
-    }
-
-    public List<String> getResultOptions() {
-        return resultOptions;
-    }
-
-    public void setResultOptions(List<String> resultOptions) {
-        this.resultOptions = resultOptions;
-    }
-
-    public TimeAmountInfo getStdDuration() {
-        return stdDuration;
-    }
-
-    public void setStdDuration(TimeAmountInfo stdDuration) {
-        this.stdDuration = stdDuration;
-    }
-
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
-    }
-
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
-    }
-
-    public List<AccreditationInfo> getAccreditingAgencies() {
-        return accreditingAgencies;
-    }
-
-    public void setAccreditingAgencies(List<AccreditationInfo> accreditingAgencies) {
-        this.accreditingAgencies = accreditingAgencies;
     }
 
     public void setProgramRequirements(List<String> programRequirements) {
@@ -597,7 +547,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
-    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -605,7 +554,6 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
         return attributes;
     }
 
-    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
@@ -624,12 +572,10 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     /**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
-    @Override
     public String getType() {
         return type;
     }
 
-    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -637,12 +583,10 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     /**
      * The current status of the major program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
      */
-    @Override
     public String getState() {
         return state;
     }
 
-    @Override
     public void setState(String state) {
         this.state = state;
     }
@@ -650,12 +594,10 @@ public class MajorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     /**
      * Unique identifier for an Major Discipline Program. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
      */
-    @Override
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }

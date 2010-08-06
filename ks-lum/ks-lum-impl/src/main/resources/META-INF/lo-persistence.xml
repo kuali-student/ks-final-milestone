@@ -30,7 +30,6 @@
 		<class>org.kuali.student.lum.lo.entity.LoCategoryAttribute</class>
 		<class>org.kuali.student.lum.lo.entity.LoCategoryType</class>
 		<class>org.kuali.student.lum.lo.entity.LoCategoryTypeAttribute</class>
-		<class>org.kuali.student.lum.lo.entity.LoLoCategoryJoin</class>
 		<class>org.kuali.student.lum.lo.entity.LoRepository</class>
 		<class>org.kuali.student.lum.lo.entity.LoRepositoryAttribute</class>
 		<class>org.kuali.student.lum.lo.entity.LoType</class>

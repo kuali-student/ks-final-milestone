@@ -138,12 +138,6 @@
                 <entry key="Lu">
                     <value>classpath:ks-lu.sql</value>
                 </entry>
-                <entry key="Lo">
-                    <value>classpath:ks-lo.sql</value>
-                </entry>
-                <entry key="Lrc">
-                    <value>classpath:ks-lrc.sql</value>
-                </entry>
             </map>
         </property>
     </bean>
@@ -284,7 +278,6 @@
         <constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
     </bean>
 
-<!--
     <bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
@@ -294,7 +287,6 @@
         <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
--->
 
     <bean id="luServiceImpl"
         class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
@@ -454,42 +446,11 @@
 
     <bean id="majorDisciplineAssembler"
           class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
-        <property name="luService" ref="luServiceImpl"/>
-        <property name="programVariationAssembler" ref="programVariationAssembler"/>
-        <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
-        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
-    </bean>
-
- 	<bean id="credentialProgramAssembler"
-          class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
-    </bean>
-    
-    <bean id="programVariationAssembler"
-          class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
-        <property name="luService" ref="luServiceImpl"/>
-        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
-    </bean>
-
-    <bean id="coreProgramAssembler"
-          class="org.kuali.student.lum.program.service.assembler.CoreProgramAssembler">
-        <property name="programService" ref="programService"/>
-    </bean>
-
-    <bean id="loAssembler"
-          class="org.kuali.student.lum.course.service.assembler.LoAssembler">
-        <property name="loService" ref="loServiceImpl"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luServiceImpl"/>
-    </bean>
-
-    <bean id="cluAssemblerUtils"
-          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
-        <property name="luService" ref="luServiceImpl"/>
-        <property name="loService" ref="loServiceImpl"/>
-        <property name="loAssembler" ref="loAssembler"/>
     </bean>
 
     <bean name="programService" class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
@@ -498,7 +459,6 @@
         <property name="validator" ref="businessServiceValidator"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker" />
-        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler" />
-        <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
+        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
     </bean>
 </beans>
