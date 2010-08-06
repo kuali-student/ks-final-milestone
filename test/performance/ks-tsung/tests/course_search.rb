@@ -3,7 +3,7 @@
 #
 # == Description
 #
-# Login as a member and create a proposal
+# Login as a member and do various course searches
 #
 # === Issues
 #
@@ -22,7 +22,7 @@ config.log.info_msg("Test: #{test}")
 config.log.info_msg("Probability: #{config.tests[test]}")
 
 # Create session
-sesh = Session.new(config, 'create_proposal', probability)
+sesh = Session.new(config, 'course_search', probability)
 
 # Login is department COC
 username = config.directory["department_coc"]["member"]["username"]
@@ -34,18 +34,23 @@ config.log.info_msg("#{test}: Logging in as: #{username}/#{password}")
 auth = Authentication.new(li_req)
 auth.login({:user => username, :password => password})
 
-# Create blank proposal
-cp_txn = sesh.add_transaction("create_proposal")
-cp_req = cp_txn.add_requests
-config.log.info_msg("#{test}: Creating proposal")
-Curriculum.new(cp_req).create_proposal(
-  "Bug Debug Performance Proposal",  
-  # COC dep isn't in my DB right now for some reason
-  #config.directory["department_coc"]["name"],
-  config.directory["department"]["name"],
-  config.directory["department"]["name"],
-  username
-)
+# Search for various courses
+cp_req = sesh.add_transaction("course_nav").add_requests
+curr_obj = Curriculum.new(cp_req)
+curr_obj.homepage
+
+searches = {
+  "wilcard" => '',
+  "partial_match" => 'AM',
+  "full_match" => 'Film Analysis',
+  "no_match" => 'Never find this madeup course'
+}
+
+searches.each_pair do |transaction, search|
+  config.log.info_msg("#{test}: Search for course '#{search}'")
+  req_obj = sesh.add_transaction(transaction).add_requests
+  Curriculum.new(req_obj).find('course', search, {:nav_homepage => false})
+end
 
 # Logout
 config.log.info_msg("#{test}: Logging out")
