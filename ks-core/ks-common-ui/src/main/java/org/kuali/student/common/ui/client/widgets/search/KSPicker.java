@@ -66,6 +66,7 @@ import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
@@ -108,6 +109,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     }
 
     private void init(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
+    	this.initWidget(layout);
         if (inLookupMetadata == null) {
             KSErrorDialog.show(new Throwable(getMessage("invalidLookupConfig")));
             return;
@@ -119,7 +121,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         setupBasicSearch(inLookupMetadata);
         setupAdvancedSearch(additionalLookupMetadata);
-        this.initWidget(layout);
     }
 
     private static String getMessage(final String messageId) {
@@ -328,7 +329,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     	return (lookups.size() > 0 ? lookups : null);
     }
 
-    private class BasicWidget extends Widget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
+    private class BasicWidget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
 		private Widget basicWidget;
 
 		public BasicWidget(Widget basicWidget){
@@ -570,7 +571,11 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     private class SelectionContainerWidget extends Widget implements HasValueChangeHandlers<List<String>> {
     	private List<String> selections = new ArrayList<String>();
-
+    	
+    	public SelectionContainerWidget(){
+    		this.setElement(DOM.createSpan());
+    	}
+    	
 		public List<String> getSelections() {
 			return selections;
 		}

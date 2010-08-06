@@ -567,10 +567,12 @@ public class CluSetsConfigurer {
     private FieldDescriptor addField(ModelIdPlaceHolder modelId, Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
     	Metadata meta = modelDefinition.getMetadata(path);
-
-    	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+    	FieldDescriptor fd;
     	if (widget != null) {
-    		fd.setFieldWidget(widget);
+    		fd = new FieldDescriptor(path.toString(), messageKey, meta, widget);
+    	}
+    	else{
+    		fd = new FieldDescriptor(path.toString(), messageKey, meta);
     	}
     	if (modelId != null) {
     		fd.setModelId(modelId.getModelId());
