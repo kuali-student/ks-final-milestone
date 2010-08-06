@@ -25,8 +25,31 @@
         <artifactId>maven-impex-plugin</artifactId>
         <version>1.0.1-SNAPSHOT</version>
         <configuration>
+          <username>KSNOMERGE</username>
+          <password>KSNOMERGE</password>
+          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <driver>oracle.jdbc.OracleDriver</driver>
+          <targetDatabase>oracle</targetDatabase>
+          <schemaXMLResources>
+            <param>classpath:ks-embedded-db-schema.xml</param>
+            <!-- 
+            <param>classpath:ks-core-db-schema.xml</param>
+            <param>classpath:ks-lum-db-schema.xml</param>
+            <param>classpath:ks-rice-db-schema.xml</param>
+             -->
+          </schemaXMLResources>
         </configuration>
         <dependencies>
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>${oracle.ojdbc.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.kuali.student.db</groupId>
+            <artifactId>ks-embedded-db</artifactId>
+            <version>${project.version}</version>
+          </dependency>
           <dependency>
             <groupId>org.kuali.student.db</groupId>
             <artifactId>ks-core-db</artifactId>

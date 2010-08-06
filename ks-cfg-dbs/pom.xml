@@ -6,7 +6,7 @@
     <version>1.1.0-M7-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
-  <artifactId>ks-dbs</artifactId>
+  <artifactId>ks-db</artifactId>
   <packaging>pom</packaging>
   <name>KS Databases</name>
   <description>Kuali Student Databases</description>
@@ -25,11 +25,13 @@
   </repositories>
   <modules>
     <module>ks-core-db</module>
+    <!-- 
     <module>ks-lum-db</module>
     <module>ks-rice-db</module>
     <module>ks-embedded-db</module>
     <module>ks-rice-client-db</module>
     <module>ks-rice-server-db</module>
+     -->
   </modules>
   <build>
     <resources>
@@ -68,7 +70,8 @@
               <goal>morphdata</goal>
             </goals>
             <configuration>
-              <dataXMLDir>${basedir}/src/main/impex/data</dataXMLDir>
+              <dataXMLDir>${basedir}/src/main/impex</dataXMLDir>
+              <dataXMLExcludes>schema.xml</dataXMLExcludes>
             </configuration>
           </execution>
           <execution>
