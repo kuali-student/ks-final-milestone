@@ -17,6 +17,7 @@ package org.kuali.student.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +28,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.MetaInfo;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate, Master, Doctoral, Graduate Certificate, Undergraduate Certificate
@@ -51,58 +49,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String shortTitle;
-
-    @XmlElement
-    private String longTitle;
-    
-    @XmlElement
-    private String transcriptTitle;
-
-    @XmlElement 
-    private String programLevel;
-    
-    @XmlElement
-    private String code;
-    
-    @XmlElement
-    private String universityClassification;
-
-    @XmlElement
-    private String institution;
-    
-    @XmlElement
-    private List<String> resultOptions;
-    
-    @XmlElement
-    private String startTerm;
-
-    @XmlElement
-    private String endTerm;
-
-    @XmlElement
-    private String endProgramEntryTerm;
-
-    @XmlElement
-    private List<AdminOrgInfo> divisionsContentOwner;    
-    
-    @XmlElement
-    private List<AdminOrgInfo> divisionsStudentOversight;    
-
-    @XmlElement
-    private List<AdminOrgInfo> unitsContentOwner;    
-    
-    @XmlElement
-    private List<AdminOrgInfo> unitsStudentOversight;    
-
-    @XmlElement
-    private RichTextInfo descr;
-    
-    @XmlElement
-    private List<LoDisplayInfo> learningObjectives;
-    
-    @XmlElement
-    private List<String> coreProgramIds;
+    private CoreProgramInfo coreProgram;
 
     @XmlElement
     private List<String> programRequirements;
@@ -122,13 +69,16 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
 
     @XmlAttribute
     private String id;
-    
-    public List<String> getCoreProgramIds() {
-        return coreProgramIds;
+
+    /**
+     * Core Program Requirements.
+     */
+    public CoreProgramInfo getCoreProgram() {
+        return coreProgram;
     }
 
-    public void setCoreProgramIds(List<String> coreProgramIds) {
-        this.coreProgramIds = coreProgramIds;
+    public void setCoreProgram(CoreProgramInfo coreProgram) {
+        this.coreProgram = coreProgram;
     }
 
     /**
@@ -202,191 +152,4 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     public void setId(String id) {
         this.id = id;
     }
-
-    /**
-     * Abbreviated name of the Credential program   
-     */
-    public String getShortTitle() {
-        return shortTitle;
-    }
-
-    public void setShortTitle(String shortTitle) {
-        this.shortTitle = shortTitle;
-    }
-
-    /**
-     * Full name of the Credential Program  
-     */
-    public String getLongTitle() {
-        return longTitle;
-    }
-
-    public void setLongTitle(String longTitle) {
-        this.longTitle = longTitle;
-    }
-
-    /*
-     * Information related to the official identification of the credential program, typically in human readable form. Used to officially reference or publish.  
-     */
-    public String getTranscriptTitle() {
-        return transcriptTitle;
-    }
-
-    public void setTranscriptTitle(String transcriptTitle) {
-        this.transcriptTitle = transcriptTitle;
-    }
-    
-    /**
-     * A code that indicates whether this is Graduate, Undergraduage etc    
-     */
-    public String getProgramLevel() {
-        return programLevel;
-    }
-
-    public void setProgramLevel(String programLevel) {
-        this.programLevel = programLevel;
-    }
-
-    /**
-     * The composite string that is used to officially reference or publish the Credential program. 
-     */
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    /**
-     * University specific classification   
-     */
-    public String getUniversityClassification() {
-        return universityClassification;
-    }
-
-    public void setUniversityClassification(String universityClassification) {
-        this.universityClassification = universityClassification;
-    }
-
-    /**
-     * Institution owning the program.  
-     */
-    public String getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(String institution) {
-        this.institution = institution;
-    }
-
-    /**
-     * Result outcomes from taking the Credential program.  
-     */
-    public List<String> getResultOptions() {
-        return resultOptions;
-    }
-
-    public void setResultOptions(List<String> resultOptions) {
-        this.resultOptions = resultOptions;
-    }
-
-    /**
-     * The first academic time period that this credential program would be effective. This may not reflect the first "real" academic time period for this program. 
-     */
-    public String getStartTerm() {
-        return startTerm;
-    }
-
-    public void setStartTerm(String startTerm) {
-        this.startTerm = startTerm;
-    }
-    
-    /**
-     * The last academic time period that this credential program would be effective.   
-     */
-    public String getEndTerm() {
-        return endTerm;
-    }
-
-    public void setEndTerm(String endTerm) {
-        this.endTerm = endTerm;
-    }
-    
-    /**
-     * The last academic time period that this credential program would be available for enrollment. This may not reflect the last "real" academic time period for this program.    
-     */
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
-    }
-
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
-    }
-
-    /**
-     * Divisions responsible to make changes to the credential program  
-     */
-    public List<AdminOrgInfo> getDivisionsContentOwner() {
-        return divisionsContentOwner;
-    }
-
-    public void setDivisionsContentOwner(List<AdminOrgInfo> divisionsContentOwner) {
-        this.divisionsContentOwner = divisionsContentOwner;
-    }
-
-    /**
-     * Divisions responsible for student exceptions to the credential program.  
-     */
-    public List<AdminOrgInfo> getDivisionsStudentOversight() {
-        return divisionsStudentOversight;
-    }
-
-    public void setDivisionsStudentOversight(List<AdminOrgInfo> divisionsStudentOversight) {
-        this.divisionsStudentOversight = divisionsStudentOversight;
-    }
-
-    /*
-     * Unit responsible to make changes to the credential program   
-     */
-    public List<AdminOrgInfo> getUnitsContentOwner() {
-        return unitsContentOwner;
-    }
-
-    public void setUnitsContentOwner(List<AdminOrgInfo> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
-
-    /**
-     * Unit responsible for student exceptions to the credential program.   
-     */
-    public List<AdminOrgInfo> getUnitsStudentOversight() {
-        return unitsStudentOversight;
-    }
-
-    public void setUnitsStudentOversight(List<AdminOrgInfo> unitsStudentOversight) {
-        this.unitsStudentOversight = unitsStudentOversight;
-    }
-
-    /**
-     * Narrative description of the Credential program. 
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-
-    /**
-     * Learning Objectives associated with this credential program. 
-     */
-    public List<LoDisplayInfo> getLearningObjectives() {
-        return learningObjectives;
-    }
-
-    public void setLearningObjectives(List<LoDisplayInfo> learningObjectives) {
-        this.learningObjectives = learningObjectives;
-    }    
 }
