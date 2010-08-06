@@ -559,6 +559,7 @@
 		<property name="fields">
 			<list>
 				<ref bean="orgPersonRelationInfo.id" />
+				<ref bean="orgPersonRelationInfo.state" />
 				<ref bean="orgPersonRelationInfo.effectiveDate" />
 				<ref bean="orgPersonRelationInfo.expirationDate" />
 				<ref bean="orgPersonRelationInfo.orgId" />
@@ -580,6 +581,19 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="orgPersonRelationInfo.state" parent="dataFieldDescriptor">
+		<property name="name" value="state" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata"
+			value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="Active" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>		
 	<bean id="orgPersonRelationInfo.effectiveDate" parent="dataFieldDescriptor">
 		<property name="name" value="effectiveDate" />
 		<property name="writeAccess" value="ALWAYS" />
