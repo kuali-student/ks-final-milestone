@@ -32,11 +32,6 @@
           <targetDatabase>oracle</targetDatabase>
           <schemaXMLResources>
             <param>classpath:ks-embedded-db-schema.xml</param>
-            <!-- 
-            <param>classpath:ks-core-db-schema.xml</param>
-            <param>classpath:ks-lum-db-schema.xml</param>
-            <param>classpath:ks-rice-db-schema.xml</param>
-             -->
           </schemaXMLResources>
         </configuration>
         <dependencies>
@@ -48,21 +43,6 @@
           <dependency>
             <groupId>org.kuali.student.db</groupId>
             <artifactId>ks-embedded-db</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.kuali.student.db</groupId>
-            <artifactId>ks-core-db</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.kuali.student.db</groupId>
-            <artifactId>ks-lum-db</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.kuali.student.db</groupId>
-            <artifactId>ks-rice-db</artifactId>
             <version>${project.version}</version>
           </dependency>
         </dependencies>
