@@ -19,7 +19,6 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
@@ -36,17 +35,11 @@ public class CurrencyAmountInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    private String id;
-    
     @XmlElement
     private String currencyTypeKey;
 
     @XmlElement
     private Integer currencyQuantity;
-    
-    @XmlElement
-    private MetaInfo metaInfo;
 
     /**
      * The kind of units associated with the quantity, such as US Dollars
@@ -69,28 +62,4 @@ public class CurrencyAmountInfo implements Serializable {
     public void setCurrencyQuantity(Integer currencyQuantity) {
         this.currencyQuantity = currencyQuantity;
     }
-
-	/**
-	 * 	Identifier for the currency amount record.
-	 */
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * Create and last update info for the structure. This is optional and 
-	 * treated as read only since the data is set by the internals of the
-	 * service during maintenance operations.
-	 */
-	public MetaInfo getMetaInfo() {
-		return metaInfo;
-	}
-
-	public void setMetaInfo(MetaInfo metaInfo) {
-		this.metaInfo = metaInfo;
-	}
 }

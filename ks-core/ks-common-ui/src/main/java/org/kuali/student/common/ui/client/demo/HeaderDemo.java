@@ -18,6 +18,7 @@ public class HeaderDemo extends Composite{
         p.add(new KSHeader());
       
         KSDocumentHeader ksDocumentHeader = new KSDocumentHeader();
+        ksDocumentHeader.setInfo("You have unsaved changes.");
         ksDocumentHeader.setTitle("Title");
         ksDocumentHeader.addWidget(new Label("Status: Draft"));     
         p.add(ksDocumentHeader);

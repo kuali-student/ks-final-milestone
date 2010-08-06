@@ -57,7 +57,6 @@
 		<search:queryParams>
 			<ref bean="lrc.queryParam.resultComponent.id" />
 			<ref bean="lrc.queryParam.resultComponent.type" />
-			<ref bean="lrc.queryParam.resultComponent.idRestrictionList" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
@@ -83,19 +82,6 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.type.fd-abstract" abstract="true">
 		<dict:name>ResultComponent Type Key</dict:name>
 		<dict:desc>Result Component Type Key</dict:desc>
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-	
-	<search:queryParam id="lrc.queryParam.resultComponent.idRestrictionList" parent="lrc.queryParam.resultComponent.idRestrictionList-parent"/>
-	<search:queryParam id="lrc.queryParam.resultComponent.idRestrictionList-parent" optional="true" abstract="true">
-		<ref bean="lrc.queryParam.resultComponent.idRestrictionList.fd"/>	
-	</search:queryParam>			
-	
-	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd" parent="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract"/>
-	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract" abstract="true">
-		<dict:name>Result Component Ids Key</dict:name>
-		<dict:desc>Result Component Ids Key</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
@@ -127,14 +113,13 @@
 		        <entry key="lrc.search.resultComponent">
 		            <value>SELECT rc.id, rc.name, rc.type.id FROM ResultComponent rc </value>
 		        </entry>
+        
 				<entry key="lrc.queryParam.resultComponent.id">
 					<value>rc.id = :lrc_queryParam_resultComponent_id</value>
 				</entry>
+				
 				<entry key="lrc.queryParam.resultComponent.type">
 					<value>rc.type.id IN (:lrc_queryParam_resultComponent_type)</value>
-				</entry>
-				<entry key="lrc.queryParam.resultComponent.idRestrictionList">
-					<value>rc.id IN (:lrc_queryParam_resultComponent_idRestrictionList)</value>
 				</entry>
 			</map>
 		</property>

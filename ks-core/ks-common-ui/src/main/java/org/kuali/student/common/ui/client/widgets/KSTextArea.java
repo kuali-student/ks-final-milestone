@@ -33,10 +33,7 @@ import com.google.gwt.user.client.ui.TextArea;
  * @author Kuali Student Team
  *
  */
-public class KSTextArea extends TextArea implements HasWatermark{
-	private boolean hasWatermark = false;
-	private boolean watermarkShowing = false;
-	private String watermarkText;
+public class KSTextArea extends TextArea{
 
     /**
      * Creates a new empty text area.
@@ -96,108 +93,6 @@ public class KSTextArea extends TextArea implements HasWatermark{
 
     }
 
-	@Override
-	public void setWatermarkText(String text) {
-		if(!hasWatermark){
-			hasWatermark = true;
-			watermarkText = text;
-			if(getText() == null || getText().isEmpty()){
-				addStyleName("watermark-text");
-				KSTextArea.super.setText(watermarkText);
-				watermarkShowing = true;
-			}
-			
-			this.addFocusHandler(new FocusHandler(){
-	
-				@Override
-				public void onFocus(FocusEvent event) {
-					if(watermarkShowing){
-						removeStyleName("watermark-text");
-						KSTextArea.super.setText("");
-						watermarkShowing = false;
-					}
-				}
-			});
-			
-			this.addBlurHandler(new BlurHandler(){
-	
-				@Override
-				public void onBlur(BlurEvent event) {
-					if(getText() == null || getText().isEmpty()){
-						addStyleName("watermark-text");
-						KSTextArea.super.setText(watermarkText);
-						watermarkShowing = true;
-					}
-				}
-			});
-		}
-		else{
-			watermarkText = text;
-			if(getText() == null || getText().isEmpty()){
-				addStyleName("watermark-text");
-				KSTextArea.super.setText(watermarkText);
-				watermarkShowing = true;
-			}
-		}
-	}
-	
-	@Override
-	public boolean hasWatermark(){
-		return hasWatermark;
-	}
-	
-	@Override
-	public boolean watermarkShowing() {
-		return watermarkShowing;
-	}
-	
-	@Override
-	public String getText() {
-		if(!watermarkShowing){
-			return super.getText();
-		}
-		return null;
-	}
-	
-	@Override
-	public String getValue() {
-		if(!watermarkShowing){
-			return super.getValue();
-		}
-		return null;
-	}
 
-	@Override
-	public void setValue(String value) {
-		if(hasWatermark){
-			if(value == null || (value != null && value.isEmpty())){
-				super.setValue(watermarkText);
-				addStyleName("watermark-text");
-				watermarkShowing = true;
-			}
-			else{
-				super.setValue(value);
-			}
-		}
-		else{
-			super.setValue(value);
-		}
-	}
-	
-	@Override
-	public void setText(String text) {
-		if(hasWatermark){
-			if(text == null || (text != null && text.isEmpty())){
-				super.setText(watermarkText);
-				addStyleName("watermark-text");
-				watermarkShowing = true;
-			}
-			else{
-				super.setText(text);
-			}
-		}
-		else{
-			super.setText(text);
-		}
-	}
+
 }

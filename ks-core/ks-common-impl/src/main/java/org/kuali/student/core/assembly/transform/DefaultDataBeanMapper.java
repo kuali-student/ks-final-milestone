@@ -21,7 +21,6 @@ import java.util.Map.Entry;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
@@ -44,7 +43,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
                     Object propValue = pd.getReadMethod().invoke(value, (Object[]) null);
                     
                     if ("attributes".equals(propKey)){
-                    	setDataAttributes(result, propValue);
+       					setDataAttributes(result, propValue);
                     } else {
 	                    setDataValue(result, propKey, propValue);
                     }
@@ -79,19 +78,10 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	            if (propValue instanceof Data){
 	            	clazz.getFields();
 	            	if(metadata!=null){
-	            		if(DataType.LIST.equals(metadata.getDataType())){
-	            			propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get("*"));
-	            		}else{
-	            			propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get(propKey.toString()));
-	            		}
+	            		propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),metadata.getProperties().get(propKey.toString()));
 	            	}
 	            	else{
 	            		propValue = convertNestedData((Data)propValue, clazz.getDeclaredField(propKey.toString()),null);
-	            	}
-	            }else if(metadata!=null&&propValue==null){
-	            	Metadata fieldMetadata = metadata.getProperties().get(propKey.toString());
-	            	if(fieldMetadata != null && fieldMetadata.getDefaultValue() != null){
-	            		propValue = fieldMetadata.getDefaultValue().get();	
 	            	}
 	            }
 	            
@@ -115,11 +105,12 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 				//Obtain the dynamic flag from the dictionary
 				if(metadata==null){
 					if (!staticProperties.contains(k) && !keyString.startsWith("_run")){
-						attributes.put((String)k.get(),data.get(k).toString());
+						attributes.put((String)k.get(),(String)data.get(k));
 					}
 				}
 				else if (!staticProperties.contains(k) && !keyString.startsWith("_run")&& metadata.getProperties().get(keyString).isDynamic()){
-					attributes.put((String)k.get(), data.get(k).toString());
+					attributes.put((String)k.get(),(String)data.get(k));
+					
 				}
 			}
     		if(attrProperty.getWriteMethod() != null){    
@@ -158,11 +149,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 					Data listItemData = (Data)listItemValue;
 					Boolean isDeleted = listItemData.query("_runtimeData/deleted");
 					if (isDeleted == null || !isDeleted){
-						if(metadata!=null){
-							listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType, metadata.getProperties().get("*"));
-						}else{
-							listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType, null);
-						}
+						listItemValue = convertFromData((Data)listItemValue, (Class<?>)itemType, metadata);
 						resultList.add(listItemValue);
 					}
 				} else {
@@ -228,11 +215,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 		Map<String, String> attributes = (Map<String, String>)value;
 		
 		for (Entry<String, String> entry:attributes.entrySet()){
-			if("false".equals(entry.getValue())||"true".equals(entry.getValue())){
-				data.set(entry.getKey(), Boolean.valueOf(entry.getValue()));
-			}else{
-				data.set(entry.getKey(), entry.getValue());
-			}
+			data.set(entry.getKey(), entry.getValue());
 		}
 	}
 

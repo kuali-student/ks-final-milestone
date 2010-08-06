@@ -21,15 +21,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
+import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
@@ -126,7 +127,7 @@ public class KSBrowser extends Composite {
 			ViewContext viewContext = new ViewContext ();
 			viewContext.setId (selectedIds.get (0));
 			viewContext.setIdType (IdType.OBJECT_ID);
-			Application.navigate("/HOME/CURRICULUM_HOME/VIEW_COURSE", viewContext);
+			controller.fireApplicationEvent (new ChangeViewActionEvent<LUMViews> (LUMViews.VIEW_COURSE, viewContext));
 		}
 	}
 
