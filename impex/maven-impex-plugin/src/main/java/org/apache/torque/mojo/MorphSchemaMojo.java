@@ -73,7 +73,6 @@ public class MorphSchemaMojo extends MorpherMojo {
 			}
 			if (!isAntImpexSchemaXML(oldContents)) {
 				getLog().warn("Unable to determine if this is an export from Ant Impex");
-				return;
 			}
 			String newContents = morph(oldContents, getProject().getArtifactId());
 			FileUtils.writeStringToFile(newSchemaXMLFile, newContents, getEncoding());
