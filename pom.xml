@@ -72,7 +72,7 @@
     <cxf.version>2.2</cxf.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
-    <gwtVersion>2.0.3</gwtVersion>
+    <gwtVersion>2.0.4</gwtVersion>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
