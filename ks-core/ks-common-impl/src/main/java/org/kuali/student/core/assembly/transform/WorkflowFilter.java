@@ -35,6 +35,9 @@ public abstract class WorkflowFilter extends AbstractDTOFilter {
         	throw new Exception("Workflow Service is unavailable");
         }
 		
+        //get workflow action
+        String workflowAction = properties.get(WORKFLOW_ACTION);
+	
 		//get a user name
         String username = properties.get(WORKFLOW_USER);
         	        
@@ -49,47 +52,76 @@ public abstract class WorkflowFilter extends AbstractDTOFilter {
         	docDetail = null;
         }
         	
-		if (docDetail == null) {
-			//No workflow details found, create a new workflow document
-			String docTitle = getDocumentTitle(data);
-            docTitle = docTitle==null ? "Unnamed":docTitle;
-            
-            LOG.info("Creating Workflow Document.");
-            DocumentResponse docResponse = simpleDocService.create(username, appId, getDocumentType(), docTitle);
-            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
-            }
-            
-            //Lookup the workflow document detail to see if create was successful
-			try {
-				docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDocumentType(), appId);
-			} catch (Exception e) {
-            	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
+
+        if (workflowAction != null){
+			try{						
+		        if(docDetail==null){
+		        	throw new Exception("Error found getting document for workflow submit/approval. Worfklow document may not exist." );
+		        }
+				
+	            //Generate the document content xml
+	            String docContent = getDocumentContent(data);
+
+		        StandardResponse stdResp;
+		        if (WORKFLOW_SUBMIT.equals(workflowAction)){
+		            LOG.info("Submitting Workflow Document.");
+		        	String routeComment = "Routed";	
+		            stdResp = simpleDocService.route(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent, routeComment);
+		        } else {
+		            LOG.info("Approving Workflow Document.");
+		        	stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent, "");
+		        }		        		       
+	
+		        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+		    		throw new Exception("Error found approving document: " + stdResp.getErrorMessage());
+		    	}
+			}catch(Exception e){
+		        LOG.error("Could not approve document",e);
+		        throw new Exception("Could not approve document");
 			}
+		} else {
+			if (docDetail == null) {
+				//No workflow details found, create a new workflow document
+				String docTitle = getDocumentTitle(data);
+	            docTitle = docTitle==null ? "Unnamed":docTitle;
+	            
+	            LOG.info("Creating Workflow Document.");
+	            DocumentResponse docResponse = simpleDocService.create(username, appId, getDocumentType(), docTitle);
+	            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+	            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
+	            }
+	            
+	            //Lookup the workflow document detail to see if create was successful
+				try {
+					docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDocumentType(), appId);
+				} catch (Exception e) {
+	            	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
+				}
+			}
+
+            //Generate the document content xml
+            String docContent = getDocumentContent(data);
+            
+            //Save
+            StandardResponse stdResp;
+            if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
+            	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
+            	//if the route status is initial, then save initial
+            	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent, "");
+            } else {
+            	//Otherwise just update the doc content
+            	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent);
+            }
+
+            //Check if there were errors saving
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+            	if(stdResp==null){
+            		throw new RuntimeException("Error found updating document");
+            	}else{
+            		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
+            	}
+        	}            						
 		}
-
-        //Generate the document content xml
-        String docContent = getDocumentContent(data);
-        
-        //Save
-        StandardResponse stdResp;
-        if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
-        	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
-        	//if the route status is initial, then save initial
-        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent, "");
-        } else {
-        	//Otherwise just update the doc content
-        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent);
-        }
-
-        //Check if there were errors saving
-        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        	if(stdResp==null){
-        		throw new RuntimeException("Error found updating document");
-        	}else{
-        		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
-        	}
-    	}            						
 	}
 
 	
@@ -142,6 +174,6 @@ public abstract class WorkflowFilter extends AbstractDTOFilter {
 	 * @param data
 	 * @return the document content required by the workflow process
 	 */
-	public abstract String getDocumentContent(Object dto) throws FilterException;
+	public abstract String getDocumentContent(Object dto);
 
 }

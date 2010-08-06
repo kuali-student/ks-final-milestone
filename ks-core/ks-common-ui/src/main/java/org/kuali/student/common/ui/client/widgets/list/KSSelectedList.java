@@ -28,7 +28,6 @@ import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
 import org.kuali.student.common.ui.client.util.Elements;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
-import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -58,7 +57,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget {
+public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget {
     private static final String VALUE = "value";
     private static final String DISPLAY = "display";
     
@@ -359,9 +358,4 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             }
         }
     }
-
-	@Override
-	public Widget getInputWidget() {
-		return picker.getInputWidget();
-	}
 }

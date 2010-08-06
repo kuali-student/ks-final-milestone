@@ -180,10 +180,13 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", nl);
     }
 
-	@Test(expected=DoesNotExistException.class)
+	@Test
 	public void testGetNaturalLanguageForReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "xxx", "en");
-		fail("Invalid usage type key should have thrown DoesNotExistException");
+    	try {
+    		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "xxx", "en");
+    	} catch(DoesNotExistException e) {
+			assertNotNull(e);
+    	}
     }
 
 	@Test
@@ -311,10 +314,13 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(grepExp.getTime(), info.getExpirationDate());
 	}
 
-	@Test(expected=DoesNotExistException.class)
+	@Test
     public void testGetNlUsageType_InvalidType() throws Exception {
-		statementService.getNlUsageType("xxx");
-		fail("Invalid usage type key should have thrown DoesNotExistException");
+		try {
+			NlUsageTypeInfo info = statementService.getNlUsageType("xxx");
+		} catch(DoesNotExistException e) {
+			assertNotNull(e);
+		}
 	}
 
 	@Test
@@ -465,6 +471,9 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("STMT 2", stmt.getName());
         assertEquals("Statement 2", stmt.getDesc().getPlain());
 
+        // cluIds are no long stored in statementInfo
+//        assertTrue(stmt.getCluIds().contains("CLU-2"));
+
         List<String> reqCompIds = stmt.getReqComponentIds();
         assertEquals(3, reqCompIds.size());
 
@@ -511,25 +520,33 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(mf.getUpdateTime(), df.parse("20010101"));
     }
 
-    @Test(expected=DoesNotExistException.class)
-    public void testGetStatement_InvalidStatementId() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
-        statementService.getStatement("invalid.stmt.id");
-        fail("statementService.getStatement should have failed getting a statement by an invalid id");
+    @Test
+    public void testGetStatement_InvalidStatementId() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+        try {
+            statementService.getStatement("invalid.stmt.id");
+            fail("statementService.getStatement should have failed getting a statement by an invalid id");
+        } catch (DoesNotExistException dne) {
+            assertTrue(true);
+        }
     }
 
     @Test
     public void testGetStatementByType_InvalidType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
         List<StatementInfo> stmtList = statementService.getStatementsByType("invalid.stmttype");
+
         assertNull(stmtList);
     }
 
     @Test
     public void testStatementStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         StatementInfo stmt = statementService.getStatement("STMT-1");
+
         assertNotNull(stmt);
+
         assertEquals(stmt.getId(), "STMT-1");
 
         List<String> stmtIds = stmt.getStatementIds();
+
         assertEquals(1, stmtIds.size());
         assertTrue(stmtIds.contains("STMT-2"));
     }
@@ -558,8 +575,8 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetReqComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        ReqComponentTypeInfo rqt = statementService.getReqComponentType("kuali.reqCompType.courseList.all");
-        
+       ReqComponentTypeInfo rqt = statementService.getReqComponentType("kuali.reqCompType.courseList.all");
+
         assertNotNull(rqt);
         assertEquals(rqt.getId(), "kuali.reqCompType.courseList.all");
         assertEquals(rqt.getDescr(), "Student must have completed all of <reqCompFieldType.cluSet.id>");
@@ -577,9 +594,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(1, reqftList.size());
 
         ReqCompFieldTypeInfo ftInfo = reqftList.get(0);
+
         assertEquals(ftInfo.getId(), ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
 
         FieldDescriptor fd = ftInfo.getFieldDescriptor();
+
         assertEquals(fd.getName(),"CLUSET");
         assertEquals(fd.getDesc(),"CLUSET");
         assertEquals(fd.getDataType(),"string");
@@ -698,19 +717,27 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetReqComponentsByType_InvalidType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
+    public void testGetReqCompByInvalidType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
         List<ReqComponentInfo> reqCompList = statementService.getReqComponentsByType("invalid.reqcomptype");
+
         assertNull(reqCompList);
     }
 
-    @Test(expected=DoesNotExistException.class)
-    public void testGetReqComponentType_InvalidType_DoesNotExistException() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
-        statementService.getReqComponentType("invalid.reqcomp");
-        fail("Invalid ReqComponentType should have thrown DoesNotExistException");
+    @Test
+    public void testInvldGetReqComponentType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+        try {
+            statementService.getReqComponentType("invalid.reqcomp");
+        } catch (DoesNotExistException dne) {
+            assertTrue(true);
+            return;
+        }
+
+        assertTrue(false);
     }
 
     @Test
     public void testCreateStatement() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
+
         StatementInfo stmt = new StatementInfo();
         RichTextInfo statement3 = new RichTextInfo();
         statement3.setPlain("Statement 3");
@@ -740,18 +767,37 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testUpdateStatement() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+
         StatementInfo stmt = statementService.getStatement("STMT-1");
-        RichTextInfo richText = new RichTextInfo();
-        richText.setPlain("Statement 3");
-        richText.setFormatted("<p>Statement 3</p>");
-        stmt.setDesc(richText);
+        RichTextInfo statement3 = new RichTextInfo();
+        statement3.setPlain("Statement 3");
+        statement3.setFormatted("<p>Statement 3</p>");
+        stmt.setDesc(statement3);
         stmt.setName("STMT 3");
         stmt.setOperator(StatementOperatorTypeKey.OR);
         stmt.setState("ACTIVE");
+
         MetaInfo mfOrg = stmt.getMetaInfo();
+
+        MetaInfo mf = new MetaInfo();
+
+        stmt.setMetaInfo(mf);
+
+        StatementInfo updSmt = null;
+        try {
+            updSmt = statementService.updateStatement(stmt.getId(), stmt);
+            fail("Should throw version mismatch exception");
+        } catch (VersionMismatchException e) {
+            assertTrue(true);
+        }
+
         stmt.setMetaInfo(mfOrg);
 
-        StatementInfo updSmt = statementService.updateStatement(stmt.getId(), stmt);
+        try {
+            updSmt = statementService.updateStatement(stmt.getId(), stmt);
+        } catch (VersionMismatchException e) {
+            fail("Should not throw version mismatch exception");
+        }
 
         assertNotNull(updSmt.getId());
         assertEquals(updSmt.getType(), "kuali.luStatementType.course");
@@ -761,46 +807,36 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(updSmt.getDesc().getPlain(), "Statement 3");
     }
 
-    @Test(expected=VersionMismatchException.class)
-    public void testUpdateStatement_VersionMismatchException() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
-        StatementInfo stmt = statementService.getStatement("STMT-1");
-        RichTextInfo richText = new RichTextInfo();
-        richText.setPlain("Statement 3");
-        stmt.setDesc(richText);
-        stmt.setName("STMT 3");
-        stmt.setOperator(StatementOperatorTypeKey.OR);
-        stmt.setState("ACTIVE");
-
-        MetaInfo mf = new MetaInfo();
-        stmt.setMetaInfo(mf);
-
-        statementService.updateStatement(stmt.getId(), stmt);
-        fail("Should throw version mismatch exception");
-    }
-
     @Test
     public void testDeleteStatement() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+        StatusInfo si;
         StatementInfo stmt = statementService.getStatement("STMT-2");
-        StatusInfo si = statementService.deleteStatement(stmt.getId());
-		assertNotNull(si);
-        assertTrue(si.getSuccess());
-		assertNotNull(si.getMessage());
+        try {
+            si = statementService.deleteStatement(stmt.getId());
+    		assertNotNull(si);
+            assertTrue(si.getSuccess());
+    		assertNotNull(si.getMessage());
+        } catch (DoesNotExistException e) {
+            fail("StatementService.deleteStatement() failed deleting pre existing statement");
+        }
     }
 
     @Test
     public void testCreateReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
+
         ReqComponentInfo req = new ReqComponentInfo();
 
-        RichTextInfo richText = new RichTextInfo();
-        richText.setPlain("Required Component 5");
-        richText.setFormatted("<p>Required Component 5</p>");
-        req.setDesc(richText);
+        RichTextInfo reqComponent5 = new RichTextInfo();
+        reqComponent5.setPlain("Required Component 5");
+        reqComponent5.setFormatted("<p>Required Component 5</p>");
+        req.setDesc(reqComponent5);
         req.setEffectiveDate(df.parse("20010101"));
         req.setExpirationDate(df.parse("20020101"));
         req.setState("ACTIVE");
         req.setType("kuali.reqCompType.courseList.all");
 
         MetaInfo mf = new MetaInfo();
+
         req.setMetaInfo(mf);
 
         ReqComponentInfo createdReq = statementService.createReqComponent("kuali.reqCompType.courseList.all", req);
@@ -815,17 +851,35 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testUpdateReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+
         ReqComponentInfo req = statementService.getReqComponent("REQCOMP-1");
-        RichTextInfo richText = new RichTextInfo();
-        richText.setPlain("Req Comp 3");
-        richText.setFormatted("<p>Req Comp 3</p>");
-        req.setDesc(richText);
+        RichTextInfo reqComponent3 = new RichTextInfo();
+        reqComponent3.setPlain("Req Comp 3");
+        reqComponent3.setFormatted("<p>Req Comp 3</p>");
+        req.setDesc(reqComponent3);
         req.setState("IN_PROGRESS");
 
         MetaInfo mfOrg = req.getMetaInfo();
+
+        MetaInfo mf = new MetaInfo();
+
+        req.setMetaInfo(mf);
+
+        ReqComponentInfo updReq = null;
+        try {
+            updReq = statementService.updateReqComponent(req.getId(), req);
+            fail("Should throw version mismatch exception");
+        } catch (VersionMismatchException e) {
+            assertTrue(true);
+        }
+
         req.setMetaInfo(mfOrg);
 
-        ReqComponentInfo updReq = statementService.updateReqComponent(req.getId(), req);
+        try {
+            updReq = statementService.updateReqComponent(req.getId(), req);
+        } catch (VersionMismatchException e) {
+            fail("Should not throw version mismatch exception");
+        }
 
         assertNotNull(updReq.getId());
         assertEquals(updReq.getType(), "kuali.reqCompType.courseList.all");
@@ -834,24 +888,9 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(updReq.getReqCompFields().size(), 0);
     }
 
-    @Test(expected=VersionMismatchException.class)
-    public void testUpdateReqComponent_VersionMismatchException() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
-        ReqComponentInfo req = statementService.getReqComponent("REQCOMP-1");
-        RichTextInfo richText = new RichTextInfo();
-        richText.setPlain("Req Comp 3");
-        richText.setFormatted("<p>Req Comp 3</p>");
-        req.setDesc(richText);
-        req.setState("IN_PROGRESS");
-
-        MetaInfo mf = new MetaInfo();
-        req.setMetaInfo(mf);
-
-        statementService.updateReqComponent(req.getId(), req);
-        fail("Should throw version mismatch exception");
-    }
-
     @Test
-    public void testUpdateReqComponentForField() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+    public void testUpdateReqComponentField() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+
         ReqComponentInfo req = statementService.getReqComponent("REQCOMP-1");
 
         assertEquals(req.getReqCompFields().size(), 0);
@@ -864,10 +903,18 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         reqCompField.add(rcfInfo);
         req.setReqCompFields(reqCompField);
 
+
         MetaInfo mfOrg = req.getMetaInfo();
+
+        ReqComponentInfo updReq = null;
+
         req.setMetaInfo(mfOrg);
 
-        ReqComponentInfo updReq = statementService.updateReqComponent(req.getId(), req);
+        try {
+            updReq = statementService.updateReqComponent(req.getId(), req);
+        } catch (VersionMismatchException e) {
+            fail("Should not throw version mismatch exception");
+        }
 
         assertEquals(updReq.getReqCompFields().size(), 1);
         ReqCompFieldInfo newrcfInfo = updReq.getReqCompFields().get(0);
@@ -880,11 +927,16 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testDeleteReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+        StatusInfo si;
         ReqComponentInfo req = statementService.getReqComponent("REQCOMP-1");
-        StatusInfo si = statementService.deleteReqComponent(req.getId());
-		assertNotNull(si);
-        assertTrue(si.getSuccess());
-		assertNotNull(si.getMessage());
+        try {
+            si = statementService.deleteReqComponent(req.getId());
+    		assertNotNull(si);
+            assertTrue(si.getSuccess());
+    		assertNotNull(si.getMessage());
+        } catch (DoesNotExistException e) {
+            fail("StatementService.deleteReqComponent() failed deleting pre existing req component");
+        }
     }
 
     @Test
@@ -924,7 +976,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
     @Test
     public void testGetRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	RefStatementRelationInfo newDto = createRefStatementRelation();
+    	RefStatementRelationInfo newDto = null;
+    	try {
+			newDto = createRefStatementRelation();
+		} catch (AlreadyExistsException e) {
+			fail("RefStatementRelation already exists: "+e.getMessage());
+		}
 
 		GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
@@ -944,114 +1001,80 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testDeleteRefStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-    	RefStatementRelationInfo newDto = createRefStatementRelation();
+    public void testDeleteRefStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	RefStatementRelationInfo newDto = null;
+    	try {
+			newDto = createRefStatementRelation();
+		} catch (AlreadyExistsException e) {
+			fail("RefStatementRelation already exists: "+e.getMessage());
+		}
 
-		StatusInfo status = this.statementService.deleteRefStatementRelation(newDto.getId());
+		StatusInfo status = null;
+		try {
+			status = this.statementService.deleteRefStatementRelation(newDto.getId());
+        } catch (DoesNotExistException e) {
+            fail("StatementService.deleteRefStatementRelation() failed deleting pre existing req component");
+        }
 
 		assertNotNull(status);
 		assertTrue(status.getSuccess());
 		assertNotNull(status.getMessage());
     }
 
-    @Test(expected=DoesNotExistException.class)
-    public void testDeleteRefStatementRelation_InvalidId() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		this.statementService.deleteRefStatementRelation("xxx");
-		fail("StatementService.deleteRefStatementRelation should have thrown a DoesNotExistException");
+    @Test
+    public void testDeleteRefStatementRelation_InvalidId() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		try {
+			this.statementService.deleteRefStatementRelation("xxx");
+			fail("StatementService.deleteRefStatementRelation should have thrown a DoesNotExistException");
+        } catch (DoesNotExistException e) {
+    		assertTrue(true);
+        }
     }
 
-    @Test(expected=InvalidParameterException.class)
-    public void testDeleteRefStatementRelation_InvalidParameter() throws DoesNotExistException, MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
-		this.statementService.deleteRefStatementRelation("");
-		fail("StatementService.deleteRefStatementRelation should have thrown a InvalidParameterException");
+    @Test
+    public void testDeleteRefStatementRelation_InvalidParameter() throws DoesNotExistException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		try {
+			this.statementService.deleteRefStatementRelation("");
+			fail("StatementService.deleteRefStatementRelation should have thrown a InvalidParameterException");
+        } catch (InvalidParameterException e) {
+    		assertTrue(true);
+        }
     }
 
-    @Test(expected=MissingParameterException.class)
-    public void testDeleteRefStatementRelation_MissingParameter() throws DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, MissingParameterException {
-		this.statementService.deleteRefStatementRelation(null);
-		fail("StatementService.deleteRefStatementRelation should have thrown a MissingParameterException");
+    @Test
+    public void testDeleteRefStatementRelation_MissingParameter() throws DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+		try {
+			this.statementService.deleteRefStatementRelation(null);
+			fail("StatementService.deleteRefStatementRelation should have thrown a MissingParameterException");
+        } catch (MissingParameterException e) {
+    		assertTrue(true);
+        }
     }
 
     @Test
     public void testGetStatementTreeView() throws Exception {
-        // Tree structure should be
+        //  Tree structure should be
         //                          STMT-TV-1:OR
         //          STMT-TV-2:AND                   STMT-TV-3:AND
         //     REQCOMP-TV-1  REQCOMP-TV-2      REQCOMP-TV-3  REQCOMP-TV-4
-        StatementTreeViewInfo rootTree = statementService.getStatementTreeView("STMT-TV-1");
-        List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
-        StatementTreeViewInfo subTree1 = subTreeView.get(0);
-        StatementTreeViewInfo subTree2 = subTreeView.get(1);
-
-        // Check root tree
-        assertNotNull(rootTree);
+        StatementTreeViewInfo treeView = statementService.getStatementTreeView("STMT-TV-1");
+        List<StatementTreeViewInfo> subTreeView = treeView.getStatements();
+        StatementTreeViewInfo subTree1 = (subTreeView == null)? null : subTreeView.get(0);
+        StatementTreeViewInfo subTree2 = (subTreeView == null)? null : subTreeView.get(1);
+        assertNotNull(treeView);
         assertEquals(subTreeView.size(), 2);
         assertNotNull(subTree1);
         assertNotNull(subTree2);
-
-        // Check reqComps of sub-tree 1
-        assertEquals(subTree1.getId(), "STMT-TV-2");
-        assertEquals(subTree1.getReqComponents().size(), 2);
-        assertEquals(subTree1.getReqComponents().get(0).getId(), "REQCOMP-TV-1");
-        assertEquals(subTree1.getReqComponents().get(1).getId(), "REQCOMP-TV-2");
-
-        // Check reqComps of sub-tree 2
-        assertEquals(subTree2.getId(), "STMT-TV-3");
-        assertEquals(subTree2.getReqComponents().size(), 2);
-        assertEquals(subTree2.getReqComponents().get(0).getId(), "REQCOMP-TV-3");
-        assertEquals(subTree2.getReqComponents().get(1).getId(), "REQCOMP-TV-4");
-    }
-
-    @Test
-    public void testGetStatementTreeViewForNlUsageType() throws Exception {
-        // Tree structure should be:
-        //                          STMT-TV-1:OR
-        //          STMT-TV-2:AND                   STMT-TV-3:AND
-        //     REQCOMP-TV-1  REQCOMP-TV-2      REQCOMP-TV-3  REQCOMP-TV-4
-    	//
-    	// Statement translation:
-    	// (Student must have completed all of MATH 152, MATH 180 AND Student needs a minimum GPA of 3.5 in MATH 152, MATH 180)
-    	// OR
-    	// (Student must have completed 1 of MATH 152, MATH 180 AND Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)
-
-        StatementTreeViewInfo rootTree = statementService.getStatementTreeViewForNlUsageType("STMT-TV-1", "KUALI.RULEEDIT", "en");
-
-        List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
-        StatementTreeViewInfo subTree1 = subTreeView.get(0);
-        StatementTreeViewInfo subTree2 = subTreeView.get(1);
-
-        // root statement
-        assertNotNull(rootTree);
-        assertEquals(subTreeView.size(), 2);
-        assertNotNull(subTree1);
-        assertNotNull(subTree2);
-
         // check reqComps of sub-tree 1
         assertEquals(subTree1.getId(), "STMT-TV-2");
         assertEquals(subTree1.getReqComponents().size(), 2);
         assertEquals(subTree1.getReqComponents().get(0).getId(), "REQCOMP-TV-1");
         assertEquals(subTree1.getReqComponents().get(1).getId(), "REQCOMP-TV-2");
-        assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
-        assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
-        assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", 
-        		subTree1.getNaturalLanguageTranslation());
-
         // check reqComps of sub-tree 2
         assertEquals(subTree2.getId(), "STMT-TV-3");
         assertEquals(subTree2.getReqComponents().size(), 2);
         assertEquals(subTree2.getReqComponents().get(0).getId(), "REQCOMP-TV-3");
         assertEquals(subTree2.getReqComponents().get(1).getId(), "REQCOMP-TV-4");
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
-        assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", 
-        		subTree2.getNaturalLanguageTranslation());
-
-        assertEquals(
-        		"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        		"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)", 
-        		rootTree.getNaturalLanguageTranslation());
     }
 
     @Test
@@ -1134,15 +1157,30 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("REQCOMP-TV-TEST-4", subTree2.getReqComponents().get(1).getDesc().getPlain());
     }
 
-    private void updateStatementTreeViewInfo(StatementTreeViewInfo treeView, String editText) {
+    @Test
+    public void testUpdateStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        //     Before tree is updated
+        //                          STMT-TV-1:OR
+        //          STMT TV 2:AND                   STMT TV 3:AND
+        //     REQCOMP TV 1  REQCOMP TV 2      REQCOMP TV 3  REQCOMP TV 4
+
+        //     After tree is updated
+        //                       *------------------------ STMT TV 1:OR ---------------------*
+        //                       |                                                           |
+        //         *-- STMT TV 2 is edited:AND --*                     *-----------*--- STMT TV TEST:AND ---*--------------*
+        //         |                             |                     |           |                        |              |
+        //     REQCOMP TV 1               REQCOMP TV 2            REQCOMP TV 3  REQCOMP TV 4      REQCOMP TV TEST1     REQCOMP TV TEST2
+        StatementTreeViewInfo treeView = statementService.getStatementTreeView("STMT-TV-1");
         List<StatementTreeViewInfo> subTreeView = treeView.getStatements();
-        StatementTreeViewInfo subTree1 = subTreeView.get(0);
-        StatementTreeViewInfo subTree2 = subTreeView.get(1);
+        StatementTreeViewInfo subTree1 = (subTreeView == null)? null : subTreeView.get(0);
+        StatementTreeViewInfo subTree2 = (subTreeView == null)? null : subTreeView.get(1);
         StatementTreeViewInfo newSubTree2 = new StatementTreeViewInfo();
         List<ReqComponentInfo> reqComponents = new ArrayList<ReqComponentInfo>(7);
         ReqComponentInfo reqComp_tv_test1 = new ReqComponentInfo();
         ReqComponentInfo reqComp_tv_test2 = new ReqComponentInfo();
-    	reqComponents.addAll(subTree2.getReqComponents());
+        if(subTree2 != null) {
+        	reqComponents.addAll(subTree2.getReqComponents());
+        }
         reqComp_tv_test1.setDesc(toRichText("REQCOMP TV TEST1"));
         reqComp_tv_test1.setType("kuali.reqCompType.gradecheck");
         reqComp_tv_test2.setDesc(toRichText("REQCOMP TV TEST2"));
@@ -1153,97 +1191,51 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         newSubTree2.setReqComponents(reqComponents);
         newSubTree2.setOperator(StatementOperatorTypeKey.AND);
         newSubTree2.setType("kuali.luStatementType.prereqAcademicReadiness");
-    	subTreeView.remove(subTree2);
-        subTreeView.add(newSubTree2);
-    	subTree1.setDesc(toRichText(subTree1.getDesc().getPlain() + editText)); //" is edited"));
-    }
+        if(subTreeView != null) {
+	        if(subTree2 != null) {
+	        	subTreeView.remove(subTree2);
+	        }
+	        subTreeView.add(newSubTree2);
+        }
+        if(subTree1 != null) {
+        	subTree1.setDesc(toRichText(subTree1.getDesc().getPlain() + " is edited"));
+        }
 
-    @Test
-    public void testUpdateStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // Before tree is updated
-        //                          STMT-TV-1:OR
-        //          STMT TV 2:AND                   STMT TV 3:AND
-        //     REQCOMP TV 1  REQCOMP TV 2      REQCOMP TV 3  REQCOMP TV 4
-    	//
-        // After tree is updated
-        //                       *------------------------ STMT TV 1:OR ---------------------*
-        //                       |                                                           |
-        //         *-- STMT TV 2 is edited:AND --*                     *-----------*--- STMT TV TEST:AND ---*--------------*
-        //         |                             |                     |           |                        |              |
-        //     REQCOMP TV 1               REQCOMP TV 2            REQCOMP TV 3  REQCOMP TV 4      REQCOMP TV TEST1     REQCOMP TV TEST2
-
-    	StatementTreeViewInfo treeView = statementService.getStatementTreeView("STMT-TV-1");
-    	updateStatementTreeViewInfo(treeView, " is edited");
-    	
         StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
         List<StatementTreeViewInfo> returnedSubTrees = returnedTreeView.getStatements();
-        StatementTreeViewInfo returnedSubTree1 = returnedSubTrees.get(0);
-        StatementTreeViewInfo returnedSubTree2 = returnedSubTrees.get(1);
-        
-        // Assert updateStatementTreeView
-        assertNotNull(returnedSubTree1);
-        assertNotNull(returnedSubTree2);
+        StatementTreeViewInfo returnedSubTree1 = (returnedSubTrees == null)? null : returnedSubTrees.get(0);
+        StatementTreeViewInfo returnedSubTree2 = (returnedSubTrees == null)? null : returnedSubTrees.get(1);
         assertEquals("STMT-TV-1", returnedTreeView.getId());
-        assertNotNull(returnedSubTrees);
-        assertEquals(2, returnedSubTrees.size());
+        int numReturnedSubTrees = (returnedSubTrees == null)? 0 : returnedSubTrees.size();
+        assertEquals(2, numReturnedSubTrees);
         assertEquals("Statement Tree View 2 is edited", returnedSubTree1.getDesc().getPlain());
         assertEquals("STMT TV TEST", returnedSubTree2.getDesc().getPlain());
-        assertNull(returnedSubTree2.getStatements());
+        int numReturnedSubTree2Statements = (returnedSubTree2.getStatements() == null)? 0 :
+            returnedSubTree2.getStatements().size();
+        assertEquals(0, numReturnedSubTree2Statements);
         assertEquals(4, returnedSubTree2.getReqComponents().size());
         assertEquals("RC Tree View 3", returnedSubTree2.getReqComponents().get(0).getDesc().getPlain());
         assertEquals("RC Tree View 4", returnedSubTree2.getReqComponents().get(1).getDesc().getPlain());
         assertEquals("REQCOMP TV TEST1", returnedSubTree2.getReqComponents().get(2).getDesc().getPlain());
         assertEquals("REQCOMP TV TEST2", returnedSubTree2.getReqComponents().get(3).getDesc().getPlain());
-    }
 
-    @Test
-    public void testUpdateAndGetStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // Before tree is updated
-        //                          STMT-TV-1:OR
-        //          STMT TV 2:AND                   STMT TV 3:AND
-        //     REQCOMP TV 1  REQCOMP TV 2      REQCOMP TV 3  REQCOMP TV 4
-    	//
-        // After tree is updated
-        //                       *------------------------ STMT TV 1:OR ---------------------*
-        //                       |                                                           |
-        //         *-- STMT TV 2 is edited:AND --*                     *-----------*--- STMT TV TEST:AND ---*--------------*
-        //         |                             |                     |           |                        |              |
-        //     REQCOMP TV 1               REQCOMP TV 2            REQCOMP TV 3  REQCOMP TV 4      REQCOMP TV TEST1     REQCOMP TV TEST2
-
-    	StatementTreeViewInfo treeView = statementService.getStatementTreeView("STMT-TV-1");
-    	updateStatementTreeViewInfo(treeView, " again");
-    	
-        StatementTreeViewInfo updatedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
-        List<StatementTreeViewInfo> updatedSubTrees = updatedTreeView.getStatements();
-        StatementTreeViewInfo updatedSubTree1 = updatedSubTrees.get(0);
-        StatementTreeViewInfo updatedSubTree2 = updatedSubTrees.get(1);
-
-        StatementTreeViewInfo getUpdatedTreeView = statementService.getStatementTreeView("STMT-TV-1");
-        List<StatementTreeViewInfo> getUpdatedSubTrees = getUpdatedTreeView.getStatements();
-        StatementTreeViewInfo getUpdatedSubTree1 = getUpdatedSubTrees.get(0);
-        StatementTreeViewInfo getUpdatedSubTree2 = getUpdatedSubTrees.get(1);
-
-        // Assert that updatedTreeView is equal to getUpdatedTreeView
-        assertEquals(updatedTreeView.getId(), getUpdatedTreeView.getId());
-        // Assert sub-trees
-        assertEquals(updatedSubTrees.size(), getUpdatedSubTrees.size());
-        assertEquals(updatedSubTree1.getDesc().getPlain(), getUpdatedSubTree1.getDesc().getPlain());
-        assertEquals(updatedSubTree2.getDesc().getPlain(), getUpdatedSubTree2.getDesc().getPlain());
-
-        // updatedSubTree1 should not have any statements
-        assertNull(getUpdatedSubTree1.getStatements());
-        assertEquals(updatedSubTree1.getStatements(), getUpdatedSubTree1.getStatements());
-
-        // updatedSubTree2 should only have req components and not any statements
-        assertNull(updatedSubTree2.getStatements());
-        assertEquals(updatedSubTree2.getStatements(), getUpdatedSubTree2.getStatements());
-        assertEquals(updatedSubTree2.getReqComponents().size(), getUpdatedSubTree2.getReqComponents().size());
-        assertEquals(updatedSubTree2.getReqComponents().get(0).getDesc().getPlain(), getUpdatedSubTree2.getReqComponents().get(0).getDesc().getPlain());
-        assertEquals(updatedSubTree2.getReqComponents().get(1).getDesc().getPlain(), getUpdatedSubTree2.getReqComponents().get(1).getDesc().getPlain());
-        assertEquals(updatedSubTree2.getReqComponents().get(2).getDesc().getPlain(), getUpdatedSubTree2.getReqComponents().get(2).getDesc().getPlain());
-        assertEquals(updatedSubTree2.getReqComponents().get(3).getDesc().getPlain(), getUpdatedSubTree2.getReqComponents().get(3).getDesc().getPlain());
-        assertEquals(updatedSubTree2.getReqComponents().get(4).getDesc().getPlain(), getUpdatedSubTree2.getReqComponents().get(4).getDesc().getPlain());
-        assertEquals(updatedSubTree2.getReqComponents().get(5).getDesc().getPlain(), getUpdatedSubTree2.getReqComponents().get(5).getDesc().getPlain());
+        StatementTreeViewInfo retrievedUpdatedTreeView = statementService.getStatementTreeView("STMT-TV-1");
+        List<StatementTreeViewInfo> retrievedUpdatedSubTrees = retrievedUpdatedTreeView.getStatements();
+        StatementTreeViewInfo retrievedUpdatedSubTree1 = (retrievedUpdatedSubTrees == null)? null : retrievedUpdatedSubTrees.get(0);
+        StatementTreeViewInfo retrievedUpdatedSubTree2 = (retrievedUpdatedSubTrees == null)? null : retrievedUpdatedSubTrees.get(1);
+        assertEquals("STMT-TV-1", retrievedUpdatedTreeView.getId());
+        int numRetrievededUpdatedSubTrees = (retrievedUpdatedSubTrees == null)? 0 : retrievedUpdatedSubTrees.size();
+        assertEquals(2, numRetrievededUpdatedSubTrees);
+        assertEquals("Statement Tree View 2 is edited", retrievedUpdatedSubTree1.getDesc().getPlain());
+        assertEquals("STMT TV TEST", retrievedUpdatedSubTree2.getDesc().getPlain());
+        int numRetrievedUpdatedSubTree2Statements = (retrievedUpdatedSubTree2.getStatements() == null)? 0 :
+            retrievedUpdatedSubTree2.getStatements().size();
+        assertEquals(0, numRetrievedUpdatedSubTree2Statements);
+        assertEquals(4, retrievedUpdatedSubTree2.getReqComponents().size());
+        assertEquals("RC Tree View 3", retrievedUpdatedSubTree2.getReqComponents().get(0).getDesc().getPlain());
+        assertEquals("RC Tree View 4", retrievedUpdatedSubTree2.getReqComponents().get(1).getDesc().getPlain());
+        assertEquals("REQCOMP TV TEST1", retrievedUpdatedSubTree2.getReqComponents().get(2).getDesc().getPlain());
+        assertEquals("REQCOMP TV TEST2", retrievedUpdatedSubTree2.getReqComponents().get(3).getDesc().getPlain());
     }
 
     private RichTextInfo toRichText(String text) {
@@ -1289,16 +1281,24 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("ref-stmt-rel-1", list.get(0).getId());
     }
 
-    @Test(expected=MissingParameterException.class)
+    @Test
     public void testGetRefStatementRelationsByStatement_NullStatementId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		this.statementService.getRefStatementRelationsByStatement(null);
-		fail("statementService.getRefStatementRelationsByStatement should have thrown a MissingParameterException");
+		try {
+			this.statementService.getRefStatementRelationsByStatement(null);
+			fail("statementService.getRefStatementRelationsByStatement should have thrown a MissingParameterException");
+		} catch (MissingParameterException e) {
+			assertNotNull(e.getMessage());
+		}
     }
 
-    @Test(expected=InvalidParameterException.class)
+    @Test
     public void testGetRefStatementRelationsByStatement_EmptyStatementId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		this.statementService.getRefStatementRelationsByStatement("");
-		fail("statementService.getRefStatementRelationsByStatement should have thrown an InvalidParameterException");
+		try {
+			this.statementService.getRefStatementRelationsByStatement("");
+			fail("statementService.getRefStatementRelationsByStatement should have thrown an InvalidParameterException");
+		} catch (InvalidParameterException e) {
+			assertNotNull(e.getMessage());
+		}
     }
 
     @Test
@@ -1328,7 +1328,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	assertEquals(refInfo.getType(), updatedRefInfo.getType());
     }
 
-    @Test(expected=DoesNotExistException.class)
+    @Test
     public void testUpdateRefStatementRelation_InvalidRefObjectTypeKey() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         GregorianCalendar effDate = new GregorianCalendar(2100, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2200, 11, 31, 0, 0, 0);
@@ -1343,11 +1343,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("clu.corequisites");
 
-		this.statementService.updateRefStatementRelation(refInfo.getId(), refInfo);
-		fail("statementService.updateRefStatementRelation should have thrown a DoesNotExistException");
+    	try {
+			this.statementService.updateRefStatementRelation(refInfo.getId(), refInfo);
+			fail("statementService.updateRefStatementRelation should have thrown a DoesNotExistException");
+		} catch (DoesNotExistException e) {
+			assertNotNull(e.getMessage());
+		}
     }
 
-    @Test(expected=DoesNotExistException.class)
+    @Test
     public void testUpdateRefStatementRelation_InvalidRefStatementRelationType() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         GregorianCalendar effDate = new GregorianCalendar(2100, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2200, 11, 31, 0, 0, 0);
@@ -1362,8 +1366,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("x.invalid.type.x");
 
-		this.statementService.updateRefStatementRelation(refInfo.getId(), refInfo);
-		fail("statementService.updateRefStatementRelation should have thrown a DoesNotExistException");
+    	try {
+			this.statementService.updateRefStatementRelation(refInfo.getId(), refInfo);
+			fail("statementService.updateRefStatementRelation should have thrown a DoesNotExistException");
+		} catch (DoesNotExistException e) {
+			assertNotNull(e.getMessage());
+		}
     }
 
 	private ReqComponentInfo createBadReqComponent1() {
