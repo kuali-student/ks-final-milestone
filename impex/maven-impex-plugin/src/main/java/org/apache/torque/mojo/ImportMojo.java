@@ -104,9 +104,9 @@ public class ImportMojo extends AbstractMojo {
 	/**
 	 * Spring style resource entries that point to one or more schema XML files
 	 * 
-	 * @parameter expression="${schemaXMLResources}"
+	 * @parameter expression="${schemas}"
 	 */
-	private List<String> schemaXMLResources;
+	private List<String> schemas;
 
 	/**
 	 * The type of database we are targeting eg oracle, mysql etc
@@ -614,7 +614,7 @@ public class ImportMojo extends AbstractMojo {
 		getLog().info("Executing " + getTargetDatabase() + " SQL");
 		getLog().info("------------------------------------------------------------------------");
 
-		if (schemaXMLResources != null) {
+		if (schemas != null) {
 			addSchemaXMLResourcesToTransactions();
 		} else if (fileset == null) {
 			fileset = new Fileset();
@@ -1413,11 +1413,11 @@ public class ImportMojo extends AbstractMojo {
 	}
 
 	public List<String> getSchemaXMLResources() {
-		return schemaXMLResources;
+		return schemas;
 	}
 
 	public void setSchemaXMLResources(List<String> schemaXMLResources) {
-		this.schemaXMLResources = schemaXMLResources;
+		this.schemas = schemaXMLResources;
 	}
 
 	public String getEncoding() {
