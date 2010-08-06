@@ -756,7 +756,7 @@ public class ImportMojo extends AbstractMojo {
 			List<?> tables = database.getTables();
 			for (Object object : tables) {
 				Table table = (Table) object;
-				String location = "classpath:" + getTargetDatabase() + "/" + table.getName() + ".sql";
+				String location = "classpath:impex/" + getTargetDatabase() + "/" + table.getName() + ".sql";
 				Resource resource = loader.getResource(location);
 				if (!resource.exists()) {
 					getLog().debug("Skipping " + location + " because it does not exist");
@@ -766,11 +766,11 @@ public class ImportMojo extends AbstractMojo {
 			}
 		}
 		if (isImportSchema()) {
-			String schemaSQL = "classpath:" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
+			String schemaSQL = "classpath:impex/" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
 			createTransaction().setSrc(schemaSQL);
 		}
 		if (isImportSchemaConstraints()) {
-			String schemaConstraintsSQL = "classpath:" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
+			String schemaConstraintsSQL = "classpath:impex/" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
 			createTransaction().setSrc(schemaConstraintsSQL);
 		}
 	}
