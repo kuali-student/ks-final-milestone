@@ -15,8 +15,6 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -24,6 +22,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
@@ -59,7 +58,6 @@ public abstract class SectionView extends BaseSection implements View{
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	this.resetFieldInteractionFlags();
-    	super.clearValidation();
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
             @Override
@@ -117,6 +115,16 @@ public abstract class SectionView extends BaseSection implements View{
     	}
     }
 
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
+    }
+
 	public void updateView() {
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
             @Override
@@ -144,18 +152,4 @@ public abstract class SectionView extends BaseSection implements View{
     	return this.getLayout();
     }
 
-	@Override
-	public String collectHistory(String historyStack) {
-		return null;
-	}
-
-	@Override
-	public void onHistoryEvent(String historyStack) {
-		
-	}
-	
-	@Override
-	public void collectBreadcrumbNames(List<String> names) {
-		names.add(this.getName());
-	}
 }
