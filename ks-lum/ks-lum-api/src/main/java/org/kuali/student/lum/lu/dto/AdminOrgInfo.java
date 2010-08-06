@@ -19,16 +19,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -36,30 +28,15 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
     
     private static final long serialVersionUID = 1L;
     
-    @XmlAttribute
     private String id;
 
-    @XmlElement
     private String orgId;
     
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
-    
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlAttribute
-    private String type;
-    
-    @XmlElement
-    private boolean isPrimary;
-    
     
     /*
      * Unique identifier for the accreditation.
@@ -97,27 +74,4 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
         this.attributes = attributes;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public boolean isPrimary() {
-        return isPrimary;
-    }
-
-    public void setPrimary(boolean isPrimary) {
-        this.isPrimary = isPrimary;
-    }
-
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }       
 }

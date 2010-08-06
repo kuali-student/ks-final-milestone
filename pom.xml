@@ -18,7 +18,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.0-M7-SNAPSHOT</version>
+  <version>1.1.0-poc-M7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <organization>
@@ -50,15 +50,16 @@
     <url>http://ci.ks.kuali.org</url>
   </ciManagement>
   <modules>
+    <module>ks-cfg-dbs</module>
     <module>ks-security</module>
     <module>ks-core</module>
     <module>ks-lum</module>
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
-    <url>https://test.kuali.org/svn/student/trunk</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</developerConnection>
+    <url>https://test.kuali.org/svn/student/branches/ks-poc-1.1.x-br</url>
   </scm>
   <properties>
     <!-- Shared between compiler, pmd, and javadoc plugins -->
@@ -77,7 +78,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.2.1</kuali.rice.version>
+    <kuali.rice.version>1.0.2.1-SNAPSHOT</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -187,19 +188,15 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>2.1.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.kuali.maven.impex</groupId>
+          <artifactId>maven-impex-plugin</artifactId>
+          <version>1.0.1-SNAPSHOT</version>
+        </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>

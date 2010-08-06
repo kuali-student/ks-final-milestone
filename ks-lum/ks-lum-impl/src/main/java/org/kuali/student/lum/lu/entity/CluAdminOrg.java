@@ -48,12 +48,6 @@ public class CluAdminOrg implements AttributeOwner<CluAdminOrgAttribute>  {
     @Column(name = "ORG_ID")
     private String orgId;
     
-    @Column(name = "TYPE")
-    private String type;
-    
-    @Column(name = "IS_PR")
-    private boolean isPrimary=false;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluAdminOrgAttribute> attributes;
 
@@ -89,21 +83,5 @@ public class CluAdminOrg implements AttributeOwner<CluAdminOrgAttribute>  {
     public void setId(String id) {
         this.id = id;
     }
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public boolean isPrimary() {
-		return isPrimary;
-	}
-
-	public void setPrimary(boolean isPrimary) {
-		this.isPrimary = isPrimary;
-	}
 
 }

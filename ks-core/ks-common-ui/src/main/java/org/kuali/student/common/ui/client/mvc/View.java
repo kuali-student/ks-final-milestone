@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -25,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-public interface View extends HistorySupport, BreadcrumbSupport {
+public interface View extends HistorySupport {
     /**
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
      * done.
