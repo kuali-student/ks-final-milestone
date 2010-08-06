@@ -34,7 +34,6 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 
 /**
  * Detailed information about a program requirement
@@ -127,7 +126,6 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
-    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -135,7 +133,6 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
         return attributes;
     }
 
-    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
@@ -154,12 +151,10 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
     /**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
-    @Override
     public String getType() {
         return type;
     }
 
-    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -167,12 +162,10 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
     /**
      * The current status of the credential program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
      */
-    @Override
     public String getState() {
         return state;
     }
 
-    @Override
     public void setState(String state) {
         this.state = state;
     }
@@ -180,12 +173,10 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
     /**
      * Unique identifier for a Program Requirement This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
      */
-    @Override
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }

@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.jws.WebService;
 
@@ -54,6 +54,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
+import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -476,8 +477,13 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(relatedCluId, "relatedCluId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 
-        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, luLuRelationTypeKey);
-        return cluIds;
+		List<Clu> clus = luDao.getClusByRelation(relatedCluId,
+				luLuRelationTypeKey);
+		List<String> ids = new ArrayList<String>(clus.size());
+		for (Clu clu : clus) {
+			ids.add(clu.getId());
+		}
+		return ids;
 	}
 
 	@Override
@@ -991,18 +997,29 @@ public class LuServiceImpl implements LuService {
 		    }
 		}
 
-		if (clu.getAdminOrgs() == null) {
-			clu.setAdminOrgs(new ArrayList<CluAdminOrg>(0));
+		if (cluInfo.getPrimaryAdminOrg() != null) {
+			CluAdminOrg primaryAdminOrg = new CluAdminOrg();
+			BeanUtils.copyProperties(cluInfo.getPrimaryAdminOrg(),
+					primaryAdminOrg, new String[] { "attributes" });
+			primaryAdminOrg.setAttributes(LuServiceAssembler
+					.toGenericAttributes(CluAdminOrgAttribute.class, cluInfo
+							.getPrimaryAdminOrg().getAttributes(),
+							primaryAdminOrg, luDao));
+			clu.setPrimaryAdminOrg(primaryAdminOrg);
 		}
-		List<CluAdminOrg> adminOrgs = clu.getAdminOrgs();
-		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
+
+		if (clu.getAlternateAdminOrgs() == null) {
+			clu.setAlternateAdminOrgs(new ArrayList<CluAdminOrg>(0));
+		}
+		List<CluAdminOrg> alternateOrgs = clu.getAlternateAdminOrgs();
+		for (AdminOrgInfo orgInfo : cluInfo.getAlternateAdminOrgs()) {
 			CluAdminOrg instructor = new CluAdminOrg();
 			BeanUtils.copyProperties(orgInfo, instructor,
 					new String[] { "attributes" });
 			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
 					instructor, luDao));
-			adminOrgs.add(instructor);
+			alternateOrgs.add(instructor);
 		}
 
 		if (cluInfo.getPrimaryInstructor() != null) {
@@ -1089,6 +1106,18 @@ public class LuServiceImpl implements LuService {
 		clu.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
 
+		if (clu.getAcademicSubjectOrgs() == null) {
+			clu.setAcademicSubjectOrgs(new ArrayList<CluAcademicSubjectOrg>());
+		}
+		List<CluAcademicSubjectOrg> subjectOrgs = clu.getAcademicSubjectOrgs();
+		for (AcademicSubjectOrgInfo org : cluInfo.getAcademicSubjectOrgs()) {
+            if (org.getOrgId() != null && !org.getOrgId().isEmpty()) {
+                CluAcademicSubjectOrg subjOrg = new CluAcademicSubjectOrg();
+                subjOrg.setOrgId(org.getOrgId());
+                subjOrg.setClu(clu);
+                subjectOrgs.add(subjOrg);
+            }
+		}
 
 		if (cluInfo.getIntensity() != null) {
 			clu.setIntensity(LuServiceAssembler
@@ -1125,9 +1154,9 @@ public class LuServiceImpl implements LuService {
 				"officialIdentifier", "alternateIdentifiers", "descr",
 				"luCodes", "primaryInstructor", "instructors", "stdDuration",
 				"offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-				"metaInfo", "intensity",
-				"campusLocations", "accreditations",
-				"adminOrgs" });
+				"metaInfo", "academicSubjectOrgs", "intensity",
+				"campusLocations", "accreditations", "primaryAdminOrg",
+				"alternateAdminOrgs" });
 
 		luDao.create(clu);
 
@@ -1325,7 +1354,6 @@ public class LuServiceImpl implements LuService {
 			}
 		} else if (clu.getFee() != null) {
 			luDao.delete(clu.getFee());
-			clu.setFee(null);
 		}
 
 		if (cluInfo.getAccountingInfo() != null) {
@@ -1357,6 +1385,34 @@ public class LuServiceImpl implements LuService {
 					.copyProperties(cluInfo.getIntensity(), clu.getIntensity());
 		} else if (clu.getIntensity() != null) {
 			luDao.delete(clu.getIntensity());
+		}
+
+		// Update the list of academicSubjectOrgs
+		// Get a map of Id->object of all the currently persisted objects in the
+		// list
+		Map<String, CluAcademicSubjectOrg> oldOrgMap = new HashMap<String, CluAcademicSubjectOrg>();
+		for (CluAcademicSubjectOrg subjOrg : clu.getAcademicSubjectOrgs()) {
+			oldOrgMap.put(subjOrg.getOrgId(), subjOrg);
+		}
+		clu.getAcademicSubjectOrgs().clear();
+
+		// Loop through the new list, if the item exists already update and
+		// remove from the list
+		// otherwise create a new entry
+		for (AcademicSubjectOrgInfo org : cluInfo.getAcademicSubjectOrgs()) {
+			CluAcademicSubjectOrg subjOrg = oldOrgMap.remove(org.getOrgId());
+			if (subjOrg == null) {
+				subjOrg = new CluAcademicSubjectOrg();
+			}
+			// Do Copy
+			subjOrg.setOrgId(org.getOrgId());
+			subjOrg.setClu(clu);
+			clu.getAcademicSubjectOrgs().add(subjOrg);
+		}
+
+		// Now delete anything left over
+		for (Entry<String, CluAcademicSubjectOrg> entry : oldOrgMap.entrySet()) {
+			luDao.delete(entry.getValue());
 		}
 
 		// Update the list of campusLocations
@@ -1423,49 +1479,61 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 
+		// Update the primary admin org
+		if (cluInfo.getPrimaryAdminOrg() != null) {
+			if (clu.getPrimaryAdminOrg() == null) {
+				clu.setPrimaryAdminOrg(new CluAdminOrg());
+			}
+			BeanUtils.copyProperties(cluInfo.getPrimaryAdminOrg(), clu
+					.getPrimaryAdminOrg(), new String[] { "attributes" });
+			clu.getPrimaryAdminOrg().setAttributes(
+					LuServiceAssembler.toGenericAttributes(
+							CluAdminOrgAttribute.class, cluInfo
+									.getPrimaryAdminOrg().getAttributes(), clu
+									.getPrimaryAdminOrg(), luDao));
+		} else if (clu.getPrimaryAdminOrg() != null) {
+			luDao.delete(clu.getPrimaryAdminOrg());
+		}
+
 		// Update the List of alternate admin orgs
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
 		Map<String, CluAdminOrg> oldAdminOrgsMap = new HashMap<String, CluAdminOrg>();
-		for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
+		for (CluAdminOrg cluOrg : clu.getAlternateAdminOrgs()) {
 			oldAdminOrgsMap.put(cluOrg.getOrgId(), cluOrg);
 		}
-		
-		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
-			luDao.delete(entry.getValue());
-		}
-		clu.setAdminOrgs(new ArrayList<CluAdminOrg>());
+		clu.getAlternateAdminOrgs().clear();
 
 		// Loop through the new list, if the item exists already update and
 		// remove from the list
 		// otherwise create a new entry
-		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
-			CluAdminOrg cluOrg = new CluAdminOrg();
+		for (AdminOrgInfo orgInfo : cluInfo.getAlternateAdminOrgs()) {
+			CluAdminOrg cluOrg = oldAdminOrgsMap.remove(orgInfo.getOrgId());
 			if (cluOrg == null) {
 				cluOrg = new CluAdminOrg();
 			}
 			// Do Copy
 			BeanUtils.copyProperties(orgInfo, cluOrg,
-					new String[] { "attributes","id" });
+					new String[] { "attributes" });
 			cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
 					cluOrg, luDao));
-			clu.getAdminOrgs().add(cluOrg);
+			clu.getAlternateAdminOrgs().add(cluOrg);
 		}
 
 		// Now delete anything left over
-//		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
-//			luDao.delete(entry.getValue());
-//		}
+		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
+			luDao.delete(entry.getValue());
+		}
 
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
 				"officialIdentifier", "alternateIdentifiers", "descr",
 				"luCodes", "primaryInstructor", "instructors", "stdDuration",
 				"offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-				"metaInfo","intensity",
-				"campusLocations", "accreditations",
-				"adminOrgs" });
+				"metaInfo", "academicSubjectOrgs", "intensity",
+				"campusLocations", "accreditations", "primaryAdminOrg",
+				"alternateAdminOrgs" });
 		Clu updated = null;
 		try {
 			updated = luDao.update(clu);
@@ -1635,7 +1703,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 
-        return validator.validateTypeStateObject(cluPublicationInfo, getObjectStructure("cluPublicationInfo"));
+		return validator.validateTypeStateObject(cluPublicationInfo, getObjectStructure("cluPlublicationInfo"));
 	}
 
 	@Override

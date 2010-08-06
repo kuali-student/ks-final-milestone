@@ -15,24 +15,16 @@ import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderExc
 
 public class SimpleBooleanMessageBuilderTest {
 	private final static CommonTreeAdaptor adapter = new CommonTreeAdaptor();
-	private SimpleBooleanMessageBuilder defaultMessageBuilder;
-	private SimpleBooleanMessageBuilder configuredMessageBuilder;
+	private SimpleBooleanMessageBuilder messageBuilder;
 
 	@Before
 	public void setUp() throws Exception {
 		BooleanOperators bo = new BooleanOperators("AND", "OR");
-		defaultMessageBuilder = new SimpleBooleanMessageBuilder(bo);
-
-		configuredMessageBuilder = new SimpleBooleanMessageBuilder(bo);
-		configuredMessageBuilder.setIndentCharacter(32);
-		configuredMessageBuilder.setIndentNumberOfSpaces(4);
-		configuredMessageBuilder.setIndentString("    ");
-		configuredMessageBuilder.setBooleanOperatorPrefix("\n");
-		configuredMessageBuilder.setBooleanOperatorSuffix("\n");
+		messageBuilder = new SimpleBooleanMessageBuilder(bo);
 	}
 	
 	@Test
-	public void testBuildMessage_DefaultConfig_SingleAndNode() throws Exception {
+	public void testBuildSuccessMessageForSingleAndNode() throws Exception {
 		// Rule: A AND B
 		Token and = adapter.createToken(BooleanFunctionParser.AND, "*");
 		Token a = adapter.createToken(BooleanFunctionParser.ALPHA, "A");
@@ -51,13 +43,41 @@ public class SimpleBooleanMessageBuilderTest {
 		andNode.addChild(aNode); // left node
 		andNode.addChild(bNode); // right node
 		
-		String msg = defaultMessageBuilder.buildMessage(andNode);
+		String msg = messageBuilder.buildMessage(andNode);
 		
-		Assert.assertEquals("MATH101 AND MATH201", msg);
+		Assert.assertEquals("    MATH101\nAND\n    MATH201", msg);
 	}
 
 	@Test
-	public void testBuildMessage_DefaultConfig_ForListOfNodes() throws Exception {
+	public void testBuildSuccessMessageForSingleOrNode() throws Exception {
+		// Rule: A OR B
+		Token and = adapter.createToken(BooleanFunctionParser.OR, "+");
+		Token a = adapter.createToken(BooleanFunctionParser.ALPHA, "A");
+		Token b = adapter.createToken(BooleanFunctionParser.ALPHA, "B");
+		
+		// root node
+		BooleanNode andNode = new BooleanNode(and);
+		
+		BooleanNode aNode = new BooleanNode(a);
+		aNode.setParent(andNode);
+		aNode.setValue(Boolean.TRUE);
+		aNode.setNodeMessage("MATH101");
+
+		BooleanNode bNode = new BooleanNode(b);
+		bNode.setParent(andNode);
+		bNode.setValue(Boolean.FALSE);
+		bNode.setNodeMessage("MATH201");
+		
+		andNode.addChild(aNode); // left node
+		andNode.addChild(bNode); // right node
+		
+		String msg = messageBuilder.buildMessage(andNode);
+		
+		Assert.assertEquals("    MATH101\nOR\n    MATH201", msg);
+	}
+
+	@Test
+	public void testBuildSuccessMessageForListOfNodes() throws Exception {
 		// Rule: A AND (B OR C)
 		Token and = adapter.createToken(BooleanFunctionParser.AND, "*");
 		Token or = adapter.createToken(BooleanFunctionParser.OR, "+");
@@ -95,66 +115,19 @@ public class SimpleBooleanMessageBuilderTest {
 		list.add(aNode);
 		list.add(andNode);
 
-		defaultMessageBuilder.buildMessage(list);
+		SimpleBooleanMessageBuilder messageBuilder = new SimpleBooleanMessageBuilder(new BooleanOperators("AND", "OR"));
+		messageBuilder.setIndentCharacter(0);
+		messageBuilder.setIndentNumberOfSpaces(0);
+		messageBuilder.setIndentString("");
+		messageBuilder.setBooleanOperatorPrefix(" ");
+		messageBuilder.setBooleanOperatorSuffix(" ");
+		messageBuilder.buildMessage(list);
 
 		Assert.assertEquals("MATH101 AND (MATH201 OR MATH301)", andNode.getNodeMessage());
 	}
 
 	@Test
-	public void testBuildMessage_ForSingleAndNode() throws Exception {
-		// Rule: A AND B
-		Token and = adapter.createToken(BooleanFunctionParser.AND, "*");
-		Token a = adapter.createToken(BooleanFunctionParser.ALPHA, "A");
-		Token b = adapter.createToken(BooleanFunctionParser.ALPHA, "B");
-		
-		BooleanNode andNode = new BooleanNode(and);
-		
-		BooleanNode aNode = new BooleanNode(a);
-		aNode.setParent(andNode);
-		aNode.setNodeMessage("MATH101");
-
-		BooleanNode bNode = new BooleanNode(b);
-		bNode.setParent(andNode);
-		bNode.setNodeMessage("MATH201");
-		
-		andNode.addChild(aNode); // left node
-		andNode.addChild(bNode); // right node
-		
-		String msg = configuredMessageBuilder.buildMessage(andNode);
-		
-		Assert.assertEquals("    MATH101\nAND\n    MATH201", msg);
-	}
-
-	@Test
-	public void testBuildMessage_ForSingleOrNode() throws Exception {
-		// Rule: A OR B
-		Token and = adapter.createToken(BooleanFunctionParser.OR, "+");
-		Token a = adapter.createToken(BooleanFunctionParser.ALPHA, "A");
-		Token b = adapter.createToken(BooleanFunctionParser.ALPHA, "B");
-		
-		// root node
-		BooleanNode andNode = new BooleanNode(and);
-		
-		BooleanNode aNode = new BooleanNode(a);
-		aNode.setParent(andNode);
-		aNode.setValue(Boolean.TRUE);
-		aNode.setNodeMessage("MATH101");
-
-		BooleanNode bNode = new BooleanNode(b);
-		bNode.setParent(andNode);
-		bNode.setValue(Boolean.FALSE);
-		bNode.setNodeMessage("MATH201");
-		
-		andNode.addChild(aNode); // left node
-		andNode.addChild(bNode); // right node
-		
-		String msg = configuredMessageBuilder.buildMessage(andNode);
-		
-		Assert.assertEquals("    MATH101\nOR\n    MATH201", msg);
-	}
-
-	@Test
-	public void testBuildMessage_ForListOfNodes_Complex() throws Exception {
+	public void testBuildSuccessMessageForListOfNodes_Complex() throws Exception {
 		// Rule: (A AND B) OR (C AND (D OR E))
 		Token or1 = adapter.createToken(BooleanFunctionParser.OR, "+");
 		Token or2 = adapter.createToken(BooleanFunctionParser.OR, "+");
@@ -219,7 +192,7 @@ public class SimpleBooleanMessageBuilderTest {
 		list.add(andNode2);
 		list.add(orNode1);
 
-		String successMsg = configuredMessageBuilder.buildMessage(list);
+		String successMsg = messageBuilder.buildMessage(list);
 
 		Assert.assertEquals(successMsg, orNode1.getNodeMessage());
 		Assert.assertEquals(
@@ -236,7 +209,7 @@ public class SimpleBooleanMessageBuilderTest {
 	}
 
 	@Test
-	public void testBuildMessage_ForListOfNodes_Complex2() throws Exception {
+	public void testBuildSuccessMessageForListOfNodes_Complex2() throws Exception {
 		// Rule: (A OR (B AND (C OR E))
 		Token or1 = adapter.createToken(BooleanFunctionParser.OR, "+");
 		Token or2 = adapter.createToken(BooleanFunctionParser.OR, "+");
@@ -288,7 +261,7 @@ public class SimpleBooleanMessageBuilderTest {
 		list.add(orNode1);
 		list.add(aNode);
 
-		String successMsg = configuredMessageBuilder.buildMessage(list);
+		String successMsg = messageBuilder.buildMessage(list);
 
 		Assert.assertEquals(successMsg, orNode1.getNodeMessage());
 		Assert.assertEquals(
@@ -304,7 +277,7 @@ public class SimpleBooleanMessageBuilderTest {
 
 
 	@Test
-	public void testBuildMessage_ForListOfNodes_MultipleRootNodes() throws Exception {
+	public void testBuildSuccessMessageForListOfNodes_MultipleRootNodes() throws Exception {
 		Token or = adapter.createToken(BooleanFunctionParser.OR, "+");
 		Token and = adapter.createToken(BooleanFunctionParser.AND, "*");
 		
@@ -318,7 +291,7 @@ public class SimpleBooleanMessageBuilderTest {
 		list.add(andNode);
 
 		try {
-			configuredMessageBuilder.buildMessage(list);
+			messageBuilder.buildMessage(list);
 			Assert.fail("buildSuccessMessage should have failed since list has 2 root nodes");
 		} catch (MessageBuilderException e) {
 			Assert.assertTrue(e.getMessage() != null);

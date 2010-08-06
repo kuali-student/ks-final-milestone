@@ -115,8 +115,7 @@ public class ApplicationContext {
      * @param state
      * @param fieldId
      * @return
-     */
-	 public String getUILabel(String groupName, String type, String state, String fieldId) {
+     */public String getUILabel(String groupName, String type, String state, String fieldId) {
 
         String label = getMessage(groupName, type + ":" + state + ":" + fieldId);
         

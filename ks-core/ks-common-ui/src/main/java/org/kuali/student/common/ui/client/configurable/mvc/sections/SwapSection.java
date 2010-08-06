@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.event.SectionUpdateEvent;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;

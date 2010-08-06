@@ -26,7 +26,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -46,10 +45,6 @@ public class CluFee extends MetaEntity implements
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_FEE_JN_CLU_FEE_REC", joinColumns = @JoinColumn(name = "CLU_FEE_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_FEE_REC_ID"))
 	private List<CluFeeRecord> cluFeeRecords;
-
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LuRichText descr;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluFeeAttribute> attributes;
@@ -88,13 +83,4 @@ public class CluFee extends MetaEntity implements
 	public void setCluFeeRecords(List<CluFeeRecord> cluFeeRecords) {
 		this.cluFeeRecords = cluFeeRecords;
 	}
-
-	public LuRichText getDescr() {
-		return descr;
-	}
-
-	public void setDescr(LuRichText descr) {
-		this.descr = descr;
-	}
-		
 }

@@ -34,7 +34,7 @@ public abstract class Attribute<T extends AttributeOwner<?>> {
 	@Column(name="ATTR_NAME")
 	private String name;
 	
-	@Column(name="ATTR_VALUE", length=KSEntityConstants.ATTRIBUTE_TEXT_LENGTH)
+	@Column(name="ATTR_VALUE")
 	private String value;
 
 	public abstract T getOwner();

@@ -15,11 +15,12 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
-import java.util.List;
-
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.core.rice.authorization.PermissionType;
+
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -72,20 +73,20 @@ public class DelegatingViewComposite extends ViewComposite implements RequiresAu
     public void setChildController(Controller controller){
         this.childController = controller;
     }
+
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        childController.collectHistory(frame);
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        childController.onHistoryEvent(frame);
+    }
     
     @Override
-	public String collectHistory(String historyStack) {
-		return childController.collectHistory(historyStack);
-	}
-
-	@Override
-	public void onHistoryEvent(String historyStack) {
-		childController.onHistoryEvent(historyStack);
-	}
-
-	@Override
     public void clear() {
-    	childController.resetCurrentView();
+    	childController.reset();
     }
 
 	@Override
@@ -109,12 +110,6 @@ public class DelegatingViewComposite extends ViewComposite implements RequiresAu
 		if (childController instanceof RequiresAuthorization){
 			((RequiresAuthorization)childController).setAuthorizationRequired(required);
 		}		
-	}
-
-	@Override
-	public void collectBreadcrumbNames(List<String> names) {
-		childController.collectBreadcrumbNames(names);
-		
 	}
 
 }
