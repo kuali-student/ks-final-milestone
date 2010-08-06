@@ -52,6 +52,9 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private List<CluIdentifierInfo> alternateIdentifiers;
 
     @XmlElement
+    private List<AcademicSubjectOrgInfo> academicSubjectOrgs;
+
+    @XmlElement
     private String studySubjectArea;
 
     @XmlElement
@@ -64,7 +67,10 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private List<AccreditationInfo> accreditations;
 
     @XmlElement
-    private List<AdminOrgInfo> adminOrgs;
+    private AdminOrgInfo primaryAdminOrg;
+
+    @XmlElement
+    private List<AdminOrgInfo> alternateAdminOrgs;
 
     @XmlElement
     private CluInstructorInfo primaryInstructor;
@@ -171,6 +177,19 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.alternateIdentifiers = alternateIdentifiers;
     }
 
+    /*
+     * The organizations that represents the Subject area of the Clu, if different from the PrimaryAdminOrg
+     */
+    public List<AcademicSubjectOrgInfo> getAcademicSubjectOrgs() {
+        if (academicSubjectOrgs == null) {
+            academicSubjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
+        }
+        return academicSubjectOrgs;
+    }
+
+    public void setAcademicSubjectOrgs(List<AcademicSubjectOrgInfo> academicSubjectOrgs) {
+        this.academicSubjectOrgs = academicSubjectOrgs;
+    }
 
     /**
      * The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu.
@@ -222,15 +241,23 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.campusLocations = campusLocations;
     }
     
-    public List<AdminOrgInfo> getAdminOrgs() {
-        if (adminOrgs == null) {
-        	adminOrgs = new ArrayList<AdminOrgInfo>();
-        }
-        return adminOrgs;
+    public AdminOrgInfo getPrimaryAdminOrg() {
+        return primaryAdminOrg;
     }
 
-    public void setAdminOrgs(List<AdminOrgInfo> adminOrgs) {
-        this.adminOrgs = adminOrgs;
+    public void setPrimaryAdminOrg(AdminOrgInfo primaryAdminOrg) {
+        this.primaryAdminOrg = primaryAdminOrg;
+    }
+
+    public List<AdminOrgInfo> getAlternateAdminOrgs() {
+        if (alternateAdminOrgs == null) {
+            alternateAdminOrgs = new ArrayList<AdminOrgInfo>();
+        }
+        return alternateAdminOrgs;
+    }
+
+    public void setAlternateAdminOrgs(List<AdminOrgInfo> alternateAdminOrgs) {
+        this.alternateAdminOrgs = alternateAdminOrgs;
     }
 
     /**

@@ -214,7 +214,7 @@ public class DataModelValidator {
 			
 			if (s.isEmpty() && isRequired(meta)) {
 				addError(results, element, REQUIRED);
-			} else if(!s.isEmpty()) {
+			} else {
 				int len = s.length();
 				Integer minLength = getLargestMinLength(meta);
 				Integer maxLength = getSmallestMaxLength(meta);

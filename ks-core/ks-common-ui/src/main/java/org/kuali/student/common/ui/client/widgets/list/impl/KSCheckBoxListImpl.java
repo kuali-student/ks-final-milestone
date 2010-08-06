@@ -33,8 +33,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasFocusHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
 
@@ -51,9 +49,9 @@ import com.google.gwt.user.client.ui.FlexTable;
  * @author Kuali Student Team 
  *
  */
-public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements ValueChangeHandler<Boolean>, HasBlurHandlers, HasFocusHandlers {
+public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements ClickHandler, HasBlurHandlers, HasFocusHandlers {
     private final FocusGroup focus = new FocusGroup(this);
-    private FlexTable layout = new FlexTable();
+    private FlexTable checkBoxes = new FlexTable();
     private List<String> selectedItems = new ArrayList<String>();
 
     private int maxCols = 1; //default max columns
@@ -61,16 +59,16 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
     private boolean ignoreMultipleAttributes = false;
 
     public KSCheckBoxListImpl() {
-        initWidget(layout);
+        initWidget(checkBoxes);
     }
 
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
     public void deSelectItem(String id) {
-        for (int i=0; i < layout.getRowCount(); i++){
-            for (int j=0; j < layout.getCellCount(i); j++){
-                KSCheckBox checkbox = (KSCheckBox)layout.getWidget(i, j);
+        for (int i=0; i < checkBoxes.getRowCount(); i++){
+            for (int j=0; j < checkBoxes.getCellCount(i); j++){
+                KSCheckBox checkbox = (KSCheckBox)checkBoxes.getWidget(i, j);
                 if (checkbox.getFormValue().equals(id)){
                     this.selectedItems.remove(id);
                     checkbox.setValue(false);
@@ -95,9 +93,9 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
      */
     public void selectItem(String id) {
         if (!selectedItems.contains(id)){
-            for (int i=0; i < layout.getRowCount(); i++){
-                for (int j=0; j < layout.getCellCount(i); j++){
-                    KSCheckBox checkbox = (KSCheckBox)layout.getWidget(i, j);
+            for (int i=0; i < checkBoxes.getRowCount(); i++){
+                for (int j=0; j < checkBoxes.getCellCount(i); j++){
+                    KSCheckBox checkbox = (KSCheckBox)checkBoxes.getWidget(i, j);
                     if (checkbox.getFormValue().equals(id)){
                         this.selectedItems.add(id);
                         checkbox.setValue(true);
@@ -110,7 +108,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
     }
 
     public void redraw(){
-        layout.clear();
+        checkBoxes.clear();
         int itemCount = super.getListItems().getItemCount();
         int currCount = 0;
         int row = 0;
@@ -118,20 +116,20 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
 
         // If ListItems has more than one attribute create a table with each attribute in its own column
         if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys().size() > 1) {
-            layout.addStyleName("KS-Checkbox-Table");
-            layout.setWidget(row, col++, new KSLabel("Select"));
+            checkBoxes.addStyleName("KS-Checkbox-Table");
+            checkBoxes.setWidget(row, col++, new KSLabel("Select"));
             for (String attr:super.getListItems().getAttrKeys()){
-                layout.setWidget(row, col++, new KSLabel(attr));
+                checkBoxes.setWidget(row, col++, new KSLabel(attr));
             }
             row++;
             col=0;
 
             for (String id:super.getListItems().getItemIds()){
 
-                layout.setWidget(row, col, createCheckbox(id));
+                checkBoxes.setWidget(row, col, createCheckbox(id));
                 for (String attr:super.getListItems().getAttrKeys()){
                     String value = super.getListItems().getItemAttribute(id, attr);
-                    layout.setWidget(row, ++col, new KSLabel(value));
+                    checkBoxes.setWidget(row, ++col, new KSLabel(value));
                 }                    
 
                 row++;
@@ -147,7 +145,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
 
-                layout.setWidget(row, col, createCheckboxWithLabel(id));                    
+                checkBoxes.setWidget(row, col, createCheckboxWithLabel(id));                    
 
                 col += ((row + 1)/ maxRows) * 1;
 
@@ -159,7 +157,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
 
-                layout.setWidget(row, col, createCheckboxWithLabel(id));
+                checkBoxes.setWidget(row, col, createCheckboxWithLabel(id));
 
                 row += ((col + 1 )/ maxCols) * 1;
             }
@@ -192,7 +190,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
     private KSCheckBox createCheckbox(String id){
         KSCheckBox checkbox = new KSCheckBox();
         checkbox.setFormValue(id);
-        checkbox.addValueChangeHandler(this);
+        checkbox.addClickHandler(this);
         focus.addWidget(checkbox);
         return checkbox;
     }
@@ -200,9 +198,23 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
     private KSCheckBox createCheckboxWithLabel(String id){
         KSCheckBox checkbox = new KSCheckBox(getListItems().getItemText(id));
         checkbox.setFormValue(id);
-        checkbox.addValueChangeHandler(this);
+        checkbox.addClickHandler(this);
         focus.addWidget(checkbox);
         return checkbox;
+    }
+
+    @Override
+    public void onClick(ClickEvent event) {
+        KSCheckBox checkbox = (KSCheckBox)(event.getSource());   
+        String value = checkbox.getFormValue();
+        if (checkbox.getValue()){
+            if (!selectedItems.contains(value)){
+                selectedItems.add(value);
+            }
+        } else {
+            selectedItems.remove(value);
+        }
+        fireChangeEvent(true);
     }
 
     public void onLoad() {}
@@ -218,9 +230,9 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
     @Override
     public void setEnabled(boolean b) {
         enabled = b;
-        for (int i=0; i < layout.getRowCount(); i++){
-            for (int j=0; j < layout.getCellCount(i); j++){
-                ((KSCheckBox)layout.getWidget(i, j)).setEnabled(b);
+        for (int i=0; i < checkBoxes.getRowCount(); i++){
+            for (int j=0; j < checkBoxes.getCellCount(i); j++){
+                ((KSCheckBox)checkBoxes.getWidget(i, j)).setEnabled(b);
             }
         }
     }
@@ -256,19 +268,4 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
     public HandlerRegistration addFocusHandler(FocusHandler handler) {
         return focus.addFocusHandler(handler);
     }
-
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-        KSCheckBox checkbox = (KSCheckBox)(event.getSource());   
-        String value = checkbox.getFormValue();
-        if (event.getValue()){
-            if (!selectedItems.contains(value)){
-                selectedItems.add(value);
-            }
-        } else {
-            selectedItems.remove(value);
-        }
-        fireChangeEvent(true);
-		
-	}
 }

@@ -187,8 +187,15 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 					}
 				}
 			} catch (DoesNotExistException e) {
-			} catch (Exception e) {
-				throw new AssemblyException("Error getting related activities",	e);
+			} catch (InvalidParameterException e) {
+				throw new AssemblyException("Error getting related activities",
+						e);
+			} catch (MissingParameterException e) {
+				throw new AssemblyException("Error getting related activities",
+						e);
+			} catch (OperationFailedException e) {
+				throw new AssemblyException("Error getting related activities",
+						e);
 			}
 		}
 

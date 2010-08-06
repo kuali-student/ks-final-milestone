@@ -28,13 +28,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 /**
@@ -58,14 +57,14 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String referenceURL;
 
     @XmlElement
+    private List<CluInstructorInfo> publishedInstructors;
+
+    @XmlElement
     private String code;
 
     @XmlElement
-    private String cip2000Code;
+    private String cipCode;
 
-    @XmlElement
-    private String cip2010Code;
-        
     @XmlElement
     private String hegisCode;
 
@@ -76,7 +75,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String selectiveEnrollmentCode;
 
     @XmlElement
-    private List<String> resultOptions;
+    private List<ResultOptionInfo> resultOptions;
 
     @XmlElement
     private String startTerm;
@@ -85,7 +84,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String endTerm;
 
     @XmlElement
-    private String endProgramEntryTerm;
+    private String lastAdmitTerm;
 
     @XmlElement
     private Date effectiveDate;
@@ -108,9 +107,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     @XmlElement
     private RichTextInfo catalogDescr;
 
-    @XmlElement
-    private List<String> catalogPublicationTargets;
-    
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
@@ -189,6 +185,20 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
+     * Instructors associated with this Variation. This may not be an exhaustive list, and instead may only be used to indicate potential instructors in publication.
+     */
+    public List<CluInstructorInfo> getPublishedInstructors() {
+        if (publishedInstructors == null) {
+            publishedInstructors = new ArrayList<CluInstructorInfo>(0);
+        }
+        return publishedInstructors;
+    }
+
+    public void setPublishedInstructors(List<CluInstructorInfo> publishedInstructors) {
+        this.publishedInstructors = publishedInstructors;
+    }
+
+    /**
      * The composite string that is used to officially reference or publish the Variation. Note it may have an internal structure that each Institution may want to enforce.
      */
     public String getCode() {
@@ -200,25 +210,14 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * CIP 2000 Code for the Program
+     * CIP Code for the Program
      */
-    public String getCip2000Code() {
-        return cip2000Code;
+    public String getCipCode() {
+        return cipCode;
     }
 
-    public void setCip2000Code(String cip2000Code) {
-        this.cip2000Code = cip2000Code;
-    }
-
-    /**
-     * CIP 2010 Code for the Program
-     */
-    public String getCip2010Code() {
-        return cip2010Code;
-    }
-
-    public void setCip2010Code(String cip2010Code) {
-        this.cip2010Code = cip2010Code;
+    public void setCipCode(String cipCode) {
+        this.cipCode = cipCode;
     }
 
     /**
@@ -254,12 +253,17 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
 
-    
-    public List<String> getResultOptions() {
+    /**
+     * Result outcomes from taking the Variation. This list is a subset of the outcomes in the associated Major
+     */
+    public List<ResultOptionInfo> getResultOptions() {
+        if (resultOptions == null) {
+            resultOptions = new ArrayList<ResultOptionInfo>(0);
+        }
         return resultOptions;
     }
 
-    public void setResultOptions(List<String> resultOptions) {
+    public void setResultOptions(List<ResultOptionInfo> resultOptions) {
         this.resultOptions = resultOptions;
     }
 
@@ -286,14 +290,14 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * The last academic time period that this Variation would be available for enrollment. This may not reflect the last "real" academic time period for this Variation.   
+     * The last academic time period that this Variation would be available for enrollment. This may not reflect the last "real" academic time period for this Variation.
      */
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
+    public String getLastAdmitTerm() {
+        return lastAdmitTerm;
     }
 
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
+    public void setLastAdmitTerm(String lastAdmitTerm) {
+        this.lastAdmitTerm = lastAdmitTerm;
     }
 
     /**
@@ -372,18 +376,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     public void setCatalogDescr(RichTextInfo catalogDescr) {
         this.catalogDescr = catalogDescr;
     }
-    
-    /**
-     * List of catalog targets where program variation information will be published.   
-     */
-    public List<String> getCatalogPublicationTargets() {
-        return catalogPublicationTargets;
-    }
 
-    public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
-        this.catalogPublicationTargets = catalogPublicationTargets;
-    }
-    
     /**
      * Learning Objectives associated with this Variation.
      */
@@ -509,7 +502,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
-    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -517,7 +509,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         return attributes;
     }
 
-    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
@@ -536,12 +527,10 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
-    @Override
     public String getType() {
         return type;
     }
 
-    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -549,12 +538,10 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * The current status of the major program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
      */
-    @Override
     public String getState() {
         return state;
     }
 
-    @Override
     public void setState(String state) {
         this.state = state;
     }
@@ -562,12 +549,10 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * The page majorProgramId Structure does not exist. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
      */
-    @Override
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }

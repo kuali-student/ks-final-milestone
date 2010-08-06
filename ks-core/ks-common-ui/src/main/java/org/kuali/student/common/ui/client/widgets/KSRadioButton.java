@@ -39,8 +39,8 @@ public class KSRadioButton extends RadioButton{
      * @param label the text to appear in the label
      * @param asHTML true to treat the label as HTML, false otherwise.
      */
-    public KSRadioButton(String group, String label, boolean asHTML) {
-        super(group, label, asHTML);
+    public KSRadioButton(String name, String label, boolean asHTML) {
+        super(name, label, asHTML);
         setupDefaultStyle();
     }
 
@@ -50,8 +50,8 @@ public class KSRadioButton extends RadioButton{
      * @param name the name of the radio button group
      * @param label the text to appear in the label
      */
-    public KSRadioButton(String group, String label) {
-        super(group, label);
+    public KSRadioButton(String name, String label) {
+        super(name, label);
         setupDefaultStyle();
     }
 
@@ -60,8 +60,8 @@ public class KSRadioButton extends RadioButton{
      *
      * @param name the name of the radio button group
      */
-    public KSRadioButton(String group) {
-        super(group);
+    public KSRadioButton(String name) {
+        super(name);
         setupDefaultStyle();
     }
 
