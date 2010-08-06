@@ -58,7 +58,29 @@ public class StatementTranslator {
 	 */
 	public void setLanguage(final String language) {
 		this.language = language;
+		setLanguage();
 	}
+
+	/**
+	 * Sets the translation language for the message builder and 
+	 * requirement component translator.
+	 */
+	private void setLanguage() {
+		if(this.language != null) {
+			if(this.reqComponentTranslator != null) {
+				this.reqComponentTranslator.setLanguage(this.language);
+			}
+		}
+	}
+	
+    /**
+     * Sets the template context registry.
+     * 
+     * @param contextRegistry Template context registry
+     */
+//    public void setContextRegistry(final ContextRegistry<Context<StatementAnchor>> contextRegistry) {
+//    	this.contextRegistry = contextRegistry;
+//    }
 
 	/**
 	 * Sets the requirement component translator.
@@ -67,6 +89,7 @@ public class StatementTranslator {
 	 */
 	public void setReqComponentTranslator(final ReqComponentTranslator reqComponentTranslator) {
 		this.reqComponentTranslator = reqComponentTranslator;
+		setLanguage();
 	}
 
 	/**
@@ -76,6 +99,7 @@ public class StatementTranslator {
 	 */
     public void setMessageBuilder(final NaturalLanguageMessageBuilder messageBuilder) {
 		this.messageBuilder = messageBuilder;
+		setLanguage();
     }
 
 	/**
@@ -90,7 +114,7 @@ public class StatementTranslator {
 	 * @throws OperationFailedException Translation failed
 	 */
 	public String translate(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return translate(statement, nlUsageTypeKey, this.language);
+		return translate(this.language, statement, nlUsageTypeKey);
 	}
 	
 	/**
@@ -105,7 +129,7 @@ public class StatementTranslator {
 	 * @throws DoesNotExistException CLU or statement id does not exists
 	 * @throws OperationFailedException Translation failed
 	 */
-	public String translate(final Statement statement, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
+	public String translate(final String language, final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(statement == null) {
     		throw new DoesNotExistException("Statement cannot be null");
 		}
@@ -175,7 +199,7 @@ public class StatementTranslator {
 	private String buildMessage(String language, String nlUsageTypeKey, String booleanExpression, List<ReqComponentReference> reqComponentList) throws DoesNotExistException, OperationFailedException {
 		MessageContainer messageContainer = new MessageContainer();
 		for(ReqComponentReference reqComponent : reqComponentList) {
-			String translation = this.reqComponentTranslator.translate(reqComponent.getReqComponent(), nlUsageTypeKey, language);
+			String translation = this.reqComponentTranslator.translate(reqComponent.getReqComponent(), nlUsageTypeKey);
 			BooleanMessage bm = new BooleanMessageImpl(reqComponent.getBooleanId(), true, translation);
 			messageContainer.addMessage(bm);
 		}

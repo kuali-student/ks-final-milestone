@@ -15,8 +15,6 @@
 
 package org.kuali.student.core.organization.ui.client.mvc.controller;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
@@ -87,10 +85,5 @@ public class OrgApplicationManager extends Controller{
         return createOrgView;
         
     }
-
-	@Override
-	public void collectBreadcrumbNames(List<String> names) {
-		// TODO Need to revisit for Org possibly
-	}
 
 }

@@ -34,10 +34,9 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * This class creates a section containing a multiplicity widget based on the supplied configuration
  *
- * Sample code to use this class :-
- * 
+ * Sample code to use this class
  *
- * {@code
+
     private void addVersionCodeFields(Section section) {
         QueryPath parentPath = QueryPath.concat(COURSE, QueryPath.getPathSeparator(), VERSIONS);
 
@@ -57,14 +56,11 @@ import com.google.gwt.user.client.ui.Widget;
 
         MultiplicitySection ms = new MultiplicitySection(config);
         section.addSection(ms);
-        }
- * }
+
+    }
+
  * 
- * TODO:
- *   - Create factory methods for each 'flavour' of multiplicity
- *   - Styling options for table, e.g. no grid lines
- *   - For read-only multiplicities, set contained widgets to be read only too
- *   
+ *
  */
     public class MultiplicitySection extends BaseSection {
 

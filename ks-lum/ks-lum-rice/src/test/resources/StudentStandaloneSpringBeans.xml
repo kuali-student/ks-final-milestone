@@ -25,6 +25,11 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+	<bean id="kimPermissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl">
+		<property name="permissionDao" ref="kimPermissionDao" />
+		<property name="roleService" ref="kimRoleService" />
+	</bean>
+	
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">
