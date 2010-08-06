@@ -133,9 +133,13 @@
                         <constructor-arg index="0" value="en" />
                         <constructor-arg index="1">
 						    <bean class="org.kuali.student.common.messagebuilder.impl.SimpleBooleanMessageBuilder">
-                                <!-- Uses default formatting of messages and operator on a single line -->
 				                <constructor-arg index="0" value="and" />
 				                <constructor-arg index="1" value="or" />
+				                <property name="indentCharacter" value="0"/>
+                                <property name="indentNumberOfSpaces" value="0"/>
+                                <property name="indentString" value=""/>
+                                <property name="booleanOperatorPrefix" value=" "/>
+                                <property name="booleanOperatorSuffix" value=" "/>
 						    </bean>
                         </constructor-arg>
                     </bean>
@@ -144,15 +148,9 @@
                     <bean class="org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl">
                         <constructor-arg index="0" value="de" />
                         <constructor-arg index="1">
-		                    <bean class="org.kuali.student.common.messagebuilder.impl.SimpleBooleanMessageBuilder">
+		                    <bean class="org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder">
                                 <constructor-arg index="0" value="og" />
                                 <constructor-arg index="1" value="eller" />
-                                <!-- Format message to have each messages and operators indented and on separate lines -->
-                                <property name="indentCharacter" value="32"/>
-                                <property name="indentNumberOfSpaces" value="4"/>
-                                <property name="indentString" value="    "/>
-                                <property name="booleanOperatorPrefix" value="\n"/>
-                                <property name="booleanOperatorSuffix" value="\n"/>
 		                    </bean>
                         </constructor-arg>
                     </bean>
@@ -191,21 +189,22 @@
     <bean id="reqComponentTranslator"
         class="org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator">
         <property name="contextRegistry" ref="contextRegistryReqComponent" />
-        <property name="language" value="en" />
+        <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="statementTranslator"
         class="org.kuali.student.core.statement.naturallanguage.translators.StatementTranslator">
-        <!--property name="contextRegistry" ref="contextRegistryStatement" /-->
+        <!--property name="contextRegistry" ref="contextRegistryLuStatement" /-->
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
-        <property name="language" value="en" />
+        <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="naturalLanguageTranslator"
         class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
+        <property name="language" value="en" />
     </bean>
 
     <bean id="statementTestDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl" autowire-candidate="false">
@@ -215,7 +214,6 @@
     <bean id="statementAssembler"
         class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="StatementDaoImpl"/>
-        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>
 
     <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">

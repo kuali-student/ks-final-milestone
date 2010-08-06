@@ -21,12 +21,6 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 
 public class SecurityUtils {
-	
-	/** 
-	 * This can be used to get the current user id from security context
-	 * 
-	 * @return userId
-	 */
 	public static String getCurrentUserId() {
         String username=null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -42,5 +36,5 @@ public class SecurityUtils {
             }
         }
 		return username;
-	}	
+	}
 }

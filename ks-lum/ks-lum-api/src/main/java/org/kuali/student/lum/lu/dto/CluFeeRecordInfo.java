@@ -30,8 +30,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.core.dto.CurrencyAmountInfo;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -52,29 +50,20 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
     private String feeType;
 
     @XmlElement
-    private String rateType;
+    private CurrencyAmountInfo feeAmount;
 
     @XmlElement
-    private List<CurrencyAmountInfo> feeAmounts;
-        
-    @XmlElement
-    private List<AffiliatedOrgInfo> affiliatedOrgs;
+    private List<AffiliatedOrgInfo> affiliatedOrgInfoList;
 
-    @XmlElement
-    private RichTextInfo descr;
-    
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
 
     @XmlAttribute
     private String id;
 
     /**
-     * A code that identifies the type of the fee. For example: Lab Fee or Tuition Fee or CMF for Course Materials Fee.
+     * Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.
      */
     public String getFeeType() {
         return feeType;
@@ -85,56 +74,31 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * Indicates the structure and interpretation of the fee amounts, i.e. Fixed, Variable, Multiple.
+     * The page currencyAmount Structure v1.0-rc1 does not exist.
      */
-    public String getRateType() {
-		return rateType;
-	}
-
-	public void setRateType(String rateType) {
-		this.rateType = rateType;
-	}
-
-	/**
-     * The amount or amounts associated with the fee. The number fee amounts and interpretation depends on the rate type.
-     */
-    public List<CurrencyAmountInfo> getFeeAmounts() {
-    	if(feeAmounts==null){
-    		feeAmounts = new ArrayList<CurrencyAmountInfo>();
-    	}
-        return feeAmounts;
+    public CurrencyAmountInfo getFeeAmount() {
+        return feeAmount;
     }
 
-    public void setFeeAmounts(List<CurrencyAmountInfo> feeAmounts) {
-        this.feeAmounts = feeAmounts;
+    public void setFeeAmount(CurrencyAmountInfo feeAmount) {
+        this.feeAmount = feeAmount;
     }
 
     /**
      * List of affiliated organizations.
      */
-    public List<AffiliatedOrgInfo> getAffiliatedOrgs() {
-        if (affiliatedOrgs == null) {
-            affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>(0);
+    public List<AffiliatedOrgInfo> getAffiliatedOrgInfoList() {
+        if (affiliatedOrgInfoList == null) {
+            affiliatedOrgInfoList = new ArrayList<AffiliatedOrgInfo>(0);
         }
-        return affiliatedOrgs;
+        return affiliatedOrgInfoList;
     }
 
-    public void setAffiliatedOrgs(List<AffiliatedOrgInfo> affiliatedOrgs) {
-        this.affiliatedOrgs = affiliatedOrgs;
+    public void setAffiliatedOrgInfoList(List<AffiliatedOrgInfo> affiliatedOrgInfoList) {
+        this.affiliatedOrgInfoList = affiliatedOrgInfoList;
     }
 
-	/**
-	 * 	Narrative description of the CLU Fee Record. 
-	 */
-    public RichTextInfo getDescr() {
-		return descr;
-	}
-
-	public void setDescr(RichTextInfo descr) {
-		this.descr = descr;
-	}
-
-	/**
+    /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
     public Map<String, String> getAttributes() {
@@ -148,20 +112,7 @@ public class CluFeeRecordInfo implements Serializable, Idable, HasAttributes {
         this.attributes = attributes;
     }
 
-    
     /**
-	 * Create and last update info for the structure. This is optional and treated as read only since the 
-	 * data is set by the internals of the service during maintenance operations.     
-	 */
-    public MetaInfo getMetaInfo() {
-		return metaInfo;
-	}
-
-	public void setMetaInfo(MetaInfo metaInfo) {
-		this.metaInfo = metaInfo;
-	}
-
-	/**
      * Identifier for the clu fee record.
      */
     public String getId() {

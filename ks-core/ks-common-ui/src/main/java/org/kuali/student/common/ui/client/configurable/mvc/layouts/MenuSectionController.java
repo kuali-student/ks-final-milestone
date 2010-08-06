@@ -21,10 +21,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MenuSectionController extends LayoutController implements ContentNavLayoutController{
+public class MenuSectionController extends LayoutController implements ContentNavLayoutController {
 
     private KSBlockMenuImpl menu = new KSBlockMenuImpl();
     private List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
@@ -40,13 +39,13 @@ public class MenuSectionController extends LayoutController implements ContentNa
     private boolean refreshMenuOnAdd = true;
     private VerticalCollapsableDrawer collapsablePanel = new VerticalCollapsableDrawer();
 
-    private Callback<Boolean> showViewCallback = new Callback<Boolean>(){
+    private Callback<Boolean> showViewCallback = new Callback<Boolean>() {
 
         @Override
         public void exec(Boolean result) {
-            if(result == false){
+            if (result == false) {
                 KSMenuItemData item = viewMenuItemMap.get(MenuSectionController.this.getCurrentView().getViewEnum());
-                if(item != null){
+                if (item != null) {
                     item.setSelected(true, false);
                 }
             }
@@ -60,7 +59,6 @@ public class MenuSectionController extends LayoutController implements ContentNa
         menu.setStyleName("ks-menu-layout-menu");
         rightPanel.setStyleName("ks-menu-layout-rightColumn");
         collapsablePanel.setStyleName("ks-menu-layout-leftColumn");
-        layout.addStyleName("ks-menu-layout");
         menu.setTopLevelItems(topLevelMenuItems);
         collapsablePanel.setContent(menu);
         layout.add(collapsablePanel);
@@ -71,53 +69,43 @@ public class MenuSectionController extends LayoutController implements ContentNa
         this.initWidget(layout);
     }
 
-    public void setContentTitle(String title){
+    public void setContentTitle(String title) {
         header.setTitle(title);
     }
 
-    public void addContentWidget(Widget w){
+    public void addContentWidget(Widget w) {
         header.addWidget(w);
     }
 
-    public void setContentInfo(String info){
-        header.getInfoLabel().setHTML(info);
-        header.getInfoLabel().removeStyleName("content-warning");
-        header.getInfoLabel().addStyleName("content-info");
+    public void setContentWarning(String text) {
+        header.setInfo(text);
     }
 
-    public void setContentWarning(String info){
-        header.getInfoLabel().setHTML(info);
-        header.getInfoLabel().removeStyleName("content-info");
-        header.getInfoLabel().addStyleName("content-warning");
-
-    }
-
-    public void addCommonButton(String parentMenu, KSButton button){
-        if(parentMenu != null){
+    public void addCommonButton(String parentMenu, KSButton button) {
+        if (parentMenu != null) {
             List<View> views = menuViewMap.get(parentMenu);
-            if(views != null){
-                for(int i=0; i < views.size(); i++){
+            if (views != null) {
+                for (int i = 0; i < views.size(); i++) {
                     addButtonForView(views.get(i).getViewEnum(), button);
                 }
             }
         }
     }
 
-    public void showNextViewOnMenu(){
+    public void showNextViewOnMenu() {
         int i = menuOrder.indexOf(this.getCurrentView());
-        if(i != -1 && i + 1 < menuOrder.size()){
-            this.showView(menuOrder.get(i+1).getViewEnum());
+        if (i != -1 && i + 1 < menuOrder.size()) {
+            this.showView(menuOrder.get(i + 1).getViewEnum());
         }
     }
 
-    public void addButtonForView(Enum<?> viewType, KSButton button){
+    public void addButtonForView(Enum<?> viewType, KSButton button) {
         List<KSButton> buttons = viewButtonsMap.get(viewType);
-        if(buttons == null){
+        if (buttons == null) {
             buttons = new ArrayList<KSButton>();
             buttons.add(button);
             viewButtonsMap.put(viewType, buttons);
-        }
-        else{
+        } else {
             buttons.add(button);
         }
     }
@@ -132,24 +120,24 @@ public class MenuSectionController extends LayoutController implements ContentNa
     protected void renderView(View view) {
         contentPanel.add(view.asWidget());
         List<KSButton> buttons = viewButtonsMap.get(view.getViewEnum());
-        if(buttons != null){
-            for(KSButton button: buttons){
+        if (buttons != null) {
+            for (KSButton button : buttons) {
                 buttonPanel.add(button);
             }
         }
         KSMenuItemData item = viewMenuItemMap.get(view.getViewEnum());
-        if(item != null){
+        if (item != null) {
             item.setSelected(true, false);
         }
     }
 
-    public void addMenu(String title){
-        if(title != null && !title.equals("")){
+    public void addMenu(String title) {
+        if (title != null && !title.equals("")) {
             KSMenuItemData item = new KSMenuItemData(title);
             topLevelMenuItems.add(item);
             List<View> list = new ArrayList<View>();
             menuViewMap.put(title, list);
-            if(refreshMenuOnAdd){
+            if (refreshMenuOnAdd) {
                 menu.refresh();
             }
         }
@@ -163,14 +151,14 @@ public class MenuSectionController extends LayoutController implements ContentNa
      * on the menu, but also the order in which they are shown when the showNextViewOnMenu is called.  Care must be
      * taken when calling these methods to insure a consistent/logical UI.
      */
-    public void addStartMenuItem(String parentMenu, final View view){
+    public void addStartMenuItem(String parentMenu, final View view) {
         addMenuItem(parentMenu, view);
         this.setDefaultView(view.getViewEnum());
         refreshMenuOnAdd = false;
         menu.refresh();
     }
 
-    public void revealMenuItems(){
+    public void revealMenuItems() {
         menu.refresh();
         refreshMenuOnAdd = true;
     }
@@ -182,11 +170,11 @@ public class MenuSectionController extends LayoutController implements ContentNa
      * taken when calling these methods to insure a consistent/logical UI.
      */
     @Override
-    public void addMenuItem(String parentMenu, final View view){
+    public void addMenuItem(String parentMenu, final View view) {
         super.addView(view);
-        KSMenuItemData parentItem =null;
-        for(int i = 0; i < topLevelMenuItems.size(); i++){
-            if(topLevelMenuItems.get(i).getLabel().equals(parentMenu)){
+        KSMenuItemData parentItem = null;
+        for (int i = 0; i < topLevelMenuItems.size(); i++) {
+            if (topLevelMenuItems.get(i).getLabel().equals(parentMenu)) {
                 parentItem = topLevelMenuItems.get(i);
                 break;
             }
@@ -194,11 +182,11 @@ public class MenuSectionController extends LayoutController implements ContentNa
 
         KSMenuItemData item = new KSMenuItemData(view.getName());
         viewMenuItemMap.put(view.getViewEnum(), item);
-        item.setClickHandler(new ClickHandler(){
+        item.setClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                DeferredCommand.addCommand(new Command(){
+                DeferredCommand.addCommand(new Command() {
                     @Override
                     public void execute() {
                         MenuSectionController.this.showView(view.getViewEnum(), showViewCallback);
@@ -208,18 +196,17 @@ public class MenuSectionController extends LayoutController implements ContentNa
 
         });
 
-        if(parentItem != null){
+        if (parentItem != null) {
             menuOrder.add(view);
             parentItem.addSubItem(item);
             menuViewMap.get(parentMenu).add(view);
-        }
-        else{
+        } else {
             menuOrder.add(view);
             topLevelMenuItems.add(item);
             menuViewMap.get("").add(view);
         }
 
-        if(refreshMenuOnAdd){
+        if (refreshMenuOnAdd) {
             menu.refresh();
         }
     }
@@ -234,7 +221,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
      * taken when calling these methods to insure a consistent/logical UI.
      */
     @Override
-    public void addSpecialMenuItem(final View view, String description){
+    public void addSpecialMenuItem(final View view, String description) {
         //TODO add description to the menu item
         super.addView(view);
         menuViewMap.get("").add(view);
@@ -242,11 +229,11 @@ public class MenuSectionController extends LayoutController implements ContentNa
         KSMenuItemData item = new KSMenuItemData(view.getName());
         item.addSpecialStyle("ks-menu-layout-special-menu-item-panel");
         viewMenuItemMap.put(view.getViewEnum(), item);
-        item.setClickHandler(new ClickHandler(){
+        item.setClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                DeferredCommand.addCommand(new Command(){
+                DeferredCommand.addCommand(new Command() {
                     @Override
                     public void execute() {
                         MenuSectionController.this.showView(view.getViewEnum(), showViewCallback);
@@ -256,7 +243,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
 
         });
         topLevelMenuItems.add(item);
-        if(refreshMenuOnAdd){
+        if (refreshMenuOnAdd) {
             menu.refresh();
         }
     }
@@ -268,11 +255,11 @@ public class MenuSectionController extends LayoutController implements ContentNa
      */
     @Override
     public void updateModel() {
-        for(View v: menuOrder){
+        for (View v : menuOrder) {
             v.updateModel();
         }
 
     }
-
-
+	
+	
 }

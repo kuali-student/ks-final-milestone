@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +62,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @JoinTable(name = "KSLU_CLU_JN_CLU_IDENT", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
+    private List<CluAcademicSubjectOrg> academicSubjectOrgs;
+
     @Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
     
@@ -77,10 +79,13 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @JoinTable(name = "KSLU_CLU_JN_ACCRED", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ACCRED_ID"))
     private List<CluAccreditation> accreditations;
     
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="PRI_ADMIN_ORG_ID")
+    private CluAdminOrg primaryAdminOrg;
     
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSLU_CLU_JN_ADMIN_ORG", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ADMIN_ORG_ID"))
-    private List<CluAdminOrg> adminOrgs;
+    @JoinTable(name = "KSLU_CLU_JN_ALT_ADMIN_ORG", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_ORG_ID"))
+    private List<CluAdminOrg> alternateAdminOrgs;
     
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="PRI_INSTR_ID")
@@ -383,6 +388,17 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
           this.primaryInstructor = primaryInstructor;
       }
 
+      public List<CluAcademicSubjectOrg> getAcademicSubjectOrgs() {
+//          if (academicSubjectOrgs == null) {
+//              academicSubjectOrgs = new ArrayList<CluAcademicSubjectOrg>();
+//          }
+          return academicSubjectOrgs;
+      }
+
+      public void setAcademicSubjectOrgs(List<CluAcademicSubjectOrg> academicSubjectOrgs) {
+          this.academicSubjectOrgs = academicSubjectOrgs;
+      }
+
       public List<CluCampusLocation> getCampusLocations() {
 //          if (campusLocationList == null) {
 //              campusLocationList = new ArrayList<CluCampusLocation>();
@@ -413,16 +429,23 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
           this.accreditations = accreditations;
       }
 
-
-      public List<CluAdminOrg> getAdminOrgs() {
-          if (adminOrgs == null) {
-              adminOrgs = new ArrayList<CluAdminOrg>();
-          }
-          return adminOrgs;
+      public CluAdminOrg getPrimaryAdminOrg() {
+          return primaryAdminOrg;
       }
 
-      public void setAdminOrgs(List<CluAdminOrg> adminOrgs) {
-          this.adminOrgs = adminOrgs;
+      public void setPrimaryAdminOrg(CluAdminOrg primaryAdminOrg) {
+          this.primaryAdminOrg = primaryAdminOrg;
+      }
+
+      public List<CluAdminOrg> getAlternateAdminOrgs() {
+//          if (alternateAdminOrgs == null) {
+//              alternateAdminOrgs = new ArrayList<CluAdminOrg>();
+//          }
+          return alternateAdminOrgs;
+      }
+
+      public void setAlternateAdminOrgs(List<CluAdminOrg> alternateAdminOrgs) {
+          this.alternateAdminOrgs = alternateAdminOrgs;
       }
 
 	public String getExpectedFirstAtp() {

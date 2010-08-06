@@ -652,7 +652,7 @@
 					<value> atpdurtype.id  =  :atp_queryParam_atpDurationType </value>
 				</entry>
 				<entry key="atp.search.atpSeasonTypes">
-					<value>SELECT atpseasontype.id, atpseasontype.name, atpseasontype.descr FROM AtpSeasonalType atpseasontype WHERE atpseasontype.id IN ('kuali.atp.season.Any', 'kuali.atp.season.Fall', 'kuali.atp.season.Spring', 'kuali.atp.season.Summer', 'kuali.atp.season.Winter')</value>
+					<value>SELECT atpseasontype.id, atpseasontype.name, atpseasontype.descr FROM AtpSeasonalType atpseasontype</value>
 				</entry>				
 				<entry  key="atp.queryParam.atpSeasonType">
 					<value> atpseasontype.id  =  :atp_queryParam_atpSeasonType </value>

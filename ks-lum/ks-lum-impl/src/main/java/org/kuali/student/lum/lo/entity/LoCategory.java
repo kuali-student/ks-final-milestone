@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -63,6 +64,9 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	@Column(name="STATE")
 	private String state;
 	
+	@ManyToMany(mappedBy="categories")
+	private List<Lo> los;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
 	private Date effectiveDate;
@@ -137,6 +141,17 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 
 	public String getState() {
 		return state;
+	}
+
+	public void setLos(List<Lo> los) {
+		this.los = los;
+	}
+
+	public List<Lo> getLos() {
+		if (null == los) {
+			los = new ArrayList<Lo>(0);
+		}
+		return los;
 	}
 
 	public Date getEffectiveDate() {
