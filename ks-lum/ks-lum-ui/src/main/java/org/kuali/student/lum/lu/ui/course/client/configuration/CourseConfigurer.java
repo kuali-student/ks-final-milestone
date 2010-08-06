@@ -150,10 +150,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //Course Content
                 layout.addMenuItem(sections, generateCourseInfoSection());
                 layout.addMenuItem(sections, generateCourseLogisticsSection());
-                layout.addMenuItem(sections, generateLearningObjectivesSection());
+                //TODO layout.addMenuItem(sections, generateLearningObjectivesSection());
 
             //Student Eligibility
-                layout.addMenuItem(sections, generateCourseRequisitesSection());
+                //TODO layout.addMenuItem(sections, generateCourseRequisitesSection());
 
             //Administrative
                 layout.addMenuItem(sections, generateGovernanceSection());
