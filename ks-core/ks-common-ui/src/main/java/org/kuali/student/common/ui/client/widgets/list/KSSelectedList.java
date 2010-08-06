@@ -26,7 +26,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
-import org.kuali.student.common.ui.client.util.Elements;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -42,20 +41,15 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
 import org.kuali.student.core.assembly.data.Data.Value;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasName;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget {
@@ -65,7 +59,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
     private String name;
     private boolean initialized;
     private VerticalFlowPanel mainPanel;
-    private FlowPanel pickerPanel;
+    private HorizontalPanel pickerPanel;
     private KSPicker picker;
     private KSButton addItemButton;
     private KSListPanel valuesPanel;
@@ -85,7 +79,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         mainPanel = new VerticalFlowPanel();
         initWidget(mainPanel);
         if(config.canEdit) {
-            pickerPanel = new FlowPanel();
+            pickerPanel = new HorizontalPanel();
             pickerPanel.addStyleName("ks-selected-list-picker");
             addItemButton = new KSButton("add to list");
             addItemButton.setEnabled(false);
