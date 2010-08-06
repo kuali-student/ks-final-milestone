@@ -38,6 +38,7 @@ import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
@@ -55,6 +56,7 @@ public class ProgramServiceImpl implements ProgramService {
     private MajorDisciplineAssembler majorDisciplineAssembler;
     private ProgramRequirementAssembler programRequirementAssembler;
     private CredentialProgramAssembler credentialProgramAssembler;
+    private CoreProgramAssembler coreProgramAssembler;
 
     @Override
     public CredentialProgramInfo createCredentialProgram(
@@ -147,9 +149,7 @@ public class ProgramServiceImpl implements ProgramService {
 
             processCredentialProgramInfo(credentialProgram, NodeOperation.DELETE);
 
-            StatusInfo status = new StatusInfo();
-            status.setSuccess(true);
-            return status;
+            return getStatus();
 
         } catch (AssemblyException e) {
             LOG.error("Error disassembling CredentialProgram", e);
@@ -177,9 +177,7 @@ public class ProgramServiceImpl implements ProgramService {
 
             processMajorDisciplineInfo(majorDiscipline, NodeOperation.DELETE);
 
-            StatusInfo status = new StatusInfo();
-            status.setSuccess(true);
-            return status;
+            return getStatus();
 
         } catch (AssemblyException e) {
             LOG.error("Error disassembling MajorDiscipline", e);
@@ -622,28 +620,27 @@ public class ProgramServiceImpl implements ProgramService {
     private MajorDisciplineInfo processMajorDisciplineInfo(MajorDisciplineInfo majorDisciplineInfo, NodeOperation operation) throws AssemblyException {
 
         BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = majorDisciplineAssembler.disassemble(majorDisciplineInfo, operation);
-
-        // Use the results to make the appropriate service calls here
-        try {
-            programServiceMethodInvoker.invokeServiceCalls(results);
-        } catch (Exception e) {
-            throw new AssemblyException(e);
-        }
+        invokeServiceCalls(results);
         return results.getBusinessDTORef();
     }
 
     private CredentialProgramInfo processCredentialProgramInfo(CredentialProgramInfo credentialProgramInfo, NodeOperation operation) throws AssemblyException {
 
         BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results = credentialProgramAssembler.disassemble(credentialProgramInfo, operation);
-
+        invokeServiceCalls(results);
+        return results.getBusinessDTORef();
+    }
+    
+    @SuppressWarnings("unchecked")
+	private void invokeServiceCalls(BaseDTOAssemblyNode results) throws AssemblyException{
         // Use the results to make the appropriate service calls here
         try {
             programServiceMethodInvoker.invokeServiceCalls(results);
         } catch (Exception e) {
             throw new AssemblyException(e);
-        }
-        return results.getBusinessDTORef();
+        }    	
     }
+    
     //Spring setters. Used by spring container to inject corresponding dependencies.
 
     public void setLuService(LuService luService) {
@@ -679,34 +676,110 @@ public class ProgramServiceImpl implements ProgramService {
         this.validator = validator;
     }
 
+	public void setCoreProgramAssembler(CoreProgramAssembler coreProgramAssembler) {
+		this.coreProgramAssembler = coreProgramAssembler;
+	}
+
+	private StatusInfo getStatus(){
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(true);
+        return status;		
+	}
+	
+    private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation) throws AssemblyException {
+
+        BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation);
+        invokeServiceCalls(results);
+        return results.getBusinessDTORef();
+    }
+    
     @Override
     public CoreProgramInfo createCoreProgram(CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        if (coreProgramInfo == null) {
+            throw new MissingParameterException("CoreProgramInfo can not be null");
+        }
+
+        // Validate
+        List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+
+        try {
+            return processCoreProgramInfo(coreProgramInfo, NodeOperation.CREATE);
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling CoreProgram", e);
+            throw new OperationFailedException("Error disassembling CoreProgram");
+        }
     }
 
     @Override
     public StatusInfo deleteCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        try {
+        	CoreProgramInfo coreProgramInfo = getCoreProgram(coreProgramId);
+
+            processCoreProgramInfo(coreProgramInfo, NodeOperation.DELETE);
+
+            return getStatus();
+
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling CoreProgram", e);
+            throw new OperationFailedException("Error disassembling CoreProgram");
+        }
     }
 
     @Override
     public CoreProgramInfo getCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	CoreProgramInfo coreProgramInfo = null;
+
+        try {
+            CluInfo clu = luService.getClu(coreProgramId);
+            if ( ! ProgramAssemblerConstants.CORE_PROGRAM.equals(clu.getType()) ) {
+                throw new DoesNotExistException("Specified CLU is not a CoreProgram");
+            }
+            coreProgramInfo = coreProgramAssembler.assemble(clu, null, false);
+        } catch (AssemblyException e) {
+            LOG.error("Error assembling CoreProgram", e);
+            throw new OperationFailedException("Error assembling CoreProgram");
+        }
+        return coreProgramInfo;
+		// comment out the above, and uncomment below to get auto-generated data
+        // (and vice-versa)
+//		try {
+//			return new CoreProgramDataGenerator().getCoreProgramInfoTestData();
+//		} catch (Exception e) {
+//			return null;
+//		}
     }
 
     @Override
     public CoreProgramInfo updateCoreProgram(CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        if (coreProgramInfo == null) {
+            throw new MissingParameterException("CoreProgramInfo can not be null");
+        }
+
+        // Validate
+        List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+
+        try {
+
+            return processCoreProgramInfo(coreProgramInfo, NodeOperation.UPDATE);
+
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling CoreProgram", e);
+            throw new OperationFailedException("Error disassembling CoreProgram");
+        }
     }
 
     @Override
     public List<ValidationResultInfo> validateCoreProgram(String validationType, CoreProgramInfo coreProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
+        List<ValidationResultInfo> validationResults = validator.validateObject(coreProgramInfo, objStructure);
+
+        return validationResults;
     }
 
 }
