@@ -11,7 +11,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
  */
 public abstract class AbstractProgramConfigurer extends Configurer {
 
-    public abstract void configure(ProgramController programController);
+    public abstract void configure(ProgramController programViewController);
 
     @Override
     public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {

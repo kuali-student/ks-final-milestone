@@ -83,7 +83,7 @@ public class CurriculumHomeView extends ViewComposite{
 		list.add(new Hyperlink("Start Blank Proposal", "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL"));
 		list.add(new Hyperlink("Clu Set Management", "/HOME/CURRICULUM_HOME/CLU_SETS"));
 		list.add(new Hyperlink("Course Catalog", "/HOME/CURRICULUM_HOME/COURSE_CATALOG"));
-//		list.add(new Hyperlink("Program", "/HOME/CURRICULUM_HOME/PROGRAM"));
+//		list.add(new Hyperlink("Program", "/HOME/CURRICULUM_HOME/PROGRAM_VIEW"));
 		list.add(categoryManagement);
 		addIfPermitted(PermissionType.SEARCH, "Courses");
         addIfPermitted(PermissionType.SEARCH, "Proposals");
@@ -183,7 +183,7 @@ public class CurriculumHomeView extends ViewComposite{
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.OBJECT_ID);
-                        Application.navigate("/HOME/CURRICULUM_HOME/PROGRAM", viewContext);
+                        Application.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", viewContext);
                     }                    
                 }); 
                 list.add(searchWindow);

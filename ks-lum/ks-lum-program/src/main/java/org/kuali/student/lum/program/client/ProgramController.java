@@ -1,86 +1,33 @@
 package org.kuali.student.lum.program.client;
 
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
-import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
-import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
-import org.kuali.student.common.ui.client.event.ValidateResultEvent;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
-import java.util.List;
+/**
+ * @author Igor
+ */
+public class ProgramController  extends MenuSectionController {
 
-public class ProgramController extends MenuEditableSectionController {
+    protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
-    private final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
+    protected boolean initialized = false;
 
-    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
+    protected final DataModel programModel = new DataModel();
 
-    private boolean initialized = false;
-
-    private final DataModel programModel = new DataModel();
-
-    private WorkQueue modelRequestQueue;
+    protected WorkQueue modelRequestQueue;
 
     public ProgramController() {
-        super(ProgramController.class.getName());
-        initHandlers();
+        super("");
         setViewContext(new ViewContext());
         initialize();
-    }
-
-    private void initHandlers() {
-        saveButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                doSave();
-            }
-        });
-        cancelButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                setEditMode(false);
-            }
-        });
-    }
-
-    private void doSave() {
-        requestModel(new ModelRequestCallback<DataModel>() {
-            @Override
-            public void onModelReady(DataModel model) {
-                ProgramController.this.updateModel();
-            }
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve model for validation and save", cause);
-            }
-
-        });
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
-            @Override
-            public void onSuccess(DataSaveResult result) {
-                super.onSuccess(result);
-                programModel.setRoot(result.getValue());
-                setEditMode(false);
-            }
-        });
     }
 
     private void initialize() {
@@ -93,7 +40,7 @@ public class ProgramController extends MenuEditableSectionController {
                     modelRequestQueue = new WorkQueue();
                 }
 
-                WorkItem workItem = new WorkItem() {
+                WorkQueue.WorkItem workItem = new WorkQueue.WorkItem() {
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
                         if (programModel.getRoot() == null || programModel.getRoot().size() == 0) {
@@ -108,38 +55,9 @@ public class ProgramController extends MenuEditableSectionController {
                 modelRequestQueue.submit(workItem);
             }
         });
-        /*super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
-
-            @Override
-            public void onValidateRequest(ValidateRequestEvent event) {
-                requestModel(new ModelRequestCallback<DataModel>() {
-                    @Override
-                    public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultInfo>>() {
-                            @Override
-                            public void exec(List<ValidationResultInfo> result) {
-                                ValidateResultEvent e = new ValidateResultEvent();
-                                e.setValidationResult(result);
-                                fireApplicationEvent(e);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        GWT.log("Unable to retrieve model for validation", cause);
-                    }
-                });
-            }
-        });*/
     }
 
     private void initModel(final ModelRequestCallback<DataModel> callback, final Callback<Boolean> workCompleteCallback) {
-
-        //FIXME: testing only
-//    	if (programId == null || programId.isEmpty()) {
-//    		programId = "D4EA77DD-B492-4554-B104-863E42C5F8B7";    		
-//    	}
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
@@ -157,19 +75,6 @@ public class ProgramController extends MenuEditableSectionController {
         });
     }
 
-
-//    @Override
-//    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
-//        init(new Callback<Boolean>() {
-//
-//            @Override
-//            public void exec(Boolean result) {
-//                onReadyCallback.exec(result);
-//                ProgramController.super.showDefaultView(Controller.NO_OP_CALLBACK);
-//            }
-//        });
-//    }
-
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback){
         init(new Callback<Boolean>() {
@@ -184,9 +89,9 @@ public class ProgramController extends MenuEditableSectionController {
             }
         });
     }
-    
-    
-    private void init(final Callback<Boolean> onReadyCallback) {
+
+
+    protected void init(final Callback<Boolean> onReadyCallback) {
         if (initialized) {
             onReadyCallback.exec(true);
         } else {
@@ -222,7 +127,7 @@ public class ProgramController extends MenuEditableSectionController {
         }
     }
 
-    private void init(DataModelDefinition modelDefinition) {
+    protected void init(DataModelDefinition modelDefinition) {
         AbstractProgramConfigurer configurer = GWT.create(ProgramConfigurer.class);
         configurer.setModelDefinition(modelDefinition);
         if (null == programModel.getRoot()) {
@@ -230,14 +135,9 @@ public class ProgramController extends MenuEditableSectionController {
         }
         configurer.configure(this);
         this.setContentTitle("Programs");
-
-        if (!initialized) {
-            addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, saveButton);
-            addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, cancelButton);
-        }
         initialized = true;
     }
-   
+
     @Override
     public void setViewContext(ViewContext viewContext) {
         super.setViewContext(viewContext);

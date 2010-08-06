@@ -1,8 +1,5 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -13,7 +10,7 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
-import org.kuali.student.lum.program.client.ProgramController;
+import org.kuali.student.lum.program.client.ProgramViewController;
 
 public class CurriculumHomeController extends LayoutController {
 
@@ -26,13 +23,15 @@ public class CurriculumHomeController extends LayoutController {
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
-    private LayoutController programController;
+    private LayoutController programViewController;
+    private LayoutController programEditController;
 
     public enum LUMViews {
         DEFAULT,
         COURSE_PROPOSAL,
         VIEW_COURSE,
-        PROGRAM,
+        PROGRAM_VIEW,
+        PROGRAM_EDIT,
         CLU_SETS,
         COURSE_CATALOG
     }
@@ -44,7 +43,6 @@ public class CurriculumHomeController extends LayoutController {
         super.setViewEnum(viewType);
         this.setDefaultView(LUMViews.DEFAULT);
         this.initWidget(panel);
-
         setupDefaultView();
     }
 
@@ -62,8 +60,10 @@ public class CurriculumHomeController extends LayoutController {
                 return getCourseProposalController();
             case VIEW_COURSE:
                 return getViewCourseController();
-            case PROGRAM:
-                return getProgramController();
+            case PROGRAM_VIEW:
+                return getProgramViewController();
+            case PROGRAM_EDIT:
+                return getProgramEditController();
             case CLU_SETS:
                 return getCluSetsController();
             case COURSE_CATALOG:
@@ -75,70 +75,38 @@ public class CurriculumHomeController extends LayoutController {
 
 
     private CourseProposalController getCourseProposalController() {
-        GWT.runAsync(new RunAsyncCallback() {
-            public void onFailure(Throwable caught) {
-                Window.alert("Code download failed");
-            }
-
-            public void onSuccess() {
-                courseProposalController = new CourseProposalController();
-            }
-        });
-
+        courseProposalController = new CourseProposalController();
         return courseProposalController;
     }
 
     private LayoutController getViewCourseController() {
         if (viewCourseController == null) {
-            GWT.runAsync(new RunAsyncCallback() {
-                public void onFailure(Throwable caught) {
-                    Window.alert("Code download failed");
-                }
-
-                public void onSuccess() {
-                    viewCourseController = new ViewCourseController();
-                }
-            });
+            viewCourseController = new ViewCourseController();
         }
         return this.viewCourseController;
     }
 
-    private LayoutController getProgramController() {
-        GWT.runAsync(new RunAsyncCallback() {
-            public void onFailure(Throwable caught) {
-                Window.alert("Code download failed");
-            }
+    private LayoutController getProgramViewController() {
+        if (programViewController == null) {
+            programViewController = new ProgramViewController();
+        }
+        return programViewController;
+    }
 
-            public void onSuccess() {
-                programController = new ProgramController();
-            }
-        });
-        return this.programController;
+    private LayoutController getProgramEditController() {
+        if (programEditController == null) {
+            programEditController = new ProgramViewController();
+        }
+        return programEditController;
     }
 
     private LayoutController getCluSetsController() {
-        GWT.runAsync(new RunAsyncCallback() {
-            public void onFailure(Throwable caught) {
-                Window.alert("Code download failed");
-            }
-
-            public void onSuccess() {
-                manageCluSetsController = new CluSetsManagementController();
-            }
-        });
+        manageCluSetsController = new CluSetsManagementController();
         return manageCluSetsController;
     }
 
     private LayoutController getBrowseCatalogController() {
-        GWT.runAsync(new RunAsyncCallback() {
-            public void onFailure(Throwable caught) {
-                Window.alert("Code download failed");
-            }
-
-            public void onSuccess() {
-                browseCatalogController = new CatalogBrowserController(CurriculumHomeController.this);
-            }
-        });
+        browseCatalogController = new CatalogBrowserController(this);
         return browseCatalogController;
     }
 

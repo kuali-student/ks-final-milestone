@@ -1,27 +1,22 @@
 package org.kuali.student.lum.program.client;
 
-import java.util.ArrayList;
-
-import org.kuali.student.lum.program.client.configuration.CatalogInformationConfiguration;
-import org.kuali.student.lum.program.client.configuration.LearningObjectivesConfiguration;
-import org.kuali.student.lum.program.client.configuration.ManagingBodiesConfiguration;
-import org.kuali.student.lum.program.client.configuration.ProgramInformationConfiguration;
-import org.kuali.student.lum.program.client.configuration.RequirementsConfiguration;
-import org.kuali.student.lum.program.client.configuration.SpecializationsConfiguration;
+import com.google.gwt.core.client.GWT;
+import org.kuali.student.lum.program.client.configuration.*;
 import org.kuali.student.lum.program.client.configuration.base.Configuration;
 import org.kuali.student.lum.program.client.configuration.base.ConfigurationManager;
 import org.kuali.student.lum.program.client.configuration.base.EditableConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import com.google.gwt.core.client.GWT;
+
+import java.util.ArrayList;
 
 /**
- * This class represents configuration for  {@link org.kuali.student.lum.program.client.ProgramController}.
+ * This class represents configuration for  {@link ProgramViewController}.
  *
  * @author Igor
  */
 public class ProgramConfigurer extends AbstractProgramConfigurer {
 
-    private ProgramController controller;
+    private ProgramController viewController;
 
     private final ConfigurationManager<ProgramConfigurer> programSectionConfigManager;
 
@@ -36,9 +31,9 @@ public class ProgramConfigurer extends AbstractProgramConfigurer {
     }
 
     @Override
-    public void configure(ProgramController controller) {
-        this.controller = controller;
-        controller.setContentTitle("Biology");
+    public void configure(ProgramController viewController) {
+        this.viewController = viewController;
+        viewController.setContentTitle("Biology");
         configureProgramSections();
     }
 
@@ -47,15 +42,10 @@ public class ProgramConfigurer extends AbstractProgramConfigurer {
      */
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
-        controller.addMenu(programSectionLabel);
+        viewController.addMenu(programSectionLabel);
         ArrayList<Configuration<ProgramConfigurer>> configurations = programSectionConfigManager.getConfigurations();
         for (Configuration<ProgramConfigurer> configuration : configurations) {
-            if (configuration instanceof EditableConfiguration) {
-                EditableConfiguration editableConfiguration = (EditableConfiguration) configuration;
-                controller.addMenuItem(programSectionLabel, editableConfiguration.getView(), editableConfiguration.getEditView());
-            } else {
-                controller.addMenuItem(programSectionLabel, configuration.getView());
-            }
+            viewController.addMenuItem(programSectionLabel, configuration.getView());
         }
     }
 }
