@@ -287,10 +287,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			result.setEffectiveDate(course.getEffectiveDate());
 			result.setExpirationDate(course.getExpirationDate());
 
-//			AdminOrgInfo admin = course.getPrimaryAdminOrg();
-//			if (admin != null) {
-//				result.setDepartment(admin.getOrgId());
-//			}
+			AdminOrgInfo admin = course.getPrimaryAdminOrg();
+			if (admin != null) {
+				result.setDepartment(admin.getOrgId());
+			}
 
 			if (course.getDescr() != null){
 				result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
@@ -330,11 +330,11 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			result.setTranscriptTitle(course.getOfficialIdentifier().getShortName());
 			result.setType(course.getType());
 
-//			result.setAcademicSubjectOrgs(new Data());
+			result.setAcademicSubjectOrgs(new Data());
 
-//			for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-//				result.getAcademicSubjectOrgs().add(org.getOrgId());
-//			}
+			for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
+				result.getAcademicSubjectOrgs().add(org.getOrgId());
+			}
 
 			result.setCampusLocations(new Data());
 			for (String campus : course.getCampusLocations()) {
@@ -572,28 +572,28 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				}
 			}
 
-//			//AuthzCheck
-//			if(courseMetadata.getProperties().get("department").getWriteAccess()!=WriteAccess.NEVER){
-//				adminOrg = courseClu.getPrimaryAdminOrg();
-//				if (adminOrg == null) {
-//				    adminOrg = new AdminOrgInfo();
-//					courseClu.setPrimaryAdminOrg(adminOrg);
-//				}
-//				adminOrg.setOrgId(course.getDepartment());
-//			}
-//
-//			List<AcademicSubjectOrgInfo> subjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
-//			if (course.getAcademicSubjectOrgs() != null) {
-//				for (Data.Property p : course.getAcademicSubjectOrgs()) {
-//					if(!"_runtimeData".equals(p.getKey())){
-//						String org = p.getValue();
-//						AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
-//						info.setOrgId(org);
-//						subjectOrgs.add(info);
-//					}
-//				}
-//			}
-//			courseClu.setAcademicSubjectOrgs(subjectOrgs);
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("department").getWriteAccess()!=WriteAccess.NEVER){
+				adminOrg = courseClu.getPrimaryAdminOrg();
+				if (adminOrg == null) {
+				    adminOrg = new AdminOrgInfo();
+					courseClu.setPrimaryAdminOrg(adminOrg);
+				}
+				adminOrg.setOrgId(course.getDepartment());
+			}
+
+			List<AcademicSubjectOrgInfo> subjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
+			if (course.getAcademicSubjectOrgs() != null) {
+				for (Data.Property p : course.getAcademicSubjectOrgs()) {
+					if(!"_runtimeData".equals(p.getKey())){
+						String org = p.getValue();
+						AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
+						info.setOrgId(org);
+						subjectOrgs.add(info);
+					}
+				}
+			}
+			courseClu.setAcademicSubjectOrgs(subjectOrgs);
 
 			List<String> campuses = new ArrayList<String>();
 			if (course.getCampusLocations() != null) {
@@ -969,12 +969,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 						// set with effDate, adminOrg and officialIdent needed for validation
 						formatClu.setEffectiveDate(course.getEffectiveDate());
 	
-//						AdminOrgInfo adminOrg = formatClu.getPrimaryAdminOrg();
-//		                if (adminOrg == null) {
-//		                    adminOrg = new AdminOrgInfo();
-//		                    formatClu.setPrimaryAdminOrg(adminOrg);
-//		                }
-//		                adminOrg.setOrgId(course.getDepartment());
+						AdminOrgInfo adminOrg = formatClu.getPrimaryAdminOrg();
+		                if (adminOrg == null) {
+		                    adminOrg = new AdminOrgInfo();
+		                    formatClu.setPrimaryAdminOrg(adminOrg);
+		                }
+		                adminOrg.setOrgId(course.getDepartment());
 										
 						CluIdentifierInfo cluId = formatClu.getOfficialIdentifier();
 			            if (cluId == null) {
@@ -1048,12 +1048,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 						CluInfo formatClu = formatHierarchy.getCluInfo();
 						activityClu.setEffectiveDate(formatClu.getEffectiveDate());
 						
-//						AdminOrgInfo adminOrg = activityClu.getPrimaryAdminOrg();
-//	                    if (adminOrg == null) {
-//	                        adminOrg = new AdminOrgInfo();
-//	                        activityClu.setPrimaryAdminOrg(adminOrg);
-//	                    }
-//	                    adminOrg.setOrgId(formatClu.getPrimaryAdminOrg().getOrgId());
+						AdminOrgInfo adminOrg = activityClu.getPrimaryAdminOrg();
+	                    if (adminOrg == null) {
+	                        adminOrg = new AdminOrgInfo();
+	                        activityClu.setPrimaryAdminOrg(adminOrg);
+	                    }
+	                    adminOrg.setOrgId(formatClu.getPrimaryAdminOrg().getOrgId());
 	                    
 	                    CluIdentifierInfo cluId = activityClu.getOfficialIdentifier();
 	                    if (cluId == null) {
