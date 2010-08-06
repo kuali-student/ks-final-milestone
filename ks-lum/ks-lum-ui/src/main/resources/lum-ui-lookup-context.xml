@@ -70,6 +70,16 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="courseInfo.courseSpecificLOs.loInfo.desc" parent="uilookup">
+		<property name="path" value="courseInfo.courseSpecificLOs.loInfo.desc" />
+		<property name="initialLookup" ref="emptyLookup" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.learningObjectives" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="course.curriculumOversightOrgs" parent="department-lookup-binding-parent">
 		<property name="path" value="courseInfo.curriculumOversightOrgs" />
@@ -267,6 +277,12 @@
 	</bean>
 
 	<!-- Initial Lookup Definitions (For suggestbox & dropdown widgets) -->
+	<bean id="emptyLookup" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="lookup">
+		<property name="name" value="Search for Learning Objectives" />
+		<property name="desc" value="Search for learning objectives" />
+		<property name="widget" value="NO_WIDGET"/>
+	</bean>
 
 	<bean id="ks.lookup.person.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="ks.common.lookup.person.suggest">

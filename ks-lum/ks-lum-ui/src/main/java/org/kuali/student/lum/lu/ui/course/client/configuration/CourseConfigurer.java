@@ -31,9 +31,12 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -74,20 +77,27 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.Value;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.LoCategoryInfoHelper.Properties;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
+//import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
+import org.kuali.student.lum.lu.ui.course.client.widgets.OutlineNode;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -505,14 +515,15 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     protected SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
-        //section.addSection(generateLearningObjectivesNestedSection());
+        section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }
 
     protected VerticalSection generateLearningObjectivesNestedSection() {
         VerticalSection los = initSection(null, NO_DIVIDER);
          
-        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
+//        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
+        QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
     	Metadata meta = modelDefinition.getMetadata(path);
         
         // FIXME [KSCOR-225]  where should repo key come from?
@@ -520,7 +531,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         								CreditCourseConstants.COURSE_SPECIFIC_LOS,
         								null,
         								new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
-        								CreditCourseProposalConstants.COURSE);
+                                        COURSE);
 
         // have to do this here, because decision on binding is done in ks-core,
         // and we obviously don't want ks-core referring to LOBuilder
@@ -1091,5 +1102,433 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
             middleManModel.set(qPath, newIdsData);
             hasDataValueBinding.setWidgetValue(widget, middleManModel, path);
         }
+    }
+}
+
+class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
+    
+    public static LOBuilderBinding INSTANCE = new LOBuilderBinding();
+
+    /**
+     * Gets a list of OutlineNode from LOBuilder.  Goes through the list one by one.
+     * While going through the list the algorithm keeps track of the current parent of
+     * a particular level.
+     */
+    @Override
+    public void setModelValue(LOBuilder builder, DataModel model, String path) {
+        Data losData = new Data();
+        Map<Integer, Data> parentStore = new HashMap<Integer, Data>();
+        int sequence = 0; // the ordering information of DisplayInfo
+        if (builder.getValue() != null) {
+            for (OutlineNode<LOPicker> node : builder.getValue()) {
+                if (node.getIndentLevel() == 0) {
+                    Data item = createLoDisplayInfoData(node, sequence);
+                    parentStore.put(new Integer(0), item);
+                    losData.add(item);
+                } else {
+                    Data item = createLoDisplayInfoData(node, sequence);
+                    LoDisplayInfoHelper parentItemHelper = null;
+                    parentStore.put(node.getIndentLevel(), item);
+                    parentItemHelper = new LoDisplayInfoHelper(
+                            parentStore.get(node.getIndentLevel() - 1));
+                    parentItemHelper.getDisplayInfoList().add(item);
+                }
+                sequence++;
+            }
+        }
+        model.set(QueryPath.parse(path), losData);
+    }
+    
+    @Override
+    public void setWidgetValue(LOBuilder builder, DataModel model, String path) {
+        List<OutlineNode<LOPicker>> loOutlineNodes = new ArrayList<OutlineNode<LOPicker>>();
+
+        // change the 'courseSpecificLOs' elements into a List of OutlineNode's
+        QueryPath qPath = QueryPath.parse(path);
+
+        Data data = null;
+        if(model!=null){
+            data = model.get(qPath);
+        }
+        
+        dataToOutlineNodes(data, loOutlineNodes, 0);
+        if (loOutlineNodes != null && !loOutlineNodes.isEmpty()) {
+            builder.setValue(loOutlineNodes);
+        }
+    }
+    
+    private void dataToOutlineNodes(Data data, List<OutlineNode<LOPicker>> loOutlineNodes, int identLevel) {
+        if (data != null){
+            Iterator<Property> itr = data.realPropertyIterator();
+            LoDisplayInfoSortedSet sortedDisplayInfos = new LoDisplayInfoSortedSet();
+
+            // get top-level LO's in the right order
+            while (itr.hasNext()){
+                Property p = (Property) itr.next();
+                Data loDisplayInfoData = p.getValue();
+                LoDisplayInfoHelper loDisplayInfoHelper = new LoDisplayInfoHelper(loDisplayInfoData);
+                sortedDisplayInfos.add(loDisplayInfoHelper);
+            }
+            for (LoDisplayInfoHelper loDisplayInfoHelper : sortedDisplayInfos) {
+                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey());
+                LoInfoHelper loInfoHelper = new LoInfoHelper(loDisplayInfoHelper.getLoInfo());
+                RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());
+                picker.setLOText(descriptionHelper.getPlain());
+                List<LoCategoryInfo> categories = getCategoryList(loDisplayInfoHelper);
+                picker.setLOCategories(categories);
+                OutlineNode<LOPicker> node = new OutlineNode<LOPicker>();
+                
+                node.setUserObject(picker);
+                node.setOpaque(loInfoHelper.getId());
+                node.setIndentLevel(identLevel);
+                loOutlineNodes.add(node);
+                // recurse
+                dataToOutlineNodes(loDisplayInfoHelper.getDisplayInfoList(), loOutlineNodes, identLevel + 1);
+            }
+        }
+    }
+    
+    private List<LoCategoryInfo> getCategoryList(LoDisplayInfoHelper loDisplayInfoHelper) {
+        List<LoCategoryInfo> categoryInfos = new ArrayList<LoCategoryInfo>();
+        Data categoryData = loDisplayInfoHelper.getCategoryInfoList();
+        
+        if (null != categoryData) {
+            Iterator<Property> itr = categoryData.realPropertyIterator();
+                
+            while (itr.hasNext()) {
+                Property catProp = itr.next();
+                Data catData = catProp.getValue();
+                LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper(catData);
+                LoCategoryInfo catInfo = new LoCategoryInfo();
+                catInfo.setId(catHelper.getId());
+                // testing
+//                if (null != catHelper) {
+                    RichTextInfo descInfo = new RichTextInfo();
+                    descInfo.setFormatted(catHelper.getId());
+                    descInfo.setPlain(catHelper.getId());
+                    catInfo.setDesc(descInfo);
+//                }
+//                catInfo.setEffectiveDate(catHelper.getEffectiveDate());
+//                catInfo.setExpirationDate(catHelper.getExpirationDate());
+//                catInfo.setLoRepository(catHelper.getLoRepository());
+                // TODO - this should't be necessary when DOL pushed down into LOPicker
+                // and its LOCategoryBuilder
+                // catInfo.setAttributes(catHelper.getAttributes());
+//                catInfo.setName(catHelper.getName());
+//                catInfo.setState(catHelper.getState());
+//                catInfo.setType(catHelper.getType());
+                // TODO - LoCategoryInfoAssembler, w/ a disassemble method so we can just do 
+                // categoriesData.add(LoCategoryInfoAssembler.disassemble(catData)) instead
+                // of all the above
+                categoryInfos.add(catInfo);
+            }
+        }
+        return categoryInfos;
+    }
+    
+    private Data createLoDisplayInfoData(OutlineNode<LOPicker> node, int sequence) {
+        Data result = null;
+        LoDisplayInfoHelper loDisplayInfoDataHelper = new LoDisplayInfoHelper(new Data());
+        LoInfoHelper loInfoHelper = new LoInfoHelper(new Data());
+        // loInfo.id
+        loInfoHelper.setId((String) node.getOpaque());
+        // loInfo.desc
+        RichTextHelper richTextHelper = new RichTextHelper();
+        String loDesc = node.getUserObject().getLOText();
+        richTextHelper.setFormatted(loDesc);
+        richTextHelper.setPlain(loDesc);
+        loInfoHelper.setDesc(richTextHelper.getData());
+        // loInfo.name
+        if (null == loInfoHelper.getName() || loInfoHelper.getName().length() == 0) {
+            loInfoHelper.setName("SINGLE USE LO");
+        }
+
+        // loCategoryInfoList
+        Data categoriesData = new Data();
+        for (LoCategoryInfo cat : node.getUserObject().getLoCategories()) {
+            LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper();
+            catHelper.setId(cat.getId());
+            categoriesData.add(catHelper.getData());
+        }
+        
+        // loInfo.sequence
+        loInfoHelper.setSequence(Integer.toString(sequence));
+        
+        loDisplayInfoDataHelper.setLoInfo(loInfoHelper.getData());
+        loDisplayInfoDataHelper.setCategoryInfoList(categoriesData);
+        result = loDisplayInfoDataHelper.getData();
+        return result;
+    }
+    
+}
+
+class LoDisplayInfoSortedSet extends TreeSet<LoDisplayInfoHelper> {
+    private static final long serialVersionUID = 1L;
+    
+    public LoDisplayInfoSortedSet() {
+        super(new Comparator<LoDisplayInfoHelper>() {
+            @Override
+            public int compare(LoDisplayInfoHelper o1, LoDisplayInfoHelper o2) {
+                LoInfoHelper o1InfoHelper = new LoInfoHelper(o1.getLoInfo());
+                LoInfoHelper o2InfoHelper = new LoInfoHelper(o2.getLoInfo());
+                int seq1 = -1;
+                int seq2 = -1;
+                
+                seq1 = (o1InfoHelper.getSequence() == null)? 
+                        0 : Integer.valueOf(o1InfoHelper.getSequence());
+                seq2 = (o2InfoHelper.getSequence() == null)? 
+                        0 : Integer.valueOf(o2InfoHelper.getSequence());
+                return Integer.valueOf(seq1).compareTo(Integer.valueOf(seq2));
+            }
+        });
+    }
+}
+
+class LoDisplayInfoHelper {
+    private Data data;
+    public enum Properties implements PropertyEnum
+    {
+        LO_INFO ("loInfo"),
+        LO_DISPLAY_INFO_LIST ("loDisplayInfoList"),
+        LO_CATEGORY_INFO_LIST ("loCategoryInfoList");
+        
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+    
+    public LoDisplayInfoHelper() {
+        data = new Data();
+    }
+    
+    public LoDisplayInfoHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setLoInfo(Data loInfoData) {
+        HelperUtil.setDataField(LoDisplayInfoHelper.Properties.LO_INFO, data, loInfoData);
+    }
+    
+    public Data getLoInfo() {
+        return HelperUtil.getDataField(LoDisplayInfoHelper.Properties.LO_INFO, data);
+    }
+    
+    public void setDisplayInfoList(Data displayInfoListData) {
+        HelperUtil.setDataField(LoDisplayInfoHelper.Properties.LO_DISPLAY_INFO_LIST, data, displayInfoListData);
+    }
+    
+    public Data getDisplayInfoList() {
+        return HelperUtil.getDataField(LoDisplayInfoHelper.Properties.LO_DISPLAY_INFO_LIST, data);
+    }
+    
+    public void setCategoryInfoList(Data categoryInfoListData) {
+        HelperUtil.setDataField(LoDisplayInfoHelper.Properties.LO_CATEGORY_INFO_LIST, data, categoryInfoListData);
+    }
+    
+    public Data getCategoryInfoList() {
+        return HelperUtil.getDataField(LoDisplayInfoHelper.Properties.LO_CATEGORY_INFO_LIST, data);
+    }
+}
+
+class LoInfoHelper {
+    private Data data;
+    
+    public enum Properties implements PropertyEnum
+    {
+        NAME ("name"),
+        DESC ("desc"),
+        ID ("id"),
+        SEQUENCE ("sequence");
+        
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+
+    public LoInfoHelper() {
+        data = new Data();
+    }
+    
+    public LoInfoHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setName(String name) {
+        data.set(LoInfoHelper.Properties.NAME.getKey(), name);
+    }
+    
+    public String getName() {
+        return (String)data.get(Properties.NAME.getKey());
+    }
+    
+    public void setDesc(Data descData) {
+        HelperUtil.setDataField(LoInfoHelper.Properties.DESC, data, descData);
+    }
+    
+    public Data getDesc() {
+        return HelperUtil.getDataField(LoInfoHelper.Properties.DESC, data);
+    }
+    
+    public void setId(String id) {
+        data.set(LoInfoHelper.Properties.ID.getKey(), id);
+    }
+
+    public String getId() {
+        return (String)data.get(LoInfoHelper.Properties.ID.getKey());
+    }
+    
+    public void setSequence(String sequence) {
+        data.set(LoInfoHelper.Properties.SEQUENCE.getKey(), sequence);
+    }
+    
+    public String getSequence() {
+        return (String)data.get(LoInfoHelper.Properties.SEQUENCE.getKey());
+    }
+    
+}
+
+class LoCategoryInfoHelper {
+    private Data data;
+    
+    public enum Properties implements PropertyEnum
+    {
+        ID ("id");
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+    
+    public LoCategoryInfoHelper() {
+        this.data = new Data();
+    }
+    
+    public LoCategoryInfoHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setId(String id) {
+        data.set(Properties.ID.getKey(), id);
+    }
+    
+    public String getId() {
+        return (String) data.get(Properties.ID.getKey());
+    }
+}
+
+class RichTextHelper {
+    private Data data;
+    
+    public enum Properties implements PropertyEnum
+    {
+        PLAIN ("plain"),
+        FORMATTED ("formatted");
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+
+    public RichTextHelper() {
+        data = new Data();
+    }
+    
+    public RichTextHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setPlain(String plain) {
+        data.set(Properties.PLAIN.getKey(), plain);
+    }
+    
+    public String getPlain() {
+        return (String)data.get(Properties.PLAIN.getKey());
+    }
+    
+    public void setFormatted(String formatted) {
+        data.set(Properties.FORMATTED.getKey(), formatted);
+    }
+    
+    public String getFormatted() {
+        return (String)data.get(Properties.FORMATTED.getKey());
+    }
+}
+
+class HelperUtil {
+    public static void setDataField(PropertyEnum property, Data data, Data value) {
+        data.set(property.getKey(), value);
+    }
+    
+    public static Data getDataField(PropertyEnum property, Data data) {
+        if (data.get(property.getKey()) == null) {
+            setDataField(property, data, new Data());
+        }
+        return data.get(property.getKey());
     }
 }

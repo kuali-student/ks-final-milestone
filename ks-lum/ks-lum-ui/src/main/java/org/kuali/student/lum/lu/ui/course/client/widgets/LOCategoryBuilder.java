@@ -53,6 +53,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -89,7 +90,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add");
 
     private KSLightBox createCategoryWindow;
-    Hyperlink browseCategoryLink = new Hyperlink("Browse for categories", "BrowseCategories");
+    Anchor browseCategoryLink = new Anchor("Browse for categories");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
         super();
