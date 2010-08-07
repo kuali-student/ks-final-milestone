@@ -70,6 +70,12 @@ public class TestProgramInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (0, validationResults.size ());
+///[id='null']/code[value='code-test']/ validation.lengthOutOfRange
+///[id='null']/code[value='code-test']/ validation.validCharsFailed
+///[id='null']/cip2000Code[value='cip2000Code-test']/ validation.lengthOutOfRange
+///[id='null']/cip2000Code[value='cip2000Code-test']/ validation.validCharsFailed
+///[id='null']/cip2010Code[value='cip2010Code-test']/ validation.lengthOutOfRange
+///[id='null']/cip2010Code[value='cip2010Code-test']/ validation.validCharsFailed
+  assertEquals (6, validationResults.size ());
  }
 }

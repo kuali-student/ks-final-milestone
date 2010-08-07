@@ -419,10 +419,11 @@
         </property>
     </bean>
 
-    <bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-        <!--<property name="messageService" ref="ks.messageServiceMock"/>-->
+ 	 <bean id="businessServiceValidator" class="org.kuali.student.lum.course.service.impl.MockDefaultValidatorImpl"/>
+   <!-- <bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+        <property name="messageService" ref="ks.messageServiceMock"/>
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
-    </bean>
+    </bean>-->
 
     <bean id="validatorFactory"
         class="org.kuali.student.common.validator.ValidatorFactory">

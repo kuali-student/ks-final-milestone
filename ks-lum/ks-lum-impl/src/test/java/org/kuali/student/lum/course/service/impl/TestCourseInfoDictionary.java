@@ -1,6 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,5 +70,30 @@ public class TestCourseInfoDictionary
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
   assertEquals (0, validationResults.size ());
+
+  System.out.println ("testCourseDescrRequiredBasedOnState");
+  info.setState ("DRAFT");
+  info.setDescr (null);
+  validationResults = val.validateObject (info, os);
+  assertEquals (0, validationResults.size ());
+
+  info.setState ("ACTIVE");
+  info.setDescr (null);
+  validationResults = val.validateObject (info, os);
+  for (ValidationResultInfo vr : validationResults)
+  {
+   System.out.println (vr.getElement () + " " + vr.getMessage ());
+  }
+  assertEquals (1, validationResults.size ());
+
+  System.out.println ("test validation on dynamic attributes");
+  info.getAttributes().put("finalExamStatus", "123");
+ validationResults = val.validateObject (info, os);
+  for (ValidationResultInfo vr : validationResults)
+  {
+   System.out.println (vr.getElement () + " " + vr.getMessage ());
+  }
+  assertEquals (2, validationResults.size ());
+
  }
 }

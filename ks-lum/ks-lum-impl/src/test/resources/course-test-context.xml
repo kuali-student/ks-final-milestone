@@ -475,11 +475,12 @@
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
     </bean>
-	
-	<bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
+
+ 	<bean id="businessServiceValidator" class="org.kuali.student.lum.course.service.impl.MockDefaultValidatorImpl"/>
+	<!--<bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+		<property name="messageService" ref="ks.messageServiceMock"/>		
 		<property name="searchDispatcher" ref="mockSearchDispatcher"/>
-	</bean>
+	</bean>-->
  <bean id="mockSearchDispatcher" class="org.kuali.student.lum.course.service.impl.MockSearchDispatcher" >
  </bean>
 	<bean id="validatorFactory"
