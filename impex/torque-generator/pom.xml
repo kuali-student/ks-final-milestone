@@ -6,7 +6,8 @@
     <version>1.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>torque-generator</artifactId>
-  <name>Kuali Version of ASF Torque Generator</name>
+  <name>Torque Generator</name>
+  <description>This is the Kuali version of ASF's torque generator</description>
   <dependencies>
     <dependency>
       <groupId>ant</groupId>

@@ -19,32 +19,17 @@ package org.apache.torque.mojo;
  * under the License.
  */
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.Reader;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.Driver;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -57,13 +42,16 @@ import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.torque.engine.database.model.Database;
 import org.apache.torque.engine.database.model.Table;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
-import org.codehaus.plexus.util.StringUtils;
 import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;
+import org.kuali.db.DatabaseEvent;
+import org.kuali.db.DatabaseListener;
+import org.kuali.db.SQLExecutor;
+import org.kuali.db.Transaction;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+
+import static org.apache.commons.lang.StringUtils.*;
 
 /**
  * Execute the SQL files generated to create a schema and import data
@@ -72,22 +60,6 @@ import org.springframework.core.io.ResourceLoader;
  */
 public class ImportMojo extends AbstractMojo {
 	Utils utils = new Utils();
-
-	/**
-	 * Call {@link #setOnError(String)} with this value to abort SQL command execution if an error is found.
-	 */
-	public static final String ON_ERROR_ABORT = "abort";
-
-	/**
-	 * Call {@link #setOnError(String)} with this value to continue SQL command execution until all commands have been
-	 * attempted, then abort the build if an SQL error occurred in any of the commands.
-	 */
-	public static final String ON_ERROR_ABORT_AFTER = "abortAfter";
-
-	/**
-	 * Call {@link #setOnError(String)} with this value to continue SQL command execution if an error is found.
-	 */
-	public static final String ON_ERROR_CONTINUE = "continue";
 
 	/**
 	 * Call {@link #setOrderFile(String)} with this value to sort in ascendant order the sql files.
@@ -271,7 +243,7 @@ public class ImportMojo extends AbstractMojo {
 	 * @since 1.0
 	 * @parameter expression="${onError}" default-value="abort"
 	 */
-	private String onError = ON_ERROR_ABORT;
+	private String onError = SQLExecutor.ON_ERROR_ABORT;
 
 	// //////////////////////////// Parser Configuration ////////////////////
 
@@ -330,18 +302,6 @@ public class ImportMojo extends AbstractMojo {
 	 * @parameter expression="${orderFile}" default-value="ascending"
 	 */
 	private String orderFile = "ascending";
-
-	/**
-	 * When <code>true</code>, the whole SQL content in <code>sqlCommand</code>, <code>srcFiles</code> and
-	 * <code>fileset</code> are sent directly to JDBC in one SQL statement. This option is for executing database stored
-	 * procedures/functions.
-	 * 
-	 * @deprecated used <i>delimiterType<i> instead.
-	 * @since 1.1
-	 * @parameter expression="${enableBlockMode}"
-	 */
-
-	private boolean enableBlockMode = false;
 
 	/**
 	 * Keep the format of an SQL block.
@@ -419,11 +379,6 @@ public class ImportMojo extends AbstractMojo {
 	private Connection conn = null;
 
 	/**
-	 * SQL statement
-	 */
-	private Statement statement = null;
-
-	/**
 	 * SQL transactions to perform
 	 */
 	private Vector<Transaction> transactions = new Vector<Transaction>();
@@ -496,17 +451,6 @@ public class ImportMojo extends AbstractMojo {
 	 */
 	public void setDelimiterType(String delimiterType) {
 		this.delimiterType = delimiterType;
-	}
-
-	/**
-	 * Print result sets from the statements; optional, default false
-	 * 
-	 * @param print
-	 *            <code>true</code> to print the resultset, otherwise <code>false</code>
-	 * @deprecated typo, use setPrintResultSet()
-	 */
-	public void setPrintResutlSet(boolean print) {
-		setPrintResultSet(print);
 	}
 
 	/**
@@ -648,77 +592,68 @@ public class ImportMojo extends AbstractMojo {
 		}
 
 		try {
-			statement = conn.createStatement();
-			statement.setEscapeProcessing(escapeProcessing);
+			for (Transaction t : transactions) {
+				getLog().debug("Resource Location: " + t.getResourceLocation());
+			}
+			SQLExecutor executor = new SQLExecutor();
+			executor.addListener(new DatabaseListener() {
+				PrettyPrint pp;
 
-			PrintStream out = System.out;
-			try {
-				if (outputFile != null) {
-					getLog().debug("Opening PrintStream to output file " + outputFile);
-					out = new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFile.getAbsolutePath(), append)));
-				}
-
-				// Process all transactions
-				for (Enumeration<Transaction> e = transactions.elements(); e.hasMoreElements();) {
-					Transaction t = (Transaction) e.nextElement();
-
-					t.runTransaction(out);
-
-					if (!autocommit) {
-						getLog().debug("Committing transaction");
-						conn.commit();
+				@Override
+				public void messageLogged(DatabaseEvent event) {
+					switch (event.getPriority()) {
+					case DEBUG:
+						getLog().debug(event.getMessage());
+						break;
+					case INFO:
+						getLog().info(event.getMessage());
+						break;
+					case WARN:
+						getLog().warn(event.getMessage());
+						break;
+					case ERROR:
+						getLog().error(event.getMessage(), event.getException());
+						break;
+					default:
+						getLog().warn("Unknown message priority " + event.getPriority() + " for message: " + event.getMessage());
+						break;
 					}
 				}
-			} finally {
-				if (out != null && out != System.out) {
-					out.close();
-				}
-			}
-		} catch (IOException e) {
-			throw new MojoExecutionException(e.getMessage(), e);
-		} catch (SQLException e) {
-			if (!autocommit && conn != null && ON_ERROR_ABORT.equalsIgnoreCase(getOnError())) {
-				try {
-					conn.rollback();
-				} catch (SQLException ex) {
-					// ignore
-				}
-			}
-			throw new MojoExecutionException(e.getMessage(), e);
-		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException ex) {
-				// ignore
-			}
-		}
 
-		getLog().info(getSuccessfulStatements() + " of " + getTotalStatements() + " SQL statements executed successfully");
+				@Override
+				public void beginTransaction(DatabaseEvent event) {
+					pp = new PrettyPrint("[INFO] " + event.getTransaction().getResourceLocation());
+					utils.left(pp);
+				}
 
-		if (ON_ERROR_ABORT_AFTER.equalsIgnoreCase(getOnError()) && totalStatements != successfulStatements) {
-			throw new MojoExecutionException("Some SQL statements failed to execute");
+				@Override
+				public void finishTransaction(DatabaseEvent event) {
+					utils.right(pp);
+					pp = null;
+				}
+			});
+			BeanUtils.copyProperties(executor, this);
+			executor.runTransactions(transactions);
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error executing SQL", e);
 		}
 
 	}
 
 	/**
 	 * Add sql command to transactions list.
-	 * 
 	 */
-	private void addCommandToTransactions() {
-		createTransaction().addText(sqlCommand.trim());
+	protected void addCommandToTransactions() {
+		if (!isEmpty(sqlCommand)) {
+			createTransaction().addText(sqlCommand.trim());
+		}
 	}
 
 	/**
 	 * Add user sql fileset to transation list
 	 * 
 	 */
-	private void addFileSetToTransactions() {
+	protected void addFileSetToTransactions() {
 		String[] includedFiles;
 		if (fileset != null) {
 			fileset.scan();
@@ -728,17 +663,17 @@ public class ImportMojo extends AbstractMojo {
 		}
 
 		for (int j = 0; j < includedFiles.length; j++) {
-			createTransaction().setSrc(new File(fileset.getBasedir(), includedFiles[j]).getAbsolutePath());
+			createTransaction().setResourceLocation(new File(fileset.getBasedir(), includedFiles[j]).getAbsolutePath());
 		}
 	}
 
-	private void addSchemaXMLResourcesToTransactions() throws MojoExecutionException {
-		if (getSchemaXMLResources() == null) {
+	protected void addSchemaXMLResourcesToTransactions() throws MojoExecutionException {
+		if (getSchemas() == null) {
 			return;
 		}
 		try {
-			List<Database> databases = new Utils().getDatabases(getSchemaXMLResources(), getTargetDatabase());
-			for (String schemaXMLResource : getSchemaXMLResources()) {
+			List<Database> databases = new Utils().getDatabases(getSchemas(), getTargetDatabase());
+			for (String schemaXMLResource : getSchemas()) {
 				getLog().info("Adding " + schemaXMLResource);
 			}
 			for (Database database : databases) {
@@ -761,17 +696,19 @@ public class ImportMojo extends AbstractMojo {
 				if (!resource.exists()) {
 					getLog().debug("Skipping " + location + " because it does not exist");
 					continue;
+				} else {
+					createTransaction().setResourceLocation(location);
+					getLog().debug("Adding " + location);
 				}
-				createTransaction().setSrc(location);
 			}
 		}
 		if (isImportSchema()) {
 			String schemaSQL = "classpath:impex/" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
-			createTransaction().setSrc(schemaSQL);
+			createTransaction().setResourceLocation(schemaSQL);
 		}
 		if (isImportSchemaConstraints()) {
 			String schemaConstraintsSQL = "classpath:impex/" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
-			createTransaction().setSrc(schemaConstraintsSQL);
+			createTransaction().setResourceLocation(schemaConstraintsSQL);
 		}
 	}
 
@@ -780,7 +717,7 @@ public class ImportMojo extends AbstractMojo {
 	 * 
 	 * @throws MojoExecutionException
 	 */
-	private void addFilesToTransactions() throws MojoExecutionException {
+	protected void addFilesToTransactions() throws MojoExecutionException {
 		File[] files = getSrcFiles();
 
 		MavenFileFilterRequest request = new MavenFileFilterRequest();
@@ -810,14 +747,14 @@ public class ImportMojo extends AbstractMojo {
 				throw new MojoExecutionException(e.getMessage());
 			}
 
-			createTransaction().setSrc(targetFile.getAbsolutePath());
+			createTransaction().setResourceLocation(targetFile.getAbsolutePath());
 		}
 	}
 
 	/**
 	 * Sort the transaction list.
 	 */
-	private void sortTransactions() {
+	protected void sortTransactions() {
 		if (FILE_SORTING_ASC.equalsIgnoreCase(this.orderFile)) {
 			Collections.sort(transactions);
 		} else if (FILE_SORTING_DSC.equalsIgnoreCase(this.orderFile)) {
@@ -872,7 +809,7 @@ public class ImportMojo extends AbstractMojo {
 	 *             if there is problem getting connection with valid url
 	 * 
 	 */
-	private Connection getConnection() throws MojoExecutionException, SQLException {
+	protected Connection getConnection() throws MojoExecutionException, SQLException {
 		getLog().info("URL: " + getUrl());
 		getLog().info("Username: " + getUsername());
 		getLog().info("Driver: " + getDriver());
@@ -916,10 +853,10 @@ public class ImportMojo extends AbstractMojo {
 	protected Properties getDriverProperties() throws MojoExecutionException {
 		Properties properties = new Properties();
 
-		if (!StringUtils.isEmpty(this.driverProperties)) {
-			String[] tokens = StringUtils.split(this.driverProperties, ",");
+		if (!isEmpty(this.driverProperties)) {
+			String[] tokens = split(this.driverProperties, ",");
 			for (int i = 0; i < tokens.length; ++i) {
-				String[] keyValueTokens = StringUtils.split(tokens[i].trim(), "=");
+				String[] keyValueTokens = split(tokens[i].trim(), "=");
 				if (keyValueTokens.length != 2) {
 					throw new MojoExecutionException("Invalid JDBC Driver properties: " + this.driverProperties);
 				}
@@ -930,327 +867,6 @@ public class ImportMojo extends AbstractMojo {
 		}
 
 		return properties;
-	}
-
-	/**
-	 * read in lines and execute them
-	 * 
-	 * @param reader
-	 *            the reader
-	 * @param out
-	 *            the outputstream
-	 * @throws SQLException
-	 * @throws IOException
-	 */
-	private void runStatements(Reader reader, PrintStream out) throws SQLException, IOException {
-		String line;
-
-		if (enableBlockMode) {
-			// no need to parse the content, ship it directly to jdbc in one sql statement
-			line = IOUtil.toString(reader);
-			execSQL(line, out);
-			return;
-		}
-
-		StringBuffer sql = new StringBuffer();
-
-		BufferedReader in = new BufferedReader(reader);
-
-		while ((line = in.readLine()) != null) {
-			if (!keepFormat) {
-				line = line.trim();
-			}
-
-			if (!keepFormat) {
-				if (line.startsWith("//")) {
-					continue;
-				}
-				if (line.startsWith("--")) {
-					continue;
-				}
-				StringTokenizer st = new StringTokenizer(line);
-				if (st.hasMoreTokens()) {
-					String token = st.nextToken();
-					if ("REM".equalsIgnoreCase(token)) {
-						continue;
-					}
-				}
-			}
-
-			if (!keepFormat) {
-				sql.append(" ").append(line);
-			} else {
-				sql.append("\n").append(line);
-			}
-
-			// SQL defines "--" as a comment to EOL
-			// and in Oracle it may contain a hint
-			// so we cannot just remove it, instead we must end it
-			if (!keepFormat) {
-				if (SqlSplitter.containsSqlEnd(line, delimiter) == SqlSplitter.NO_END) {
-					sql.append("\n");
-				}
-			}
-
-			if ((delimiterType.equals(DelimiterType.NORMAL) && SqlSplitter.containsSqlEnd(line, delimiter) > 0) || (delimiterType.equals(DelimiterType.ROW) && line.trim().equals(delimiter))) {
-				execSQL(sql.substring(0, sql.length() - delimiter.length()), out);
-				sql.setLength(0); // clean buffer
-			}
-		}
-
-		// Catch any statements not followed by ;
-		if (!sql.toString().equals("")) {
-			execSQL(sql.toString(), out);
-		}
-	}
-
-	/**
-	 * Exec the sql statement.
-	 * 
-	 * @param sql
-	 *            query to execute
-	 * @param out
-	 *            the outputstream
-	 */
-	private void execSQL(String sql, PrintStream out) throws SQLException {
-		// Check and ignore empty statements
-		if ("".equals(sql.trim())) {
-			return;
-		}
-
-		ResultSet resultSet = null;
-		try {
-			totalStatements++;
-			getLog().debug("SQL: " + sql);
-
-			boolean ret;
-			int updateCountTotal = 0;
-
-			ret = statement.execute(sql);
-			do {
-				if (!ret) {
-					int updateCount = statement.getUpdateCount();
-					if (updateCount != -1) {
-						updateCountTotal += updateCount;
-					}
-				} else {
-					resultSet = statement.getResultSet();
-					if (printResultSet) {
-						printResultSet(resultSet, out);
-					}
-				}
-				ret = statement.getMoreResults();
-			} while (ret);
-
-			getLog().debug(updateCountTotal + " rows affected");
-
-			if (printResultSet) {
-				StringBuffer line = new StringBuffer();
-				line.append(updateCountTotal).append(" rows affected");
-				out.println(line);
-			}
-
-			SQLWarning warning = conn.getWarnings();
-			while (warning != null) {
-				getLog().debug(warning + " sql warning");
-				warning = warning.getNextWarning();
-			}
-			conn.clearWarnings();
-			successfulStatements++;
-		} catch (SQLException e) {
-			getLog().error("Failed to execute: " + sql);
-			if (ON_ERROR_ABORT.equalsIgnoreCase(getOnError())) {
-				throw e;
-			}
-			getLog().error(e.toString());
-		} finally {
-			if (resultSet != null) {
-				resultSet.close();
-			}
-		}
-	}
-
-	/**
-	 * print any results in the result set.
-	 * 
-	 * @param rs
-	 *            the resultset to print information about
-	 * @param out
-	 *            the place to print results
-	 * @throws SQLException
-	 *             on SQL problems.
-	 */
-	private void printResultSet(ResultSet rs, PrintStream out) throws SQLException {
-		if (rs != null) {
-			getLog().debug("Processing new result set.");
-			ResultSetMetaData md = rs.getMetaData();
-			int columnCount = md.getColumnCount();
-			StringBuffer line = new StringBuffer();
-			if (showheaders) {
-				boolean first = true;
-				for (int col = 1; col <= columnCount; col++) {
-					String columnValue = md.getColumnName(col);
-
-					if (columnValue != null) {
-						columnValue = columnValue.trim();
-
-						if (",".equals(outputDelimiter)) {
-							columnValue = StringEscapeUtils.escapeCsv(columnValue);
-						}
-					}
-
-					if (first) {
-						first = false;
-					} else {
-						line.append(outputDelimiter);
-					}
-					line.append(columnValue);
-				}
-				out.println(line);
-				line = new StringBuffer();
-			}
-			while (rs.next()) {
-				boolean first = true;
-				for (int col = 1; col <= columnCount; col++) {
-					String columnValue = rs.getString(col);
-					if (columnValue != null) {
-						columnValue = columnValue.trim();
-
-						if (",".equals(outputDelimiter)) {
-							columnValue = StringEscapeUtils.escapeCsv(columnValue);
-						}
-					}
-
-					if (first) {
-						first = false;
-					} else {
-						line.append(outputDelimiter);
-					}
-					line.append(columnValue);
-				}
-				out.println(line);
-				line = new StringBuffer();
-			}
-		}
-		out.println();
-	}
-
-	/**
-	 * Contains the definition of a new transaction element. Transactions allow several files or blocks of statements to
-	 * be executed using the same JDBC connection and commit operation in between.
-	 */
-	private class Transaction implements Comparable<Transaction> {
-		private String resourceLocation = null;
-
-		private String tSqlCommand = "";
-
-		/**
-         *
-         */
-		public void setSrc(String resourceLocation) {
-			this.resourceLocation = resourceLocation;
-		}
-
-		/**
-         *
-         */
-		public void addText(String sql) {
-			this.tSqlCommand += sql;
-		}
-
-		/**
-         *
-         */
-		private void runTransaction(PrintStream out) throws IOException, SQLException {
-			if (tSqlCommand.length() != 0) {
-				getLog().info("Executing commands");
-
-				runStatements(new StringReader(tSqlCommand), out);
-			}
-
-			if (resourceLocation != null) {
-				File file = new File(resourceLocation);
-				if (file.exists()) {
-					runFile(file, out);
-				} else {
-					runResource(resourceLocation, out);
-				}
-			}
-		}
-
-		private void runResource(String resourceLocation, PrintStream out) throws IOException, SQLException {
-			PrettyPrint pp = new PrettyPrint("[INFO] " + resourceLocation + " ");
-			utils.left(pp);
-			ResourceLoader loader = new DefaultResourceLoader();
-			Resource resource = loader.getResource(resourceLocation);
-			Reader reader = null;
-			try {
-				reader = getReader(resource.getInputStream());
-				runStatements(reader, out);
-			} finally {
-				reader.close();
-			}
-			utils.right(pp);
-		}
-
-		private void runFile(File file, PrintStream out) throws IOException, SQLException {
-			PrettyPrint pp = new PrettyPrint("[INFO] " + file.getName() + " ");
-			utils.left(pp);
-
-			Reader reader = null;
-			try {
-				reader = getReader(new FileInputStream(file));
-				runStatements(reader, out);
-			} finally {
-				reader.close();
-			}
-			utils.right(pp);
-		}
-
-		protected Reader getReader(InputStream in) throws IOException {
-			if (StringUtils.isEmpty(getEncoding())) {
-				return new InputStreamReader(in);
-			} else {
-				return new InputStreamReader(in, getEncoding());
-			}
-		}
-
-		public int compareTo(Transaction transaction) {
-			// If the other transaction does not have a src file
-			if (transaction.resourceLocation == null) {
-				if (this.resourceLocation == null) {
-					// If our src file is also null, it is a tie
-					return 0;
-				} else {
-					// If we have a src file we are greater than the other
-					return 1;
-				}
-			} else {
-				if (this.resourceLocation == null) {
-					// The other transaction has a src file but we do not
-					return -1;
-				} else {
-					// We are schema.sql, we go first
-					if (this.resourceLocation.indexOf("schema.sql") != -1) {
-						return -1;
-					}
-					// We are schema-contraints.sql, we go last
-					if (this.resourceLocation.indexOf("schema-constraints.sql") != -1) {
-						return 1;
-					}
-					// Other is schema.sql, it goes first
-					if (transaction.resourceLocation.indexOf("schema.sql") != -1) {
-						return 1;
-					}
-					// Other is schema-constraints.sql, it goes last
-					if (transaction.resourceLocation.indexOf("schema-constraints.sql") != -1) {
-						return -1;
-					}
-					// Both transactions have a src file
-					return this.resourceLocation.compareTo(transaction.resourceLocation);
-				}
-			}
-		}
 	}
 
 	//
@@ -1320,13 +936,6 @@ public class ImportMojo extends AbstractMojo {
 	}
 
 	/**
-	 * @deprecated use {@link #getSuccessfulStatements()}
-	 */
-	int getGoodSqls() {
-		return this.getSuccessfulStatements();
-	}
-
-	/**
 	 * Number of SQL statements executed so far that caused errors.
 	 * 
 	 * @return the number
@@ -1349,14 +958,14 @@ public class ImportMojo extends AbstractMojo {
 	}
 
 	public void setOnError(String action) {
-		if (ON_ERROR_ABORT.equalsIgnoreCase(action)) {
-			this.onError = ON_ERROR_ABORT;
-		} else if (ON_ERROR_CONTINUE.equalsIgnoreCase(action)) {
-			this.onError = ON_ERROR_CONTINUE;
-		} else if (ON_ERROR_ABORT_AFTER.equalsIgnoreCase(action)) {
-			this.onError = ON_ERROR_ABORT_AFTER;
+		if (SQLExecutor.ON_ERROR_ABORT.equalsIgnoreCase(action)) {
+			this.onError = SQLExecutor.ON_ERROR_ABORT;
+		} else if (SQLExecutor.ON_ERROR_CONTINUE.equalsIgnoreCase(action)) {
+			this.onError = SQLExecutor.ON_ERROR_CONTINUE;
+		} else if (SQLExecutor.ON_ERROR_ABORT_AFTER.equalsIgnoreCase(action)) {
+			this.onError = SQLExecutor.ON_ERROR_ABORT_AFTER;
 		} else {
-			throw new IllegalArgumentException(action + " is not a valid value for onError, only '" + ON_ERROR_ABORT + "', '" + ON_ERROR_ABORT_AFTER + "', or '" + ON_ERROR_CONTINUE + "'.");
+			throw new IllegalArgumentException(action + " is not a valid value for onError, only '" + SQLExecutor.ON_ERROR_ABORT + "', '" + SQLExecutor.ON_ERROR_ABORT_AFTER + "', or '" + SQLExecutor.ON_ERROR_CONTINUE + "'.");
 		}
 	}
 
@@ -1374,14 +983,6 @@ public class ImportMojo extends AbstractMojo {
 
 	public void setDriverProperties(String driverProperties) {
 		this.driverProperties = driverProperties;
-	}
-
-	public boolean isEnableBlockMode() {
-		return enableBlockMode;
-	}
-
-	public void setEnableBlockMode(boolean enableBlockMode) {
-		this.enableBlockMode = enableBlockMode;
 	}
 
 	public String getSqlCommand() {
@@ -1412,14 +1013,6 @@ public class ImportMojo extends AbstractMojo {
 		this.targetDatabase = targetDatabase;
 	}
 
-	public List<String> getSchemaXMLResources() {
-		return schemas;
-	}
-
-	public void setSchemaXMLResources(List<String> schemaXMLResources) {
-		this.schemas = schemaXMLResources;
-	}
-
 	public String getEncoding() {
 		return encoding;
 	}
@@ -1446,5 +1039,61 @@ public class ImportMojo extends AbstractMojo {
 
 	public void setImportSchemaConstraints(boolean importSchemaConstraints) {
 		this.importSchemaConstraints = importSchemaConstraints;
+	}
+
+	public String getOutputDelimiter() {
+		return outputDelimiter;
+	}
+
+	public void setOutputDelimiter(String outputDelimiter) {
+		this.outputDelimiter = outputDelimiter;
+	}
+
+	public Connection getConn() {
+		return conn;
+	}
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
+	}
+
+	public String getDelimiter() {
+		return delimiter;
+	}
+
+	public String getDelimiterType() {
+		return delimiterType;
+	}
+
+	public boolean isKeepFormat() {
+		return keepFormat;
+	}
+
+	public boolean isShowheaders() {
+		return showheaders;
+	}
+
+	public File getOutputFile() {
+		return outputFile;
+	}
+
+	public boolean isAppend() {
+		return append;
+	}
+
+	public boolean isEscapeProcessing() {
+		return escapeProcessing;
+	}
+
+	public boolean isPrintResultSet() {
+		return printResultSet;
+	}
+
+	public List<String> getSchemas() {
+		return schemas;
+	}
+
+	public void setSchemas(List<String> schemas) {
+		this.schemas = schemas;
 	}
 }

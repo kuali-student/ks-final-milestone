@@ -13,6 +13,7 @@
   <description>This is the parent pom for the Maven Impex Plugin</description>
   <url>http://student.kuali.org/site/maven-plugins/impex/${project.version}</url>
   <modules>
+    <module>jdbc-support</module>
     <module>torque-generator</module>
     <module>torque-templates</module>
     <module>maven-impex-plugin</module>

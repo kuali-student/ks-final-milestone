@@ -6,7 +6,8 @@
     <version>1.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>torque-templates</artifactId>
-  <name>Kuali Version of ASF Torque Templates</name>
+  <name>Torque Templates</name>
+  <description>This is the Kuali version of ASF's torque Velocity macro templates</description>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-templates</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex/torque-templates</developerConnection>
