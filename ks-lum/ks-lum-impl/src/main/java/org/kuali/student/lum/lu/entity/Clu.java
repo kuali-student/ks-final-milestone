@@ -93,6 +93,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @Column(name = "EXP_FIRST_ATP")
     private String expectedFirstAtp;
     
+    @Column(name = "LAST_ATP")
+    private String lastAtp;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
@@ -183,9 +186,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
     @Override
     public List<CluAttribute> getAttributes() {
-//        if (attributes == null) {
-//            attributes = new ArrayList<CluAttribute>();
-//        }
         return attributes;
     }
 
@@ -203,9 +203,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluIdentifier> getAlternateIdentifiers() {
-//        if (alternateIdentifiers == null) {
-//            alternateIdentifiers = new ArrayList<CluIdentifier>();
-//        }
         return alternateIdentifiers;
     }
 
@@ -230,9 +227,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluInstructor> getInstructors() {
-//        if (instructors == null) {
-//            instructors = new ArrayList<CluInstructor>();
-//        }
         return instructors;
     }
 
@@ -281,9 +275,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<LuCode> getLuCodes() {
-//        if (luCodes == null) {
-//            luCodes = new ArrayList<LuCode>();
-//        }
         return luCodes;
     }
 
@@ -308,9 +299,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
      }
 
      public List<CluAtpTypeKey> getOfferedAtpTypes() {
-//         if (offeredAtpTypes == null) {
-//             offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
-//         }
          return offeredAtpTypes;
      }
 
@@ -384,9 +372,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluCampusLocation> getCampusLocations() {
-//          if (campusLocationList == null) {
-//              campusLocationList = new ArrayList<CluCampusLocation>();
-//          }
           return campusLocations;
       }
 
@@ -403,9 +388,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluAccreditation> getAccreditations() {
-//          if (accreditationList == null) {
-//              accreditationList = new ArrayList<CluAccreditation>();
-//          }
           return accreditations;
       }
 
@@ -431,5 +413,13 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
 	public void setExpectedFirstAtp(String expectedFirstAtp) {
 		this.expectedFirstAtp = expectedFirstAtp;
+	}
+
+	public String getLastAtp() {
+		return lastAtp;
+	}
+
+	public void setLastAtp(String lastAtp) {
+		this.lastAtp = lastAtp;
 	}      
 }
