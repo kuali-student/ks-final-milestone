@@ -24,20 +24,21 @@ public class FieldDescriptorReadOnly extends FieldDescriptor{
 	protected Widget createFieldWidget() {
     	if (metadata == null) {
 	    	Widget result = new KSLabel();
-	    	if(fieldKey != null){
-	    		String style = this.fieldKey.replaceAll("/", "-");
-	    		style = style + "-readOnly";
-	    		result.addStyleName(style);
-	    	}
+	    	addStyleToWidget(result);
 	    	return result;
     	} else {
     		Widget result = DefaultWidgetFactory.getInstance().getReadOnlyWidget(metadata);
-	    	if(fieldKey != null && !fieldKey.isEmpty()){
-	    		String style = this.fieldKey.replaceAll("/", "-");
-	    		style = style + "-readOnly";
-	    		result.addStyleName(style);
-	    	}
+    		addStyleToWidget(result);
     		return result;
+    	}
+	}
+	
+	@Override
+	protected void addStyleToWidget(Widget w) {
+    	if(fieldKey != null && !fieldKey.isEmpty()){
+    		String style = this.fieldKey.replaceAll("/", "-");
+    		style = style + "readOnly";
+    		w.addStyleName(style);
     	}
 	}
 }
