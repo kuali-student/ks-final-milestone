@@ -104,24 +104,17 @@ public class SQLExecutor {
 			statement = conn.createStatement();
 			statement.setEscapeProcessing(escapeProcessing);
 
-			PrintStream out = System.out;
-			try {
-				// Process all transactions
-				for (Enumeration<Transaction> e = transactions.elements(); e.hasMoreElements();) {
-					Transaction t = (Transaction) e.nextElement();
+			// Process all transactions
+			for (Enumeration<Transaction> e = transactions.elements(); e.hasMoreElements();) {
+				Transaction t = (Transaction) e.nextElement();
 
-					fireBeginTransaction(t);
-					runTransaction(t, out);
-					fireFinishTransaction(t);
+				fireBeginTransaction(t);
+				runTransaction(t, System.out);
+				fireFinishTransaction(t);
 
-					if (!autocommit) {
-						debug("Committing transaction");
-						conn.commit();
-					}
-				}
-			} finally {
-				if (out != System.out) {
-					closeQuietly(out);
+				if (!autocommit) {
+					debug("Committing transaction");
+					conn.commit();
 				}
 			}
 		} catch (IOException e) {
@@ -292,56 +285,57 @@ public class SQLExecutor {
 	 *             on SQL problems.
 	 */
 	protected void printResultSet(ResultSet rs, PrintStream out) throws SQLException {
-		if (rs != null) {
-			debug("Processing new result set.");
-			ResultSetMetaData md = rs.getMetaData();
-			int columnCount = md.getColumnCount();
-			StringBuffer line = new StringBuffer();
-			if (showheaders) {
-				boolean first = true;
-				for (int col = 1; col <= columnCount; col++) {
-					String columnValue = md.getColumnName(col);
+		if (rs == null) {
+			return;
+		}
+		debug("Processing new result set.");
+		ResultSetMetaData md = rs.getMetaData();
+		int columnCount = md.getColumnCount();
+		StringBuffer line = new StringBuffer();
+		if (showheaders) {
+			boolean first = true;
+			for (int col = 1; col <= columnCount; col++) {
+				String columnValue = md.getColumnName(col);
 
-					if (columnValue != null) {
-						columnValue = columnValue.trim();
+				if (columnValue != null) {
+					columnValue = columnValue.trim();
 
-						if (",".equals(outputDelimiter)) {
-							columnValue = StringEscapeUtils.escapeCsv(columnValue);
-						}
+					if (",".equals(outputDelimiter)) {
+						columnValue = StringEscapeUtils.escapeCsv(columnValue);
 					}
-
-					if (first) {
-						first = false;
-					} else {
-						line.append(outputDelimiter);
-					}
-					line.append(columnValue);
 				}
-				out.println(line);
-				line = new StringBuffer();
-			}
-			while (rs.next()) {
-				boolean first = true;
-				for (int col = 1; col <= columnCount; col++) {
-					String columnValue = rs.getString(col);
-					if (columnValue != null) {
-						columnValue = columnValue.trim();
 
-						if (",".equals(outputDelimiter)) {
-							columnValue = StringEscapeUtils.escapeCsv(columnValue);
-						}
-					}
-
-					if (first) {
-						first = false;
-					} else {
-						line.append(outputDelimiter);
-					}
-					line.append(columnValue);
+				if (first) {
+					first = false;
+				} else {
+					line.append(outputDelimiter);
 				}
-				out.println(line);
-				line = new StringBuffer();
+				line.append(columnValue);
 			}
+			out.println(line);
+			line = new StringBuffer();
+		}
+		while (rs.next()) {
+			boolean first = true;
+			for (int col = 1; col <= columnCount; col++) {
+				String columnValue = rs.getString(col);
+				if (columnValue != null) {
+					columnValue = columnValue.trim();
+
+					if (",".equals(outputDelimiter)) {
+						columnValue = StringEscapeUtils.escapeCsv(columnValue);
+					}
+				}
+
+				if (first) {
+					first = false;
+				} else {
+					line.append(outputDelimiter);
+				}
+				line.append(columnValue);
+			}
+			out.println(line);
+			line = new StringBuffer();
 		}
 		out.println();
 	}
