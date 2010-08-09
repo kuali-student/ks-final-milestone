@@ -622,7 +622,7 @@
  <bean id="courseInfo.outOfClassHours.unitQuantity" parent="courseInfo.outOfClassHours.unitQuantity-parent" />
 
  <bean id="courseInfo.finalExamRationale" parent="baseString">
-  <property name="name" value="altFinalExamStatusDescr" />
+  <property name="name" value="finalExamRationale" />
   <property name="dynamic" value="true"/>
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />

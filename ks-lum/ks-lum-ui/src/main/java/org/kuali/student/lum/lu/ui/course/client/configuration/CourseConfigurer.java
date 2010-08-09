@@ -100,6 +100,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OutlineNode;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.protobuf.UnknownFieldSet.Field;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
@@ -457,11 +458,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 		return outcomesSection;
 	}
 
-	private Section generateFinalExamSection() {
-		VerticalSection finalExamSection = initSection(getH3Title(LUConstants.LEARNING_RESULT_FINAL_EXAM_LABEL_KEY), WITH_DIVIDER);
-		// TODO Auto-generated method stub
-		return finalExamSection;
-	}
 
 	private Section generateStudentRegistrationOptionsSection() {
 		VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);
@@ -505,6 +501,20 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	    
 	    duration.addSection(duration_group);
 	    return duration;
+    }
+    
+    protected VerticalSection generateFinalExamSection(){
+    	VerticalSection finalExam = initSection(getH3Title(LUConstants.FINAL_EXAM_LABEL_KEY), WITH_DIVIDER);
+    	GroupSection finalExam_group = new GroupSection();
+    	GroupSection finalExamRationale_group = new GroupSection();
+    	FieldDescriptor field =  addField(finalExam_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM , generateMessageInfo(LUConstants.FINAL_EXAM_STATUS_LABEL_KEY));
+    	KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract)(((KSPicker)field.getFieldWidget()).getInputWidget());
+    	addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));	
+    	SwapSection swapSection = new SwapSection(picker);
+    	swapSection.addSection(finalExamRationale_group, "ALT");
+    	finalExam.addSection(finalExam_group);
+    	finalExam.addSection(swapSection);
+    	return finalExam;
     }
 
     protected VerticalSection generateInstructorsSection() {

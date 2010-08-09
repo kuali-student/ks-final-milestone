@@ -204,6 +204,9 @@ public class LUConstants {
     public static final String EVALUATION_TYPE_LABEL_KEY = "cluEvaluationType";
     public static final String TERM_LITERAL_LABEL_KEY = "cluTermLiteral";
     public static final String DURATION_LITERAL_LABEL_KEY = "cluDurationLiteral";
+    public static final String FINAL_EXAM_LABEL_KEY = "cluFinalExam";
+    public static final String FINAL_EXAM_STATUS_LABEL_KEY = "cluFinalExamStatus";
+    public static final String FINAL_EXAM_RATIONALE_LABEL_KEY = "cluFinalExamRationale";
 
     public static final String VERSION_CODE_LABEL_KEY = "cluVersionCode";
     public static final String VERSION_CODES_LABEL_KEY = "cluVersionCodes";
