@@ -67,6 +67,16 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 						dialog.show();
 					}
 					else if(!SwapSection.this.selectableWidget.getSelectedItems().containsAll(lastSelection)){
+//						List<String> selected  = SwapSection.this.selectableWidget.getSelectedItems();
+//						for(int i = 0; i < selected.size(); i++){
+//							String key = selected.get(i);
+//							Section section = swapSectionMap.get(key);
+//							if(section!=null){
+//								if(section.getLayout().isVisible()){
+//									dialog.show();
+//								}
+//							}
+//						}
 						dialog.show();
 					}
 					else{
