@@ -29,20 +29,15 @@ import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasFocusHandlers;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTMLPanel;
 
 
 /**
@@ -128,7 +123,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         int col = 0;
 
         // If ListItems has more than one attribute create a table with each attribute in its own column
-        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys().size() > 1) {
+        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys() != null && super.getListItems().getAttrKeys().size() > 1) {
             layout.addStyleName("KS-Checkbox-Table");
 //            layout.setWidget(row, col++, new KSLabel("Select"));
 //            for (String attr:super.getListItems().getAttrKeys()){

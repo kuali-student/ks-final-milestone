@@ -534,8 +534,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 		e.setValidationResult(result.getValidationResults());
                 	    fireApplicationEvent(e);
                 	    saveActionEvent.setGotoNextView(false);
-               	    	saveWindow.hide();
-               	    	saveActionEvent.doActionComplete();
+	    				if (saveActionEvent.isAcknowledgeRequired()){
+	                        saveMessage.setText("Save Unsuccessful. There were validation errors.");
+	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+	                    } else {
+	                        saveWindow.hide();
+	                        saveActionEvent.doActionComplete();
+	                    }
                 	}else{
 	    				cluProposalModel.setRoot(result.getValue());
 	    	            View currentView = getCurrentView();

@@ -117,7 +117,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Va
         int col = 0;
 
         // If ListItems has more than one attribute create a table with each attribute in its own column
-        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys().size() > 1) {
+        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys() != null && super.getListItems().getAttrKeys().size() > 1) {
             layout.addStyleName("KS-Checkbox-Table");
             layout.setWidget(row, col++, new KSLabel("Select"));
             for (String attr:super.getListItems().getAttrKeys()){
