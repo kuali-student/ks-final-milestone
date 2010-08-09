@@ -169,7 +169,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //Administrative
                 layout.addMenuItem(sections, generateGovernanceSection());
                 layout.addMenuItem(sections, generateActiveDatesSection());
-                layout.addMenuItem(sections, generateFinancialsSection());
+                //TODO layout.addMenuItem(sections, generateFinancialsSection());
         }
             //Summary
             ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
