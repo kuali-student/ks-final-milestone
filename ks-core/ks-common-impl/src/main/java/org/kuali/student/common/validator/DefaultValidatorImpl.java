@@ -127,10 +127,10 @@ public class DefaultValidatorImpl implements Validator{
     public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
 
         Stack<String> elementStack = new Stack<String>();
-        return validateObject(data, objStructure, elementStack);
+        return validateObject(data, objStructure, elementStack, true);
     }
 
-    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack) {
+    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack, boolean isRoot) {
 
        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -139,12 +139,10 @@ public class DefaultValidatorImpl implements Validator{
 
         // Push object structure to the top of the stack
         StringBuilder objXPathElement = new StringBuilder(dataProvider.getPath());
-        if (null != dataProvider.getObjectId()) {
-            objXPathElement.append("[id='" + dataProvider.getObjectId() + "']");
-        } else {
-            objXPathElement.append("[id='null']");
+
+        if(!isRoot && !objXPathElement.toString().isEmpty()){
+        	elementStack.push(objXPathElement.toString());
         }
-        elementStack.push(objXPathElement.toString());
 
         /*
          * Do nothing if the object to be validated is not type/state or if the objectstructure with constraints is not
@@ -170,7 +168,9 @@ public class DefaultValidatorImpl implements Validator{
             	results.addAll(l);
             }
         }
-        elementStack.pop();
+        if(!isRoot && !objXPathElement.toString().isEmpty()){
+        	elementStack.pop();
+        }
 
         /* All Field validations are returned right now */
         // List<ValidationResultInfo> resultsBuffer = new
@@ -209,20 +209,24 @@ public class DefaultValidatorImpl implements Validator{
 
             if (value instanceof Collection) {
 
-                String xPath = getElementXpath(elementStack) + "/";
+                String xPathForCollection = getElementXpath(elementStack) + "/*";
 
+                int i=0;
                 for (Object o : (Collection<?>) value) {
+                	elementStack.push(Integer.toString(i));
                     processNestedObjectStructure(results, o, nestedObjStruct, field, elementStack);
+                    elementStack.pop();
+                    i++;
                 }
                 if (field.getMinOccurs() != null && field.getMinOccurs() > ((Collection<?>) value).size()) {
-                    ValidationResultInfo valRes = new ValidationResultInfo(xPath);
+                    ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection);
                     valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
                     results.add(valRes);
                 }
 
                 Integer maxOccurs = tryParse(field.getMaxOccurs());
                 if (maxOccurs != null && maxOccurs < ((Collection<?>) value).size()) {
-                    ValidationResultInfo valRes = new ValidationResultInfo(xPath);
+                    ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection);
                     valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), toMap(field)));
                     results.add(valRes);
                 }
@@ -231,7 +235,7 @@ public class DefaultValidatorImpl implements Validator{
                     processNestedObjectStructure(results, value, nestedObjStruct, field, elementStack);
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
-                        ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "[value='null']/");
+                        ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack));
                         val.setError(getMessage("validation.required"));
                         results.add(val);
                     }
@@ -243,11 +247,16 @@ public class DefaultValidatorImpl implements Validator{
         } else { // If non complex data type
 
             if (value instanceof Collection) {
+            	
+            	int i = 0;
                 for (Object o : (Collection<?>) value) {
+                	elementStack.push(Integer.toBinaryString(i));
                     processConstraint(results, field, objStruct, o, dataProvider, elementStack);
+                    elementStack.pop();
+                    i++;
                 }
 
-                String xPath = getElementXpath(elementStack) + field.getName() + "/";
+                String xPath = getElementXpath(elementStack) + "/" + field.getName() + "/*";
                 if (field.getMinOccurs() != null && field.getMinOccurs() > ((Collection<?>) value).size()) {
                     ValidationResultInfo valRes = new ValidationResultInfo(xPath);
                     valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
@@ -282,7 +291,7 @@ public class DefaultValidatorImpl implements Validator{
 
     private void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack) {
 
-        results.addAll(validateObject(value, nestedObjStruct, elementStack));
+        results.addAll(validateObject(value, nestedObjStruct, elementStack, false));
 
     }
 
@@ -301,7 +310,7 @@ public class DefaultValidatorImpl implements Validator{
             return;
         }
 
-        String elementPath = getElementXpath(elementStack) + field.getName() + "[value='" + value.toString() + "']/";
+        String elementPath = getElementXpath(elementStack) + "/" + field.getName();
 
         // Process Valid Chars
         if (null != constraint.getValidChars()) {
@@ -521,7 +530,7 @@ public class DefaultValidatorImpl implements Validator{
             LOG.info("Error calling Search", e);
         }
         if (searchResult == null || searchResult.getRows() == null || searchResult.getRows().isEmpty()) {
-            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + field.getName());
+            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName());
             val.setError(getMessage("validation.lookup"));
             valResults.add(val);
         }
@@ -531,14 +540,14 @@ public class DefaultValidatorImpl implements Validator{
 
         if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
-                ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + name + "[value='null']/");
+                ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name);
                 val.setError(getMessage("validation.required"));
                 valResults.add(val);
             }
             return;
         }
 
-        String elementPath = getElementXpath(elementStack) + name + "[value='" + value.toString() + "']/";
+        String elementPath = getElementXpath(elementStack) + "/" + name;
 
         if (DataType.STRING.equals(dataType)) {
             validateString(value, constraint, elementPath, valResults);
@@ -809,10 +818,12 @@ public class DefaultValidatorImpl implements Validator{
 
     private String getElementXpath(Stack<String> elementStack) {
         StringBuilder xPath = new StringBuilder();
-        xPath.append("/");
         Iterator<String> itr = elementStack.iterator();
         while (itr.hasNext()) {
-            xPath.append(itr.next() + "/");
+            xPath.append(itr.next());
+            if(itr.hasNext()){
+            	xPath.append("/");
+            }
         }
 
         return xPath.toString();

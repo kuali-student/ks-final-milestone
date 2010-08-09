@@ -62,7 +62,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 			clu = luService.getClu(cluRel.getRelatedCluId());
 
 			joint.setCourseId(clu.getId());
-			joint.setType(clu.getType());
+			joint.setType(clu.getType());//FIXME is this ever used?
 			joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 			joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 			joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());

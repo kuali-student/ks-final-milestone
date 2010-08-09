@@ -333,6 +333,7 @@
 
  <bean id="courseVariationInfo.type-parent" abstract="true" parent="cluIdentifierInfo.type-parent">
   <property name="name" value="type" />
+  <property name="defaultValue" value="kuali.lu.type.CreditCourse.identifier.variation"/>
  </bean>
  <bean id="courseVariationInfo.type" parent="courseVariationInfo.type-parent" />
 
@@ -389,6 +390,7 @@
 
  <bean id="courseCrossListingInfo.type-parent" abstract="true" parent="cluIdentifierInfo.type">
   <property name="name" value="type" />
+  <property name="defaultValue" value="kuali.lu.type.CreditCourse.identifier.crosslisting"/>
  </bean>
  <bean id="courseCrossListingInfo.type" parent="courseCrossListingInfo.type-parent" />
 

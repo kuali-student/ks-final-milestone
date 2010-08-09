@@ -81,5 +81,9 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     public boolean gotoNextView(){
     	return gotoNextView;
     }
+
+	public void setGotoNextView(boolean gotoNextView) {
+		this.gotoNextView = gotoNextView;
+	}
     
 }
