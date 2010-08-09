@@ -61,6 +61,8 @@ public class TestCourseServiceImpl {
             assertNotNull(createdCourse);
             assertEquals("draft", createdCourse.getState());
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
+            assertEquals(cInfo.getStartTerm(),createdCourse.getStartTerm());
+            assertEquals(cInfo.getEndTerm(),createdCourse.getEndTerm());
         } 
         catch (DataValidationErrorException e)
         {
