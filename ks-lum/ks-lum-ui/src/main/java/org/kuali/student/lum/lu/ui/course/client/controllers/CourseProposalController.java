@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
@@ -71,6 +72,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -282,6 +284,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         workflowUtil = new WorkflowUtilities(this,cfg.getWorkflowDocumentType(),cfg.getProposalIdPath(), createOnWorkflowSubmitSuccessHandler());
         workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
+        workflowUtil.requestAndSetupModel();
 
     	cfg.setModelDefinition(modelDefinition);
     	cfg.configure(this);
@@ -294,7 +297,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			@Override
 			public void onClose(CloseEvent<KSLightBox> event) {
 				//Reload the lum main entrypoint
-				Window.Location.reload();
+				Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
 			}
     	};
 		return handler;
@@ -357,6 +360,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 			@Override
 			public void onSuccess(String proposalId) {
+				KSBlockingProgressIndicator.removeTask(loadDataTask);
 				getCluProposalFromProposalId(proposalId, callback, workCompleteCallback);
 			}
         });

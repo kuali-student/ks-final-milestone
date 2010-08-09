@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.mvc.history;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -31,10 +32,13 @@ import com.google.gwt.user.client.Window;
 
 public class HistoryManager {
     private static final NavigationEventMonitor monitor = new NavigationEventMonitor();
+	public static String VIEW_ATR = "view";
     private static Controller root;
     private static boolean logNavigationHistory = true;
+    private static Locations locations;
     
-    public static void bind(Controller controller) {
+    public static void bind(Controller controller, Locations views) {
+    	locations = views;
         root = controller;
         root.addApplicationEventHandler(NavigationEvent.TYPE, monitor);
         History.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -84,7 +88,26 @@ public class HistoryManager {
     }
     
     public static void processWindowLocation(){
-    	navigate(Window.Location.getHash().trim());
+    	boolean navigateSuccess = false;
+    	if(Window.Location.getQueryString() != null && 
+    			!Window.Location.getQueryString().isEmpty()){
+    		String view = Window.Location.getParameter(VIEW_ATR);
+    		String docId = Window.Location.getParameter(ViewContext.ID_ATR);
+    		String idType = Window.Location.getParameter(ViewContext.ID_TYPE_ATR);
+    		if(view != null && docId != null && idType != null){
+    			String path = locations.getLocation(view);
+    			if(path != null){
+    				ViewContext context = new ViewContext();
+    				context.setIdType(idType);
+    				context.setId(docId);
+    				navigate(path, context);
+    				navigateSuccess = true;
+    			}
+    		}
+    	}
+    	if(!navigateSuccess){
+    		navigate(Window.Location.getHash().trim());
+    	}
     }
     
     public static void navigate(String path){
@@ -95,26 +118,6 @@ public class HistoryManager {
 	    	logNavigationHistory = true;
     	}
     }
-    
-/*    public static boolean processHistoryQuerystring() {
-        return processHistoryQuerystring(Window.Location.getHash()) || processHistoryQuerystring(Window.Location.getQueryString());
-    }
-    
-    private static boolean processHistoryQuerystring(String queryString) {
-        boolean result = false;
-        
-        try {
-            HistoryStackFrame frame = HistoryStackFrame.fromSerializedForm(queryString);
-            if (frame != null) {
-                root.onHistoryEvent(frame);
-                result = true;
-            }
-        } catch (Exception e) {
-            GWT.log("error processing history tokens: " + queryString, e);
-        }
-        
-        return result;
-    }*/
     
     public static String collectHistoryStack() {
         String result = root.collectHistory("");
@@ -150,11 +153,6 @@ public class HistoryManager {
         @Override
         public void onNavigationEvent(NavigationEvent event) {
         	if(logNavigationHistory){
-/*	            boolean start = (lastEvent == -1);
-	            lastEvent = System.currentTimeMillis();
-	            if (start) {
-	                timer.scheduleRepeating(EVENT_DELAY);
-	            }*/
         		logHistoryChange();
         	}
         }

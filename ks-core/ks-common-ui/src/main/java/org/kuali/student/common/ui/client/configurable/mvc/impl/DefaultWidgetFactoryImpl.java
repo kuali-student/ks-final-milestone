@@ -61,6 +61,25 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		}
 		return _getWidget(config);
 	}
+	
+	public Widget getReadOnlyWidget(Metadata meta){
+		WidgetConfigInfo config = new WidgetConfigInfo();
+		if (meta != null) {
+			config.access = meta.getWriteAccess();
+			config.isMultiLine = MetadataInterrogator.isMultilined(meta);
+			config.isRepeating = MetadataInterrogator.isRepeating(meta);
+			config.isRichText = MetadataInterrogator.hasConstraint(meta, ConstraintIds.RICH_TEXT);
+			config.maxLength = MetadataInterrogator.getSmallestMaxLength(meta);
+			config.type = meta.getDataType();
+			config.metadata = meta;
+			config.lookupMeta = meta.getInitialLookup();
+			config.additionalLookups = meta.getAdditionalLookups();
+			config.canEdit = false;
+			config.canUnmask = meta.isCanUnmask();
+			config.canView = meta.isCanView();
+		}
+		return _getReadOnlyWidget(config);
+	}
 
 	@Override
 	public Widget getWidget(LookupParamMetadata meta) {
@@ -168,6 +187,12 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		    }
         }
 		return result;
+	}
+	
+	public Widget _getReadOnlyWidget(WidgetConfigInfo config){
+		config.canEdit = false;
+		return null;
+		
 	}
 
 
