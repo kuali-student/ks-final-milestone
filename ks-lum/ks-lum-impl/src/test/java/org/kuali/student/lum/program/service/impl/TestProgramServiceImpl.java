@@ -154,10 +154,12 @@ public class TestProgramServiceImpl {
             assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
             assertEquals(new Integer(100), major.getStdDuration().getTimeQuantity());
             assertNotNull(major.getStartTerm());
-            assertEquals("kuali.atp.SU2009-2010S1", major.getStartTerm());
+            assertEquals("start_term", major.getStartTerm());
+            assertNotNull(major.getEndTerm());
+            assertEquals("end_term", major.getEndTerm());
+            assertNotNull(major.getEndProgramEntryTerm());
+            assertEquals("end_admit_term", major.getEndProgramEntryTerm());
 
-            //TODO end term
-            //TODO end prog entry term
             assertNotNull(major.getNextReviewPeriod());
             assertEquals("kuali.atp.SU2009-2010S1", major.getNextReviewPeriod());
 

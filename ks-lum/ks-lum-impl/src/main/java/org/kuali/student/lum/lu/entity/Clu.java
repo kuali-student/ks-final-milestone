@@ -92,9 +92,12 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         
     @Column(name = "EXP_FIRST_ATP")
     private String expectedFirstAtp;
-    
+
     @Column(name = "LAST_ATP")
     private String lastAtp;
+
+    @Column(name = "LAST_ADMIT_ATP")
+    private String lastAdmitAtp;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -413,13 +416,21 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
 	public void setExpectedFirstAtp(String expectedFirstAtp) {
 		this.expectedFirstAtp = expectedFirstAtp;
-	}
+	}      
 
 	public String getLastAtp() {
 		return lastAtp;
-	}
+}
 
 	public void setLastAtp(String lastAtp) {
 		this.lastAtp = lastAtp;
-	}      
+	}
+
+    public String getLastAdmitAtp() {
+        return lastAdmitAtp;
+    }
+
+    public void setLastAdmitAtp(String lastAdmitAtp) {
+        this.lastAdmitAtp = lastAdmitAtp;
+    }
 }
