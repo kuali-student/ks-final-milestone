@@ -360,11 +360,24 @@
         <property name="proposalService" ref="proposalClient"/>
     </bean>
 
-    <bean id="courseWorkflowFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseWorkflowFilter">
+    <bean id="parentWorkflowFilter" class="org.kuali.student.core.assembly.transform.WorkflowFilter" abstract="true">
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>
+        <property name="simpleDocService" ref="simpleDocActionsClient"/>        
     </bean>
-
+    
+    <bean id="courseWorkflowFilter" parent="parentWorkflowFilter">
+    	<property name="dtoClass" value="org.kuali.student.lum.course.dto.CourseInfo"/>
+    	<property name="docType" value="CluCreditCourseProposal"/>
+    	<property name="docTitlePath" value="proposalTitle"/>
+    	<property name="objectIdPath" value="proposalId"/>
+    	<property name="docFieldPaths">
+    		<map>
+    			<entry key="cluId" value="id"/>
+    			<entry key="orgId" value="curriculumOversightOrgs[0]"/>
+    			<entry key="proposalId" value="proposalId"/>
+    		</map>
+    	</property>    	
+    </bean>
 
     <bean id="modifyCreditCourseProposalManager"
           class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">

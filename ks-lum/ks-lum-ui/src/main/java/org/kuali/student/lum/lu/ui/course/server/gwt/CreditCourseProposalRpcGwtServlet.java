@@ -87,7 +87,7 @@ public class CreditCourseProposalRpcGwtServlet extends
 
 	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return CourseWorkflowFilter.WF_TYPE_CLU_DOCUMENT;
+		return "CluCreditCourseProposal";
 	}
 
 	@Override
