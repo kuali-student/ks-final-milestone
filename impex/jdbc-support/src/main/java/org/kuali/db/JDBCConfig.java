@@ -4,7 +4,18 @@ package org.kuali.db;
  * 
  * 
  */
-public class DatabaseConfig {
+public class JDBCConfig {
+	public static final JDBCConfig UNKNOWN_CONFIG = new JDBCConfig(DatabaseType.UNKNOWN);
+
+	public JDBCConfig() {
+		this(null);
+	}
+
+	public JDBCConfig(DatabaseType type) {
+		super();
+		this.type = type;
+	}
+
 	DatabaseType type;
 	String urlFragment;
 	String driver;

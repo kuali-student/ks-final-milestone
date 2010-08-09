@@ -3,92 +3,40 @@ package org.kuali.db;
 import static org.apache.commons.lang.StringUtils.*;
 import static org.kuali.db.DatabaseType.*;
 
-import org.apache.commons.lang.Validate;
+import java.util.List;
 
+import org.apache.commons.lang.Validate;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * 
+ *
+ */
 public class DatabaseUtils {
-	private static final String POSTGRESQL_FRAGMENT = ":postgresql:";
-	private static final String MYSQL_FRAGMENT = ":mysql:";
-	private static final String HSQL_FRAGMENT = ":hsqldb:";
-	private static final String H2_FRAGMENT = ":h2:";
-	private static final String SQL_SERVER_JTDS_FRAGMENT = ":jtds:sqlserver:";
-	private static final String SQL_SERVER_MS_2000_FRAGMENT = ":microsoft:sqlserver:";
-	private static final String SQL_SERVER_MS_2005_FRAGMENT = ":sqlserver:";
-	private static final String DB2_FRAGMENT = ":db2:";
-	private static final String ORACLE_FRAGMENT = ":oracle:";
+
+	ApplicationContext context = new ClassPathXmlApplicationContext("org/kuali/db/spring-config.xml");
+
+	@SuppressWarnings("unchecked")
+	List<JDBCConfig> databaseConfigs = (List<JDBCConfig>) context.getBean("databaseConfigs");
 
 	/**
-	 * Given a jdbc url, this tries to determine the target database and returns the driver class name as a string.
+	 * Given a JDBC url, this tries to locate the corresponding DatabaseConfig object
 	 * 
 	 * @param url
 	 *            jdbc url
-	 * @return jdbc driver class name
+	 * @return DatabaseConfig
 	 */
-	public static String driverClass(String url) {
-		Validate.isTrue(isNotBlank(url));
+	public JDBCConfig getDatabaseConfig(String url) {
+		Validate.isTrue(isNotEmpty(url));
 
-		if (url.contains(POSTGRESQL_FRAGMENT)) {
-			return "org.postgresql.Driver";
+		for (JDBCConfig databaseConfig : databaseConfigs) {
+			String urlFragment = databaseConfig.getUrlFragment();
+			if (url.contains(urlFragment)) {
+				return databaseConfig;
+			}
 		}
-		if (url.contains(MYSQL_FRAGMENT)) {
-			return "com.mysql.jdbc.Driver";
-		}
-		if (url.contains(HSQL_FRAGMENT)) {
-			return "org.hsqldb.jdbcDriver";
-		}
-		if (url.contains(H2_FRAGMENT)) {
-			return "org.h2.Driver";
-		}
-		if (url.contains(SQL_SERVER_JTDS_FRAGMENT)) {
-			return "net.sourceforge.jtds.jdbc.Driver";
-		}
-		if (url.contains(SQL_SERVER_MS_2000_FRAGMENT)) {
-			return "com.microsoft.jdbc.sqlserver.SQLServerDriver";
-		} // 2000
-		if (url.contains(SQL_SERVER_MS_2005_FRAGMENT)) {
-			return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-		} // 2005
-		if (url.contains(DB2_FRAGMENT)) {
-			return "com.ibm.db2.jcc.DB2Driver";
-		}
-		if (url.contains(ORACLE_FRAGMENT)) {
-			return "oracle.jdbc.driver.OracleDriver";
-		}
-
-		return null;
-	}
-
-	public static DatabaseType databaseType(String url) {
-		Validate.isTrue(isNotBlank(url));
-
-		if (url.contains(POSTGRESQL_FRAGMENT)) {
-			return POSTGRESQL;
-		}
-		if (url.contains(MYSQL_FRAGMENT)) {
-			return MYSQL;
-		}
-		if (url.contains(HSQL_FRAGMENT)) {
-			return HSQL;
-		}
-		if (url.contains(H2_FRAGMENT)) {
-			return H2;
-		}
-		if (url.contains(SQL_SERVER_JTDS_FRAGMENT)) {
-			return SQL_SERVER;
-		}
-		if (url.contains(SQL_SERVER_MS_2000_FRAGMENT)) {
-			return SQL_SERVER;
-		}
-		if (url.contains(SQL_SERVER_MS_2005_FRAGMENT)) {
-			return SQL_SERVER;
-		}
-		if (url.contains(DB2_FRAGMENT)) {
-			return DB2;
-		}
-		if (url.contains(ORACLE_FRAGMENT)) {
-			return ORACLE;
-		}
-
-		return UNKNOWN;
+		return JDBCConfig.UNKNOWN_CONFIG;
 	}
 
 	/**
@@ -98,7 +46,7 @@ public class DatabaseUtils {
 	 *            a JDBC connection URL
 	 * @return the database name
 	 */
-	public static String extractDatabaseName(String url) {
+	public String getDatabaseName(String url) {
 		int leftIndex = url.lastIndexOf("/");
 		if (leftIndex == -1) {
 			leftIndex = url.lastIndexOf(":");
@@ -123,7 +71,7 @@ public class DatabaseUtils {
 	 *            a JDBC connection URL
 	 * @return a new JDBC connection URL to connect directly to the database server
 	 */
-	public static String extractServerUrl(String url) {
+	public String getServerUrl(String url) {
 		int rightIndex = url.length();
 		if (url.lastIndexOf("/") != -1) {
 			rightIndex = url.lastIndexOf("/");
@@ -136,7 +84,7 @@ public class DatabaseUtils {
 		// TODO This next line is pretty ugly, but it works for nearly every postgresql server.
 		// If we have to add another exception to this for another database server, then I highly recommend refactoring
 		// this to a more elegant solution.
-		if (POSTGRESQL.equals(databaseType(url))) {
+		if (POSTGRESQL.equals(getDatabaseConfig(url).getType())) {
 			baseUrl += "/postgres";
 		}
 
