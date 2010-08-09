@@ -62,6 +62,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		return _getWidget(config);
 	}
 	
+	@Override
 	public Widget getReadOnlyWidget(Metadata meta){
 		WidgetConfigInfo config = new WidgetConfigInfo();
 		if (meta != null) {

@@ -40,8 +40,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class FieldDescriptor {
-    private String fieldKey;
-    private Metadata metadata;
+    protected String fieldKey;
+    protected Metadata metadata;
     @SuppressWarnings("unchecked")
 	private ModelWidgetBinding modelWidgetBinding;
     private Callback<Boolean> validationRequestCallback;
@@ -69,14 +69,6 @@ public class FieldDescriptor {
     	}
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
-    }
-
-    public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Widget fieldWidget){
-    	this.fieldKey = fieldKey;
-    	if(messageKey == null){
-    		messageKey = new MessageKeyInfo("");
-    	}
-    	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     }
 
     private void setupField(){
