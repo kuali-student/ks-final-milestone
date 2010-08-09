@@ -21,30 +21,30 @@
                            http://www.springframework.org/schema/util 
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-  <bean id="postgresConfig" class="org.kuali.db.DatabasePojo" p:type="POSTGRESQL" p:urlFragment=":postgresql:"
+  <bean id="postgresConfig" class="org.kuali.db.DatabaseConfig" p:type="POSTGRESQL" p:urlFragment=":postgresql:"
     p:driver="org.postgresql.Driver"/>
 
-  <bean id="mysqlConfig" class="org.kuali.db.DatabasePojo" p:type="MYSQL" p:urlFragment=":mysql:" p:driver="com.mysql.jdbc.Driver"/>
+  <bean id="mysqlConfig" class="org.kuali.db.DatabaseConfig" p:type="MYSQL" p:urlFragment=":mysql:" p:driver="com.mysql.jdbc.Driver"/>
 
-  <bean id="hsqlConfig" class="org.kuali.db.DatabasePojo" p:type="HSQL" p:urlFragment=":hsqldb:" p:driver="org.hsqldb.jdbcDriver"/>
+  <bean id="hsqlConfig" class="org.kuali.db.DatabaseConfig" p:type="HSQL" p:urlFragment=":hsqldb:" p:driver="org.hsqldb.jdbcDriver"/>
 
-  <bean id="h2Config" class="org.kuali.db.DatabasePojo" p:type="H2" p:urlFragment=":h2:" p:driver="org.h2.Driver"/>
+  <bean id="h2Config" class="org.kuali.db.DatabaseConfig" p:type="H2" p:urlFragment=":h2:" p:driver="org.h2.Driver"/>
 
-  <bean id="jtdsSqlServerConfig" class="org.kuali.db.DatabasePojo" p:type="SQL_SERVER" p:urlFragment=":jtds:sqlserver:"
+  <bean id="jtdsSqlServerConfig" class="org.kuali.db.DatabaseConfig" p:type="SQL_SERVER" p:urlFragment=":jtds:sqlserver:"
     p:driver="net.sourceforge.jtds.jdbc.Driver"/>
 
-  <bean id="ms2000SqlServerConfig" class="org.kuali.db.DatabasePojo" p:type="SQL_SERVER" p:urlFragment=":microsoft:sqlserver:"
+  <bean id="ms2000SqlServerConfig" class="org.kuali.db.DatabaseConfig" p:type="SQL_SERVER" p:urlFragment=":microsoft:sqlserver:"
     p:driver="com.microsoft.jdbc.sqlserver.SQLServerDriver"/>
 
-  <bean id="ms2005SqlServerConfig" class="org.kuali.db.DatabasePojo" p:type="SQL_SERVER" p:urlFragment=":sqlserver:"
+  <bean id="ms2005SqlServerConfig" class="org.kuali.db.DatabaseConfig" p:type="SQL_SERVER" p:urlFragment=":sqlserver:"
     p:driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
 
-  <bean id="db2Config" class="org.kuali.db.DatabasePojo" p:type="DB2" p:urlFragment=":db2:" p:driver="com.ibm.db2.jcc.DB2Driver"/>
+  <bean id="db2Config" class="org.kuali.db.DatabaseConfig" p:type="DB2" p:urlFragment=":db2:" p:driver="com.ibm.db2.jcc.DB2Driver"/>
 
-  <bean id="oracleConfig" class="org.kuali.db.DatabasePojo" p:type="ORACLE" p:urlFragment=":oracle:"
+  <bean id="oracleConfig" class="org.kuali.db.DatabaseConfig" p:type="ORACLE" p:urlFragment=":oracle:"
     p:driver="oracle.jdbc.driver.OracleDriver"/>
 
-  <bean id="derbyConfig" class="org.kuali.db.DatabasePojo" p:type="DERBY" p:urlFragment=":derby:"
+  <bean id="derbyConfig" class="org.kuali.db.DatabaseConfig" p:type="DERBY" p:urlFragment=":derby:"
     p:driver="org.apache.derby.jdbc.EmbeddedDriver"/>
 
   <util:list id="databaseConfigs">

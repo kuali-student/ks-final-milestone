@@ -4,7 +4,7 @@ package org.kuali.db;
  * 
  * 
  */
-public class DatabasePojo {
+public class DatabaseConfig {
 	DatabaseType type;
 	String urlFragment;
 	String driver;
