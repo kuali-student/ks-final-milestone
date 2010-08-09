@@ -190,4 +190,13 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="BIOL" CD="BIOL" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="9"
         SORT_KEY="9" VAL="Biology"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="Standard final Exam" CD="STD" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.finalExam.status" EXPIR_DT="20000101000000" ID="61"
+        SORT_KEY="61" VAL="Standard final Exam"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="Alternate final assessment" CD="ALT" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.finalExam.status" EXPIR_DT="20000101000000" ID="62"
+        SORT_KEY="62" VAL="Alternate final assessment"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="No final exam or assessment" CD="None" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.finalExam.status" EXPIR_DT="20000101000000" ID="63"
+        SORT_KEY="63" VAL="No final exam or assessment"/>
 </dataset>
