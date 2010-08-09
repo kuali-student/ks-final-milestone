@@ -525,29 +525,38 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
                 public void onSuccess(DataSaveResult result) {
                 	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
-    				cluProposalModel.setRoot(result.getValue());
-    	            View currentView = getCurrentView();
-    				if (currentView instanceof SectionView){
-    					((SectionView)currentView).updateView(cluProposalModel);
-    					((SectionView) currentView).resetDirtyFlags();
-    	            }
-    				if (saveActionEvent.isAcknowledgeRequired()){
-                        saveMessage.setText("Save Successful");
-                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-                    } else {
-                        saveWindow.hide();
-                        saveActionEvent.doActionComplete();
-                    }
-    				ViewContext context = CourseProposalController.this.getViewContext();
-    				context.setId((String)cluProposalModel.get("proposal/id"));
-    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
-    				workflowUtil.refresh();
-    				setProposalHeaderTitle();
-    				setLastUpdated();
-    				HistoryManager.logHistoryChange();
-    				if(saveActionEvent.gotoNextView()){
-    					CourseProposalController.this.showNextViewOnMenu();
-    				}
+                	if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+                		ValidateResultEvent e = new ValidateResultEvent();
+                		e.setValidationResult(result.getValidationResults());
+                	    fireApplicationEvent(e);
+                	    saveActionEvent.setGotoNextView(false);
+               	    	saveWindow.hide();
+               	    	saveActionEvent.doActionComplete();
+                	}else{
+	    				cluProposalModel.setRoot(result.getValue());
+	    	            View currentView = getCurrentView();
+	    				if (currentView instanceof SectionView){
+	    					((SectionView)currentView).updateView(cluProposalModel);
+	    					((SectionView) currentView).resetDirtyFlags();
+	    	            }
+	    				if (saveActionEvent.isAcknowledgeRequired()){
+	                        saveMessage.setText("Save Successful");
+	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+	                    } else {
+	                        saveWindow.hide();
+	                        saveActionEvent.doActionComplete();
+	                    }
+	    				ViewContext context = CourseProposalController.this.getViewContext();
+	    				context.setId((String)cluProposalModel.get("proposal/id"));
+	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
+	    				workflowUtil.refresh();
+	    				setProposalHeaderTitle();
+	    				setLastUpdated();
+	    				HistoryManager.logHistoryChange();
+	    				if(saveActionEvent.gotoNextView()){
+	    					CourseProposalController.this.showNextViewOnMenu();
+	    				}
+                	}
                 }
             });
         } catch (Exception e) {
