@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
+import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -129,20 +130,23 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         // If ListItems has more than one attribute create a table with each attribute in its own column
         if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys().size() > 1) {
             layout.addStyleName("KS-Checkbox-Table");
-            layout.setWidget(row, col++, new KSLabel("Select"));
-            for (String attr:super.getListItems().getAttrKeys()){
-                layout.setWidget(row, col++, new KSLabel(attr));
-            }
-            row++;
-            col=0;
+//            layout.setWidget(row, col++, new KSLabel("Select"));
+//            for (String attr:super.getListItems().getAttrKeys()){
+//                layout.setWidget(row, col++, new KSLabel(attr));
+//            }
+//            row++;
+//            col=0;
 
             for (String id:super.getListItems().getItemIds()){
 
-                layout.setWidget(row, col, createCheckbox(id));
-                for (String attr:super.getListItems().getAttrKeys()){
-                    String value = super.getListItems().getItemAttribute(id, attr);
-                    layout.setWidget(row, ++col, new KSLabel(value));
-                }                    
+               layout.setWidget(row, col, createCheckbox(id));
+               SearchResultListItems searchList = (SearchResultListItems)super.getListItems();
+               String value = searchList.getItemAttribute(id, searchList.getAttrKeys().get(searchList.getItemTextAttrNdx()));
+               layout.setWidget(row,++col, new KSLabel(value));
+//                for (String attr:super.getListItems().getAttrKeys()){
+////                    String value = super.getListItems().getItemAttribute(id, attr);
+////                    layout.setWidget(row, ++col, new KSLabel(value));
+//                }                    
 
                 row++;
                 col = 0;
