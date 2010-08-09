@@ -161,7 +161,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //Course Content
                 layout.addMenuItem(sections, generateCourseInfoSection());
                 layout.addMenuItem(sections, generateCourseLogisticsSection());
-                //TODO layout.addMenuItem(sections, generateLearningObjectivesSection());
+                layout.addMenuItem(sections, generateLearningObjectivesSection());
 
             //Student Eligibility
                 //TODO layout.addMenuItem(sections, generateCourseRequisitesSection());
@@ -1223,10 +1223,11 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 //                catInfo.setLoRepository(catHelper.getLoRepository());
                 // TODO - this should't be necessary when DOL pushed down into LOPicker
                 // and its LOCategoryBuilder
+                // FIXME - added Name State and Type back in because we were missing data.  
                 // catInfo.setAttributes(catHelper.getAttributes());
-//                catInfo.setName(catHelper.getName());
-//                catInfo.setState(catHelper.getState());
-//                catInfo.setType(catHelper.getType());
+                catInfo.setName(catHelper.getName());
+                catInfo.setState(catHelper.getState());
+                catInfo.setType(catHelper.getType());
                 // TODO - LoCategoryInfoAssembler, w/ a disassemble method so we can just do 
                 // categoriesData.add(LoCategoryInfoAssembler.disassemble(catData)) instead
                 // of all the above
@@ -1436,7 +1437,8 @@ class LoCategoryInfoHelper {
     
     public enum Properties implements PropertyEnum
     {
-        ID ("id");
+        ID ("id"),NAME ("name"),TYPE ("type"),STATE ("state");
+        
         private final String key;
         
         private Properties (final String key)
@@ -1473,6 +1475,18 @@ class LoCategoryInfoHelper {
     
     public String getId() {
         return (String) data.get(Properties.ID.getKey());
+    }
+    
+    public String getName() {
+        return (String) data.get(Properties.NAME.getKey());
+    }
+    
+    public String getState() {
+        return (String) data.get(Properties.STATE.getKey());
+    }
+    
+    public String getType() {
+        return (String) data.get(Properties.TYPE.getKey());
     }
 }
 
