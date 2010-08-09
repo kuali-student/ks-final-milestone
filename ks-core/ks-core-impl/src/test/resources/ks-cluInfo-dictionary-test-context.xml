@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<import resource="classpath:ks-base-dictionary-context.xml" />
+	<import resource="classpath:ks-base-dictionary-test-context.xml" />
 	<!-- CluInfo-->
 	<bean id="org.kuali.student.lum.lu.dto.CluInfo-parent" abstract="true"
 		parent="ObjectStructureDefinition">

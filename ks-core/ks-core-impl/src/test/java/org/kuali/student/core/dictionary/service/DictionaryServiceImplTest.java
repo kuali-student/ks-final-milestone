@@ -47,7 +47,7 @@ public class DictionaryServiceImplTest {
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		GetObjectStructureResponse out = (GetObjectStructureResponse) unmarshaller.unmarshal(new StringReader(writer.toString()));
 		
-		DictionaryServiceImpl dm = new DictionaryServiceImpl("classpath:ks-courseInfo-dictionary-context.xml");
+		DictionaryServiceImpl dm = new DictionaryServiceImpl("classpath:ks-courseInfo-dictionary-test-context.xml");
 		ObjectStructureDefinition courseInfo = dm.getObjectStructure("org.kuali.student.lum.course.dto.CourseInfo");
 		
 		courseInfo.getAttributes();

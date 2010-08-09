@@ -2,8 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
-	<import resource="classpath:ks-base-dictionary-context.xml" />
-	<import resource="classpath:ks-cluInfo-dictionary-context.xml" />
+	<import resource="classpath:ks-base-dictionary-test-context.xml" />
+	<import resource="classpath:ks-cluInfo-dictionary-test-context.xml" />
 	
 	<!-- CourseInfo-->
 	<bean id="org.kuali.student.lum.course.dto.CourseInfo-parent"

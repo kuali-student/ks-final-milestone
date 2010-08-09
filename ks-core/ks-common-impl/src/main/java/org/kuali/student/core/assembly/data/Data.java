@@ -655,7 +655,9 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Entry<Key, Value> e : map.entrySet()) {
             if (recurse && e.getValue().getType().equals(Data.class)) {
                 Data value = e.getValue().get();
-                value = value.copy();
+                if(value != null){
+                	value = value.copy();
+                }
                 target.map.put(e.getKey(), new DataValue(value));
             } else {
                 target.map.put(e.getKey(), e.getValue());
