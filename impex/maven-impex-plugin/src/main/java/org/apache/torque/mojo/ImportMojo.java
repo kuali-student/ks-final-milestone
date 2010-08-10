@@ -542,13 +542,15 @@ public class ImportMojo extends AbstractMojo {
 	}
 
 	/**
-	 * Automatically detect the database type (oracle, mysql, h2, derby, etc) and JDBC driver given a JDBC url
+	 * Attempt to automatically detect the correct JDBC driver and database type (oracle, mysql, h2, derby, etc) given a
+	 * JDBC url
 	 */
 	protected void updateConfiguration() {
 		JDBCConfig config = jdbcUtils.getDatabaseConfig(url);
 		if (config.equals(JDBCConfig.UNKNOWN_CONFIG)) {
 			return;
 		}
+
 		if (isBlank(driver)) {
 			driver = config.getDriver();
 		}
@@ -558,6 +560,9 @@ public class ImportMojo extends AbstractMojo {
 		}
 	}
 
+	/**
+	 * Validate that some essential configuration items are present
+	 */
 	protected void validateConfiguration() throws MojoExecutionException {
 		if (isBlank(driver)) {
 			throw new MojoExecutionException("No database driver. Specify one in the plugin configuration.");
