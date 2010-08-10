@@ -543,6 +543,9 @@ public class ImportMojo extends AbstractMojo {
 		return false;
 	}
 
+	/**
+	 * Automatically detect the database type (oracle, mysql, h2, derby, etc) and JDBC driver given a JDBC url
+	 */
 	protected void updateConfiguration() {
 		JDBCConfig config = jdbcUtils.getDatabaseConfig(url);
 		if (config.equals(JDBCConfig.UNKNOWN_CONFIG)) {
