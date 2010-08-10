@@ -24,6 +24,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
@@ -418,7 +419,8 @@ public class TestProgramServiceImpl {
     }
     
     @Test
-    @Ignore public void testCreateBaccCredentialProgram() {
+    @Ignore
+    public void testCreateBaccCredentialProgram() {
     	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
     	CredentialProgramInfo credentialProgramInfo = null;
         try {
@@ -524,4 +526,20 @@ public class TestProgramServiceImpl {
 
         assertEquals("longTitle-toolong", updatedCP.getLongTitle());
     }
+    
+    @Test
+    @Ignore
+    public void testCreateCoreProgram() {
+    	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
+    	CoreProgramInfo coreProgramInfo = null;
+        try {
+            assertNotNull(coreProgramInfo = generator.getCoreProgramTestData());
+            CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
+            assertNotNull(createdCP);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+	}
 }
