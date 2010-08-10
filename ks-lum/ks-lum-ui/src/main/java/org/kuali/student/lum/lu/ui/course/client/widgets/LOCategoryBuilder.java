@@ -497,12 +497,12 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
      
      public class LOCategoryListNew extends Composite {
          private static final String CATEGORY_TYPE_SEPARATOR = " - ";
-         private KSListPanel listPanel;
+         private VerticalPanel listPanel;
          private VerticalPanel main = new VerticalPanel();
          protected List<LoCategoryInfo> categories = new ArrayList<LoCategoryInfo>();
          
          public LOCategoryListNew() {
-             listPanel = new KSListPanel(ListType.UNORDERED);
+             listPanel = new VerticalPanel();
              main.add(listPanel);
              super.initWidget(main);
          }
