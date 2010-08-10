@@ -71,18 +71,6 @@ public class ProgramInformationConfiguration extends AbstractConfiguration<Progr
         section.addSection(datesSection);
         section.addSection(otherInformationSection);
         showViewSection.addSection(section);
-
-        /* configurer.addField(section, ProgramConstants.FULL_PART_TIME, new MessageKeyInfo(ProgramProperties.get().programInformation_fullPartTime()), new KSLabel());
-   configurer.addField(section, ProgramConstants.DURATION, new MessageKeyInfo(ProgramProperties.get().programInformation_duration()), new KSLabel());
-   configurer.addField(section, ProgramConstants.CIP_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_cipCode()), new KSLabel());
-   configurer.addField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegisCode()), new KSLabel());
-   configurer.addField(section, ProgramConstants.SPECIALIZATION_REQUIRED, new MessageKeyInfo(ProgramProperties.get().programInformation_specializationRequired()), new KSLabel());
-   configurer.addField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()), new KSLabel());
-   configurer.addField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditingAgency()), new KSLabel());
-   configurer.addField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()), new KSLabel());
-   configurer.addField(section, ProgramConstants.DESCRIPTION_FORMATTED, new MessageKeyInfo(ProgramProperties.get().programInformation_programDescription()), new HTML());
-   configurer.addField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().programInformation_moreInformation()), new KSLabel());*/
-
     }
 
     private TableSection createIdentifyingDetailsSection() {
@@ -107,11 +95,21 @@ public class ProgramInformationConfiguration extends AbstractConfiguration<Progr
     private TableSection createDatesSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_dates()));
         configurer.addReadOnlyField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.END_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
         return section;
     }
 
     private TableSection createOtherInformationSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_otherInformation()));
+        configurer.addReadOnlyField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()));
+        //configurer.addReadOnlyField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditation()));
+        configurer.addReadOnlyField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()));
+        configurer.addReadOnlyField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()));
+        configurer.addReadOnlyField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegis()));
+        configurer.addReadOnlyField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
         return section;
     }
 }
