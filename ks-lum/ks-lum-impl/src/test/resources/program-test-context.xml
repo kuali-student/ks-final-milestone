@@ -459,6 +459,7 @@
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
  	<bean id="credentialProgramAssembler"
@@ -491,6 +492,12 @@
         <property name="luService" ref="luServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
+    </bean>
+
+    <bean id="programAssemblerUtils"
+          class="org.kuali.student.lum.program.service.assembler.ProgramAssemblerUtils">
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
     <bean name="programService" class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
