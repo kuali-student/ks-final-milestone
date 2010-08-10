@@ -67,6 +67,9 @@
 	<bean parent="enCourse" p:id="cluEvaluationType" p:value="Evaluation Type" />
 	<bean parent="enCourse" p:id="cluTermLiteral" p:value="Term" />
 	<bean parent="enCourse" p:id="cluDurationLiteral" p:value="Duration" />
+	<bean parent="enCourse" p:id="cluFinalExam" p:value="Final Exam" />
+	<bean parent="enCourse" p:id="cluFinalExamStatus" p:value="Final Exam Status" />
+	<bean parent="enCourse" p:id="cluFinalExamRationale" p:value="Final Exam Rationale" />
 	<bean parent="enCourse" p:id="cluProposalDirections">
 		<property name="value">
 			<value>Enter the following to save a draft of the clu proposal.

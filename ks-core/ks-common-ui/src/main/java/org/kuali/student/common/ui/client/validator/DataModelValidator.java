@@ -183,10 +183,15 @@ public class DataModelValidator {
         list.add(v);
     }
     
+    
     private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey){
+    	addError(list, element, msgKey.getKey());
+    }
+    
+    private void addError(List<ValidationResultInfo> list, QueryPath element, String msgKey){
         ValidationResultInfo v = new ValidationResultInfo();
         v.setElement(element.toString());
-        v.setError(Application.getApplicationContext().getMessage(msgKey.getKey()));       
+        v.setError(Application.getApplicationContext().getMessage(msgKey));       
         list.add(v);
     }
     
@@ -245,14 +250,22 @@ public class DataModelValidator {
 							if (validChars.startsWith("regex:")) {
 								validChars = validChars.substring(6);
 								if (!s.matches(validChars)) {
-									addError(results, element, VALID_CHARS);
+									if(cons.getValidCharsMessageId() != null ){
+										addError(results, element, cons.getValidCharsMessageId());
+									}else{
+										addError(results, element, VALID_CHARS);	
+									}
 									failed = true;
 									break;
 								}
 							} else {
 								for (char c : s.toCharArray()) {
 									if (!validChars.contains(String.valueOf(c))) {
-										addError(results, element, VALID_CHARS);
+										if(cons.getValidCharsMessageId() != null ){
+											addError(results, element, cons.getValidCharsMessageId());
+										}else{
+											addError(results, element, VALID_CHARS);	
+										}
 										failed = true;
 										break;
 									}

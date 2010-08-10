@@ -22,13 +22,16 @@
 
  <bean id="alphanumericHyphenPeriod" parent="ValidCharDefinition">
   <property name="value" value="regex:[A-Za-z0-9.\-]*" />
+  <property name="labelKey" value="validation.validChars.alphanumericHyphenPeriod"/>
  </bean>
  <bean id="digits" parent="ValidCharDefinition">
   <property name="value" value="regex:[0-9]*"/>
+  <property name="labelKey" value="validation.validChars.digits"/>
  </bean>
  <bean id="numeric" parent="ValidCharDefinition">
   <!--TODO: make this so it allows in only values that can be converted to a number-->
   <property name="value" value="regex:[0-9]*"/>
+  <property name="labelKey" value="validation.validChars.numeric"/>
  </bean>
  <bean id="alpha" parent="ValidCharDefinition">
   <property name="value" value="regex:[A-Za-z]*"/>
@@ -40,10 +43,10 @@
   <property name="value" value="regex:[A-Z]*"/>
  </bean>
  <bean id="lineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.\-;:&#34;'&amp;%$#@!\t ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,\-;:&#34;'&amp;%$#@!\t ]*"/>
  </bean>
  <bean id="multiLineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.\-;:&#34;'&amp;%$#@!\t\n\r ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,\-;:&#34;'&amp;%$#@!\t\n\r ]*"/>
  </bean>
 
  <bean id="customEditorConfigurer"

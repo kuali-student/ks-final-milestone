@@ -144,14 +144,12 @@
     height:20px;
 }
 .KS-LODeleteButton{
-    background: url("images/LODeleteButton.png") no-repeat 2px 2px;
-    width: 20px;
-    height:20px;
+	color:blue;
+	font-size:0.916em;
 }
 .KS-LODeleteButtonDisabled{
-    background: url("images/LODeleteButtonDisabled.png") no-repeat 2px 2px;
-    width: 20px;
-    height:20px;
+	color:grey;
+	font-size:0.916em;
 }
 .KS-LOBuilder-LO-Item-Active {
 	background-color: #FFFFCC;	

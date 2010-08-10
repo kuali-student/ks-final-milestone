@@ -25,23 +25,19 @@ import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
+import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasFocusHandlers;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTMLPanel;
 
 
 /**
@@ -127,22 +123,25 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         int col = 0;
 
         // If ListItems has more than one attribute create a table with each attribute in its own column
-        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys().size() > 1) {
+        if (!ignoreMultipleAttributes && super.getListItems().getAttrKeys() != null && super.getListItems().getAttrKeys().size() > 1) {
             layout.addStyleName("KS-Checkbox-Table");
-            layout.setWidget(row, col++, new KSLabel("Select"));
-            for (String attr:super.getListItems().getAttrKeys()){
-                layout.setWidget(row, col++, new KSLabel(attr));
-            }
-            row++;
-            col=0;
+//            layout.setWidget(row, col++, new KSLabel("Select"));
+//            for (String attr:super.getListItems().getAttrKeys()){
+//                layout.setWidget(row, col++, new KSLabel(attr));
+//            }
+//            row++;
+//            col=0;
 
             for (String id:super.getListItems().getItemIds()){
 
-                layout.setWidget(row, col, createCheckbox(id));
-                for (String attr:super.getListItems().getAttrKeys()){
-                    String value = super.getListItems().getItemAttribute(id, attr);
-                    layout.setWidget(row, ++col, new KSLabel(value));
-                }                    
+               layout.setWidget(row, col, createCheckbox(id));
+               SearchResultListItems searchList = (SearchResultListItems)super.getListItems();
+               String value = searchList.getItemAttribute(id, searchList.getAttrKeys().get(searchList.getItemTextAttrNdx()));
+               layout.setWidget(row,++col, new KSLabel(value));
+//                for (String attr:super.getListItems().getAttrKeys()){
+////                    String value = super.getListItems().getItemAttribute(id, attr);
+////                    layout.setWidget(row, ++col, new KSLabel(value));
+//                }                    
 
                 row++;
                 col = 0;

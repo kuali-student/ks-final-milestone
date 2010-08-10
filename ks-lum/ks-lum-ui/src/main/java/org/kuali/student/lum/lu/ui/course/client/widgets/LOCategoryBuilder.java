@@ -23,8 +23,10 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
@@ -33,11 +35,16 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel.ListType;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CategoryDataUtil;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
@@ -82,7 +89,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private LoRpcServiceAsync loRpcServiceAsync ;
     private LOCategoryPicker picker ;
 
-    LOCategoryList categoryList;
+    LOCategoryListNew categoryList;
     Map<String, LoCategoryTypeInfo> categoryTypeMap ;
 
     VerticalPanel root = new VerticalPanel();
@@ -102,7 +109,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
         loRpcServiceAsync = GWT.create(LoRpcService.class);
         picker = new LOCategoryPicker();
-        categoryList = new LOCategoryList();
+        categoryList = new LOCategoryListNew();
 
         initWidget(root);
 
@@ -189,7 +196,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private void addEnteredCategory() {
 
         if (categoryList == null)
-            categoryList = new LOCategoryList();
+            categoryList = new LOCategoryListNew();
 
         if (picker.getSelectedId().trim().equals("")) {
             showNewCategoryWindow();
@@ -487,98 +494,61 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
              return ((LoCategoryTypeInfo)loTypeMap.get(id)).getName();
          }
      }
-
-     /**
-      * 
-      * This inner class handles adding and removing selected categories to/from 
-      * a list in the CategoryPicker.  Uses ModelDTOList
-      *  
-      * TODO: Still valid in DOL? 
-      * 
-      * @author Kuali Rice Team (kuali-rice@googlegroups.com)
-      *
-      */    
-     public class LOCategoryList extends Composite {
-         
+     
+     public class LOCategoryListNew extends Composite {
          private static final String CATEGORY_TYPE_SEPARATOR = " - ";
+         private VerticalPanel listPanel;
+         private VerticalPanel main = new VerticalPanel();
          protected List<LoCategoryInfo> categories = new ArrayList<LoCategoryInfo>();
-         VerticalPanel main = new VerticalPanel();
-
-         FlexTable categoryTable = new FlexTable();
-
-         final ClickHandler deleteHandler = new ClickHandler() {
-             @Override
-             public void onClick(ClickEvent event) {
-                 Cell cell = categoryTable.getCellForEvent(event);
-                 int r = cell.getRowIndex();
-                 KSLabel label = (KSLabel)categoryTable.getWidget(r, 0);
-                 categoryList.removeItem(label.getText());
-                 categoryList.redraw();
-             }                   
-         };
-
-         public LOCategoryList(){
-
-             main.add(categoryTable);
+         
+         public LOCategoryListNew() {
+             listPanel = new VerticalPanel();
+             main.add(listPanel);
              super.initWidget(main);
-
          }
-
+         
          public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<LoCategoryInfo>> handler) {
              return null;
          }
 
-         public void updateModelDTOValue() {
-             categoryList.updateModelDTOValue();
-         }
-
          public void redraw() {
 
-			if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
-			            	 
-				loRpcServiceAsync.getLoCategoryTypes(new AsyncCallback<List<LoCategoryTypeInfo>>() {
-				
-					@Override
-					public void onFailure(Throwable caught) {
-					Window.alert("getLoCategoryTypes failed " + caught.getMessage());
-					}
-					
-					@Override
-					public void onSuccess(List<LoCategoryTypeInfo> result) {
-						if (categoryTypeMap == null) {
-							loadCategoryTypes(result);                    
-						}
-						redrawCategoryTable();
-					}
-	
-				});
-			} else {
-				redrawCategoryTable();
-			}
-		}
-			
-		private void redrawCategoryTable() {
-			int row = 0;
-			int col = 0;
-			             
-			categoryTable.clear();
-	
-			for (int i = 0; i < categories.size(); i++) {
-		        String name = categories.get(i).getName();
-		        String typeKey = categories.get(i).getType();
-		        // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
-		        String typeName = "ERROR: uninitialized categoryTypeMap";
-		        if (null != categoryTypeMap) {
-		            typeName = categoryTypeMap.get(typeKey).getName();
-		        } 
-		        categoryTable.setWidget(row, col++, new KSLabel(name + CATEGORY_TYPE_SEPARATOR + typeName));
-		        KSLabel deleteLabel = new KSLabel("[x]");
-		        deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
-		        deleteLabel.addClickHandler(deleteHandler);
-		        categoryTable.setWidget(row, col++, deleteLabel);
-		        row++;
-		        col = 0;                                
-			}
+             if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
+                              
+                 loRpcServiceAsync.getLoCategoryTypes(new AsyncCallback<List<LoCategoryTypeInfo>>() {
+                 
+                     @Override
+                     public void onFailure(Throwable caught) {
+                     Window.alert("getLoCategoryTypes failed " + caught.getMessage());
+                     }
+                     
+                     @Override
+                     public void onSuccess(List<LoCategoryTypeInfo> result) {
+                         if (categoryTypeMap == null) {
+                             loadCategoryTypes(result);                    
+                         }
+                         redrawCategoryTable();
+                     }
+     
+                 });
+             } else {
+                 redrawCategoryTable();
+             }
+         }
+
+         private void redrawCategoryTable() {
+             listPanel.clear();
+     
+             for (int i = 0; i < categories.size(); i++) {
+                 String name = categories.get(i).getName();
+                 String typeKey = categories.get(i).getType();
+                 // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
+                 KSItemLabel newItemLabel = new KSItemLabel(true, new CategoryDataParser());
+                 Data categoryData = CategoryDataUtil.toData(categories.get(i));
+                 newItemLabel.setValue(new DataValue(categoryData));
+                 
+                 listPanel.add(newItemLabel);
+             }
          }
 
          public List<LoCategoryInfo> getValue() {
@@ -615,4 +585,154 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
              redraw();
          }
      }
+     
+     /**
+      * 
+      * This inner class handles adding and removing selected categories to/from 
+      * a list in the CategoryPicker.  Uses ModelDTOList
+      *  
+      * TODO: Still valid in DOL? 
+      * 
+      * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+      *
+      */    
+//     public class LOCategoryList extends Composite {
+//         
+//         private static final String CATEGORY_TYPE_SEPARATOR = " - ";
+//         protected List<LoCategoryInfo> categories = new ArrayList<LoCategoryInfo>();
+//         VerticalPanel main = new VerticalPanel();
+//
+//         FlexTable categoryTable = new FlexTable();
+//
+//         final ClickHandler deleteHandler = new ClickHandler() {
+//             @Override
+//             public void onClick(ClickEvent event) {
+//                 Cell cell = categoryTable.getCellForEvent(event);
+//                 int r = cell.getRowIndex();
+//                 KSLabel label = (KSLabel)categoryTable.getWidget(r, 0);
+//                 categoryList.removeItem(label.getText());
+//                 categoryList.redraw();
+//             }                   
+//         };
+//
+//         public LOCategoryList(){
+//
+//             main.add(categoryTable);
+//             super.initWidget(main);
+//
+//         }
+//
+//         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<LoCategoryInfo>> handler) {
+//             return null;
+//         }
+//
+//         public void updateModelDTOValue() {
+//             categoryList.updateModelDTOValue();
+//         }
+//
+//         public void redraw() {
+//
+//			if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
+//			            	 
+//				loRpcServiceAsync.getLoCategoryTypes(new AsyncCallback<List<LoCategoryTypeInfo>>() {
+//				
+//					@Override
+//					public void onFailure(Throwable caught) {
+//					Window.alert("getLoCategoryTypes failed " + caught.getMessage());
+//					}
+//					
+//					@Override
+//					public void onSuccess(List<LoCategoryTypeInfo> result) {
+//						if (categoryTypeMap == null) {
+//							loadCategoryTypes(result);                    
+//						}
+//						redrawCategoryTable();
+//					}
+//	
+//				});
+//			} else {
+//				redrawCategoryTable();
+//			}
+//		}
+//			
+//		private void redrawCategoryTable() {
+//			int row = 0;
+//			int col = 0;
+//			             
+//			categoryTable.clear();
+//	
+//			for (int i = 0; i < categories.size(); i++) {
+//		        String name = categories.get(i).getName();
+//		        String typeKey = categories.get(i).getType();
+//		        // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
+//		        String typeName = "ERROR: uninitialized categoryTypeMap";
+//		        if (null != categoryTypeMap) {
+//		            typeName = categoryTypeMap.get(typeKey).getName();
+//		        } 
+//		        categoryTable.setWidget(row, col++, new KSLabel(name + CATEGORY_TYPE_SEPARATOR + typeName));
+//		        KSLabel deleteLabel = new KSLabel("[x]");
+//		        deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
+//		        deleteLabel.addClickHandler(deleteHandler);
+//		        categoryTable.setWidget(row, col++, deleteLabel);
+//		        row++;
+//		        col = 0;                                
+//			}
+//         }
+//
+//         public List<LoCategoryInfo> getValue() {
+//             return categories;
+//         }
+//
+//         public void setValue(List<LoCategoryInfo> categories) {
+//             this.categories = categories;
+//             redraw();            
+//         }
+//
+//         public void removeItem(String text) {
+//
+//             int a  = text.indexOf(CATEGORY_TYPE_SEPARATOR);
+//             text = text.substring(0,a);
+//
+//             int i = 0;
+//             for (LoCategoryInfo catInfo : categories) {
+//                 String name = catInfo.getName();
+//
+//                 if (name.equals(text)) {
+//                     categories.remove(i);
+//                     break;
+//                 }
+//                 i++;                              
+//             }
+//             redraw();
+//         }
+//
+//         public void addItem(LoCategoryInfo category) {
+//
+//             categories.add(category);
+//
+//             redraw();
+//         }
+//     }
+     
+     class CategoryDataParser implements DataHelper {
+         
+         public CategoryDataParser() {};
+
+         @Override
+         public String getKey(Data data) {
+             return CategoryDataUtil.toLoCategoryInfo(data).getId();
+         }
+
+         @Override
+         public String parse(Data data) {
+             LoCategoryInfo loCategoryInfo = CategoryDataUtil.toLoCategoryInfo(data);
+             String typeName = "ERROR: uninitialized categoryTypeMap";
+             if (null != categoryTypeMap) {
+                 typeName = categoryTypeMap.get(loCategoryInfo.getType()).getName();
+             }
+             String result = loCategoryInfo.getName() + " - " + typeName;
+             return result;
+         }
+          
+      }
 }

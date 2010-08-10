@@ -32,7 +32,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("required");
-		consMeta.setMessageId ("kuali.msg.validation.required");
+		//consMeta.setMessageId ("kuali.msg.validation.required");
 		consMeta.setDesc ("Required");
 		consMeta.setMinOccurs (1);
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
@@ -46,7 +46,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("not.used");
-		consMeta.setMessageId ("kuali.msg.validation.not.used");
+		//consMeta.setMessageId ("kuali.msg.validation.not.used");
 		consMeta.setDesc ("Not Used");
 		consMeta.setMinOccurs (0);
 		consMeta.setMaxOccurs (0);
@@ -60,7 +60,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("single");
-		consMeta.setMessageId ("kuali.msg.validation.single");
+		//consMeta.setMessageId ("kuali.msg.validation.single");
 		consMeta.setDesc ("Single valued (non-repeating)");
 		consMeta.setComments ("Used to override a repeating constraint");
 		consMeta.setMaxOccurs (1);
@@ -80,7 +80,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("code");
-		consMeta.setMessageId ("kuali.msg.validation.code");
+		//consMeta.setMessageId ("kuali.msg.validation.code");
 		consMeta.setDesc ("Alphanumeric code, hypen and period.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -89,7 +89,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("code.uppercase");
-		consMeta.setMessageId ("kuali.msg.validation.uppercase");
+		//consMeta.setMessageId ("kuali.msg.validation.uppercase");
 		consMeta.setDesc ("uppercase alphanumeric code, hypen and period.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -98,7 +98,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("code.lowercase");
-		consMeta.setMessageId ("kuali.msg.validation.lowercase");
+		//consMeta.setMessageId ("kuali.msg.validation.lowercase");
 		consMeta.setDesc ("lowercase alphanumeric code, hypen and period.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -107,7 +107,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("single.line.text");
-		consMeta.setMessageId ("kuali.msg.validation.single.line.text");
+		//consMeta.setMessageId ("kuali.msg.validation.single.line.text");
 		consMeta.setDesc ("A basic single line of text, no embedded carraige returns or tabs limited to 255");
 		consMeta.setComments ("old reg ex was \"[A-Za-z0-9.-;;'&%$#@!]*");
 		consMeta.setMinLength (1);
@@ -117,14 +117,14 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("letter");
-		consMeta.setMessageId ("kuali.msg.validation.letter");
+		//consMeta.setMessageId ("kuali.msg.validation.letter");
 		consMeta.setDesc ("letters only");
 		consMeta.setValidChars ("regex:[A-Za-z]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("size.one");
-		consMeta.setMessageId ("kuali.msg.validation.size.one");
+		//consMeta.setMessageId ("kuali.msg.validation.size.one");
 		consMeta.setDesc ("Only one character");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (1);
@@ -132,7 +132,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("size.two");
-		consMeta.setMessageId ("kuali.msg.validation.size.two");
+		//consMeta.setMessageId ("kuali.msg.validation.size.two");
 		consMeta.setDesc ("Two characters both must be filled out.");
 		consMeta.setMinLength (2);
 		consMeta.setMaxLength (2);
@@ -140,7 +140,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("size.up.to.two");
-		consMeta.setMessageId ("kuali.msg.validation.size.up.to.two");
+		//consMeta.setMessageId ("kuali.msg.validation.size.up.to.two");
 		consMeta.setDesc ("Up to 2 characters long");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (2);
@@ -148,21 +148,21 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("no.linefeeds");
-		consMeta.setMessageId ("kuali.msg.validation.no.linefeeds");
+		//consMeta.setMessageId ("kuali.msg.validation.no.linefeeds");
 		consMeta.setDesc ("Any character EXCEPT carraige returns and line feeds");
 		consMeta.setValidChars ("regex:[^\\n\\r]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("no.tabs");
-		consMeta.setMessageId ("kuali.msg.validation.no.tabs");
+		//consMeta.setMessageId ("kuali.msg.validation.no.tabs");
 		consMeta.setDesc ("Any character EXCEPT a tab");
 		consMeta.setValidChars ("regex:[^\\t]*");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("multi.line.text");
-		consMeta.setMessageId ("kuali.msg.validation.printable");
+		//consMeta.setMessageId ("kuali.msg.validation.printable");
 		consMeta.setDesc ("Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed.");
 		consMeta.setComments ("old reg ex was [A-Za-z0-9.-;;'&%$#@!\\n\\r\\t]*");
 		consMeta.setMinLength (1);
@@ -171,7 +171,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("rich.text");
-		consMeta.setMessageId ("kuali.msg.validation.printable");
+		//consMeta.setMessageId ("kuali.msg.validation.printable");
 		consMeta.setDesc ("Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc.");
 		consMeta.setComments ("Not sure if characterset for rich text is the same for regular text but just interpretted differently.  I.e. html is plain text interpreted differently.");
 		consMeta.setMinLength (1);
@@ -180,7 +180,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("date");
-		consMeta.setMessageId ("kuali.msg.validation.date");
+		//consMeta.setMessageId ("kuali.msg.validation.date");
 		consMeta.setDesc ("Date");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=760 (but not sure)");
 		consMeta.setMinLength (10);
@@ -189,7 +189,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("date.time");
-		consMeta.setMessageId ("kuali.msg.validation.date.time");
+		//consMeta.setMessageId ("kuali.msg.validation.date.time");
 		consMeta.setDesc ("Date-Time");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=1966 (but not sure)");
 		consMeta.setMinLength (19);
@@ -198,7 +198,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("integer");
-		consMeta.setMessageId ("kuali.msg.validation.integer");
+		//consMeta.setMessageId ("kuali.msg.validation.integer");
 		consMeta.setDesc ("Integer");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=14");
 		consMeta.setMinLength (1);
@@ -208,7 +208,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("non-negative.integer");
-		consMeta.setMessageId ("kuali.msg.validation.non-negative.integer");
+		//consMeta.setMessageId ("kuali.msg.validation.non-negative.integer");
 		consMeta.setDesc ("Non-Negative Integer");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=13");
 		consMeta.setMinLength (1);
@@ -219,7 +219,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("decimal");
-		consMeta.setMessageId ("kuali.msg.validation.decimal");
+		//consMeta.setMessageId ("kuali.msg.validation.decimal");
 		consMeta.setDesc ("decimal number");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=117");
 		consMeta.setMinLength (1);
@@ -229,7 +229,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("non.negative.decimal");
-		consMeta.setMessageId ("kuali.msg.validation.non-negative.decimal");
+		//consMeta.setMessageId ("kuali.msg.validation.non-negative.decimal");
 		consMeta.setDesc ("non-negative decimal number");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=117");
 		consMeta.setMinLength (1);
@@ -239,7 +239,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("amount");
-		consMeta.setMessageId ("kuali.msg.validation.amount");
+		//consMeta.setMessageId ("kuali.msg.validation.amount");
 		consMeta.setDesc ("Amount field");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=131");
 		consMeta.setMinLength (1);
@@ -249,7 +249,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("url");
-		consMeta.setMessageId ("kuali.msg.validation.url");
+		//consMeta.setMessageId ("kuali.msg.validation.url");
 		consMeta.setDesc ("Uniform Resource Locator");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=96");
 		consMeta.setMinLength (1);
@@ -259,7 +259,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("boolean");
-		consMeta.setMessageId ("kuali.msg.validation.boolean");
+		//consMeta.setMessageId ("kuali.msg.validation.boolean");
 		consMeta.setDesc ("True or False");
 		consMeta.setComments ("http://regexlib.com/REDetails.aspx?regexp_id=905");
 		consMeta.setMinLength (1);
@@ -269,7 +269,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("kuali.id");
-		consMeta.setMessageId ("kuali.msg.validation.kuali.id");
+		//consMeta.setMessageId ("kuali.msg.validation.kuali.id");
 		consMeta.setDesc ("Kuali ID; calculated by service on add, then read-only.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (36);
@@ -280,7 +280,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("kuali.key");
-		consMeta.setMessageId ("kuali.msg.validation.kuali.key");
+		//consMeta.setMessageId ("kuali.msg.validation.kuali.key");
 		consMeta.setDesc ("Kuali KEY; structured like a type but unique like and ID, used to identify configured objects.");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -293,7 +293,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("kuali.type");
-		consMeta.setMessageId ("kuali.msg.validation.kuali.type");
+		//consMeta.setMessageId ("kuali.msg.validation.kuali.type");
 		consMeta.setDesc ("Kuali TYPE: required on add, then read-only");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -305,7 +305,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("kuali.state");
-		consMeta.setMessageId ("kuali.msg.validation.kuali.state");
+		//consMeta.setMessageId ("kuali.msg.validation.kuali.state");
 		consMeta.setDesc ("Kuali STATE");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (30);
@@ -317,7 +317,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("kuali.meta.data");
-		consMeta.setMessageId ("kuali.msg.validation.kuali.meta.data");
+		//consMeta.setMessageId ("kuali.msg.validation.kuali.meta.data");
 		consMeta.setDesc ("Kuali Meta Data: calculated by service, read-only");
 		consMeta.setMaxOccurs (1);
 		consMeta.setServerSide (true);
@@ -326,7 +326,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.cluId");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing CLU");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -337,7 +337,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.clu.set.id");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing CLU Set Id");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -348,7 +348,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.orgId");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing ORG");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -359,7 +359,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.principalId");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing PRINCIPAL");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -370,7 +370,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.personId");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing PERSON");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -381,7 +381,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.resultValueId");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing CREDIT, CREDENTIAL, or GRADE");
 		consMeta.setComments ("Requires special logic to check that the Id supplied actuall exists");
 		consMeta.setServerSide (true);
@@ -390,7 +390,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.resultComponentId");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an exisitn resultComponent");
 		consMeta.setComments ("Requires special logic to check that the Id supplied actuall exists");
 		consMeta.setServerSide (true);
@@ -399,7 +399,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.gradekey");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Key of an existing Grade");
 		consMeta.setComments ("Requires special logic to check that the key supplied actuall exists");
 		consMeta.setMinLength (1);
@@ -411,7 +411,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.creditkey");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Key of an existing Credit");
 		consMeta.setComments ("Requires special logic to check that the key supplied actuall exists");
 		consMeta.setMinLength (1);
@@ -423,7 +423,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.credentialkey");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Key of an existin Credential");
 		consMeta.setComments ("Requires special logic to check that the key supplied actuall exists");
 		consMeta.setMinLength (1);
@@ -435,7 +435,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.proposal");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing PROPOSAL");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -446,7 +446,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.document");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing DOCUMENT");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -457,7 +457,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured learning unit types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -465,7 +465,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.identifier.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured clu identifier types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -473,7 +473,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.activity.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured activity LuTypes");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -481,7 +481,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("duration.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured duration types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -489,7 +489,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("instructional.format.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured instructional formats");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (30);
@@ -497,7 +497,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("season.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured seasons");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -505,7 +505,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("atp.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured  time period types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -513,7 +513,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("milestone.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured  time period milestone types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -521,7 +521,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("daterange.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured  time period daterange types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -529,7 +529,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("dynamic.field.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured dynamic field types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -537,7 +537,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.lo.relation.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured lu-lo relation types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -545,7 +545,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.lu.relation.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured lul-lu relation types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -553,7 +553,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.code.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured classification codes used for LU");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -561,7 +561,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("currency.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured currency types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -569,7 +569,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lo.category.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of lo category types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -577,7 +577,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lo.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of confured lo types");
 		consMeta.setComments ("TO DO: add to SimpleS");
 		consMeta.setMinLength (1);
@@ -586,7 +586,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lo.lo.relation.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured lo-lo relationship types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -594,7 +594,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lo.repositories");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured lo repositories");
 		consMeta.setComments ("TO DO: add to SimpleS");
 		consMeta.setMinLength (1);
@@ -603,7 +603,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("cluResult.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured cluResultTypes");
 		consMeta.setComments ("TO DO: add to SimpleS");
 		consMeta.setMinLength (1);
@@ -612,7 +612,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("resultUsage.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of confured resultUsage types");
 		consMeta.setComments ("TO DO: add to Simple Spec");
 		consMeta.setMinLength (1);
@@ -621,7 +621,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("proposal.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured proposal types");
 		consMeta.setComments ("TO DO: add to SimpleS");
 		consMeta.setMinLength (1);
@@ -630,7 +630,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("course.proposal.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured course proposal types");
 		consMeta.setComments ("TO DO: add to SimpleS");
 		consMeta.setMinLength (1);
@@ -639,7 +639,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("program.proposal.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured program proposal types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -647,7 +647,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lo.hierarchy.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured program lo hierarchy types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -655,7 +655,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("rate.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured rate types");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (60);
@@ -663,7 +663,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("reference.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured reference types");
 		consMeta.setComments ("TO DO: add to SimpleS");
 		consMeta.setMinLength (1);
@@ -672,7 +672,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.states");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured learning unit states");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (30);
@@ -680,7 +680,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.identifier.states");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured clu identifier states");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (30);
@@ -688,7 +688,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("subject.areas");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured subject areas");
 		consMeta.setMinLength (4);
 		consMeta.setMaxLength (4);
@@ -697,7 +697,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("available.course.numbers");
-		consMeta.setMessageId ("kuali.msg.validation.not.an.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.an.enumerated.list");
 		consMeta.setDesc ("In list of configured available course numbers");
 		consMeta.setMinLength (3);
 		consMeta.setMaxLength (3);
@@ -706,7 +706,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("offering.campuses");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured offering campuses");
 		consMeta.setMinLength (1);
 		consMeta.setMaxLength (30);
@@ -714,7 +714,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("unit.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured unit types");
 		consMeta.setComments ("Although called a type, this is not a formal type in kuali student like an lu type, for example it may be changeable after being added.");
 		consMeta.setMinLength (1);
@@ -723,7 +723,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("eye.colors");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured eye colors");
 		consMeta.setComments ("Blue, Brown, Green, Hazel, etc");
 		consMeta.setMinLength (1);
@@ -732,20 +732,20 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("grade.scales");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured grading scales");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("effective.date.atps");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of configured ATPs");
 		consMeta.setComments ("Not entirely sure what to call this. There is also a kuali.enum.type.EffectiveDateATPs defined for the which is backed by this enumeration (its further constrained) but I don't know that it needs to be represented that way.");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.credit.course");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -754,7 +754,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.credit.course.format.shell");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourseFormatShell\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -763,7 +763,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.program");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Program\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Program");
@@ -771,7 +771,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.program.level");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.ProgramLevel\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.ProgramLevel");
@@ -779,7 +779,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.program.type");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.ProgramType\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.ProgramType");
@@ -787,7 +787,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.degree.level");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.DegreeLevel\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.DegreeLevel");
@@ -795,7 +795,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.degree.type");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.DegreeType\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.DegreeType");
@@ -803,7 +803,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.major");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Major\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Major");
@@ -811,7 +811,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.minor");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Minor\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Minor");
@@ -819,7 +819,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.general.ed");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.GeneralEd\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.GeneralEd");
@@ -827,7 +827,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.type.honors");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.Honors\"");
 		consMeta.setServerSide (true);
 		consMeta.setValidChars ("regex:kuali\\.lu\\.type\\.Honors");
@@ -835,7 +835,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.official");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.identifier.official\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -844,7 +844,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.active");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"active\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -853,7 +853,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.cross-listed");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.identifier.cross-listed\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -862,7 +862,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.co-located");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.relation.type.co-located\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -871,7 +871,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.lulurelation.courseformat");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.lu.relation.type.hasCourseFormat\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -880,7 +880,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.lulurelation.programlevel");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.lu.relation.type.hasProgramLevel\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -889,7 +889,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.lulurelation.programtype");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.lu.relation.type.hasProgramType\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -898,7 +898,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.version");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.identifier.version\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -907,7 +907,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.zero");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be 0");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -916,7 +916,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.one");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be 1");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -925,7 +925,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.true");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be TRUE");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -934,7 +934,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.false");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be FALSE");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -943,7 +943,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.eye.color");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.dynamic.eye.color\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -952,7 +952,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.left.handed");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.dynamic.left.handed\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -961,7 +961,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.rate.type");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.type.CreditCourse.dynamic.rate.type\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -970,7 +970,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.singleUse.lo");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"kuali.lo.type.singleUse\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -979,7 +979,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.singleUse.lo.sequence");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"kuali.lo.type.SingleUse.dynamic.sequence\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -988,7 +988,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.unclassified.lo.category");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"kuali.lo.category.type.unclassified\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -997,7 +997,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.accreditation.lo.category");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"kuali.lo.category.type.accreditation\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1006,7 +1006,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.skill.lo.category");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"kuali.lo.category.type.skill\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1015,7 +1015,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.subject.lo.category");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"kuali.lo.category.type.subject\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1024,7 +1024,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.lulorealtion.includes");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lu.lo.relation.type.includes\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1033,7 +1033,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.lolorealtion.includes");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.lo.lo.relation.type.includes\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1042,7 +1042,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.singleUse.lo.repository");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.loRepository.key.single.use\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1051,7 +1051,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.credit.awarded.resultUsage");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"Kuali.resultUsageType.CreditAwarded\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1060,7 +1060,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.fixed.credit");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.resultComponentType.credit.degree.fixed\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1069,7 +1069,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.variable.credit");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.resultComponentType.credit.degree.range\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1078,7 +1078,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.final.grade");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.resultComponentType.finalGrade\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1087,7 +1087,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.academic.credit");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.creditType.credit.degree\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1096,7 +1096,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.final.qualitative.result.Usage");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.resultComponentType.finalQualitative\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1105,7 +1105,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.final.grad.awarded.resultUsage");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"Must be \"kuali.resultUsageType.finalGradeAwarded\"\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1114,7 +1114,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.letter.grade");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.gradeType.Letter\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1123,7 +1123,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.pass-fail.grade");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.gradeType.Pass-Fail\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1132,7 +1132,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.final.qualitative");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.resultComponentType.finalQualitative\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1141,7 +1141,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.referenceType.CLU");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.referenceType.CLU\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1150,7 +1150,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.referenceType.Proposal");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.referenceType.proposal\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1159,7 +1159,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.group.proposal");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"kuali.proposal.type.group\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1168,7 +1168,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.syllabus");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.proposal.ProposalDocRelationType.syllabus\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1177,7 +1177,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.other.document");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.proposal.ProposalDocRelationType.other\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1186,7 +1186,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.file");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.document.type.file\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1195,7 +1195,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.course.proposal.doc.category");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.document.category.courseProposal.Doc.Category\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1204,7 +1204,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.rateType.fixedRate");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"Fixed Rate\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1213,7 +1213,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.rateType.variableRate");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"Variable Rate\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1222,7 +1222,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.rateType.multipleRate");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"Multiple Rate\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1231,7 +1231,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.rateType.perCreditRate");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"Per Credit Rate\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1240,7 +1240,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.feeType.Revenue");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be \"Revenue\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1319,48 +1319,48 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("has.course.format.relation.lu.types");
-		consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
+		//consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
 		consMeta.setDesc ("constrains the required LuType of the clu referenced by cluCluRelationInfo.cluID for a Has Course Format relation");
 		consMeta.setComments ("TO DO: add the enumeration to simples");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("is.course.format.relation.lu.types");
-		consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
+		//consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
 		consMeta.setDesc ("constrains the required LuType of clu referenced by cluCluRelationInfo.relatedCluId for a has course format relation");
 		consMeta.setComments ("TO DO: add the enumeration to simples");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("contains.relation.lu.types");
-		consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
+		//consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
 		consMeta.setDesc ("constrains the required LuType of the clu referenced by cluCluRelationInfo.cluID for a \"Contains\" relation");
 		consMeta.setComments ("TO DO: add the enumeration to simples");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("contained.by.relation.lu.types");
-		consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
+		//consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
 		consMeta.setDesc ("constrains the required LuType of the clu referenced by cluCluRelationInfo.relatedCluID for a \"Contain\" relation");
 		consMeta.setComments ("TO DO: add the enumeration to simples");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("valid.duration.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of duration types configured by LuType");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("valid.atp.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In a list of atp types configured by LuType");
 		consMeta.setComments ("TO DO: add this enumeration to the simples");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("cross.greaterthan.effective.date");
-		consMeta.setMessageId ("kuali.msg.validation.date.less.than.effective");
+		//consMeta.setMessageId ("kuali.msg.validation.date.less.than.effective");
 		consMeta.setDesc ("Must be empty or a date greater than the entity's effective date");
 		consMeta.setComments ("Not sure if this is how it should be handled - a calc seems like it should be server side, but we don't want this to be server side. In general, it is not clear how to document cross-field constraints");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
@@ -1430,28 +1430,28 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("statement.operators");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured statement operators (AND and OR)");
 		consMeta.setComments ("Hard coded to be AND or OR");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("statement.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid statement types");
 		consMeta.setComments ("See LuStatementInfo types defined on the Types tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("statement.states");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid statement states");
 		consMeta.setComments ("See LuStatementInfo states defined on the States tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.statementd");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing Statement");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -1462,7 +1462,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.requirementComponentId");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing requirement component");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -1473,84 +1473,84 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.requirement.component.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid lu requirement component types");
 		consMeta.setComments ("See reqComponentInfo types defined on the Types tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("dictionary.field.descriptor.field.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid data types fof fields that are supported by the validator");
 		consMeta.setComments ("Valid values are: complex, string, date, dateTime, boolean, integer, & long");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("dictionary.enumeration.keys");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of the keys for all valid enumerations known to the system");
 		consMeta.setComments ("See the lookup column of this spreadsheet!!!!!");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("dictionary.enumeration.context.keys");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of the keys for all valid enumeration contexts known to the system");
 		consMeta.setComments ("See the lookupContext column of this spreadsheet!!!!!");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.requirement.component.states");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid lu requirement component states");
 		consMeta.setComments ("See reqComponentInfo states defined on the States tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lu.requirement.component.field.keys");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid lu requirement component field keys");
 		consMeta.setComments ("See the reqCompFieldTypeInfo keys defined on the Types tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("search.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid search types");
 		consMeta.setComments ("See all the searches defined in the simple specs");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("query.param.value.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid query parameter types for searches");
 		consMeta.setComments ("See all the searches defined in the simple specs");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lrd.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid learning result definition types");
 		consMeta.setComments ("See the lrd types defined in this spreadsheet");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("learning.result.scale.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid learning result scale types");
 		consMeta.setComments ("See the scale types defined in this spreadsheet");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("lrd.operators");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of configured learning result definition operators (=, >, < etc)");
 		consMeta.setComments ("Hard coded to be equal_to, not_equal_to, greater_than, less_than, greater_than_or_equal_to, less_than_or_equal_to");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("related.lrd.Id");
-		consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
+		//consMeta.setMessageId ("kuali.msg.validation.not.a.valid.related.id");
 		consMeta.setDesc ("Id of an existing learning result definition");
 		consMeta.setComments ("Requires special logic to check that the ID supplied actually exists");
 		consMeta.setMinLength (1);
@@ -1561,7 +1561,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.credit.course.clu");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.credit.course\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1570,7 +1570,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.credit.course.clu.set");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.credit.course.set\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1579,7 +1579,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.required.count");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.requiredCount\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1588,7 +1588,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.lrd.credit.course.final.grade");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1597,7 +1597,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.overall.gpa");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1606,7 +1606,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.overall.totalCredits");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1615,7 +1615,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.operator");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1624,7 +1624,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("atp.in.future");
-		consMeta.setMessageId ("kuali.msg.validation.atp.not.in.future");
+		//consMeta.setMessageId ("kuali.msg.validation.atp.not.in.future");
 		consMeta.setDesc ("The ATP must start in the future");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.atp.validation.FutureATPValidatorValidator");
@@ -1632,7 +1632,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("course.variation.code.unique");
-		consMeta.setMessageId ("kuali.msg.validation.course.variation.not.unique");
+		//consMeta.setMessageId ("kuali.msg.validation.course.variation.not.unique");
 		consMeta.setDesc ("The variation codes must be unique");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.lum.lu.validation.UniqueVariationValidatorValidator");
@@ -1640,7 +1640,7 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.countType");
-		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("Must be\"kuali.reqCompFieldType.");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
@@ -1649,21 +1649,21 @@ public class ConstraintMetadataBank
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("clu.set.types");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid clu set types");
 		consMeta.setComments ("See cluSetInfo states defined on the Types tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("clu.set.states");
-		consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
+		//consMeta.setMessageId ("kuali.msg.validation.not.in.enumerated.list");
 		consMeta.setDesc ("In list of valid clu set states");
 		consMeta.setComments ("See cluSetInfo states defined on the States tab");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("valid.credit.course.clu.set.search.types");
-		consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
+		//consMeta.setMessageId ("kuali.msg.validation.type.not.valid.for.type");
 		consMeta.setDesc ("In list of search times that return credit courses or clu sets of credit courses");
 		consMeta.setComments ("Has just one value for now and that is \"kuali.lu.searchTypes.CoursesForDynamicCLUSet\" but that will expand in the future.");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);

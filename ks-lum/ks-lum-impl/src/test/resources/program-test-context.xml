@@ -419,10 +419,11 @@
         </property>
     </bean>
 
-    <bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-        <!--<property name="messageService" ref="ks.messageServiceMock"/>-->
+ 	 <bean id="businessServiceValidator" class="org.kuali.student.lum.course.service.impl.MockDefaultValidatorImpl"/>
+   <!-- <bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+        <property name="messageService" ref="ks.messageServiceMock"/>
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
-    </bean>
+    </bean>-->
 
     <bean id="validatorFactory"
         class="org.kuali.student.common.validator.ValidatorFactory">
@@ -458,6 +459,7 @@
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
  	<bean id="credentialProgramAssembler"
@@ -490,6 +492,12 @@
         <property name="luService" ref="luServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
+    </bean>
+
+    <bean id="programAssemblerUtils"
+          class="org.kuali.student.lum.program.service.assembler.ProgramAssemblerUtils">
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
     <bean name="programService" class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">

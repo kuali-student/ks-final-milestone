@@ -15,9 +15,6 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
@@ -25,23 +22,20 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
-import org.kuali.student.lum.lu.dto.CluResultInfo;
-import org.kuali.student.lum.lu.dto.FieldInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -52,11 +46,11 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
 
     private LuService luService;
-    private LearningObjectiveService loService;
 
     private ProgramVariationAssembler programVariationAssembler;
     private CoreProgramAssembler coreProgramAssembler;
     private CluAssemblerUtils cluAssemblerUtils;
+    private ProgramAssemblerUtils programAssemblerUtils;
 
     @Override
     public MajorDisciplineInfo assemble(CluInfo clu, MajorDisciplineInfo majorDiscipline, boolean shallowBuild) throws AssemblyException {
@@ -64,110 +58,27 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         MajorDisciplineInfo mdInfo = (null != majorDiscipline) ? majorDiscipline : new MajorDisciplineInfo();
 
         // Copy all the data from the clu to the majordiscipline
+        programAssemblerUtils.assembleBasics(clu, mdInfo);
+        programAssemblerUtils.assembleIdentifiers(clu, mdInfo);
+        programAssemblerUtils.assembleOrgs(clu, mdInfo);
+        programAssemblerUtils.assembleDates(clu, mdInfo);
+        programAssemblerUtils.assembleLuCodes(clu, mdInfo);
+        programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
+        programAssemblerUtils.assembleRequirements(clu, mdInfo);
+
+        mdInfo.setCredentialProgramId(programAssemblerUtils.assembleCredentialProgramIDs(clu.getId(), ProgramAssemblerConstants.HAS_MAJOR_PROGRAM));
+        mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
+        mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+        mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
+        mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
+
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setStdDuration(clu.getStdDuration());
-        mdInfo.setReferenceURL((null != clu.getReferenceURL()) ? clu.getReferenceURL() : null);
-        mdInfo.setPublishedInstructors(clu.getInstructors());        
-        mdInfo.setCredentialProgramId(assembleCredentialProgramID(clu.getId()));
-
-        mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
-        mdInfo.setCode(clu.getOfficialIdentifier().getCode());
-        assembleCodes(mdInfo, clu);
-
-        mdInfo.setResultOptions(assembleResultOptions(clu.getId()));
-
-        mdInfo.setStartTerm(clu.getExpectedFirstAtp());
-        mdInfo.setEndTerm(clu.getLastAtp());
-        mdInfo.setEndProgramEntryTerm(clu.getLastAdmitAtp());        
-        mdInfo.setNextReviewPeriod(clu.getNextReviewPeriod());
-        mdInfo.setEffectiveDate(clu.getEffectiveDate());
-
-        assembleTitles(mdInfo, clu);
-        mdInfo.setDescr(clu.getDescr());
-        mdInfo.setCatalogDescr(assembleCatalogDescr(clu.getId()));
-//TODO        mdInfo.setCatalogPublicationTargets(clu.getPublicationInfo());
-        mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
-        mdInfo.setCampusLocations(clu.getCampusLocations());
-        
-        mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
-        //TODO   mdInfo.setProgramRequirements(???);
-        // TODO - https://test.kuali.org/confluence/display/KULSTU/majorDisciplineInfo+Structure says ....orgId
+        mdInfo.setPublishedInstructors(clu.getInstructors());
+        mdInfo.setCampusLocations(clu.getCampusLocations());        
         mdInfo.setAccreditingAgencies(clu.getAccreditations());
 
-        assembleOrgs(mdInfo, clu.getAdminOrgs());
-
-        mdInfo.setAttributes(clu.getAttributes());
-        mdInfo.setMetaInfo(clu.getMetaInfo());
-        mdInfo.setType(clu.getType());
-        mdInfo.setState(clu.getState());
-        mdInfo.setId(clu.getId());
-        return mdInfo;
-    }
-
-    private List<String> assembleResultOptions(String cluId) throws AssemblyException {
-        List<String> resultOptions = null;
-        try{
-            List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId);
-
-            //TODO Just one result type here?
-            resultOptions = cluAssemblerUtils.assembleCluResults(ProgramAssemblerConstants.CERTIFICATE_RESULTS, cluResults);
-
-        } catch (DoesNotExistException e){
-        } catch (Exception e) {
-            throw new AssemblyException("Error getting major results", e);
-        }
-        return resultOptions;
-    }
-
-    private List<ProgramVariationInfo> assembleVariations(String cluId, boolean shallowBuild) throws AssemblyException {
-        List<String> variationIds;
-        List<ProgramVariationInfo> variations = new ArrayList<ProgramVariationInfo>();
-        try {
-            variationIds = luService.getRelatedCluIdsByCluId(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
-
-            for (String variationId : variationIds) {
-                CluInfo variationClu = luService.getClu(variationId);
-                variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild));
-            }
-        } catch (Exception e) {
-            throw new AssemblyException(e);
-        }
-        return variations;
-    }
-
-    private String assembleCredentialProgramID(String cluId) throws AssemblyException {
-        List<String> credentialProgramIDs = null;
-        try {
-            credentialProgramIDs = luService.getCluIdsByRelation(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM);
-        } catch (Exception e) {
-            throw new AssemblyException(e);
-        }
-        // Can a MajorDiscipline have more than one Credential Program?
-        // TODO - do we need to validate that?
-        if (null == credentialProgramIDs || credentialProgramIDs.size() == 0) {
-            throw new AssemblyException("MajorDiscipline with ID == " + cluId + " has no Credential Program associated with it.");
-        } else if (credentialProgramIDs.size() > 1) {
-            throw new AssemblyException("MajorDiscipline with ID == " + cluId + " has more than one Credential Program associated with it.");
-        }
-
-        return credentialProgramIDs.get(0);
-    }
-
-    private void assembleCodes(MajorDisciplineInfo majorDiscipline, CluInfo clu) {
-        List<LuCodeInfo> luCodes = clu.getLuCodes();
-        for (LuCodeInfo codeInfo : luCodes) {
-            if (ProgramAssemblerConstants.CIP_2000.equals(codeInfo.getType())) {
-                majorDiscipline.setCip2000Code(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.CIP_2010.equals(codeInfo.getType())) {
-                majorDiscipline.setCip2010Code(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.HEGIS.equals(codeInfo.getType())) {
-                majorDiscipline.setHegisCode(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION.equals(codeInfo.getType())) {
-                majorDiscipline.setUniversityClassification(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.SELECTIVE_ENROLLMENT.equals(codeInfo.getType())) {
-                majorDiscipline.setSelectiveEnrollmentCode(codeInfo.getValue());
-            }
-        }
+       return mdInfo;
     }
 
     private void disassembleCodes(CluInfo clu, MajorDisciplineInfo major) {
@@ -204,40 +115,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         return luCode;
     }
 
-
-    private void assembleTitles(MajorDisciplineInfo mdInfo, CluInfo clu) {
-        mdInfo.setShortTitle(clu.getOfficialIdentifier().getShortName());
-        mdInfo.setLongTitle(clu.getOfficialIdentifier().getLongName());
-
-        for (CluIdentifierInfo cluIdInfo : clu.getAlternateIdentifiers()) {
-            String idInfoType = cluIdInfo.getType();
-            if (ProgramAssemblerConstants.TRANSCRIPT.equals(idInfoType)) {
-                mdInfo.setTranscriptTitle(cluIdInfo.getShortName());
-            } else if (ProgramAssemblerConstants.DIPLOMA.equals(idInfoType)) {
-                mdInfo.setDiplomaTitle(cluIdInfo.getShortName());
-            }
-        }
-    }
-
-    private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
-//        RichTextInfo returnInfo = new RichTextInfo();
-//        try {
-//            List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(cluId);
-//            for (CluPublicationInfo pubInfo : pubs) {
-//                for (FieldInfo fieldInfo : pubInfo.getVariants()) {
-//                    if (fieldInfo.getId().equals(ProgramAssemblerConstants.CLU_INFO + "." + ProgramAssemblerConstants.DESCR)) {
-//                        returnInfo.setPlain(fieldInfo.getValue());
-//                        return returnInfo; // or break to a label to avoid multiple return points
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            throw new AssemblyException(e);
-//        }
-//        return returnInfo;
-        return null;
-    }
-
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild) throws AssemblyException {
         CoreProgramInfo coreProgramInfo = null;
         try {
@@ -254,80 +131,20 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         return coreProgramInfo;
     }
 
-    private void assembleOrgs(MajorDisciplineInfo mdInfo, List<AdminOrgInfo> orgInfos) {
-        
-        for (AdminOrgInfo orgInfo : orgInfos) {
-            AdminOrgInfo mdOrg = buildOrg(orgInfo);
-            if (orgInfo.getType().equals(ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_DIVISION)) {
-                if (mdInfo.getDivisionsContentOwner() == null)
-                    mdInfo.setDivisionsContentOwner(new ArrayList<AdminOrgInfo>());
-                mdInfo.getDivisionsContentOwner().add(mdOrg);               
+    private List<ProgramVariationInfo> assembleVariations(String cluId, boolean shallowBuild) throws AssemblyException {
+        List<String> variationIds;
+        List<ProgramVariationInfo> variations = new ArrayList<ProgramVariationInfo>();
+        try {
+            variationIds = luService.getRelatedCluIdsByCluId(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
+
+            for (String variationId : variationIds) {
+                CluInfo variationClu = luService.getClu(variationId);
+                variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild));
             }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)) {
-                if (mdInfo.getDivisionsStudentOversight() == null)
-                    mdInfo.setDivisionsStudentOversight(new ArrayList<AdminOrgInfo>());
-                mdInfo.getDivisionsStudentOversight().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)) {
-                if (mdInfo.getDivisionsDeployment() == null)
-                    mdInfo.setDivisionsDeployment(new ArrayList<AdminOrgInfo>());
-                mdInfo.getDivisionsDeployment().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION)) {
-                if (mdInfo.getDivisionsFinancialResources() == null)
-                    mdInfo.setDivisionsFinancialResources(new ArrayList<AdminOrgInfo>());
-                mdInfo.getDivisionsFinancialResources().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)) {
-                if (mdInfo.getDivisionsFinancialControl() == null)
-                    mdInfo.setDivisionsFinancialControl(new ArrayList<AdminOrgInfo>());
-                mdInfo.getDivisionsFinancialControl().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_UNIT)) {
-                if (mdInfo.getUnitsContentOwner() == null)
-                    mdInfo.setUnitsContentOwner(new ArrayList<AdminOrgInfo>());
-                mdInfo.getUnitsContentOwner().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)) {
-                if (mdInfo.getUnitsStudentOversight() == null)
-                    mdInfo.setUnitsStudentOversight(new ArrayList<AdminOrgInfo>());
-                mdInfo.getUnitsStudentOversight().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_UNIT)) {
-                if (mdInfo.getUnitsDeployment() == null)
-                    mdInfo.setUnitsDeployment(new ArrayList<AdminOrgInfo>());
-                mdInfo.getUnitsDeployment().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT)) {
-                if (mdInfo.getUnitsFinancialResources() == null)
-                    mdInfo.setUnitsFinancialResources(new ArrayList<AdminOrgInfo>());
-                mdInfo.getUnitsFinancialResources().add(mdOrg);
-            }
-            else if (orgInfo.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT)) {
-                if (mdInfo.getUnitsFinancialControl() == null)
-                    mdInfo.setUnitsFinancialControl(new ArrayList<AdminOrgInfo>());
-                mdInfo.getUnitsFinancialControl().add(mdOrg);
-            }
+        } catch (Exception e) {
+            throw new AssemblyException(e);
         }
-    }
-
-
-
-    private AdminOrgInfo buildLuCode(AdminOrgInfo orgInfo) {
-        AdminOrgInfo mdOrg = new AdminOrgInfo();
-        mdOrg.setId(orgInfo.getId());
-        mdOrg.setOrgId(orgInfo.getId());
-        mdOrg.setPrimary(false);
-        mdOrg.setType(orgInfo.getType());
-        return mdOrg;
-    }
-    private AdminOrgInfo buildOrg(AdminOrgInfo orgInfo) {
-        AdminOrgInfo mdOrg = new AdminOrgInfo();
-        mdOrg.setId(orgInfo.getId());
-        mdOrg.setOrgId(orgInfo.getId());
-        mdOrg.setPrimary(false);
-        mdOrg.setType(orgInfo.getType());
-        return mdOrg;
+        return variations;
     }
 
     @Override
@@ -453,10 +270,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         this.luService = luService;
     }
 
-    public void setLoService(LearningObjectiveService loService) {
-        this.loService = loService;
-    }
-
     public void setProgramVariationAssembler(ProgramVariationAssembler programVariationAssembler) {
         this.programVariationAssembler = programVariationAssembler;
     }
@@ -471,5 +284,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
     public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
         this.cluAssemblerUtils = cluAssemblerUtils;
+    }
+
+    public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
+        this.programAssemblerUtils = programAssemblerUtils;
     }
 }

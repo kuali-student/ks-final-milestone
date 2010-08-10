@@ -32,6 +32,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -80,19 +81,14 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.LoCategoryInfoHelper.Properties;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
-//import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
@@ -160,7 +156,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //Course Content
                 layout.addMenuItem(sections, generateCourseInfoSection());
                 layout.addMenuItem(sections, generateCourseLogisticsSection());
-                //TODO layout.addMenuItem(sections, generateLearningObjectivesSection());
+                layout.addMenuItem(sections, generateLearningObjectivesSection());
 
             //Student Eligibility
                 //TODO layout.addMenuItem(sections, generateCourseRequisitesSection());
@@ -168,7 +164,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //Administrative
                 layout.addMenuItem(sections, generateGovernanceSection());
                 layout.addMenuItem(sections, generateActiveDatesSection());
-                layout.addMenuItem(sections, generateFinancialsSection());
+                //TODO layout.addMenuItem(sections, generateFinancialsSection());
         }
             //Summary
             ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
@@ -230,7 +226,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public void addCluStartSection(WorkflowEnhancedController layout){
         VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
-        addField(section, COURSE_TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        addField(section, PROPOSAL_TITLE, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        
         //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
         layout.addStartViewPopup(section);
     }
@@ -457,11 +454,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 		return outcomesSection;
 	}
 
-	private Section generateFinalExamSection() {
-		VerticalSection finalExamSection = initSection(getH3Title(LUConstants.LEARNING_RESULT_FINAL_EXAM_LABEL_KEY), WITH_DIVIDER);
-		// TODO Auto-generated method stub
-		return finalExamSection;
-	}
 
 	private Section generateStudentRegistrationOptionsSection() {
 		VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);
@@ -505,6 +497,20 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	    
 	    duration.addSection(duration_group);
 	    return duration;
+    }
+    
+    protected VerticalSection generateFinalExamSection(){
+    	VerticalSection finalExam = initSection(getH3Title(LUConstants.FINAL_EXAM_LABEL_KEY), WITH_DIVIDER);
+    	GroupSection finalExam_group = new GroupSection();
+    	GroupSection finalExamRationale_group = new GroupSection();
+    	FieldDescriptor field =  addField(finalExam_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM , generateMessageInfo(LUConstants.FINAL_EXAM_STATUS_LABEL_KEY));
+    	KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract)(((KSPicker)field.getFieldWidget()).getInputWidget());
+    	addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));	
+    	SwapSection swapSection = new SwapSection(picker);
+    	swapSection.addSection(finalExamRationale_group, "ALT");
+    	finalExam.addSection(finalExam_group);
+    	finalExam.addSection(swapSection);
+    	return finalExam;
     }
 
     protected VerticalSection generateInstructorsSection() {
@@ -1176,6 +1182,7 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
                 picker.setLOText(descriptionHelper.getPlain());
                 List<LoCategoryInfo> categories = getCategoryList(loDisplayInfoHelper);
                 picker.setLOCategories(categories);
+                picker.setMetaInfoData(loInfoHelper.getMetaInfo());
                 OutlineNode<LOPicker> node = new OutlineNode<LOPicker>();
                 
                 node.setUserObject(picker);
@@ -1190,36 +1197,15 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
     
     private List<LoCategoryInfo> getCategoryList(LoDisplayInfoHelper loDisplayInfoHelper) {
         List<LoCategoryInfo> categoryInfos = new ArrayList<LoCategoryInfo>();
-        Data categoryData = loDisplayInfoHelper.getCategoryInfoList();
+        Data categoriesData = loDisplayInfoHelper.getCategoryInfoList();
         
-        if (null != categoryData) {
-            Iterator<Property> itr = categoryData.realPropertyIterator();
+        if (null != categoriesData) {
+            Iterator<Property> itr = categoriesData.realPropertyIterator();
                 
             while (itr.hasNext()) {
                 Property catProp = itr.next();
                 Data catData = catProp.getValue();
-                LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper(catData);
-                LoCategoryInfo catInfo = new LoCategoryInfo();
-                catInfo.setId(catHelper.getId());
-                // testing
-//                if (null != catHelper) {
-                    RichTextInfo descInfo = new RichTextInfo();
-                    descInfo.setFormatted(catHelper.getId());
-                    descInfo.setPlain(catHelper.getId());
-                    catInfo.setDesc(descInfo);
-//                }
-//                catInfo.setEffectiveDate(catHelper.getEffectiveDate());
-//                catInfo.setExpirationDate(catHelper.getExpirationDate());
-//                catInfo.setLoRepository(catHelper.getLoRepository());
-                // TODO - this should't be necessary when DOL pushed down into LOPicker
-                // and its LOCategoryBuilder
-                // catInfo.setAttributes(catHelper.getAttributes());
-//                catInfo.setName(catHelper.getName());
-//                catInfo.setState(catHelper.getState());
-//                catInfo.setType(catHelper.getType());
-                // TODO - LoCategoryInfoAssembler, w/ a disassemble method so we can just do 
-                // categoriesData.add(LoCategoryInfoAssembler.disassemble(catData)) instead
-                // of all the above
+                LoCategoryInfo catInfo = CategoryDataUtil.toLoCategoryInfo(catData);
                 categoryInfos.add(catInfo);
             }
         }
@@ -1246,13 +1232,14 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         // loCategoryInfoList
         Data categoriesData = new Data();
         for (LoCategoryInfo cat : node.getUserObject().getLoCategories()) {
-            LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper();
-            catHelper.setId(cat.getId());
-            categoriesData.add(catHelper.getData());
+            categoriesData.add(CategoryDataUtil.toData(cat));
         }
         
         // loInfo.sequence
         loInfoHelper.setSequence(Integer.toString(sequence));
+        
+        // loInfo.metaInfo
+        loInfoHelper.setMetaInfo(node.getUserObject().getMetaInfoData());
         
         loDisplayInfoDataHelper.setLoInfo(loInfoHelper.getData());
         loDisplayInfoDataHelper.setCategoryInfoList(categoriesData);
@@ -1355,7 +1342,8 @@ class LoInfoHelper {
         NAME ("name"),
         DESC ("desc"),
         ID ("id"),
-        SEQUENCE ("sequence");
+        SEQUENCE ("sequence"),
+        METAINFO ("metaInfo");
         
         private final String key;
         
@@ -1419,6 +1407,14 @@ class LoInfoHelper {
         return (String)data.get(LoInfoHelper.Properties.SEQUENCE.getKey());
     }
     
+    public void setMetaInfo(Data metaInfoData) {
+        HelperUtil.setDataField(LoInfoHelper.Properties.METAINFO, data, metaInfoData);
+    }
+    
+    public Data getMetaInfo() {
+        return HelperUtil.getDataField(LoInfoHelper.Properties.METAINFO, data);
+    }
+    
 }
 
 class LoCategoryInfoHelper {
@@ -1426,7 +1422,14 @@ class LoCategoryInfoHelper {
     
     public enum Properties implements PropertyEnum
     {
-        ID ("id");
+        ID ("id"),
+        DESC ("desc"),
+        EFFECTIVE_DATE ("effectiveDate"),
+        EXPIRATION_DATE ("expirationDate"),
+        LO_REPOSITORY ("loRepository"),
+        NAME ("name"),
+        STATE ("state"),
+        TYPE ("type");
         private final String key;
         
         private Properties (final String key)
@@ -1463,6 +1466,62 @@ class LoCategoryInfoHelper {
     
     public String getId() {
         return (String) data.get(Properties.ID.getKey());
+    }
+    
+    public void setDesc(Data descData) {
+        HelperUtil.setDataField(Properties.DESC, data, descData);
+    }
+    
+    public Data getDesc() {
+        return HelperUtil.getDataField(Properties.DESC, data);
+    }
+    
+    public void setEffectiveDate(Date effectiveDate) {
+        data.set(Properties.EFFECTIVE_DATE.getKey(), effectiveDate);
+    }
+    
+    public Date getEffectiveDate() {
+        return (Date) data.get(Properties.EFFECTIVE_DATE.getKey());
+    }
+    
+    public void setExpirationDate(Date expirationDate) {
+        data.set(Properties.EXPIRATION_DATE.getKey(), expirationDate);
+    }
+    
+    public Date getExpirationDate() {
+        return (Date) data.get(Properties.EXPIRATION_DATE.getKey());
+    }
+
+    public void setLoRepository(String loRepository) {
+        data.set(Properties.LO_REPOSITORY.getKey(), loRepository);
+    }
+    
+    public String getLoRepository() {
+        return (String) data.get(Properties.LO_REPOSITORY.getKey());
+    }
+    
+    public void setName(String name) {
+        data.set(Properties.NAME.getKey(), name);
+    }
+    
+    public String getName() {
+        return (String) data.get(Properties.NAME.getKey());
+    }
+
+    public void setState(String state) {
+        data.set(Properties.STATE.getKey(), state);
+    }
+    
+    public String getState() {
+        return (String) data.get(Properties.STATE.getKey());
+    }
+
+    public void setType(String type) {
+        data.set(Properties.TYPE.getKey(), type);
+    }
+    
+    public String getType() {
+        return (String) data.get(Properties.TYPE.getKey());
     }
 }
 

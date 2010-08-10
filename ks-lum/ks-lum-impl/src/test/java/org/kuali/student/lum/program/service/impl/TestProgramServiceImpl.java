@@ -24,6 +24,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
@@ -154,10 +155,12 @@ public class TestProgramServiceImpl {
             assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
             assertEquals(new Integer(100), major.getStdDuration().getTimeQuantity());
             assertNotNull(major.getStartTerm());
-            assertEquals("kuali.atp.SU2009-2010S1", major.getStartTerm());
+            assertEquals("start_term", major.getStartTerm());
+            assertNotNull(major.getEndTerm());
+            assertEquals("end_term", major.getEndTerm());
+            assertNotNull(major.getEndProgramEntryTerm());
+            assertEquals("end_admit_term", major.getEndProgramEntryTerm());
 
-            //TODO end term
-            //TODO end prog entry term
             assertNotNull(major.getNextReviewPeriod());
             assertEquals("kuali.atp.SU2009-2010S1", major.getNextReviewPeriod());
 
@@ -412,5 +415,113 @@ public class TestProgramServiceImpl {
         assertEquals(1, updatedMD.getProgramRequirements().size());
 
         assertEquals("longTitle-toolong", updatedMD.getLongTitle());
+    }
+    
+    @Test
+    @Ignore public void testCreateBaccCredentialProgram() {
+    	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
+    	CredentialProgramInfo credentialProgramInfo = null;
+        try {
+            assertNotNull(credentialProgramInfo = generator.getCPTestData());
+            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
+            assertNotNull(createdCP);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+	}
+    
+    @Test
+    @Ignore
+    public void testGetBaccCredentialProgram(){
+    	String credentialProgramId = "D02DBBD3-20E2-410D-AB52-1BD6D362748B";
+    	CredentialProgramInfo credentialProgramInfo = null;
+    	try{
+    		credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
+    		assertNotNull(credentialProgramInfo);
+    		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
+
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        fail(e.getMessage());
+	    }
+    }
+    
+    @Test
+    @Ignore public void testDeleteBaccCredentialProgram() {
+        try {
+        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
+        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
+            assertNotNull(credentialProgramInfo);
+            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
+            assertNotNull(createdCP);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
+            String credentialProgramId = createdCP.getId();
+            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramId);
+            assertNotNull(retrievedCP);
+
+            programService.deleteMajorDiscipline(credentialProgramId);
+            try {
+            	retrievedCP = programService.getCredentialProgram(credentialProgramId);
+                fail("Retrieval of deleted CredentialProgram should have thrown exception");
+            } catch (DoesNotExistException e) {}
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    @Test
+    @Ignore public void testUpdateBaccCredentialProgram() {
+        try {
+        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
+        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
+            assertNotNull(credentialProgramInfo);
+            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
+            assertNotNull(createdCP);
+
+            // minimal sanity check
+            assertEquals("longTitle-test", createdCP.getLongTitle());
+            assertEquals("shortTitle-test", createdCP.getShortTitle());
+            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+
+            // update some fields
+            createdCP.setLongTitle("longTitle-toolong");
+            createdCP.getProgramRequirements().remove(0);
+
+            Map<String, String> attributes = createdCP.getAttributes();
+            attributes.put("testKey", "testValue");
+            createdCP.setAttributes(attributes);
+
+           //Perform the update
+            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(createdCP);
+
+            //Verify the update
+            verifyUpdate(updatedCP);
+
+            // Now explicitly get it
+            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(createdCP.getId());
+            verifyUpdate(retrievedCP);
+
+            //TODO: add version update
+
+        } catch (Exception e) {
+        	e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
+    
+    private void verifyUpdate(CredentialProgramInfo updatedCP) {
+    	assertNotNull(updatedCP);
+
+        assertEquals(3, updatedCP.getAttributes().size());
+        assertNotNull(updatedCP.getAttributes().get("testKey"));
+        assertEquals("testValue", updatedCP.getAttributes().get("testKey"));
+
+        assertEquals(1, updatedCP.getProgramRequirements().size());
+
+        assertEquals("longTitle-toolong", updatedCP.getLongTitle());
     }
 }

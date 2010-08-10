@@ -98,17 +98,27 @@
 
     <bean id="majorDisciplineInfo.code-parent" abstract="true" parent="cluIdentifierInfo.code-parent">
         <property name="name" value="code"/>
-        <property name="maxLength" value="34"/>
+        <property name="minLength" value="1"/>
+        <property name="maxLength" value="5"/>
+        <property name="validChars" ref="digits"/>
     </bean>
     <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent"/>
 
     <bean id="majorDisciplineInfo.cip2000Code-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="cip2000Code"/>
+        <property name="minLength" value="6"/>
+        <property name="maxLength" value="6"/>
+        <property name="validChars" ref="digits"/>
+        <!--TODO: add in a lookup-->
     </bean>
     <bean id="majorDisciplineInfo.cip2000Code" parent="majorDisciplineInfo.cip2000Code-parent"/>
 
     <bean id="majorDisciplineInfo.cip2010Code-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="cip2010Code"/>
+        <property name="minLength" value="6"/>
+        <property name="maxLength" value="6"/>
+        <property name="validChars" ref="digits"/>
+        <!--TODO: add in a lookup-->
     </bean>
     <bean id="majorDisciplineInfo.cip2010Code" parent="majorDisciplineInfo.cip2010Code-parent"/>
     <bean id="majorDisciplineInfo.hegisCode-parent" abstract="true" parent="luCodeInfo.value-parent">

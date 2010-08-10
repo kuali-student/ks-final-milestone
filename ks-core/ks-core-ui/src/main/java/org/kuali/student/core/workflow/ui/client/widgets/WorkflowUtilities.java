@@ -89,11 +89,10 @@ public class WorkflowUtilities{
 		this.idPath = idPath;
 		this.workflowDocType = workflowDocType;
 		setupWFButtons();
-		init();
 		setupDialog();
 	}
 	
-	protected void init() {
+	public void requestAndSetupModel() {
 		
 		if(null==dataModel){
 			//Get the Model from the controller and register a model change handler when the workflow model is updated

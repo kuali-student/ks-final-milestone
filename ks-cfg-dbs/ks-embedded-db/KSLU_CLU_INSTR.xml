@@ -6,4 +6,5 @@
     <KSLU_CLU_INSTR ID="INSTR-4" ORG_ID="ORG-3" PERS_ID="Jill"/>
     <KSLU_CLU_INSTR ID="c9047e2a-151a-4838-a16a-c500ca4fbc6b"
         ORG_ID="ORG-2" PERS_ID="edna"/>
+    <KSLU_CLU_INSTR ID="MAJOR-1" ORG_ID="44" PERS_ID="edna"/>
 </dataset>

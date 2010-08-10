@@ -74,4 +74,29 @@ public abstract class Configurer {
         section.addField(fd);
         return fd;
     }
+    
+    protected FieldDescriptor addReadOnlyField(Section section, String fieldKey) {
+        return addReadOnlyField(section, fieldKey, null, null, null);
+    }    
+    protected FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+        return addReadOnlyField(section, fieldKey, messageKey, null, null);
+    }
+    protected FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+        return addReadOnlyField(section, fieldKey, messageKey, widget, null);
+    }
+    protected FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+        return addReadOnlyField(section, fieldKey, messageKey, null, parentPath);
+    }
+    
+    protected FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+
+        FieldDescriptor fd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
+        if (widget != null) {
+            fd.setFieldWidget(widget);
+        }
+        section.addField(fd);
+        return fd;
+    }
 }

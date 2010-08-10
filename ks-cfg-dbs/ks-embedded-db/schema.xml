@@ -3334,6 +3334,8 @@
         <column name="OFFIC_CLU_ID" size="255" type="VARCHAR"/>
         <column name="PRI_ADMIN_ORG_ID" size="255" type="VARCHAR"/>
         <column name="PRI_INSTR_ID" size="255" type="VARCHAR"/>
+        <column name="LAST_ATP" size="255" type="VARCHAR"/>
+        <column name="LAST_ADMIT_ATP" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="FK1C27ACBEA8DCF088">
             <reference foreign="ID" local="PRI_INSTR_ID"/>
         </foreign-key>

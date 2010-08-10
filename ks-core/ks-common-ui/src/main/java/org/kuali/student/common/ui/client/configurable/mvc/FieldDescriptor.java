@@ -40,8 +40,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class FieldDescriptor {
-    private String fieldKey;
-    private Metadata metadata;
+    protected String fieldKey;
+    protected Metadata metadata;
     @SuppressWarnings("unchecked")
 	private ModelWidgetBinding modelWidgetBinding;
     private Callback<Boolean> validationRequestCallback;
@@ -49,7 +49,6 @@ public class FieldDescriptor {
     private boolean hasHadFocus = false;
     private FieldElement fieldElement;
     private String modelId;
-    private boolean showLabelInfo = false;
 
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Metadata metadata) {
     	this.fieldKey = fieldKey;
@@ -67,16 +66,16 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
+    	addStyleToWidget(fieldWidget);
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
     }
-
-    public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Widget fieldWidget){
-    	this.fieldKey = fieldKey;
-    	if(messageKey == null){
-    		messageKey = new MessageKeyInfo("");
+    
+    protected void addStyleToWidget(Widget w){
+    	if(fieldKey != null && !fieldKey.isEmpty() && w != null){
+    		String style = this.fieldKey.replaceAll("/", "-");
+    		w.addStyleName(style);
     	}
-    	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     }
 
     private void setupField(){
@@ -115,17 +114,11 @@ public class FieldDescriptor {
     		// backwards compatibility for old ModelDTO code
 	    	// for now, default to textbox if not specified
 	    	Widget result = new KSTextBox();
-	    	if(fieldKey != null){
-	    		String style = this.fieldKey.replaceAll("/", "-");
-	    		result.addStyleName(style);
-	    	}
+	    	addStyleToWidget(result);
 	    	return result;
     	} else {
     		Widget result = DefaultWidgetFactory.getInstance().getWidget(this);
-	    	if(fieldKey != null && !fieldKey.isEmpty()){
-	    		String style = this.fieldKey.replaceAll("/", "-");
-	    		result.addStyleName(style);
-	    	}
+    		addStyleToWidget(result);
     		return result;
     	}
     }

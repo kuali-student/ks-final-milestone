@@ -114,11 +114,11 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 				String keyString = k.toString();
 				//Obtain the dynamic flag from the dictionary
 				if(metadata==null){
-					if (!staticProperties.contains(k) && !keyString.startsWith("_run")){
+					if (!staticProperties.contains(k) && data.get(k) != null && !keyString.startsWith("_run")){
 						attributes.put((String)k.get(),data.get(k).toString());
 					}
 				}
-				else if (!staticProperties.contains(k) && !keyString.startsWith("_run")&& metadata.getProperties().get(keyString).isDynamic()){
+				else if (!staticProperties.contains(k) && data.get(k) != null && !keyString.startsWith("_run")&& metadata.getProperties().get(keyString).isDynamic()){
 					attributes.put((String)k.get(), data.get(k).toString());
 				}
 			}

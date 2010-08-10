@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
@@ -71,6 +72,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -282,6 +284,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         workflowUtil = new WorkflowUtilities(this,cfg.getWorkflowDocumentType(),cfg.getProposalIdPath(), createOnWorkflowSubmitSuccessHandler());
         workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
+        workflowUtil.requestAndSetupModel();
 
     	cfg.setModelDefinition(modelDefinition);
     	cfg.configure(this);
@@ -294,7 +297,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			@Override
 			public void onClose(CloseEvent<KSLightBox> event) {
 				//Reload the lum main entrypoint
-				Window.Location.reload();
+				Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
 			}
     	};
 		return handler;
@@ -357,6 +360,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 			@Override
 			public void onSuccess(String proposalId) {
+				KSBlockingProgressIndicator.removeTask(loadDataTask);
 				getCluProposalFromProposalId(proposalId, callback, workCompleteCallback);
 			}
         });
@@ -470,12 +474,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public boolean startSectionRequired(){
         String proposalId = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
 
-        //Defaulting the courseTitle to proposalTitle, this way course data gets set and assembler doesn't
+        //Defaulting the proposalTitle to courseTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
-        String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
-        if (courseTitle == null){
-            String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
-        	cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
+        String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
+        if (proposalTitle == null || proposalTitle.isEmpty()){
+            String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
+            cluProposalModel.set(QueryPath.parse(CourseConfigurer.PROPOSAL_TITLE_PATH), courseTitle);
         }
 
     	return proposalId==null && !CourseProposalController.this.isStartViewShowing();
@@ -525,29 +529,43 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
                 public void onSuccess(DataSaveResult result) {
                 	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
-    				cluProposalModel.setRoot(result.getValue());
-    	            View currentView = getCurrentView();
-    				if (currentView instanceof SectionView){
-    					((SectionView)currentView).updateView(cluProposalModel);
-    					((SectionView) currentView).resetDirtyFlags();
-    	            }
-    				if (saveActionEvent.isAcknowledgeRequired()){
-                        saveMessage.setText("Save Successful");
-                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-                    } else {
-                        saveWindow.hide();
-                        saveActionEvent.doActionComplete();
-                    }
-    				ViewContext context = CourseProposalController.this.getViewContext();
-    				context.setId((String)cluProposalModel.get("proposal/id"));
-    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
-    				workflowUtil.refresh();
-    				setProposalHeaderTitle();
-    				setLastUpdated();
-    				HistoryManager.logHistoryChange();
-    				if(saveActionEvent.gotoNextView()){
-    					CourseProposalController.this.showNextViewOnMenu();
-    				}
+                	if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+                		ValidateResultEvent e = new ValidateResultEvent();
+                		e.setValidationResult(result.getValidationResults());
+                	    fireApplicationEvent(e);
+                	    saveActionEvent.setGotoNextView(false);
+	    				if (saveActionEvent.isAcknowledgeRequired()){
+	                        saveMessage.setText("Save Unsuccessful. There were validation errors.");
+	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+	                    } else {
+	                        saveWindow.hide();
+	                        saveActionEvent.doActionComplete();
+	                    }
+                	}else{
+	    				cluProposalModel.setRoot(result.getValue());
+	    	            View currentView = getCurrentView();
+	    				if (currentView instanceof SectionView){
+	    					((SectionView)currentView).updateView(cluProposalModel);
+	    					((SectionView) currentView).resetDirtyFlags();
+	    	            }
+	    				if (saveActionEvent.isAcknowledgeRequired()){
+	                        saveMessage.setText("Save Successful");
+	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+	                    } else {
+	                        saveWindow.hide();
+	                        saveActionEvent.doActionComplete();
+	                    }
+	    				ViewContext context = CourseProposalController.this.getViewContext();
+	    				context.setId((String)cluProposalModel.get("proposal/id"));
+	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
+	    				workflowUtil.refresh();
+	    				setProposalHeaderTitle();
+	    				setLastUpdated();
+	    				HistoryManager.logHistoryChange();
+	    				if(saveActionEvent.gotoNextView()){
+	    					CourseProposalController.this.showNextViewOnMenu();
+	    				}
+                	}
                 }
             });
         } catch (Exception e) {

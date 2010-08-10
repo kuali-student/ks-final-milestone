@@ -532,9 +532,15 @@
     <bean id="majorDisciplineAssembler"
           class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
         <property name="luService" ref="luClient"/>
-        <property name="loService" ref="loServiceImpl"/>
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+    </bean>
+
+    <bean id="programAssemblerUtils"
+          class="org.kuali.student.lum.program.service.assembler.ProgramAssemblerUtils">
+        <property name="luService" ref="luServiceImpl"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 

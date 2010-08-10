@@ -333,6 +333,7 @@
 
  <bean id="courseVariationInfo.type-parent" abstract="true" parent="cluIdentifierInfo.type-parent">
   <property name="name" value="type" />
+  <property name="defaultValue" value="kuali.lu.type.CreditCourse.identifier.variation"/>
  </bean>
  <bean id="courseVariationInfo.type" parent="courseVariationInfo.type-parent" />
 
@@ -389,6 +390,7 @@
 
  <bean id="courseCrossListingInfo.type-parent" abstract="true" parent="cluIdentifierInfo.type">
   <property name="name" value="type" />
+  <property name="defaultValue" value="kuali.lu.type.CreditCourse.identifier.crosslisting"/>
  </bean>
  <bean id="courseCrossListingInfo.type" parent="courseCrossListingInfo.type-parent" />
 
@@ -620,7 +622,7 @@
  <bean id="courseInfo.outOfClassHours.unitQuantity" parent="courseInfo.outOfClassHours.unitQuantity-parent" />
 
  <bean id="courseInfo.finalExamRationale" parent="baseString">
-  <property name="name" value="altFinalExamStatusDescr" />
+  <property name="name" value="finalExamRationale" />
   <property name="dynamic" value="true"/>
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />

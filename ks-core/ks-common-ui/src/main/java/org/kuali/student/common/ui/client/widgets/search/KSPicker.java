@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
@@ -139,6 +140,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	    		case CHECKBOX_LIST:
 	    			setupListWidget(inLookupMetadata);
 	    			break;
+	    		case RADIO:
+	    			setupListWidget(inLookupMetadata);
+	    			break;
 	    		case NO_WIDGET:
 	                if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
 	                    advSearchLink.setText(inLookupMetadata.getName().trim());
@@ -205,6 +209,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             	case CHECKBOX_LIST:
             		listItemWidget = new KSCheckBoxList();
             		((KSCheckBoxList)listItemWidget).setIgnoreMultipleAttributes(true);
+            		break;
+            	case RADIO:
+            		listItemWidget = new KSRadioButtonList();
             		break;
             }
             basicWidget = new BasicWidget(listItemWidget);

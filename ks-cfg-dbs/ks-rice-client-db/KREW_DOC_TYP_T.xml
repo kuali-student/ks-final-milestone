@@ -8,6 +8,7 @@
         OBJ_ID="142727E5-233B-94EC-1A79-828BA4933243" PARNT_ID="2680"
         RTE_VER_NBR="2" VER_NBR="2"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
+        DOC_HDLR_URL="${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&amp;idType=documentNumber"
         DOC_TYP_DESC="Kuali Student Credit Course Parent Document"
         DOC_TYP_ID="3001" DOC_TYP_NM="CluCreditCourseParentDocument"
         DOC_TYP_VER_NBR="0"
@@ -27,7 +28,6 @@
         OBJ_ID="2A6CD5BB-3B9D-0E31-A35C-64115FE51E05" PARNT_ID="3001"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
-        DOC_HDLR_URL="${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"
         DOC_TYP_DESC="Credit Course Proposal" DOC_TYP_ID="3004"
         DOC_TYP_NM="CluCreditCourseProposal" DOC_TYP_VER_NBR="0"
         LBL="Credit Course Proposal"

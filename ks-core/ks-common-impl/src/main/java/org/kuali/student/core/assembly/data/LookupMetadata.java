@@ -65,7 +65,7 @@ public class LookupMetadata implements Serializable {
     
     //TODO BUTTON has 0 references. Is it needed?
     public enum Widget {
-        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON, CHECKBOX_LIST
+        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON, CHECKBOX_LIST, RADIO
     }
     private Widget widget;    
 

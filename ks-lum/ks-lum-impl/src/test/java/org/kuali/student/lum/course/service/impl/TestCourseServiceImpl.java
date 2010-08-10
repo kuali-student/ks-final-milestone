@@ -61,6 +61,8 @@ public class TestCourseServiceImpl {
             assertNotNull(createdCourse);
             assertEquals("draft", createdCourse.getState());
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
+            assertEquals(cInfo.getStartTerm(),createdCourse.getStartTerm());
+            assertEquals(cInfo.getEndTerm(),createdCourse.getEndTerm());
         } 
         catch (DataValidationErrorException e)
         {
@@ -428,41 +430,7 @@ public class TestCourseServiceImpl {
         }
     }
 
-    @Test
-    public void testCourseDescrRequiredBasedOnState () {
-     System.out.println ("testCourseDescrRequiredBasedOnState");
-        CourseDataGenerator generator = new CourseDataGenerator();
-         try {
-            CourseInfo cInfo = generator.getCourseTestData();
-            assertNotNull(cInfo);
-            cInfo.setState("ACTIVE");
-            cInfo.setDescr (null);
-            List <ValidationResultInfo> vrs = courseService.validateCourse("SYSTEM", cInfo);
-            System.out.println ("validation results state=ACTIVE");
-            for (ValidationResultInfo vr : vrs)
-            {
-             System.out.println (vr.getElement () + " " + vr.getMessage ());
-            }
-            if (vrs.size () == 0) {
-                fail("Should have a validation result requiring description");
-            }
-
-            cInfo.setState("DRAFT");
-            cInfo.setDescr (null);
-            vrs = courseService.validateCourse("SYSTEM", cInfo);
-            System.out.println ("validation result state=DRAFT");
-            for (ValidationResultInfo vr : vrs)
-            {
-             System.out.println (vr.getElement () + " " + vr.getMessage ());
-            }
-            if (vrs.size () > 0) {
-                fail("Should not have any validation results");
-            }                   
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-    }
-    
+   
     @Test
     public void testDynamicAttributes() {
      System.out.println ("testDynamicAttributes");
@@ -495,15 +463,6 @@ public class TestCourseServiceImpl {
             assertEquals("GRD", rInfo.getAttributes().get("finalExamStatus"));
             assertEquals("Some123description", rInfo.getAttributes().get("altFinalExamStatusDescr"));
 
-            
-            rInfo.getAttributes().put("finalExamStatus", "123");
-            
-            try {
-                courseService.updateCourse(rInfo);
-                fail("Should have thrown data validation exception for invalid chars");
-            } catch (DataValidationErrorException e) {
-             System.out.println ("threw data validaiton exception as expected");
-            }
         } catch (Exception e) {
             System.out.println ("caught exception: " + e.getClass ().getName ());
             System.out.println ("message: " + e.getMessage ());

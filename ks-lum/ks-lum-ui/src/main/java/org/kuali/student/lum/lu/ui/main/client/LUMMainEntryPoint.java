@@ -41,7 +41,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 public class LUMMainEntryPoint implements EntryPoint{
 
     private ApplicationController manager = null;
-    
+    private AppLocations locations = new AppLocations();
     @Override
     public void onModuleLoad() {
         final ApplicationContext context = Application.getApplicationContext();
@@ -60,7 +60,7 @@ public class LUMMainEntryPoint implements EntryPoint{
     private void initScreen(){
         manager = new ApplicationController("KualiStudent", new ApplicationHeader());
         ApplicationPanel.get().add(manager);
-        HistoryManager.bind(manager);
+        HistoryManager.bind(manager, locations);
         BreadcrumbManager.bind(manager);
         HistoryManager.processWindowLocation();
         if(manager.getCurrentView() == null)

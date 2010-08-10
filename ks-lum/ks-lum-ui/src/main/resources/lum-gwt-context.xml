@@ -360,11 +360,24 @@
         <property name="proposalService" ref="proposalClient"/>
     </bean>
 
-    <bean id="courseWorkflowFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseWorkflowFilter">
+    <bean id="parentWorkflowFilter" class="org.kuali.student.core.assembly.transform.WorkflowFilter" abstract="true">
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>
+        <property name="simpleDocService" ref="simpleDocActionsClient"/>        
     </bean>
-
+    
+    <bean id="courseWorkflowFilter" parent="parentWorkflowFilter">
+    	<property name="dtoClass" value="org.kuali.student.lum.course.dto.CourseInfo"/>
+    	<property name="docType" value="CluCreditCourseProposal"/>
+    	<property name="docTitlePath" value="proposalTitle"/>
+    	<property name="objectIdPath" value="proposalId"/>
+    	<property name="docFieldPaths">
+    		<map>
+    			<entry key="cluId" value="id"/>
+    			<entry key="orgId" value="curriculumOversightOrgs[0]"/>
+    			<entry key="proposalId" value="proposalId"/>
+    		</map>
+    	</property>    	
+    </bean>
 
     <bean id="modifyCreditCourseProposalManager"
           class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
@@ -429,35 +442,13 @@
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
     </bean>
 
-    <!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
-    <bean id="workflowAssemblerFilter"
-          class="org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter">
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
-    </bean>
-    <bean id="creditCourseProposalAssemblerFilter"
-          class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssemblerFilter">
-    </bean>
     <bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
         <constructor-arg ref="searchDispatcher"/>
     </bean>
+
     <bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
         <constructor-arg ref="idTranslator"/>
     </bean>
-
-    <!-- Filter manager that targets the credit course proposal assembler -->
-    <!--
-     <bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
-         <constructor-arg ref="creditCourseProposalAssemblerPOC"/>
-         <property name="filters">
-             <list>
-                 <ref bean="idTranslatorAssemblerFilter" />
-                 <ref bean="workflowAssemblerFilter"/>
-                 <ref bean="creditCourseProposalAssemblerFilter" />
-             </list>
-         </property>
-     </bean>
-     -->
 
     <bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
         <property name="loService" ref="loClient"/>

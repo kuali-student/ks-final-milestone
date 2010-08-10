@@ -5,7 +5,16 @@ package org.kuali.student.lum.program.client.properties;
  * 	D:/programming/projects/exadel_projects/berkeley/kuali/trunk/ks-lum/ks-lum-program/src/main/java/org/kuali/student/lum/program/client/properties/program.properties'.
  */
 public interface Program extends com.google.gwt.i18n.client.Messages {
-  
+	
+	/**
+	 * Translated "Program Description".
+	 * 
+	 * @return translated "Program Description"
+	 */
+	@DefaultMessage("Program Description")
+	@Key("catalogInformation.descr")
+	String catalogInformation_descr();
+	  
   /**
    * Translated "Catalog Description".
    * 
@@ -33,6 +42,32 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("catalogInformation.publishedInstructors")
   String catalogInformation_publishedInstructors();
 
+  /**
+   * Translated "Full Time / Part Time".
+   * 
+   * @return translated "Full Time / Part Time"
+   */
+  @DefaultMessage("Full Time / Part Time")
+  @Key("catalogInformation.intensity")
+  String catalogInformation_intensity();
+
+  /**
+   * Translated "Duration".
+   * 
+   * @return translated "Duration"
+   */
+  @DefaultMessage("Duration")
+  @Key("catalogInformation.stdDuration")
+  String catalogInformation_stdDuration();
+
+  /**
+   * Translated "More Info".
+   * 
+   * @return translated "More Info"
+   */
+  @DefaultMessage("More Info")
+  @Key("catalogInformation.referenceUrl")
+  String catalogInformation_referenceUrl();
   /**
    * Translated "Cancel".
    * 

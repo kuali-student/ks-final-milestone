@@ -22,4 +22,9 @@ public abstract class AbstractProgramConfigurer extends Configurer {
     public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
         return super.addField(section, fieldKey, messageKey, widget);
     }
+
+    @Override
+    public FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+        return super.addReadOnlyField(section, fieldKey, messageKey);
+    }
 }

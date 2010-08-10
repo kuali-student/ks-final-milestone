@@ -144,9 +144,8 @@
     <bean parent="enValidation" p:id="validation.mustBeInteger"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:id="validation.mustBeLong"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:id="validation.occurs"		p:value="Invalid number of occurrences."/>
-
-
-
-
+    <bean parent="enValidation" p:id="validation.validChars.alphanumericHyphenPeriod" p:value="Can only contain alpha-numeric characters, hyphens and periods."/>
+    <bean parent="enValidation" p:id="validation.validChars.numeric" p:value="Can only contain numeric characters."/>
+    <bean parent="enValidation" p:id="validation.validChars.digits" p:value="Can only contain digits."/>
 
 </beans>
