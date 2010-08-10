@@ -18,14 +18,14 @@ public class DatabaseUtilsTest extends TestCase {
 	@SuppressWarnings("unchecked")
 	public void test1() {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("org/kuali/db/spring-config.xml");
-		List<JDBCConfig> databaseConfigs = (List<JDBCConfig>) ctx.getBean("databaseConfigs");
+		List<JDBCConfig> databaseConfigs = (List<JDBCConfig>) ctx.getBean("jdbcConfigs");
 		assertNotNull(databaseConfigs);
 	}
 
 	@SuppressWarnings("unchecked")
 	public void test2() {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("org/kuali/db/spring-config.xml");
-		List<JDBCConfig> databaseConfigs = (List<JDBCConfig>) ctx.getBean("databaseConfigs");
+		List<JDBCConfig> databaseConfigs = (List<JDBCConfig>) ctx.getBean("jdbcConfigs");
 		assertNotNull(databaseConfigs);
 		DatabaseType[] typesArray = DatabaseType.values();
 
