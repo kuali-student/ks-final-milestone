@@ -18,7 +18,7 @@ import java.util.Vector;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import static org.apache.commons.io.IOUtils.*;
-import static org.kuali.db.JDBCUtil.*;
+import static org.kuali.db.JDBCUtils.*;
 
 /**
  * Executes SQL statements

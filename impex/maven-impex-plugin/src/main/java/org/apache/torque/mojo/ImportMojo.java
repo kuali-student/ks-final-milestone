@@ -46,6 +46,8 @@ import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;
 import org.kuali.db.DatabaseEvent;
 import org.kuali.db.DatabaseListener;
+import org.kuali.db.JDBCConfig;
+import org.kuali.db.JDBCUtils;
 import org.kuali.db.SQLExecutor;
 import org.kuali.db.Transaction;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -60,6 +62,7 @@ import static org.apache.commons.lang.StringUtils.*;
  */
 public class ImportMojo extends AbstractMojo {
 	Utils utils = new Utils();
+	JDBCUtils jdbcUtils = new JDBCUtils();
 
 	/**
 	 * Call {@link #setOrderFile(String)} with this value to sort in ascendant order the sql files.
@@ -540,6 +543,20 @@ public class ImportMojo extends AbstractMojo {
 		return false;
 	}
 
+	protected void updateConfiguration() {
+		JDBCConfig config = jdbcUtils.getDatabaseConfig(url);
+		if (config.equals(JDBCConfig.UNKNOWN_CONFIG)) {
+			return;
+		}
+		if (isBlank(driver)) {
+			driver = config.getDriver();
+		}
+
+		if (isBlank(targetDatabase)) {
+			targetDatabase = config.getType().toString().toLowerCase();
+		}
+	}
+
 	/**
 	 * Load the sql file and then execute it
 	 * 
@@ -553,6 +570,8 @@ public class ImportMojo extends AbstractMojo {
 			getLog().info("------------------------------------------------------------------------");
 			return;
 		}
+
+		updateConfiguration();
 
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Executing " + getTargetDatabase() + " SQL");

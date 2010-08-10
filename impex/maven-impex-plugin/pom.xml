@@ -11,6 +11,7 @@
   <name>Maven Impex Plugin</name>
   <description>Maven Impex Plugin for IMPorting and EXporting data</description>
   <dependencies>
+  
     <dependency>
       <groupId>org.kuali.maven.impex</groupId>
       <artifactId>torque-generator</artifactId>
