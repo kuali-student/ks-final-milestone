@@ -1190,6 +1190,7 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
                 
                 node.setUserObject(picker);
                 node.setOpaque(loInfoHelper.getId());
+                node.setMetaInfo(loInfoHelper.getMetaInfo());
                 node.setIndentLevel(identLevel);
                 loOutlineNodes.add(node);
                 // recurse
@@ -1249,6 +1250,7 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         richTextHelper.setFormatted(loDesc);
         richTextHelper.setPlain(loDesc);
         loInfoHelper.setDesc(richTextHelper.getData());
+        loInfoHelper.setMetaInfo(node.getMetaInfo());
         // loInfo.name
         if (null == loInfoHelper.getName() || loInfoHelper.getName().length() == 0) {
             loInfoHelper.setName("SINGLE USE LO");
@@ -1366,7 +1368,8 @@ class LoInfoHelper {
         NAME ("name"),
         DESC ("desc"),
         ID ("id"),
-        SEQUENCE ("sequence");
+        SEQUENCE ("sequence"),
+        METAINFO("metaInfo");
         
         private final String key;
         
@@ -1386,7 +1389,15 @@ class LoInfoHelper {
         data = new Data();
     }
     
-    public LoInfoHelper(Data data) {
+    public void setMetaInfo(Data metaInfo) {
+		data.set(Properties.METAINFO.getKey(), metaInfo);
+	}
+    
+    public Data getMetaInfo() {
+		return data.get(Properties.METAINFO.getKey());
+	}
+
+	public LoInfoHelper(Data data) {
         this.data = data;
     }
 

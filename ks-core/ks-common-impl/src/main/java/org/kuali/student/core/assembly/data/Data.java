@@ -1044,7 +1044,10 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         dataString.append("{");
         for (Iterator itr = this.iterator(); itr.hasNext();) {
             Property p = (Property) itr.next();
-            dataString.append(p.getKey() + "=" + p.getValue() + ", ");
+            dataString.append(p.getKey() + "=" + p.getValue());
+            if(itr.hasNext()){
+            	dataString.append(", ");
+            }
         }
         dataString.append("}");
 
