@@ -42,10 +42,8 @@ import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.torque.engine.database.model.Database;
 import org.apache.torque.engine.database.model.Table;
 import org.codehaus.plexus.util.FileUtils;
-import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;
-import org.kuali.db.DatabaseEvent;
-import org.kuali.db.DatabaseListener;
+import org.kuali.db.DatabaseType;
 import org.kuali.db.JDBCConfig;
 import org.kuali.db.JDBCUtils;
 import org.kuali.db.SQLExecutor;
@@ -560,6 +558,28 @@ public class ImportMojo extends AbstractMojo {
 		}
 	}
 
+	protected void validateConfiguration() throws MojoExecutionException {
+		if (isBlank(driver)) {
+			throw new MojoExecutionException("No database driver. Specify one in the plugin configuration.");
+		}
+
+		if (isBlank(url)) {
+			throw new MojoExecutionException("No database url. Specify one in the plugin configuration.");
+		}
+
+		try {
+			DatabaseType.valueOf(targetDatabase.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			throw new MojoExecutionException("Database type of '" + targetDatabase + "' is invalid.  Valid values: " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()));
+		}
+
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			throw new MojoExecutionException("Can't load driver class " + driver + ". Be sure to include it as a plugin dependency.");
+		}
+	}
+
 	/**
 	 * Load the sql file and then execute it
 	 * 
@@ -575,6 +595,7 @@ public class ImportMojo extends AbstractMojo {
 		}
 
 		updateConfiguration();
+		validateConfiguration();
 
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Executing " + getTargetDatabase() + " SQL");
