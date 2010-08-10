@@ -10,20 +10,18 @@ import org.apache.maven.plugin.logging.Log;
  * A mojo friendly listener for database events
  */
 public class MojoDatabaseListener implements DatabaseListener {
+	Utils utils = new Utils();
 	PrettyPrint prettyPrint;
 	Log log;
-	Utils utils;
 	int updateStatusInterval = 150;
 
 	public MojoDatabaseListener() {
-		this(null, null, null);
+		this(null);
 	}
 
-	public MojoDatabaseListener(PrettyPrint prettyPrint, Log log, Utils utils) {
+	public MojoDatabaseListener(Log log) {
 		super();
-		this.prettyPrint = prettyPrint;
 		this.log = log;
-		this.utils = utils;
 	}
 
 	@Override

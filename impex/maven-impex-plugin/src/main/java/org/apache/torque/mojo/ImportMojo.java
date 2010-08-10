@@ -619,7 +619,7 @@ public class ImportMojo extends AbstractMojo {
 			}
 			SQLExecutor executor = new SQLExecutor();
 			BeanUtils.copyProperties(executor, this);
-			executor.addListener(new MojoDatabaseListener(new PrettyPrint(), getLog(), new Utils()));
+			executor.addListener(new MojoDatabaseListener(getLog()));
 			executor.runTransactions(transactions);
 		} catch (Exception e) {
 			throw new MojoExecutionException("Error executing SQL", e);
