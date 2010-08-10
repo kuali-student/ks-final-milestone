@@ -5,6 +5,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSe
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.program.client.ProgramConfigurer;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -16,7 +18,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
  */
 public class ProgramInformationConfiguration extends AbstractConfiguration<ProgramConfigurer> {
 
-    private VerticalSectionView showView;
+    private VerticalSectionView showViewSection;
 
     private VerticalSectionView editView;
 
@@ -25,10 +27,10 @@ public class ProgramInformationConfiguration extends AbstractConfiguration<Progr
 
     @Override
     public View getView() {
-        if (showView == null) {
+        if (showViewSection == null) {
             createShowView();
         }
-        return showView;
+        return showViewSection;
     }
 
     private void createEditView() {
@@ -57,31 +59,59 @@ public class ProgramInformationConfiguration extends AbstractConfiguration<Progr
     }
 
     private void createShowView() {
-        showView = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+        showViewSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
         HorizontalSection section = new HorizontalSection();
-        TableSection leftSection = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_identifyingDetails()));
-        TableSection rightSection = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_programTitle()));
-       /* configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_programCode()), new KSLabel());
-        configurer.addField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_shortTitle()), new KSLabel());
-        configurer.addField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_longTitle()), new KSLabel());
-        configurer.addField(section, ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_programLevel()), new KSLabel());
-        configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_programClassification()), new KSLabel());
-        configurer.addField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()), new KSLabel());
-        configurer.addField(section, ProgramConstants.FULL_PART_TIME, new MessageKeyInfo(ProgramProperties.get().programInformation_fullPartTime()), new KSLabel());
-        configurer.addField(section, ProgramConstants.DURATION, new MessageKeyInfo(ProgramProperties.get().programInformation_duration()), new KSLabel());
-        configurer.addField(section, ProgramConstants.TRANSCRIPT, new MessageKeyInfo(ProgramProperties.get().programInformation_programTranscript()), new KSLabel());
-        configurer.addField(section, ProgramConstants.DIPLOMA, new MessageKeyInfo(ProgramProperties.get().programInformation_programDiploma()), new KSLabel());
-        configurer.addField(section, ProgramConstants.CIP_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_cipCode()), new KSLabel());
-        configurer.addField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegisCode()), new KSLabel());
+        TableSection identifyingDetailsSection = createIdentifyingDetailsSection();
+        TableSection programTitleSection = createProgramTitleSection();
+        TableSection datesSection = createDatesSection();
+        TableSection otherInformationSection = createOtherInformationSection();
+        section.addSection(identifyingDetailsSection);
+        section.addSection(programTitleSection);
+        section.nextRow();
+        section.addSection(datesSection);
+        section.addSection(otherInformationSection);
+        showViewSection.addSection(section);
+
+        /* configurer.addField(section, ProgramConstants.FULL_PART_TIME, new MessageKeyInfo(ProgramProperties.get().programInformation_fullPartTime()), new KSLabel());
+   configurer.addField(section, ProgramConstants.DURATION, new MessageKeyInfo(ProgramProperties.get().programInformation_duration()), new KSLabel());
+   configurer.addField(section, ProgramConstants.CIP_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_cipCode()), new KSLabel());
+   configurer.addField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegisCode()), new KSLabel());
+   configurer.addField(section, ProgramConstants.SPECIALIZATION_REQUIRED, new MessageKeyInfo(ProgramProperties.get().programInformation_specializationRequired()), new KSLabel());
+   configurer.addField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()), new KSLabel());
+   configurer.addField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditingAgency()), new KSLabel());
+   configurer.addField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()), new KSLabel());
+   configurer.addField(section, ProgramConstants.DESCRIPTION_FORMATTED, new MessageKeyInfo(ProgramProperties.get().programInformation_programDescription()), new HTML());
+   configurer.addField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().programInformation_moreInformation()), new KSLabel());*/
+
+    }
+
+    private TableSection createIdentifyingDetailsSection() {
+        TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_identifyingDetails()));
+        configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()), new KSLabel());
+        configurer.addField(section, ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()), new KSLabel());
         configurer.addField(section, ProgramConstants.CREDENTIAL_PROGRAM, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()), new KSLabel());
-        configurer.addField(section, ProgramConstants.SPECIALIZATION_REQUIRED, new MessageKeyInfo(ProgramProperties.get().programInformation_specializationRequired()), new KSLabel());
-        configurer.addField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()), new KSLabel());
-        configurer.addField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditingAgency()), new KSLabel());
-        configurer.addField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()), new KSLabel());
-        configurer.addField(section, ProgramConstants.DESCRIPTION_FORMATTED, new MessageKeyInfo(ProgramProperties.get().programInformation_programDescription()), new HTML());
-        configurer.addField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().programInformation_moreInformation()), new KSLabel());*/
-        section.addSection(leftSection);
-        section.addSection(rightSection);
-        showView.addSection(section);
+        configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()), new KSLabel());
+        configurer.addField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()), new KSLabel());
+        return section;
+    }
+
+    private TableSection createProgramTitleSection() {
+        TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_programTitle()));
+        configurer.addField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleFull()), new KSLabel());
+        configurer.addField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleShort()), new KSLabel());
+        configurer.addField(section, ProgramConstants.TRANSCRIPT, new MessageKeyInfo(ProgramProperties.get().programInformation_titleTranscript()), new KSLabel());
+        configurer.addField(section, ProgramConstants.DIPLOMA, new MessageKeyInfo(ProgramProperties.get().programInformation_titleDiploma()), new KSLabel());
+        return section;
+    }
+
+    private TableSection createDatesSection() {
+        TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_dates()));
+        configurer.addReadOnlyField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
+        return section;
+    }
+
+    private TableSection createOtherInformationSection() {
+        TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_otherInformation()));
+        return section;
     }
 }

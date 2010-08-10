@@ -79,7 +79,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 			config.canUnmask = meta.isCanUnmask();
 			config.canView = meta.isCanView();
 		}
-		return _getReadOnlyWidget(config);
+		return _getWidget(config);
 	}
 
 	@Override
@@ -189,12 +189,4 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
         }
 		return result;
 	}
-	
-	public Widget _getReadOnlyWidget(WidgetConfigInfo config){
-		config.canEdit = false;
-		return null;
-		
-	}
-
-
 }
