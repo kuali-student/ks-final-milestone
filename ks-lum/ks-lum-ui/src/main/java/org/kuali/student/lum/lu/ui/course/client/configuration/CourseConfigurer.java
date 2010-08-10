@@ -123,7 +123,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     public static final String WORKFLOW_DOC_TYPE					= "CluCreditCourseProposal";
     public static final String PROPOSAL_ID_PATH                     = "/proposalId";
-    public static final String PROPOSAL_TITLE_PATH                  = "/courseTitle";
+    public static final String PROPOSAL_TITLE_PATH                  = "/proposalTitle";
     public static final String COURSE_TITLE_PATH                    = "/courseTitle";
 
     //Override paths for course and proposal so they are root
@@ -231,7 +231,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public void addCluStartSection(WorkflowEnhancedController layout){
         VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
-        addField(section, COURSE_TITLE , generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        addField(section, PROPOSAL_TITLE, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        
         //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
         layout.addStartViewPopup(section);
     }

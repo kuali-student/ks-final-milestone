@@ -474,12 +474,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public boolean startSectionRequired(){
         String proposalId = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
 
-        //Defaulting the courseTitle to proposalTitle, this way course data gets set and assembler doesn't
+        //Defaulting the proposalTitle to courseTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
-        String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
-        if (courseTitle == null){
-            String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
-        	cluProposalModel.set(QueryPath.parse(CourseConfigurer.COURSE_TITLE_PATH), proposalTitle);
+        String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
+        if (proposalTitle == null || proposalTitle.isEmpty()){
+            String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
+            cluProposalModel.set(QueryPath.parse(CourseConfigurer.PROPOSAL_TITLE_PATH), courseTitle);
         }
 
     	return proposalId==null && !CourseProposalController.this.isStartViewShowing();
