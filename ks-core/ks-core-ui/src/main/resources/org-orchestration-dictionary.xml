@@ -45,7 +45,7 @@
 	<!--Constraints Declarations		-->
 	<bean id="constraint.date.time" parent="constraint">
 		<property name="id" value="date.time" />
-		<property name="messageId" value="kuali.msg.validation.date.time" />
+		<!--<property name="messageId" value="kuali.msg.validation.date.time" />-->
 		<property name="desc" value="Date-Time" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="19" />
@@ -71,7 +71,7 @@
 	</bean>
 		<bean id="constraint.not.used" parent="constraint">
 		<property name="id" value="not.used" />
-		<property name="messageId" value="kuali.msg.validation.not.used" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.used" />-->
 		<property name="desc" value="Not Used" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="0" />
@@ -87,7 +87,7 @@
 	</bean>
 	<bean id="constraint.required" parent="constraint">
 		<property name="id" value="required" />
-		<property name="messageId" value="kuali.msg.validation.required" />
+		<!--<property name="messageId" value="kuali.msg.validation.required" />-->
 		<property name="desc" value="Required" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="1" />
@@ -101,7 +101,7 @@
 	</bean>
 	<bean id="constraint.cross.greaterthan.effective.date" parent="constraint">
 		<property name="id" value="cross.greaterthan.effective.date"/>
-		<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>
+		<!--<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>-->
 		<property name="desc" value="Must be empty or a date greater than the entity's effective date"/>
 		
 		<!-- This is a hack, since we don't have a well defined way to handle cross field constraints. -->

@@ -212,7 +212,7 @@ public class Metadata implements Serializable {
     		for (ConstraintMetadata constraint:constraints){
     			if (!"single".equals(constraint.getId()) && 
     				!"optional".equals(constraint.getId()) &&
-    				!constraint.getServerSide()){
+    				!constraint.isServerSide()){
     				metadataConstraints.add(constraint);
     			}
     		}

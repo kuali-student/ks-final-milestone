@@ -435,15 +435,14 @@ public class DefaultValidatorImpl implements Validator{
             validChars = validChars.substring(typIdx + 1);
         }
 
-        // TODO: Allow different processing based on the label
         if ("regex".equalsIgnoreCase(processorType)) {
-            // if (!Pattern.matches(validChars, fieldValue.toString())) {
-            if (fieldValue == null) {
-                val = new ValidationResultInfo(element);
-                val.setError(getMessage("validation.validCharsFailed"));
-            } else if (fieldValue != null && !fieldValue.toString().matches(validChars)) {
-                val = new ValidationResultInfo(element);
-                val.setError(getMessage("validation.validCharsFailed"));
+            if (fieldValue == null || !fieldValue.toString().matches(validChars)) {
+            	val = new ValidationResultInfo(element);
+                if(vcConstraint.getLabelKey()!=null){
+                	val.setError(getMessage(vcConstraint.getLabelKey()));
+                }else{
+                	val.setError(getMessage("validation.validCharsFailed"));
+                }
             }
         }
 

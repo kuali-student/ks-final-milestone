@@ -410,7 +410,7 @@ public class MetadataServiceImpl {
                    constraintMetadata.setValidChars(dictConstraint.getValidChars().getValue());
                }
                
-               constraintMetadata.setMessageId("kuali.msg.validation." + dictConstraint.getKey());
+               //constraintMetadata.setMessageId("kuali.msg.validation." + dictConstraint.getKey());
                
                //Skipping cross field constraints (eg. case, occurs, require)
                

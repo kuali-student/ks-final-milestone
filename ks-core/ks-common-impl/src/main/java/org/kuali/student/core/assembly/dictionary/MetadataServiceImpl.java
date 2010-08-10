@@ -287,6 +287,7 @@ public class MetadataServiceImpl {
                         
         if (fd.getValidChars() != null){
         	constraintMetadata.setValidChars(fd.getValidChars().getValue());
+        	constraintMetadata.setValidCharsMessageId(fd.getValidChars().getLabelKey());
         }
         
         constraints.add(constraintMetadata);
