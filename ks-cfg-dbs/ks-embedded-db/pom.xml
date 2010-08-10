@@ -30,8 +30,10 @@
           <username>KSNOMERGE</username>
           <password>KSNOMERGE</password>
           <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <!-- 
           <driver>oracle.jdbc.OracleDriver</driver>
           <targetDatabase>oracle</targetDatabase>
+           -->
           <schemas>
             <param>classpath:ks-embedded-db-schema.xml</param>
           </schemas>
