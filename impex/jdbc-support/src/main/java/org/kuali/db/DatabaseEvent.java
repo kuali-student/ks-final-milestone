@@ -2,6 +2,9 @@ package org.kuali.db;
 
 import java.util.Date;
 
+/**
+ * Pojo for a database event
+ */
 public class DatabaseEvent {
 	String message;
 	MessagePriority priority;

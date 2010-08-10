@@ -1,8 +1,7 @@
 package org.kuali.db;
 
 /**
- * 
- * 
+ * A pojo containing JDBC related configuration information. eg JDBC drivers, url fragments and type
  */
 public class JDBCConfig {
 	public static final JDBCConfig UNKNOWN_CONFIG = new JDBCConfig(DatabaseType.UNKNOWN);
