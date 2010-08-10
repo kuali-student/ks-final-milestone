@@ -282,6 +282,10 @@
 .KS-LOSelectedCategories {
     margin-left: 0px;	
 }
+.KS-LOSelectedCategories .ks-selected-list-value {
+	border solid 1px #cdcdcd;
+	background none repeat scroll 0 0 white;
+}
 .KSLOLightBox {
 }
 .KSLOLightBoxButtonPanel {
