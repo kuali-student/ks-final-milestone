@@ -132,4 +132,12 @@ public class Utils {
 		return databases;
 	}
 
+	public int getDefaultPrintableConsoleWidth() {
+		return defaultPrintableConsoleWidth;
+	}
+
+	public void setDefaultPrintableConsoleWidth(int defaultPrintableConsoleWidth) {
+		this.defaultPrintableConsoleWidth = defaultPrintableConsoleWidth;
+	}
+
 }

@@ -13,8 +13,7 @@ public class MojoDatabaseListener implements DatabaseListener {
 	PrettyPrint prettyPrint;
 	Log log;
 	Utils utils;
-	int length;
-	int count;
+	int updateStatusInterval = 150;
 
 	public MojoDatabaseListener() {
 		this(null, null, null);
@@ -58,13 +57,12 @@ public class MojoDatabaseListener implements DatabaseListener {
 	public void finishTransaction(DatabaseEvent event) {
 		utils.right(prettyPrint);
 		prettyPrint = null;
-		length = 0;
 	}
 
 	@Override
 	public void beforeExecuteSQL(DatabaseEvent event) {
 		int totalStatements = event.getTotalStatements();
-		if ((totalStatements % 100) == 0) {
+		if ((totalStatements % updateStatusInterval) == 0) {
 			System.out.print(".");
 			prettyPrint.setMsg(prettyPrint.getMsg() + ".");
 		}
@@ -102,6 +100,14 @@ public class MojoDatabaseListener implements DatabaseListener {
 
 	public void setUtils(Utils utils) {
 		this.utils = utils;
+	}
+
+	public int getUpdateStatusInterval() {
+		return updateStatusInterval;
+	}
+
+	public void setUpdateStatusInterval(int updateStatusInterval) {
+		this.updateStatusInterval = updateStatusInterval;
 	}
 
 }
