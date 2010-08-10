@@ -11,10 +11,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 
 public class ProgramDataGeneratorUtils {
+	Random generator = new Random(); //TODO: maybe need it later
+	private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH,CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
 	public static <T> T generateTestData(Class<T> clazz, String programType, Integer propertyIndex, int sameClassNestLevel, String parentPropertyName, boolean isMap) throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, NoSuchFieldException {
 		
 		if(sameClassNestLevel>2){
@@ -155,6 +159,10 @@ public class ProgramDataGeneratorUtils {
 
 		if("credentialProgramType".equals(name)){
 			return programType;
+		}
+
+		if("campusLocations".equals(parentPropertyName)){
+			return campusLocations[propertyIndex%2];
 		}
 		
 		//Default
