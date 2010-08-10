@@ -618,43 +618,8 @@ public class ImportMojo extends AbstractMojo {
 				getLog().debug("Resource Location: " + t.getResourceLocation());
 			}
 			SQLExecutor executor = new SQLExecutor();
-			executor.addListener(new DatabaseListener() {
-				PrettyPrint pp;
-
-				@Override
-				public void messageLogged(DatabaseEvent event) {
-					switch (event.getPriority()) {
-					case DEBUG:
-						getLog().debug(event.getMessage());
-						break;
-					case INFO:
-						getLog().info(event.getMessage());
-						break;
-					case WARN:
-						getLog().warn(event.getMessage());
-						break;
-					case ERROR:
-						getLog().error(event.getMessage(), event.getException());
-						break;
-					default:
-						getLog().warn("Unknown message priority " + event.getPriority() + " for message: " + event.getMessage());
-						break;
-					}
-				}
-
-				@Override
-				public void beginTransaction(DatabaseEvent event) {
-					pp = new PrettyPrint("[INFO] " + event.getTransaction().getResourceLocation());
-					utils.left(pp);
-				}
-
-				@Override
-				public void finishTransaction(DatabaseEvent event) {
-					utils.right(pp);
-					pp = null;
-				}
-			});
 			BeanUtils.copyProperties(executor, this);
+			executor.addListener(new MojoDatabaseListener(new PrettyPrint(), getLog(), new Utils()));
 			executor.runTransactions(transactions);
 		} catch (Exception e) {
 			throw new MojoExecutionException("Error executing SQL", e);

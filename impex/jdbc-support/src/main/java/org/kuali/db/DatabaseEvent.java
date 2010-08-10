@@ -11,6 +11,10 @@ public class DatabaseEvent {
 	Date timestamp;
 	Throwable exception;
 	Transaction transaction;
+	int totalStatements;
+	int successfulStatements;
+	String sql;
+	int updateCountTotal;
 
 	public DatabaseEvent() {
 		this(null);
@@ -71,5 +75,37 @@ public class DatabaseEvent {
 
 	public void setTransaction(Transaction transaction) {
 		this.transaction = transaction;
+	}
+
+	public int getTotalStatements() {
+		return totalStatements;
+	}
+
+	public void setTotalStatements(int totalStatements) {
+		this.totalStatements = totalStatements;
+	}
+
+	public int getSuccessfulStatements() {
+		return successfulStatements;
+	}
+
+	public void setSuccessfulStatements(int successfulStatements) {
+		this.successfulStatements = successfulStatements;
+	}
+
+	public String getSql() {
+		return sql;
+	}
+
+	public void setSql(String sql) {
+		this.sql = sql;
+	}
+
+	public int getUpdateCountTotal() {
+		return updateCountTotal;
+	}
+
+	public void setUpdateCountTotal(int updateCountTotal) {
+		this.updateCountTotal = updateCountTotal;
 	}
 }

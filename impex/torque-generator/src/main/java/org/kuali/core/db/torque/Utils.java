@@ -16,6 +16,7 @@ import org.springframework.core.io.ResourceLoader;
 public class Utils {
 	NumberFormat nf = NumberFormat.getInstance();
 	int length = 68;
+	int defaultPrintableConsoleWidth = 79;
 	String padding = StringUtils.repeat(".", length);
 
 	public Utils() {
@@ -41,9 +42,15 @@ public class Utils {
 	public void right(PrettyPrint pp) {
 		long millis = System.currentTimeMillis() - pp.getStart();
 		String elapsed = getElapsed(millis);
-		String padding = StringUtils.repeat(".", 79);
+		String padding = StringUtils.repeat(".", defaultPrintableConsoleWidth);
 		String right = padding + " " + elapsed;
-		System.out.println(StringUtils.right(right, 79 - pp.getMsg().length()));
+		int rightLength = defaultPrintableConsoleWidth - pp.getMsg().length();
+		if (rightLength < elapsed.length()) {
+			System.out.println(elapsed);
+		} else {
+			System.out.println(StringUtils.right(right, rightLength));
+
+		}
 	}
 
 	public void left(PrettyPrint pp) {

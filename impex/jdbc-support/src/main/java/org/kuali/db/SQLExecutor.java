@@ -87,6 +87,34 @@ public class SQLExecutor {
 		}
 	}
 
+	protected DatabaseEvent getExecuteSQLEvent(int totalStatements, String sql) {
+		DatabaseEvent event = new DatabaseEvent();
+		event.setSql(sql);
+		event.setTotalStatements(totalStatements);
+		return event;
+	}
+
+	protected void fireBeforeExecuteSQL(int totalStatements, String sql) {
+		for (DatabaseListener listener : listeners) {
+			listener.beforeExecuteSQL(getExecuteSQLEvent(totalStatements, sql));
+		}
+	}
+
+	protected void fireAfterExecuteSQL(int totalStatements, String sql) {
+		for (DatabaseListener listener : listeners) {
+			listener.afterExecuteSQL(getExecuteSQLEvent(totalStatements, sql));
+		}
+	}
+
+	protected void fireAfterProcessingSQLResults(int totalStatements, int successfulStatements, int updateCountTotal, String sql) {
+		DatabaseEvent event = getExecuteSQLEvent(totalStatements, sql);
+		event.setSuccessfulStatements(successfulStatements);
+		event.setUpdateCountTotal(updateCountTotal);
+		for (DatabaseListener listener : listeners) {
+			listener.beforeExecuteSQL(event);
+		}
+	}
+
 	public void info(String message) {
 		fireMessageLogged(message);
 	}
@@ -167,7 +195,9 @@ public class SQLExecutor {
 			boolean ret;
 			int updateCountTotal = 0;
 
+			fireBeforeExecuteSQL(totalStatements, sql);
 			ret = statement.execute(sql);
+			fireAfterExecuteSQL(totalStatements, sql);
 			do {
 				if (!ret) {
 					int updateCount = statement.getUpdateCount();
@@ -198,6 +228,7 @@ public class SQLExecutor {
 			}
 			conn.clearWarnings();
 			successfulStatements++;
+			fireAfterProcessingSQLResults(totalStatements, successfulStatements, updateCountTotal, sql);
 		} catch (SQLException e) {
 			error("Failed to execute: " + sql);
 			if (ON_ERROR_ABORT.equalsIgnoreCase(getOnError())) {

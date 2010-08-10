@@ -9,4 +9,10 @@ public interface DatabaseListener {
 	public void beginTransaction(DatabaseEvent event);
 
 	public void finishTransaction(DatabaseEvent event);
+
+	public void beforeExecuteSQL(DatabaseEvent event);
+
+	public void afterExecuteSQL(DatabaseEvent event);
+
+	public void afterProcessingSQLResults(DatabaseEvent event);
 }
