@@ -203,6 +203,7 @@
 	<bean parent="enCourse" p:id="cluLOInstructions"
 		p:value="250 characters max for each Learning Objective" />
 	<bean parent="enCourse" p:id="cluLOCategory" p:value="Category" />
+	<bean parent="enCourse" p:id="cluLOCategory-help" p:value="Add a category to classify your learning objectives. The categories will be used for administrative analysis." />
 
 	<bean parent="enCourse" p:id="cluStudentEligibility" p:value="Student Eligibility" />
 	<bean parent="enCourse" p:id="cluCourseRestrictions" p:value="Course Restrictions" />

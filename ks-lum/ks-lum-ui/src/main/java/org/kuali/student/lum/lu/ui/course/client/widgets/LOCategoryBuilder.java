@@ -32,6 +32,10 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
 import org.kuali.student.common.ui.client.widgets.buttongroups.CreateCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.CreateCancelEnum;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -64,6 +68,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -88,6 +93,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
     private LoRpcServiceAsync loRpcServiceAsync ;
     private LOCategoryPicker picker ;
+    private AbbrButton help = new AbbrButton(AbbrButtonType.HELP);
 
     LOCategoryListNew categoryList;
     Map<String, LoCategoryTypeInfo> categoryTypeMap ;
@@ -183,7 +189,20 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
         
         selectedPanel.add(categoryList);
-        main.add(getLabel(LUConstants.LO_CATEGORY_KEY));
+        
+        String fieldHTMLId = HTMLPanel.createUniqueId();
+        String title = getLabelText(LUConstants.LO_CATEGORY_KEY);
+        String helpText = getLabelText(LUConstants.LO_CATEGORY_KEY + FieldLayoutComponent.HELP_MESSAGE_KEY);
+        LabelPanel fieldTitle = new LabelPanel(title, fieldHTMLId);
+        
+        if(helpText != null){
+            setHelp(helpText);
+        } else {
+            help.setVisible(false);
+        }
+
+        fieldTitle.add(help);
+        main.add(fieldTitle);
         main.add(suggestAndBrowsePanel);
         main.add(selectedPanel);
         root.add(main);
@@ -193,6 +212,25 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
     }
 
+    public void setHelp(final String html){
+        if(html != null && !html.trim().equals("")){
+            help.setVisible(true);
+            help.setHoverHTML(html);
+            /*help.addClickHandler(new ClickHandler(){
+
+                @Override
+                public void onClick(ClickEvent event) {
+                    //TODO show actual help window
+                    Window.alert(html);
+
+                }
+            });*/
+        }
+        else{
+            help.setVisible(false);
+        }
+    }
+    
     private void addEnteredCategory() {
 
         if (categoryList == null)
@@ -332,7 +370,11 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     }
 
     private KSLabel getLabel(String labelKey) {
-        return new KSLabel(Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey));
+        return new KSLabel(getLabelText(labelKey));
+    }
+    
+    private String getLabelText(String labelKey) {
+        return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
     }
 
     @Override
