@@ -568,12 +568,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(validationType, "validationType");
 	    checkForMissingParameter(loInfo, "loInfo");
 	    
-	    try{
-	    	String loDesc = loInfo.getDesc().getPlain(); 
-	    	checkForEmptyString(loDesc, "loInfo.Desc");
-	    } catch (NullPointerException e){
-			//do not checkForEmptyString
-		}
+//	    try{
+//	    	String loDesc = loInfo.getDesc().getPlain(); 
+//	    	checkForEmptyString(loDesc, "loInfo.Desc");
+//	    } catch (NullPointerException e){
+//			//do not checkForEmptyString
+//		}
 	    
 		return validator.validateTypeStateObject(loInfo, getObjectStructure("org.kuali.student.lum.lo.dto.LoInfo"));
 	}
