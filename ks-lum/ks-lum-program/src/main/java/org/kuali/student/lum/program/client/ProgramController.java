@@ -10,7 +10,6 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
-import org.kuali.student.lum.program.client.view.ProgramViewConfigurer;
 
 /**
  * @author Igor
@@ -21,14 +20,15 @@ public class ProgramController extends MenuSectionController {
 
     protected boolean initialized = false;
 
-    protected final DataModel programModel = new DataModel();
+    protected final DataModel programModel;
 
     protected WorkQueue modelRequestQueue;
 
     protected AbstractProgramConfigurer configurer;
 
-    public ProgramController() {
+    public ProgramController(DataModel programModel) {
         super("");
+        this.programModel = programModel;
         setViewContext(new ViewContext());
         initialize();
     }

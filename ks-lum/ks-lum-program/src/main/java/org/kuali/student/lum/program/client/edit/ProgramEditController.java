@@ -22,7 +22,8 @@ public class ProgramEditController extends ProgramController {
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
 
-    public ProgramEditController() {
+    public ProgramEditController(DataModel programModel) {
+        super(programModel);
         configurer = GWT.create(ProgramEditConfigurer.class);
         initHandlers();
     }
