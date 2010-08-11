@@ -20,12 +20,11 @@
     <ref bean="courseInfo.courseTitle" />
     <ref bean="courseInfo.crossListings" />
     <ref bean="courseInfo.creditOptions"/>
-    <ref bean="courseInfo.department" />
     <ref bean="courseInfo.descr" />
     <ref bean="courseInfo.duration" />
     <ref bean="courseInfo.effectiveDate" />
     <ref bean="courseInfo.expirationDate" />
-    <ref bean="courseInfo.feeInfo" />
+    <ref bean="courseInfo.fees" />
     <ref bean="courseInfo.startTerm" />
     <ref bean="courseInfo.endTerm" />
     <ref bean="courseInfo.formats" />
@@ -64,25 +63,10 @@
  </bean>
  <bean id="org.kuali.student.lum.course.dto.CourseInfo" parent="org.kuali.student.lum.course.dto.CourseInfo-parent" />
 
-	<bean id="courseInfo.curriculumOversightOrgs-parent" abstract="true"
-		parent="baseStringRepeating">
+	<bean id="courseInfo.curriculumOversightOrgs-parent" abstract="true" parent="baseKualiCluIdRepeating">
 		<property name="name" value="curriculumOversightOrgs" />
-		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
-<!--		<property name="customValidatorClass" value="SampCustomValidator"/>-->
-<!--		<property name="serverSide" value="true"/>-->
-		
 	</bean>
 	<bean id="courseInfo.curriculumOversightOrgs" parent="courseInfo.curriculumOversightOrgs-parent" />
-	
-	<bean id="courseInfo.administeringOrgs-parent" abstract="true"
-		parent="baseStringRepeating">
-		<property name="name" value="administeringOrgs" />
-		<!-- This is a sample Validator. Use this as an example. There is no particular functionality currently implemented-->
-<!--		<property name="customValidatorClass" value="SampCustomValidator"/>-->
-<!--		<property name="serverSide" value="true"/>-->
-		
-	</bean>
-	<bean id="courseInfo.administeringOrgs" parent="courseInfo.administeringOrgs-parent" />
 
  <bean id="courseInfo.campusLocations-parent" abstract="true" parent="cluInfo.campusLocations-parent">
   <property name="name" value="campusLocations" />
@@ -155,13 +139,14 @@
  </bean>
  <bean id="courseInfo.crossListings" parent="courseInfo.crossListings-parent" />
  
- <bean id="courseInfo.department-parent" abstract="true" parent="adminOrgInfo.id-parent">
-  <property name="name" value="department" />
+ <bean id="courseInfo.administeringOrgs-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+  <property name="name" value="administeringOrgs" />
  </bean>
- <bean id="courseInfo.department" parent="courseInfo.department-parent" />
+ <bean id="courseInfo.administeringOrgs" parent="courseInfo.administeringOrgs-parent" />
 
  <bean id="courseInfo.descr-parent" abstract="true" parent="cluInfo.descr">
   <property name="name" value="descr" />
+  <property name="dataObjectStructure" ref="courseInfo.descr.RichTextInfo" />
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -188,6 +173,30 @@
  </bean>
  <bean id="courseInfo.descr" parent="courseInfo.descr-parent" />
 
+ <!-- courseInfo.descr.RichTextInfo-parent-->
+ <bean id="courseInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+  <property name="attributes">
+   <list>
+    <ref bean="courseInfo.descr.formatted" />
+    <ref bean="courseInfo.descr.plain" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="true" />
+ </bean>
+ <bean id="courseInfo.descr.RichTextInfo" parent="courseInfo.descr.RichTextInfo-parent" />
+
+ <bean id="courseInfo.descr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="formatted" />
+  <property name="maxLength" value="1000" />
+ </bean>
+ <bean id="courseInfo.descr.formatted" parent="courseInfo.descr.formatted-parent" />
+
+ <bean id="courseInfo.descr.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="plain" />
+  <property name="maxLength" value="1000" />
+ </bean>
+ <bean id="courseInfo.descr.plain" parent="courseInfo.descr.plain-parent" />
+
  <bean id="courseInfo.duration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
   <property name="name" value="duration" />
   <property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
@@ -204,11 +213,12 @@
  </bean>
  <bean id="courseInfo.expirationDate" parent="courseInfo.expirationDate-parent" />
 
- <bean id="courseInfo.feeInfo-parent" abstract="true" parent="cluInfo.feeInfo-parent">
-  <property name="name" value="feeInfo" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.CluFeeInfo" />
+ <bean id="courseInfo.fees-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="fees" />
+  <property name="maxOccurs" value="unbounded" />
+  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseFeeInfo" />
  </bean>
- <bean id="courseInfo.feeInfo" parent="courseInfo.feeInfo-parent" />
+ <bean id="courseInfo.fees" parent="courseInfo.fees-parent" />
 
  <bean id="courseInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
   <property name="name" value="startTerm" />
@@ -296,6 +306,50 @@
  </bean>
  <bean id="courseInfo.variations" parent="courseInfo.variations-parent" />
 
+ <!-- CourseFeeInfo-->
+ <bean id="org.kuali.student.lum.course.dto.CourseFeeInfo-parent" abstract="true" parent="objectStructureDefinition">
+ <property name="name" value="org.kuali.student.lum.course.dto.CourseFeeInfo"/>
+ <property name="attributes">
+ <list>
+ <ref bean="courseFeeInfo.descr"/>
+ <ref bean="courseFeeInfo.feeAmounts"/>
+ <ref bean="courseFeeInfo.feeType"/>
+ <ref bean="courseFeeInfo.id"/>
+ <ref bean="courseFeeInfo.rateType"/>
+ </list>
+ </property>
+ <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.lum.course.dto.CourseFeeInfo" parent="org.kuali.student.lum.course.dto.CourseFeeInfo-parent"/>
+
+ <bean id="courseFeeInfo.descr-parent" abstract="true" parent="cluFeeRecordInfo.descr">
+ <property name="name" value="descr"/>
+ <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+ </bean>
+ <bean id="courseFeeInfo.descr" parent="courseFeeInfo.descr-parent"/>
+
+ <bean id="courseFeeInfo.feeAmounts-parent" abstract="true" parent="cluFeeRecordInfo.feeAmounts">
+ <property name="name" value="feeAmounts"/>
+ <property name="dataObjectStructure" ref="org.kuali.student.core.dto.CurrencyAmountInfo"/>
+ </bean>
+ <bean id="courseFeeInfo.feeAmounts" parent="courseFeeInfo.feeAmounts-parent"/>
+
+ <bean id="courseFeeInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType">
+ <property name="name" value="feeType"/>
+ </bean>
+ <bean id="courseFeeInfo.feeType" parent="courseFeeInfo.feeType-parent"/>
+
+ <bean id="courseFeeInfo.id-parent" abstract="true" parent="baseKualiId">
+ <property name="name" value="id"/>
+ </bean>
+ <bean id="courseFeeInfo.id" parent="courseFeeInfo.id-parent"/>
+
+<bean id="courseFeeInfo.rateType-parent" abstract="true" parent="cluFeeRecordInfo.rateType">
+<property name="name" value="rateType"/>
+</bean>
+<bean id="courseFeeInfo.rateType" parent="courseFeeInfo.rateType-parent"/>
+
+
  <!-- CourseVariationInfo-->
  <bean id="org.kuali.student.lum.course.dto.CourseVariationInfo-parent"
        abstract="true" parent="objectStructureDefinition">
@@ -374,8 +428,9 @@
  </bean>
  <bean id="courseCrossListingInfo.courseNumberSuffix" parent="courseCrossListingInfo.courseNumberSuffix-parent" />
 
- <bean id="courseCrossListingInfo.department-parent" abstract="true" parent="courseInfo.department-parent">
+ <bean id="courseCrossListingInfo.department-parent" abstract="true" parent="courseInfo.administeringOrgs-parent">
   <property name="name" value="department" />
+  <property name="maxOccurs" value="1" />
  </bean>
  <bean id="courseCrossListingInfo.department" parent="courseCrossListingInfo.department-parent" />
 
@@ -503,7 +558,7 @@
             value="org.kuali.student.lum.course.dto.ActivityInfo" />
   <property name="attributes">
    <list>
-    <ref bean="activityInfo.academicSubjectOrgs" />
+    <ref bean="activityInfo.curriculumOversightOrgs" />
     <ref bean="activityInfo.activityType" />
     <ref bean="activityInfo.contactHours" />
     <ref bean="activityInfo.defaultEnrollmentEstimate" />
@@ -517,12 +572,12 @@
  </bean>
  <bean id="org.kuali.student.lum.course.dto.ActivityInfo" parent="org.kuali.student.lum.course.dto.ActivityInfo-parent" />
 
- <bean id="activityInfo.academicSubjectOrgs-parent" abstract="true" parent="baseComplexRepeating">
-  <property name="name" value="academicSubjectOrgs" />
+ <bean id="activityInfo.curriculumOversightOrgs-parent" abstract="true" parent="baseComplexRepeating">
+  <property name="name" value="curriculumOversightOrgs" />
   <property name="dataObjectStructure"
             ref="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" />
  </bean>
- <bean id="activityInfo.academicSubjectOrgs" parent="activityInfo.academicSubjectOrgs-parent" />
+ <bean id="activityInfo.curriculumOversightOrgs" parent="activityInfo.curriculumOversightOrgs-parent" />
 
  <bean id="activityInfo.activityType-parent" abstract="true"
        parent="cluInfo.type-parent">
