@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 public class ValidateRequestEvent extends UncheckedApplicationEvent<ValidateRequestHandler> {
     public static final Type<ValidateRequestHandler> TYPE = new Type<ValidateRequestHandler>();
     private FieldDescriptor fieldDescriptor;
+    private boolean validateSingleField = false;
 
     @Override
     protected void dispatch(ValidateRequestHandler handler) {
@@ -40,4 +41,11 @@ public class ValidateRequestEvent extends UncheckedApplicationEvent<ValidateRequ
 		this.fieldDescriptor = fieldDescriptor;
 	}
 
+	public boolean validateSingleField() {
+		return validateSingleField;
+	}
+
+	public void setValidateSingleField(boolean validateSingleField) {
+		this.validateSingleField = validateSingleField;
+	}
 }

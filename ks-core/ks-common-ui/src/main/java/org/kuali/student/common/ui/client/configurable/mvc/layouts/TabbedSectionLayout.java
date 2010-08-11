@@ -60,8 +60,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 	private Map<String, String> sectionNameTabMap = new HashMap<String, String>();
 
-    private SectionView startSectionView;
-
 	private boolean loaded = false;
 	private final Map<String, Enum<?>> viewEnums = new HashMap<String, Enum<?>>();
 
@@ -253,16 +251,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
     	for(TabLayout layout: tabLayoutMap.values()){
 			layout.init();
 		}
-		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
-            @Override
-            public void onValidateResult(ValidateResultEvent event) {
-               List<ValidationResultInfo> list = event.getValidationResult();
-               if(startSectionView!=null){
-                   startSectionView.processValidationResults(list);
-
-               }
-            }
-        });
 	}
 
 	public TabbedSectionLayout(String controllerId){
@@ -420,24 +408,22 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	}
 
     public void showStartSection(final Callback<Boolean> onReadyCallback){
-        startSectionView.beforeShow(new Callback<Boolean>() {
-			@Override
-			public void exec(Boolean result) {
-				if (result) {
-					startViewWindow.show();
-				}
-				onReadyCallback.exec(result);
-			}
-        });
+        this.showStartPopup(onReadyCallback);
     }
 
     public SectionView getStartSection(){
-        return startSectionView;
+    	if(startPopupView instanceof SectionView){
+    		return (SectionView)startPopupView;
+    	}
+    	else{
+    		return null;
+    	}
+        
     }
 
     @Override
 	public void addStartSection(final SectionView section){
-	    startSectionView = section;
+	    this.addStartViewPopup(section);
 
 	    HorizontalPanel buttonPanel = new HorizontalPanel();
 

@@ -149,8 +149,12 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
         if (highlighted) {
             Elements.fadeIn(panel.getElementById(backgroundId), 250, 100, new Elements.EmptyFadeCallback());
         } else {
-            Elements.fadeOut(panel.getElementById(backgroundId), 500, 0, new Elements.EmptyFadeCallback());   
+            Elements.fadeOut(panel.getElementById(backgroundId), 1000, 0, new Elements.EmptyFadeCallback());   
         }
+    }
+    
+    public void removeHighlight(){
+    	Elements.setOpacity(panel.getElementById(backgroundId), 0);
     }
 
     @Override

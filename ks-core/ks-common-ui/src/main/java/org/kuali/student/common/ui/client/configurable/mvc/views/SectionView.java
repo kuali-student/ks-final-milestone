@@ -58,7 +58,7 @@ public abstract class SectionView extends BaseSection implements View{
      */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-    	this.resetFieldInteractionFlags();
+    	
     	super.clearValidation();
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
@@ -72,10 +72,12 @@ public abstract class SectionView extends BaseSection implements View{
             public void onModelReady(DataModel m) {
                 model = m;
                 updateWidgetData(m);
+                resetFieldInteractionFlags();
                 onReadyCallback.exec(true);
             }
             
         });
+       
     }
 
 	/**

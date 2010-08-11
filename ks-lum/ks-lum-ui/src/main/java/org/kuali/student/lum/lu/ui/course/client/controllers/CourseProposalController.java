@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -103,13 +104,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	private boolean initialized = false;
 
-	private static final String UPDATED_KEY = "proposal/metaInfo/updateTime";
+	private static final String UPDATED_KEY = "metaInfo/updateTime";
 
 	private DateFormat df = DateFormat.getInstance();
 
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
-	private boolean goNextViewAfterSave = false;
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
@@ -156,33 +156,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         });
         super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
-
             @Override
-            public void onValidateRequest(ValidateRequestEvent event) {
+            public void onValidateRequest(final ValidateRequestEvent event) {
             	if(event.getFieldDescriptor().isDirty()){
             		setContentWarning("You have unsaved changes");
             	}
-                requestModel(new ModelRequestCallback<DataModel>() {
-                    @Override
-                    public void onModelReady(DataModel model) {
-                        model.validate(new Callback<List<ValidationResultInfo>>() {
-                            @Override
-                            public void exec(List<ValidationResultInfo> result) {
-                                ValidateResultEvent e = new ValidateResultEvent();
-                                e.setValidationResult(result);
-                                fireApplicationEvent(e);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        GWT.log("Unable to retrieve model for validation", cause);
-                    }
-
-                });
             }
-
         });
 
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
@@ -530,11 +509,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 public void onSuccess(DataSaveResult result) {
                 	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
                 	if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
-                		ValidateResultEvent e = new ValidateResultEvent();
-                		e.setValidationResult(result.getValidationResults());
-                	    fireApplicationEvent(e);
+                		isValid(result.getValidationResults(), false, true);
                 	    saveActionEvent.setGotoNextView(false);
-	    				if (saveActionEvent.isAcknowledgeRequired()){
+                	    saveActionEvent.setSaveSuccessful(false);
+               	    	if (saveActionEvent.isAcknowledgeRequired()){
 	                        saveMessage.setText("Save Unsuccessful. There were validation errors.");
 	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
 	                    } else {
@@ -559,6 +537,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				context.setId((String)cluProposalModel.get("proposal/id"));
 	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
 	    				workflowUtil.refresh();
+	    				saveActionEvent.setSaveSuccessful(true);
 	    				setProposalHeaderTitle();
 	    				setLastUpdated();
 	    				HistoryManager.logHistoryChange();
@@ -692,8 +671,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							public void exec(YesNoCancelEnum result) {
 								switch(result){
 									case YES:
-										okToChange.exec(false);
-										fireApplicationEvent(new SaveActionEvent());
+										SaveActionEvent e = new SaveActionEvent();
+										fireApplicationEvent(e);
+										if(e.isSaveSuccessful()){
+											okToChange.exec(true);
+										}
+										else{
+											okToChange.exec(false);
+										}
 										dialog.hide();
 										break;
 									case NO:
@@ -702,8 +687,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 											@Override
 											public void onModelReady(DataModel model) {
-												if (getCurrentView()instanceof SectionView){
-							    					((SectionView) getCurrentView()).resetFieldInteractionFlags();
+												if (getCurrentView()instanceof Section){
+							    					((Section) getCurrentView()).resetFieldInteractionFlags();
 												}
 												okToChange.exec(true);
 												dialog.hide();

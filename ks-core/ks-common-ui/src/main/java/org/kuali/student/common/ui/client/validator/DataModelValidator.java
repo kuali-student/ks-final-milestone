@@ -112,8 +112,6 @@ public class DataModelValidator {
 		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 		if(fd != null && fd.getMetadata() != null && fd.getFieldKey() != null){
 			doValidate(model, fd.getMetadata(), QueryPath.parse(fd.getFieldKey()), results);	
-		}else{
-			return validate(model);
 		}
 				
 		return results;
