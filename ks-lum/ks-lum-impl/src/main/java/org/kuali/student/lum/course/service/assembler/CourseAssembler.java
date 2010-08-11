@@ -292,7 +292,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
 		identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
-		identifier.setState(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_STATE);
+		identifier.setState(course.getState());
 		identifier.setCode(course.getCode());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());
@@ -902,6 +902,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 //				cluIdentInfo.setShortName(course.getTranscriptTitle());
 				cluIdentInfo.setVariation(variation.getVariationCode());
 				cluIdentInfo.setLongName(variation.getVariationTitle());
+				cluIdentInfo.setState(course.getState());
 				courseVersionAssemblyNode.setNodeData(cluIdentInfo);
 				courseVersionAssemblyNode.setOperation(operation);
 				courseVersionAssemblyNode.setBusinessDTORef(variation);
@@ -984,6 +985,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 //				cluIdentInfo.setCode(crossListing.getCode());
 				cluIdentInfo.setSuffixCode(crossListing.getCourseNumberSuffix());
 				cluIdentInfo.setDivision(crossListing.getSubjectArea());
+				cluIdentInfo.setState(course.getState());
 				// TODO what to do with short name for a crossListing? Transcript title?
 //				cluIdentInfo.setShortName(course.getTranscriptTitle());
 //				cluIdentInfo.setLongName(variation.getVariationTitle());
