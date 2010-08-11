@@ -56,9 +56,9 @@
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
-    <url>https://test.kuali.org/svn/student/trunk</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/tags/ks-1.1-M7</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/ks-1.1-M7</developerConnection>
+    <url>https://test.kuali.org/svn/student/tags/ks-1.1-M7</url>
   </scm>
   <properties>
     <!-- Shared between compiler, pmd, and javadoc plugins -->
